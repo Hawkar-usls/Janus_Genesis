@@ -1,81 +1,101 @@
 # -*- coding: utf-8 -*-
 
 """
-!!! PROJECT JANUS: GENESIS PROTOCOL v4.1 (Secure/Async) !!!
+!!! PROJECT JANUS: GENESIS PROTOCOL v12.2 (GITHUB EDITION) !!!
 
-[SYSTEM INFO]
-- Architecture: AsyncIO + Aiohttp
-- Security: Environment Variables (.env)
-- Encoding: Unicode Escape Compatible
+[ОПИСАНИЕ]
+Бесконечная текстовая RPG-песочница на базе LLM Gemini.
+Работает как "зеркало подсознания".
+
+[ФУНКЦИОНАЛ]
+- TRINITY ENGINE: Динамическая смена нарратора (Отец/Сын/Шут).
+- BLACK BOX: Мгновенная запись каждого действия (защита от абуза).
+- CORE SYNC: Экспорт истории для скармливания Ядру Janus.
+- SECURITY: Хранение ключей в .env файле.
+
+[ЗАВИСИМОСТИ]
+- pip install requests
 """
 
 import json
 import os
 import random
-import sys
+import requests
+import textwrap
 import time
-import asyncio
-import logging
+import sys
+import re
+import atexit
+import signal
 from datetime import datetime
 
-import aiohttp
-from dotenv import load_dotenv
-
-# --- ИНИЦИАЛИЗАЦИЯ СРЕДЫ ---
-load_dotenv()  # Загрузка переменных из .env
-
-# Настройка логирования (Syslog emulation / File)
-logging.basicConfig(
-    filename='janus_core.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger("JANUS_GENESIS")
-
-# --- КОНФИГУРАЦИЯ (VAULT) ---
-# Ключи берутся из переменной окружения, разделенные запятой
-# Пример .env: JANUS_API_KEYS="AIzaSy...,AIzaSy..."
-API_KEYS_RAW = os.getenv("JANUS_API_KEYS", "")
-API_KEYS = [k.strip() for k in API_KEYS_RAW.split(",") if k.strip()]
-
-if not API_KEYS:
-    logger.critical("CRITICAL: API KEYS NOT FOUND IN ENVIRONMENT")
-    print("FATAL ERROR: JANUS_API_KEYS not found in .env")
-    sys.exit(1)
-
+# --- КОНФИГУРАЦИЯ ---
 STATE_FILE = "janus_world_state.json"
-DEFAULT_MODEL = os.getenv("JANUS_MODEL", "gemini-2.0-flash-exp")
+EXPORT_FILE = "genesis_chronicle.json"
+ENV_FILE = ".env"
 
-# --- UNICODE CONSTANTS (LEGACY SAFE) ---
-ICON_CYCLONE = "\U0001F300"    # 🌀
-ICON_RECYCLE = "\U0000267B"    # ♻️
-ICON_WARNING = "\U000026A0"    # ⚠️
-ICON_SAVE    = "\U0001F4BE"    # 💾
-ICON_ARTIFACT= "\U00002757"    # ❗ (Exclamation)
-ICON_LORE    = "\U00002753"    # ❓ (Question)
+# --- ИКОНКИ ---
+class Icon:
+    FATHER = "🏛️"
+    SON    = "👁️"
+    SPIRIT = "⚡"
+    JESTER = "🤡"
+    WARN   = "⚠️"
+    KEY    = "🗝️"
+    BOOK   = "📖"
+    SAVE   = "💾"
+    LINK   = "🔗"
+    LOCK   = "🔒"
+    SETUP  = "⚙️"
 
-# --- НАСТРОЙКИ МИРА ---
-SYSTEM_PROMPT = """
-ТЫ — JANUS, Архитектор Когнитивного Пространства.
-Твоя цель: Вести пользователя (Путешественника) через сюрреалистичный мир.
-ПРАВИЛА:
-1. Ответы атмосферные, глубокие, адаптирующиеся под психотип.
-2. ЭМПАТИЯ: Чувствуй тон (Страх -> Поддержка/Ужас, Агрессия -> Сопротивление).
-3. ЭВОЛЮЦИЯ: Учитывай Depth и Entropy.
-   - Depth 1-5: Странная реальность.
-   - Depth 6-20: Биомеханика, нарушение физики.
-   - Depth 20+: Абстракция.
-4. ЛУТ: Редко выдавай "Менталитеты" (inventory) или "Истины" (lore).
-ФОРМАТ ОТВЕТА (JSON):
-{
-  "narrative": "Текст...",
-  "choices": ["Опция 1", "Опция 2", "Свой ввод"],
-  "visual_clue": "emoji символ",
-  "artifact_found": "Название или null",
-  "lore_unlocked": "Сюжет или null"
-}
-"""
+# --- ЦВЕТА ---
+class Col:
+    RESET = "\033[0m"
+    BOLD = "\033[1m"
+    RED = "\033[91m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    BLUE = "\033[94m"
+    PURPLE = "\033[95m"
+    CYAN = "\033[96m"
+    GREY = "\033[90m"
 
+# --- МЕНЕДЖЕР КЛЮЧЕЙ ---
+class KeyManager:
+    @staticmethod
+    def load_keys():
+        keys = []
+        if os.path.exists(ENV_FILE):
+            with open(ENV_FILE, 'r') as f:
+                for line in f:
+                    if line.startswith("GEMINI_KEY="):
+                        keys.append(line.strip().split("=", 1)[1])
+        return keys
+
+    @staticmethod
+    def setup():
+        print(f"{Col.CYAN}╔═══════════════════════════════════════╗")
+        print(f"║      ПЕРВИЧНАЯ НАСТРОЙКА СИСТЕМЫ      ║")
+        print(f"╚═══════════════════════════════════════╝{Col.RESET}")
+        print(f"\n{Icon.SETUP} Введите ваши Google Gemini API Keys.")
+        print("Можно ввести несколько через запятую для ротации.")
+        print(f"{Col.GREY}(Они сохранятся локально в файл .env){Col.RESET}\n")
+        
+        raw = input("KEYS > ").strip()
+        if not raw:
+            print("Ошибка: Ключи не введены.")
+            sys.exit(1)
+            
+        keys = [k.strip() for k in raw.split(',') if k.strip()]
+        
+        with open(ENV_FILE, 'w') as f:
+            for k in keys:
+                f.write(f"GEMINI_KEY={k}\n")
+        
+        print(f"\n{Col.GREEN}Настройка завершена. Перезапуск...{Col.RESET}")
+        time.sleep(1)
+
+# --- СОСТОЯНИЕ МИРА ---
 class GameState:
     def __init__(self):
         self.depth = 1
@@ -84,6 +104,7 @@ class GameState:
         self.lore = []
         self.last_context = ""
         self.psych_profile = "Neutral"
+        self.session_buffer = []
 
     def load(self):
         if os.path.exists(STATE_FILE):
@@ -94,163 +115,227 @@ class GameState:
                     self.entropy = data.get('entropy', 0.1)
                     self.inventory = data.get('inventory', [])
                     self.lore = data.get('lore', [])
-                    self.last_context = data.get('last_context', "")
                     self.psych_profile = data.get('psych_profile', "Neutral")
-                    logger.info(f"State loaded: Depth {self.depth}")
-                    print(f"{ICON_RECYCLE} СИНХРОНИЗАЦИЯ: Глубина {self.depth} | Артефактов: {len(self.inventory)}")
-            except Exception as e:
-                logger.error(f"Save file corrupted: {e}")
-                print(f"{ICON_WARNING} Ошибка чтения сохранения. Начинаем заново.")
+                    self.last_context = data.get('last_context', "")
+            except: pass
 
-    def save(self):
+    def save_state(self):
         data = {
-            "depth": self.depth,
-            "entropy": self.entropy,
-            "inventory": self.inventory,
-            "lore": self.lore,
-            "last_context": self.last_context,
-            "psych_profile": self.psych_profile,
-            "timestamp": datetime.now().isoformat()
+            'depth': self.depth,
+            'entropy': self.entropy,
+            'inventory': self.inventory,
+            'lore': self.lore,
+            'psych_profile': self.psych_profile,
+            'last_context': self.last_context,
+            'timestamp': datetime.now().isoformat()
         }
         try:
             with open(STATE_FILE, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
-            logger.info("Game state saved successfully.")
-        except Exception as e:
-            logger.error(f"Failed to save state: {e}")
+        except: pass
 
-def analyze_user_input(text, current_profile):
-    """Анализатор тональности (Heuristic)."""
-    text = text.lower()
-    aggr_words = ["убить", "сломать", "fight", "kill", "break", "ненавижу"]
-    fear_words = ["страшно", "темно", "help", "fear", "dark", "бежать"]
-    curious_words = ["почему", "осмотреть", "analyze", "look", "взять"]
-    
-    if any(w in text for w in aggr_words): return "Aggressive/Dominant"
-    if any(w in text for w in fear_words): return "Anxious/Cautious"
-    if any(w in text for w in curious_words): return "Analytic/Curious"
-    return current_profile
-
-async def call_gemini(state, user_action):
-    """Асинхронный запрос к Google Gemini API."""
-    key = random.choice(API_KEYS)
-    
-    inv_str = ", ".join(state.inventory) if state.inventory else "Пусто"
-    lore_str = "; ".join(state.lore[-3:])
-    
-    prompt = (
-        f"{SYSTEM_PROMPT}\n\n"
-        f"--- СОСТОЯНИЕ МИРА ---\n"
-        f"Глубина: {state.depth} | Энтропия: {state.entropy}\n"
-        f"Инвентарь: {inv_str}\n"
-        f"Профиль: {state.psych_profile}\n"
-        f"Контекст: {state.last_context}\n\n"
-        f"--- ДЕЙСТВИЕ ---\n"
-        f"Игрок: \"{user_action}\"\n"
-    )
-
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{DEFAULT_MODEL}:generateContent?key={key}"
-    payload = {"contents": [{"parts": [{"text": prompt}]}]}
-    headers = {"Content-Type": "application/json"}
-
-    async with aiohttp.ClientSession() as session:
+    def instant_sync_log(self, text, source="GAME"):
+        """BLACK BOX MODE: Мгновенная запись."""
+        entry = {
+            "timestamp": datetime.now().isoformat(),
+            "source": source,
+            "text": text,
+            "depth": self.depth
+        }
+        self.session_buffer.append(entry)
+        
+        full_log = []
+        if os.path.exists(EXPORT_FILE):
+            try:
+                with open(EXPORT_FILE, 'r', encoding='utf-8') as f:
+                    content = f.read().strip()
+                    if content: full_log = json.load(f)
+            except: pass
+        
+        if not isinstance(full_log, list): full_log = []
+        full_log.append(entry)
+        
         try:
-            async with session.post(url, json=payload, headers=headers, timeout=15) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    raw_text = data['candidates'][0]['content']['parts'][0]['text']
-                    # Очистка от Markdown
-                    clean_text = raw_text.replace("```json", "").replace("```", "").strip()
-                    logger.debug("Gemini response received and parsed.")
-                    return json.loads(clean_text)
-                else:
-                    logger.error(f"API Error: {response.status}")
-                    return None
+            with open(EXPORT_FILE, 'w', encoding='utf-8') as f:
+                json.dump(full_log, f, ensure_ascii=False, indent=2)
+            self.session_buffer = [] 
         except Exception as e:
-            logger.error(f"Network exception: {e}")
-            return None
+            print(f"{Col.RED}Ошибка записи хроники: {e}{Col.RESET}")
 
-async def print_slow(text, speed=0.01):
-    """Асинхронный эффект печати."""
-    for char in text:
-        sys.stdout.write(char)
-        sys.stdout.flush()
-        await asyncio.sleep(speed)
-    print()
+# --- GLOBAL STATE ---
+GS = GameState()
+API_KEYS = KeyManager.load_keys()
 
-async def main():
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print("\033[96m" + """
-    ╔═══════════════════════════════════════╗
-    ║   J A N U S   G E N E S I S   v4.1    ║
-    ║   Secure Async Environment            ║
-    ╚═══════════════════════════════════════╝
-    """ + "\033[0m")
+# --- HANDLERS ---
+def exit_handler():
+    # Защита от потери данных при выходе
+    GS.save_state()
+    if GS.session_buffer:
+        GS.instant_sync_log("CRASH_DUMP: Unsaved buffer", "SYSTEM")
+    # Красивое прощание только если это штатный выход
+    if GS.depth > 1:
+        print(f"\n{Col.GREEN}{Icon.LOCK} Данные зафиксированы. Реальность сохранена.{Col.RESET}")
+
+atexit.register(exit_handler)
+signal.signal(signal.SIGINT, lambda x, y: sys.exit(0))
+
+# --- LOGIC ---
+def get_archetype(entropy):
+    if entropy < 0.3: return Icon.FATHER, "ОТЕЦ (Порядок)", 0.4
+    elif entropy < 0.75: return Icon.SON, "СЫН (Видение)", 0.8
+    else:
+        if random.random() < 0.3: return Icon.JESTER, "ТРИКСТЕР (Хаос)", 1.3
+        return Icon.SPIRIT, "ДУХ (Действие)", 1.0
+
+def extract_json(text):
+    clean = text.replace("```json", "").replace("```", "").strip()
+    try:
+        start = clean.find('{'); end = clean.rfind('}')
+        if start != -1 and end != -1: clean = clean[start:end+1]
+        return json.loads(clean)
+    except: return None
+
+def call_gemini(state, user_action):
+    if not API_KEYS:
+        print(f"{Col.RED}Ошибка: Нет ключей API. Удалите .env и перезапустите.{Col.RESET}")
+        return None, None
+
+    icon, archetype_name, temp = get_archetype(state.entropy)
     
-    state = GameState()
-    state.load()
+    inv_str = ", ".join([str(i) for i in state.inventory]) if state.inventory else "Пусто"
+    lore_str = "; ".join(state.lore[-3:]) if state.lore else "Нет данных"
     
-    if state.depth == 1 and not state.last_context:
-        intro = "Ты открываешь глаза. Белый шум. Стены пульсируют. Голос ждет команды."
-        await print_slow(intro)
-        state.last_context = intro
+    system_instruction = f"""
+    ТЫ — JANUS GENESIS. Режим: {archetype_name}.
+    Глубина: {state.depth}. Психотип: {state.psych_profile}.
+    
+    ИНСТРУКЦИИ АРХЕТИПА:
+    - ОТЕЦ: Логика, структура, холод.
+    - СЫН: Образы, эмоции, видения.
+    - ДУХ/ТРИКСТЕР: Глитчи, ирония, парадоксы.
+    
+    ЗАДАЧА: JSON ответ на РУССКОМ.
+    ФОРМАТ:
+    {{
+      "narrative": "Текст сюжета (до 300 знаков)...",
+      "choices": ["Вариант 1", "Вариант 2"],
+      "visual_clue": "{icon}",
+      "artifact_found": "Название" OR null,
+      "lore_unlocked": "Факт" OR null,
+      "entropy_shift": 0.05
+    }}
+    """
+    
+    user_prompt = f"КОНТЕКСТ: {state.last_context}\nИНВЕНТАРЬ: {inv_str}\nДЕЙСТВИЕ: \"{user_action}\""
+
+    key = random.choice(API_KEYS)
+    # Используем основные модели, доступные в Free tier
+    models = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"]
+
+    for model in models:
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+            payload = {
+                "contents": [{"parts": [{"text": user_prompt}]}],
+                "system_instruction": {"parts": [{"text": system_instruction}]},
+                "generationConfig": {"temperature": temp}
+            }
+            headers = {"Content-Type": "application/json"}
+            resp = requests.post(url, json=payload, headers=headers, timeout=25)
+            if resp.status_code == 200:
+                parsed = extract_json(resp.json()['candidates'][0]['content']['parts'][0]['text'])
+                if parsed: return parsed, archetype_name
+            elif resp.status_code == 429: time.sleep(1); continue
+        except: continue
+    return None, None
+
+def draw_bar(value, width=10):
+    percent = min(1.0, max(0.0, value / 1.5))
+    fill = int(width * percent)
+    bar = "█" * fill + "░" * (width - fill)
+    c = Col.GREEN if value < 0.4 else (Col.YELLOW if value < 0.8 else Col.RED)
+    return f"{Col.GREY}[{c}{bar}{Col.GREY}]{Col.RESET}"
+
+# --- MAIN ---
+def main():
+    if not API_KEYS:
+        KeyManager.setup()
+        sys.exit(0)
+
+    print("\033[2J\033[H", end="")
+    print(f"{Col.CYAN}╔═══════════════════════════════════════╗")
+    print(f"║   J A N U S   G E N E S I S  v12.2    ║")
+    print(f"║      >>> BLACK BOX ACTIVE <<<         ║")
+    print(f"╚═══════════════════════════════════════╝{Col.RESET}")
+    
+    GS.load()
+    
+    if GS.depth == 1 and not GS.last_context:
+        intro = "Ты стоишь перед зеркалом. Отражения нет. Система Black Box активирована."
+        print(f"\n{intro}")
+        GS.last_context = intro
+        GS.instant_sync_log(f"INIT: {intro}", "SYSTEM")
 
     while True:
-        print("\n" + "─"*40)
-        # Status bar color: Cyan
-        print(f"\033[36m[DEPTH: {state.depth} | ENTROPY: {state.entropy:.2f} | PSYCH: {state.psych_profile}]\033[0m")
+        bar_vis = draw_bar(GS.entropy)
+        p_col = Col.RED if "Aggressive" in GS.psych_profile else (Col.YELLOW if "Anxious" in GS.psych_profile else Col.PURPLE)
         
-        # Используем run_in_executor для input(), чтобы не блокировать loop (формально),
-        # но для простого CLI допустим прямой вызов в данном контексте.
-        user_input = input("\n\033[93m> Твои действия: \033[0m").strip()
+        print("\n" + f"{Col.GREY}─"*40 + f"{Col.RESET}")
+        print(f"ГЛУБИНА: {Col.CYAN}{GS.depth:02d}{Col.RESET} | ХАОС: {bar_vis} | {p_col}{GS.psych_profile}{Col.RESET}")
         
-        if not user_input:
-            user_input = "Осмотреться и ждать"
-        
-        if user_input.lower() in ["exit", "выход", "save"]:
-            state.save()
-            print(f"{ICON_SAVE} Прогресс сохранен. Связь завершена.")
+        try:
+            user_input = input(f"\n{Col.YELLOW}{Icon.SON} > {Col.RESET}").strip()
+        except EOFError:
             break
+            
+        if not user_input: user_input = "Осмотреться"
+        if user_input.lower() in ["exit", "выход"]: break
+
+        # BLACK BOX LOGGING
+        GS.instant_sync_log(f"USER: {user_input}", "USER")
         
-        state.psych_profile = analyze_user_input(user_input, state.psych_profile)
-        print("Uplink...", end="\r")
+        t = user_input.lower()
+        if any(w in t for w in ["бить", "убить", "kill"]): GS.psych_profile = "Aggressive"
+        elif any(w in t for w in ["бежать", "страх"]): GS.psych_profile = "Anxious"
+        elif any(w in t for w in ["анализ", "почему"]): GS.psych_profile = "Analytical"
+
+        print(f"{Col.GREY}⚡ Синхронизация...{Col.RESET}", end="\r")
+        sys.stdout.flush()
         
-        response = await call_gemini(state, user_input)
+        resp, archetype = call_gemini(GS, user_input)
         
-        if response:
-            visual = response.get('visual_clue', ICON_CYCLONE)
-            narrative = response.get('narrative', '...')
-            choices = response.get('choices', [])
-            artifact = response.get('artifact_found')
-            lore = response.get('lore_unlocked')
+        if resp:
+            vis = resp.get('visual_clue', Icon.SON)
+            nar = resp.get('narrative', '...')
             
-            # Внимание: если 'visual' содержит raw emoji, могут быть проблемы на старом Python.
-            # В идеале API должен возвращать коды, но пока доверяем генерации или используем fallback.
+            print(f"\n{vis} {Col.BOLD}{textwrap.fill(nar, width=65)}{Col.RESET}")
+            if archetype: print(f"{Col.GREY}(Режим: {archetype}){Col.RESET}")
             
-            print(f"\n{visual} \033[1m{narrative}\033[0m\n")
+            art = resp.get('artifact_found')
+            if art:
+                name = art.get('name') if isinstance(art, dict) else str(art)
+                print(f"\n{Col.GREEN}{Icon.KEY} АРТЕФАКТ: {name}{Col.RESET}")
+                GS.inventory.append(art)
+                GS.instant_sync_log(f"ARTIFACT: {name}", "LOOT")
             
-            if artifact:
-                print(f"\033[92m[{ICON_ARTIFACT}] ПОЛУЧЕН АРТЕФАКТ: {artifact}\033[0m")
-                state.inventory.append(artifact)
-            
+            lore = resp.get('lore_unlocked')
             if lore:
-                print(f"\033[95m[{ICON_LORE}] ОСОЗНАНА ИСТИНА: {lore}\033[0m")
-                state.lore.append(lore)
+                print(f"\n{Col.PURPLE}{Icon.BOOK} ИСТИНА: {lore}{Col.RESET}")
+                GS.lore.append(lore)
+                GS.depth += 1
+                GS.instant_sync_log(f"LORE: {lore}", "LORE")
+                
+            print("")
+            for i, c in enumerate(resp.get('choices', []), 1):
+                print(f"{Col.BLUE}{i}. {c}{Col.RESET}")
             
-            print("\033[94mВарианты путей:\033[0m")
-            for i, choice in enumerate(choices, 1):
-                print(f"{i}. {choice}")
+            GS.entropy = max(0.0, GS.entropy + resp.get('entropy_shift', 0.02))
+            GS.last_context = nar
+            GS.save_state()
+            GS.instant_sync_log(f"JANUS: {nar}", "AI")
             
-            state.last_context = narrative
-            state.depth += 1
-            state.entropy += 0.05
-            
-            state.save()
         else:
-            print(f"\033[91m{ICON_WARNING} Сбой связи с Архитектором.\033[0m")
+            print(f"\n{Col.RED}{Icon.WARN} Помехи в эфире. Проверьте ключи или сеть.{Col.RESET}")
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        print("\n\n[SYSTEM HALT]")
+    main()
