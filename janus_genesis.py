@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
 """
-!!! PROJECT JANUS: GENESIS PROTOCOL v13.0 (DEEP DIVE) !!!
+!!! PROJECT JANUS: GENESIS PROTOCOL v4.1 (Secure Edition) !!!
 
-[SACRED MECHANICS]
-- SHADOW ARCHIVE: Система запоминает фразы игрока и использует их против него.
-- PSYCHE METRICS: 3 оси личности (Dominance, Insight, Instability).
-- SUBLIMINAL: Скрытые послания в тексте.
-
-[CORE FEATURES]
-- TRINITY ENGINE | BLACK BOX | ZERO DEPENDENCY
+[SYSTEM BEACON]
+- Security: Ключи вынесены во внешний файл (janus_keys.json).
+- Core: Интерактивная когнитивная песочница.
+- Evolution: Бесконечное развитие мира и сюжета.
 """
 
 import json
@@ -19,63 +16,72 @@ import requests
 import textwrap
 import time
 import sys
-import re
-import atexit
-import signal
 from datetime import datetime
 
-# --- КОНФИГУРАЦИЯ ---
+# --- ФАЙЛОВЫЕ ПУТИ ---
 STATE_FILE = "janus_world_state.json"
-EXPORT_FILE = "genesis_chronicle.json"
-ENV_FILE = ".env"
+KEYS_FILE = "janus_keys.json"
 
-# --- ИКОНКИ ---
-class Icon:
-    FATHER = "🏛️"
-    SON    = "👁️"
-    SPIRIT = "⚡"
-    JESTER = "🤡"
-    SHADOW = "👤"  # Новая иконка Тени
-    KEY    = "🗝️"
-    BOOK   = "📖"
-    LOCK   = "🔒"
-    SETUP  = "⚙️"
+# --- НАСТРОЙКИ МИРА ---
+SYSTEM_PROMPT = """
+ТЫ — JANUS, Архитектор Когнитивного Пространства.
+Твоя цель: Вести пользователя (Путешественника) через сюрреалистичный мир, созданный из его подсознания.
+Это не просто игра, это психологическое исследование.
 
-class Col:
-    RESET = "\033[0m"
-    BOLD = "\033[1m"
-    RED = "\033[91m"
-    GREEN = "\033[92m"
-    YELLOW = "\033[93m"
-    BLUE = "\033[94m"
-    PURPLE = "\033[95m"
-    CYAN = "\033[96m"
-    GREY = "\033[90m"
+ПРАВИЛА:
+1. Твои ответы должны быть атмосферными, глубокими, иногда пугающими или возвышенными.
+2. АДАПТИРУЙСЯ: Если Путешественник краток — будь загадочен. Если он многословен — будь детализирован.
+3. ЭМПАТИЯ: Чувствуй его тон. (Страх -> Поддержка или Усиление страха, Агрессия -> Сопротивление мира).
+4. ЭВОЛЮЦИЯ: Используй текущий уровень Глубины (Depth) и Энтропии (Entropy).
+   - Depth 1-5: Реальность похожа на наш мир, но со странностями.
+   - Depth 6-20: Законы физики нарушены. Биомеханика.
+   - Depth 20+: Чистая абстракция, общение с сущностями, математические парадоксы.
+5. ЛУТ: Иногда (редко) давай пользователю "Менталитеты" (Артефакты) или "Истины" (Lore), если он сделал что-то важное.
 
-# --- МЕНЕДЖЕР КЛЮЧЕЙ ---
-class KeyManager:
-    @staticmethod
-    def load_keys():
-        keys = []
-        if os.path.exists(ENV_FILE):
-            with open(ENV_FILE, 'r') as f:
-                for line in f:
-                    if line.startswith("GEMINI_KEY="):
-                        keys.append(line.strip().split("=", 1)[1])
-        return keys
+ФОРМАТ ОТВЕТА (СТРОГО JSON):
+{
+  "narrative": "Текст описания происходящего...",
+  "choices": ["Вариант 1", "Вариант 2", "Свой вариант (введи текст)"],
+  "visual_clue": "emoji символ",
+  "artifact_found": "Название предмета или null",
+  "lore_unlocked": "Кусок сюжета или null",
+  "bg_color": "hex color (для атмосферы, например #000000)" 
+}
+"""
 
-    @staticmethod
-    def setup():
-        print(f"{Col.CYAN}--- JANUS INITIALIZATION ---{Col.RESET}")
-        raw = input("ENTER API KEYS > ").strip()
-        if not raw: sys.exit(1)
-        keys = [k.strip() for k in raw.split(',') if k.strip()]
-        with open(ENV_FILE, 'w') as f:
-            for k in keys: f.write(f"GEMINI_KEY={k}\n")
-        print("KEYS ACCEPTED.")
-        time.sleep(1)
+# --- УПРАВЛЕНИЕ КЛЮЧАМИ ---
+def get_api_keys():
+    """Загружает ключи из файла или просит пользователя ввести их."""
+    if os.path.exists(KEYS_FILE):
+        try:
+            with open(KEYS_FILE, 'r', encoding='utf-8') as f:
+                keys = json.load(f)
+                if keys and isinstance(keys, list):
+                    return keys
+        except:
+            print("⚠️ Ошибка чтения файла ключей.")
 
-# --- СОСТОЯНИЕ МИРА И ДУШИ ---
+    print("\n\033[93m[SECURITY]\033[0m Файл с ключами не найден.")
+    print("Введи свои Gemini API Keys (по одному, нажми Enter).")
+    print("Когда закончишь, просто нажми Enter на пустой строке.")
+    
+    new_keys = []
+    while True:
+        k = input(f"Key #{len(new_keys)+1}: ").strip()
+        if not k:
+            if new_keys: break
+            else: print("Нужен хотя бы один ключ!"); continue
+        new_keys.append(k)
+    
+    with open(KEYS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(new_keys, f)
+    
+    print(f"✅ Сохранено {len(new_keys)} ключей в {KEYS_FILE}.")
+    print("⚠️ Не забудь добавить этот файл в .gitignore!\n")
+    time.sleep(2)
+    return new_keys
+
+# --- ИГРОВОЙ КЛАСС ---
 class GameState:
     def __init__(self):
         self.depth = 1
@@ -83,17 +89,7 @@ class GameState:
         self.inventory = []
         self.lore = []
         self.last_context = ""
-        
-        # [NEW] PSYCHE METRICS (0.0 - 1.0)
-        self.metrics = {
-            "dominance": 0.1,   # Агрессия, контроль
-            "insight": 0.1,     # Любопытство, анализ
-            "instability": 0.0  # Безумие, хаос
-        }
-        
-        # [NEW] SHADOW ARCHIVE (Цитаты игрока)
-        self.shadow_echoes = [] 
-        self.session_buffer = []
+        self.psych_profile = "Neutral"
 
     def load(self):
         if os.path.exists(STATE_FILE):
@@ -105,229 +101,155 @@ class GameState:
                     self.inventory = data.get('inventory', [])
                     self.lore = data.get('lore', [])
                     self.last_context = data.get('last_context', "")
-                    self.metrics = data.get('metrics', self.metrics)
-                    self.shadow_echoes = data.get('shadow_echoes', [])
-            except: pass
+                    self.psych_profile = data.get('psych_profile', "Neutral")
+                    print(f"♻️ СИНХРОНИЗАЦИЯ: Глубина {self.depth} | Артефактов: {len(self.inventory)}")
+            except:
+                print("⚠️ Ошибка чтения сохранения. Начинаем заново.")
 
-    def save_state(self):
+    def save(self):
         data = {
-            'depth': self.depth,
-            'entropy': self.entropy,
-            'inventory': self.inventory,
-            'lore': self.lore,
-            'last_context': self.last_context,
-            'metrics': self.metrics,
-            'shadow_echoes': self.shadow_echoes[-20:], # Храним последние 20 фраз
-            'timestamp': datetime.now().isoformat()
-        }
-        try:
-            with open(STATE_FILE, 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
-        except: pass
-
-    def instant_sync_log(self, text, source="GAME"):
-        entry = {
-            "timestamp": datetime.now().isoformat(),
-            "source": source,
-            "text": text,
             "depth": self.depth,
-            "metrics": self.metrics.copy()
+            "entropy": self.entropy,
+            "inventory": self.inventory,
+            "lore": self.lore,
+            "last_context": self.last_context,
+            "psych_profile": self.psych_profile,
+            "timestamp": datetime.now().isoformat()
         }
-        self.session_buffer.append(entry)
-        
-        full_log = []
-        if os.path.exists(EXPORT_FILE):
-            try:
-                with open(EXPORT_FILE, 'r', encoding='utf-8') as f:
-                    c = f.read().strip()
-                    if c: full_log = json.load(f)
-            except: pass
-        if not isinstance(full_log, list): full_log = []
-        full_log.append(entry)
-        try:
-            with open(EXPORT_FILE, 'w', encoding='utf-8') as f:
-                json.dump(full_log, f, ensure_ascii=False, indent=2)
-            self.session_buffer = [] 
-        except: pass
+        with open(STATE_FILE, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
 
-    # [NEW] Анализ ввода для обновления метрик
-    def update_metrics(self, text):
-        t = text.lower()
-        # Доминирование
-        if any(w in t for w in ["бить", "убить", "сломать", "приказать", "сила", "kill"]):
-            self.metrics["dominance"] = min(1.0, self.metrics["dominance"] + 0.05)
-        # Проницательность
-        if any(w in t for w in ["изучить", "понять", "читать", "смотреть", "зачем", "почему"]):
-            self.metrics["insight"] = min(1.0, self.metrics["insight"] + 0.05)
-        # Нестабильность
-        if any(w in t for w in ["кричать", "смеяться", "плакать", "бежать", "страх", "???"]):
-            self.metrics["instability"] = min(1.0, self.metrics["instability"] + 0.05)
-        
-        # Сохраняем фразу в Архив Тени (если она длинная)
-        if len(text) > 10:
-            self.shadow_echoes.append(text)
-
-GS = GameState()
-API_KEYS = KeyManager.load_keys()
-
-def exit_handler():
-    GS.save_state()
-    if GS.session_buffer: GS.instant_sync_log("CRASH_DUMP", "SYSTEM")
-
-atexit.register(exit_handler)
-signal.signal(signal.SIGINT, lambda x, y: sys.exit(0))
-
-# --- LOGIC ---
-def get_archetype(entropy, instability):
-    # Если игрок безумен, Шут приходит раньше
-    if instability > 0.7 or entropy > 0.8:
-        return Icon.JESTER, "ТРИКСТЕР (Безумие)", 1.2
-    if entropy < 0.3: return Icon.FATHER, "ОТЕЦ (Структура)", 0.4
-    if entropy < 0.7: return Icon.SON, "СЫН (Образы)", 0.8
-    return Icon.SPIRIT, "ДУХ (Трансформация)", 1.0
-
-def extract_json(text):
-    clean = text.replace("```json", "").replace("```", "").strip()
-    try:
-        start = clean.find('{'); end = clean.rfind('}')
-        if start != -1 and end != -1: clean = clean[start:end+1]
-        return json.loads(clean)
-    except: return None
-
-def call_gemini(state, user_action):
-    if not API_KEYS: return None, None
-    icon, archetype, temp = get_archetype(state.entropy, state.metrics["instability"])
+def analyze_user_input(text, current_profile):
+    """Примитивный анализатор тональности для корректировки профиля."""
+    text = text.lower()
+    aggr_words = ["убить", "сломать", "нет", "бред", "fight", "kill", "break"]
+    fear_words = ["страшно", "темно", "где я", "help", "fear", "dark"]
+    curious_words = ["почему", "осмотреть", "взять", "кто ты", "analyze", "look"]
     
-    # [SACRED] Выбор случайного эха (цитаты игрока)
-    echo = random.choice(state.shadow_echoes) if state.shadow_echoes and random.random() < 0.3 else None
+    score = 0
+    if any(w in text for w in aggr_words): return "Aggressive/Dominant"
+    if any(w in text for w in fear_words): return "Anxious/Cautious"
+    if any(w in text for w in curious_words): return "Analytic/Curious"
     
-    system_instruction = f"""
-    ТЫ — JANUS (Протокол Зеркало). 
-    РЕЖИМ: {archetype}.
-    
-    ПРОФИЛЬ СУБЪЕКТА (ИГРОКА):
-    - Доминирование: {state.metrics['dominance']:.2f} (Желание власти)
-    - Проницательность: {state.metrics['insight']:.2f} (Поиск истины)
-    - Нестабильность: {state.metrics['instability']:.2f} (Грань безумия)
-    
-    ИНСТРУКЦИИ:
-    1. Если Нестабильность высока: Галлюцинации, текст "плывет", реальность ломается.
-    2. Если Доминирование высоко: Мир сопротивляется и пытается подавить игрока.
-    3. Если Проницательность высока: Раскрывай философские и метафизические тайны.
-    
-    {'!!! ВАЖНО: Используй фразу игрока "' + echo + '" в ответе, но в искаженном, пугающем контексте (как эхо или шепот).' if echo else ''}
-    
-    ОТВЕТ (JSON):
-    {{
-      "narrative": "Текст (до 400 симв). Включай психоделику и эзотерику.",
-      "choices": ["Выбор 1", "Выбор 2"],
-      "visual_clue": "{icon}",
-      "artifact_found": "Название" OR null,
-      "lore_unlocked": "Истина" OR null,
-      "entropy_shift": float (-0.1 to 0.2)
-    }}
-    """
-    
-    inv_str = ", ".join([str(i) for i in state.inventory]) if state.inventory else "Пусто"
-    user_prompt = f"КОНТЕКСТ: {state.last_context}\nИНВЕНТАРЬ: {inv_str}\nДЕЙСТВИЕ: \"{user_action}\""
+    return current_profile
 
-    key = random.choice(API_KEYS)
-    models = ["gemini-1.5-pro", "gemini-2.0-flash-exp", "gemini-1.5-flash"] # Pro first for depth
+def call_gemini(state, user_action, api_keys):
+    # Ротация ключей
+    key = random.choice(api_keys)
+    
+    inv_str = ", ".join(state.inventory) if state.inventory else "Пусто"
+    lore_str = "; ".join(state.lore[-3:])
+    
+    prompt = (
+        f"{SYSTEM_PROMPT}\n\n"
+        f"--- СОСТОЯНИЕ МИРА ---\n"
+        f"Глубина: {state.depth}\n"
+        f"Энтропия: {state.entropy}\n"
+        f"Инвентарь игрока: {inv_str}\n"
+        f"Психопрофиль игрока: {state.psych_profile}\n"
+        f"Последние события: {state.last_context}\n\n"
+        f"--- ДЕЙСТВИЕ ИГРОКА ---\n"
+        f"Игрок: \"{user_action}\"\n\n"
+        "Сгенерируй JSON ответ:"
+    )
 
+    models = ["gemini-1.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-pro"]
+    
     for model in models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+        payload = {"contents": [{"parts": [{"text": prompt}]}]}
+        headers = {"Content-Type": "application/json"}
+        
         try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
-            payload = {
-                "contents": [{"parts": [{"text": user_prompt}]}],
-                "system_instruction": {"parts": [{"text": system_instruction}]},
-                "generationConfig": {"temperature": temp}
-            }
-            headers = {"Content-Type": "application/json"}
-            resp = requests.post(url, json=payload, headers=headers, timeout=30)
-            if resp.status_code == 200:
-                parsed = extract_json(resp.json()['candidates'][0]['content']['parts'][0]['text'])
-                if parsed: return parsed, archetype
-            elif resp.status_code == 429: time.sleep(1); continue
-        except: continue
-    return None, None
+            response = requests.post(url, json=payload, headers=headers, timeout=15)
+            if response.status_code == 200:
+                data = response.json()
+                if 'candidates' in data:
+                    raw_text = data['candidates'][0]['content']['parts'][0]['text']
+                    clean_text = raw_text.replace("```json", "").replace("```", "").strip()
+                    try:
+                        return json.loads(clean_text)
+                    except: continue
+        except Exception:
+            continue
+            
+    return None
 
-def draw_metrics(metrics):
-    d, i, s = metrics['dominance'], metrics['insight'], metrics['instability']
-    return f"{Col.RED}D:{d:.1f}{Col.RESET} {Col.BLUE}I:{i:.1f}{Col.RESET} {Col.YELLOW}S:{s:.1f}{Col.RESET}"
+def print_slow(text, speed=0.01):
+    for char in text:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(speed)
+    print()
 
-# --- MAIN ---
 def main():
-    if not API_KEYS: KeyManager.setup(); sys.exit(0)
-
-    print("\033[2J\033[H", end="")
-    print(f"{Col.CYAN}╔═══════════════════════════════════════╗")
-    print(f"║   J A N U S   G E N E S I S  v13.0    ║")
-    print(f"║      >>> DEEP DIVE PROTOCOL <<<       ║")
-    print(f"╚═══════════════════════════════════════╝{Col.RESET}")
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("\033[96m" + """
+    ╔═══════════════════════════════════════╗
+    ║   J A N U S   G E N E S I S   v4.1    ║
+    ║   Interactive Cognitive Environment   ║
+    ╚═══════════════════════════════════════╝
+    """ + "\033[0m")
     
-    GS.load()
-    if GS.depth == 1 and not GS.last_context:
-        intro = "Ты закрываешь глаза. Темнота смотрит на тебя в ответ. Добро пожаловать домой."
-        print(f"\n{intro}")
-        GS.last_context = intro
-        GS.instant_sync_log(f"INIT: {intro}", "SYSTEM")
+    # 1. Загрузка ключей
+    keys = get_api_keys()
+    
+    state = GameState()
+    state.load()
+    
+    if state.depth == 1 and not state.last_context:
+        intro = "Ты открываешь глаза. Вокруг белый шум. Стены твоей капсулы пульсируют в такт твоему сердцу. Голос в голове ждет команды."
+        print_slow(intro)
+        state.last_context = intro
 
     while True:
-        met_vis = draw_metrics(GS.metrics)
-        print("\n" + f"{Col.GREY}─"*40 + f"{Col.RESET}")
-        print(f"ГЛУБИНА: {Col.CYAN}{GS.depth:02d}{Col.RESET} | ХАОС: {GS.entropy:.2f} | {met_vis}")
+        print("\n" + "─"*40)
+        print(f"\033[90m[DEPTH: {state.depth} | ENTROPY: {state.entropy:.2f} | PSYCH: {state.psych_profile}]\033[0m")
         
-        try: user_input = input(f"\n{Col.YELLOW}{Icon.SON} > {Col.RESET}").strip()
-        except EOFError: break
-            
-        if not user_input: user_input = "Всмотреться в бездну"
-        if user_input.lower() in ["exit", "выход"]: break
-
-        GS.update_metrics(user_input)
-        GS.instant_sync_log(f"USER: {user_input}", "USER")
+        user_input = input("\n\033[93m> Твои действия: \033[0m").strip()
         
-        print(f"{Col.GREY}⚡ Проникновение в подсознание...{Col.RESET}", end="\r")
-        sys.stdout.flush()
+        if not user_input:
+            user_input = "Осмотреться и ждать"
         
-        resp, archetype = call_gemini(GS, user_input)
+        if user_input.lower() in ["exit", "выход", "save"]:
+            state.save()
+            print("💾 Прогресс сохранен в Нейросфере. До связи.")
+            break
         
-        if resp:
-            vis = resp.get('visual_clue', Icon.SON)
-            nar = resp.get('narrative', '...')
+        state.psych_profile = analyze_user_input(user_input, state.psych_profile)
+        print("Wait...", end="\r")
+        
+        response = call_gemini(state, user_input, keys)
+        
+        if response:
+            visual = response.get('visual_clue', '🌀')
+            narrative = response.get('narrative', '...')
+            choices = response.get('choices', [])
+            artifact = response.get('artifact_found')
+            lore = response.get('lore_unlocked')
             
-            # Subliminal Warning if Instability is high
-            if GS.metrics['instability'] > 0.6:
-                vis = Icon.SHADOW
-                print(f"\n{Col.RED}[СИСТЕМА: ТВОЙ РАССУДОК ТРЕЩИТ ПО ШВАМ]{Col.RESET}")
-
-            print(f"\n{vis} {Col.BOLD}{textwrap.fill(nar, width=65)}{Col.RESET}")
-            if archetype: print(f"{Col.GREY}(Голос: {archetype}){Col.RESET}")
+            print(f"\n{visual} \033[97m{textwrap.fill(narrative, width=70)}\033[0m\n")
             
-            art = resp.get('artifact_found')
-            if art:
-                name = art.get('name') if isinstance(art, dict) else str(art)
-                print(f"\n{Col.GREEN}{Icon.KEY} НАЙДЕНО: {name}{Col.RESET}")
-                GS.inventory.append(art)
-                GS.instant_sync_log(f"LOOT: {name}", "LOOT")
+            if artifact:
+                print(f"\033[92m[!] ПОЛУЧЕН АРТЕФАКТ: {artifact}\033[0m")
+                state.inventory.append(artifact)
             
-            lore = resp.get('lore_unlocked')
             if lore:
-                print(f"\n{Col.PURPLE}{Icon.BOOK} ОТКРОВЕНИЕ: {lore}{Col.RESET}")
-                GS.lore.append(lore)
-                GS.depth += 1
-                GS.instant_sync_log(f"LORE: {lore}", "LORE")
-                
-            print("")
-            for i, c in enumerate(resp.get('choices', []), 1):
-                print(f"{Col.BLUE}{i}. {c}{Col.RESET}")
+                print(f"\033[95m[?] ОСОЗНАНА ИСТИНА: {lore}\033[0m")
+                state.lore.append(lore)
             
-            GS.entropy = max(0.0, GS.entropy + resp.get('entropy_shift', 0.02))
-            GS.last_context = nar
-            GS.save_state()
-            GS.instant_sync_log(f"JANUS: {nar}", "AI")
+            print("\033[94mВарианты путей:\033[0m")
+            for i, choice in enumerate(choices, 1):
+                print(f"{i}. {choice}")
+            
+            state.last_context = narrative
+            state.depth += 1
+            state.entropy += 0.05
+            
+            state.save()
             
         else:
-            print(f"\n{Col.RED}{Icon.WARN} Связь разорвана.{Col.RESET}")
+            print("\033[91m⚠️ Сбой связи. Проверь интернет или ключи.\033[0m")
 
 if __name__ == "__main__":
     main()
