@@ -1,0 +1,33 @@
+name: JANUS Beetle Memory Receiver
+on:
+  schedule: [{cron: '47 * * * *'}]
+  workflow_dispatch:
+permissions: {contents: write}
+concurrency: {group: janus-beetle-memory-receiver, cancel-in-progress: false}
+jobs:
+  receive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: fetch
+        shell: bash
+        run: |
+          set -euo pipefail
+          slug="${GITHUB_REPOSITORY//\//__}"; url="https://raw.githubusercontent.com/Hawkar-usls/janus-lapis/beetle-state/data/beetle-state/mirrors/${slug}/latest.json"
+          code=$(curl -L -sS -o /tmp/beetle-latest.json -w '%{http_code}' "$url")
+          [[ "$code" == "200" ]] || { echo "available=false" >> "$GITHUB_OUTPUT"; exit 0; }
+          python - <<'PY'
+          import json,os
+          d=json.load(open('/tmp/beetle-latest.json')); assert d['schema']=='janus.beetle.repo_memory_batch.v1'; assert d['target_repository']==os.environ['GITHUB_REPOSITORY']; assert d['claim_ceiling']=='DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY'; assert d['batch_id']
+          PY
+          echo "available=true" >> "$GITHUB_OUTPUT"
+      - if: steps.fetch.outputs.available == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail; batch=$(python -c "import json; print(json.load(open('/tmp/beetle-latest.json'))['batch_id'])")
+          if git ls-remote --exit-code --heads origin beetle-memory >/dev/null 2>&1; then git fetch origin beetle-memory; git switch -C beetle-memory origin/beetle-memory; else git switch --orphan beetle-memory; git rm -rf . >/dev/null 2>&1 || true; fi
+          mkdir -p data/beetle-inbox/batches; cp /tmp/beetle-latest.json "data/beetle-inbox/batches/${batch}.json"; cp /tmp/beetle-latest.json data/beetle-inbox/LATEST.json
+          printf '%s\n' '# JANUS Beetle discovery inbox' '' 'Unverified routed research memory only. Presence here is not evidence, proof, or project endorsement.' > data/beetle-inbox/README.md
+          git config user.name 'janus-beetle-memory[bot]'; git config user.email 'janus-beetle-memory[bot]@users.noreply.github.com'; git add data/beetle-inbox; git diff --cached --quiet && exit 0; git commit -m "beetle-memory: ingest routed discovery batch ${batch}"; git push origin HEAD:beetle-memory
