@@ -1,0 +1,65 @@
+{
+  "schema": "janus.habitat_nexus.current_head_integration_view.v1",
+  "status": "ACTIVE_FAIL_CLOSED_RECONCILIATION",
+  "frozen_view": {
+    "genesis_main_sha": "89a97b73603dec70100e691c88016f9ab686998b",
+    "swarm_main_sha": "e5d907adacfe92d8f87c76e2e6e92ebbbdfef535",
+    "demihead_nohand_dependency_sha": "e287e62fc41d473c2add3eded92d3d163365b9dc"
+  },
+  "supersedes_as_current_view": [
+    "Janus_Genesis#99",
+    "Janus_Genesis#122",
+    "Janus_Genesis#123",
+    "Janus_Genesis#124",
+    "Janus_Genesis#125",
+    "Janus_Genesis#132",
+    "Janus_Genesis#137",
+    "Janus_Genesis#192",
+    "Janus_Genesis#213",
+    "Janus_Genesis#214",
+    "Janus_Genesis#215",
+    "janus-distributed-ai-swarm#4",
+    "janus-distributed-ai-swarm#5",
+    "janus-distributed-ai-swarm#6",
+    "janus-distributed-ai-swarm#18"
+  ],
+  "producer_heads_replayed_ephemerally": {
+    "nexus_materializer_pr122": "dc8e96ba1c0417afa5ce9785b10e60e68a043629",
+    "nexus_preservation_pr125": "046a59b868a5dcb1006cd4734a8dd6b5d2938ad5",
+    "source_pin_pr126": "179de8dbc5c7ec960e78dc90a2b67456ca67111b",
+    "variant_lineage_pr123": "57c05559eeda761821c48e3050f2d2645f9ce049",
+    "face_handoff_pr124": "94b0f1b776ad9bdcbc55d9fe660a1de9aa177e3c",
+    "preservation_evidence_pr127": "2d86ce229a1ac939f521ef6f2dfd95a4f3d75fe7",
+    "source_identity_pr133": "5c86eeb6d99bebab4e7aba92c0d1a4a1893499de",
+    "role_audit_pr137": "5627d31a992bcdc71dcc7351cba2c515dac89a2c",
+    "producer_lock_pr138": "28bf0b4e9ab9ba3268f22bdbd82a0ecfd3396768"
+  },
+  "required_gates": {
+    "REAL_44_OWNER_SOURCE_EXACT_REPLAY_PRIVACY_SAFE": "HOLD_AUTHENTICATED_LOCAL_SOURCE_EXECUTOR_REQUIRED",
+    "PRESERVATION_LINEAGE_EXPECTED_HEAD_FAILED_VARIANT_CONFLICT_RETENTION": "REPLAY_REQUIRED_THIS_VIEW",
+    "EXCLUSIVE_LEASE_SESSION_DROP_EXACTLY_ONCE_HANDOFF": "REPLAY_REQUIRED_THIS_VIEW",
+    "RESIDENT_REAL_MODEL_CALL": "REPLAY_REQUIRED_THIS_VIEW",
+    "RESIDENT_IDENTITY_CONTINUITY": "REPLAY_REQUIRED_THIS_VIEW",
+    "REMOTE_LIVE_HOME_CURRENT_VIEW": "HOLD_CURRENT_VIEW_REMOTE_REPLAY_NOT_YET_RUN",
+    "TYPED_FEDERATION_44_OF_44_FINAL_VIEW_COMPATIBILITY": "REPLAY_REQUIRED_THIS_VIEW",
+    "LIVE_NAS_HR1_HR10": "HOLD_REMOTE_EXECUTION_PATH_UNAVAILABLE",
+    "ISSUE_162_CLOSED_LOOP_GAUNTLET": "HOLD_UNTIL_ALL_REQUIRED_GATES_PASS_ON_ONE_VIEW"
+  },
+  "live_nas_blocker": {
+    "observed_2026_09_03": "REMOTE_DESKTOP_COMMANDER_NO_AUTHORIZED_DEVICE_CONNECTED",
+    "epistemic_status": "REMOTE_EXECUTION_PATH_UNAVAILABLE",
+    "must_not_be_relabelled_as": ["NAS_FAILED", "HR1_HR10_FAILED", "SERVICE_8008_FAILED"]
+  },
+  "laws": {
+    "COMPONENT_CI_NE_INTEGRATION_PASS": true,
+    "SYNTHETIC_44_NE_REAL_OWNER_44": true,
+    "OLD_PASS_NE_NEW_SHA_PASS_UNLESS_REPLAYED": true,
+    "SOURCE_WRITEBACK_DEFAULT": "DENY",
+    "DESTRUCTIVE_ACTION": "FORBIDDEN",
+    "HISTORY_REWRITE": false,
+    "AUTHORITY_DELTA": 0,
+    "CI_GREEN_NE_LAUNCH_PASS": true
+  },
+  "promotion_rule": "ISSUE_162 may become RUNNABLE only when every required gate is PASS on this exact compatible Genesis+Swarm view; HOLD/UNKNOWN may never be promoted by component CI or inherited historical PASS.",
+  "current_launch_verdict": "HOLD_PHYSICAL_AND_CURRENT_REMOTE_EVIDENCE"
+}
