@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Hawkar-usls/Janus_Genesis/protocol/JANUS_NEXUS_MANIFEST-v1.0.schema.json",
+  "title": "JANUS NEXUS Manifest v1",
+  "type": "object",
+  "required": [
+    "schema",
+    "write_back_default",
+    "source_code_execution",
+    "sources"
+  ],
+  "properties": {
+    "schema": {
+      "const": "janus.nexus.manifest.v1"
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "write_back_default": {
+      "const": "DENY"
+    },
+    "source_code_execution": {
+      "const": false
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "x-janus-uniqueBy": "repository_id",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/publicSource"
+          },
+          {
+            "$ref": "#/$defs/privateSource"
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "repositoryId": {
+      "type": "string",
+      "pattern": "^[0-9]{1,32}$"
+    },
+    "branch": {
+      "type": "string",
+      "pattern": "^(?!.*\\.\\.)[A-Za-z0-9._/+-]{1,240}$"
+    },
+    "commitSha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "publicSource": {
+      "type": "object",
+      "required": [
+        "repository_id",
+        "visibility",
+        "repository",
+        "branch",
+        "sha"
+      ],
+      "properties": {
+        "repository_id": {
+          "$ref": "#/$defs/repositoryId"
+        },
+        "visibility": {
+          "const": "public"
+        },
+        "repository": {
+          "type": "string",
+          "pattern": "^Hawkar-usls/[A-Za-z0-9._-]{1,200}$"
+        },
+        "branch": {
+          "$ref": "#/$defs/branch"
+        },
+        "sha": {
+          "$ref": "#/$defs/commitSha"
+        }
+      },
+      "additionalProperties": false
+    },
+    "privateSource": {
+      "type": "object",
+      "required": [
+        "repository_id",
+        "visibility",
+        "branch",
+        "sha"
+      ],
+      "properties": {
+        "repository_id": {
+          "$ref": "#/$defs/repositoryId"
+        },
+        "visibility": {
+          "const": "private"
+        },
+        "branch": {
+          "$ref": "#/$defs/branch"
+        },
+        "sha": {
+          "$ref": "#/$defs/commitSha"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-janus-boundary": {
+    "source_repository_is_historical_authority": true,
+    "nexus_is_laboratory": true,
+    "source_writeback_default": "DENY",
+    "private_repository_name_is_public_manifest_metadata": false,
+    "manifest_is_permission": false,
+    "semantic_validator_required": true,
+    "repository_id_uniqueness_enforced_by_runtime": true,
+    "authority_delta": 0
+  }
+}

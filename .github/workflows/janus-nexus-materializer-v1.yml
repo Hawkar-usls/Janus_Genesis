@@ -1,0 +1,52 @@
+name: JANUS Nexus Materializer v1
+
+on:
+  pull_request:
+    paths:
+      - "tools/janus_nexus_materializer.py"
+      - "tests/test_janus_nexus_*.py"
+      - "protocol/JANUS_NEXUS_MATERIALIZER-v1.0.json"
+      - "protocol/JANUS_NEXUS_MANIFEST-v1.0.schema.json"
+      - ".github/workflows/janus-nexus-materializer-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nexus-materializer-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR state
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate protocol JSON
+        run: |
+          python -m json.tool protocol/JANUS_NEXUS_MATERIALIZER-v1.0.json >/dev/null
+          python -m json.tool protocol/JANUS_NEXUS_MANIFEST-v1.0.schema.json >/dev/null
+
+      - name: Compile Nexus P0 implementation and contract tests
+        run: python -m py_compile tools/janus_nexus_materializer.py tests/test_janus_nexus_*.py
+
+      - name: Run complete Nexus P0 adversarial and replay contract
+        run: python -m unittest discover -s tests -p 'test_janus_nexus_*.py' -v
+
+      - name: Enforce authority-neutral surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -Eq 'git[[:space:]]+(clone|fetch|push)|gh[[:space:]]+|requests\.|urllib\.request|httpx\.|curl[[:space:]]|wget[[:space:]]' tools/janus_nexus_materializer.py
+          grep -F 'write_back_default": "DENY"' protocol/JANUS_NEXUS_MATERIALIZER-v1.0.json >/dev/null
+          grep -F '"source_write_back": false' protocol/JANUS_NEXUS_MATERIALIZER-v1.0.json >/dev/null
+          grep -F '"source_code_executed": false' protocol/JANUS_NEXUS_MATERIALIZER-v1.0.json >/dev/null
+          grep -F '"mutable_worktree_bytes_used": false' protocol/JANUS_NEXUS_MATERIALIZER-v1.0.json >/dev/null
+          echo 'NEXUS_MATERIALIZER_NETWORK_TRANSPORT=ABSENT'
+          echo 'NEXUS_MATERIALIZER_SOURCE_WRITEBACK=FALSE'
+          echo 'NEXUS_MATERIALIZER_SOURCE_EXECUTION=FALSE'
+          echo 'NEXUS_MATERIALIZER_MUTABLE_WORKTREE_BYTES_USED=FALSE'
