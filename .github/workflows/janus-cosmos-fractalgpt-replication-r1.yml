@@ -1,0 +1,79 @@
+name: Janus Cosmos FractalGPT Independent R1
+
+on:
+  push:
+    paths:
+      - 'experiments/janus_cosmos_fractalgpt/hst_replication_targets_r1.json'
+      - 'experiments/janus_cosmos_fractalgpt/HST_FRACTALGPT_INDEPENDENT_R1_PREREG.json'
+      - 'experiments/janus_cosmos_fractalgpt/ingest_hst.py'
+      - 'experiments/janus_cosmos_fractalgpt/run_search.py'
+      - '.github/workflows/janus-cosmos-fractalgpt-replication-r1.yml'
+  pull_request:
+    paths:
+      - 'experiments/janus_cosmos_fractalgpt/hst_replication_targets_r1.json'
+      - 'experiments/janus_cosmos_fractalgpt/HST_FRACTALGPT_INDEPENDENT_R1_PREREG.json'
+      - 'experiments/janus_cosmos_fractalgpt/ingest_hst.py'
+      - 'experiments/janus_cosmos_fractalgpt/run_search.py'
+      - '.github/workflows/janus-cosmos-fractalgpt-replication-r1.yml'
+  workflow_dispatch:
+
+jobs:
+  independent-r1:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Freeze exact replication inputs
+        run: |
+          set -euo pipefail
+          python -m json.tool experiments/janus_cosmos_fractalgpt/hst_replication_targets_r1.json >/dev/null
+          python -m json.tool experiments/janus_cosmos_fractalgpt/HST_FRACTALGPT_INDEPENDENT_R1_PREREG.json >/dev/null
+          sha256sum \
+            experiments/janus_cosmos_fractalgpt/hst_replication_targets_r1.json \
+            experiments/janus_cosmos_fractalgpt/HST_FRACTALGPT_INDEPENDENT_R1_PREREG.json \
+            experiments/janus_cosmos_fractalgpt/ingest_hst.py \
+            experiments/janus_cosmos_fractalgpt/run_search.py | tee janus-cosmos-r1-input-hashes.txt
+      - name: Install HST ingestion dependencies
+        run: python -m pip install -r experiments/janus_cosmos_fractalgpt/requirements.txt
+      - name: Ingest fresh public Hubble/HLA cutouts
+        run: |
+          set -o pipefail
+          python experiments/janus_cosmos_fractalgpt/ingest_hst.py \
+            experiments/janus_cosmos_fractalgpt/hst_replication_targets_r1.json \
+            hst-r1-features.csv | tee janus-cosmos-r1-ingest.json
+      - name: Run unchanged blind FractalGPT gate
+        run: |
+          set -o pipefail
+          python experiments/janus_cosmos_fractalgpt/run_search.py hst-r1-features.csv | tee janus-cosmos-r1-receipt.json
+      - name: Validate frozen replication boundary
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open('experiments/janus_cosmos_fractalgpt/HST_FRACTALGPT_INDEPENDENT_R1_PREREG.json'))
+          r=json.load(open('janus-cosmos-r1-receipt.json'))
+          assert p['frozen_before_first_replication_probe'] is True
+          assert p['algorithm_lock']['nulls']==256
+          assert p['algorithm_lock']['orientations_deg']==[0,30,60,90,120,150]
+          assert p['algorithm_lock']['windows']==[8,16,32]
+          assert r['semantic_analysis'] is False
+          assert r['nulls']==256
+          assert r['object_count']==3
+          assert r['status'] in {'NO_CANDIDATE','CANDIDATE_ONLY'}
+          print('JANUS_COSMOS_HST_INDEPENDENT_R1=VALID_EXECUTION')
+          print('SCIENTIFIC_STATUS='+r['status'])
+          print(json.dumps(r,indent=2))
+          PY
+      - name: Upload independent R1 receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-cosmos-hst-independent-r1
+          if-no-files-found: warn
+          path: |
+            janus-cosmos-r1-input-hashes.txt
+            janus-cosmos-r1-ingest.json
+            janus-cosmos-r1-receipt.json
+            hst-r1-features.csv
