@@ -21,6 +21,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+import textwrap
 import urllib.error
 import urllib.request
 from collections import Counter, defaultdict
@@ -170,11 +171,40 @@ def _numeric_equal(got: str | None, expected: Any) -> bool:
 
 
 def _choice(text: str) -> str | None:
-    paren = re.findall(r"\(([A-C])\)", text.upper())
-    if paren:
-        return f"({paren[-1]})"
-    plain = re.findall(r"(?<![A-Z])([A-C])(?![A-Z])", text.upper())
-    return f"({plain[-1]})" if plain else None
+    """Parse an A/B/C answer without treating ordinary prose articles as labels.
+
+    Priority is explicit answer syntax, then a response consisting only of one
+    label, then a case-sensitive leading/trailing capital label. Parenthesized
+    labels elsewhere are accepted only when they are unambiguous. This avoids
+    turning the English article "a" into option A and avoids choosing the last
+    option merely because a response restated all choices.
+    """
+    stripped = text.strip()
+    upper = stripped.upper()
+
+    explicit = re.findall(
+        r"(?:FINAL\s+ANSWER|ANSWER|CHOICE|OPTION)\s*(?:IS\s*)?[:=\-]?\s*\(?([A-C])\)?",
+        upper,
+    )
+    if explicit:
+        return f"({explicit[-1]})"
+
+    exact = re.fullmatch(r"\s*\(?([A-Ca-c])\)?[.!?]?\s*", stripped)
+    if exact:
+        return f"({exact.group(1).upper()})"
+
+    leading = re.match(r"^\s*([A-C])(?:\s+|[.)\-:])", stripped)
+    if leading:
+        return f"({leading.group(1)})"
+
+    trailing = re.search(r"(?:^|\s)([A-C])[.!?]?\s*$", stripped)
+    if trailing:
+        return f"({trailing.group(1)})"
+
+    paren = re.findall(r"\(([A-C])\)", upper)
+    if paren and len(set(paren)) == 1:
+        return f"({paren[0]})"
+    return None
 
 
 def _strict_json(text: str) -> bool:
@@ -231,12 +261,18 @@ def _build_humaneval_source(prompt: str, model_output: str) -> str:
     code = _strip_code_fence(model_output)
     if re.search(r"^\s*def\s+return1\s*\(", code, re.MULTILINE):
         return code
-    body_lines = code.splitlines() or ["pass"]
+
+    # Normalize only the common outer indentation. Never lstrip each line: the
+    # relative indentation inside if/for/try blocks is semantic Python syntax.
+    dedented = textwrap.dedent(code)
+    body_lines = dedented.splitlines() or ["pass"]
     while body_lines and not body_lines[0].strip():
         body_lines.pop(0)
+    while body_lines and not body_lines[-1].strip():
+        body_lines.pop()
     if not body_lines:
         body_lines = ["pass"]
-    indented = "\n".join("    " + line.lstrip() for line in body_lines)
+    indented = "\n".join("    " + line for line in body_lines)
     return prompt.rstrip() + "\n" + indented + "\n"
 
 
