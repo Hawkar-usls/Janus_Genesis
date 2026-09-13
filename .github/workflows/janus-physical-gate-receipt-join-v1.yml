@@ -1,0 +1,43 @@
+name: JANUS Physical Gate Receipt Join v1
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_physical_gate_receipt_join.py'
+      - 'tests/test_janus_physical_gate_receipt_join_v1.py'
+      - 'protocol/JANUS_PHYSICAL_GATE_RECEIPT_JOIN-v1.0.json'
+      - '.github/workflows/janus-physical-gate-receipt-join-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  receipt-join-contract:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Compile
+        run: python -m py_compile tools/janus_physical_gate_receipt_join.py tests/test_janus_physical_gate_receipt_join_v1.py
+      - name: Unit tests
+        run: python -m unittest -v tests.test_janus_physical_gate_receipt_join_v1
+      - name: Protocol JSON parse
+        run: python -m json.tool protocol/JANUS_PHYSICAL_GATE_RECEIPT_JOIN-v1.0.json >/dev/null
+      - name: Claim ceiling sentinel
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('tools/janus_physical_gate_receipt_join.py').read_text()
+          assert 'READY_FOR_FINAL_162_GAUNTLET' in text
+          assert 'FULL_ISSUE_162_ACCEPTANCE' in text
+          assert 'reference_only' in text
+          print('PHYSICAL_GATE_RECEIPT_JOIN_CONTRACT=PASS')
+          print('FULL_ISSUE_162_ACCEPTANCE=FALSE')
+          PY
