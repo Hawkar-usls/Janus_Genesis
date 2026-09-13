@@ -1,0 +1,1 @@
+The machine receipt `protocol/JANUS_HEPHAESTUS_CRYSTAL_EXACT_HEAD-v1.0.json` records the pre-receipt candidate `5c116be50edf1cd570bad5bb435923352f9ab2af`. The exact CI candidate is the branch head after that receipt commit. No PASS transfers across SHAs.
