@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Hawkar-usls/Janus_Genesis/schemas/mail-observation.schema.json",
+  "title": "JANUS MAIL_OBSERVATION v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "observation_id",
+    "observed_at",
+    "provider",
+    "message_ref_sha256",
+    "thread_ref_sha256",
+    "sender_ref_sha256",
+    "subject_ref_sha256",
+    "event_class",
+    "project_id",
+    "next_gate",
+    "privacy",
+    "authority"
+  ],
+  "properties": {
+    "schema": {"const": "janus.mail_observation.v0.1"},
+    "observation_id": {"type":"string","minLength":16,"maxLength":128},
+    "observed_at": {"type":"string","format":"date-time"},
+    "provider": {"type":"string","enum":["gmail","other_mail_provider"]},
+    "message_ref_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "thread_ref_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "sender_ref_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "subject_ref_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "event_class": {
+      "type":"string",
+      "enum":["INTEREST","QUESTION","REFERRAL","DECLINE","DATA_OFFER","REVIEW_FEEDBACK","EXPERIMENTAL_RESULT","INSTITUTIONAL_RESPONSE","MUSEUM_RESPONSE","OTHER"]
+    },
+    "project_id": {"type":"string","minLength":1,"maxLength":128},
+    "next_gate": {"type":"string","minLength":1,"maxLength":256},
+    "body_present": {"type":"boolean"},
+    "attachment_count": {"type":"integer","minimum":0},
+    "semantic_status": {"type":"string","enum":["OBSERVATION_ONLY","REQUIRES_REVIEW"]},
+    "privacy": {
+      "type":"object",
+      "additionalProperties": false,
+      "required":["raw_body_mirrored","raw_subject_mirrored","raw_sender_mirrored","provider_ids_mirrored"],
+      "properties": {
+        "raw_body_mirrored":{"const":false},
+        "raw_subject_mirrored":{"const":false},
+        "raw_sender_mirrored":{"const":false},
+        "provider_ids_mirrored":{"const":false}
+      }
+    },
+    "authority": {
+      "type":"object",
+      "additionalProperties": false,
+      "required":["authority_delta","writeback_permitted","send_permitted","destructive_action_permitted"],
+      "properties": {
+        "authority_delta":{"const":0},
+        "writeback_permitted":{"const":false},
+        "send_permitted":{"const":false},
+        "destructive_action_permitted":{"const":false}
+      }
+    }
+  }
+}

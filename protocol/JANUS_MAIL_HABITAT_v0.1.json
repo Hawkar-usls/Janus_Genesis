@@ -1,0 +1,146 @@
+{
+  "schema": "janus.genesis.mail_habitat.contract.v0.1",
+  "contract_id": "JANUS_MAIL_HABITAT_V0_1",
+  "status": "REFERENCE_IMPLEMENTATION_READ_ONLY_NOT_LIVE_GMAIL_ADAPTER",
+  "issue": "https://github.com/Hawkar-usls/Janus_Genesis/issues/176",
+  "purpose": "Admit email as a bounded external Habitat zone without turning mailbox connectivity into command authority or public data replication.",
+  "canonical_distinction": {
+    "habitat": "home, memory and existence topology",
+    "nexus": "typed fail-closed route admission and transport",
+    "mailbox": "source authority for mail content and thread history",
+    "registry": "provenance and bounded receipt archive, not a mirror of private mail"
+  },
+  "phase": {
+    "id": "MAIL-HABITAT-00",
+    "name": "READ_ONLY_MAIL_OBSERVATION",
+    "allowed": [
+      "observe mailbox metadata or history delta",
+      "read already-authorized selected mail content for classification",
+      "normalize to redacted MAIL_OBSERVATION",
+      "map observation to an existing project or gate",
+      "emit a bounded recommendation for next gate"
+    ],
+    "forbidden": [
+      "send email",
+      "reply",
+      "forward",
+      "create or update draft",
+      "archive",
+      "trash",
+      "permanently delete",
+      "add or remove labels",
+      "change mailbox settings",
+      "persist credentials or OAuth tokens",
+      "mirror raw private email bodies into public Git",
+      "treat classification as truth or scientific validation"
+    ]
+  },
+  "capability_ladder": [
+    {"level":"M0","name":"OBSERVE","meaning":"metadata/history delta only","external_effect":false},
+    {"level":"M1","name":"READ","meaning":"selected body or attachment read","external_effect":false},
+    {"level":"M2","name":"ORGANIZE","meaning":"label or organizational mutation","external_effect":true,"separate_gate_required":true},
+    {"level":"M3","name":"DRAFT","meaning":"create proposed outgoing message","external_effect":true,"separate_gate_required":true},
+    {"level":"M4","name":"SEND","meaning":"transmit message outside mailbox","external_effect":true,"explicit_human_authorization_required":true}
+  ],
+  "destructive_capabilities": {
+    "trash": "SEPARATE_NOT_INHERITED",
+    "permanent_delete": "SEPARATE_NOT_INHERITED",
+    "bulk_send": "SEPARATE_NOT_INHERITED",
+    "forward_attachment": "SEPARATE_NOT_INHERITED"
+  },
+  "typed_objects": [
+    "MAIL_ACCOUNT",
+    "MAIL_LABEL",
+    "MAIL_THREAD",
+    "MAIL_MESSAGE",
+    "MAIL_ATTACHMENT_REF",
+    "MAIL_CONTACT_REF",
+    "MAIL_OBSERVATION",
+    "MAIL_DRAFT_PROPOSAL",
+    "MAIL_SEND_RECEIPT"
+  ],
+  "mail_observation_event_classes": [
+    "INTEREST",
+    "QUESTION",
+    "REFERRAL",
+    "DECLINE",
+    "DATA_OFFER",
+    "REVIEW_FEEDBACK",
+    "EXPERIMENTAL_RESULT",
+    "INSTITUTIONAL_RESPONSE",
+    "MUSEUM_RESPONSE",
+    "OTHER"
+  ],
+  "reference_route": [
+    "GMAIL_OR_MAIL_PROVIDER",
+    "MAIL_HABITAT_ADAPTER",
+    "PRIVACY_REDACTION_AND_NORMALIZATION",
+    "MAIL_OBSERVATION",
+    "NEXUS_READ_ONLY_ENVELOPE",
+    "OBSERVER",
+    "HRAIN_STRUCTURAL_CONTEXT_AND_INAIHR_ASSOCIATIVE_CONTEXT",
+    "DEMIHEAD_BOUNDED_CLASSIFICATION",
+    "GUARDIAN",
+    "REGISTRY_RECEIPT"
+  ],
+  "route_contract": {
+    "payload_class": "MAIL_OBSERVATION",
+    "direction": "MAIL_SOURCE_TO_INTERNAL_READ_ONLY_CONTEXT",
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0,
+    "writeback_default": "DENY",
+    "automatic_reply": false,
+    "automatic_publication": false,
+    "route_receipt_is_delivery": false,
+    "classification_is_truth": false,
+    "missing_read_is_empty_mailbox": false
+  },
+  "privacy_contract": {
+    "raw_body_public_mirror": false,
+    "raw_subject_public_mirror": false,
+    "raw_sender_address_public_mirror": false,
+    "provider_message_id_public_mirror": false,
+    "provider_thread_id_public_mirror": false,
+    "attachment_bytes_public_mirror": false,
+    "credentials_public_or_private_git_persistence": false,
+    "public_receipt_reference_mode": "DOMAIN_SEPARATED_SHA256_REFERENCE",
+    "source_mailbox_remains_authoritative": true
+  },
+  "replay_contract": {
+    "idempotent_normalization_required": true,
+    "same_input_same_receipt": true,
+    "provider_delta_checkpoint": "PRIVATE_RUNTIME_STATE_ONLY",
+    "stale_or_missing_delta": "HOLD_OR_FAIL_CLOSED",
+    "duplicate_event": "NO_NEW_SEMANTIC_PROMOTION"
+  },
+  "constitutional_invariants": [
+    "READING != AUTHORITY",
+    "UNDERSTANDING != AUTHORITY",
+    "DRAFTING != SENDING",
+    "ROUTE != DELIVERY",
+    "DELIVERY != TRUTH",
+    "MAILBOX_SOURCE != PUBLIC_REGISTRY",
+    "CLASSIFICATION != VALIDATION",
+    "CONNECTIVITY != AUTHORITY",
+    "CONNECTION_PRESERVES_PROVENANCE",
+    "CONNECTION_DOES_NOT_CREATE_AUTHORITY"
+  ],
+  "acceptance_gate": [
+    "MAIL_OBSERVATION_SCHEMA_FROZEN",
+    "DETERMINISTIC_OFFLINE_NORMALIZER_PASS",
+    "IDEMPOTENT_REPLAY_PASS",
+    "RAW_PRIVATE_FIELD_REDACTION_PASS",
+    "MISSING_REQUIRED_FIELD_FAIL_CLOSED_PASS",
+    "AUTHORITY_DELTA_ZERO_PASS",
+    "NO_MAIL_MUTATION_CAPABILITY_PRESENT",
+    "EXACT_HEAD_REGISTRY_RECEIPT"
+  ],
+  "claim_ceiling": {
+    "mail_habitat_design": "FORMULATED",
+    "offline_reference_normalizer": "IMPLEMENTATION_BRANCH",
+    "live_gmail_history_adapter": "NOT_IMPLEMENTED",
+    "gmail_writeback": "FORBIDDEN_IN_PHASE_00",
+    "autonomous_correspondence": "NOT_ADMITTED",
+    "production_habitat": "NOT_ESTABLISHED"
+  }
+}

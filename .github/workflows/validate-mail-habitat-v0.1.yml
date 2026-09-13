@@ -1,0 +1,41 @@
+name: Validate MAIL Habitat v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'protocol/JANUS_MAIL_HABITAT_v0.1.json'
+      - 'schemas/mail-observation.schema.json'
+      - 'tools/mail_habitat_normalizer.py'
+      - 'examples/mail_habitat_private_runtime_fixture.example.json'
+      - 'tests/test_mail_habitat_normalizer.py'
+      - 'docs/JANUS_MAIL_HABITAT_v0.1.md'
+      - '.github/workflows/validate-mail-habitat-v0.1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mail-habitat-v0-1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run MAIL Habitat unit tests
+        run: python -m unittest tests.test_mail_habitat_normalizer
+      - name: Run deterministic fixture normalization twice
+        shell: bash
+        run: |
+          python tools/mail_habitat_normalizer.py examples/mail_habitat_private_runtime_fixture.example.json > /tmp/mail_a.json
+          python tools/mail_habitat_normalizer.py examples/mail_habitat_private_runtime_fixture.example.json > /tmp/mail_b.json
+          cmp /tmp/mail_a.json /tmp/mail_b.json
+      - name: Assert forbidden raw fixture values do not leak
+        shell: bash
+        run: |
+          ! grep -F 'researcher@example.org' /tmp/mail_a.json
+          ! grep -F 'Synthetic review feedback fixture' /tmp/mail_a.json
+          ! grep -F 'synthetic-message-001' /tmp/mail_a.json
+          ! grep -F 'synthetic-thread-001' /tmp/mail_a.json
+          ! grep -F 'This is synthetic fixture text' /tmp/mail_a.json
