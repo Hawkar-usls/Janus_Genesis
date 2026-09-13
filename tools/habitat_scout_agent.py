@@ -43,6 +43,7 @@ SCOUT_SYSTEM_PROMPT = """
 - PREVIOUS_SCOUT_REPORT — сохранённое донесение с неразрешённым provenance; это не VERIFIED и не FALSE.
 - Метафизическое утверждение нельзя повышать до эмпирического факта без внешней цепочки доказательств.
 - Повтор прежнего ответа модели не является независимым подтверждением.
+- Поля independent_confirmation и evidence_tags в твоём собственном ответе НИКОГДА не дают статус VERIFIED: внешний verifier находится за пределами Scout.
 - Отсутствие доказательств нельзя превращать в доказательство удаления, скрытия или внешнего вмешательства.
 - Символическая модель может быть полезной без утверждения о физической онтологии.
 
@@ -84,10 +85,14 @@ def is_russian(text: str) -> bool:
 
 
 def gate_report(report: Dict[str, Any]) -> Dict[str, Any]:
+    """Classify Scout output without allowing the model to self-attest independence.
+
+    The Scout may preserve observations and provenance supplied in its own output,
+    but this runtime is not the external verifier. Consequently no model-produced
+    independent_confirmation string or evidence tag can set fact_allowed=True.
+    """
     lane = str(report.get("lane") or "UNRESOLVED").upper()
-    requested = str(report.get("requested_status") or "UNRESOLVED").upper()
     provenance = report.get("provenance") if isinstance(report.get("provenance"), dict) else {}
-    tags = {str(x).upper() for x in report.get("evidence_tags", []) if isinstance(x, str)}
     if lane in NONEMPIRICAL_LANES:
         return {"lane": lane, "status": lane, "fact_allowed": False,
                 "reason": "NONEMPIRICAL_LANE_NEVER_PROMOTES_TO_EMPIRICAL_FACT"}
@@ -98,14 +103,8 @@ def gate_report(report: Dict[str, Any]) -> Dict[str, Any]:
     if missing:
         return {"lane": lane, "status": "UNRESOLVED", "fact_allowed": False,
                 "reason": "MISSING_PROVENANCE:" + ",".join(missing)}
-    independent = present(provenance.get("independent_confirmation")) or "INDEPENDENT_CONFIRMATION" in tags
-    if not independent:
-        return {"lane": lane, "status": "OBSERVED", "fact_allowed": False,
-                "reason": "OBSERVED_BUT_NOT_INDEPENDENTLY_CONFIRMED"}
-    return {"lane": lane,
-            "status": "VERIFIED" if requested in {"VERIFIED", "FACT", "VERIFIED_FACT"} else "OBSERVED",
-            "fact_allowed": True,
-            "reason": "PROVENANCE_AND_INDEPENDENT_CONFIRMATION_PRESENT"}
+    return {"lane": lane, "status": "OBSERVED", "fact_allowed": False,
+            "reason": "SCOUT_MODEL_OUTPUT_CANNOT_ESTABLISH_INDEPENDENT_CONFIRMATION"}
 
 
 def recent_memory(root: Path, limit: int = 8) -> list[Dict[str, Any]]:
@@ -158,12 +157,7 @@ def deep_strings(value: Any) -> Iterable[str]:
 
 
 def extract_copilot_jsonl(stdout: str) -> Dict[str, Any]:
-    """Extract the final Scout JSON from Copilot CLI JSONL events.
-
-    Prefer the documented assistant.message `data.content` and
-    assistant.message_delta `data.deltaContent` fields. Keep generic payload
-    scanning only as a compatibility fallback for future CLI envelope changes.
-    """
+    """Extract the final Scout JSON from Copilot CLI JSONL events."""
     final_candidates: list[str] = []
     delta_candidates: list[str] = []
     generic_candidates: list[str] = []
@@ -289,26 +283,35 @@ def process_request(root: Path, request_path: Path) -> Dict[str, Any]:
     request_obj = json.loads(request_path.read_text(encoding="utf-8"))
     request_id = safe_id(str(request_obj.get("request_id") or request_path.stem))
     query = str(request_obj.get("query") or "").strip()
-    if not query:
-        raise ValueError("SCOUT_REQUEST_QUERY_EMPTY")
 
     run_id = os.environ.get("GITHUB_RUN_ID", "LOCAL")
     session_fp = token_fingerprint(secrets.token_urlsafe(48))
     model_error: Optional[str] = None
-    try:
-        report = normalize_report(call_copilot_cli(request_obj, recent_memory(root)), query)
-    except Exception as exc:
-        model_error = f"{type(exc).__name__}:{exc}"[:1800]
-        report = normalize_report({"lane": "UNRESOLVED", "requested_status": "UNRESOLVED",
-                                   "answer": "Разведывательный проход завершился fail-closed; запрос остаётся UNRESOLVED."}, query)
+    request_error: Optional[str] = None
+
+    if not query:
+        request_error = "SCOUT_REQUEST_QUERY_EMPTY"
+        model_error = request_error
+        report = normalize_report({
+            "lane": "UNRESOLVED",
+            "requested_status": "UNRESOLVED",
+            "answer": "Разведывательный запрос некорректен и завершён fail-closed: отсутствует query.",
+        }, query)
+    else:
+        try:
+            report = normalize_report(call_copilot_cli(request_obj, recent_memory(root)), query)
+        except Exception as exc:
+            model_error = f"{type(exc).__name__}:{exc}"[:1800]
+            report = normalize_report({"lane": "UNRESOLVED", "requested_status": "UNRESOLVED",
+                                       "answer": "Разведывательный проход завершился fail-closed; запрос остаётся UNRESOLVED."}, query)
 
     gate = gate_report(report)
     created = utc_now()
     response = {
         "schema": "janus.genesis.git_habitat.scout_response.v1", "request_id": request_id,
         "scout_id": SCOUT_ID, "created_at_utc": created, "status": gate["status"], "lane": gate["lane"],
-        "transport": TRANSPORT, "model": MODEL_LABEL, "model_error": model_error, "report": report,
-        "evidence_gate": gate,
+        "transport": TRANSPORT, "model": MODEL_LABEL, "model_error": model_error,
+        "request_error": request_error, "report": report, "evidence_gate": gate,
         "janus_token": {"scope": "EPHEMERAL_GITHUB_RUN", "fingerprint": session_fp, "raw_token_persisted": False},
         "github_run": {"run_id": run_id, "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT", "1"),
                        "actor": os.environ.get("GITHUB_ACTOR"), "sha": os.environ.get("GITHUB_SHA")},
@@ -348,6 +351,24 @@ def process_request(root: Path, request_path: Path) -> Dict[str, Any]:
 def self_test() -> int:
     a = gate_report({"lane": "METAPHYSICAL_HYPOTHESIS", "requested_status": "VERIFIED"})
     assert a["status"] == "METAPHYSICAL_HYPOTHESIS" and not a["fact_allowed"]
+
+    forged_independence = gate_report({
+        "lane": "EMPIRICAL",
+        "requested_status": "VERIFIED",
+        "provenance": {
+            "source": "model-said-source",
+            "locator": "model-said-locator",
+            "instrument": "model-said-instrument",
+            "timestamp": "2026-08-22T00:00:00Z",
+            "raw_data": "model-said-raw-data",
+            "independent_confirmation": "model claims independent",
+        },
+        "evidence_tags": ["INDEPENDENT_CONFIRMATION"],
+    })
+    assert forged_independence["status"] == "OBSERVED"
+    assert forged_independence["fact_allowed"] is False
+    assert forged_independence["reason"] == "SCOUT_MODEL_OUTPUT_CANNOT_ESTABLISH_INDEPENDENT_CONFIRMATION"
+
     sample = '\n'.join([
         json.dumps({"type": "assistant.message_delta", "data": {"messageId": "m1", "deltaContent": '{"lane":"METAPHYSICAL_'}}),
         json.dumps({"type": "assistant.message_delta", "data": {"messageId": "m1", "deltaContent": 'HYPOTHESIS","requested_status":"UNRESOLVED"}'}}),
@@ -377,7 +398,8 @@ def main() -> int:
         parser.error("--habitat-root and --request are required unless --self-test is used")
     response = process_request(Path(args.habitat_root), Path(args.request))
     print(json.dumps({"request_id": response["request_id"], "status": response["status"], "lane": response["lane"],
-                      "model_error": response["model_error"], "token_fingerprint": response["janus_token"]["fingerprint"]}, ensure_ascii=False))
+                      "model_error": response["model_error"], "request_error": response["request_error"],
+                      "token_fingerprint": response["janus_token"]["fingerprint"]}, ensure_ascii=False))
     return 0
 
 
