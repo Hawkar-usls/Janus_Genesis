@@ -1,0 +1,223 @@
+name: JANUS Federation Journal Continuity Current Main v2
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/janus-federation-journal-continuity-current-main-v2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  same-view-continuity:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout exact synthetic merge without write credentials
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Freeze exact Genesis base and workflow-only delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED_BASE='dd5e2a64758e7621650d8044917199693b862a54'
+          WORKFLOW='.github/workflows/janus-federation-journal-continuity-current-main-v2.yml'
+          test '${{ github.event.pull_request.base.sha }}' = "$EXPECTED_BASE"
+          test "$(git rev-parse "$GITHUB_SHA^1")" = "$EXPECTED_BASE"
+          mapfile -t changed < <(git diff --name-only "$EXPECTED_BASE" "$GITHUB_SHA")
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$WORKFLOW"
+          echo "GENESIS_CURRENT_MAIN_BASE=$EXPECTED_BASE"
+          echo "SYNTHETIC_MERGE_SHA=$GITHUB_SHA"
+          echo 'COMMITTED_RUNTIME_DELTA=0'
+
+      - name: Rehydrate exact role-audit producer fail-closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          CURRENT_BASE='dd5e2a64758e7621650d8044917199693b862a54'
+          PR=137
+          EXPECTED='5627d31a992bcdc71dcc7351cba2c515dac89a2c'
+          git fetch --no-tags https://github.com/Hawkar-usls/Janus_Genesis.git \
+            "+refs/pull/${PR}/head:refs/remotes/fed/pr${PR}"
+          OBSERVED="$(git rev-parse "refs/remotes/fed/pr${PR}")"
+          test "$OBSERVED" = "$EXPECTED"
+          paths=(
+            protocol/JANUS_GENESIS_ACTIVE_FACE_MANIFEST-v1.0.json
+            protocol/JANUS_GENESIS_CONSTELLATION_ROLE_AUDIT-v1.0.json
+            tests/test_constellation_role_audit_v1.py
+          )
+          for path in "${paths[@]}"; do
+            git cat-file -e "$OBSERVED:$path"
+            if git cat-file -e "$CURRENT_BASE:$path" 2>/dev/null; then
+              test "$(git rev-parse "$CURRENT_BASE:$path")" = "$(git rev-parse "$OBSERVED:$path")" || {
+                echo "ROLE_AUDIT_PATH_COLLIDES_WITH_CURRENT_MAIN=$path" >&2
+                exit 1
+              }
+            fi
+          done
+          git checkout "$OBSERVED" -- "${paths[@]}"
+          echo "ROLE_AUDIT_PR137_HEAD=$OBSERVED"
+          echo 'EPHEMERAL_ROLE_OVERLAY_ONLY=TRUE'
+
+      - name: Replay Habitat and role-audit contracts together
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/genesis_git_habitat.py
+          python -m unittest \
+            tests.test_genesis_git_habitat \
+            tests.test_genesis_git_habitat_layout_security \
+            tests.test_constellation_role_audit_v1 \
+            -v
+
+      - name: Establish clean Habitat lineage before federation finalization
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .federation-continuity-ci artifacts
+          mkdir -p .federation-continuity-ci artifacts
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from tools.genesis_git_habitat import GitHabitat
+
+          root = Path('.federation-continuity-ci/habitat')
+          habitat = GitHabitat(root)
+          habitat.initialize('JANUS')
+          habitat.wake('CURRENT_MAIN_FEDERATION_CONTINUITY_V2', 'CI_PARENT')
+          habitat.pulse('CI_PARENT')
+          habitat.sleep('REST')
+          health = habitat.refresh_health()
+          assert health['status'] == 'HEALTHY', health
+          assert health['journal_chain_ok'] is True, health
+          assert health['continuity_matches_journal'] is True, health
+          journal = habitat.verify_journal()
+          assert journal['ok'] is True, journal
+
+          def surface_digest(base: Path) -> str:
+              h = hashlib.sha256()
+              for path in sorted((p for p in base.rglob('*') if p.is_file()), key=lambda p: p.as_posix()):
+                  rel = path.relative_to(base).as_posix().encode('utf-8')
+                  raw = path.read_bytes()
+                  h.update(len(rel).to_bytes(8, 'big')); h.update(rel)
+                  h.update(len(raw).to_bytes(8, 'big')); h.update(raw)
+              return h.hexdigest()
+
+          before = {
+              'resident_id': json.loads((root / 'HOME.json').read_text(encoding='utf-8'))['resident_id'],
+              'home_sha256': hashlib.sha256((root / 'HOME.json').read_bytes()).hexdigest(),
+              'surface_sha256': surface_digest(root),
+              'journal_event_count': journal['event_count'],
+              'journal_last_event_hash': journal['last_event_hash'],
+          }
+          Path('.federation-continuity-ci/before.json').write_text(json.dumps(before, sort_keys=True, indent=2) + '\n', encoding='utf-8')
+          print('HABITAT_PRE_FINALIZER_HEALTH=HEALTHY')
+          print('HABITAT_PRE_FINALIZER_JOURNAL_CHAIN=PASS')
+          PY
+
+      - name: Derive authority-nonexpanding 44-of-44 role view outside Habitat
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          audit = json.loads(Path('protocol/JANUS_GENESIS_CONSTELLATION_ROLE_AUDIT-v1.0.json').read_text(encoding='utf-8'))
+          manifest = json.loads(Path('protocol/JANUS_GENESIS_ACTIVE_FACE_MANIFEST-v1.0.json').read_text(encoding='utf-8'))
+          public, private = audit['public'], audit['private']
+          assert len(public) == 41 and len(private) == 3
+          assert len({row['id'] for row in public + private}) == 44
+          active = [row for row in public if row['state'] == 'ACTIVE_TYPED_FACE']
+          assert len(active) == 2
+          manifest_active = [face for face in manifest['faces'] if str(face['activation']).startswith('ACTIVE')]
+          assert {face['id'] for face in manifest_active} == {row['id'] for row in active}
+          for face in manifest['faces']:
+              assert face['can_mutate_source'] is False
+              assert face['external_effect'] is False
+          rows=[]
+          for row in public:
+              reason=str(row.get('reason') or '').strip(); assert reason
+              rows.append({'id':row['id'],'repository':row['repository'],'visibility':'PUBLIC','audit_state':row['state'],'operational_state':'ACTIVE_TYPED_FACE' if row['state']=='ACTIVE_TYPED_FACE' else 'REFERENCE_ONLY_WITH_EXPLICIT_REASON','reason':reason,'authority_promoted_by_finalizer':False})
+          for row in private:
+              assert set(row)=={'id','state'} and row['state']=='PRIVATE_OPAQUE_HOLD'
+              rows.append({'id':row['id'],'visibility':'PRIVATE_OPAQUE','audit_state':row['state'],'operational_state':'REFERENCE_ONLY_WITH_EXPLICIT_REASON','reason':'PRIVATE_OPAQUE_HOLD: no public active admission is asserted; private role details remain intentionally undisclosed.','authority_promoted_by_finalizer':False})
+          active_count=sum(r['operational_state']=='ACTIVE_TYPED_FACE' for r in rows)
+          reference_count=sum(r['operational_state']=='REFERENCE_ONLY_WITH_EXPLICIT_REASON' for r in rows)
+          assert active_count==2 and reference_count==42 and len(rows)==44
+          receipt={'schema':'janus.genesis.federation_journal_continuity_role_view.v2','frozen_genesis_base':'dd5e2a64758e7621650d8044917199693b862a54','role_audit_pr':137,'role_audit_head':'5627d31a992bcdc71dcc7351cba2c515dac89a2c','operational_counts':{'ACTIVE_TYPED_FACE':2,'REFERENCE_ONLY_WITH_EXPLICIT_REASON':42,'TOTAL':44},'rows':sorted(rows,key=lambda row:row['id']),'authority_delta':0,'source_writeback_default':'DENY'}
+          payload=json.dumps(receipt,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False)
+          Path('artifacts/JANUS-FEDERATION-ROLE-VIEW-FOR-CONTINUITY-v2.json').write_text(payload+'\n',encoding='utf-8')
+          Path('artifacts/JANUS-FEDERATION-ROLE-VIEW-FOR-CONTINUITY-v2.sha256').write_text(hashlib.sha256(payload.encode()).hexdigest()+'\n',encoding='ascii')
+          print('FEDERATION_FINAL_TYPED_44_OF_44=PASS')
+          PY
+
+      - name: Prove role finalization did not mutate Habitat state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root=Path('.federation-continuity-ci/habitat')
+          before=json.loads(Path('.federation-continuity-ci/before.json').read_text(encoding='utf-8'))
+          def surface_digest(base: Path) -> str:
+              h=hashlib.sha256()
+              for path in sorted((p for p in base.rglob('*') if p.is_file()), key=lambda p:p.as_posix()):
+                  rel=path.relative_to(base).as_posix().encode(); raw=path.read_bytes()
+                  h.update(len(rel).to_bytes(8,'big')); h.update(rel); h.update(len(raw).to_bytes(8,'big')); h.update(raw)
+              return h.hexdigest()
+          assert surface_digest(root)==before['surface_sha256']
+          assert hashlib.sha256((root/'HOME.json').read_bytes()).hexdigest()==before['home_sha256']
+          print('ROLE_MATERIALIZATION_HABITAT_MUTATION=FALSE')
+          PY
+
+      - name: Fresh process resumes same Habitat and extends journal
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from tools.genesis_git_habitat import GitHabitat
+          root=Path('.federation-continuity-ci/habitat')
+          before=json.loads(Path('.federation-continuity-ci/before.json').read_text(encoding='utf-8'))
+          habitat=GitHabitat(root)
+          habitat.wake('POST_FEDERATION_FINALIZER_REPLAY_V2','CI_FRESH_PROCESS')
+          habitat.pulse('CI_FRESH_PROCESS')
+          habitat.sleep('REST')
+          health=habitat.refresh_health(); journal=habitat.verify_journal(); home=json.loads((root/'HOME.json').read_text(encoding='utf-8'))
+          assert health['status']=='HEALTHY', health
+          assert health['journal_chain_ok'] is True and health['continuity_matches_journal'] is True
+          assert journal['ok'] is True
+          assert journal['event_count']==before['journal_event_count']+3
+          assert journal['last_event_hash']!=before['journal_last_event_hash']
+          assert home['resident_id']==before['resident_id']=='JANUS'
+          result={'schema':'janus.genesis.federation_journal_continuity_current_main.v2','frozen_genesis_base':'dd5e2a64758e7621650d8044917199693b862a54','role_audit_head':'5627d31a992bcdc71dcc7351cba2c515dac89a2c','federation_final_typed_44_of_44':'PASS','role_materialization_habitat_mutation':False,'resident_identity_preserved':True,'fresh_process_resume':'PASS','journal_chain_ok':True,'continuity_matches_journal':True,'journal_extended_by_events':3,'habitat_health':'HEALTHY','real_resident_model_call_live_home_replayed_by_this_workflow':False,'full_issue_162_acceptance':False,'source_writeback_default':'DENY','destructive_action':'FORBIDDEN','authority_delta':0}
+          Path('artifacts/JANUS-FEDERATION-JOURNAL-CONTINUITY-CURRENT-MAIN-v2.json').write_text(json.dumps(result,sort_keys=True,separators=(',',':'),ensure_ascii=False)+'\n',encoding='utf-8')
+          print('HABITAT_JOURNAL_CONTINUITY_AFTER_ROLE_MATERIALIZATION=PASS')
+          print('RESIDENT_IDENTITY_PRESERVED=TRUE')
+          print('REAL_RESIDENT_MODEL_CALL_LIVE_HOME_REPLAYED_BY_THIS_WORKFLOW=FALSE')
+          print('FULL_ISSUE_162_ACCEPTANCE=FALSE')
+          PY
+
+      - name: Preserve claim ceiling
+        run: |
+          echo 'FEDERATION_44_OF_44=PASS'
+          echo 'HABITAT_JOURNAL_CONTINUITY_AFTER_ROLE_MATERIALIZATION=PASS'
+          echo 'SOURCE_WRITEBACK_DEFAULT=DENY'
+          echo 'DESTRUCTIVE_ACTION=FORBIDDEN'
+          echo 'AUTHORITY_DELTA=0'
+          echo 'REAL_OWNER44_SOURCE_REPLAY=NOT_PROVEN'
+          echo 'LIVE_NAS_HR1_HR10=NOT_PROVEN'
+          echo 'REAL_RESIDENT_MODEL_CALL_LIVE_HOME_REPLAYED_BY_THIS_WORKFLOW=FALSE'
+          echo 'FULL_ISSUE_162_ACCEPTANCE=FALSE'
+
+      - name: Upload privacy-safe continuity evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-federation-journal-continuity-current-main-v2
+          path: artifacts/
+          if-no-files-found: error
