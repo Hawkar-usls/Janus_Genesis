@@ -1,0 +1,95 @@
+name: JANUS Beacon Predictive Witness v1
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_beacon_predictive_witness.py'
+      - 'tools/janus_nas_no_delete_gateway.py'
+      - 'tests/test_janus_beacon_predictive_witness_v1.py'
+      - 'protocol/JANUS_BEACON_PREDICTIVE_WITNESS-v1.0.json'
+      - 'protocol/JANUS_NAS_NO_DELETE_GATEWAY-v1.0.json'
+      - '.github/workflows/janus-beacon-predictive-witness-v1.yml'
+  push:
+    branches:
+      - feature/janus-global-beacon-predictive-witness-v1
+
+permissions:
+  contents: read
+
+jobs:
+  beacon:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Validate contracts
+        run: |
+          python -m json.tool protocol/JANUS_BEACON_PREDICTIVE_WITNESS-v1.0.json >/dev/null
+          python -m json.tool protocol/JANUS_NAS_NO_DELETE_GATEWAY-v1.0.json >/dev/null
+      - name: Compile exact component
+        run: |
+          python -m py_compile \
+            tools/janus_beacon_predictive_witness.py \
+            tools/janus_nas_no_delete_gateway.py \
+            tests/test_janus_beacon_predictive_witness_v1.py
+      - name: Run predictive and no-delete gateway regressions
+        run: python -m unittest -v tests.test_janus_beacon_predictive_witness_v1
+      - name: Enforce authority and prediction boundaries
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          beacon = json.loads(Path('protocol/JANUS_BEACON_PREDICTIVE_WITNESS-v1.0.json').read_text())
+          assert beacon['inputs']['raw_context_persisted'] is False
+          assert beacon['selection_contamination']['forecast_exposed_to_selector_recorded'] is True
+          assert beacon['authority']['prediction_is_command'] is False
+          assert beacon['authority']['prediction_is_permission'] is False
+          assert beacon['authority']['prediction_is_truth'] is False
+          assert beacon['authority']['prediction_is_independent_evidence_root'] is False
+          assert beacon['authority']['source_writeback'] is False
+          assert beacon['authority']['authority_delta'] == 0
+
+          nas = json.loads(Path('protocol/JANUS_NAS_NO_DELETE_GATEWAY-v1.0.json').read_text())
+          assert nas['deployment_model']['live_nas_deployment_established'] is False
+          assert nas['boundary']['application_gateway_exposes_delete'] is False
+          assert nas['boundary']['application_gateway_is_os_acl_proof'] is False
+          assert nas['boundary']['source_writeback'] is False
+          assert 'DELETE' in nas['forbidden_surface']
+          assert 'TRUNCATE' in nas['forbidden_surface']
+          PY
+      - name: Reject network process and destructive gateway surfaces
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          predictor = Path('tools/janus_beacon_predictive_witness.py')
+          gateway = Path('tools/janus_nas_no_delete_gateway.py')
+          forbidden_imports = {
+              'aiohttp','ftplib','httpx','paramiko','requests','socket','subprocess','urllib'
+          }
+          for path in (predictor, gateway):
+              tree = ast.parse(path.read_text(encoding='utf-8'))
+              imported = set()
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Import):
+                      imported.update(alias.name.split('.')[0] for alias in node.names)
+                  elif isinstance(node, ast.ImportFrom) and node.module:
+                      imported.add(node.module.split('.')[0])
+              assert imported.isdisjoint(forbidden_imports), (path, imported)
+
+          tree = ast.parse(gateway.read_text(encoding='utf-8'))
+          forbidden_attrs = {
+              'remove','unlink','rmdir','removedirs','rename','renames','replace',
+              'truncate','ftruncate','chmod','chown','symlink','link'
+          }
+          attrs = {node.attr for node in ast.walk(tree) if isinstance(node, ast.Attribute)}
+          assert attrs.isdisjoint(forbidden_attrs), sorted(attrs & forbidden_attrs)
+          PY

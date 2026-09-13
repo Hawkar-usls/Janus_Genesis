@@ -1,0 +1,73 @@
+{
+  "schema": "janus.nas.no_delete_gateway_contract.v1",
+  "artifact_id": "JANUS-NAS-JANUS-NO-DELETE-GATEWAY-2026-08-16-v1.0",
+  "deployment_model": {
+    "transport": "NONE_IN_COMPONENT",
+    "root": "OPERATOR_CONFIGURED_ALREADY_MOUNTED_JANUS_DIRECTORY",
+    "write_prefix": "OPERATOR_CONFIGURED_EXISTING_SUBDIRECTORY_DEFAULT_beacon",
+    "credentials_in_repository": false,
+    "nas_address_in_repository": false,
+    "live_nas_deployment_established": false
+  },
+  "read_surface": [
+    "LIST",
+    "STAT",
+    "READ"
+  ],
+  "write_surface": [
+    "CREATE_NEW",
+    "APPEND",
+    "CREATE_VERSIONED_JSON"
+  ],
+  "forbidden_surface": [
+    "DELETE",
+    "UNLINK",
+    "RMDIR",
+    "RENAME",
+    "REPLACE",
+    "TRUNCATE",
+    "CHMOD",
+    "CHOWN",
+    "SYMLINK_CREATE",
+    "HARDLINK_CREATE",
+    "DIRECTORY_CREATE",
+    "ARBITRARY_COMMAND",
+    "SUBPROCESS",
+    "NETWORK_TRANSPORT"
+  ],
+  "filesystem_guards": {
+    "relative_paths_only": true,
+    "parent_escape_rejected": true,
+    "leaf_symlink_following": false,
+    "directory_symlink_following": false,
+    "create_new_uses_exclusive_create": true,
+    "append_uses_append_mode_without_truncate": true,
+    "implicit_directory_creation": false,
+    "bounded_reads_and_writes": true
+  },
+  "beacon_memory": {
+    "forecast_log": "APPEND_ONLY_JSONL",
+    "outcome_log": "APPEND_ONLY_JSONL",
+    "state_snapshots": "CREATE_ONLY_CONTENT_ADDRESSED_VERSIONED_JSON",
+    "latest_state_recovery": true
+  },
+  "boundary": {
+    "application_gateway_exposes_delete": false,
+    "application_gateway_is_os_acl_proof": false,
+    "application_gateway_is_nas_compromise_proof": false,
+    "underlying_mount_permissions_still_matter": true,
+    "source_writeback": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "laws": [
+    "READ_ACCESS != DELETE_PERMISSION",
+    "APPEND != TRUNCATE",
+    "CREATE_NEW != OVERWRITE",
+    "APPLICATION_NO_DELETE_GATE != OS_LEVEL_IMMUTABILITY_PROOF",
+    "MOUNTED_NAS_PATH != NETWORK_TRANSPORT_IMPLEMENTED_BY_THIS_COMPONENT",
+    "NAS_MEMORY != CANONICAL_PROJECT_TRUTH",
+    "CI_GREEN != LIVE_NAS_DEPLOYMENT",
+    "CI_GREEN != MERGE_PERMISSION"
+  ]
+}
