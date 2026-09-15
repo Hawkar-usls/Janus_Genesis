@@ -1,0 +1,43 @@
+name: Unpack v0.4.8 payload
+
+on:
+  push:
+    branches:
+      - release/v0.4.8-repository-unification
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    if: github.head_ref == 'release/v0.4.8-repository-unification' || github.ref_name == 'release/v0.4.8-repository-unification'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Decode and unpack unified repository
+        shell: bash
+        run: |
+          cat release_payload_v048/part_* | base64 -d > /tmp/v048.tar.xz
+          rm -rf /tmp/v048
+          mkdir -p /tmp/v048
+          tar -xJf /tmp/v048.tar.xz -C /tmp/v048
+          SRC="/tmp/v048/PLA_Janus_Genesis_v0.4.8_REPOSITORY_UNIFICATION"
+          test -f "$SRC/pyproject.toml"
+          test -f "$SRC/src/janus_genesis/physics_runtime/physics_judge.py"
+          rsync -a --delete --exclude='.git/' "$SRC/" ./
+
+      - name: Commit unified repository
+        shell: bash
+        run: |
+          git config user.name "janus-genesis-release-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: unify public package and physics runtime in v0.4.8"
+          git push origin HEAD:release/v0.4.8-repository-unification
