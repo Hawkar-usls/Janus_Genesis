@@ -1,0 +1,48 @@
+name: JANUS Source Pin Contract v1
+
+on:
+  pull_request:
+    paths:
+      - "tools/janus_source_pin_contract.py"
+      - "tests/test_janus_source_pin_contract_v1.py"
+      - "protocol/JANUS_SOURCE_PIN_CONTRACT-v1.0.json"
+      - ".github/workflows/janus-source-pin-contract-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-pin-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR state
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate protocol JSON
+        run: python -m json.tool protocol/JANUS_SOURCE_PIN_CONTRACT-v1.0.json >/dev/null
+
+      - name: Compile source-pin contract
+        run: python -m py_compile tools/janus_source_pin_contract.py tests/test_janus_source_pin_contract_v1.py
+
+      - name: Run ambiguity and privacy regressions
+        run: python -m unittest discover -s tests -p 'test_janus_source_pin_contract_v1.py' -v
+
+      - name: Enforce authority-neutral integration surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -Eq 'git[[:space:]]+(clone|fetch|push)|gh[[:space:]]+|requests\.|urllib\.request|httpx\.|curl[[:space:]]|wget[[:space:]]' tools/janus_source_pin_contract.py
+          grep -F '"source_writeback": false' protocol/JANUS_SOURCE_PIN_CONTRACT-v1.0.json >/dev/null
+          grep -F '"code_execution": false' protocol/JANUS_SOURCE_PIN_CONTRACT-v1.0.json >/dev/null
+          grep -F '"external_effect_authority": false' protocol/JANUS_SOURCE_PIN_CONTRACT-v1.0.json >/dev/null
+          grep -F '"private_exact_pin_publication_required": false' protocol/JANUS_SOURCE_PIN_CONTRACT-v1.0.json >/dev/null
+          echo 'SOURCE_PIN_TYPE_INFERENCE=FALSE'
+          echo 'SOURCE_PIN_WRITEBACK=FALSE'
+          echo 'PRIVATE_EXACT_PIN_PUBLICATION_REQUIRED=FALSE'
