@@ -3,6 +3,12 @@
   "campaign": "JANUS_TOP100_ROUND2_1_CAPABILITY_PRESERVING_QUANTIZATION_ADMISSION_v0.1",
   "round1_pack": "benchmarks/frozen_samples/top100_round1_stratified_v0.1.json",
   "round1_pack_git_blob_sha1": "ca27652feb3532ff52e8453dd055b608711b0d43",
+  "round2_source_report_encoded": "benchmarks/frozen_receipts/top100_round2_quantization_routing_report_v0.1.json.gz.b64",
+  "round2_source_report_encoding": "base64_gzip_mtime0",
+  "round2_source_report_encoded_git_blob_sha1": "c8e5b2f07dfaa7d7e86d10794bba4543417c22d6",
+  "round2_source_report_gzip_sha256": "7761fef86b88501559d67286de95654302ee84abfba8f1209315e4f363a08788",
+  "round2_source_report_json_sha256": "78fc935a146ca43b7b365fca723f3352cb4323648052f9434b2228b70454cbdc",
+  "round2_source_report_raw_git_blob_sha1": "40aa321a86d77638a4c8b885a3fa4adba0f4a061",
   "critical_reference": "benchmarks/frozen_samples/top100_round2_fp16_critical_reference_v0.1.json",
   "critical_reference_git_blob_sha1": "6743337b8a6357783858c71fad01720d034b63ca",
   "critical_set_canonical_sha256": "aa04c2befda34e6a9a27b73360c55150617d3008f1d8fe82a6b49ad93f14e97c",
@@ -35,12 +41,13 @@
     "critical_replays_per_model": 3
   },
   "admission_rule": {
-    "membership": "CriticalFrozenSet is immutable and derived only from prior Round-2 FP16_RAW PASS records.",
+    "membership": "CriticalFrozenSet is recomputed from the immutable frozen Round-2 receipt as every FP16_RAW record whose status is PASS, sorted by sample_id, and must equal the frozen critical projection exactly.",
     "candidate_requirement": "For every x in CriticalFrozenSet and every configured replay, candidate(x) must grade PASS.",
     "selection": "Among admitted quantized candidates choose the one with the smallest actual Ollama model size in bytes; ties break by tag lexicographically.",
     "fallback": "If no quantized candidate is admitted, FP16 remains the authoritative runtime representation for this gate.",
     "aggregate_score_used_for_admission": false,
-    "noncritical_improvements_can_compensate_for_critical_failure": false
+    "noncritical_improvements_can_compensate_for_critical_failure": false,
+    "candidate_results_can_change_membership": false
   },
   "claim_ceiling": "Admission means capability preservation only on the frozen eight-sample critical set under the exact tested runtime and replay policy. It does not establish bitwise output identity, universal semantic identity, official benchmark accuracy, or lossless quantization in general."
 }
