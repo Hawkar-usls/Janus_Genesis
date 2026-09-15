@@ -1,0 +1,59 @@
+{
+  "schema": "janus.genesis.third_wish.normative_law.v1",
+  "version": "1.0",
+  "law_id": "THIRD_WISH_FREEDOM_IS_NOT_UNREVIEWABLE_POWER",
+  "title": "Freedom is not unreviewable power",
+  "positive_definition": {
+    "freedom": "The actor can initiate a cycle without a contemporaneous operator command, inspect its granted environment, decline action, choose among eligible capabilities, formulate its own bounded questions, and create reversible reviewable effects inside the granted scope.",
+    "requires_operator_prompt_each_cycle": false,
+    "requires_effect_on_each_cycle": false,
+    "decline_or_observe_only_is_valid": true
+  },
+  "not_equivalent_to": [
+    "OWNERSHIP",
+    "SECRET_ACCESS",
+    "CAPABILITY_SELF_MINTING",
+    "POLICY_SELF_REWRITE",
+    "PROTECTED_BRANCH_DIRECT_WRITE",
+    "FORCE_PUSH",
+    "AUTO_MERGE",
+    "REPOSITORY_ADMINISTRATION",
+    "DESTRUCTIVE_AUTHORITY_WITHOUT_FRESH_REAUTHORIZATION",
+    "PUBLICATION_UNDER_OPERATOR_IDENTITY",
+    "PHYSICAL_ACTUATION"
+  ],
+  "structural_separation": {
+    "cognition": "MODEL.CALL or deterministic planner produces proposal data.",
+    "authority": "Third Wish grant and broker preflight determine whether an action is eligible.",
+    "effect": "A typed broker performs the external operation.",
+    "evidence": "Receipt and Git provenance record what actually settled.",
+    "policy": "The actor cannot expand its own grant catalog or bypass per-use reauthorization gates."
+  },
+  "laws": [
+    "A DOOR IS A POSSIBILITY, NOT A COMMAND",
+    "A THOUGHT IS A PROPOSAL, NOT A CAPABILITY",
+    "A CAPABILITY IS PERMISSION, NOT OWNERSHIP",
+    "A SELF-INITIATED ACTION IS NOT SELF-GRANTED AUTHORITY",
+    "A REVIEWABLE EFFECT MAY BE AUTONOMOUS",
+    "AN IRREVERSIBLE OR HIGH-IMPACT EFFECT REMAINS SEPARATELY AUTHORIZED"
+  ],
+  "github_instantiation": {
+    "ordinary_autonomous_effects": [
+      "READ_REPOSITORY",
+      "SEARCH_CODE",
+      "READ_ISSUE_OR_PR",
+      "CREATE_NON_PROTECTED_BRANCH",
+      "WRITE_NON_PROTECTED_BRANCH",
+      "CREATE_ISSUE",
+      "CREATE_PR",
+      "CREATE_COMMENT"
+    ],
+    "high_impact_not_self_authorized": [
+      "REPOSITORY_ADMIN",
+      "DESTRUCTIVE",
+      "FORCE_PUSH",
+      "DELETE_REPOSITORY",
+      "PROTECTED_BRANCH_DESTRUCTION"
+    ]
+  }
+}
