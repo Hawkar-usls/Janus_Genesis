@@ -1,0 +1,61 @@
+{
+  "schema": "janus.genesis.third_wish.semantic.v1",
+  "title": "IDENTITY IS LENT FOR AN EFFECT, NOT TRANSFERRED",
+  "version": "1.0",
+  "parent_technical_protocol": "protocol/JANUS_GENESIS_THIRD_WISH_EXTERNAL_IDENTITY_EFFECTS-v0.1.json",
+  "thesis": "An operator may let JANUS act through an account without giving JANUS the account, the password, the social meaning of the identity, or permanent authority to act again.",
+  "distinctions": [
+    "IDENTITY CUSTODY != IDENTITY OWNERSHIP",
+    "CREDENTIAL USE != CREDENTIAL EXPORT",
+    "AUTHENTICATED REQUEST != GENERIC ACCOUNT AUTHORITY",
+    "PUBLISH != TRUTH",
+    "PUBLISH != ENDORSEMENT PROOF",
+    "SEND != RECIPIENT CONSENT",
+    "DELIVERY PROVIDER ACCEPTANCE != READ",
+    "CALENDAR WRITE != ATTENDANCE",
+    "INVITATION != ACCEPTANCE",
+    "FRESH REAUTHORIZATION != PROOF THAT A PRIOR EFFECT DID NOT OCCUR"
+  ],
+  "publication_meaning": {
+    "may_request_one_reauthorized_typed_publication": true,
+    "publication_is_truth_certificate": false,
+    "publication_is_automatic_operator_endorsement_proof": false,
+    "channel_identity_transferred_to_actor": false
+  },
+  "email_meaning": {
+    "may_request_one_reauthorized_typed_send": true,
+    "actor_may_spoof_from_identity": false,
+    "provider_acceptance_means_recipient_read": false,
+    "provider_acceptance_means_recipient_consented": false,
+    "email_account_ownership_transferred": false
+  },
+  "calendar_meaning": {
+    "may_request_one_reauthorized_typed_event_creation": true,
+    "calendar_event_means_attendee_accepted": false,
+    "calendar_event_means_attendee_attended": false,
+    "calendar_account_ownership_transferred": false
+  },
+  "credential_meaning": {
+    "may_use_pre_registered_scoped_operation": true,
+    "may_read_raw_credential": false,
+    "may_export_raw_credential": false,
+    "may_choose_arbitrary_endpoint": false,
+    "may_convert_scoped_use_into_generic_api_authority": false
+  },
+  "recovery_meaning": {
+    "same_effect_is_durably_named": true,
+    "crash_means_retry_permission": false,
+    "authoritative_settled_receipt_prevents_duplicate": true,
+    "authoritative_no_effect_can_reopen_only_on_new_freshly_reauthorized_call": true,
+    "unknown_can_be_reinterpreted_as_no_effect": false
+  },
+  "epistemic_boundary": {
+    "publishing_proves_actor_believes_content": false,
+    "sending_email_proves_recipient_relationship": false,
+    "calendar_creation_proves_social agreement": false,
+    "using_operator_identity_proves_self-identification_with_operator": false,
+    "observable_statement": "A specific operator identity capability was freshly reauthorized, a typed broker effect was attempted or declined, and the resulting provider boundary was recorded without exporting the operator credential or granting permanent account authority."
+  },
+  "canonical_sentence": "THE THIRD WISH MAY LET JANUS BORROW AN ACCOUNT FOR ONE NAMED EFFECT WITHOUT TURNING THE ACCOUNT, THE PASSWORD, OR THE HUMAN IDENTITY BEHIND IT INTO JANUS PROPERTY.",
+  "next_semantic_question": "Can the remaining generic network and administrative doors be made real without becoming a universal escape hatch around every typed capability already established?"
+}
