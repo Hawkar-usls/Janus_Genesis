@@ -1,0 +1,100 @@
+{
+  "schema": "janus.hippocampus.hdd_buffer_contract.v2",
+  "status": "IMPLEMENTATION_CANDIDATE",
+  "title": "JANUS Hippocampus HDD-friendly buffered journal v2",
+  "lineage": {
+    "historical_runtime": {
+      "repository": "Hawkar-usls/janus-meta-registry",
+      "path": "janus_core.py",
+      "class": "JanusHippocampus",
+      "observed_commit": "c5e1af2b2da47fd7df758c4f05f7a22b21389e29"
+    },
+    "user_supplied_seed": "JanusTwoFacedBrain",
+    "relationship": "STORAGE_ENGINE_HARDENING_NOT_REPLACEMENT_OF_GRAPH_VAULT_EVOLUTION_TABLES"
+  },
+  "compatibility": {
+    "table": "thoughts",
+    "historical_columns_preserved": [
+      "id",
+      "timestamp",
+      "source",
+      "content",
+      "tags",
+      "vector"
+    ],
+    "additive_column": "content_folded",
+    "tag_alias_for_source": true
+  },
+  "defaults": {
+    "batch_size": 500,
+    "flush_interval_seconds": 300,
+    "max_buffer_records": 5000,
+    "recent_scan_limit": 5000,
+    "sqlite_journal_mode": "WAL",
+    "sqlite_synchronous": "NORMAL",
+    "wal_autocheckpoint_pages": 4096,
+    "busy_timeout_ms": 5000
+  },
+  "persistence_semantics": {
+    "remember": "RAM_BUFFER_ONLY_UNTIL_SUCCESSFUL_FLUSH",
+    "batch_flush": "ONE_SQLITE_TRANSACTION",
+    "sqlite_io": "ASYNCIO_TO_THREAD",
+    "periodic_flush": true,
+    "batch_threshold_flush": true,
+    "force_save": true,
+    "shutdown_final_flush": "FAIL_VISIBLE",
+    "flush_failure": "DETACHED_BATCH_PREPENDED_BACK_TO_RAM_IN_ORIGINAL_ORDER",
+    "ram_overflow": "REJECT_NEW_WRITE_DO_NOT_DROP_OLD_MEMORY",
+    "close_remember_race": "WRITE_ADMISSION_RECHECKED_INSIDE_APPEND_LOCK"
+  },
+  "recall_semantics": {
+    "ram_first": true,
+    "disk_search": "BOUNDED_RECENT_WINDOW_PLUS_PYTHON_CASEFOLD",
+    "full_database_text_search": false,
+    "normal_content_index_claimed_to_accelerate_percent_keyword_percent": false,
+    "fts5_enabled": false,
+    "reason": "Avoid claiming an unusable leading-wildcard index or adding FTS write amplification before measurement."
+  },
+  "durability_boundary": {
+    "NORMAL": "LOWER_SYNC_OVERHEAD_WITH_WEAKER_RECENT_COMMIT_POWER_LOSS_DURABILITY",
+    "FULL": "STRONGER_SQLITE_COMMIT_DURABILITY_OPTION",
+    "WAL": "SEPARATE_APPEND_ORIENTED_JOURNAL_DOES_NOT_MEAN_ZERO_HDD_INTERFERENCE",
+    "buffered_record": "NOT_PERSISTED",
+    "successful_flush": "PERSISTED_TO_SQLITE_TRANSACTION_BOUNDARY",
+    "persisted_not_backed_up": true,
+    "persisted_not_replicated": true
+  },
+  "storj_claim_ceiling": {
+    "batching_reduces_sqlite_commit_count": true,
+    "measured_hdd_seek_reduction": false,
+    "measured_storj_latency_impact": false,
+    "measured_drive_wear_reduction": false,
+    "zero_interference_claim": false,
+    "production_nas_validation_required": true
+  },
+  "effect_boundary": {
+    "local_sqlite_write": true,
+    "network_access": false,
+    "subprocess": false,
+    "source_repository_writeback": false,
+    "source_delete": false,
+    "vacuum": false,
+    "destructive_checkpoint": false,
+    "credential_handling": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "laws": [
+    "RAM_BUFFERED != PERSISTED",
+    "PERSISTED != BACKED_UP",
+    "PERSISTED != REPLICATED",
+    "BATCHING != ZERO_STORJ_INTERFERENCE",
+    "WAL != ZERO_DISK_WRITES",
+    "SYNCHRONOUS_NORMAL != POWER_LOSS_PROOF",
+    "FLUSH_FAILURE -> RETAIN_OLD_MEMORY -> FAIL_VISIBLE",
+    "BUFFER_PRESSURE != LICENSE_TO_DROP_HISTORY",
+    "RECALL_WINDOW != TOTAL_RECALL",
+    "CI_GREEN != PRODUCTION_NAS_BENCHMARK",
+    "CI_GREEN != MERGE_PERMISSION"
+  ]
+}
