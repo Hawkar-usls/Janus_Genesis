@@ -1,0 +1,121 @@
+{
+  "schema": "genesis.janus_cristal.spectral_replication_pairs.v1",
+  "frozen_protocol": {
+    "parent_artifact": "GENESIS-JANUS-CRISTAL-SPECTRAL-DIFFERENCE-v0.1",
+    "registration": "EDGE_ECC_TRANSLATION_TO_EUCLIDEAN_TO_AFFINE_WITH_IDENTITY_GUARD",
+    "difference_weights": {
+      "luminance": 0.40,
+      "chromaticity": 0.40,
+      "edge": 0.20
+    },
+    "hotspot_quantile": 0.95,
+    "gamma_self_control": 0.72,
+    "retuning_allowed": false
+  },
+  "pairs": [
+    {
+      "id": "ALATAY_ANCHOR_VISIBLE_UV405",
+      "role": "FROZEN_DISCOVERY_ANCHOR_NOT_REPLICATION",
+      "material": "quartz_with_hydrocarbon_inclusions",
+      "same_specimen_status": "CONFIRMED_BY_SOURCE_DESCRIPTION_AND_PRIOR_GATE",
+      "visible": {
+        "id": "petroleum_quartz_visible",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Petroleum_quartz_from_Alatay.jpg",
+        "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Petroleum%20quartz%20from%20Alatay.jpg",
+        "author": "Boris Lobastov",
+        "license": "CC BY 4.0"
+      },
+      "uv": {
+        "id": "petroleum_quartz_uv405",
+        "modality": "UV_405_NM_RECORDED",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Petroleum_quartz_from_Alatay_UV_405_nm.jpg",
+        "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Petroleum%20quartz%20from%20Alatay%20UV%20405%20nm.jpg",
+        "author": "Boris Lobastov",
+        "license": "CC BY 4.0"
+      }
+    },
+    {
+      "id": "LUCASFASSARI_THREE_PHASE_VISIBLE_LWUVR",
+      "role": "INDEPENDENT_REPLICATION_CANDIDATE",
+      "material": "rock_crystal_quartz_with_three_phase_hydrocarbon_inclusion",
+      "same_specimen_status": "PROBABLE_NOT_EXPLICITLY_CONFIRMED_BY_COMMONS_TEXT",
+      "provenance_reason": "Both open CC BY-SA 4.0 files are by LucasFassari, describe a distinctive three-phase rock-crystal quartz inclusion consisting of bituminous solid, petroleum liquid and methane gas, and were published on consecutive dates. The Commons text does not explicitly state that the two photographs are the identical physical specimen, so provenance remains uncertain.",
+      "visible": {
+        "id": "lucas_three_phase_visible",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Three_Phase_in_Rock_Crystal_Quartz,_Pakistan.jpg",
+        "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Three%20Phase%20in%20Rock%20Crystal%20Quartz%2C%20Pakistan.jpg",
+        "author": "LucasFassari",
+        "license": "CC BY-SA 4.0"
+      },
+      "uv": {
+        "id": "lucas_three_phase_lwuvr",
+        "modality": "LWUVR_RECORDED_WAVELENGTH_NOT_SPECIFIED_ON_COMMONS_PAGE",
+        "page_url": "https://commons.wikimedia.org/wiki/File:Three_Phase_Inclusion_in_Rock_Crystal_Quartz_Under_LWUVR.jpg",
+        "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Three%20Phase%20Inclusion%20in%20Rock%20Crystal%20Quartz%20Under%20LWUVR.jpg",
+        "author": "LucasFassari",
+        "license": "CC BY-SA 4.0"
+      }
+    },
+    {
+      "id": "FMS_1226_PAKISTAN_QUARTZ_NORMAL_LW365",
+      "role": "PRIMARY_INDEPENDENT_CONFIRMED_SAME_SPECIMEN_REPLICATION_CANDIDATE",
+      "material": "single_double_terminated_quartz_crystal_with_petroleum_inclusions",
+      "same_specimen_status": "CONFIRMED_BY_SINGLE_FMS_SPECIMEN_RECORD_1226",
+      "provenance_reason": "The Fluorescent Mineral Society FMDB record 1226 describes one single 26 mm quartz specimen and presents shortwave, longwave and normal-light photographs within that same specimen record. Longwave 365 nm is designated the primary replication modality before outcome inspection because it parallels the prior LWUVR candidate and is a common longwave UV condition; 254 nm is pre-registered separately as confirmatory only.",
+      "source_record_url": "https://uvminerals.org/fmdb/specimen/1226/",
+      "media_policy": "REMOTE_TRANSIENT_ANALYSIS_ONLY_NO_REPUBLICATION_IN_REPOSITORY_OR_ARTIFACT",
+      "visible": {
+        "id": "fms_1226_normal",
+        "page_url": "https://uvminerals.org/fmdb/specimen/1226/",
+        "download_url": "https://media.uvminerals.org/2024/11/29140559/fmdb-1226-4586.jpg",
+        "author": "Chris Clemens / Fluorescent Mineral Society FMDB",
+        "license": "SOURCE_COPYRIGHT_RETAINED; TRANSIENT_ANALYSIS_ONLY"
+      },
+      "uv": {
+        "id": "fms_1226_lw365",
+        "modality": "LONGWAVE_UV_365_NM_LED_RECORDED",
+        "page_url": "https://uvminerals.org/fmdb/specimen/1226/",
+        "download_url": "https://media.uvminerals.org/2024/11/29140446/fmdb-1226-4585.jpg",
+        "author": "Chris Clemens / Fluorescent Mineral Society FMDB",
+        "license": "SOURCE_COPYRIGHT_RETAINED; TRANSIENT_ANALYSIS_ONLY"
+      }
+    },
+    {
+      "id": "FMS_1226_PAKISTAN_QUARTZ_NORMAL_SW254",
+      "role": "CONFIRMATORY_MODALITY_SAME_SPECIMEN_NOT_INDEPENDENT_REPLICATION_COUNT",
+      "material": "single_double_terminated_quartz_crystal_with_petroleum_inclusions",
+      "same_specimen_status": "CONFIRMED_BY_SINGLE_FMS_SPECIMEN_RECORD_1226",
+      "provenance_reason": "Pre-registered before inspecting the FMS replication outcome. This is the same FMDB specimen 1226 as the longwave primary pair, so it can corroborate modality sensitivity but must not count as a second independent specimen replication.",
+      "source_record_url": "https://uvminerals.org/fmdb/specimen/1226/",
+      "media_policy": "REMOTE_TRANSIENT_ANALYSIS_ONLY_NO_REPUBLICATION_IN_REPOSITORY_OR_ARTIFACT",
+      "visible": {
+        "id": "fms_1226_normal",
+        "page_url": "https://uvminerals.org/fmdb/specimen/1226/",
+        "download_url": "https://media.uvminerals.org/2024/11/29140559/fmdb-1226-4586.jpg",
+        "author": "Chris Clemens / Fluorescent Mineral Society FMDB",
+        "license": "SOURCE_COPYRIGHT_RETAINED; TRANSIENT_ANALYSIS_ONLY"
+      },
+      "uv": {
+        "id": "fms_1226_sw254",
+        "modality": "SHORTWAVE_UV_254_NM_MERCURY_LAMP_RECORDED",
+        "page_url": "https://uvminerals.org/fmdb/specimen/1226/",
+        "download_url": "https://media.uvminerals.org/2024/11/29140341/fmdb-1226-4584.jpg",
+        "author": "Chris Clemens / Fluorescent Mineral Society FMDB",
+        "license": "SOURCE_COPYRIGHT_RETAINED; TRANSIENT_ANALYSIS_ONLY"
+      }
+    }
+  ],
+  "admission_rules": [
+    "FROZEN_PROTOCOL_MUST_NOT_BE_RETUNED_PER_PAIR",
+    "PAIR_MUST_HAVE_USABLE_IMAGE_REGISTRATION_BEFORE_DIFFERENCE_FIELD_COUNTS",
+    "DISCOVERY_ANCHOR_DOES_NOT_COUNT_AS_CROSS_SPECIMEN_REPLICATION",
+    "PROBABLE_SAME_SPECIMEN_PROVENANCE_MUST_REMAIN_EXPLICITLY_UNCERTAIN",
+    "CONFIRMED_SAME_SPECIMEN_SOURCE_RECORD_MAY_OPEN_FORMAL_IMAGE_LEVEL_REPLICATION_GATE",
+    "PRIMARY_AND_CONFIRMATORY_MODALITIES_FROM_ONE_PHYSICAL_SPECIMEN_COUNT_AS_AT_MOST_ONE_INDEPENDENT_REPLICATION",
+    "REMOTE_COPYRIGHTED_MEDIA_MUST_NOT_BE_REPUBLISHED_IN_GIT_OR_ACTION_ARTIFACTS",
+    "REGISTERED_MODALITY_DIFFERENCE != CHEMICAL_IDENTITY",
+    "REGISTERED_MODALITY_DIFFERENCE != MESSAGE",
+    "FRACTALGPT_TRAJECTORY != MATERIAL_DISCOVERY",
+    "NO_POST_HOC_REGION_OR_CIPHER_SEARCH"
+  ]
+}

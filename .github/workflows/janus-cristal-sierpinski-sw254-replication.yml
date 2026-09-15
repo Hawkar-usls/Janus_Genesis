@@ -1,0 +1,59 @@
+name: Janus Cristal Sierpinski SW254 replication
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "experiments/janus_cristal_fractalgpt/sierpinski_sw254_replication.json"
+      - "experiments/janus_cristal_fractalgpt/sierpinski_sw254_replication_probe.py"
+      - "experiments/janus_cristal_fractalgpt/fms_page_media.py"
+      - "experiments/janus_cristal_fractalgpt/tests/test_sierpinski_sw254_replication.py"
+      - ".github/workflows/janus-cristal-sierpinski-sw254-replication.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  replicate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install runtime
+        run: python -m pip install "opencv-python-headless==4.13.0.92"
+
+      - name: Frozen gate tests
+        run: python experiments/janus_cristal_fractalgpt/tests/test_sierpinski_sw254_replication.py -v
+
+      - name: Independent specimen replication
+        run: >-
+          python experiments/janus_cristal_fractalgpt/sierpinski_sw254_replication_probe.py
+          --manifest experiments/janus_cristal_fractalgpt/sierpinski_sw254_replication.json
+          --trajectory-manifest experiments/janus_cristal_fractalgpt/sources.json
+          --out artifacts/sierpinski-sw254-replication
+
+      - name: Assert no image media persisted
+        run: |
+          if find artifacts/sierpinski-sw254-replication -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) | grep -q .; then
+            echo 'Remote FMS media must not be persisted in artifacts.' >&2
+            exit 1
+          fi
+
+      - name: Publish summary
+        if: always()
+        run: |
+          if [ -f artifacts/sierpinski-sw254-replication/SIERPINSKI_SW254_REPLICATION_SUMMARY.md ]; then
+            cat artifacts/sierpinski-sw254-replication/SIERPINSKI_SW254_REPLICATION_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload receipt
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: janus-cristal-sierpinski-sw254-replication-receipt
+          path: artifacts/sierpinski-sw254-replication/
+          if-no-files-found: error

@@ -1,0 +1,50 @@
+{
+  "schema": "genesis.janus_cristal.fractalgpt_planner_candidate.v2",
+  "artifact_id": "GENESIS-JANUS-CRISTAL-FRACTALGPT-SIERPINSKI-SW254-CANDIDATE-v0.1",
+  "status": "CLOSED_NEGATIVE_FAILED_INDEPENDENT_REPLICATION",
+  "original_candidate": {
+    "pair": "FMS_1226_PAKISTAN_QUARTZ_NORMAL_SW254",
+    "same_specimen": "CONFIRMED_BY_SINGLE_FMS_SPECIMEN_RECORD_1226",
+    "planner": "fractalgpt_sierpinski",
+    "p_composite": 0.00146413,
+    "p_hotspot": 0.00048804,
+    "frozen_per_planner_threshold": 0.00166667,
+    "single_pair_gate": "PASS_SINGLE_PAIR_CANDIDATE"
+  },
+  "independent_replication": {
+    "result_artifact": "GENESIS-JANUS-CRISTAL-FRACTALGPT-SIERPINSKI-SW254-REPLICATION-v0.1.json",
+    "pair": "FMS_1235_CAVE_IN_ROCK_QUARTZ_NORMAL_SW254",
+    "same_specimen": "CONFIRMED_BY_SINGLE_FMS_SPECIMEN_RECORD_1235",
+    "workflow_run": 31394703911,
+    "head_sha": "5c21b7e46596b4c31483c3e67650247a4db07a30",
+    "artifact_id": 9065114486,
+    "artifact_sha256": "2f343fc75672290c90bb034134ac466fc82ca42976ebb074b1cdcf9fa173e521",
+    "registration": "USABLE_IMAGE_REGISTRATION",
+    "registered_modality_difference": "OBSERVED",
+    "pair_to_gamma_control_median_ratio": 1.90204387,
+    "sierpinski_p_composite": 0.85846755,
+    "sierpinski_p_hotspot": 0.91410444,
+    "replication_gate": "FAIL_TO_REPLICATE"
+  },
+  "invalid_run_excluded": {
+    "workflow_run": 31394465033,
+    "reason": "FMDB media resolver cross-associated adjacent image labels; receipt itself showed selected alt labels did not match requested modalities.",
+    "status": "INVALID_SOURCE_MAPPING_NOT_SCIENTIFIC_OUTCOME"
+  },
+  "admission": {
+    "fractalgpt_sierpinski_effect_established": false,
+    "material_discovery_capability_established": false,
+    "semantic_content_established": false,
+    "candidate_status": "REJECTED_IN_TESTED_REPLICATION_SCOPE"
+  },
+  "interpretation": "The original FMS 1226 Sierpinski/SW254 enrichment was a real single-pair detector result under its frozen null test, but it did not reproduce on an independent confirmed same-specimen FMS 1235 SW254 pair. The planner-effect hypothesis is therefore closed negative in the tested scope.",
+  "formal_rules": [
+    "FAIL_TO_REPLICATE_IS_A_VALID_RESULT",
+    "INVALID_SOURCE_MAPPING_RUN != SCIENTIFIC_OUTCOME",
+    "SINGLE_PAIR_ENRICHMENT != REPLICATED_PLANNER_EFFECT",
+    "INDEPENDENT_SW254_MODALITY_DIFFERENCE != SIERPINSKI_PLANNER_EFFECT",
+    "PLANNER_ENRICHMENT != HIDDEN_MESSAGE",
+    "NO_POST_HOC_REGION_OR_CIPHER_SEARCH"
+  ],
+  "claim_ceiling": "No replicated FractalGPT Sierpinski effect is established. The independent specimen did show an ordinary registered normal-vs-SW254 image-level modality difference, which belongs to the physical imaging branch rather than the planner-effect branch."
+}
