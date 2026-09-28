@@ -1,6 +1,12 @@
 name: JANUS Habitat Cloud HOME v1
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'protocol/JANUS_HABITAT_PC_INDEPENDENCE_CONTRACT-v1.0.json'
+      - 'tools/verify_habitat_pc_independence_contract_v1.py'
+      - '.github/workflows/janus-habitat-cloud-home-v1.yml'
   pull_request:
     branches: [main]
     paths:
