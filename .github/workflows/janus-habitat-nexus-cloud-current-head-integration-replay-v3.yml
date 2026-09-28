@@ -19,7 +19,7 @@ env:
   EXPECTED_GENESIS_BASE: 43588fc41870e78493221ccb2b69959709c245dc
   SWARM_HEAD: 51e3d031fd729ff215b934f954b06625272376d0
   DEMIHEAD_HEAD: e287e62fc41d473c2add3eded92d3d163365b9dc
-  CLOUD_HOME_STATE_COMMIT: c23f1d83ba55009ea11e7f2312f9d8ddd195a902
+  CLOUD_HOME_STATE_COMMIT: 32d7cc7390cf44441efbabfd1b80812c8d171d75
   CLOUD_HOME_RECEIPT_SHA256: 956aa961eccec9d7b01c055b33fb08a75f4201357df16770007b74c85d4fc335
   PRIVATE_AUTH_RECEIPT: state/habitat_cloud_home/private_auth/PRIVATE_CLOUD_AUTH_OPAQUE_RECEIPT-2026-09-28.json
   OLLAMA_INSTALL_URL: https://github.com/ollama/ollama/releases/download/v0.30.8/ollama-linux-amd64.tar.zst
@@ -69,8 +69,7 @@ jobs:
           check_pr() {
             local pr="$1" expected="$2"
             git fetch --no-tags https://github.com/Hawkar-usls/Janus_Genesis.git "+refs/pull/${pr}/head:refs/remotes/nexus/pr${pr}"
-            observed="$(git rev-parse "refs/remotes/nexus/pr${pr}")"
-            test "$observed" = "$expected"
+            test "$(git rev-parse "refs/remotes/nexus/pr${pr}")" = "$expected"
           }
           check_pr 122 dc8e96ba1c0417afa5ce9785b10e60e68a043629
           check_pr 125 046a59b868a5dcb1006cd4734a8dd6b5d2938ad5
@@ -250,13 +249,15 @@ jobs:
           ref: ${{ env.CLOUD_HOME_STATE_COMMIT }}
           persist-credentials: false
           fetch-depth: 1
-      - name: Verify state, private cloud auth, and receipt bind without PC
+
+      - name: Verify state and sanitized private cloud auth projection without PC
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           import hashlib, json, os, re
           from pathlib import Path
+
           state=json.loads(Path('state/habitat_cloud_home/STATE.json').read_text())
           assert state['status']=='CLOUD_HOME_ACTIVE'
           assert state['sequence'] >= 1
@@ -270,6 +271,7 @@ jobs:
           assert state['source_writeback_default']=='DENY'
           assert state['destructive_action']=='FORBIDDEN'
           assert state['authority_delta']==0
+
           receipt_path=Path(state['checkpoint_head'])
           assert state['handoff_head']==state['checkpoint_head']
           raw=receipt_path.read_bytes()
@@ -287,12 +289,17 @@ jobs:
           assert r['authority_delta']==0
 
           p=json.loads(Path(os.environ['PRIVATE_AUTH_RECEIPT']).read_text())
-          assert p['status']=='PASS_PRIVATE_CLOUD_AUTH_AND_GIT_OBJECT_READ'
+          assert p['schema']=='JANUS_HABITAT_PRIVATE_CLOUD_AUTH_OPAQUE_RECEIPT_V2'
+          assert p['status']=='PASS_AUTH_READ_WITH_PRIVACY_CORRECTION'
           assert p['executor_class']=='MANAGED_GITHUB_APP_INSTALLATION_CONNECTION'
           assert p['execution_location']=='CLOUD_CONNECTOR'
           assert p['private_slots_expected']==p['private_slots_authenticated']==3
           assert p['exact_branch_head_read'] is True
           assert p['exact_root_tree_object_read'] is True
+          assert p['private_exact_pin_verified_in_connector_session'] is True
+          assert p['private_exact_pin_values_persisted'] is False
+          assert p['private_tree_values_persisted'] is False
+          assert p['private_local_pinset_digest_persisted'] is False
           assert p['full_private_materialization_run'] is False
           assert p['private_repository_names_disclosed'] is False
           assert p['private_repository_urls_disclosed'] is False
@@ -304,25 +311,27 @@ jobs:
           assert p['source_writeback_observed'] is False
           assert p['destructive_action'] is False
           assert p['authority_delta']==0
+          assert p['privacy_correction']['prior_state_commit']=='c23f1d83ba55009ea11e7f2312f9d8ddd195a902'
+          assert p['privacy_correction']['classification']=='HISTORICAL_PUBLIC_PROJECTION_OVERDISCLOSED_PRIVATE_EXACT_PIN_AND_TREE_VALUES'
+          assert p['privacy_correction']['history_rewrite_performed'] is False
+          assert p['privacy_correction']['history_rewrite_allowed'] is False
           sources=p['opaque_sources']
-          assert len(sources)==3
-          assert len({x['repository_id'] for x in sources})==3
+          assert len(sources)==3 and len({x['repository_id'] for x in sources})==3
           for x in sources:
               assert x['visibility']=='private'
-              assert x['branch']=='main'
               assert re.fullmatch(r'[0-9]{1,32}', x['repository_id'])
-              assert re.fullmatch(r'[0-9a-f]{40}', x['sha'])
-              assert re.fullmatch(r'[0-9a-f]{40}', x['tree_sha'])
-              assert 'repository' not in x and 'url' not in x
+              assert x['exact_pin_public_projection']=='OMITTED_BY_SOURCE_PIN_CONTRACT'
+              assert set(x)=={'repository_id','visibility','exact_pin_public_projection'}
           assert p['promotion']['PRIVATE_CLOUD_AUTH']=='PASS'
-          assert p['promotion']['PRIVATE_EXACT_HEAD_PINNING']=='PASS'
-          assert p['promotion']['PRIVATE_ROOT_TREE_OBJECT_ACCESS']=='PASS'
+          assert p['promotion']['PRIVATE_EXACT_HEAD_PINNING']=='LOCAL_VERIFIED_NOT_PUBLICLY_PERSISTED'
+          assert p['promotion']['PRIVATE_ROOT_TREE_OBJECT_ACCESS']=='LOCAL_VERIFIED_NOT_PUBLICLY_PERSISTED'
+          assert p['promotion']['PUBLIC_PRIVATE_PIN_PROJECTION']=='PASS_OMITTED'
           assert p['promotion']['REAL_44_FULL_MATERIALIZATION']=='NOT_YET_RUN'
           print('CLOUD_HOME_DURABLE_RECONSTRUCTION=PASS')
-          print('CLEAN_CLOUD_WORKER_CHAIN=PASS')
-          print('PRIVATE_CLOUD_AUTH_AND_EXACT_PINNING=PASS')
-          print('PRIVATE_REPOSITORY_NAMES_DISCLOSED=FALSE')
-          print('CREDENTIAL_MATERIAL_PERSISTED=FALSE')
+          print('PRIVATE_CLOUD_AUTH=PASS')
+          print('PRIVATE_EXACT_PIN_LOCAL_VERIFICATION=RECORDED_NO_PUBLIC_VALUES')
+          print('PRIVATE_CURRENT_PUBLIC_PROJECTION=PASS_OMITTED')
+          print('HISTORICAL_PRIVATE_PIN_PROJECTION_POLICY_VIOLATION=RECORDED_NOT_ERASED')
           print('PC_DEPENDENCY_OBSERVED=FALSE')
           print('REMOTE_DESKTOP_DEPENDENCY_OBSERVED=FALSE')
           print('NAS_DEPENDENCY_OBSERVED=FALSE')
@@ -422,27 +431,30 @@ jobs:
             "schema":"janus.habitat_nexus.cloud_current_head_integration_receipt.v3",
             "genesis_base":"43588fc41870e78493221ccb2b69959709c245dc",
             "swarm_head":"51e3d031fd729ff215b934f954b06625272376d0",
-            "cloud_home_state_commit":"c23f1d83ba55009ea11e7f2312f9d8ddd195a902",
-            "same_view":{"preservation_lineage_handoff":"PASS","typed_federation_44_of_44":"PASS","exclusive_lease":"PASS","session_drop_recovery":"PASS","exactly_once_handoff":"PASS","resident_real_cloud_model_call":"PASS","resident_identity_continuity":"PASS","cloud_home_durable_reconstruction":"PASS","private_cloud_auth_exact_pinning":"PASS"},
+            "cloud_home_state_commit":"32d7cc7390cf44441efbabfd1b80812c8d171d75",
+            "same_view":{"preservation_lineage_handoff":"PASS","typed_federation_44_of_44":"PASS","exclusive_lease":"PASS","session_drop_recovery":"PASS","exactly_once_handoff":"PASS","resident_real_cloud_model_call":"PASS","resident_identity_continuity":"PASS","cloud_home_durable_reconstruction":"PASS","private_cloud_auth":"PASS","private_current_public_pin_projection":"PASS_OMITTED"},
+            "privacy":{"private_names_public":false,"private_urls_public":false,"private_exact_pins_in_current_public_projection":false,"private_tree_values_in_current_public_projection":false,"private_local_pinset_digest_in_current_public_projection":false,"credential_material_persisted":false,"historical_private_pin_projection_policy_violation":"RECORDED_NOT_ERASED"},
             "hardware_dependency":{"personal_computer":false,"remote_desktop":false,"nas":false,"lan":false,"process_uptime":false},
-            "remaining":{"real_owner_44_source_replay":"HOLD_FULL_44_MATERIALIZATION_REQUIRED","full_issue_162_closed_loop_gauntlet":"HOLD_NOT_YET_EXECUTED_ON_THIS_V3_VIEW"},
+            "remaining":{"real_owner_44_source_replay":"HOLD_FULL_44_MATERIALIZATION_REQUIRED","privacy_reconciliation":"HOLD_HISTORICAL_PRIVATE_PIN_PROJECTION_POLICY_VIOLATION_RECORDED","full_issue_162_closed_loop_gauntlet":"HOLD_NOT_YET_EXECUTED_ON_FULL_MATERIALIZED_VIEW"},
             "issue_162_runnable":false,
             "full_issue_162_acceptance":false,
             "source_writeback_default":"DENY",
             "destructive_action":"FORBIDDEN",
             "history_rewrite":false,
             "authority_delta":0,
-            "claim_ceiling":"PC_INDEPENDENT_CLOUD_INTEGRATION_PLUS_PRIVATE_AUTH_PASS_NE_FULL_44_MATERIALIZATION_NE_FULL_ISSUE_162_PASS"
+            "claim_ceiling":"PC_INDEPENDENT_CLOUD_INTEGRATION_AND_PRIVATE_AUTH_PASS_NE_FULL_44_MATERIALIZATION_NE_PRIVACY_RECONCILIATION_NE_FULL_ISSUE_162_PASS"
           }
           EOF
           python -m json.tool /tmp/JANUS-HABITAT-NEXUS-CLOUD-CURRENT-HEAD-INTEGRATION-RECEIPT-v3.json >/dev/null
           echo 'CLOUD_CURRENT_HEAD_SOFTWARE_INTEGRATION_VIEW=PASS'
-          echo 'PRIVATE_CLOUD_AUTH_AND_EXACT_PINNING=PASS'
+          echo 'PRIVATE_CLOUD_AUTH=PASS'
+          echo 'PRIVATE_CURRENT_PUBLIC_PIN_PROJECTION=PASS_OMITTED'
+          echo 'HISTORICAL_PRIVATE_PIN_PROJECTION_POLICY_VIOLATION=RECORDED_NOT_ERASED'
           echo 'PC_DEPENDENCY_OBSERVED=FALSE'
           echo 'REMOTE_DESKTOP_DEPENDENCY_OBSERVED=FALSE'
           echo 'NAS_DEPENDENCY_OBSERVED=FALSE'
           echo 'ISSUE_162_RUNNABLE=FALSE'
-          echo 'LAUNCH_GATE=HOLD_REAL_44_FULL_MATERIALIZATION_AND_FULL_CLOSED_LOOP_GAUNTLET'
+          echo 'LAUNCH_GATE=HOLD_REAL_44_FULL_MATERIALIZATION_PRIVACY_RECONCILIATION_AND_FULL_CLOSED_LOOP_GAUNTLET'
       - uses: actions/upload-artifact@v4
         with:
           name: janus-habitat-nexus-cloud-current-head-v3-integration-receipt-${{ github.run_id }}
