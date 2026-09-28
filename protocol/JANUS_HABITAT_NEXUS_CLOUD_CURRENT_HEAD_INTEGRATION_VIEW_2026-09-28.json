@@ -5,7 +5,7 @@
     "genesis_main_sha": "43588fc41870e78493221ccb2b69959709c245dc",
     "swarm_main_sha": "51e3d031fd729ff215b934f954b06625272376d0",
     "demihead_nohand_dependency_sha": "e287e62fc41d473c2add3eded92d3d163365b9dc",
-    "cloud_home_state_commit": "c23f1d83ba55009ea11e7f2312f9d8ddd195a902",
+    "cloud_home_state_commit": "32d7cc7390cf44441efbabfd1b80812c8d171d75",
     "cloud_home_receipt_sha256": "956aa961eccec9d7b01c055b33fb08a75f4201357df16770007b74c85d4fc335",
     "private_cloud_auth_receipt": "state/habitat_cloud_home/private_auth/PRIVATE_CLOUD_AUTH_OPAQUE_RECEIPT-2026-09-28.json"
   },
@@ -35,7 +35,10 @@
   },
   "required_gates": {
     "REAL_44_OWNER_SOURCE_EXACT_REPLAY_PRIVACY_SAFE": "HOLD_FULL_44_MATERIALIZATION_REQUIRED",
-    "PRIVATE_CLOUD_AUTH_AND_EXACT_PINNING": "REPLAY_REQUIRED_THIS_VIEW",
+    "PRIVATE_CLOUD_AUTH": "REPLAY_REQUIRED_THIS_VIEW",
+    "PRIVATE_EXACT_PIN_LOCAL_VERIFICATION": "REPLAY_REQUIRED_THIS_VIEW_NO_PUBLIC_PIN_VALUES",
+    "PRIVATE_PUBLIC_PROJECTION": "REPLAY_REQUIRED_THIS_VIEW_OMIT_PIN_TREE_AND_LOCAL_DIGEST",
+    "HISTORICAL_PRIVATE_PIN_PROJECTION_POLICY_VIOLATION": "RECORDED_NOT_ERASED",
     "PRESERVATION_LINEAGE_EXPECTED_HEAD_FAILED_VARIANT_CONFLICT_RETENTION": "REPLAY_REQUIRED_THIS_VIEW",
     "EXCLUSIVE_LEASE_SESSION_DROP_EXACTLY_ONCE_HANDOFF": "REPLAY_REQUIRED_THIS_VIEW",
     "RESIDENT_REAL_MODEL_CALL": "REPLAY_REQUIRED_THIS_VIEW",
@@ -57,6 +60,18 @@
     "private_cloud_auth_observed": true,
     "fallback_to_personal_computer": false
   },
+  "privacy": {
+    "private_repository_names_in_public_projection": false,
+    "private_repository_urls_in_public_projection": false,
+    "private_exact_pin_values_in_current_public_projection": false,
+    "private_tree_values_in_current_public_projection": false,
+    "private_local_pinset_digest_in_current_public_projection": false,
+    "credential_material_persisted": false,
+    "historical_overdisclosure_state_commit": "c23f1d83ba55009ea11e7f2312f9d8ddd195a902",
+    "historical_overdisclosure_erased": false,
+    "history_rewrite_allowed": false,
+    "classification": "PRIVATE_PIN_PROJECTION_POLICY_VIOLATION_NO_PRIVATE_CONTENT_OR_CREDENTIAL_LEAK_ESTABLISHED"
+  },
   "laws": {
     "COMPONENT_CI_NE_INTEGRATION_PASS": true,
     "SYNTHETIC_44_NE_REAL_OWNER_44": true,
@@ -67,6 +82,6 @@
     "AUTHORITY_DELTA": 0,
     "CI_GREEN_NE_LAUNCH_PASS": true
   },
-  "promotion_rule": "ISSUE_162 may become RUNNABLE only when every required gate is PASS on this exact compatible Genesis+Swarm+Cloud-HOME view. Offline personal hardware is never a launch blocker.",
-  "current_launch_verdict": "HOLD_REAL_44_FULL_MATERIALIZATION_AND_FULL_CLOSED_LOOP_GAUNTLET"
+  "promotion_rule": "ISSUE_162 may become RUNNABLE only when every required gate is PASS on one exact compatible materialized view and the private-source privacy gate is reconciled. Offline personal hardware is never a launch blocker.",
+  "current_launch_verdict": "HOLD_REAL_44_FULL_MATERIALIZATION_PRIVACY_RECONCILIATION_AND_FULL_CLOSED_LOOP_GAUNTLET"
 }
