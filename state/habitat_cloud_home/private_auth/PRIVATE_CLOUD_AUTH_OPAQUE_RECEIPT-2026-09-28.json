@@ -1,12 +1,16 @@
 {
-  "schema": "JANUS_HABITAT_PRIVATE_CLOUD_AUTH_OPAQUE_RECEIPT_V1",
-  "status": "PASS_PRIVATE_CLOUD_AUTH_AND_GIT_OBJECT_READ",
+  "schema": "JANUS_HABITAT_PRIVATE_CLOUD_AUTH_OPAQUE_RECEIPT_V2",
+  "status": "PASS_AUTH_READ_WITH_PRIVACY_CORRECTION",
   "executor_class": "MANAGED_GITHUB_APP_INSTALLATION_CONNECTION",
   "execution_location": "CLOUD_CONNECTOR",
   "private_slots_expected": 3,
   "private_slots_authenticated": 3,
   "exact_branch_head_read": true,
   "exact_root_tree_object_read": true,
+  "private_exact_pin_verified_in_connector_session": true,
+  "private_exact_pin_values_persisted": false,
+  "private_tree_values_persisted": false,
+  "private_local_pinset_digest_persisted": false,
   "full_private_materialization_run": false,
   "private_repository_names_disclosed": false,
   "private_repository_urls_disclosed": false,
@@ -19,39 +23,25 @@
   "destructive_action": false,
   "authority_delta": 0,
   "opaque_sources": [
-    {
-      "repository_id": "1318874240",
-      "visibility": "private",
-      "branch": "main",
-      "sha": "d3e4f22053dec9f89c2b49512010716dd48a6e1c",
-      "tree_sha": "a8767c0b16e40ce291c954b97c96d71d9babb39b"
-    },
-    {
-      "repository_id": "1112728873",
-      "visibility": "private",
-      "branch": "main",
-      "sha": "e15251e63d238404060006517eb71711677c7170",
-      "tree_sha": "74bfbe8b10705d59eeaa7a4bbabba1e50753333e"
-    },
-    {
-      "repository_id": "1249671206",
-      "visibility": "private",
-      "branch": "main",
-      "sha": "4089e1bb61e73e66e306861fe283a4dd4fa05e90",
-      "tree_sha": "a6165285fa315182be54dc6e80ca0e899f9a2397"
-    }
+    {"repository_id": "1318874240", "visibility": "private", "exact_pin_public_projection": "OMITTED_BY_SOURCE_PIN_CONTRACT"},
+    {"repository_id": "1112728873", "visibility": "private", "exact_pin_public_projection": "OMITTED_BY_SOURCE_PIN_CONTRACT"},
+    {"repository_id": "1249671206", "visibility": "private", "exact_pin_public_projection": "OMITTED_BY_SOURCE_PIN_CONTRACT"}
   ],
-  "commitment": {
-    "scheme": "SHA256_NONCE_PLUS_CANONICAL_PRIVATE_TUPLES",
-    "nonce": "8779efb750381e1917442f880ba751a5148bdc71d8dc91e01830b010324db217",
-    "sha256": "43f3684009503c8aea6b3847d409d00ccd54efc31f70fba39d0b266ea84c0a30"
+  "privacy_correction": {
+    "prior_state_commit": "c23f1d83ba55009ea11e7f2312f9d8ddd195a902",
+    "classification": "HISTORICAL_PUBLIC_PROJECTION_OVERDISCLOSED_PRIVATE_EXACT_PIN_AND_TREE_VALUES",
+    "current_projection": "SANITIZED_OMITS_PRIVATE_PIN_TREE_AND_LOCAL_DIGEST",
+    "history_rewrite_performed": false,
+    "history_rewrite_allowed": false,
+    "note": "The previous public projection retained opaque private exact Git pin/tree values. The canonical source-pin contract requires those values and local pinset digests to be omitted from public projection. This additive correction does not erase history and prevents further propagation."
   },
   "promotion": {
     "PRIVATE_CLOUD_AUTH": "PASS",
-    "PRIVATE_EXACT_HEAD_PINNING": "PASS",
-    "PRIVATE_ROOT_TREE_OBJECT_ACCESS": "PASS",
+    "PRIVATE_EXACT_HEAD_PINNING": "LOCAL_VERIFIED_NOT_PUBLICLY_PERSISTED",
+    "PRIVATE_ROOT_TREE_OBJECT_ACCESS": "LOCAL_VERIFIED_NOT_PUBLICLY_PERSISTED",
+    "PUBLIC_PRIVATE_PIN_PROJECTION": "PASS_OMITTED",
     "REAL_44_FULL_MATERIALIZATION": "NOT_YET_RUN",
     "ISSUE_162_FULL_ACCEPTANCE": "NOT_YET_PASS"
   },
-  "claim_ceiling": "This receipt proves PC-independent authenticated cloud read access and exact Git head/root-tree pinning for all three opaque private constellation slots. It does not claim that all private blob bytes were materialized, that the full 44-source Nexus was rebuilt, or that issue #162 is complete."
+  "claim_ceiling": "This sanitized receipt proves that the managed cloud connector authenticated to all three opaque private constellation slots and locally verified exact head/root-tree access without persisting private pin/tree values, repository names, URLs, credentials, or private bytes. It does not claim full private byte materialization, a full 44-source Nexus rebuild, or issue #162 completion."
 }
