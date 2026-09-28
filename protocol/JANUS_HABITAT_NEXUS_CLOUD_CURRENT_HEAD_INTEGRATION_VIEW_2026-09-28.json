@@ -5,8 +5,9 @@
     "genesis_main_sha": "43588fc41870e78493221ccb2b69959709c245dc",
     "swarm_main_sha": "51e3d031fd729ff215b934f954b06625272376d0",
     "demihead_nohand_dependency_sha": "e287e62fc41d473c2add3eded92d3d163365b9dc",
-    "cloud_home_state_commit": "d840d9814e013dbb73d632764dc0b758e9206b3c",
-    "cloud_home_receipt_sha256": "956aa961eccec9d7b01c055b33fb08a75f4201357df16770007b74c85d4fc335"
+    "cloud_home_state_commit": "c23f1d83ba55009ea11e7f2312f9d8ddd195a902",
+    "cloud_home_receipt_sha256": "956aa961eccec9d7b01c055b33fb08a75f4201357df16770007b74c85d4fc335",
+    "private_cloud_auth_receipt": "state/habitat_cloud_home/private_auth/PRIVATE_CLOUD_AUTH_OPAQUE_RECEIPT-2026-09-28.json"
   },
   "supersedes_as_current_view": [
     "Janus_Genesis#254",
@@ -33,7 +34,8 @@
     "producer_lock_pr138": "28bf0b4e9ab9ba3268f22bdbd82a0ecfd3396768"
   },
   "required_gates": {
-    "REAL_44_OWNER_SOURCE_EXACT_REPLAY_PRIVACY_SAFE": "HOLD_PRIVATE_CLOUD_AUTH_REQUIRED",
+    "REAL_44_OWNER_SOURCE_EXACT_REPLAY_PRIVACY_SAFE": "HOLD_FULL_44_MATERIALIZATION_REQUIRED",
+    "PRIVATE_CLOUD_AUTH_AND_EXACT_PINNING": "REPLAY_REQUIRED_THIS_VIEW",
     "PRESERVATION_LINEAGE_EXPECTED_HEAD_FAILED_VARIANT_CONFLICT_RETENTION": "REPLAY_REQUIRED_THIS_VIEW",
     "EXCLUSIVE_LEASE_SESSION_DROP_EXACTLY_ONCE_HANDOFF": "REPLAY_REQUIRED_THIS_VIEW",
     "RESIDENT_REAL_MODEL_CALL": "REPLAY_REQUIRED_THIS_VIEW",
@@ -51,7 +53,9 @@
     "CLOUD_EXECUTION_REQUIRED": true,
     "DURABLE_STATE_REQUIRED": true,
     "PC_NAS_LANE": "OPTIONAL_ADAPTER_NON_AUTHORITY",
-    "missing_private_cloud_credentials": "HOLD_PRIVATE_PIN_AUTH"
+    "private_cloud_credential_class": "MANAGED_GITHUB_APP_INSTALLATION_CONNECTION",
+    "private_cloud_auth_observed": true,
+    "fallback_to_personal_computer": false
   },
   "laws": {
     "COMPONENT_CI_NE_INTEGRATION_PASS": true,
@@ -64,5 +68,5 @@
     "CI_GREEN_NE_LAUNCH_PASS": true
   },
   "promotion_rule": "ISSUE_162 may become RUNNABLE only when every required gate is PASS on this exact compatible Genesis+Swarm+Cloud-HOME view. Offline personal hardware is never a launch blocker.",
-  "current_launch_verdict": "HOLD_REAL_44_PRIVATE_CLOUD_AUTH_AND_FULL_CLOSED_LOOP_GAUNTLET"
+  "current_launch_verdict": "HOLD_REAL_44_FULL_MATERIALIZATION_AND_FULL_CLOSED_LOOP_GAUNTLET"
 }
