@@ -19,8 +19,9 @@ env:
   EXPECTED_GENESIS_BASE: 43588fc41870e78493221ccb2b69959709c245dc
   SWARM_HEAD: 51e3d031fd729ff215b934f954b06625272376d0
   DEMIHEAD_HEAD: e287e62fc41d473c2add3eded92d3d163365b9dc
-  CLOUD_HOME_STATE_COMMIT: d840d9814e013dbb73d632764dc0b758e9206b3c
+  CLOUD_HOME_STATE_COMMIT: c23f1d83ba55009ea11e7f2312f9d8ddd195a902
   CLOUD_HOME_RECEIPT_SHA256: 956aa961eccec9d7b01c055b33fb08a75f4201357df16770007b74c85d4fc335
+  PRIVATE_AUTH_RECEIPT: state/habitat_cloud_home/private_auth/PRIVATE_CLOUD_AUTH_OPAQUE_RECEIPT-2026-09-28.json
   OLLAMA_INSTALL_URL: https://github.com/ollama/ollama/releases/download/v0.30.8/ollama-linux-amd64.tar.zst
   OLLAMA_INSTALL_SHA256: ffe2b2c2f2f5f5b30c081ec353c2e0bb2d9ead516064a8e22663b24b8fd8dca0
   RESIDENT_MODEL: qwen2.5:0.5b-instruct-q4_K_M
@@ -249,12 +250,12 @@ jobs:
           ref: ${{ env.CLOUD_HOME_STATE_COMMIT }}
           persist-credentials: false
           fetch-depth: 1
-      - name: Verify state and receipt bind to frozen Genesis base without PC
+      - name: Verify state, private cloud auth, and receipt bind without PC
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import hashlib, json, os
+          import hashlib, json, os, re
           from pathlib import Path
           state=json.loads(Path('state/habitat_cloud_home/STATE.json').read_text())
           assert state['status']=='CLOUD_HOME_ACTIVE'
@@ -284,8 +285,44 @@ jobs:
           assert r['source_writeback_observed'] is False
           assert r['destructive_action'] is False
           assert r['authority_delta']==0
+
+          p=json.loads(Path(os.environ['PRIVATE_AUTH_RECEIPT']).read_text())
+          assert p['status']=='PASS_PRIVATE_CLOUD_AUTH_AND_GIT_OBJECT_READ'
+          assert p['executor_class']=='MANAGED_GITHUB_APP_INSTALLATION_CONNECTION'
+          assert p['execution_location']=='CLOUD_CONNECTOR'
+          assert p['private_slots_expected']==p['private_slots_authenticated']==3
+          assert p['exact_branch_head_read'] is True
+          assert p['exact_root_tree_object_read'] is True
+          assert p['full_private_materialization_run'] is False
+          assert p['private_repository_names_disclosed'] is False
+          assert p['private_repository_urls_disclosed'] is False
+          assert p['credential_material_persisted'] is False
+          assert p['pc_used'] is False
+          assert p['remote_desktop_used'] is False
+          assert p['nas_used'] is False
+          assert p['lan_dependency'] is False
+          assert p['source_writeback_observed'] is False
+          assert p['destructive_action'] is False
+          assert p['authority_delta']==0
+          sources=p['opaque_sources']
+          assert len(sources)==3
+          assert len({x['repository_id'] for x in sources})==3
+          for x in sources:
+              assert x['visibility']=='private'
+              assert x['branch']=='main'
+              assert re.fullmatch(r'[0-9]{1,32}', x['repository_id'])
+              assert re.fullmatch(r'[0-9a-f]{40}', x['sha'])
+              assert re.fullmatch(r'[0-9a-f]{40}', x['tree_sha'])
+              assert 'repository' not in x and 'url' not in x
+          assert p['promotion']['PRIVATE_CLOUD_AUTH']=='PASS'
+          assert p['promotion']['PRIVATE_EXACT_HEAD_PINNING']=='PASS'
+          assert p['promotion']['PRIVATE_ROOT_TREE_OBJECT_ACCESS']=='PASS'
+          assert p['promotion']['REAL_44_FULL_MATERIALIZATION']=='NOT_YET_RUN'
           print('CLOUD_HOME_DURABLE_RECONSTRUCTION=PASS')
           print('CLEAN_CLOUD_WORKER_CHAIN=PASS')
+          print('PRIVATE_CLOUD_AUTH_AND_EXACT_PINNING=PASS')
+          print('PRIVATE_REPOSITORY_NAMES_DISCLOSED=FALSE')
+          print('CREDENTIAL_MATERIAL_PERSISTED=FALSE')
           print('PC_DEPENDENCY_OBSERVED=FALSE')
           print('REMOTE_DESKTOP_DEPENDENCY_OBSERVED=FALSE')
           print('NAS_DEPENDENCY_OBSERVED=FALSE')
@@ -385,26 +422,27 @@ jobs:
             "schema":"janus.habitat_nexus.cloud_current_head_integration_receipt.v3",
             "genesis_base":"43588fc41870e78493221ccb2b69959709c245dc",
             "swarm_head":"51e3d031fd729ff215b934f954b06625272376d0",
-            "cloud_home_state_commit":"d840d9814e013dbb73d632764dc0b758e9206b3c",
-            "same_view":{"preservation_lineage_handoff":"PASS","typed_federation_44_of_44":"PASS","exclusive_lease":"PASS","session_drop_recovery":"PASS","exactly_once_handoff":"PASS","resident_real_cloud_model_call":"PASS","resident_identity_continuity":"PASS","cloud_home_durable_reconstruction":"PASS"},
+            "cloud_home_state_commit":"c23f1d83ba55009ea11e7f2312f9d8ddd195a902",
+            "same_view":{"preservation_lineage_handoff":"PASS","typed_federation_44_of_44":"PASS","exclusive_lease":"PASS","session_drop_recovery":"PASS","exactly_once_handoff":"PASS","resident_real_cloud_model_call":"PASS","resident_identity_continuity":"PASS","cloud_home_durable_reconstruction":"PASS","private_cloud_auth_exact_pinning":"PASS"},
             "hardware_dependency":{"personal_computer":false,"remote_desktop":false,"nas":false,"lan":false,"process_uptime":false},
-            "remaining":{"real_owner_44_source_replay":"HOLD_PRIVATE_CLOUD_AUTH_REQUIRED","full_issue_162_closed_loop_gauntlet":"HOLD_NOT_YET_EXECUTED_ON_THIS_V3_VIEW"},
+            "remaining":{"real_owner_44_source_replay":"HOLD_FULL_44_MATERIALIZATION_REQUIRED","full_issue_162_closed_loop_gauntlet":"HOLD_NOT_YET_EXECUTED_ON_THIS_V3_VIEW"},
             "issue_162_runnable":false,
             "full_issue_162_acceptance":false,
             "source_writeback_default":"DENY",
             "destructive_action":"FORBIDDEN",
             "history_rewrite":false,
             "authority_delta":0,
-            "claim_ceiling":"PC_INDEPENDENT_CLOUD_INTEGRATION_VIEW_PASS_NE_FULL_ISSUE_162_PASS"
+            "claim_ceiling":"PC_INDEPENDENT_CLOUD_INTEGRATION_PLUS_PRIVATE_AUTH_PASS_NE_FULL_44_MATERIALIZATION_NE_FULL_ISSUE_162_PASS"
           }
           EOF
           python -m json.tool /tmp/JANUS-HABITAT-NEXUS-CLOUD-CURRENT-HEAD-INTEGRATION-RECEIPT-v3.json >/dev/null
           echo 'CLOUD_CURRENT_HEAD_SOFTWARE_INTEGRATION_VIEW=PASS'
+          echo 'PRIVATE_CLOUD_AUTH_AND_EXACT_PINNING=PASS'
           echo 'PC_DEPENDENCY_OBSERVED=FALSE'
           echo 'REMOTE_DESKTOP_DEPENDENCY_OBSERVED=FALSE'
           echo 'NAS_DEPENDENCY_OBSERVED=FALSE'
           echo 'ISSUE_162_RUNNABLE=FALSE'
-          echo 'LAUNCH_GATE=HOLD_REAL_44_PRIVATE_CLOUD_AUTH_AND_FULL_CLOSED_LOOP_GAUNTLET'
+          echo 'LAUNCH_GATE=HOLD_REAL_44_FULL_MATERIALIZATION_AND_FULL_CLOSED_LOOP_GAUNTLET'
       - uses: actions/upload-artifact@v4
         with:
           name: janus-habitat-nexus-cloud-current-head-v3-integration-receipt-${{ github.run_id }}
