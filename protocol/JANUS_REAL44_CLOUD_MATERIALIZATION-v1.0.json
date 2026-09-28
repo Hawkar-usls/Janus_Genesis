@@ -1,0 +1,70 @@
+{
+  "schema": "JANUS_REAL44_CLOUD_MATERIALIZATION_V1",
+  "status": "CANDIDATE_FAIL_CLOSED",
+  "source_constellation": "41_PUBLIC_PLUS_3_PRIVATE_OPAQUE",
+  "source_count_required": 44,
+  "canonical_materializer_head": "dc8e96ba1c0417afa5ce9785b10e60e68a043629",
+  "canonical_role_audit_head": "5627d31a992bcdc71dcc7351cba2c515dac89a2c",
+  "execution": {
+    "substrate": "GITHUB_HOSTED_CLOUD_WORKERS",
+    "personal_computer_required": false,
+    "remote_desktop_required": false,
+    "nas_required": false,
+    "lan_required": false,
+    "source_code_execution": false,
+    "source_writeback": false,
+    "history_rewrite": false,
+    "authority_delta": 0
+  },
+  "credential": {
+    "actions_secret_name": "JANUS_NEXUS_PRIVATE_READ_TOKEN",
+    "required_scope": "READ_ONLY_CONTENTS_AND_METADATA_FOR_EXACTLY_THE_THREE_PRIVATE_OPAQUE_SOURCE_REPOSITORIES",
+    "missing_result": "HOLD_CLOUD_PRIVATE_READ_CREDENTIAL",
+    "credential_material_persisted": false,
+    "credential_material_logged": false,
+    "pc_fallback": false
+  },
+  "acquisition": {
+    "public_sources": "SHALLOW_FULL_TREE_GIT_CLONE_NO_PARTIAL_FILTER",
+    "private_sources": "OPAQUE_REPOSITORY_ID_RESOLVED_IN_MEMORY_THEN_READ_ONLY_GIT_CLONE",
+    "source_root_layout": "<sources_root>/<repository_id>",
+    "exact_pin_source": "OBSERVED_GIT_HEAD_OF_FROZEN_ACQUISITION",
+    "remote_removed_before_materializer": true,
+    "private_names_written_to_manifest": false,
+    "private_urls_written_to_manifest": false
+  },
+  "replay": {
+    "worker_a": "FRESH_FREEZE_PLUS_MATERIALIZE_VERIFY",
+    "worker_b": "INDEPENDENT_REACQUIRE_FROZEN_PINS_PLUS_MATERIALIZE_VERIFY",
+    "encrypted_interworker_payload": "FROZEN_MANIFEST_PLUS_WORKER_A_NEXUS_DIGEST",
+    "encryption_key_source": "READ_ONLY_PRIVATE_TOKEN_IN_MEMORY",
+    "clear_private_manifest_artifact": false,
+    "two_rebuilds_must_match": true,
+    "source_head_drift": "HOLD_SOURCE_HEAD_DRIFT"
+  },
+  "public_projection": {
+    "private_repository_names": false,
+    "private_repository_urls": false,
+    "private_exact_pins": false,
+    "private_tree_values": false,
+    "private_file_paths": false,
+    "private_file_digests": false,
+    "private_local_pinset_digest": false,
+    "clear_nexus_digest": false,
+    "allowed": [
+      "source_count",
+      "public_count",
+      "private_count",
+      "two_clean_rebuilds_match_boolean",
+      "materializer_verify_boolean",
+      "source_writeback_false",
+      "source_code_execution_false",
+      "pc_dependency_false",
+      "credential_gate_status"
+    ]
+  },
+  "pass_gate": {
+    "REAL_44_FULL_MATERIALIZATION": "PASS_ONLY_IF_BOTH_CLEAN_WORKERS_MATERIALIZE_AND_VERIFY_ALL_44_AND_PRIVATE_PUBLIC_PROJECTION_REMAINS_OPAQUE",
+    "ISSUE_162_FULL_ACCEPTANCE": "NOT_IMPLIED"
+  }
+}
