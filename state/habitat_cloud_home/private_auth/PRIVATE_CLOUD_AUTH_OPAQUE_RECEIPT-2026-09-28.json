@@ -1,0 +1,57 @@
+{
+  "schema": "JANUS_HABITAT_PRIVATE_CLOUD_AUTH_OPAQUE_RECEIPT_V1",
+  "status": "PASS_PRIVATE_CLOUD_AUTH_AND_GIT_OBJECT_READ",
+  "executor_class": "MANAGED_GITHUB_APP_INSTALLATION_CONNECTION",
+  "execution_location": "CLOUD_CONNECTOR",
+  "private_slots_expected": 3,
+  "private_slots_authenticated": 3,
+  "exact_branch_head_read": true,
+  "exact_root_tree_object_read": true,
+  "full_private_materialization_run": false,
+  "private_repository_names_disclosed": false,
+  "private_repository_urls_disclosed": false,
+  "credential_material_persisted": false,
+  "pc_used": false,
+  "remote_desktop_used": false,
+  "nas_used": false,
+  "lan_dependency": false,
+  "source_writeback_observed": false,
+  "destructive_action": false,
+  "authority_delta": 0,
+  "opaque_sources": [
+    {
+      "repository_id": "1318874240",
+      "visibility": "private",
+      "branch": "main",
+      "sha": "d3e4f22053dec9f89c2b49512010716dd48a6e1c",
+      "tree_sha": "a8767c0b16e40ce291c954b97c96d71d9babb39b"
+    },
+    {
+      "repository_id": "1112728873",
+      "visibility": "private",
+      "branch": "main",
+      "sha": "e15251e63d238404060006517eb71711677c7170",
+      "tree_sha": "74bfbe8b10705d59eeaa7a4bbabba1e50753333e"
+    },
+    {
+      "repository_id": "1249671206",
+      "visibility": "private",
+      "branch": "main",
+      "sha": "4089e1bb61e73e66e306861fe283a4dd4fa05e90",
+      "tree_sha": "a6165285fa315182be54dc6e80ca0e899f9a2397"
+    }
+  ],
+  "commitment": {
+    "scheme": "SHA256_NONCE_PLUS_CANONICAL_PRIVATE_TUPLES",
+    "nonce": "8779efb750381e1917442f880ba751a5148bdc71d8dc91e01830b010324db217",
+    "sha256": "43f3684009503c8aea6b3847d409d00ccd54efc31f70fba39d0b266ea84c0a30"
+  },
+  "promotion": {
+    "PRIVATE_CLOUD_AUTH": "PASS",
+    "PRIVATE_EXACT_HEAD_PINNING": "PASS",
+    "PRIVATE_ROOT_TREE_OBJECT_ACCESS": "PASS",
+    "REAL_44_FULL_MATERIALIZATION": "NOT_YET_RUN",
+    "ISSUE_162_FULL_ACCEPTANCE": "NOT_YET_PASS"
+  },
+  "claim_ceiling": "This receipt proves PC-independent authenticated cloud read access and exact Git head/root-tree pinning for all three opaque private constellation slots. It does not claim that all private blob bytes were materialized, that the full 44-source Nexus was rebuilt, or that issue #162 is complete."
+}
