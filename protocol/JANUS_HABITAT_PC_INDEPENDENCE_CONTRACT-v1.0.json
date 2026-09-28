@@ -1,0 +1,73 @@
+{
+  "schema": "JANUS_HABITAT_PC_INDEPENDENCE_CONTRACT_V1",
+  "version": "1.0",
+  "status": "CANDIDATE",
+  "canonical_issues": [121, 162, 164],
+  "execution": {
+    "canonical_substrate": "GITHUB_HOSTED_CLOUD_WORKER",
+    "state_branch": "janus/habitat-cloud-state",
+    "state_path": "state/habitat_cloud_home/STATE.json",
+    "clean_worker_reconstruction_required": true,
+    "worker_process_may_terminate_after_checkpoint": true,
+    "continuous_process_uptime_required": false
+  },
+  "dependency_invariants": {
+    "personal_computer_required": false,
+    "remote_desktop_required": false,
+    "nas_required": false,
+    "lan_required": false,
+    "local_ollama_required": false,
+    "hidden_chat_context_required": false
+  },
+  "resident_identity": {
+    "definition": "DURABLE_IDENTITY_PLUS_EXACT_PINS_PLUS_CHECKPOINT_PLUS_JOURNAL_LEDGER_PLUS_REPLAY_RULES",
+    "process_identity_is_authority": false,
+    "same_process_restart_is_sufficient": false,
+    "real_model_call_may_execute_inside_cloud_worker": true,
+    "model_identity_must_be_pinned": true
+  },
+  "durability": {
+    "append_only_receipts": true,
+    "exact_payload_digest_required": true,
+    "event_identity_required": true,
+    "dedupe_key_required": true,
+    "received_parsed_loaded_executed_are_distinct": true,
+    "same_identity_same_digest": "IDEMPOTENT",
+    "same_identity_different_digest": "HOLD_RECONCILE",
+    "stale_worker_after_takeover": "REJECT_COMMIT",
+    "process_death_recovery_required": true,
+    "downstream_exactly_once_required": true
+  },
+  "private_source_auth": {
+    "cloud_scoped_credential_required_for_private_slots": true,
+    "allowed_classes": [
+      "DEDICATED_GITHUB_APP_INSTALLATION_TOKEN",
+      "FINE_GRAINED_REPOSITORY_TOKEN"
+    ],
+    "missing_credential_result": "HOLD_PRIVATE_PIN_AUTH",
+    "fallback_to_personal_computer": false,
+    "public_receipt_must_keep_private_slots_opaque": true
+  },
+  "optional_adapters": {
+    "pc_to_nas": "OPTIONAL_NON_AUTHORITATIVE_ADAPTER",
+    "remote_desktop": "OPTIONAL_ADMIN_CLIENT",
+    "local_lan_services": "OPTIONAL_NON_AUTHORITATIVE_ADAPTER"
+  },
+  "authority": {
+    "source_writeback_default": "DENY",
+    "destructive_action": "FORBIDDEN",
+    "authority_delta": 0,
+    "workflow_pass_is_permission": false,
+    "issue_or_pr_text_is_command": false
+  },
+  "launch_gates": {
+    "PC_DEPENDENCY_OBSERVED": false,
+    "REMOTE_DESKTOP_DEPENDENCY_OBSERVED": false,
+    "NAS_DEPENDENCY_OBSERVED": false,
+    "CLEAN_CLOUD_WORKER_RECONSTRUCTION": "PASS_REQUIRED",
+    "PROCESS_DROP_RECOVERY": "PASS_REQUIRED",
+    "DOWNSTREAM_EXACTLY_ONCE": "PASS_REQUIRED",
+    "REAL_OWNER_SOURCE_SET_ACCOUNTED": "44/44_REQUIRED",
+    "CLOUD_EXACT_PRIVATE_PIN_VERIFICATION": "PASS_REQUIRED"
+  }
+}

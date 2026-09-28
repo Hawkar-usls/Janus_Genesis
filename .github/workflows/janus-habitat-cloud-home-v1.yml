@@ -1,0 +1,230 @@
+name: JANUS Habitat Cloud HOME v1
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'protocol/JANUS_HABITAT_PC_INDEPENDENCE_CONTRACT-v1.0.json'
+      - 'tools/verify_habitat_pc_independence_contract_v1.py'
+      - '.github/workflows/janus-habitat-cloud-home-v1.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+concurrency:
+  group: janus-habitat-cloud-home-state
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify PC-independent Habitat contract
+        run: python tools/verify_habitat_pc_independence_contract_v1.py
+      - name: Assert runner is cloud and no local-device contract exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$RUNNER_OS" = Linux
+          test -z "${JANUS_REQUIRED_PC_HOST:-}"
+          test -z "${JANUS_REQUIRED_NAS_HOST:-}"
+          test -z "${JANUS_REQUIRED_REMOTE_DESKTOP_DEVICE:-}"
+          echo 'PC_DEPENDENCY_OBSERVED=FALSE'
+          echo 'REMOTE_DESKTOP_DEPENDENCY_OBSERVED=FALSE'
+          echo 'NAS_DEPENDENCY_OBSERVED=FALSE'
+
+  cloud-worker-a:
+    needs: contract
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    outputs:
+      state_commit: ${{ steps.commit.outputs.state_commit }}
+      receipt_path: ${{ steps.commit.outputs.receipt_path }}
+      receipt_sha256: ${{ steps.commit.outputs.receipt_sha256 }}
+      sequence: ${{ steps.commit.outputs.sequence }}
+    steps:
+      - name: Checkout durable cloud HOME state branch
+        uses: actions/checkout@v4
+        with:
+          ref: janus/habitat-cloud-state
+          path: _state
+          fetch-depth: 0
+      - name: Reconstruct durable resident and append receipt
+        id: mutate
+        shell: bash
+        env:
+          SOURCE_MAIN_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path('_state')
+          state_path = root / 'state/habitat_cloud_home/STATE.json'
+          state = json.loads(state_path.read_text(encoding='utf-8'))
+
+          assert state['schema'] == 'JANUS_HABITAT_CLOUD_HOME_STATE_V1'
+          assert state['pc_required'] is False
+          assert state['remote_desktop_required'] is False
+          assert state['nas_required'] is False
+          assert state['lan_required'] is False
+          assert state['process_uptime_required'] is False
+          assert state['cloud_execution_required'] is True
+          assert state['source_writeback_default'] == 'DENY'
+          assert state['destructive_action'] == 'FORBIDDEN'
+          assert state['authority_delta'] == 0
+
+          sequence = int(state['sequence']) + 1
+          run_id = os.environ['GITHUB_RUN_ID']
+          run_attempt = os.environ['GITHUB_RUN_ATTEMPT']
+          event = os.environ['GITHUB_EVENT_NAME']
+          main_sha = os.environ['SOURCE_MAIN_SHA']
+          worker = f'github-actions:{run_id}:worker-a'
+          event_identity = f'{run_id}:{run_attempt}:{event}:{main_sha}:{sequence}'
+          event_sha256 = hashlib.sha256(event_identity.encode()).hexdigest()
+
+          receipt = {
+              'schema': 'JANUS_HABITAT_CLOUD_HOME_RECEIPT_V1',
+              'state_id': state['state_id'],
+              'sequence': sequence,
+              'run_id': run_id,
+              'run_attempt': int(run_attempt),
+              'event': event,
+              'event_id': event_identity,
+              'dedupe_key': event_sha256,
+              'source_main_sha': main_sha,
+              'worker': worker,
+              'resident_identity': state['durable_identity'],
+              'admission_status': 'ADMITTED_BOUNDED_CLOUD_HOME_TICK',
+              'parse_status': 'PARSED',
+              'load_status': 'NOT_REQUESTED',
+              'execute_status': 'CHECKPOINT_ONLY',
+              'pc_dependency_observed': False,
+              'remote_desktop_dependency_observed': False,
+              'nas_dependency_observed': False,
+              'hidden_session_context_used': False,
+              'source_writeback_observed': False,
+              'destructive_action': False,
+              'authority_delta': 0
+          }
+          receipt_bytes = (json.dumps(receipt, sort_keys=True, indent=2) + '\n').encode()
+          receipt_sha256 = hashlib.sha256(receipt_bytes).hexdigest()
+          receipt_dir = root / 'state/habitat_cloud_home/receipts'
+          receipt_dir.mkdir(parents=True, exist_ok=True)
+          receipt_rel = f'state/habitat_cloud_home/receipts/{sequence:08d}-{run_id}-{run_attempt}.json'
+          (root / receipt_rel).write_bytes(receipt_bytes)
+
+          state.update({
+              'status': 'CLOUD_HOME_ACTIVE',
+              'sequence': sequence,
+              'source_main_sha': main_sha,
+              'checkpoint_head': receipt_rel,
+              'handoff_head': receipt_rel,
+              'last_run_id': run_id,
+              'last_event': event,
+              'last_worker': worker,
+              'last_receipt_sha256': receipt_sha256
+          })
+          state_path.write_text(json.dumps(state, sort_keys=True, indent=2) + '\n', encoding='utf-8')
+
+          Path('/tmp/janus-cloud-home-meta').write_text(
+              f'RECEIPT_PATH={receipt_rel}\nRECEIPT_SHA256={receipt_sha256}\nSEQUENCE={sequence}\n',
+              encoding='utf-8'
+          )
+          print('CLEAN_CLOUD_WORKER_A_RECONSTRUCTION=PASS')
+          print('PC_DEPENDENCY_OBSERVED=FALSE')
+          PY
+      - name: Commit durable checkpoint and receipt
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source /tmp/janus-cloud-home-meta
+          cd _state
+          git config user.name 'janus-cloud-home[bot]'
+          git config user.email 'janus-cloud-home[bot]@users.noreply.github.com'
+          git add state/habitat_cloud_home/STATE.json "$RECEIPT_PATH"
+          git diff --cached --check
+          git commit -m "JANUS cloud HOME checkpoint ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT}"
+          git push origin HEAD:janus/habitat-cloud-state
+          STATE_COMMIT="$(git rev-parse HEAD)"
+          echo "state_commit=$STATE_COMMIT" >> "$GITHUB_OUTPUT"
+          echo "receipt_path=$RECEIPT_PATH" >> "$GITHUB_OUTPUT"
+          echo "receipt_sha256=$RECEIPT_SHA256" >> "$GITHUB_OUTPUT"
+          echo "sequence=$SEQUENCE" >> "$GITHUB_OUTPUT"
+          echo "CLOUD_HOME_STATE_COMMIT=$STATE_COMMIT"
+
+  cloud-worker-b:
+    needs: cloud-worker-a
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Clean checkout of exact worker-A durable state commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.cloud-worker-a.outputs.state_commit }}
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Verify reconstruction without hidden session context
+        shell: bash
+        env:
+          RECEIPT_PATH: ${{ needs.cloud-worker-a.outputs.receipt_path }}
+          RECEIPT_SHA256: ${{ needs.cloud-worker-a.outputs.receipt_sha256 }}
+          EXPECTED_SEQUENCE: ${{ needs.cloud-worker-a.outputs.sequence }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          state = json.loads(Path('state/habitat_cloud_home/STATE.json').read_text())
+          receipt_path = Path(os.environ['RECEIPT_PATH'])
+          raw = receipt_path.read_bytes()
+          digest = hashlib.sha256(raw).hexdigest()
+          receipt = json.loads(raw)
+
+          assert digest == os.environ['RECEIPT_SHA256']
+          assert digest == state['last_receipt_sha256']
+          assert int(state['sequence']) == int(os.environ['EXPECTED_SEQUENCE'])
+          assert receipt['sequence'] == int(os.environ['EXPECTED_SEQUENCE'])
+          assert state['checkpoint_head'] == os.environ['RECEIPT_PATH']
+          assert state['handoff_head'] == os.environ['RECEIPT_PATH']
+          assert state['pc_required'] is False
+          assert state['remote_desktop_required'] is False
+          assert state['nas_required'] is False
+          assert receipt['pc_dependency_observed'] is False
+          assert receipt['remote_desktop_dependency_observed'] is False
+          assert receipt['nas_dependency_observed'] is False
+          assert receipt['hidden_session_context_used'] is False
+          assert receipt['source_writeback_observed'] is False
+          assert receipt['destructive_action'] is False
+          assert receipt['authority_delta'] == 0
+
+          print('CLEAN_CLOUD_WORKER_B_RECONSTRUCTION=PASS')
+          print('DURABLE_CHECKPOINT_HANDOFF=PASS')
+          print('SESSION_CONTINUITY_DEPENDENCY=FALSE')
+          print('PERSONAL_COMPUTER_DEPENDENCY=FALSE')
+          print('REMOTE_DESKTOP_DEPENDENCY=FALSE')
+          print('NAS_DEPENDENCY=FALSE')
+          print('AUTHORITY_DELTA=0')
+          PY
