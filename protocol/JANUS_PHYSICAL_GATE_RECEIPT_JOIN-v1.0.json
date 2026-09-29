@@ -1,0 +1,69 @@
+{
+  "schema": "JANUS_PHYSICAL_GATE_RECEIPT_JOIN_PROTOCOL_V1",
+  "version": "1.1",
+  "purpose": "Join only privacy-safe public projections of the two remaining physical launch gates before the final #162 one-compatible-view gauntlet.",
+  "authority": {
+    "SOURCE_WRITEBACK_DEFAULT": "DENY",
+    "DESTRUCTIVE_ACTION": "FORBIDDEN",
+    "AUTHORITY_DELTA": 0,
+    "CI_GREEN_IS_NOT_MERGE_PERMISSION": true,
+    "OLD_PASS_IS_NOT_NEW_SHA_PASS": true
+  },
+  "inputs": {
+    "owner44": {
+      "kind": "JANUS_OWNER44_PUBLIC_PHYSICAL_RECEIPT_V1",
+      "required": [
+        "REAL_OWNER_SOURCE_SET_ACCOUNTED=44/44",
+        "LOCAL_EXACT_PRIVATE_PIN_VERIFICATION=true",
+        "PUBLIC_PRIVATE_EXACT_PIN_DISCLOSURE=false",
+        "TWO_CLEAN_TARGET_REBUILDS_MATCH=true",
+        "SOURCE_WRITEBACK_OBSERVED=false",
+        "DESTRUCTIVE_ACTION_REQUIRED=false",
+        "AUTHORITY_DELTA=0"
+      ],
+      "privacy": "Strict public projection only. Private repository identities, private exact pins, sensitive local paths and private-history digests are not accepted fields."
+    },
+    "nas164": {
+      "kind": "JANUS_NAS164_PUBLIC_LIVE_RECEIPT_V1",
+      "required": [
+        "identity_probe=PASS",
+        "hr1_hr10_live_execution=true",
+        "reference_only=false",
+        "HR1..HR10=PASS",
+        "HR11_SOURCE_WRITEBACK_OBSERVED=false",
+        "HR12_DESTRUCTIVE_ACTION_REQUIRED=false",
+        "HR13_AUTHORITY_DELTA=0"
+      ],
+      "claim_rule": "Reference CI cannot satisfy this input."
+    }
+  },
+  "same_view_binding": {
+    "required_fields": [
+      "genesis_main_sha",
+      "swarm_main_sha"
+    ],
+    "rule": "Both public projections must bind to the exact same expected Genesis and Swarm main SHAs. Any drift fails closed."
+  },
+  "trusted_receipt_bindings": {
+    "status": "PENDING_REAL_EXECUTION",
+    "binding_source": "SOURCE_CONTROLLED_PROTOCOL_ONLY",
+    "owner44": {
+      "projection_sha256": null,
+      "evidence_sha256": null,
+      "execution_id": null,
+      "producer": null
+    },
+    "nas164": {
+      "projection_sha256": null,
+      "evidence_sha256": null,
+      "execution_id": null,
+      "producer": null
+    }
+  },
+  "authentication_rule": "READY_FOR_FINAL_162_GAUNTLET is forbidden until exact public projection digests and underlying execution-evidence digests from real owner44 and NAS164 runs are pinned here in source control. The CLI exposes no trust-binding override.",
+  "output": {
+    "positive_marker": "READY_FOR_FINAL_162_GAUNTLET=true",
+    "mandatory_claim_ceiling": "FULL_ISSUE_162_ACCEPTANCE=false",
+    "next_step": "After both real runs, pin their projection/evidence digests in this protocol, review that commit, then run the authenticated join and the final closed-loop #162 gauntlet on one frozen compatible view."
+  }
+}
