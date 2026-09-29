@@ -61,8 +61,10 @@ jobs:
         run: |
           mkdir -p runtime
           python - <<'PY'
+          import hashlib
           import json
           import re
+          from collections import defaultdict
           from pathlib import Path
 
           root = Path('habitat-repo/habitat')
@@ -75,25 +77,91 @@ jobs:
               cleaned = re.sub(r'[^A-Za-z0-9._-]+', '_', str(value).strip())
               return cleaned[:120] or 'request'
 
-          queued = []
+          def raw_id_sha256(value):
+              return hashlib.sha256(str(value).encode('utf-8')).hexdigest()
+
+          by_safe_id = defaultdict(list)
+          malformed = []
+          collisions = []
           for path in sorted(inbox.glob('*.json')):
               try:
                   obj = json.loads(path.read_text(encoding='utf-8'))
-              except Exception:
+                  if not isinstance(obj, dict):
+                      raise TypeError('REQUEST_ROOT_NOT_OBJECT')
+              except Exception as exc:
+                  malformed.append({'path': str(path), 'reason': f'INVALID_REQUEST:{type(exc).__name__}:{exc}'})
                   continue
               if obj.get('status') != 'QUEUED':
                   continue
-              rid = safe_id(obj.get('request_id') or path.stem)
-              if (outbox / f'{rid}.json').exists():
-                  continue
-              queued.append(str(path))
-              if len(queued) >= 4:
-                  break
 
-          Path('runtime/requests.txt').write_text('\n'.join(queued) + ('\n' if queued else ''), encoding='utf-8')
-          print(f'SCOUT_QUEUED_REQUESTS={len(queued)}')
+              raw_id = str(obj.get('request_id') or path.stem)
+              rid = safe_id(raw_id)
+              rid_sha = raw_id_sha256(raw_id)
+              existing_path = outbox / f'{rid}.json'
+              if existing_path.exists():
+                  try:
+                      existing = json.loads(existing_path.read_text(encoding='utf-8'))
+                  except Exception as exc:
+                      collisions.append({
+                          'safe_id': rid,
+                          'path': str(path),
+                          'existing_receipt': str(existing_path),
+                          'reason': f'EXISTING_RECEIPT_UNREADABLE:{type(exc).__name__}',
+                      })
+                      continue
+                  identity = existing.get('request_identity') if isinstance(existing, dict) else None
+                  prior_sha = identity.get('raw_id_sha256') if isinstance(identity, dict) else None
+                  if prior_sha == rid_sha:
+                      continue
+                  # Legacy receipts did not retain a raw-ID digest. Only the exact
+                  # already-normalized spelling can safely be treated as the same
+                  # identity; every lossy normalization is ambiguous and rejected.
+                  if prior_sha is None and raw_id == rid and isinstance(existing, dict) and existing.get('request_id') == rid:
+                      continue
+                  collisions.append({
+                      'safe_id': rid,
+                      'path': str(path),
+                      'existing_receipt': str(existing_path),
+                      'new_raw_id_sha256': rid_sha,
+                      'existing_raw_id_sha256': prior_sha,
+                      'reason': 'NORMALIZED_ID_COLLIDES_WITH_EXISTING_RECEIPT',
+                  })
+                  continue
+
+              by_safe_id[rid].append({
+                  'path': str(path),
+                  'safe_id': rid,
+                  'raw_id_sha256': rid_sha,
+              })
+
+          eligible = []
+          for rid in sorted(by_safe_id):
+              rows = by_safe_id[rid]
+              if len(rows) != 1:
+                  collisions.append({
+                      'safe_id': rid,
+                      'paths': [row['path'] for row in rows],
+                      'raw_id_sha256s': sorted(row['raw_id_sha256'] for row in rows),
+                      'reason': 'NORMALIZED_REQUEST_ID_COLLISION',
+                  })
+                  continue
+              eligible.append(rows[0])
+
+          selected = eligible[:4]
+          manifest = Path('runtime/requests.jsonl')
+          manifest.write_text(
+              ''.join(json.dumps(row, sort_keys=True) + '\n' for row in selected),
+              encoding='utf-8',
+          )
+          rejections = {'malformed_json_or_schema': malformed, 'normalized_id_collisions': collisions}
+          Path('runtime/discovery_rejections.json').write_text(
+              json.dumps(rejections, sort_keys=True, indent=2) + '\n', encoding='utf-8'
+          )
+          print(f'SCOUT_QUEUED_REQUESTS={len(selected)}')
+          print(f'SCOUT_DISCOVERY_COLLISIONS={len(collisions)}')
+          print(f'SCOUT_DISCOVERY_MALFORMED_OR_SCHEMA_INVALID={len(malformed)}')
           PY
-          COUNT=$(grep -c . runtime/requests.txt || true)
+          COUNT=$(grep -c . runtime/requests.jsonl || true)
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
 
       - name: Run Scout against queued Habitat requests
@@ -103,33 +171,80 @@ jobs:
           COPILOT_AUTO_UPDATE: 'false'
         shell: bash
         run: |
-          while IFS= read -r REQUEST; do
-            [ -n "$REQUEST" ] || continue
-            python control/tools/habitat_scout_agent.py \
-              --habitat-root habitat-repo/habitat \
-              --request "$REQUEST"
-          done < runtime/requests.txt
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          failures = []
+          for line in Path('runtime/requests.jsonl').read_text(encoding='utf-8').splitlines():
+              if not line.strip():
+                  continue
+              item = json.loads(line)
+              proc = subprocess.run([
+                  'python', 'control/tools/habitat_scout_agent.py',
+                  '--habitat-root', 'habitat-repo/habitat',
+                  '--request', item['path'],
+              ], check=False)
+              if proc.returncode != 0:
+                  failures.append({'safe_id': item['safe_id'], 'path': item['path'], 'returncode': proc.returncode})
+          Path('runtime/process_failures.json').write_text(
+              json.dumps(failures, sort_keys=True, indent=2) + '\n', encoding='utf-8'
+          )
+          print(f'SCOUT_PROCESS_FAILURES={len(failures)}')
+          PY
+
+      - name: Bind collision-resistant request identity to emitted receipts
+        if: steps.discover.outputs.count != '0'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          outbox = Path('habitat-repo/habitat/outbox/scout')
+          for line in Path('runtime/requests.jsonl').read_text(encoding='utf-8').splitlines():
+              if not line.strip():
+                  continue
+              item = json.loads(line)
+              rid = item['safe_id']
+              path = outbox / f'{rid}.json'
+              response = json.loads(path.read_text(encoding='utf-8'))
+              if response.get('request_id') != rid:
+                  raise RuntimeError(f'REQUEST_IDENTITY_MISMATCH:{rid}')
+              response['request_identity'] = {
+                  'normalized_id': rid,
+                  'raw_id_sha256': item['raw_id_sha256'],
+                  'raw_id_persisted': False,
+                  'binding_source': 'DISCOVERY_MANIFEST_EXACT_REQUEST_BYTES_IDENTITY',
+              }
+              path.write_text(json.dumps(response, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print('SCOUT_REQUEST_IDENTITY_BINDING=PASS')
+          PY
 
       - name: Verify fail-closed Scout receipts
         if: steps.discover.outputs.count != '0'
         run: |
           python - <<'PY'
           import json
-          import re
           from pathlib import Path
 
           outbox = Path('habitat-repo/habitat/outbox/scout')
           checked = 0
-          for request_path in Path('runtime/requests.txt').read_text(encoding='utf-8').splitlines():
-              req = json.loads(Path(request_path).read_text(encoding='utf-8'))
-              rid = re.sub(r'[^A-Za-z0-9._-]+', '_', str(req['request_id']).strip())[:120]
+          for line in Path('runtime/requests.jsonl').read_text(encoding='utf-8').splitlines():
+              if not line.strip():
+                  continue
+              item = json.loads(line)
+              rid = item['safe_id']
               response = json.loads((outbox / f'{rid}.json').read_text(encoding='utf-8'))
+              assert response['request_id'] == rid, response
+              assert response['request_identity']['normalized_id'] == rid, response
+              assert response['request_identity']['raw_id_sha256'] == item['raw_id_sha256'], response
+              assert response['request_identity']['raw_id_persisted'] is False, response
               assert response['janus_token']['raw_token_persisted'] is False, response
               assert response['truth_boundary']['world_truth'] is False, response
               assert response['truth_boundary']['model_output_is_independent_confirmation'] is False, response
-              if response['lane'] in {'HYPOTHESIS', 'METAPHYSICAL_HYPOTHESIS', 'SYMBOLIC_MODEL'}:
-                  assert response['status'] != 'VERIFIED', response
-                  assert response['evidence_gate']['fact_allowed'] is False, response
+              assert response['status'] != 'VERIFIED', response
+              assert response['evidence_gate']['fact_allowed'] is False, response
               checked += 1
           assert checked > 0
           print(f'SCOUT_FAIL_CLOSED_RECEIPTS=PASS count={checked}')
