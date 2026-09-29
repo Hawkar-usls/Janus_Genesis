@@ -1,0 +1,33 @@
+{
+  "schema": "janus.cosmos.hst.replication_targets.v1",
+  "replication_id": "HST_FRACTALGPT_INDEPENDENT_R1_2026_08_30",
+  "frozen_before_first_probe": true,
+  "source_basis": "Fresh named-galaxy targets fixed after the M51/ANTENNAE/M87 candidate and before any HLA query or FractalGPT score on these targets. J2000 coordinates cross-checked against NASA/IPAC NED and CDS SIMBAD.",
+  "no_adaptive_replacement": true,
+  "targets": [
+    {
+      "object_id": "M81",
+      "ra": 148.88833333333332,
+      "dec": 69.06530555555555,
+      "size_px": 96,
+      "coordinate_source": "NASA/IPAC NED: 09:55:33.2 +69:03:55.1 J2000",
+      "expected_context": "fresh named galaxy replication target; context is not used by the scorer"
+    },
+    {
+      "object_id": "M104",
+      "ra": 189.99763274591666,
+      "dec": -11.623054494444444,
+      "size_px": 96,
+      "coordinate_source": "CDS SIMBAD: 12:39:59.43185902 -11:37:22.9961800 ICRS J2000",
+      "expected_context": "fresh named galaxy replication target; context is not used by the scorer"
+    },
+    {
+      "object_id": "NGC1300",
+      "ra": 49.921025924969996,
+      "dec": -19.41116321262,
+      "size_px": 96,
+      "coordinate_source": "CDS SIMBAD: 03:19:41.0462219928 -19:24:40.187565432 ICRS J2000",
+      "expected_context": "fresh named galaxy replication target; context is not used by the scorer"
+    }
+  ]
+}
