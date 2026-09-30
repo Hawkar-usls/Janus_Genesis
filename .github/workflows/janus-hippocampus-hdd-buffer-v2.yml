@@ -1,0 +1,87 @@
+name: JANUS Hippocampus HDD Buffer v2
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_hippocampus_hdd_buffer.py'
+      - 'tests/test_janus_hippocampus_hdd_buffer_v2.py'
+      - 'protocol/JANUS_HIPPOCAMPUS_HDD_BUFFER-v2.0.json'
+      - '.github/workflows/janus-hippocampus-hdd-buffer-v2.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'tools/janus_hippocampus_hdd_buffer.py'
+      - 'tests/test_janus_hippocampus_hdd_buffer_v2.py'
+      - 'protocol/JANUS_HIPPOCAMPUS_HDD_BUFFER-v2.0.json'
+      - '.github/workflows/janus-hippocampus-hdd-buffer-v2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile exact memory surface
+        run: |
+          python -m py_compile tools/janus_hippocampus_hdd_buffer.py
+          python -m py_compile tests/test_janus_hippocampus_hdd_buffer_v2.py
+      - name: Reject duplicate JSON contract keys
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          class DuplicateKey(ValueError):
+              pass
+
+          def unique_pairs(pairs):
+              out = {}
+              for key, value in pairs:
+                  if key in out:
+                      raise DuplicateKey(key)
+                  out[key] = value
+              return out
+
+          path = Path('protocol/JANUS_HIPPOCAMPUS_HDD_BUFFER-v2.0.json')
+          json.loads(path.read_text(encoding='utf-8'), object_pairs_hook=unique_pairs)
+          print('contract-json: PASS')
+          PY
+      - name: Enforce bounded effect inventory
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          path = Path('tools/janus_hippocampus_hdd_buffer.py')
+          tree = ast.parse(path.read_text(encoding='utf-8'))
+          forbidden_imports = {'aiohttp', 'requests', 'socket', 'subprocess'}
+          forbidden_calls = {
+              'remove', 'unlink', 'rmdir', 'removedirs', 'system', 'popen',
+              'run', 'call', 'check_call', 'check_output'
+          }
+          imported = set()
+          calls = []
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  imported.update(alias.name.split('.')[0] for alias in node.names)
+              elif isinstance(node, ast.ImportFrom) and node.module:
+                  imported.add(node.module.split('.')[0])
+              elif isinstance(node, ast.Call):
+                  func = node.func
+                  if isinstance(func, ast.Name):
+                      calls.append(func.id)
+                  elif isinstance(func, ast.Attribute):
+                      calls.append(func.attr)
+          assert not (imported & forbidden_imports), imported & forbidden_imports
+          assert not (set(calls) & forbidden_calls), set(calls) & forbidden_calls
+          print('effect-inventory: PASS')
+          PY
+      - name: Run adversarial memory regressions
+        run: python -m unittest -v tests.test_janus_hippocampus_hdd_buffer_v2
