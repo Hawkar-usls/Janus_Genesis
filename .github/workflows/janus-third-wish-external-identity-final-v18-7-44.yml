@@ -1,0 +1,93 @@
+name: JANUS Third Wish External Identity Final v18.7.44
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "tools/genesis_third_wish_external_identity_broker.py"
+      - "tools/genesis_third_wish_external_identity_recovery.py"
+      - "tools/genesis_third_wish_external_identity_final.py"
+      - "tests/test_genesis_third_wish_external_identity_broker.py"
+      - "tests/test_genesis_third_wish_external_identity_integrity.py"
+      - "tests/test_genesis_third_wish_external_identity_live.py"
+      - "protocol/JANUS_GENESIS_THIRD_WISH_EXTERNAL_IDENTITY_EFFECTS-v0.1.json"
+      - "protocol/JANUS_GENESIS_THIRD_WISH_IDENTITY_IS_LENT_NOT_TRANSFERRED-v1.0.json"
+      - ".github/workflows/janus-third-wish-external-identity-final-v18-7-44.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  final-external-identity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install runtime dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Compile final identity layers and validate protocols
+        run: |
+          python -m py_compile \
+            tools/genesis_third_wish_external_identity_broker.py \
+            tools/genesis_third_wish_external_identity_recovery.py \
+            tools/genesis_third_wish_external_identity_final.py \
+            tests/test_genesis_third_wish_external_identity_broker.py \
+            tests/test_genesis_third_wish_external_identity_integrity.py \
+            tests/test_genesis_third_wish_external_identity_live.py
+          python -m json.tool protocol/JANUS_GENESIS_THIRD_WISH_EXTERNAL_IDENTITY_EFFECTS-v0.1.json >/dev/null
+          python -m json.tool protocol/JANUS_GENESIS_THIRD_WISH_IDENTITY_IS_LENT_NOT_TRANSFERRED-v1.0.json >/dev/null
+
+      - name: Run final v18.7.44 identity gates and preserved Third Wish lineage
+        run: |
+          python -m unittest -v \
+            tests.test_genesis_third_wish_external_identity_broker \
+            tests.test_genesis_third_wish_external_identity_integrity \
+            tests.test_genesis_third_wish_external_identity_live \
+            tests.test_genesis_third_wish_sensor_model_schedule_broker \
+            tests.test_genesis_third_wish_memory_swarm_broker \
+            tests.test_genesis_v18_7_40_third_wish_capability_fabric \
+            tests.test_genesis_third_wish_github_broker \
+            tests.test_genesis_third_wish_host_broker
+
+      - name: Enforce final v18.7.44 custody and replay boundaries
+        run: |
+          python - <<'PY'
+          from tools.genesis_third_wish_external_identity_broker import EXTERNAL_IDENTITY_CLAIM_BOUNDARY
+          from tools.genesis_third_wish_external_identity_recovery import EXTERNAL_IDENTITY_RECOVERY_CLAIMS
+          from tools.genesis_third_wish_external_identity_final import EXTERNAL_IDENTITY_FINAL_CLAIMS
+
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['registered_protocol_capability_count'] == 4
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['raw_credential_visible_to_actor'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['credential_export_supported'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['identity_ownership_transferred'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['generic_http_post_authority_granted'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['generic_api_call_authority_granted'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['unknown_lookup_opens_retry'] is False
+          assert EXTERNAL_IDENTITY_RECOVERY_CLAIMS['full_local_effect_lifecycle_serialized'] is True
+          assert EXTERNAL_IDENTITY_RECOVERY_CLAIMS['provider_receipt_fields_allowlisted'] is True
+          assert EXTERNAL_IDENTITY_RECOVERY_CLAIMS['provider_receipt_can_return_raw_credential_field'] is False
+          assert EXTERNAL_IDENTITY_RECOVERY_CLAIMS['cross_host_exactly_once_claimed'] is False
+          assert EXTERNAL_IDENTITY_FINAL_CLAIMS['settled_local_receipt_revalidated_before_replay'] is True
+          assert EXTERNAL_IDENTITY_FINAL_CLAIMS['settled_actor_result_reconstructed_before_replay'] is True
+          assert EXTERNAL_IDENTITY_FINAL_CLAIMS['local_settled_store_tamper_trusted'] is False
+          assert EXTERNAL_IDENTITY_FINAL_CLAIMS['local_settled_store_tamper_is_pre_effect_rejection'] is True
+
+          print('THIRD_WISH_V1844_FINAL_REFERENCE=VerifiedReplayThirdWishExternalIdentityBroker')
+          print('THIRD_WISH_V1844_REGISTERED_PROTOCOL_CAPABILITIES=4')
+          print('IDENTITY_CUSTODY_TRANSFERRED=FALSE')
+          print('CREDENTIAL_EXPORT=FALSE')
+          print('PROVIDER_RECEIPT_SECRET_FIELD_ALLOWED=FALSE')
+          print('SETTLED_LOCAL_REPLAY_REVALIDATED=TRUE')
+          print('UNKNOWN_IDENTITY_EFFECT_AUTO_RETRY=FALSE')
+          print('CROSS_HOST_EXACTLY_ONCE_CLAIMED=FALSE')
+          print('REAL_EXTERNAL_ACCOUNT_EFFECT_FROM_CI=FALSE')
+          PY

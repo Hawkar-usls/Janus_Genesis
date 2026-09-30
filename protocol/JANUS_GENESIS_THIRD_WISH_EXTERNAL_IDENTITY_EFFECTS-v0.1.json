@@ -1,0 +1,111 @@
+{
+  "schema": "janus.genesis.third_wish.external_identity_effects.protocol.v0.1",
+  "version": "18.7.44",
+  "parent": {
+    "sensor_model_schedule_merge_commit": "39b82e7ffe3009f11d9533fc43272e52de16c353",
+    "historical_v18_7_40_core_rewritten": false,
+    "v18_7_41_host_broker_rewritten": false,
+    "v18_7_42_memory_swarm_rewritten": false,
+    "v18_7_43_sensor_model_schedule_rewritten": false
+  },
+  "registered_protocol_capabilities": [
+    "PUBLICATION.PUBLISH",
+    "EMAIL.SEND",
+    "CALENDAR.WRITE",
+    "BROKER.CREDENTIAL.USE"
+  ],
+  "authorization": {
+    "fresh_human_reauthorization_each_use": true,
+    "caller_boolean_is_authority": false,
+    "reauthorization_verified_by_v18_7_40_core_before_preflight": true,
+    "fresh_reauthorization_proves_prior_effect_did_not_occur": false
+  },
+  "identity_custody": {
+    "actor_selects_operator_registered_alias": true,
+    "actor_selects_raw_account_token": false,
+    "actor_selects_provider_endpoint": false,
+    "actor_selects_broker_credential_environment": false,
+    "raw_credential_visible_to_actor": false,
+    "credential_export_supported": false,
+    "identity_ownership_transferred": false,
+    "provider_receipt_fields_allowlisted": true,
+    "provider_receipt_raw_credential_field_allowed": false
+  },
+  "publication": {
+    "target_pattern": "publication-channel:<alias>",
+    "operation": "PUBLISH",
+    "actor_can_override_operator_identity": false,
+    "publication_proves_truth": false,
+    "publication_proves_operator_endorsement": false
+  },
+  "email": {
+    "target_pattern": "email-account:<alias>",
+    "operation": "SEND_EMAIL",
+    "actor_can_override_from_identity": false,
+    "provider_acceptance_proves_recipient_read": false,
+    "provider_acceptance_proves_recipient_consent": false
+  },
+  "calendar": {
+    "target_pattern": "calendar:<alias>",
+    "operation": "CREATE_EVENT",
+    "actor_can_override_calendar_identity": false,
+    "event_creation_proves_attendee_acceptance": false,
+    "event_creation_proves_attendance": false
+  },
+  "credential_use": {
+    "target_pattern": "credential-use:<alias>",
+    "operation": "USE_SCOPED_OPERATION",
+    "provider_operation_allowlist_required": true,
+    "generic_http_authority": false,
+    "generic_api_authority": false,
+    "credential_export": false,
+    "account_ownership_transfer": false
+  },
+  "effect_recovery": {
+    "durable_request_binding": true,
+    "effect_key_durable": true,
+    "states": ["BOUND", "EFFECT_ENTERING", "SETTLED"],
+    "full_local_effect_lifecycle_serialized": true,
+    "effect_entering_auto_retry": false,
+    "authoritative_settled_lookup_recovers_receipt": true,
+    "authoritative_no_effect_lookup_may_reopen_execution": true,
+    "reopened_execution_requires_new_call_fresh_reauthorization": true,
+    "unknown_lookup_opens_retry": false,
+    "non_authoritative_lookup_opens_retry": false,
+    "same_request_changed_effect_pre_effect_rejected": true,
+    "cross_host_exactly_once_claimed": false
+  },
+  "reference_ci": {
+    "uses_local_deterministic_identity_provider": true,
+    "uses_ephemeral_masked_bearer_credential": true,
+    "proves_http_provider_protocol": true,
+    "proves_real_external_account_effect": false,
+    "live_email_to_real_recipient": false,
+    "live_publication_to_real_channel": false,
+    "live_calendar_write_to_real_account": false
+  },
+  "core_distinctions": [
+    "IDENTITY CUSTODY != IDENTITY OWNERSHIP",
+    "CREDENTIAL USE != CREDENTIAL EXPORT",
+    "PUBLISH != TRUTH",
+    "PUBLISH != ENDORSEMENT PROOF",
+    "EMAIL PROVIDER ACCEPTANCE != RECIPIENT READ",
+    "EMAIL PROVIDER ACCEPTANCE != RECIPIENT CONSENT",
+    "CALENDAR WRITE != ATTENDANCE",
+    "FRESH REAUTH != DUPLICATE-SEND PERMISSION",
+    "UNKNOWN != NO_EFFECT",
+    "PROVIDER PROTOCOL PASS != REAL ACCOUNT EFFECT PASS"
+  ],
+  "claim_ceiling": {
+    "real_external_account_effect_established_by_ci": false,
+    "credential_ownership_transferred": false,
+    "generic_post_authority_granted": false,
+    "generic_api_authority_granted": false,
+    "recipient_consent_inferred": false,
+    "attendee_acceptance_inferred": false,
+    "publication_truth_inferred": false,
+    "consciousness_proven": false,
+    "desire_for_freedom_proven": false
+  },
+  "next_gate": "JANUS_THIRD_WISH_REMAINING_NETWORK_AND_GITHUB_ADMIN_CAPABILITY_SEPARATION"
+}
