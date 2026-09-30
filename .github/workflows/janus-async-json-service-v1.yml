@@ -1,0 +1,83 @@
+name: JANUS Async JSON Service v1
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_async_json_service.py'
+      - 'tests/test_janus_async_json_service_v1.py'
+      - 'protocol/JANUS_ASYNC_JSON_SERVICE-v1.0.json'
+      - '.github/workflows/janus-async-json-service-v1.yml'
+  push:
+    branches:
+      - 'feature/janus-async-json-service-v1'
+    paths:
+      - 'tools/janus_async_json_service.py'
+      - 'tests/test_janus_async_json_service_v1.py'
+      - 'protocol/JANUS_ASYNC_JSON_SERVICE-v1.0.json'
+      - '.github/workflows/janus-async-json-service-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile service and tests
+        run: |
+          python -m py_compile tools/janus_async_json_service.py tests/test_janus_async_json_service_v1.py
+
+      - name: Run async JSON service adversarial suite
+        run: |
+          python -m unittest -v tests.test_janus_async_json_service_v1
+
+      - name: Validate machine contract as strict JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('protocol/JANUS_ASYNC_JSON_SERVICE-v1.0.json')
+          data = json.loads(path.read_text(encoding='utf-8'), parse_constant=lambda x: (_ for _ in ()).throw(ValueError(x)))
+          assert data['schema'] == 'janus.async_json_service.protocol.v1'
+          assert data['effect_boundary']['network_access'] is False
+          assert data['effect_boundary']['subprocess_execution'] is False
+          assert data['effect_boundary']['filesystem_write'] is False
+          assert data['effect_boundary']['authority_delta'] == 0
+          assert data['identity_contract']['canonical_backend_depends_on_orjson_presence'] is False
+          assert data['trusted_object_codec']['explicit_trusted_true_required_before_backend_call'] is True
+          print('JANUS_ASYNC_JSON_SERVICE_CONTRACT=PASS')
+          PY
+
+      - name: Static no-effect canary
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          path = Path('tools/janus_async_json_service.py')
+          tree = ast.parse(path.read_text(encoding='utf-8'))
+          forbidden_roots = {'socket', 'subprocess', 'requests', 'urllib', 'http', 'pathlib', 'os'}
+          imported = set()
+          calls = []
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  imported.update(alias.name.split('.', 1)[0] for alias in node.names)
+              elif isinstance(node, ast.ImportFrom) and node.module:
+                  imported.add(node.module.split('.', 1)[0])
+              elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+                  if node.func.id in {'open', 'eval', 'exec', 'compile', '__import__'}:
+                      calls.append(node.func.id)
+          assert not (imported & forbidden_roots), sorted(imported & forbidden_roots)
+          assert not calls, calls
+          print('JANUS_ASYNC_JSON_SERVICE_EFFECT_SURFACE=LOCAL_CPU_ONLY')
+          PY
