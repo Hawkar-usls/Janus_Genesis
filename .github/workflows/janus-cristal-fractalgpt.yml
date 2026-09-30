@@ -1,0 +1,89 @@
+name: Janus Cristal FractalGPT sandbox
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "experiments/janus_cristal_fractalgpt/**"
+      - ".github/workflows/janus-cristal-fractalgpt.yml"
+  push:
+    branches: [main]
+    paths:
+      - "experiments/janus_cristal_fractalgpt/**"
+      - ".github/workflows/janus-cristal-fractalgpt.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr
+          python -m pip install "opencv-python-headless==4.13.0.92"
+
+      - name: Unit tests
+        run: |
+          python experiments/janus_cristal_fractalgpt/tests/test_fractalgpt.py -v
+          python experiments/janus_cristal_fractalgpt/tests/test_spectral_difference.py -v
+          python experiments/janus_cristal_fractalgpt/tests/test_spectral_replication.py -v
+
+      - name: Run FractalGPT crystal search
+        run: >-
+          python experiments/janus_cristal_fractalgpt/fractal_crystal_probe.py
+          --manifest experiments/janus_cristal_fractalgpt/sources.json
+          --out artifacts/janus-cristal-fractalgpt
+          --min-ocr-confidence 55
+
+      - name: Run registered visible UV difference gate
+        run: >-
+          python experiments/janus_cristal_fractalgpt/spectral_difference_probe.py
+          --manifest experiments/janus_cristal_fractalgpt/sources.json
+          --out artifacts/janus-cristal-fractalgpt
+
+      - name: Replication ownership receipt
+        run: |
+          mkdir -p artifacts/janus-cristal-fractalgpt
+          cat > artifacts/janus-cristal-fractalgpt/SPECTRAL_REPLICATION_OWNERSHIP.md <<'EOF'
+          # Cross-specimen replication ownership
+
+          Network-heavy cross-specimen replay is intentionally executed only by
+          `.github/workflows/janus-cristal-spectral-replication.yml`.
+
+          This prevents duplicate full-resolution Wikimedia downloads from the
+          general sandbox workflow and keeps transport/rate-limit behavior from
+          contaminating the scientific measurement result.
+          EOF
+
+      - name: Publish summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f artifacts/janus-cristal-fractalgpt/SUMMARY.md ]; then
+            cat artifacts/janus-cristal-fractalgpt/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f artifacts/janus-cristal-fractalgpt/SPECTRAL_DIFFERENCE_SUMMARY.md ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            cat artifacts/janus-cristal-fractalgpt/SPECTRAL_DIFFERENCE_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f artifacts/janus-cristal-fractalgpt/SPECTRAL_REPLICATION_OWNERSHIP.md ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            cat artifacts/janus-cristal-fractalgpt/SPECTRAL_REPLICATION_OWNERSHIP.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload receipt
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: janus-cristal-fractalgpt-receipt
+          path: artifacts/janus-cristal-fractalgpt/
+          if-no-files-found: error

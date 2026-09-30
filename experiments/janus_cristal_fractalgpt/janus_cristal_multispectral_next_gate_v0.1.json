@@ -1,0 +1,91 @@
+{
+  "schema": "genesis.janus_cristal.multispectral_next_gate.v1",
+  "artifact_id": "GENESIS-JANUS-CRISTAL-MULTISPECTRAL-NEXT-GATE-v0.1",
+  "status": "PREREGISTERED_SOURCE_CORPUS_PENDING_IMAGE_LEVEL_MEASUREMENT",
+  "purpose": "Expand the surviving physical modality branch across independent public specimen records without post-hoc semantic search.",
+  "frozen_before_measurement": {
+    "primary_metric": "registered fixed-field modality difference median",
+    "secondary_metric": "pair_to_gamma_control_median_ratio",
+    "registration": "affine_ECC_then_fixed_overlap",
+    "field": "0.40 luminance + 0.40 chromaticity + 0.20 normalized edge absolute difference",
+    "nulls": ["matched_random_trajectory_null", "block_shuffle", "Fourier_phase_scramble"],
+    "semantic_analysis": false,
+    "ocr": false,
+    "face_detection": false,
+    "cipher_search": false,
+    "post_hoc_region_selection": false,
+    "planner_status": "FractalGPT may generate blinded trajectories only; it cannot define the field or admission threshold after seeing outcomes."
+  },
+  "source_corpus": [
+    {
+      "id": "FMDB_1235",
+      "material": "quartz",
+      "same_specimen_record": true,
+      "modalities": ["visible", "UV365", "UV254"],
+      "source": "https://uvminerals.org/fmdb/specimen/1235/",
+      "use": "independent SW254 observation already measured; retain for cross-wavelength metadata validation, not as a new independent SW254 replication"
+    },
+    {
+      "id": "FMDB_136",
+      "material": "quartz",
+      "same_specimen_record": true,
+      "modalities": ["visible", "UV305", "UV255"],
+      "source": "https://uvminerals.org/fmdb/specimen/136/",
+      "use": "new candidate; quartz XRD confirmed; SW/MW wavelength contrast"
+    },
+    {
+      "id": "FMDB_393",
+      "material": "quartz_on_calcite",
+      "same_specimen_record": true,
+      "modalities": ["visible", "UV365", "UV305", "UV254"],
+      "source": "https://uvminerals.org/fmdb/specimen/393/",
+      "use": "new candidate; multi-wavelength same-record control with quartz/calcite spatial mixture"
+    },
+    {
+      "id": "FMDB_862",
+      "material": "quartz_on_calcite",
+      "same_specimen_record": true,
+      "modalities": ["visible", "UV254"],
+      "source": "https://uvminerals.org/fmdb/specimen/862/",
+      "use": "new candidate; SW-only quartz fluorescence control"
+    },
+    {
+      "id": "FMDB_670",
+      "material": "quartz_in_syenite",
+      "same_specimen_record": true,
+      "modalities": ["visible", "UV254"],
+      "source": "https://uvminerals.org/fmdb/specimen/670/",
+      "use": "new candidate; white SW fluorescence control"
+    },
+    {
+      "id": "FMDB_1225",
+      "material": "quartz_with_petroleum_inclusions",
+      "same_specimen_record": true,
+      "modalities": ["visible", "UV365", "UV254"],
+      "source": "https://uvminerals.org/fmdb/specimen/1225/",
+      "use": "new candidate; petroleum inclusion positive-control family, not the same specimen as FMS 1226"
+    }
+  ],
+  "observational_metadata": {
+    "FMDB_136": "Quartz fluorescence is reported strongest under SW UV, dimmer under MW UV, with a broad emission near 610 nm likely activated by manganese and a UV peak around 350 nm.",
+    "FMDB_393": "Quartz is reported yellow fluorescent under LW/MW/SW while calcite is red under SW; this is a useful mixed-mineral control.",
+    "FMDB_862": "Quartz is reported green under SW with no reported MW/LW response; dull blue regions are described as unknown.",
+    "FMDB_670": "Quartz is reported white under SW UV.",
+    "FMDB_1225": "Petroleum inclusions in quartz are reported blue under both LW365 and SW254."
+  },
+  "admission_rules": {
+    "source_mapping": "Only image-own alt/title labels may resolve a requested modality. Neighboring page text is diagnostic only.",
+    "same_specimen": "A record-level assertion that multiple views belong to one specimen is required before calling a pair same-specimen.",
+    "independence": "A second wavelength view of an already-used specimen cannot count as an independent specimen replication.",
+    "semantic_claims": "No semantic claim can be admitted from image-level pattern statistics.",
+    "failure": "Any source-resolution or registration integrity failure invalidates that run rather than being treated as a scientific negative or positive."
+  },
+  "next_measurement_order": [
+    "FMDB_136",
+    "FMDB_393",
+    "FMDB_862",
+    "FMDB_670",
+    "FMDB_1225"
+  ],
+  "claim_ceiling": "This manifest is a preregistered source corpus. It contains no new image-level measurement result and therefore supports no new scientific claim by itself."
+}

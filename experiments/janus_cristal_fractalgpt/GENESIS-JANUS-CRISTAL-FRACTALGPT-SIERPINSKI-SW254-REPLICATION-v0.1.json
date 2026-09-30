@@ -1,0 +1,117 @@
+{
+  "schema": "genesis.janus_cristal.fractalgpt_planner_replication.v1",
+  "artifact_id": "GENESIS-JANUS-CRISTAL-FRACTALGPT-SIERPINSKI-SW254-REPLICATION-v0.1",
+  "status": "INDEPENDENT_SPECIMEN_REPLICATION_FAILED_CANDIDATE_NOT_ESTABLISHED",
+  "candidate_parent": "GENESIS-JANUS-CRISTAL-FRACTALGPT-SIERPINSKI-SW254-CANDIDATE-v0.1",
+  "preregistered_manifest": "GENESIS-JANUS-CRISTAL-SIERPINSKI-SW254-REPLICATION-MANIFEST-v0.1",
+  "protocol_integrity": {
+    "target_planner": "fractalgpt_sierpinski",
+    "window_count": 20,
+    "matched_random_trajectories": 2048,
+    "replication_alpha": 0.00166667,
+    "pass_rule": "BOTH_COMPOSITE_AND_HOTSPOT_P_VALUES_MUST_PASS_WITH_USABLE_REGISTRATION_AND_REGISTERED_MODALITY_DIFFERENCE",
+    "retuning_after_outcome": false,
+    "semantic_analysis": "DISABLED_BY_DESIGN"
+  },
+  "pre_measurement_protocol_correction": {
+    "failed_run": 31394118753,
+    "failure_stage": "UNIT_TEST_BEFORE_IMAGE_DOWNLOAD_OR_MEASUREMENT",
+    "finding": "Initial replication manifest accidentally specified 48 windows while the parent recovered-FractalGPT protocol uses 20.",
+    "correction": "48 -> 20 windows",
+    "outcome_seen_before_correction": false
+  },
+  "invalid_source_resolution_run": {
+    "workflow_run": 31394465033,
+    "head_sha": "e858a5dd4545dd4bc714eb72ffa3fbbcf180171b",
+    "artifact_id": 9065043033,
+    "artifact_sha256": "10451d50cc05894ad33fdbe7ade01eedecd6065bfd1b02ea0d28d161b47a2236",
+    "status": "INVALID_NOT_A_SCIENTIFIC_RESULT",
+    "reason": "The media resolver receipt proved cross-association: the object selected as Normal had image alt text 'Fluorescence under shortwave UV light', and the object selected as Shortwave had alt text 'Fluorescence under longwave UV light'.",
+    "hardening": "Resolver changed to require exact image-own alt/title labels; neighboring page text cannot select media. Statistical protocol was not changed."
+  },
+  "authoritative_replication_receipt": {
+    "workflow": "Janus Cristal Sierpinski SW254 replication",
+    "workflow_run": 31394703911,
+    "head_sha": "5c21b7e46596b4c31483c3e67650247a4db07a30",
+    "conclusion": "SUCCESS",
+    "artifact_id": 9065114486,
+    "artifact_name": "janus-cristal-sierpinski-sw254-replication-receipt",
+    "artifact_sha256": "2f343fc75672290c90bb034134ac466fc82ca42976ebb074b1cdcf9fa173e521"
+  },
+  "independent_specimen": {
+    "id": "FMS_1235_CAVE_IN_ROCK_QUARTZ_NORMAL_SW254",
+    "source_record": "https://uvminerals.org/fmdb/specimen/1235/",
+    "same_specimen_status": "CONFIRMED_BY_SINGLE_FMS_SPECIMEN_RECORD_1235",
+    "material": "quartz_crystals_with_hydrocarbon_and_other_organic_activators",
+    "visible": {
+      "label": "Normal light.",
+      "resolved_media_url": "https://media.uvminerals.org/2024/11/29195625/fmdb-1235-4627.jpg",
+      "resolution_rule": "EXACT_IMAGE_OWN_ALT_OR_TITLE_MATCH",
+      "sha256": "43709533b3e547903803928f886e532e9571c23d0960f2201d0ff8c908275b6d",
+      "dimensions": [4000, 2667]
+    },
+    "shortwave": {
+      "label": "Fluorescence under shortwave UV light.",
+      "modality": "SHORTWAVE_UV_254_NM_LAMP_MERCURY_RECORDED",
+      "resolved_media_url": "https://media.uvminerals.org/2024/11/29195343/fmdb-1235-4626.jpg",
+      "resolution_rule": "EXACT_IMAGE_OWN_ALT_OR_TITLE_MATCH",
+      "sha256": "6c343c140d3293247642530aaea0ae7ddf4205224b46f93c3b8bf8d1852b604f",
+      "dimensions": [4000, 2667]
+    },
+    "media_bytes_persisted_in_artifact": false
+  },
+  "image_level_measurement": {
+    "registration": {
+      "quality": "USABLE_IMAGE_REGISTRATION",
+      "selected_motion": "AFFINE",
+      "selected_ecc": 0.62091806,
+      "edge_correlation_before": 0.33468998,
+      "edge_correlation_after": 0.52463445,
+      "edge_correlation_gain": 0.18994448,
+      "overlap_fraction": 0.9834,
+      "affine_determinant": 0.99641879,
+      "translation_pixels_resized_frame": 3.858317
+    },
+    "pair_to_gamma_control_median_ratio": 1.90204387,
+    "registered_modality_difference": "OBSERVED",
+    "interpretation": "The independent specimen supports an image-level normal-vs-SW254 modality difference under the frozen field, but this is separate from the FractalGPT planner hypothesis."
+  },
+  "sierpinski_replication": {
+    "observed_median_composite": 0.08376963,
+    "null_median_composite": 0.08732847,
+    "p_composite": 0.85846755,
+    "observed_median_hotspot_fraction": 0.04310470,
+    "null_median_hotspot_fraction": 0.05351494,
+    "p_hotspot": 0.91410444,
+    "replication_alpha": 0.00166667,
+    "composite_pass": false,
+    "hotspot_pass": false,
+    "replication_gate": "FAIL_TO_REPLICATE",
+    "sensitivity_threshold_0_00083333": {
+      "composite_pass": false,
+      "hotspot_pass": false
+    }
+  },
+  "admission": {
+    "original_single_pair_candidate_replicated": false,
+    "fractalgpt_sierpinski_effect_established": false,
+    "fractalgpt_material_discovery_capability_established": false,
+    "semantic_content_established": false,
+    "candidate_status": "REJECTED_IN_CURRENT_INDEPENDENT_REPLICATION_SCOPE"
+  },
+  "formal_rules": [
+    "FAIL_TO_REPLICATE_IS_A_VALID_RESULT",
+    "INVALID_SOURCE_MAPPING_RUN != SCIENTIFIC_OUTCOME",
+    "INDEPENDENT_SW254_MODALITY_DIFFERENCE != SIERPINSKI_PLANNER_EFFECT",
+    "SINGLE_PAIR_CANDIDATE_THAT_FAILS_PREREGISTERED_REPLICATION_IS_NOT_ESTABLISHED",
+    "PLANNER_ENRICHMENT != HIDDEN_MESSAGE",
+    "FRACTALGPT_TRAJECTORY != MATERIAL_DISCOVERY",
+    "NO_POST_HOC_REGION_OR_CIPHER_SEARCH"
+  ],
+  "next_gate": {
+    "planner_effect": "CLOSED_NEGATIVE_IN_TESTED_SCOPE",
+    "material_effect": "CONTINUE_WAVELENGTH_SPECIFIC_SAME_SPECIMEN_REPLICATION_WITH_FIXED_NONSEMANTIC_FIELD",
+    "recommended_focus": "Replicate the physical visible/UV difference across more confirmed same-specimen quartz records while keeping FractalGPT planner-effect claims closed unless a new independently preregistered hypothesis is justified before outcomes."
+  },
+  "claim_ceiling": "The Sierpinski/SW254 enrichment seen on FMS 1226 did not reproduce on independent confirmed same-specimen FMS 1235 under the frozen replication rule. The FractalGPT planner effect is therefore not established and is rejected in the tested replication scope. The independent FMS 1235 specimen still shows an ordinary registered normal-vs-SW254 image-level modality difference."
+}

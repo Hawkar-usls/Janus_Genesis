@@ -1,0 +1,166 @@
+{
+  "schema": "genesis.janus_cristal_fractalgpt.experiment.v2",
+  "artifact_id": "GENESIS-JANUS-CRISTAL-FRACTALGPT-v0.1",
+  "title": "Janus Cristal × FractalGPT Sandbox Gate",
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "status": "CI_PASS_NO_SEMANTIC_CONTENT_ADMITTED_IMAGE_LEVEL_MIRROR_STRUCTURE_CANDIDATE",
+  "sandbox_only": true,
+  "authoritative_genesis_runtime_modified": false,
+  "lineage": {
+    "recovered_user_file": "FractalGPT(12).py",
+    "original_library_sha256": "11e6c97ae7169a0fae4e0ad17f2fb7fb23b10265b04b4b057e3c968d6d0a3662",
+    "vendored_path": "experiments/janus_cristal_fractalgpt/recovered/FractalGPT.py",
+    "executed_vendored_sha256": "1dfc5bb1dabcb256d569de30dbe4431f6901c8dcddbe15fb76634fd57d9146e8",
+    "provenance_note": "Original library bytes and connector-serialized GitHub mirror are intentionally kept as separate identities.",
+    "recovered_source_class": "MICRO_AUTOREGRESSIVE_FRACTAL_SEQUENCE_MODEL",
+    "recovered_native_generators": [
+      "FractalGPT.koch_curve",
+      "FractalGPT.sierpinski_triangle",
+      "FractalGPT.fractal_brownian_motion"
+    ],
+    "janus_cristal_parent": "Hawkar-usls/janus-meta-registry/registry/crystal/JANUS-CRISTAL-v1.0.json"
+  },
+  "question": "Do independent content-free scan paths from the recovered FractalGPT and a non-model logistic baseline converge on the same semantic-looking or geometric crystal candidates more often than matched shuffled controls, and do any surviving candidates repeat across visible and UV recordings of the same specimen?",
+  "method": {
+    "planner_count": 5,
+    "windows_per_planner": 20,
+    "planners": {
+      "logistic_baseline": "SHA-256-seeded coupled logistic map from the initial sandbox",
+      "fractalgpt_koch": "recovered FractalGPT.koch_curve",
+      "fractalgpt_sierpinski": "recovered FractalGPT.sierpinski_triangle with deterministic RNG seeds",
+      "fractalgpt_fbm": "recovered FractalGPT.fractal_brownian_motion promoted from x/value into a 2-D scan path",
+      "fractalgpt_model": "actual tiny recovered FractalGPT instance trained for eight deterministic steps on short Koch sequences, then used to generate a trajectory"
+    },
+    "fractalgpt_model_config": {
+      "state_dim": 5,
+      "n_layer": 1,
+      "n_embd": 8,
+      "block_size": 16,
+      "n_head": 2,
+      "train_steps": 8,
+      "learning_rate": 0.0005,
+      "generation_temperature": 0.015
+    },
+    "human_selected_regions": false,
+    "fixed_measurements": [
+      "Tesseract OCR with restricted alphabet and confidence threshold",
+      "Canny edge density",
+      "probabilistic Hough line count",
+      "left-right mirror correlation"
+    ],
+    "negative_control": "every planner replays its exact windows on the same deterministic 48-pixel block-shuffled image",
+    "planner_local_escalation": "token length >=3; >=2 real-window hits in one planner; absent from matched control; word/formula/code-like class",
+    "cross_planner_escalation": "same planner-local admissible token independently survives >=2 planner families and is absent from all matched-control OCR",
+    "cross_modality_escalation": "same cross-planner candidate repeats across >=2 recorded modalities",
+    "semantic_admission": "never admitted as intentional message, formula, code or algorithm in this gate"
+  },
+  "sources": [
+    "same petroleum-quartz specimen visible",
+    "same petroleum-quartz specimen UV 405 nm",
+    "USGS visible quartz control"
+  ],
+  "previous_baseline_run": {
+    "workflow_run": 31355611966,
+    "head_sha": "d5eb0fc3f0005adf90400cdbe4f5a2ea767e8f79",
+    "artifact_id": 9050517145,
+    "artifact_sha256": "c373bbac800043af81f8fa3db63181a8e4d15d97edcb0d827ecb2846abcbe66c",
+    "status": "SUCCESS",
+    "scope": "LOGISTIC_BASELINE_ONLY_BEFORE_EXACT_FRACTALGPT_RECOVERY",
+    "sources_analyzed": "3_OF_3",
+    "single_source_escalations": 0,
+    "cross_modality_escalations": 0,
+    "semantic_admission": "NO_MESSAGE_FORMULA_CODE_OR_ALGORITHM_ADMITTED"
+  },
+  "empirical_result": {
+    "sources_analyzed": "3_OF_3",
+    "source_errors": 0,
+    "unit_tests": "9_OF_9_PASS",
+    "planner_count": 5,
+    "windows_per_planner": 20,
+    "total_real_windows": 300,
+    "total_matched_control_windows": 300,
+    "recovered_model_training": {
+      "initial_eval_mse": 2.80706116,
+      "final_eval_mse": 2.76479789,
+      "last_train_loss": 2.74658358,
+      "generated_state_count": 40,
+      "interpretation": "The recovered micro-model executed and changed under deterministic training; prediction quality is not treated as a scientific claim."
+    },
+    "semantic_channels": {
+      "raw_cross_planner_ocr_candidates": 0,
+      "strict_cross_planner_escalation_candidates": 0,
+      "cross_modality_and_cross_planner_escalation_candidates": 0,
+      "word_like_admitted": 0,
+      "formula_like_admitted": 0,
+      "code_like_admitted": 0,
+      "algorithm_admitted": 0,
+      "status": "NO_MESSAGE_FORMULA_CODE_OR_ALGORITHM_ADMITTED"
+    },
+    "raw_single_window_ocr_examples_not_admitted": {
+      "petroleum_quartz_visible": ["FEN", "PI}", "MIE", "MIM"],
+      "petroleum_quartz_uv405": ["AS)", "LIE", "AY.", "VIA"],
+      "usgs_quartz_visible_control": [],
+      "note": "Every listed token occurred only as isolated detector output and failed the planner-local repetition gate."
+    },
+    "mirror_structure_consensus": {
+      "metric": "median left-right mirror correlation in real windows minus the same metric in matched block-shuffled-control windows",
+      "petroleum_quartz_visible": {
+        "positive_planners": "5_OF_5",
+        "planner_deltas": [0.145548, 0.507237, 0.413017, 0.236458, 0.49368],
+        "median_delta": 0.413017
+      },
+      "petroleum_quartz_uv405": {
+        "positive_planners": "5_OF_5",
+        "planner_deltas": [0.14537, 0.079991, 0.169844, 0.078621, 0.118874],
+        "median_delta": 0.118874
+      },
+      "usgs_quartz_visible_control": {
+        "positive_planners": "0_OF_5",
+        "planner_deltas": [-0.108801, -0.094498, -0.212905, -0.213361, -0.061389],
+        "median_delta": -0.108801
+      },
+      "classification": "IMAGE_LEVEL_MIRROR_STRUCTURE_ENRICHMENT_CANDIDATE",
+      "material_property_admission": "BLOCKED",
+      "reason": "The effect may arise from specimen geometry, framing, lighting, camera/acquisition choices or other image-level structure; matched same-specimen acquisition controls are not yet available."
+    },
+    "edge_and_line_structure": {
+      "status": "NO_SPECIAL_ADMISSION",
+      "note": "Real-minus-shuffled edge density and Hough line counts varied by source and planner and are not elevated into a material claim."
+    }
+  },
+  "formal_rules": [
+    "FRACTAL_PATH != DISCOVERY",
+    "OCR_TOKEN != MESSAGE",
+    "FORMULA_LIKE != FORMULA",
+    "CODE_LIKE != ALGORITHM",
+    "REAL_OVER_CONTROL_ENRICHMENT != INTENTIONAL_ENCODING",
+    "CROSS_PLANNER_REPLICATION != MESSAGE",
+    "CROSS_MODALITY_REPLICATION != MESSAGE",
+    "IMAGE_SYMMETRY != MATERIAL_PROPERTY",
+    "NO_POST_HOC_CIPHER_SEARCH"
+  ],
+  "result_binding": {
+    "ci_status": "SUCCESS",
+    "measurement_head_sha": "91e798f79ff04165b31ac0f0aa539d9f64189915",
+    "workflow_run": 31356160608,
+    "artifact_name": "janus-cristal-fractalgpt-receipt",
+    "artifact_id": 9050734298,
+    "artifact_sha256": "3f4d391978a970ce1b351beadda9f0e3c9aaed9c74404bcd5a4e3ba6bfc3f7f5",
+    "cross_planner_escalation_count": 0,
+    "cross_modality_escalation_count": 0,
+    "semantic_result": "NO_MESSAGE_FORMULA_CODE_OR_ALGORITHM_ADMITTED"
+  },
+  "next_gate": {
+    "name": "FRACTALGPT_IMAGE_STRUCTURE_NULL_MODEL_HARDENING",
+    "status": "OPEN",
+    "requirements": [
+      "add a second null model that preserves spatial-frequency power while destroying phase/shape",
+      "add a uniform-random planner baseline matched for scale distribution",
+      "test whether the 5-of-5 positive mirror-symmetry sign survives both null models",
+      "repeat on multiple independent quartz specimens and non-quartz transparent/mineral controls",
+      "separate acquisition/framing symmetry from specimen-bound symmetry",
+      "only after those controls consider calibrated same-specimen visible/UV/polarization experiments"
+    ]
+  },
+  "claim_ceiling": "The sandbox establishes deterministic recovered-FractalGPT execution, reproducible multi-planner detector behavior and an image-level mirror-structure candidate. It finds no admissible hidden message, formula, code or algorithm, and does not establish the mirror effect as an intrinsic quartz property."
+}

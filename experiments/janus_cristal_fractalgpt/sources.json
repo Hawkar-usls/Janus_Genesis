@@ -1,0 +1,91 @@
+{
+  "schema": "genesis.janus_cristal_fractalgpt.sources.v3",
+  "sources": [
+    {
+      "id": "petroleum_quartz_visible",
+      "modality": "VISIBLE_RECORDED",
+      "material": "quartz_with_hydrocarbon_inclusions",
+      "role": "TARGET_SAME_SPECIMEN_VISIBLE",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Petroleum_quartz_from_Alatay.jpg",
+      "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Petroleum%20quartz%20from%20Alatay.jpg",
+      "author": "Boris Lobastov",
+      "license": "CC BY 4.0",
+      "same_specimen_group": "ALATAY"
+    },
+    {
+      "id": "petroleum_quartz_uv405",
+      "modality": "UV_405_NM_RECORDED",
+      "material": "quartz_with_hydrocarbon_inclusions",
+      "role": "TARGET_SAME_SPECIMEN_UV405",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Petroleum_quartz_from_Alatay_UV_405_nm.jpg",
+      "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Petroleum%20quartz%20from%20Alatay%20UV%20405%20nm.jpg",
+      "author": "Boris Lobastov",
+      "license": "CC BY 4.0",
+      "same_specimen_group": "ALATAY"
+    },
+    {
+      "id": "usgs_quartz_visible_control",
+      "modality": "VISIBLE_RECORDED_CONTROL",
+      "material": "quartz",
+      "role": "QUARTZ_IMAGE_CONTROL",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Quartz_Crystal.jpg",
+      "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Quartz_Crystal.jpg",
+      "author": "United States Geological Survey",
+      "license": "Public domain (U.S. federal work)",
+      "same_specimen_group": null
+    },
+    {
+      "id": "calcite_visible_control",
+      "modality": "VISIBLE_RECORDED_CONTROL",
+      "material": "calcite",
+      "role": "NON_QUARTZ_CRYSTAL_CONTROL",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Calcite_crystal.jpg",
+      "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Calcite%20crystal.jpg",
+      "author": "Arenamontanus / Anders Sandberg",
+      "license": "CC BY 2.0",
+      "same_specimen_group": null
+    },
+    {
+      "id": "fluorite_optical_visible_control",
+      "modality": "VISIBLE_RECORDED_CONTROL",
+      "material": "fluorite",
+      "role": "NON_QUARTZ_OPTICAL_CRYSTAL_CONTROL",
+      "page_url": "https://commons.wikimedia.org/wiki/File:Fluorite_crystal.jpg",
+      "download_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Fluorite%20crystal.jpg",
+      "author": "Masha Milshina",
+      "license": "CC BY 4.0",
+      "same_specimen_group": null,
+      "notes": "Published description identifies Newton rings in an 8x8x8 mm optical fluorite crystal; useful as a deliberately structured non-quartz optical control."
+    }
+  ],
+  "trajectory": {
+    "algorithm": "RECOVERED_FRACTALGPT_MULTI_PLANNER_PLUS_TWO_BASELINES",
+    "seed": "JANUS-CRISTAL-FRACTALGPT-v0.3",
+    "window_count": 20,
+    "scale_ladder": [0.55, 0.40, 0.30, 0.22, 0.16],
+    "planners": [
+      "logistic_baseline",
+      "uniform_random_baseline",
+      "fractalgpt_koch",
+      "fractalgpt_sierpinski",
+      "fractalgpt_fbm",
+      "fractalgpt_model"
+    ]
+  },
+  "null_models": [
+    "deterministic_48px_block_shuffle_for_semantic_and_structure_control",
+    "deterministic_fourier_phase_scramble_for_structure_control"
+  ],
+  "rules": [
+    "THE_SAME_TRAJECTORY_MUST_BE_USED_ON_REAL_AND_EACH_NULL_CONTROL",
+    "ALL_SEARCH_PATHS_MUST_BE_CONTENT_INDEPENDENT",
+    "NO_HUMAN_SELECTED_REGIONS",
+    "NO_POST_HOC_CIPHER_SEARCH",
+    "OCR_CANDIDATE_MUST_BE_AT_LEAST_3_CHARACTERS_TO_ESCALATE",
+    "CROSS_PLANNER_REPLICATION_IS_STRONGER_THAN_SINGLE_PLANNER_PERSISTENCE",
+    "CROSS_MODALITY_REPLICATION_IS_STRONGER_THAN_CROSS_PLANNER_REPLICATION",
+    "IMAGE_STRUCTURE_MUST_SURVIVE_BOTH_NULL_MODELS_BEFORE_ESCALATION",
+    "NON_QUARTZ_CRYSTAL_CONTROLS_MUST_REMAIN_SEPARATE",
+    "ESCALATION_IS_NOT_MESSAGE_OR_MATERIAL_PROPERTY_ADMISSION"
+  ]
+}
