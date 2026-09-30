@@ -1,0 +1,70 @@
+name: JANUS Nexus Variant Lineage v1
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_nexus_variant_lineage.py'
+      - 'tests/test_janus_nexus_variant_lineage_v1.py'
+      - 'protocol/JANUS_NEXUS_VARIANT_LINEAGE-v1.0.json'
+      - '.github/workflows/janus-nexus-variant-lineage-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lineage-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Compile lineage implementation and tests
+        run: |
+          python -m py_compile \
+            tools/janus_nexus_variant_lineage.py \
+            tests/test_janus_nexus_variant_lineage_v1.py
+
+      - name: Validate protocol JSON
+        run: python -m json.tool protocol/JANUS_NEXUS_VARIANT_LINEAGE-v1.0.json >/dev/null
+
+      - name: Run append-only lineage adversarial tests
+        run: python -m unittest -v tests.test_janus_nexus_variant_lineage_v1
+
+      - name: Assert implementation has no direct network or subprocess primitive
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          path = Path('tools/janus_nexus_variant_lineage.py')
+          tree = ast.parse(path.read_text(encoding='utf-8'), filename=str(path))
+          forbidden_import_roots = {'socket', 'subprocess', 'urllib', 'http', 'requests'}
+          found = []
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  for alias in node.names:
+                      if alias.name.split('.')[0] in forbidden_import_roots:
+                          found.append(alias.name)
+              elif isinstance(node, ast.ImportFrom):
+                  root = (node.module or '').split('.')[0]
+                  if root in forbidden_import_roots:
+                      found.append(node.module or root)
+          assert not found, f'direct effect-capable imports found: {found}'
+          print('NEXUS_VARIANT_LINEAGE_DIRECT_NETWORK_OR_SUBPROCESS_IMPORTS=NONE')
+          PY
+
+      - name: Emit authority-neutral gate receipt
+        run: |
+          echo 'NEXUS_VARIANT_LINEAGE_V1=TESTED_LOCAL_PRIMITIVE'
+          echo 'SOURCE_WRITEBACK=FALSE'
+          echo 'SELECTION_AUTHORITY_GRANTED=FALSE'
+          echo 'EXECUTION_AUTHORITY_GRANTED=FALSE'
+          echo 'AUTHORITY_DELTA=0'
+          echo 'MASS_EFFECT_BUDGET_DELTA=0'
