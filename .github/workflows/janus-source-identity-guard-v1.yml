@@ -1,0 +1,106 @@
+name: JANUS Source Identity Guard v1
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_source_identity_guard.py'
+      - 'tests/test_janus_source_identity_guard_v1.py'
+      - 'protocol/JANUS_SOURCE_IDENTITY_GUARD-v1.0.json'
+      - '.github/workflows/janus-source-identity-guard-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-identity-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR state
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate contract JSON
+        run: python -m json.tool protocol/JANUS_SOURCE_IDENTITY_GUARD-v1.0.json >/dev/null
+
+      - name: Compile guard and tests
+        run: |
+          python -m py_compile \
+            tools/janus_source_identity_guard.py \
+            tests/test_janus_source_identity_guard_v1.py
+
+      - name: Run source identity adversarial tests
+        run: python -m unittest -v tests.test_janus_source_identity_guard_v1
+
+      - name: Enforce read-only Git and no-network surface
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          path = Path('tools/janus_source_identity_guard.py')
+          tree = ast.parse(path.read_text(encoding='utf-8'), filename=str(path))
+
+          forbidden_imports = {'socket', 'urllib', 'http', 'requests', 'httpx'}
+          imports = []
+          subprocess_calls = []
+          git_command_lists = []
+
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  for alias in node.names:
+                      root = alias.name.split('.')[0]
+                      if root in forbidden_imports:
+                          imports.append(alias.name)
+              elif isinstance(node, ast.ImportFrom):
+                  root = (node.module or '').split('.')[0]
+                  if root in forbidden_imports:
+                      imports.append(node.module or root)
+              elif isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
+                  if isinstance(node.func.value, ast.Name) and node.func.value.id == 'subprocess':
+                      subprocess_calls.append(node.func.attr)
+              elif isinstance(node, ast.List) and node.elts:
+                  first = node.elts[0]
+                  if isinstance(first, ast.Constant) and first.value == 'git':
+                      constants = [
+                          item.value
+                          for item in node.elts
+                          if isinstance(item, ast.Constant) and isinstance(item.value, str)
+                      ]
+                      git_command_lists.append(constants)
+
+          assert not imports, f'network-capable imports found: {imports}'
+          assert subprocess_calls == ['check_output'], (
+              f'only subprocess.check_output is allowed, found: {subprocess_calls}'
+          )
+          assert len(git_command_lists) == 2, git_command_lists
+          forbidden_verbs = {
+              'add', 'apply', 'checkout', 'clean', 'clone', 'commit', 'fetch',
+              'merge', 'pull', 'push', 'reset', 'restore', 'status',
+              'update-index', 'write-tree',
+          }
+          for command in git_command_lists:
+              assert 'rev-parse' in command, command
+              assert '--verify' in command, command
+              assert not forbidden_verbs.intersection(command), command
+          flattened = [' '.join(command) for command in git_command_lists]
+          assert any('HEAD' in command and 'HEAD^{tree}' not in command for command in flattened)
+          assert any('HEAD^{tree}' in command for command in flattened)
+          print('SOURCE_IDENTITY_GUARD_GIT_SURFACE=REV_PARSE_ONLY')
+          print('SOURCE_IDENTITY_GUARD_NETWORK_SURFACE=NONE')
+          PY
+
+      - name: Emit narrow gate receipt
+        run: |
+          echo 'SOURCE_IDENTITY_GUARD_V1=TESTED_LOCAL_PRIMITIVE'
+          echo 'SOURCE_MUTATION_PERFORMED_BY_GUARD=FALSE'
+          echo 'ENDPOINT_EQUALITY_DOES_NOT_RULE_OUT_TRANSIENT_WRITE_RESTORE=TRUE'
+          echo 'LOCAL_SOURCE_FINGERPRINT_PUBLICATION=FALSE'
+          echo 'MERGE_PERMISSION=FALSE'
+          echo 'AUTHORITY_DELTA=0'
+          echo 'MASS_EFFECT_BUDGET_DELTA=0'
