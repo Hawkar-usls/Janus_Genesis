@@ -1,0 +1,145 @@
+{
+  "schema": "janus.nexus.preservation_integration_evidence.contract.v1",
+  "version": "1.0",
+  "roadmap": "Hawkar-usls/Janus_Genesis#121",
+  "preregistration_receipt": "5308388940",
+  "gate": "P0_PRESERVATION_INTEGRATION_EVIDENCE_V1",
+  "status": "IMPLEMENTATION_PRIMITIVE",
+  "purpose": "Admit a locally produced cross-lane evidence bundle only when it is internally consistent with an independently supplied exact producer-reference lock, an out-of-band expected digest of that lock, and the pre-registered P0 preservation conditions; then emit a privacy-safe public summary.",
+  "producer_lanes": {
+    "materializer": {
+      "repository": "Hawkar-usls/Janus_Genesis",
+      "canonical_pull_request": 122
+    },
+    "privacy_projection": {
+      "repository": "Hawkar-usls/Janus_Genesis",
+      "canonical_pull_request": 125
+    },
+    "source_pin_contract": {
+      "repository": "Hawkar-usls/Janus_Genesis",
+      "canonical_pull_request": 126
+    },
+    "variant_lineage": {
+      "repository": "Hawkar-usls/Janus_Genesis",
+      "canonical_pull_request": 123
+    },
+    "handoff_ledger": {
+      "repository": "Hawkar-usls/Janus_Genesis",
+      "canonical_pull_request": 124
+    },
+    "swarm_recovery": {
+      "repository": "Hawkar-usls/janus-distributed-ai-swarm",
+      "canonical_pull_request": 5
+    },
+    "source_identity_guard": {
+      "repository": "Hawkar-usls/Janus_Genesis",
+      "canonical_pull_request": 133
+    }
+  },
+  "external_lock": {
+    "required": true,
+    "expected_lock_digest_required_out_of_band": true,
+    "expected_lock_digest_format": "lowercase_sha256_64_hex",
+    "producer_reference_fields": [
+      "repository",
+      "pull_request",
+      "sha"
+    ],
+    "producer_sha_format": "exact_lowercase_40_hex_git_sha",
+    "producer_pull_request_format": "positive_integer",
+    "producer_repository_must_match_role": true,
+    "producer_pull_request_must_match_role": true,
+    "producer_sha_membership_in_named_pull_request_verified_offline": false,
+    "producer_sha_membership_must_be_witnessed_by_live_git_freeze": true,
+    "bundle_must_match_lock_exactly": true,
+    "source_identity_guard_producer_ref_required": true,
+    "self_declared_bundle_refs_are_sufficient": false,
+    "unanchored_lock_file_alone_is_sufficient": false,
+    "expected_source_count": 44,
+    "privacy_mode": "LOCAL_EVIDENCE_PUBLIC_REDACTED_SUMMARY"
+  },
+  "pre_registered_conditions": {
+    "clean_target_rebuild_exercised": true,
+    "independent_rebuild_identity_reproduced": true,
+    "local_exact_replay_passed": true,
+    "privacy_projection_passed": true,
+    "typed_source_pinset_validated": true,
+    "exact_git_replay_pin_kind": "GIT_COMMIT_SHA1",
+    "opaque_version_pin_kind": "OPAQUE_VERSION_TOKEN",
+    "source_pin_type_inference_used": false,
+    "private_exact_pin_publication": false,
+    "whole_pinset_digest_publication": false,
+    "lineage_expected_head_digest_reproduced": true,
+    "at_least_one_failed_variant_retained": true,
+    "handoff_expected_head_digest_reproduced": true,
+    "at_least_two_conflicting_messages_retained": true,
+    "handoff_reconciliation_status": "HOLD_RECONCILE",
+    "majority_vote_used": false,
+    "swarm_session_drop_exercised": true,
+    "swarm_resume_decision": "RESUME",
+    "source_pin_drift": false,
+    "duplicate_source_mutation_observed": false,
+    "source_identity_before_equals_after": true,
+    "source_writeback_observed": false,
+    "destructive_effect_observed": false,
+    "destructive_cleanup_required_for_pass": false
+  },
+  "privacy_boundary": {
+    "local_bundle_may_contain_sensitive_digests": true,
+    "public_summary_contains_local_rebuild_digests": false,
+    "public_summary_contains_lineage_head_digest": false,
+    "public_summary_contains_failed_variant_ids": false,
+    "public_summary_contains_handoff_head_digest": false,
+    "public_summary_contains_conflict_message_ids": false,
+    "public_summary_contains_swarm_checkpoint_or_receipt_digest": false,
+    "public_summary_contains_source_identity_digest": false,
+    "public_summary_contains_source_pins": false,
+    "public_summary_contains_whole_pinset_digest": false,
+    "public_summary_may_contain_public_producer_repository_pr_sha_refs": true,
+    "public_summary_binds_out_of_band_anchored_lock_digest": true,
+    "failure_message_contains_local_input_path": false
+  },
+  "effect_boundary": {
+    "repository_acquisition": false,
+    "source_materialization": false,
+    "producer_receipt_generation": false,
+    "network_transport": false,
+    "subprocess_execution": false,
+    "source_writeback": false,
+    "source_delete": false,
+    "history_rewrite": false,
+    "command_execution": false,
+    "file_output": false,
+    "stdout_summary_only": true
+  },
+  "canonical_laws": [
+    "BUNDLE_CONSISTENCY != EMPIRICAL_REPLAY",
+    "SHA_WITHOUT_REPOSITORY_IDENTITY != COMPLETE_PRODUCER_REFERENCE",
+    "REPOSITORY_MATCH_WITHOUT_CANONICAL_PR_MATCH != ROLE_BOUND_PRODUCER_REFERENCE",
+    "SHA_SHAPE_AND_ROLE_MATCH != PROOF_SHA_BELONGS_TO_PR",
+    "LOCK_FILE_WITHOUT_OUT_OF_BAND_DIGEST != EXTERNALLY_ANCHORED_LOCK",
+    "PIN_STRING_SHAPE != PIN_SEMANTICS",
+    "OPAQUE_VERSION_TOKEN != GIT_COMMIT_SHA1",
+    "SELF_DECLARED_REF != EXTERNAL_PRODUCER_LOCK",
+    "SOURCE_GUARD_EVIDENCE_WITHOUT_GUARD_PRODUCER_REF != PROVENANCE_BOUND_EVIDENCE",
+    "PUBLIC_SUMMARY != PRIVATE_EVIDENCE_DUMP",
+    "EXPECTED_DIGEST != OBSERVED_DIGEST -> REJECT",
+    "FAILED_VARIANT_RETENTION_REQUIRED",
+    "CONFLICT_RETENTION_REQUIRED",
+    "HOLD_RECONCILE_REQUIRED_FOR_CONFLICT_FIXTURE",
+    "MAJORITY_VOTE != CONFLICT_RESOLUTION",
+    "SESSION_DROP_RECOVERY_REQUIRED",
+    "SOURCE_IDENTITY_CHANGE -> REJECT",
+    "SOURCE_WRITEBACK_OBSERVED -> REJECT",
+    "CI_GREEN != MERGE_PERMISSION"
+  ],
+  "authority_boundary": {
+    "evidence_consistency_is_truth": false,
+    "evidence_consistency_is_empirical_replay": false,
+    "evidence_consistency_is_merge_permission": false,
+    "evidence_consistency_is_writeback_permission": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "claim_ceiling": "This verifier can establish only that a supplied local cross-lane evidence bundle is internally consistent with an out-of-band-digest-bound external exact producer-reference lock whose seven roles are restricted to their canonical repositories and pull requests, and with the pre-registered P0 conditions. It cannot establish offline that each exact SHA belongs to the named pull request, that producer harnesses honestly generated the evidence, that all real owner repositories were replayed, or that any merge, source mutation, execution, or external-effect authority exists."
+}
