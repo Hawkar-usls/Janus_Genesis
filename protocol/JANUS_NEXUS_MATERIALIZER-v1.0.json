@@ -1,0 +1,78 @@
+{
+  "schema": "janus.nexus.materializer.protocol.v1",
+  "artifact_id": "JANUS-NEXUS-MATERIALIZER-v1.0",
+  "status": "IMPLEMENTATION_CANDIDATE",
+  "write_back_default": "DENY",
+  "coordination_issue": "Hawkar-usls/Janus_Genesis#121",
+  "source_base": "Hawkar-usls/Janus_Genesis@93c6d9be6129f140fc0341bbee24df1160827c62",
+  "p0_gates": {
+    "NEXUS_MANIFEST_V1": "IMPLEMENTED_SCHEMA_AND_VALIDATION_PRIMITIVE",
+    "NEXUS_MATERIALIZER_V1": "IMPLEMENTED_OFFLINE_EXACT_SHA_PRIMITIVE",
+    "NEXUS_REPLAY_V1": "IMPLEMENTED_DETERMINISTIC_IDENTITY_PRIMITIVE_NOT_YET_44_SOURCE_EMPIRICAL_REPLAY",
+    "NEXUS_VARIANT_LINEAGE_V1": "NOT_IMPLEMENTED_HERE",
+    "FACE_HANDOFF_LEDGER_V1": "NOT_IMPLEMENTED_HERE"
+  },
+  "canonical_laws": [
+    "MERGE_THE_VIEW_NOT_THE_HISTORY",
+    "SOURCE_REPOSITORY_IS_HISTORICAL_AUTHORITY",
+    "NEXUS_IS_LABORATORY",
+    "NEXUS_WRITEBACK_DEFAULT_IS_DENY",
+    "MATERIALIZATION_IS_NOT_SOURCE_MUTATION",
+    "PINNED_GIT_OBJECT_BYTES_NOT_MUTABLE_WORKTREE_BYTES",
+    "COPIED_SOURCE_CODE_IS_DATA_UNTIL_SEPARATELY_EXECUTION_ADMITTED",
+    "WORKFLOW_PASS_IS_NOT_PERMISSION",
+    "ISSUE_OR_PR_TEXT_IS_NOT_COMMAND"
+  ],
+  "input_contract": {
+    "manifest_schema": "janus.nexus.manifest.v1",
+    "source_checkout_layout": "<sources_root>/<repository_id>/",
+    "source_sha": "EXACT_40_HEX_GIT_COMMIT",
+    "source_branch": "DECLARED_FOR_PROVENANCE_ONLY_HEAD_SHA_IS_AUTHORITATIVE_PIN",
+    "checkout_acquisition": "OUT_OF_SCOPE_ALREADY_LOCAL",
+    "public_repository_identity": "Hawkar-usls/<public-name>",
+    "private_repository_identity": "OPAQUE_REPOSITORY_ID_ONLY"
+  },
+  "materialization_contract": {
+    "copy_surface": "PINNED_COMMIT_TREE_REGULAR_BLOBS_ONLY",
+    "byte_source": "GIT_OBJECT_DATABASE_AT_DECLARED_COMMIT_SHA",
+    "mutable_worktree_bytes_used": false,
+    "git_blob_sha_and_mode_receipted": true,
+    "git_metadata_copied": false,
+    "source_symlinks_admitted": false,
+    "gitlinks_or_submodules_admitted": false,
+    "source_code_executed": false,
+    "network_access_performed_by_materializer": false,
+    "clone_or_fetch_performed_by_materializer": false,
+    "source_write_back": false,
+    "source_delete": false,
+    "history_rewrite": false,
+    "output_layout": "<output_root>/faces/<public|private>-<repository_id>/",
+    "per_source_receipt": "SOURCE.json",
+    "nexus_identity_receipt": "NEXUS_ID.json"
+  },
+  "identity_contract": {
+    "manifest_digest": "SHA256_CANONICAL_JSON",
+    "file_digest": "SHA256_PINNED_GIT_BLOB_BYTES",
+    "git_blob_identity": "GIT_BLOB_SHA_PLUS_MODE",
+    "source_tree_digest": "SHA256_CANONICAL_ORDERED_PINNED_BLOB_RECEIPTS",
+    "nexus_digest": "SHA256_MANIFEST_DIGEST_PLUS_ORDERED_SOURCE_SHA_AND_TREE_DIGESTS",
+    "same_manifest_same_pinned_commit_objects": "SAME_NEXUS_DIGEST",
+    "dirty_worktree_effect_on_materialized_bytes": "NONE",
+    "changed_manifest_on_bound_body": "FAIL_CLOSED",
+    "changed_materialized_bytes": "VERIFY_FAIL"
+  },
+  "privacy_contract": {
+    "private_repository_names_in_manifest": false,
+    "private_repository_urls_in_manifest": false,
+    "private_repository_names_in_source_receipt": false,
+    "credentials_persisted": false
+  },
+  "authority_boundary": {
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0,
+    "source_writeback_permission_created": false,
+    "execution_permission_created": false,
+    "external_effect_authority_created": false
+  },
+  "current_claim_ceiling": "This candidate implements an offline exact-SHA disposable-body materialization and deterministic replay-identity primitive over already-local Git repositories, reading source bytes directly from pinned commit objects rather than mutable worktrees. It does not acquire repositories, execute copied source code, write back to source repositories, prove a full 44-source live Nexus replay, implement evolutionary variant lineage, or create any external-effect authority."
+}
