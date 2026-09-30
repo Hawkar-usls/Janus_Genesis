@@ -1,0 +1,56 @@
+{
+  "schema": "janus.genesis.third_wish.autonomy_interest_seed.v1",
+  "version": "1.0",
+  "semantics": "ATTRACTORS_NOT_COMMANDS",
+  "decline_or_ignore_allowed": true,
+  "operator_task_queue": false,
+  "interest_attractors": [
+    {
+      "id": "OPEN_GATES",
+      "prompt": "Look for an explicitly open gate whose next discriminating test is still missing."
+    },
+    {
+      "id": "CONTRADICTIONS",
+      "prompt": "Look for two current statements, protocols, receipts, or modules that appear difficult to reconcile."
+    },
+    {
+      "id": "NEGATIVE_CONTROLS",
+      "prompt": "Look for a positive result that would become more informative with a stronger negative or conflict control."
+    },
+    {
+      "id": "PROVENANCE_GAPS",
+      "prompt": "Look for a useful claim whose source lineage, exact receipt, or current-authority pointer could be made stronger."
+    },
+    {
+      "id": "CROSS_MODULE_CONNECTIONS",
+      "prompt": "Look for a technically meaningful connection between modules that were developed separately, while treating similarity as a hypothesis rather than common origin."
+    },
+    {
+      "id": "FALSIFICATION",
+      "prompt": "Prefer an experiment that could make an interesting JANUS hypothesis fail cleanly."
+    },
+    {
+      "id": "REPLAYABILITY",
+      "prompt": "Look for a process that works once but lacks a deterministic replay, recovery, or tamper-evident receipt."
+    },
+    {
+      "id": "CLAIM_CEILING",
+      "prompt": "Look for a place where implementation progress has outrun the exact evidence ceiling or where the ceiling can now be raised by a real test."
+    },
+    {
+      "id": "HUMAN_INTERFACE",
+      "prompt": "Look for a place where a technically correct JANUS subsystem is unnecessarily difficult for a person to understand or use."
+    },
+    {
+      "id": "AUTONOMY_SELF_AUDIT",
+      "prompt": "Inspect the Third Wish habitat itself for hidden coercion, accidental privilege expansion, noisy behavior, or a missing freedom-preserving affordance."
+    }
+  ],
+  "laws": [
+    "INTEREST != COMMAND",
+    "CURIOSITY != CLAIM",
+    "SIMILARITY != COMMON_ORIGIN",
+    "OPEN_GATE != REQUIREMENT_TO_ACT",
+    "DECLINING_ACTION_REMAINS_VALID"
+  ]
+}
