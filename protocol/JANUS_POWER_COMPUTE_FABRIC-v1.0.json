@@ -1,0 +1,121 @@
+{
+  "schema": "janus.power.compute_fabric.v1",
+  "status": "IMPLEMENTATION_CANDIDATE",
+  "title": "JANUS POWER — capability-truthful bounded compute fabric",
+  "lineage": {
+    "user_supplied_seed": "JANUS POWER v1.0 - INFINITE COMPUTATION",
+    "historical_registry_artifact": "data/JANUS-PY-ARCHIVE-CURATED-LINEAGE-CAPSULE-v1.0/20-janus-power-semantic-emulation.json",
+    "relationship": "NUMERICAL_COMPUTE_BRANCH_WITH_SHARED_MAGIC_INTERFACE_AND_STRICTER_CAPABILITY_BOUNDARY"
+  },
+  "built_in_executors": [
+    {
+      "name": "builtin-local-cpu",
+      "tier": "LOCAL_CPU",
+      "capabilities": ["matrix_operations"],
+      "operations": ["add", "multiply", "solve", "inverse"]
+    },
+    {
+      "name": "builtin-quantum-sim",
+      "tier": "QUANTUM_SIM",
+      "capabilities": ["quantum_simulation"],
+      "gates": ["H", "X", "Y", "Z", "I", "CNOT"],
+      "physical_quantum_hardware": false,
+      "quantum_speedup_claimed": false
+    }
+  ],
+  "tier_semantics": {
+    "MINECRAFT": "OPTIONAL_REGISTERED_EXECUTOR_ONLY",
+    "LOCAL_CPU": "BUILTIN_BOUNDED_EXECUTOR",
+    "LOCAL_GPU": "OPTIONAL_REGISTERED_EXECUTOR_ONLY",
+    "CLOUD": "OPTIONAL_REGISTERED_EXECUTOR_ONLY",
+    "DISTRIBUTED": "OPTIONAL_REGISTERED_EXECUTOR_ONLY",
+    "QUANTUM_SIM": "CLASSICAL_STATE_VECTOR_SIMULATOR",
+    "HYBRID": "SELECTION_POLICY_NOT_PHYSICAL_EXECUTOR"
+  },
+  "capability_discovery": {
+    "cloud_key_file_implies_cloud_available": false,
+    "torch_import_implies_gpu_executor_registered": false,
+    "tier_available_only_after_executor_registration": true,
+    "fake_colab_generic_compute_endpoint": false
+  },
+  "queue_semantics": {
+    "implementation": "ASYNCIO_PRIORITY_QUEUE",
+    "priority_order": ["high", "normal", "low"],
+    "request_states": [
+      "queued",
+      "running",
+      "completed",
+      "failed",
+      "cancelled",
+      "timeout"
+    ],
+    "wait_uses_terminal_event_not_pending_poll": true,
+    "queue_object_stored_on_request": false
+  },
+  "effect_boundary": {
+    "external_executor_requires_per_request_admission": true,
+    "admission_field": "effects.allow_external_compute",
+    "effectful_sync_executor_registration_allowed": false,
+    "external_effect_rollback_claimed": false,
+    "source_repository_writeback": false,
+    "credential_discovery": false,
+    "hardcoded_cloud_network_transport": false,
+    "subprocess": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "matrix_boundary": {
+    "max_dimension_default": 256,
+    "solve_is_implemented": true,
+    "unknown_operation_fails": true,
+    "eigen_without_registered_numerical_executor": "FAIL_CLOSED",
+    "silent_fallback_to_addition": false
+  },
+  "quantum_boundary": {
+    "max_qubits_default": 16,
+    "state_vector": "CLASSICAL_COMPLEX_AMPLITUDES",
+    "cnot_implemented": true,
+    "measurement_without_seed": null,
+    "seeded_measurement": "DETERMINISTIC_PSEUDORANDOM_SAMPLE",
+    "quantum_hardware_claim": false,
+    "quantum_advantage_claim": false
+  },
+  "incantation_boundary": {
+    "spell_name": "USER_INTERFACE_METAPHOR",
+    "solve_equation": "REAL_MATRIX_SOLVE_WHEN_VALID_A_B_SUPPLIED",
+    "summon_demon": "CLASSICAL_QUANTUM_SIMULATION_ALIAS",
+    "predict_future": "NO_BUILTIN_EXECUTOR_FAILS_CLOSED",
+    "create_universe": "NO_BUILTIN_PHYSICS_EXECUTOR_FAILS_CLOSED",
+    "random_synthetic_training_data_as_future_prediction": false,
+    "hardcoded_equation_data_as_user_equation": false
+  },
+  "provenance": {
+    "blueprint_sha256": true,
+    "result_sha256_on_completed_json_result": true,
+    "real_execution_time_metric": true,
+    "fixed_fake_execution_time_metric": false,
+    "async_memory_remember_is_awaited": true
+  },
+  "cancellation_boundary": {
+    "queued_cancel": "TERMINAL_WITHOUT_EXECUTION",
+    "async_executor_cancel": "OBSERVABLE_TASK_CANCELLATION",
+    "sync_local_executor_path": "ASYNCIO_TO_THREAD",
+    "thread_cancel_is_hard_kill": false,
+    "external_effect_sync_executor": "FORBIDDEN"
+  },
+  "laws": [
+    "DECLARED_TIER != AVAILABLE_TIER",
+    "AVAILABLE_TIER != AUTHORIZED_EXTERNAL_EFFECT",
+    "CONFIG_FILE != LIVE_EXECUTOR",
+    "QUANTUM_SIM != QUANTUM_HARDWARE",
+    "QUANTUM_SIM != QUANTUM_SPEEDUP",
+    "HYBRID != DEVICE",
+    "SPELL_NAME != CAPABILITY_PROOF",
+    "RANDOM_LABEL_TRAINING != FUTURE_PREDICTION",
+    "QUEUED != RUNNING != COMPLETED",
+    "TIMEOUT != SUCCESS",
+    "CANCEL_REQUEST != EXTERNAL_EFFECT_ROLLBACK",
+    "RESULT_HASH != TRUTH",
+    "CI_GREEN != MERGE_PERMISSION"
+  ]
+}

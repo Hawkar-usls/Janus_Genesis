@@ -1,0 +1,84 @@
+name: JANUS Power Compute Fabric v1
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_power_compute_fabric.py'
+      - 'tests/test_janus_power_compute_fabric_v1.py'
+      - 'protocol/JANUS_POWER_COMPUTE_FABRIC-v1.0.json'
+      - '.github/workflows/janus-power-compute-fabric-v1.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'tools/janus_power_compute_fabric.py'
+      - 'tests/test_janus_power_compute_fabric_v1.py'
+      - 'protocol/JANUS_POWER_COMPUTE_FABRIC-v1.0.json'
+      - '.github/workflows/janus-power-compute-fabric-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile exact Power surface
+        run: |
+          python -m py_compile tools/janus_power_compute_fabric.py
+          python -m py_compile tests/test_janus_power_compute_fabric_v1.py
+      - name: Reject duplicate contract keys
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          def unique_pairs(pairs):
+              out = {}
+              for key, value in pairs:
+                  if key in out:
+                      raise ValueError(f'duplicate key: {key}')
+                  out[key] = value
+              return out
+
+          path = Path('protocol/JANUS_POWER_COMPUTE_FABRIC-v1.0.json')
+          json.loads(path.read_text(encoding='utf-8'), object_pairs_hook=unique_pairs)
+          print('contract-json: PASS')
+          PY
+      - name: Enforce no hidden transport or fake capability discovery
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          path = Path('tools/janus_power_compute_fabric.py')
+          text = path.read_text(encoding='utf-8')
+          tree = ast.parse(text)
+          forbidden_imports = {
+              'aiohttp', 'requests', 'socket', 'subprocess', 'boto3',
+              'google', 'paramiko'
+          }
+          imported = set()
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  imported.update(alias.name.split('.')[0] for alias in node.names)
+              elif isinstance(node, ast.ImportFrom) and node.module:
+                  imported.add(node.module.split('.')[0])
+          assert not (imported & forbidden_imports), imported & forbidden_imports
+          forbidden_literals = [
+              'cloud_keys.json',
+              'colab.research.google.com/api/compute',
+              'execution_time"] = 0.1',
+              'execution_time" = 0.1',
+          ]
+          for literal in forbidden_literals:
+              assert literal not in text, literal
+          print('capability/effect-inventory: PASS')
+          PY
+      - name: Run Power falsification regressions
+        run: python -m unittest -v tests.test_janus_power_compute_fabric_v1
