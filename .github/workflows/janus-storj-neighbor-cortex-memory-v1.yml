@@ -1,0 +1,112 @@
+name: JANUS Storj Neighbor Cortex Memory v1
+
+on:
+  pull_request:
+    paths:
+      - "tools/janus_storj_neighbor_cortex_memory.py"
+      - "tests/test_janus_storj_neighbor_cortex_memory_v1.py"
+      - "protocol/JANUS_STORJ_NEIGHBOR_CORTEX_MEMORY-v1.0.json"
+      - "docs/JANUS_STORJ_NEIGHBOR_CORTEX_MEMORY_V1.md"
+      - ".github/workflows/janus-storj-neighbor-cortex-memory-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cortex-memory:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR state
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Validate machine-readable contract
+        run: python -m json.tool protocol/JANUS_STORJ_NEIGHBOR_CORTEX_MEMORY-v1.0.json >/dev/null
+
+      - name: Compile Cortex implementation and tests
+        run: |
+          python -m py_compile tools/janus_storj_neighbor_cortex_memory.py
+          python -m py_compile tests/test_janus_storj_neighbor_cortex_memory_v1.py
+
+      - name: Run Cortex adversarial tests
+        run: python -m unittest discover -s tests -p 'test_janus_storj_neighbor_cortex_memory_v1.py' -v
+
+      - name: Enforce authority-neutral local-only Python surface
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          source_path = Path("tools/janus_storj_neighbor_cortex_memory.py")
+          tree = ast.parse(source_path.read_text(encoding="utf-8"), filename=str(source_path))
+
+          forbidden_import_roots = {
+              "aiohttp", "httpx", "requests", "socket", "subprocess", "urllib"
+          }
+          forbidden_calls = {
+              "os.system", "os.popen", "subprocess.run", "subprocess.Popen",
+              "subprocess.call", "subprocess.check_call", "subprocess.check_output"
+          }
+
+          def dotted(node):
+              if isinstance(node, ast.Name):
+                  return node.id
+              if isinstance(node, ast.Attribute):
+                  parent = dotted(node.value)
+                  return f"{parent}.{node.attr}" if parent else node.attr
+              return None
+
+          violations = []
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  for alias in node.names:
+                      if alias.name.split(".", 1)[0] in forbidden_import_roots:
+                          violations.append((node.lineno, "import", alias.name))
+              elif isinstance(node, ast.ImportFrom):
+                  root = (node.module or "").split(".", 1)[0]
+                  if root in forbidden_import_roots:
+                      violations.append((node.lineno, "import-from", node.module))
+              elif isinstance(node, ast.Call):
+                  name = dotted(node.func)
+                  if name in forbidden_calls:
+                      violations.append((node.lineno, "call", name))
+
+          if violations:
+              raise SystemExit(f"CORTEX_LOCAL_ONLY_SURFACE_VIOLATION={violations}")
+          print("CORTEX_LOCAL_ONLY_SURFACE=PASS")
+          PY
+
+      - name: Enforce memory authority and shutdown laws
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = json.loads(Path("protocol/JANUS_STORJ_NEIGHBOR_CORTEX_MEMORY-v1.0.json").read_text())
+          assert p["role"]["canonical_player_state"] is False
+          assert p["role"]["canonical_world_state"] is False
+          assert p["role"]["third_wish_provenance_authority"] is False
+          assert p["role"]["command_authority"] is False
+          assert p["role"]["truth_authority"] is False
+          assert p["authority_boundary"]["network_access"] is False
+          assert p["authority_boundary"]["source_writeback"] is False
+          assert p["authority_boundary"]["authority_delta"] == 0
+          assert p["authority_boundary"]["mass_effect_budget_delta"] == 0
+          assert p["flush_semantics"]["shutdown_cancels_active_sqlite_worker"] is False
+          laws = set(p["canonical_laws"])
+          assert "MEMORY_ROW != TRUTH" in laws
+          assert "RECALL_RESULT != COMMAND" in laws
+          assert "SHUTDOWN_MUST_NOT_CANCEL_ACTIVE_SQLITE_WORKER" in laws
+          assert "CI_GREEN != MERGE_PERMISSION" in laws
+          print("CORTEX_AUTHORITY_BOUNDARY=PASS")
+          PY
