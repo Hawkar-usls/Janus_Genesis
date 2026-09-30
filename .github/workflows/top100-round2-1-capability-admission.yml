@@ -6,8 +6,13 @@ on:
     paths:
       - "benchmarks/round2_1_capability_preserving_quantization_admission_v0.1.json"
       - "benchmarks/frozen_samples/top100_round2_fp16_critical_reference_v0.1.json"
+      - "benchmarks/frozen_samples/top100_round1_stratified_v0.1.json"
+      - "benchmarks/frozen_receipts/top100_round2_quantization_routing_report_v0.1.json.gz.b64"
+      - "tools/run_top100_round1_stratified.py"
       - "tools/run_top100_round2_1_capability_admission.py"
+      - "tools/run_top100_round2_1_capability_admission_hardened.py"
       - "tests/test_top100_round2_1_capability_admission.py"
+      - "tests/test_top100_round2_1_provenance_hardening.py"
       - ".github/workflows/top100-round2-1-capability-admission.yml"
   workflow_dispatch:
 
@@ -31,19 +36,89 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Prove frozen source objects were not edited
+      - name: Prove frozen source objects and config provenance agree
         run: |
-          test "$(git hash-object benchmarks/frozen_samples/top100_round1_stratified_v0.1.json)" = "ca27652feb3532ff52e8453dd055b608711b0d43"
-          test "$(git hash-object benchmarks/frozen_samples/top100_round2_fp16_critical_reference_v0.1.json)" = "6743337b8a6357783858c71fad01720d034b63ca"
-          echo "ROUND1_PACK_BLOB=ca27652feb3532ff52e8453dd055b608711b0d43"
-          echo "ROUND2_CRITICAL_REFERENCE_BLOB=6743337b8a6357783858c71fad01720d034b63ca"
+          CONFIG_BLOB="$(git hash-object benchmarks/round2_1_capability_preserving_quantization_admission_v0.1.json)"
+          ROUND1_BLOB="$(git hash-object benchmarks/frozen_samples/top100_round1_stratified_v0.1.json)"
+          CRITICAL_BLOB="$(git hash-object benchmarks/frozen_samples/top100_round2_fp16_critical_reference_v0.1.json)"
+          ROUND2_SOURCE_BLOB="$(git hash-object benchmarks/frozen_receipts/top100_round2_quantization_routing_report_v0.1.json.gz.b64)"
+          test "$CONFIG_BLOB" = "a88952b4c71f86369512c94b618f27e63e5db447"
+          test "$ROUND1_BLOB" = "ca27652feb3532ff52e8453dd055b608711b0d43"
+          test "$CRITICAL_BLOB" = "6743337b8a6357783858c71fad01720d034b63ca"
+          test "$ROUND2_SOURCE_BLOB" = "c8e5b2f07dfaa7d7e86d10794bba4543417c22d6"
+          python - <<'PY'
+          import base64
+          import gzip
+          import hashlib
+          import json
+          import subprocess
+          from pathlib import Path
+
+          cfg = json.load(open('benchmarks/round2_1_capability_preserving_quantization_admission_v0.1.json', encoding='utf-8'))
+          critical = json.load(open('benchmarks/frozen_samples/top100_round2_fp16_critical_reference_v0.1.json', encoding='utf-8'))
+
+          def blob(path):
+              return subprocess.check_output(['git', 'hash-object', path], text=True).strip()
+          def raw_git_blob(data):
+              return hashlib.sha1(f"blob {len(data)}\0".encode('ascii') + data).hexdigest()
+
+          observed_pack = blob(cfg['round1_pack'])
+          observed_critical = blob(cfg['critical_reference'])
+          observed_source = blob(cfg['round2_source_report_encoded'])
+          assert cfg['round1_pack_git_blob_sha1'] == observed_pack
+          assert cfg['critical_reference_git_blob_sha1'] == observed_critical
+          assert cfg['round2_source_report_encoded_git_blob_sha1'] == observed_source
+          assert critical['source']['round1_pack_path'] == cfg['round1_pack']
+          assert critical['source']['round1_pack_git_blob_sha1'] == observed_pack
+          assert critical['critical_set_canonical_sha256'] == cfg['critical_set_canonical_sha256']
+
+          encoded = Path(cfg['round2_source_report_encoded']).read_bytes()
+          compressed = base64.b64decode(encoded, validate=True)
+          assert hashlib.sha256(compressed).hexdigest() == cfg['round2_source_report_gzip_sha256']
+          raw = gzip.decompress(compressed)
+          assert hashlib.sha256(raw).hexdigest() == cfg['round2_source_report_json_sha256']
+          assert hashlib.sha256(raw).hexdigest() == critical['source']['round2_report_json_sha256']
+          assert raw_git_blob(raw) == cfg['round2_source_report_raw_git_blob_sha1']
+          report = json.loads(raw.decode('utf-8'))
+          assert report['execution_record_count'] == len(report['records']) == 105
+          fp16 = [row for row in report['records'] if row['config_id'] == 'FP16_RAW']
+          passed = sorted((row for row in fp16 if row['status'] == 'PASS'), key=lambda row: row['sample_id'])
+          derived = [{
+              'sample_id': row['sample_id'],
+              'benchmark': row['benchmark'],
+              'domain': row['domain'],
+              'grader': row['grader'],
+              'effective_input_sha256': row['effective_input_sha256'],
+              'reference_output_sha256': row['output_sha256'],
+              'reference_grader_detail': row['grader_detail'],
+              'reference_status': 'PASS',
+          } for row in passed]
+          assert len(fp16) == 21
+          assert len(derived) == 8
+          assert derived == critical['critical_set']
+          print('CONFIG_ROUND1_PACK_BLOB_VERIFIED=' + observed_pack)
+          print('CONFIG_CRITICAL_REFERENCE_BLOB_VERIFIED=' + observed_critical)
+          print('ROUND2_SOURCE_ENCODED_BLOB_VERIFIED=' + observed_source)
+          print('ROUND2_SOURCE_JSON_SHA256_VERIFIED=' + hashlib.sha256(raw).hexdigest())
+          print('ROUND2_FP16_PASS_DERIVATION_REPLAY=8_OF_21')
+          PY
+          echo "ROUND2_1_CONFIG_BLOB=$CONFIG_BLOB"
+          echo "ROUND1_PACK_BLOB=$ROUND1_BLOB"
+          echo "ROUND2_CRITICAL_REFERENCE_BLOB=$CRITICAL_BLOB"
+          echo "ROUND2_SOURCE_ENCODED_BLOB=$ROUND2_SOURCE_BLOB"
 
       - name: Compile and unit-test strict admission semantics
         run: |
-          python -m py_compile tools/run_top100_round2_1_capability_admission.py tests/test_top100_round2_1_capability_admission.py
+          python -m py_compile \
+            tools/run_top100_round2_1_capability_admission.py \
+            tools/run_top100_round2_1_capability_admission_hardened.py \
+            tests/test_top100_round2_1_capability_admission.py \
+            tests/test_top100_round2_1_provenance_hardening.py
           python -m json.tool benchmarks/round2_1_capability_preserving_quantization_admission_v0.1.json >/dev/null
           python -m json.tool benchmarks/frozen_samples/top100_round2_fp16_critical_reference_v0.1.json >/dev/null
-          python -m unittest tests.test_top100_round2_1_capability_admission -v
+          python -m unittest \
+            tests.test_top100_round2_1_capability_admission \
+            tests.test_top100_round2_1_provenance_hardening -v
 
       - name: Install pinned Ollama 0.30.8
         run: |
@@ -68,7 +143,22 @@ jobs:
           PY
           while IFS= read -r tag; do
             echo "PULLING=$tag"
-            ollama pull "$tag"
+            pulled=0
+            for attempt in 1 2 3 4; do
+              if ollama pull "$tag"; then
+                pulled=1
+                echo "MODEL_PULL_SUCCESS tag=$tag attempt=$attempt"
+                break
+              fi
+              echo "MODEL_PULL_RETRY tag=$tag attempt=$attempt/4"
+              if [ "$attempt" -lt 4 ]; then
+                sleep 3
+              fi
+            done
+            if [ "$pulled" -ne 1 ]; then
+              echo "MODEL_PULL_EXHAUSTED tag=$tag attempts=4" >&2
+              exit 1
+            fi
           done < /tmp/round21-model-tags.txt
           curl -fsS http://127.0.0.1:11434/api/tags > /tmp/ollama-tags-round21.json
           python - <<'PY'
@@ -97,10 +187,10 @@ jobs:
             --cap-drop ALL --security-opt no-new-privileges \
             python:3.11-alpine python -c "print('SANDBOX_READY')"
 
-      - name: Execute strict critical-capability admission ladder
+      - name: Execute strict critical-capability admission ladder through hardened entrypoint
         run: |
           mkdir -p artifacts/top100-round2-1
-          python -m tools.run_top100_round2_1_capability_admission \
+          python -m tools.run_top100_round2_1_capability_admission_hardened \
             --config benchmarks/round2_1_capability_preserving_quantization_admission_v0.1.json \
             --critical-reference benchmarks/frozen_samples/top100_round2_fp16_critical_reference_v0.1.json \
             --pack benchmarks/frozen_samples/top100_round1_stratified_v0.1.json \
@@ -117,6 +207,30 @@ jobs:
           assert r['critical_reference']['critical_set_count'] == 8
           assert r['critical_reference']['critical_set_canonical_sha256'] == 'aa04c2befda34e6a9a27b73360c55150617d3008f1d8fe82a6b49ad93f14e97c'
           assert r['critical_reference']['membership_mutated_by_candidate_results'] is False
+          p = r['provenance_verification']
+          assert p['status'] == 'VERIFIED_AGAINST_ACTUAL_CONSUMED_BYTES'
+          assert p['observed_config_git_blob_sha1'] == 'a88952b4c71f86369512c94b618f27e63e5db447'
+          assert p['observed_round1_pack_git_blob_sha1'] == 'ca27652feb3532ff52e8453dd055b608711b0d43'
+          assert p['observed_critical_reference_git_blob_sha1'] == '6743337b8a6357783858c71fad01720d034b63ca'
+          assert p['observed_round2_source_encoded_git_blob_sha1'] == 'c8e5b2f07dfaa7d7e86d10794bba4543417c22d6'
+          assert p['receipt_fields_derived_from_verified_declarations'] is True
+          assert p['single_snapshot_consumption'] is True
+          assert p['verified_bytes_are_execution_bytes'] is True
+          assert p['repository_root_independent_of_process_cwd'] is True
+          src = p['round2_source_identity']
+          assert src['identity_channels_verified'] == 4
+          assert src['observed_encoded_git_blob_sha1'] == 'c8e5b2f07dfaa7d7e86d10794bba4543417c22d6'
+          assert src['observed_gzip_sha256'] == '7761fef86b88501559d67286de95654302ee84abfba8f1209315e4f363a08788'
+          assert src['observed_report_json_sha256'] == '78fc935a146ca43b7b365fca723f3352cb4323648052f9434b2228b70454cbdc'
+          assert src['observed_report_raw_git_blob_sha1'] == '40aa321a86d77638a4c8b885a3fa4adba0f4a061'
+          assert src['raw_report_byte_count'] == 74604
+          d = p['critical_set_derivation']
+          assert d['status'] == 'REPLAYED_FROM_FROZEN_ROUND2_RECEIPT'
+          assert d['source_fp16_record_count'] == 21
+          assert d['derived_pass_count'] == 8
+          assert d['derived_canonical_sha256'] == 'aa04c2befda34e6a9a27b73360c55150617d3008f1d8fe82a6b49ad93f14e97c'
+          assert d['equals_frozen_critical_projection'] is True
+          assert d['candidate_results_consulted'] is False
           assert r['quantized_candidate_count'] == 14
           assert r['model_count'] == 15
           assert r['execution']['expected_record_count'] == 360
@@ -127,6 +241,13 @@ jobs:
           assert r['general_lossless_quantization_claimed'] is False
           assert r['bitwise_output_identity_claimed'] is False
           assert r['canonical_world_state_mutated'] is False
+          print('PROVENANCE_VERIFICATION=' + p['status'])
+          print('ROUND2_SOURCE_IDENTITY_CHANNELS=4')
+          print('ROUND2_FP16_PASS_DERIVATION_REPLAY=8_OF_21')
+          print('CRITICAL_DERIVATION=' + d['status'])
+          print('SINGLE_SNAPSHOT_CONSUMPTION=PASS')
+          print('VERIFIED_BYTES_ARE_EXECUTION_BYTES=PASS')
+          print('REPOSITORY_ROOT_INDEPENDENT_OF_PROCESS_CWD=PASS')
           print('CRITICAL_SET=8')
           print('CRITICAL_REPLAYS=3')
           for row in r['candidate_size_order']:

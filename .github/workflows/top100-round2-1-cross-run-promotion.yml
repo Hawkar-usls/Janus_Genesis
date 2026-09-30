@@ -1,0 +1,176 @@
+name: Top-100 Round-2.1 Cross-Run Promotion
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "benchmarks/frozen_receipts/top100_round2_1_cross_run_evidence_v0.1.json"
+      - "benchmarks/frozen_receipts/top100_round2_1_admission_run_31349156794_report_v0.1.json.gz.b64"
+      - "benchmarks/frozen_receipts/top100_round2_1_admission_run_31352475058_report_v0.1.json.gz.b64"
+      - "benchmarks/round2_1_cross_run_promotion_gate_v0.1.json"
+      - "tools/run_top100_round2_1_cross_run_promotion_gate.py"
+      - "tools/run_top100_round2_1_cross_run_promotion_gate_hardened.py"
+      - "tests/test_top100_round2_1_cross_run_promotion_gate.py"
+      - "tests/test_top100_round2_1_cross_run_promotion_gate_hardened.py"
+      - ".github/workflows/top100-round2-1-cross-run-promotion.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  cross-run-promotion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Freeze cross-run gate inputs
+        run: |
+          test "$(git hash-object benchmarks/frozen_receipts/top100_round2_1_cross_run_evidence_v0.1.json)" = "14a40f44797602862f80b9f9de8226f5beddd6fe"
+          test "$(git hash-object benchmarks/frozen_receipts/top100_round2_1_admission_run_31349156794_report_v0.1.json.gz.b64)" = "1b338d16cbc0fb4eb6e35b8e085d2d3820679216"
+          test "$(git hash-object benchmarks/frozen_receipts/top100_round2_1_admission_run_31352475058_report_v0.1.json.gz.b64)" = "0a6e4e3b9371d4bfec4097c8b431eb08d7d7cddb"
+          test "$(git hash-object benchmarks/round2_1_cross_run_promotion_gate_v0.1.json)" = "72f00299e13de6b17b70fa86f7bf551986e5622c"
+          test "$(git hash-object tools/run_top100_round2_1_cross_run_promotion_gate.py)" = "c0a0b153c969b3b5be5336b2b6b5a14e46f3ab00"
+          test "$(git hash-object tools/run_top100_round2_1_cross_run_promotion_gate_hardened.py)" = "529b3664443342b7295d9eab1372d6d39787aa9f"
+          test "$(git hash-object tests/test_top100_round2_1_cross_run_promotion_gate.py)" = "e79ee473f7df85e8ffd07ed2279f9f2d7a33eff1"
+          test "$(git hash-object tests/test_top100_round2_1_cross_run_promotion_gate_hardened.py)" = "df35cd924291fdce0a8e16eca293253b2691da94"
+          echo "CROSS_RUN_EVIDENCE_BLOB=14a40f44797602862f80b9f9de8226f5beddd6fe"
+          echo "HISTORICAL_SOURCE_REPORT_BLOB=1b338d16cbc0fb4eb6e35b8e085d2d3820679216"
+          echo "FRESH_SOURCE_REPORT_BLOB=0a6e4e3b9371d4bfec4097c8b431eb08d7d7cddb"
+          echo "CROSS_RUN_CONFIG_BLOB=72f00299e13de6b17b70fa86f7bf551986e5622c"
+          echo "CROSS_RUN_CORE_BLOB=c0a0b153c969b3b5be5336b2b6b5a14e46f3ab00"
+          echo "CROSS_RUN_HARDENED_BLOB=529b3664443342b7295d9eab1372d6d39787aa9f"
+          echo "CROSS_RUN_CORE_TEST_BLOB=e79ee473f7df85e8ffd07ed2279f9f2d7a33eff1"
+          echo "CROSS_RUN_HARDENED_TEST_BLOB=df35cd924291fdce0a8e16eca293253b2691da94"
+
+      - name: Compile and unit-test cross-run semantics
+        run: |
+          python -m py_compile \
+            tools/run_top100_round2_1_cross_run_promotion_gate.py \
+            tools/run_top100_round2_1_cross_run_promotion_gate_hardened.py \
+            tests/test_top100_round2_1_cross_run_promotion_gate.py \
+            tests/test_top100_round2_1_cross_run_promotion_gate_hardened.py
+          python -m json.tool benchmarks/frozen_receipts/top100_round2_1_cross_run_evidence_v0.1.json >/dev/null
+          python -m json.tool benchmarks/round2_1_cross_run_promotion_gate_v0.1.json >/dev/null
+          python -m unittest \
+            tests.test_top100_round2_1_cross_run_promotion_gate \
+            tests.test_top100_round2_1_cross_run_promotion_gate_hardened
+
+      - name: Execute authenticated cross-run promotion gate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          mkdir -p artifacts/top100_round2_1_cross_run_promotion
+          python -m tools.run_top100_round2_1_cross_run_promotion_gate_hardened \
+            --config benchmarks/round2_1_cross_run_promotion_gate_v0.1.json \
+            --pretty \
+            > artifacts/top100_round2_1_cross_run_promotion/report.json
+
+      - name: Validate fail-closed promotion receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('artifacts/top100_round2_1_cross_run_promotion/report.json')
+          r = json.loads(p.read_text(encoding='utf-8'))
+          assert r['schema'] == 'janus.genesis.top100.round2_1_cross_run_promotion_hardened_receipt.v1'
+          assert r['canonical_entrypoint'] == 'tools.run_top100_round2_1_cross_run_promotion_gate_hardened'
+          assert r['authentication_mode'] == 'LIVE_GITHUB_ACTIONS_WITH_ARTIFACT_BYTES'
+          assert r['experimental_spec_fingerprint_sha256'] == '28173fb94cff1b2e0b741fc9e3bf1f529abc57818a965d4cc182842805f54657'
+          assert r['receipt_count'] == 2
+          assert r['independent_workflow_run_count'] == 2
+          assert r['all_receipts_exact_spec_conforming'] is True
+          assert r['compact_evidence_rederived_from_exact_source_reports'] is True
+          assert r['independence_authenticated_against_github_actions'] is True
+          assert r['promotion_preconditions']['github_actions_run_artifact_authentication'] is True
+          assert r['promotion_preconditions']['live_artifact_report_bytes_equal_frozen_reports'] is True
+          profile = r['critical_trial_profile_verification']
+          assert profile['status'] == 'EXACT_FROZEN_CRITICAL_TRIAL_PROFILE_VERIFIED'
+          assert profile['critical_sample_count'] == 8
+          assert profile['replays_per_sample'] == 3
+          assert profile['expected_trial_count'] == 24
+          assert profile['candidate_key_set_equals_frozen_profile'] is True
+          source_auth = r['github_source_authentication']
+          assert source_auth['status'] == 'GITHUB_ACTIONS_SOURCE_AND_ARTIFACT_BYTES_AUTHENTICATED'
+          assert source_auth['repository'] == 'Hawkar-usls/Janus_Genesis'
+          assert source_auth['source_count'] == 2
+          assert source_auth['distinct_workflow_run_ids'] is True
+          assert source_auth['distinct_artifact_ids'] is True
+          assert source_auth['distinct_artifact_digests'] is True
+          assert source_auth['distinct_raw_report_sha256'] is True
+          assert source_auth['distinct_raw_report_git_blobs'] is True
+          assert source_auth['live_artifact_payload_binding'] is True
+          assert source_auth['independence_counting_uses_authenticated_metadata'] is True
+          for row in source_auth['sources']:
+              assert row['artifact_payload_authenticated'] is True
+              assert row['artifact_report_json_sha256']
+              assert row['artifact_report_raw_git_blob_sha1']
+              assert row['artifact_report_byte_count'] > 0
+          assert len(r['source_report_provenance']) == 2
+          source_by_run = {row['workflow_run_id']: row for row in r['source_report_provenance']}
+          assert source_by_run[31349156794]['identity_channels_verified'] == 5
+          assert source_by_run[31349156794]['derived_from_exact_report_bytes'] is True
+          assert source_by_run[31349156794]['observed_report_json_sha256'] == '32954cbe3dbadde7e2e6489882eb3c111249d08f7c52dc9c143817d8a48db6aa'
+          assert source_by_run[31352475058]['identity_channels_verified'] == 5
+          assert source_by_run[31352475058]['derived_from_exact_report_bytes'] is True
+          assert source_by_run[31352475058]['observed_report_json_sha256'] == 'e4c33f4b113e4cf3267f73f77824af6708194aaa9cf21177932de977e937f67d'
+          assert r['reference_model_passed_every_receipt'] is True
+          assert r['candidate_positive_receipt_count'] == 1
+          assert r['candidate_negative_receipt_count'] == 1
+          assert r['candidate_any_historical_negative'] is True
+          assert r['cross_run_status_divergence_observed'] is True
+          assert r['cross_run_output_divergence_observed'] is True
+          by_run = {row['workflow_run_id']: row for row in r['receipts']}
+          old = by_run[31349156794]
+          fresh = by_run[31352475058]
+          assert old['head_sha'] == '81898c0f4ee09d1b530e3cc1c38ecdd993d4d9c9'
+          assert old['artifact_id'] == 9048707870
+          assert old['artifact_digest'] == 'sha256:1561a538076b8907326353f71a0e644987d77484e11f760f114fa029062daff6'
+          assert old['report_json_sha256'] == '32954cbe3dbadde7e2e6489882eb3c111249d08f7c52dc9c143817d8a48db6aa'
+          assert old['candidate_pass_trials'] == 20 and old['candidate_nonpass_trials'] == 4
+          assert fresh['head_sha'] == '692f88dd2bccf211487e9c675a981fc530d81095'
+          assert fresh['artifact_id'] == 9049984941
+          assert fresh['artifact_digest'] == 'sha256:0f85f51a0114ca7f2dd8d14f0244db63c63e3e7bc23b10aae79baf60da631213'
+          assert fresh['report_json_sha256'] == 'e4c33f4b113e4cf3267f73f77824af6708194aaa9cf21177932de977e937f67d'
+          assert fresh['candidate_pass_trials'] == 24 and fresh['candidate_nonpass_trials'] == 0
+          assert old['candidate_model_digest'] == fresh['candidate_model_digest'] == '84d044692a2ce0a5a063d3177ca7a69fb189fd81b3139a7a3ead74ccf42a51dc'
+          assert old['candidate_size_bytes'] == fresh['candidate_size_bytes'] == 531081605
+          promotion = r['promotion']
+          assert promotion['authoritative_runtime_promoted'] is False
+          assert promotion['selected_runtime_representation'] == 'FP16'
+          assert promotion['decision'] == 'BLOCKED_BY_HISTORICAL_NEGATIVE_EVIDENCE'
+          assert promotion['historical_negative_is_veto'] is True
+          assert promotion['fresh_positive_compensates_historical_negative'] is False
+          print('CROSS_RUN_EXACT_SPEC_RECEIPTS=2')
+          print('SOURCE_REPORTS_RECONSTRUCTED=2_OF_2')
+          print('SOURCE_REPORT_IDENTITY_CHANNELS=5_EACH')
+          print('COMPACT_EVIDENCE_REDERIVATION=PASS')
+          print('CRITICAL_TRIAL_KEY_SET=8_X_3_EXACT')
+          print('GITHUB_ACTIONS_SOURCE_AUTHENTICATION=PASS')
+          print('LIVE_ARTIFACT_REPORT_BINDING=PASS')
+          print('INDEPENDENT_SOURCE_IDENTITIES=2_OF_2')
+          print('Q8_0_HISTORICAL=20_OF_24')
+          print('Q8_0_FRESH=24_OF_24')
+          print('CROSS_RUN_STATUS_DIVERGENCE=OBSERVED')
+          print('CROSS_RUN_OUTPUT_DIVERGENCE=OBSERVED')
+          print('AUTHORITATIVE_RUNTIME_PROMOTED=FALSE')
+          print('AUTHORITATIVE_RUNTIME=FP16')
+          print('PROMOTION_DECISION=BLOCKED_BY_HISTORICAL_NEGATIVE_EVIDENCE')
+          PY
+
+      - name: Upload cross-run promotion receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-top100-round2-1-cross-run-promotion
+          path: artifacts/top100_round2_1_cross_run_promotion/report.json
+          if-no-files-found: error
