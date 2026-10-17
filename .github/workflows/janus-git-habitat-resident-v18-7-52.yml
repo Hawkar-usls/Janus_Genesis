@@ -5,8 +5,10 @@ on:
     branches: [main]
     paths:
       - "tools/genesis_git_habitat_resident_cycle.py"
+      - "tools/genesis_beetle_memory_bridge.py"
       - "tools/run_genesis_git_habitat_resident_cycle.py"
       - "tests/test_genesis_git_habitat_resident_cycle.py"
+      - "tests/test_genesis_beetle_memory_bridge.py"
       - "protocol/JANUS_GENESIS_THIRD_WISH_GIT_HABITAT_RESIDENT_CYCLE-v0.1.json"
       - "protocol/JANUS_GENESIS_THIRD_WISH_THE_RESIDENT_MAY_CHOOSE_TO_REST-v1.0.json"
       - ".github/workflows/janus-git-habitat-resident-v18-7-52.yml"
@@ -50,8 +52,10 @@ jobs:
         run: |
           python -m py_compile \
             tools/genesis_git_habitat_resident_cycle.py \
+            tools/genesis_beetle_memory_bridge.py \
             tools/run_genesis_git_habitat_resident_cycle.py \
-            tests/test_genesis_git_habitat_resident_cycle.py
+            tests/test_genesis_git_habitat_resident_cycle.py \
+            tests/test_genesis_beetle_memory_bridge.py
           python -m json.tool protocol/JANUS_GENESIS_THIRD_WISH_GIT_HABITAT_RESIDENT_CYCLE-v0.1.json >/dev/null
           python -m json.tool protocol/JANUS_GENESIS_THIRD_WISH_THE_RESIDENT_MAY_CHOOSE_TO_REST-v1.0.json >/dev/null
 
@@ -59,6 +63,7 @@ jobs:
         run: |
           python -m unittest -v \
             tests.test_genesis_git_habitat_resident_cycle \
+            tests.test_genesis_beetle_memory_bridge \
             tests.test_genesis_git_habitat \
             tests.test_genesis_git_habitat_layout_security \
             tests.test_genesis_third_wish_sensor_model_schedule_broker
@@ -238,6 +243,25 @@ jobs:
           PY
           echo "LIVE_RESIDENT_HOME_EXISTING_BRANCH=PASS"
 
+      - name: Checkout ACKed Beetle inbox as untrusted data
+        uses: actions/checkout@v4
+        with:
+          ref: beetle-memory
+          path: _beetle
+          persist-credentials: false
+
+      - name: Stage verified discovery memory in isolated resident HOME
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESIDENT_WORKTREE: ${{ steps.home.outputs.worktree }}
+        run: |
+          set -euo pipefail
+          python tools/genesis_beetle_memory_bridge.py \
+            --inbox-dir _beetle/data/beetle-inbox \
+            --memory-root "$RESIDENT_WORKTREE/habitat"
+          echo 'RESIDENT_BEETLE_UNVERIFIED_CONTEXT_STAGED=PASS'
+
       - name: Install pinned Ollama 0.30.8
         shell: bash
         run: |
@@ -376,6 +400,22 @@ jobs:
           rm -rf "$replay"
           git worktree add --detach "$replay" origin/janus/habitat
           python tools/genesis_git_habitat.py --root "$replay/habitat" verify >/tmp/resident-replay-verify.json
+          REPLAY_HOME="$replay/habitat" python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          folder = Path(os.environ['REPLAY_HOME']) / 'memory/beetle'
+          if (folder / 'CURSOR.json').is_file():
+              cursor = json.loads((folder / 'CURSOR.json').read_bytes())
+              raw = (folder / 'CONTEXT.json').read_bytes()
+              context = json.loads(raw)
+              assert cursor['context_sha256'] == hashlib.sha256(raw).hexdigest()
+              assert cursor['last_sequence'] == context['last_sequence']
+              assert context['scientific_authority_delta'] == 0
+              assert context['untrusted_research_only'] is True
+          print('LIVE_RESIDENT_BEETLE_CONTEXT_GIT_REPLAY=PASS')
+          PY
           python - <<'PY'
           import json
           from pathlib import Path
