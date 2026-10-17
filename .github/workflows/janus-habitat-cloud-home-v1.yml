@@ -6,12 +6,16 @@ on:
     paths:
       - 'protocol/JANUS_HABITAT_PC_INDEPENDENCE_CONTRACT-v1.0.json'
       - 'tools/verify_habitat_pc_independence_contract_v1.py'
+      - 'tools/genesis_beetle_memory_bridge.py'
+      - 'tests/test_genesis_beetle_memory_bridge.py'
       - '.github/workflows/janus-habitat-cloud-home-v1.yml'
   pull_request:
     branches: [main]
     paths:
       - 'protocol/JANUS_HABITAT_PC_INDEPENDENCE_CONTRACT-v1.0.json'
       - 'tools/verify_habitat_pc_independence_contract_v1.py'
+      - 'tools/genesis_beetle_memory_bridge.py'
+      - 'tests/test_genesis_beetle_memory_bridge.py'
       - '.github/workflows/janus-habitat-cloud-home-v1.yml'
   workflow_dispatch:
   schedule:
@@ -37,6 +41,10 @@ jobs:
           python-version: '3.12'
       - name: Verify PC-independent Habitat contract
         run: python tools/verify_habitat_pc_independence_contract_v1.py
+      - name: Verify bounded Beetle-memory ingestion contract
+        run: |
+          python -m py_compile tools/genesis_beetle_memory_bridge.py
+          python -m unittest -v tests.test_genesis_beetle_memory_bridge
       - name: Assert runner is cloud and no local-device contract exists
         shell: bash
         run: |
@@ -68,6 +76,27 @@ jobs:
           ref: janus/habitat-cloud-state
           path: _state
           fetch-depth: 0
+      - name: Checkout current trusted bridge code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: _code
+          persist-credentials: false
+      - name: Checkout ACKed Beetle inbox as untrusted data
+        uses: actions/checkout@v4
+        with:
+          ref: beetle-memory
+          path: _beetle
+          persist-credentials: false
+      - name: Stage hash-verified Beetle context in Cloud HOME
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python _code/tools/genesis_beetle_memory_bridge.py \
+            --inbox-dir _beetle/data/beetle-inbox \
+            --memory-root _state/state/habitat_cloud_home
       - name: Reconstruct durable resident and append receipt
         id: mutate
         shell: bash
@@ -84,6 +113,29 @@ jobs:
           root = Path('_state')
           state_path = root / 'state/habitat_cloud_home/STATE.json'
           state = json.loads(state_path.read_text(encoding='utf-8'))
+          context_path = root / 'state/habitat_cloud_home/memory/beetle/CONTEXT.json'
+          cursor_path = root / 'state/habitat_cloud_home/memory/beetle/CURSOR.json'
+          beetle_memory = {
+              'status': 'NO_ACKED_CONTEXT_AVAILABLE',
+              'scientific_authority_delta': 0,
+              'command_authority': False,
+              'external_effect_authority': False,
+          }
+          if context_path.is_file() and cursor_path.is_file():
+              raw_context = context_path.read_bytes()
+              context = json.loads(raw_context)
+              cursor = json.loads(cursor_path.read_bytes())
+              context_hash = hashlib.sha256(raw_context).hexdigest()
+              assert cursor['context_sha256'] == context_hash
+              assert context['last_sequence'] == cursor['last_sequence']
+              assert context['untrusted_research_only'] is True
+              assert context['scientific_authority_delta'] == 0
+              beetle_memory.update({
+                  'status': 'HASH_MATCHED_UNVERIFIED_CONTEXT_STAGED',
+                  'cursor_sequence': cursor['last_sequence'],
+                  'context_sha256': context_hash,
+                  'cursor_sha256': hashlib.sha256(cursor_path.read_bytes()).hexdigest(),
+              })
 
           assert state['schema'] == 'JANUS_HABITAT_CLOUD_HOME_STATE_V1'
           assert state['pc_required'] is False
@@ -119,8 +171,9 @@ jobs:
               'resident_identity': state['durable_identity'],
               'admission_status': 'ADMITTED_BOUNDED_CLOUD_HOME_TICK',
               'parse_status': 'PARSED',
-              'load_status': 'NOT_REQUESTED',
+              'load_status': 'CONTEXT_STAGED_NOT_MODEL_LOADED' if cursor_path.is_file() else 'NOT_REQUESTED',
               'execute_status': 'CHECKPOINT_ONLY',
+              'beetle_memory': beetle_memory,
               'pc_dependency_observed': False,
               'remote_desktop_dependency_observed': False,
               'nas_dependency_observed': False,
@@ -145,7 +198,8 @@ jobs:
               'last_run_id': run_id,
               'last_event': event,
               'last_worker': worker,
-              'last_receipt_sha256': receipt_sha256
+              'last_receipt_sha256': receipt_sha256,
+              'beetle_memory': beetle_memory
           })
           state_path.write_text(json.dumps(state, sort_keys=True, indent=2) + '\n', encoding='utf-8')
 
@@ -165,7 +219,7 @@ jobs:
           cd _state
           git config user.name 'janus-cloud-home[bot]'
           git config user.email 'janus-cloud-home[bot]@users.noreply.github.com'
-          git add state/habitat_cloud_home/STATE.json "$RECEIPT_PATH"
+          git add state/habitat_cloud_home
           git diff --cached --check
           git commit -m "JANUS cloud HOME checkpoint ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT}"
           git push origin HEAD:janus/habitat-cloud-state
@@ -225,6 +279,27 @@ jobs:
           assert receipt['source_writeback_observed'] is False
           assert receipt['destructive_action'] is False
           assert receipt['authority_delta'] == 0
+          assert receipt['beetle_memory'] == state['beetle_memory']
+          beetle = receipt['beetle_memory']
+          assert beetle['scientific_authority_delta'] == 0
+          assert beetle['command_authority'] is False
+          assert beetle['external_effect_authority'] is False
+          if beetle['status'] == 'HASH_MATCHED_UNVERIFIED_CONTEXT_STAGED':
+              folder = Path('state/habitat_cloud_home/memory/beetle')
+              raw_context = (folder / 'CONTEXT.json').read_bytes()
+              raw_cursor = (folder / 'CURSOR.json').read_bytes()
+              assert hashlib.sha256(raw_context).hexdigest() == beetle['context_sha256']
+              assert hashlib.sha256(raw_cursor).hexdigest() == beetle['cursor_sha256']
+              context = json.loads(raw_context)
+              cursor = json.loads(raw_cursor)
+              assert cursor['last_sequence'] == beetle['cursor_sequence']
+              assert cursor['context_sha256'] == beetle['context_sha256']
+              assert context['untrusted_research_only'] is True
+              assert context['scientific_authority_delta'] == 0
+              assert context['external_effect_authority_delta'] == 0
+              assert receipt['load_status'] == 'CONTEXT_STAGED_NOT_MODEL_LOADED'
+          else:
+              assert beetle['status'] == 'NO_ACKED_CONTEXT_AVAILABLE'
 
           print('CLEAN_CLOUD_WORKER_B_RECONSTRUCTION=PASS')
           print('DURABLE_CHECKPOINT_HANDOFF=PASS')
@@ -233,4 +308,5 @@ jobs:
           print('REMOTE_DESKTOP_DEPENDENCY=FALSE')
           print('NAS_DEPENDENCY=FALSE')
           print('AUTHORITY_DELTA=0')
+          print('BEETLE_CONTEXT_DURABLE_REPLAY=PASS')
           PY
