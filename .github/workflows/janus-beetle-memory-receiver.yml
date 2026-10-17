@@ -1,33 +1,73 @@
 name: JANUS Beetle Memory Receiver
 on:
-  schedule: [{cron: '47 * * * *'}]
+  schedule:
+    - cron: '47 * * * *'
   workflow_dispatch:
-permissions: {contents: write}
-concurrency: {group: janus-beetle-memory-receiver, cancel-in-progress: false}
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/janus-beetle-memory-receiver.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: janus-beetle-memory-receiver
+  cancel-in-progress: false
+
 jobs:
   receive:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
-      - uses: actions/checkout@v4
-        with: {fetch-depth: 0}
-      - id: fetch
+      - name: Checkout recipient repository
+        uses: actions/checkout@v4
+        with:
+          path: target
+          fetch-depth: 0
+
+      - name: Checkout pinned JANUS Beetle receiver
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/janus-lapis
+          ref: c35b9af34ce56a3545a8d60addc01f947997f4e8
+          path: beetle-client
+          persist-credentials: false
+
+      - name: Restore durable discovery inbox
+        shell: bash
+        working-directory: target
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin beetle-memory >/dev/null 2>&1; then
+            git fetch origin beetle-memory
+            git switch -C beetle-memory origin/beetle-memory
+          else
+            git switch --orphan beetle-memory
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+
+      - name: Stage all missing sequenced discovery packages
         shell: bash
         run: |
           set -euo pipefail
-          slug="${GITHUB_REPOSITORY//\//__}"; url="https://raw.githubusercontent.com/Hawkar-usls/janus-lapis/beetle-state/data/beetle-state/mirrors/${slug}/latest.json"
-          code=$(curl -L -sS -o /tmp/beetle-latest.json -w '%{http_code}' "$url")
-          [[ "$code" == "200" ]] || { echo "available=false" >> "$GITHUB_OUTPUT"; exit 0; }
-          python - <<'PY'
-          import json,os
-          d=json.load(open('/tmp/beetle-latest.json')); assert d['schema']=='janus.beetle.repo_memory_batch.v1'; assert d['target_repository']==os.environ['GITHUB_REPOSITORY']; assert d['claim_ceiling']=='DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY'; assert d['batch_id']
-          PY
-          echo "available=true" >> "$GITHUB_OUTPUT"
-      - if: steps.fetch.outputs.available == 'true'
+          python beetle-client/tools/beetle_memory_receiver.py \
+            --inbox-dir target/data/beetle-inbox \
+            --target-repository "$GITHUB_REPOSITORY" \
+            --max-batches 96
+
+      - name: Commit batches and ACK atomically to isolated branch
         shell: bash
+        working-directory: target
         run: |
-          set -euo pipefail; batch=$(python -c "import json; print(json.load(open('/tmp/beetle-latest.json'))['batch_id'])")
-          if git ls-remote --exit-code --heads origin beetle-memory >/dev/null 2>&1; then git fetch origin beetle-memory; git switch -C beetle-memory origin/beetle-memory; else git switch --orphan beetle-memory; git rm -rf . >/dev/null 2>&1 || true; fi
-          mkdir -p data/beetle-inbox/batches; cp /tmp/beetle-latest.json "data/beetle-inbox/batches/${batch}.json"; cp /tmp/beetle-latest.json data/beetle-inbox/LATEST.json
-          printf '%s\n' '# JANUS Beetle discovery inbox' '' 'Unverified routed research memory only. Presence here is not evidence, proof, or project endorsement.' > data/beetle-inbox/README.md
-          git config user.name 'janus-beetle-memory[bot]'; git config user.email 'janus-beetle-memory[bot]@users.noreply.github.com'; git add data/beetle-inbox; git diff --cached --quiet && exit 0; git commit -m "beetle-memory: ingest routed discovery batch ${batch}"; git push origin HEAD:beetle-memory
+          set -euo pipefail
+          [[ -d data/beetle-inbox ]] || exit 0
+          git config user.name 'janus-beetle-memory[bot]'
+          git config user.email 'janus-beetle-memory[bot]@users.noreply.github.com'
+          git add data/beetle-inbox
+          if git diff --cached --quiet; then
+            echo 'Inbox already up to date'
+            exit 0
+          fi
+          git commit -m 'beetle-memory: durable ordered inbox + ACK'
+          git push origin HEAD:beetle-memory
