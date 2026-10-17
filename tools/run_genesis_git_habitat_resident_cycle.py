@@ -25,13 +25,34 @@ from tools.genesis_git_habitat_resident_cycle import (
     ThirdWishResidentModelCaller,
     run_awake_resident_cycle,
 )
-from tools.genesis_git_habitat_resident_provider import OllamaResidentChoiceProvider
+from tools.genesis_git_habitat_resident_provider import OllamaResidentChoiceProvider, ResidentProviderError
 from tools.genesis_third_wish_sensor_model_schedule_broker import (
     ModelAlias,
     ThirdWishSensorModelScheduleBroker,
 )
 
 RUNNER_VERSION = "18.7.52"
+
+# Public, constant error identifiers only. Never log an arbitrary exception body.
+_SAFE_PROVIDER_CODES = frozenset({
+    "RESIDENT_OLLAMA_TRANSPORT_FIELDS_INVALID", "RESIDENT_OLLAMA_TRANSPORT_SCALAR_TYPE_INVALID",
+    "RESIDENT_OLLAMA_TRANSPORT_TAGS_TYPE_INVALID", "RESIDENT_OLLAMA_MESSAGE_ROLE_INVALID",
+    "RESIDENT_OLLAMA_MESSAGE_TOO_LONG", "RESIDENT_OLLAMA_MESSAGES_REQUIRED",
+    "RESIDENT_OLLAMA_CONNECTION_FAILED", "RESIDENT_OLLAMA_TIMEOUT",
+    "RESIDENT_OLLAMA_RESPONSE_ENVELOPE_INVALID", "RESIDENT_OLLAMA_RESPONSE_ENVELOPE_NOT_OBJECT",
+    "RESIDENT_OLLAMA_RESPONSE_MESSAGE_MISSING", "RESIDENT_OLLAMA_RESPONSE_CONTENT_MISSING",
+    *{f"RESIDENT_OLLAMA_HTTP_{code}" for code in range(400, 600)},
+})
+
+
+def _safe_provider_failure_code(exc: BaseException) -> str | None:
+    for _ in range(8):
+        if type(exc) is ResidentProviderError and str(exc) in _SAFE_PROVIDER_CODES:
+            return str(exc)
+        if exc.__cause__ is None:
+            return None
+        exc = exc.__cause__
+    return None
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -150,6 +171,7 @@ def main(argv: list[str] | None = None) -> int:
                 f"{type(exc).__name__}:{exc}".encode("utf-8")
             ).hexdigest(),
             "capability_outcome_underlying_exception_type": _underlying_outcome_exception_type(fabric),
+            "provider_failure_code": _safe_provider_failure_code(exc),
             "raw_exception_message_logged": False,
             "raw_model_output_stored": False,
             "raw_model_output_logged": False,

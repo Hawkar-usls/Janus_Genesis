@@ -9,6 +9,8 @@ from pathlib import Path
 from tools.genesis_becker_tmt_lens import LENS_PATH, lens_context, review_structured_proposal
 from tools.genesis_git_habitat import GitHabitat
 from tools.genesis_git_habitat_resident_cycle import run_awake_resident_cycle, safe_resident_snapshot
+from tools.genesis_git_habitat_resident_provider import ResidentProviderError
+from tools.run_genesis_git_habitat_resident_cycle import _safe_provider_failure_code
 
 
 class BeckerTMTLensTests(unittest.TestCase):
@@ -65,6 +67,13 @@ class BeckerTMTLensTests(unittest.TestCase):
         self.assertFalse(result["scientific_promotion_authorized"])
         with tempfile.TemporaryDirectory() as tmp:
             self.assertEqual(review_structured_proposal(proposal,path=Path(tmp)/"missing")["verdict"], "LENS_UNAVAILABLE")
+
+    def test_live_provider_failure_diagnostic_never_exposes_arbitrary_messages(self):
+        outer = RuntimeError("opaque request id")
+        outer.__cause__ = ResidentProviderError("RESIDENT_OLLAMA_TRANSPORT_FIELDS_INVALID")
+        self.assertEqual(_safe_provider_failure_code(outer), "RESIDENT_OLLAMA_TRANSPORT_FIELDS_INVALID")
+        outer.__cause__ = ResidentProviderError("private provider response must stay hidden")
+        self.assertIsNone(_safe_provider_failure_code(outer))
 
 
 if __name__ == "__main__":
