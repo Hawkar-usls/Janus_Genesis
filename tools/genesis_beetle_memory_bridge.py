@@ -89,6 +89,9 @@ def _project(item: dict, batch_id: str) -> dict:
         'summary': _clip(item.get('summary'), 500),
         'source': _clip(item.get('source'), 80),
         'url': _clip(item.get('url'), 300),
+        'source_context_sha256': item.get('source_context_sha256'),
+        'delivery_preview_only': True,
+        'delivery_preview_truncated': item.get('delivery_preview_truncated') is True,
         'epistemic_status': EPISTEMIC_STATUS,
         'untrusted_source_text': True,
         'command_authority': False,
@@ -139,10 +142,17 @@ def sync(inbox: Path, home: Path, queue: dict, *, max_batches: int = 96) -> dict
             type(current) is not int or current < 1 or current > ack_seq or
             cursor.get('batch_id') != entries[current - 1]['batch_id'] or
             cursor.get('sha256') != entries[current - 1]['sha256'] or
-            not re.fullmatch(r'[0-9a-f]{64}', str(cursor.get('rolling_sha256', '')))):
+            not re.fullmatch(r'[0-9a-f]{64}', str(cursor.get('rolling_sha256', ''))) or
+            cursor.get('unverified_research_only') is not True or
+            cursor.get('scientific_authority_delta') != 0):
             raise BeetleBridgeError('durable cursor conflicts with producer/receiver')
         if (not projection or projection.get('schema') != PROJECTION_SCHEMA or
             projection.get('last_sequence') != current or
+            projection.get('target_repository') != REPOSITORY or
+            projection.get('untrusted_research_only') is not True or
+            projection.get('model_text_is_command') is not False or
+            projection.get('scientific_authority_delta') != 0 or
+            projection.get('external_effect_authority_delta') != 0 or
             cursor.get('context_sha256') != _hash(projection_path.read_bytes())):
             raise BeetleBridgeError('durable context projection integrity failed')
     else:
@@ -150,17 +160,24 @@ def sync(inbox: Path, home: Path, queue: dict, *, max_batches: int = 96) -> dict
         if projection:
             raise BeetleBridgeError('unpaired context projection')
 
-    if current == ack_seq:
-        return {'status': 'UP_TO_DATE', 'loaded': 0,
-                'last_sequence': current, 'scientific_authority_delta': 0}
     recent = list(projection.get('recent_items', [])) if projection else []
     if projection and (not isinstance(projection.get('recent_items'), list) or
                        len(projection['recent_items']) > MAX_RECENT_ITEMS or
                        any(not isinstance(item, dict) or not item.get('untrusted_source_text') or
                            item.get('command_authority') is not False or
-                           item.get('proof_authority') is not False
+                       item.get('proof_authority') is not False or
+                       item.get('external_effect_authority') is not False or
+                       item.get('epistemic_status') != EPISTEMIC_STATUS or
+                       not isinstance(item.get('context_id'), str) or
+                       not item['context_id'].strip()
                            for item in recent)):
         raise BeetleBridgeError('invalid existing context projection')
+    # Do not fast-path UP_TO_DATE before verifying individual context flags:
+    # a hash-rewritten projection must never acquire effect/proof authority
+    # merely because no fresh Beetle batch arrived during this tick.
+    if current == ack_seq:
+        return {'status': 'UP_TO_DATE', 'loaded': 0,
+                'last_sequence': current, 'scientific_authority_delta': 0}
     rolling = cursor.get('rolling_sha256', ZERO)
     selected = entries[current:min(ack_seq, current + max_batches)]
     # Validate *all* selected payloads before advancing the durable cursor.
@@ -180,11 +197,31 @@ def sync(inbox: Path, home: Path, queue: dict, *, max_batches: int = 96) -> dict
             data.get('claim_ceiling') != CLAIM_CEILING or
             not isinstance(data.get('items'), list) or len(data['items']) > 128):
             raise BeetleBridgeError(f"invalid inbox packet {entry['batch_id']}")
+        fragment_fields = ('fragment_index', 'fragment_count', 'snapshot_items_total')
+        if any(field in data for field in fragment_fields):
+            if (not all(field in data for field in fragment_fields) or
+                type(data['fragment_index']) is not int or
+                type(data['fragment_count']) is not int or
+                type(data['snapshot_items_total']) is not int or
+                not 1 <= data['fragment_index'] <= data['fragment_count'] <= 256 or
+                not len(data['items']) <= data['snapshot_items_total'] <= 32768):
+                raise BeetleBridgeError('invalid Beetle snapshot fragment envelope')
+        packet_ids = set()
         for item in data['items']:
             if (not isinstance(item, dict) or item.get('target_repository') != REPOSITORY or
                 item.get('epistemic_status') != EPISTEMIC_STATUS or
-                item.get('mirror_lens') not in ('FORWARD', 'REVERSE', 'COUNTEREVIDENCE', 'CONTROL')):
+                item.get('mirror_lens') not in ('FORWARD', 'REVERSE', 'COUNTEREVIDENCE', 'CONTROL') or
+                not isinstance(item.get('context_id'), str) or
+                not item['context_id'].strip() or len(item['context_id']) > 128 or
+                not isinstance(item.get('candidate_id'), str) or
+                not item['candidate_id'].strip()):
                 raise BeetleBridgeError('unverified or wrong-address research item')
+            if item['context_id'] in packet_ids:
+                raise BeetleBridgeError('duplicate context identity inside Beetle fragment')
+            packet_ids.add(item['context_id'])
+            if ('source_context_sha256' in item and not
+                re.fullmatch(r'[0-9a-f]{64}', str(item['source_context_sha256']))):
+                raise BeetleBridgeError('invalid Beetle source context fingerprint')
             new_items.append(_project(item, entry['batch_id']))
         rolling = _hash(bytes.fromhex(rolling) + entry['sequence'].to_bytes(8, 'big') + bytes.fromhex(entry['sha256']))
     # Only a bounded read-only projection is duplicated. Original full batches
