@@ -54,6 +54,31 @@ This remains a pull-based bridge. If producer manifest retrieval fails, the
 workflow stops before the state commit; the last committed state remains
 intact. Next scheduled run can resume from the durable cursor.
 
+## Model research-review witness
+
+Each Git Habitat model cycle with validated Beetle context now writes
+`habitat/memory/beetle/reviews/<cycle-id>.json` alongside the resident choice
+receipt. The review binds the source projection SHA-256 and cursor sequence to
+the **exact bounded model snapshot SHA-256**, model-messages SHA-256, output
+SHA-256 and the admitted choice payload hash. It lists how many snippets were
+presented, and records an observable **exact `context_id` string mention** only
+if a valid choice actually includes that ID.
+
+The model may ignore the findings, choose REST, or reference a relevant ID;
+there is no compulsory claim and no reward for citing anything. A string
+mention is **not** proof that a model understood, used, or independently
+verified a source. The review hard-codes `model_causal_influence_proven: false`,
+`independent_scientific_confirmation_established: false` and
+`research_promoted_to_evidence: false`. It never stores raw snippets or raw
+model output. The review and resident choice receipt are committed in one Git
+transaction, with a SHA link between them.
+
+PR model smoke now stages the real ACKed inbox in a temporary Habitat and
+requires a real Ollama call to create the review. The live Habitat job reopens
+the review in a fresh Git worktree after its commit and independently verifies
+its digest and provenance pointer. This is a **delivery-and-decision audit**,
+not a scientific-validation gate.
+
 Run the offline adversarial suite:
 
 ```bash
