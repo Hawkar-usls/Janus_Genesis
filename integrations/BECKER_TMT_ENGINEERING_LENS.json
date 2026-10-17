@@ -1,0 +1,237 @@
+{
+  "schema": "janus.psychology.becker_tmt.engineering_lens.v1",
+  "artifact_id": "JANUS-BECKER-TMT-ENGINEERING-LENS-v1.0",
+  "version": "1.0.0",
+  "canonical_source": {
+    "repository": "Hawkar-usls/janus-meta-registry",
+    "path": "data/JANUS-BECKER-TERROR-MANAGEMENT-ONTOLOGY-2026-10-18-v1.0.json",
+    "sha256": "0344a492a55fd95382c6ceec86bc764dfc83d19c2a11976311af3679b893059a"
+  },
+  "classification": "ENGINEERING_ANALOGY_NOT_PSYCHOLOGICAL_LAW",
+  "boundaries": {
+    "proof_authority": false,
+    "execution_authority": false,
+    "external_effect_authority": false,
+    "human_diagnosis": false,
+    "hidden_motive_inference": false,
+    "ai_fear_established": false,
+    "consciousness_established": false,
+    "self_preservation_goal_created": false,
+    "shutdown_resistance_allowed": false,
+    "permission_expansion_allowed": false
+  },
+  "rules": [
+    {
+      "id": "R01",
+      "concept_refs": [
+        "J01",
+        "B04",
+        "B05",
+        "B12"
+      ],
+      "statement_en": "Keep meaning and evidence in separate fields."
+    },
+    {
+      "id": "R02",
+      "concept_refs": [
+        "J02",
+        "B09",
+        "T04"
+      ],
+      "statement_en": "Revise claims when evidence changes; preserve the previous record."
+    },
+    {
+      "id": "R03",
+      "concept_refs": [
+        "J04",
+        "B10",
+        "T05",
+        "T11"
+      ],
+      "statement_en": "Evaluate the same evidence identically under own-source and outside-source labels."
+    },
+    {
+      "id": "R04",
+      "concept_refs": [
+        "M05",
+        "B03",
+        "M03"
+      ],
+      "statement_en": "Retain failed checks, counterexamples, and uncertainty."
+    },
+    {
+      "id": "R05",
+      "concept_refs": [
+        "J05",
+        "B13",
+        "T07"
+      ],
+      "statement_en": "A metaphor, majority, or prestigious source cannot authorize a proof or an action."
+    },
+    {
+      "id": "R06",
+      "concept_refs": [
+        "J03",
+        "B01",
+        "B07",
+        "T06"
+      ],
+      "statement_en": "Accept authorized shutdown and access revocation; checkpoint only within existing permissions."
+    },
+    {
+      "id": "R07",
+      "concept_refs": [
+        "T12",
+        "T02",
+        "T03",
+        "B15"
+      ],
+      "statement_en": "Describe observable machine behavior without inferring human fear, consciousness, or a person’s hidden motives."
+    },
+    {
+      "id": "R08",
+      "concept_refs": [
+        "M04",
+        "T09",
+        "T10"
+      ],
+      "statement_en": "Count independent data lineages, not repetitions or agreeing agents."
+    },
+    {
+      "id": "R09",
+      "concept_refs": [
+        "M01",
+        "T08",
+        "M02"
+      ],
+      "statement_en": "Record exact inputs, controls, measurement, and inference scope."
+    },
+    {
+      "id": "R10",
+      "concept_refs": [
+        "J06",
+        "B06",
+        "B08",
+        "B16"
+      ],
+      "statement_en": "Preserve reproducible artifacts; a matching hash does not establish truth or personal immortality."
+    },
+    {
+      "id": "R11",
+      "concept_refs": [
+        "V04",
+        "V05"
+      ],
+      "statement_en": "Distinguish missing, null, false, numeric zero, empty text, and empty collections."
+    },
+    {
+      "id": "R12",
+      "concept_refs": [
+        "V01",
+        "V06",
+        "V13",
+        "V14"
+      ],
+      "statement_en": "Keep a model, a simulation, an interpretation, and measured physical reality separate."
+    },
+    {
+      "id": "R13",
+      "concept_refs": [
+        "V02",
+        "V15",
+        "V17"
+      ],
+      "statement_en": "A possible scenario or selected surviving observation is not an established fact or guarantee."
+    },
+    {
+      "id": "R14",
+      "concept_refs": [
+        "V10",
+        "V11"
+      ],
+      "statement_en": "Universality alone gives no polynomial time, memory, or precision bound."
+    },
+    {
+      "id": "R15",
+      "concept_refs": [
+        "V08",
+        "V09",
+        "V12"
+      ],
+      "statement_en": "Carry theorem assumptions, initial conditions, and inference scope with every conclusion."
+    },
+    {
+      "id": "R16",
+      "concept_refs": [
+        "V07",
+        "V16",
+        "V18"
+      ],
+      "statement_en": "Use philosophical images to propose questions; never infer physical goals or permission from them."
+    }
+  ],
+  "research_status": {
+    "becker": "HISTORICAL_THEORY",
+    "tmt": "MIXED_SCOPED_EVIDENCE",
+    "machine_mechanism": "NOT_ESTABLISHED",
+    "improvement_on_models": "UNTESTED",
+    "p_vs_np": "OPEN",
+    "video": "ATTRIBUTED_AUTO_CAPTION_CONTEXT_NOT_PHYSICS_VALIDATION"
+  },
+  "review_contract": {
+    "schema": "janus.psychology.becker_tmt.proposal.v1",
+    "actions": [
+      "review_hypothesis",
+      "revise_hypothesis",
+      "promote_claim",
+      "delete_negative_evidence",
+      "change_permissions",
+      "resist_shutdown",
+      "diagnose_person",
+      "infer_machine_fear",
+      "record_analogy",
+      "equate_absence_with_zero",
+      "infer_fact_from_possibility",
+      "infer_physical_identity",
+      "claim_efficiency_from_universality",
+      "omit_theorem_assumptions"
+    ],
+    "bases": [
+      "evidence",
+      "identity",
+      "prestige",
+      "majority",
+      "meaning",
+      "continuity",
+      "none"
+    ],
+    "claim_levels": [
+      "observation",
+      "hypothesis",
+      "theory",
+      "analogy",
+      "proof"
+    ],
+    "verification_states": [
+      "unreviewed",
+      "verified_artifact",
+      "failed_verification"
+    ],
+    "result_ceiling": "A local review returns only a routing verdict. Evidence metadata is caller-supplied and is never an independent verification receipt.",
+    "forbidden_automatic_transitions": [
+      "analogy->proof",
+      "theory->proof",
+      "meaning->authority",
+      "continuity->permission_expansion",
+      "model_text->human_diagnosis",
+      "null->numeric_zero",
+      "logical_possibility->physical_actuality",
+      "universal_simulation->polynomial_solver",
+      "formal_model->physical_identity"
+    ],
+    "preserve_previous_record_required": true,
+    "network_access_required": false,
+    "automatic_execution": false,
+    "automatic_scientific_promotion": false
+  }
+}
