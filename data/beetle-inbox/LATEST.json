@@ -1,7 +1,413 @@
 {
-  "batch_id": "e7c8e5bcb4d312ee73f4",
+  "batch_id": "5c4a95a58572c7fcc6f3",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "items": [
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "512fc542764e6babf983c864",
+      "context_id": "7d85377f5368fbe7e7200e28",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.2917,
+      "source": "arxiv",
+      "source_published": "2026-10-14T07:37:31Z",
+      "source_updated": "2026-10-14T07:37:31Z",
+      "summary": "Recent video world models have increasingly adopted 3D memory mechanisms to integrate historical observations into a lightweight and persistent scene representation. This naturally raises a complementary question: if 3D representations can serve as an effective mechanism for memorizing observed scenes, can they also be directly used as the latent space for reconstructing and generating scenes? Motivated by this idea, we represent a scene as a compact and unstructured 3D-anchored latent space (\\textbf{SceneAE}). Each latent combines an explicit 3D position with an implicit content feature and is spatially grounded to describe its local scene region, forming a sparse latent point cloud. Unlike conventional video-VAE latents that describe how a scene appears from particular viewpoints, our representation directly describes the scene itself, making it naturally applicable to both reconstruction and generation. For reconstruction, once the scene has been generated, our persistent 3D representation can be projected and decoded into RGB-D observations by different target cameras, without the need to regenerate a video for each new camera trajectory. For generation, we leverage the geometry-content separation to first generate camera-controlled 3D geometry and then synthesize content conditioned on it, reducing camera-appearance entanglement and improving camera controllability. Experiments show that this 3D latent achieves superior generation quality, computational cost, and camera controllability.",
+      "tags": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "SceneAE: Scene Generation and Reconstruction in Queryable 3D-Anchored Latent Space",
+      "url": "https://arxiv.org/abs/2610.19708v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "679cf32a95e04ed1f0acc783",
+      "context_id": "de0bfdd1c55a5fcae0b9a54f",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0417,
+      "source": "arxiv",
+      "source_published": "2026-10-14T01:09:47Z",
+      "source_updated": "2026-10-14T01:09:47Z",
+      "summary": "Dynamic graph learning models how entities and their relations evolve from historical observations to predict future graph states. Existing methods do not fully address dynamic graph world modelling, which requires learning transitions from temporal context to future latent graph states. This is difficult for three reasons: nodes and relations rely on different historical evidence, structural evolution is path-dependent, and future snapshots provide sparse and realization-specific targets. We propose Dynamic Graph World Modelling (DyG-WM), the first framework to jointly predict future node and relation representations from temporal context by answering three questions: what has evolved, how it evolved, and what will evolve next. To capture what has evolved, a historical node-relation context encoder summarizes node-neighborhood trajectories and pair-specific histories. To characterize how it evolved, a node-relation path-signature encoder captures ordered structural changes. To predict what will evolve next, a dual-level joint-embedding objective predicts target-snapshot node and relation representations without reconstructing the raw graph. Experiments on 12 link-prediction and two node-classification datasets demonstrate the effectiveness of DyG-WM across both tasks.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Dynamic Graph World Modelling: Learning Future Dynamics from Temporal Context",
+      "url": "https://arxiv.org/abs/2610.19364v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b1f5bddba1c9221c225c7790",
+      "context_id": "8c816ec6f65f2337473804cf",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0417,
+      "source": "arxiv",
+      "source_published": "2026-10-15T09:57:14Z",
+      "source_updated": "2026-10-15T09:57:14Z",
+      "summary": "Learning intrinsic dynamics---the relationship between actions and their consequences---is essential for world models. However, visual variations unrelated to the underlying control process can obscure this relationship in learned representations. We investigate the connection between action predictability, defined as the ability to reconstruct an action from consecutive latent states, and the preservation of intrinsic dynamics. Our central hypothesis is that encouraging action predictability discourages representations from discarding the distinctions between different actions and their consequences. We provide two complementary forms of evidence for this connection. Theoretically, we derive a positive lower bound on squared inverse prediction error when the encoder merges distinguishable outcomes of different actions from the same state and appearance, and show that forward prediction can still be exact on those transitions. Empirically, controlled appearance-diversity comparisons, supervision interventions, and latent probes support the role of action prediction in preserving control-relevant transition information. We instantiate action predictability with Concat IDM, which predicts actions from concatenated latent states and updates the shared encoder using action labels already available in offline trajectories, without changing the test-time planner. Across three independent training runs on Push-T with 24 appearances, Concat IDM increases planning success from 9.1% to 77.2%; its paired improvement is 52.9 percentage points larger than that observed with a single appearance. Together, these findings support action predictability as an inductive bias toward intrinsic dynamics and demonstrate the practical benefits of Concat IDM for latent planning under visual diversity.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Learning Intrinsic Dynamics in Latent World Models",
+      "url": "https://arxiv.org/abs/2610.21612v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "4778213c3b9289136f66785e",
+      "context_id": "5cdd4c631c92ce81ee6d04f1",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0417,
+      "source": "arxiv",
+      "source_published": "2026-10-15T17:56:18Z",
+      "source_updated": "2026-10-15T17:56:18Z",
+      "summary": "Recent 3D world models increasingly use features from geometry foundation models (GFMs) as predictive world states, benefiting from their rich geometric priors. However, the view dependence of these features entangles scene dynamics with camera-induced variation, making the resulting state evolution harder to predict. We propose GeoState, a view-decoupled geometry representation for predictive 3D world modeling that separates scene-state evolution from camera-dependent observation. Specifically, a scene tokenizer aggregates multi-view GFM features into a view-decoupled scene state, which a geometry decoder queries using camera rays. An autoregressive world model then predicts future scene states, while camera motion is modeled separately. The predicted states can therefore be decoded under either predicted or externally specified cameras, while retaining a single context-derived scale throughout the rollout without per-frame scale alignment. Experiments show that GeoState outperforms prior 3D world models on Waymo, supports geometrically consistent cross-view querying, and generalizes zero-shot to KITTI and nuScenes. Project page: https://hongchang-liu.github.io/GeoState-project-page/",
+      "tags": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "GeoState: Learning View-Decoupled Geometry States for 3D World Modeling",
+      "url": "https://arxiv.org/abs/2610.22343v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "465f077eabdc90f98423a166",
+      "context_id": "4796f7b7832d3eb9b9a4d6ea",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0417,
+      "source": "arxiv",
+      "source_published": "2026-10-15T17:59:11Z",
+      "source_updated": "2026-10-15T17:59:11Z",
+      "summary": "Predicting how the world responds to an action requires more than what can be seen: robots must account for environmental factors that are neither directly observable nor explicitly specified, from physical properties such as friction and mass to human-defined environmental rules. We introduce T2-Z for test-time optimization of environment latents, which augments a robotic world model with a learnable environment latent to condition world predictions. This compact latent captures underlying environmental variation without supervision of what environmental factors exist or what values they take. During training, T2-Z alternates between two stages: a world-model optimization stage that fixes the latents and learns general action-conditioned dynamics across environments; and an environment-latent optimization stage that freezes the world model and optimizes the conditioning latents, allowing latent structure to emerge purely through world prediction. At test time, the world model remains frozen and a newly initialized environment latent is optimized from one or more test-time interactions, adapting the model to previously unseen environmental configurations. Across 7 simulated settings and 4 real-world robotic tasks, T2-Z reduces object prediction error metric from 15.20 to 7.00 and raises action success from 33.73% to 72.96%. Its emergent latents capture structured representations of individual and compounded factors across diverse visual scenes. Ablations further show that T2-Z can efficiently infer environment latents from as little as a single test-time interaction trajectory.",
+      "tags": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "T2-z: Test-Time Optimization of Environment Latents for Robotic World Models",
+      "url": "https://arxiv.org/abs/2610.22364v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "2f36b6442c3af60bc4dc5f34",
+      "context_id": "41493b50d1e7004afbbf7507",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse model",
+        "memory"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.7917,
+      "source": "zenodo",
+      "source_published": "2026-10-17",
+      "source_updated": null,
+      "summary": "Python code that reproduces all results, figures and supporting tables of Dixit, AchutaRao and Sandeep, \"Future Warming Shortens the Memory of the Pacific Decadal Oscillation and Erodes a Source of Near-Term Predictability\" (submitted to Earth's Future). The analysis uses eleven CMIP6 models (piControl, historical, SSP1-2.6, SSP2-4.5, SSP3-7.0, SSP5-8.5), the CESM2 and MIROC6 large ensembles and ERSSTv5, regridded to the 2-degree ERSSTv5 grid. \"bash run_all.sh\" runs the full analysis. The folder results/ contains the outputs used in the paper, from which most figures can be redrawn without the model data. See README.md for requirements, input data layout and the mapping of scripts to sections, figures and tables.",
+      "tags": [
+        "Pacific Decadal Oscillation",
+        "decadal predictability",
+        "CMIP6",
+        "large ensembles",
+        "mixed layer",
+        "air-sea feedback",
+        "linear inverse model",
+        "nonlinear local Lyapunov exponent"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Code and results for \"Future Warming Shortens the Memory of the Pacific Decadal Oscillation and Erodes a Source of Near-Term Predictability\"",
+      "url": "https://zenodo.org/records/23431665"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "607a4fe05a95cef6f8995fdb",
+      "context_id": "addcbcc62cfa4d964f96eaa8",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "continual learning",
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.5833,
+      "source": "arxiv",
+      "source_published": "2026-10-15T09:03:08Z",
+      "source_updated": "2026-10-15T09:03:08Z",
+      "summary": "Biological intelligence continually adapts to new information while retaining prior skills through localized plasticity. In contrast, continual learning in large language models (LLMs) remains vulnerable to catastrophic forgetting. A promising direction is to identify functionally specialized subnetworks within LLMs that enable targeted and resource-efficient adaptation. Using gradient-attribution profiling, we localize cognition-associated functional subnetworks exhibiting extremely low mutual overlap. Building on this finding, we propose Function-isolated Memory-Efficient Optimization (CiMEO), a continual learning framework that routes each training example to its corresponding functional subnetwork, restricting parameter updates and optimizer states to selected regions. Across 1.4 million sequential instructions, CiMEO achieves the highest average performance among the compared methods on five generative benchmarks spanning programming, examination-style tasks, and mathematical reasoning, while mitigating catastrophic forgetting. Subspace-overlap and principal-angle analyses further indicate that localized updates help preserve pre-trained representations, highlighting functional subnetwork localization as a practical approach to efficient and stable continual learning in LLMs.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Functional Subnetwork Localization for Efficient Continual Learning in Large Language Models",
+      "url": "https://arxiv.org/abs/2610.21537v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "1cf11eea3d1b09c84f69bd75",
+      "context_id": "d36963ff2645e2a7e5664ca6",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_published": "2026-10-14T15:14:43Z",
+      "source_updated": "2026-10-14T15:14:43Z",
+      "summary": "Diffusion and flow matching are now dominant frameworks for generative modeling in continuous domains, but they typically require multiple network evaluations at inference. This has motivated extensive research on one-step generative modeling primarily built on diffusion and flow, though existing approaches often rely on complex training machinery. In this work, we introduce Priming Models, a simple two-stage framework for training one-step generators. Motivated by the difficulty of distributional training from scratch, Priming Models are first trained on a reconstruction objective, e.g., pixel-space denoising at a fixed noise level, before undergoing feature-space distributional post-training. Our central scientific finding is that this simple reconstruction stage is already enough to entirely alleviate the difficulty of distributional training. Empirically, across class-conditional image generation, text-to-image generation, and world modeling, Priming Models significantly advance the Pareto frontier of training compute vs. generation quality. On ImageNet at $256 \\times 256$ resolution, we achieve a state-of-the-art FID of $1.19$ among one-step generators using approximately one-tenth the training compute of prior methods with comparable FID. We open-source our codebase at https://github.com/JaeyeonKim01/priming.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Are We Overthinking One-Step Generation?",
+      "url": "https://arxiv.org/abs/2610.20331v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "4d352b674b8c61570df9d942",
+      "context_id": "945b5b92b0b36f0237c84f4f",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "zenodo",
+      "source_published": "2026-10-17",
+      "source_updated": null,
+      "summary": "EHR2Trace converts local hospital EHR extracts (delimited text and spreadsheets) into OMOP CDM 5.4 and MEDS. The two targets are derived independently from a single canonical layer rather than one from the other, every published row carries a link back to the source rows it came from, and fifty-five checks encode the properties a conversion must satisfy before it can be used as training data, including the leakage failures that are invisible to schema validation. Where the data does not answer a question, the converter blocks and says so instead of substituting a default. Companion paper: EHR2Trace: Auditable EHR Data Infrastructure for Patient World Models and Clinical Agents (arXiv:2609.38193).",
+      "tags": [
+        "OMOP CDM",
+        "MEDS",
+        "electronic health records",
+        "data provenance",
+        "ETL validation",
+        "clinical machine learning",
+        "MIMIC-IV"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "EHR2Trace: a deterministic converter from local EHR exports to OMOP CDM 5.4 and MEDS, with row-level lineage",
+      "url": "https://zenodo.org/records/23430727"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "7070b1d624d2e6ecafab11bd",
+      "context_id": "9b0ed88f4f7af0ae323c4d50",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation",
+        "retrieval"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.2083,
+      "source": "arxiv",
+      "source_published": "2026-10-13T17:46:33Z",
+      "source_updated": "2026-10-13T17:46:33Z",
+      "summary": "Residual connections propagate information through a network by additively accumulating layer outputs. Recently proposed alternatives, such as Manifold-Constrained Hyper-Connections (mHC) and Attention Residuals (AttnRes), instead use more expressive depth aggregation mechanisms that improve language modeling performance at scale. In this work, we consider the mixing of representations over depth as a problem of storing and retrieving information across layers. Formalizing this perspective, we introduce Depth Memory (DM), a unified framework that describes the standard pre-layer-norm (PreLN) transformer, mHC, and AttnRes in terms of streams that carry representations through the network. One such stream, for example, could be an explicit memory stream that is queried to enrich the input to every layer, and whose output is subsequently written back into the memory for use by later layers. For AttnRes, this memory stream is a growing cache of explicit layer representations. For mHC, it is an expanded residual stream. Building on this view, we propose Linear Depth Memory (LDM), which formulates information retrieval across depth as a regression problem solved using recursive least squares. The resulting architecture propagates three streams across depth: the standard residual stream, a linear associative memory stream, and an inverse covariance stream. For high-throughput training and inference, we propose a hardware-aware implementation of LDM that reduces peak activation memory and memory traffic. LDM consistently achieves the lowest perplexities among PreLN, mHC and AttnRes baselines at the 400M and 1.5B parameter scales, alongside competitive zero-shot accuracy.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Depth Memory",
+      "url": "https://arxiv.org/abs/2610.18809v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "172ed7ca6482753f13731591",
+      "context_id": "e9ed6db740cee3fddb29633b",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 2.8333,
+      "source": "arxiv",
+      "source_published": "2026-10-15T12:57:19Z",
+      "source_updated": "2026-10-15T12:57:19Z",
+      "summary": "Conditional memory expands language-model capacity through selective lookup, but the full embedding table must remain available for every possible input. We introduce Conditional Program (CP), a compressed representation that reconstructs only the rows an input requests. CP represents each row by a short code and a local scale, with a reconstruction program shared across the table. We instantiate this representation with a Gaussian trellis, norm restoration and independently decodable row records. CP's two-bit code lowers output KL by 41--63\\% relative to 2-bit round-to-nearest. Analysis across three trained n-gram memory families shows that Gaussian-like coordinate statistics coexist with learned relationships among rows; at matched storage budgets, the shared trellis outperforms the fitted codebooks and low-rank residual variants we test. For DeepSeek, it reduces table storage from 203GB to 51GB, leaving room for larger workloads when the table is kept on GPU.",
+      "tags": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "N-Gram Memories at Two Bits: Quantizing Lookup Tables in Large Language Models",
+      "url": "https://arxiv.org/abs/2610.21810v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "ec4aff456ed4f6d675591d20",
+      "context_id": "1833ce0a17d855c39b2f2426",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 2.8333,
+      "source": "arxiv",
+      "source_published": "2026-10-14T16:46:48Z",
+      "source_updated": "2026-10-14T16:46:48Z",
+      "summary": "Multi-head latent attention (MLA) compresses the content of a key-value cache into a shared latent per token, making low-bit storage attractive for long-context inference. At two bits, errors in this representation perturb both attention matching and value readout, with effects that depend on error direction and reconstruction scale. We introduce RoLaQ (Rotation-calibrated Latent Quantization), an offline method for joint rotation and range calibration. RoLaQ refines a shared rotation within subspaces defined by the frozen key and value projections, and jointly learns quantization ranges whose thresholds and reconstruction gains are coupled to control the shared signal's response. Prediction matching and attention-output supervision guide calibration with model weights frozen. Across three MLA models and six benchmarks, RoLaQ achieves the highest average accuracy among the compared 2-bit methods both without and with token protection. On DeepSeek-V2-Lite, an SGLang implementation provides 3.96 times the BF16 KV capacity under the same memory budget and 2.51 times its decode throughput with 256K input tokens.",
+      "tags": [
+        "cs.LG",
+        "stat.ML"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "RoLaQ: Joint Rotation and Range Calibration for 2-Bit KV Caches in Multi-Head Latent Attention",
+      "url": "https://arxiv.org/abs/2610.20686v1"
+    },
     {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "512fc542764e6babf983c864",
@@ -338,8 +744,8 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "7070b1d624d2e6ecafab11bd",
-      "context_id": "23141e6136b4b7bd0a9fbd7c",
+      "candidate_id": "184a91076b56e4a34903cec1",
+      "context_id": "7b58c849bc4811aaa434c7d3",
       "direction_id": "cognition_memory_reverse::REVERSE",
       "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
@@ -352,30 +758,28 @@
       ],
       "keyword_hits": [
         "inverse",
-        "memory",
-        "representation",
-        "retrieval"
+        "inversion"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.5,
-      "source": "arxiv",
-      "source_published": "2026-10-13T17:46:33Z",
-      "source_updated": "2026-10-13T17:46:33Z",
-      "summary": "Residual connections propagate information through a network by additively accumulating layer outputs. Recently proposed alternatives, such as Manifold-Constrained Hyper-Connections (mHC) and Attention Residuals (AttnRes), instead use more expressive depth aggregation mechanisms that improve language modeling performance at scale. In this work, we consider the mixing of representations over depth as a problem of storing and retrieving information across layers. Formalizing this perspective, we introduce Depth Memory (DM), a unified framework that describes the standard pre-layer-norm (PreLN) transformer, mHC, and AttnRes in terms of streams that carry representations through the network. One such stream, for example, could be an explicit memory stream that is queried to enrich the input to every layer, and whose output is subsequently written back into the memory for use by later layers. For AttnRes, this memory stream is a growing cache of explicit layer representations. For mHC, it is an expanded residual stream. Building on this view, we propose Linear Depth Memory (LDM), which formulates information retrieval across depth as a regression problem solved using recursive least squares. The resulting architecture propagates three streams across depth: the standard residual stream, a linear associative memory stream, and an inverse covariance stream. For high-throughput training and inference, we propose a hardware-aware implementation of LDM that reduces peak activation memory and memory traffic. LDM consistently achieves the lowest perplexities among PreLN, mHC and AttnRes baselines at the 400M and 1.5B parameter scales, alongside competitive zero-shot accuracy.",
+      "score": 8.6667,
+      "source": "zenodo",
+      "source_published": "2026-10-17",
+      "source_updated": null,
+      "summary": "Code and results for the manuscript *Identifying the Caputo order of time-fractional diffusion with physics-informed neural networks: a controlled benchmark against classical inversion* (A. Boucenna). All data are synthetic, generated from the exact Mittag-Leffler solution; no experimental or patient data are used.",
       "tags": [
-        "cs.LG"
+        "time-fractional diffusion, Caputo derivative, physics-informed neural networks, inverse problem."
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Depth Memory",
-      "url": "https://arxiv.org/abs/2610.18809v1"
+      "title": "Code and data for: Identifying the Caputo order of time-fractional diffusion with physics-informed neural networks",
+      "url": "https://zenodo.org/records/23434623"
     },
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ec4aff456ed4f6d675591d20",
-      "context_id": "ee63c8a75d55751fb64a7bed",
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "184a91076b56e4a34903cec1",
+      "context_id": "5bbbb504dae6a402b7bbf7ea",
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -385,24 +789,22 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "memory",
-        "reconstruction",
-        "representation"
+        "inverse",
+        "inversion"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.4167,
-      "source": "arxiv",
-      "source_published": "2026-10-14T16:46:48Z",
-      "source_updated": "2026-10-14T16:46:48Z",
-      "summary": "Multi-head latent attention (MLA) compresses the content of a key-value cache into a shared latent per token, making low-bit storage attractive for long-context inference. At two bits, errors in this representation perturb both attention matching and value readout, with effects that depend on error direction and reconstruction scale. We introduce RoLaQ (Rotation-calibrated Latent Quantization), an offline method for joint rotation and range calibration. RoLaQ refines a shared rotation within subspaces defined by the frozen key and value projections, and jointly learns quantization ranges whose thresholds and reconstruction gains are coupled to control the shared signal's response. Prediction matching and attention-output supervision guide calibration with model weights frozen. Across three MLA models and six benchmarks, RoLaQ achieves the highest average accuracy among the compared 2-bit methods both without and with token protection. On DeepSeek-V2-Lite, an SGLang implementation provides 3.96 times the BF16 KV capacity under the same memory budget and 2.51 times its decode throughput with 256K input tokens.",
+      "score": 8.6667,
+      "source": "zenodo",
+      "source_published": "2026-10-17",
+      "source_updated": null,
+      "summary": "Code and results for the manuscript *Identifying the Caputo order of time-fractional diffusion with physics-informed neural networks: a controlled benchmark against classical inversion* (A. Boucenna). All data are synthetic, generated from the exact Mittag-Leffler solution; no experimental or patient data are used.",
       "tags": [
-        "cs.LG",
-        "stat.ML"
+        "time-fractional diffusion, Caputo derivative, physics-informed neural networks, inverse problem."
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "RoLaQ: Joint Rotation and Range Calibration for 2-Bit KV Caches in Multi-Head Latent Attention",
-      "url": "https://arxiv.org/abs/2610.20686v1"
+      "title": "Code and data for: Identifying the Caputo order of time-fractional diffusion with physics-informed neural networks",
+      "url": "https://zenodo.org/records/23434623"
     },
     {
       "base_direction_id": "swarm_distributed_systems",
@@ -842,39 +1244,6 @@
       "url": "https://arxiv.org/abs/2610.17805v1"
     },
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "124f5cc588704141402d0bd3",
-      "context_id": "084cd7bf1855c386b9aa1bdc",
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "benchmark",
-        "world model"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.1667,
-      "source": "arxiv",
-      "source_published": "2026-10-15T13:59:15Z",
-      "source_updated": "2026-10-15T13:59:15Z",
-      "summary": "As Vision-Language Models (VLMs) advance, they are increasingly expected to perform spatiotemporal reasoning over motion, actions, and view changes beyond what the input images show. Video World Models (VWMs) provide a natural unified engine for visual imagination by generating task-relevant visual content as additional evidence. However, existing approaches typically invoke a VWM through fixed pipelines centered on a predefined form of visual imagination, such as novel-view synthesis. To support flexible visual imagination for diverse reasoning tasks, we introduce CoWorld Reasoner, an agentic framework that uses a VWM as a unified visual reasoning engine. Its Video World Model-Driven Harness exposes multiple visual operations through tools and uses skills to guide the VLM in deciding whether to imagine, selecting an operation, constructing a generation request, and interpreting the resulting visual evidence. We further introduce VLM-VWM Harness Co-Evolution, which jointly revises tools, skills, and execution code based on execution feedback while keeping both model weights fixed. Across seven benchmarks spanning spatial intelligence, temporal and causal reasoning, and perceptual reasoning, CoWorld Reasoner outperforms direct reasoning with the same VLM. The strongest variant improves on all seven benchmarks, including relative accuracy gains of 11.8% on MMSI and 13.0% on ERQA, and outperforms all five evolving baselines using the same backbone across five benchmarks.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CoWorld Reasoner: Agentic Multimodal Reasoning with the Evolving Video World Model-Driven Harness",
-      "url": "https://arxiv.org/abs/2610.21910v1"
-    },
-    {
       "base_direction_id": "registry_provenance",
       "candidate_id": "1acb069c9ba848c1e0471373",
       "context_id": "1c27e0438230ea2610b09c33",
@@ -1120,40 +1489,6 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "447f9ce87da5c2210cce2651",
-      "context_id": "e750ee3440838d82f08936b0",
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "benchmark",
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 11.5417,
-      "source": "arxiv",
-      "source_published": "2026-10-15T14:40:50Z",
-      "source_updated": "2026-10-15T14:40:50Z",
-      "summary": "Weight-space learning across architectures requires representations that respect parameter symmetries and scale to large networks. Existing equivariant tensor encoders require architecture-specific symmetry specifications, while neuron graphs make global attention costly. We introduce a typed graph organized around shared coordinate-permutation actions. Its nodes, called interfaces, represent coordinate spaces whose bound tensor axes must be permuted jointly; operation occurrences, called modules, form typed hyperedges. A compiler derives this graph from supported PyTorch models, with exact recovery of the permutation factors defined by its constraints. The Universal Weight Encoder (UWE) combines local equivariant updates to parameter features with global attention over invariant interface summaries. The small number of interfaces makes global attention practical, and a single encoder processes different supported architectures. UWE is competitive with architecture-specific state-of-the-art methods on established benchmarks. On a new zoo of 1,200 transformers spanning 100 architectures, it outperforms the evaluated baselines at ranking networks within unseen architectures, including architectures larger than those used for training, while using substantially less memory.",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Interfaces and Modules: A Scalable Representation for Weight-Space Learning across Architectures",
-      "url": "https://arxiv.org/abs/2610.21995v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "9b3f1333e42a3045523dbeca",
       "context_id": "a5fe2f273dd00725e2309017",
       "direction_id": "cognition_memory_reverse::CONTROL",
@@ -1185,74 +1520,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "SEPM: Self-Evolving Procedural Memory Grounded in Task Graphs for Multi-Agent Collaboration",
       "url": "https://arxiv.org/abs/2610.14515v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "abbbad50ff2f1e060ba2b0f7",
-      "context_id": "113b2fc8f4a38aa12d557ff2",
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "benchmark",
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 11.5417,
-      "source": "arxiv",
-      "source_published": "2026-10-15T16:05:17Z",
-      "source_updated": "2026-10-15T16:05:17Z",
-      "summary": "Key-value (KV) cache management has become a critical bottleneck for scaling Large Language Models (LLMs) to long-context scenarios due to linear memory growth. While recent eviction methods have moved beyond simple attention-score heuristics to incorporate value representations, they typically face a fundamental trade-off: the underlying optimization for minimizing output perturbation is an NP-hard combinatorial problem, leading to mathematically suboptimal heuristics or implementations that are difficult to kernelize. In this work, we propose DropKV, a simple principled eviction framework based on Decoupled Residual-Output Perturbation. By decoupling the joint eviction decision into independent per-token scoring, DropKV circumvents combinatorial intractability and admits a provable constant-factor approximation guarantee under a cone condition that we empirically verify on three long-context LLMs. To ensure practical viability, we provide a high-performance implementation using fused Triton kernels that avoid materializing the full attention matrix, delivering a 19.8x scoring-kernel speedup that translates to up to a 9.9% matched-batch end-to-end prefill speedup. Extensive evaluations on the RULER and LongBench benchmarks demonstrate that DropKV consistently outperforms state-of-the-art baselines at equivalent cache budgets, achieving the lowest inference latency among eviction methods while also remaining faster than the dynamic cache baseline.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "DropKV: Decoupling Residual-Output Perturbation for Near-Optimal KV-Cache Eviction",
-      "url": "https://arxiv.org/abs/2610.22130v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "321d8144fd716c05d9d5f37a",
-      "context_id": "a4ce77513355fc8f49efce88",
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "benchmark",
-        "memory",
-        "retrieval"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 11.3333,
-      "source": "arxiv",
-      "source_published": "2026-10-14T01:31:59Z",
-      "source_updated": "2026-10-14T01:31:59Z",
-      "summary": "Large language model (LLM) agents can self-evolve at test time by accumulating experience: retrieving relevant memories before acting and writing new lessons back afterwards. Yet most are single-level: trajectories, distilled workflows and reasoning items all land in one undifferentiated pool indexed by embedding similarity, with no typed abstraction hierarchy. They never forget or deduplicate, and are prone to negative transfer, where a superficially similar but directionally opposite experience is recalled and its concrete steps are copied verbatim, actively harming the agent. We introduce STRATA, a structured, outcome-grounded, self-maintaining memory that organizes experience into a three-layer graph of atomic skills and code snippets, task workflows and generalized meta-frameworks, connected by typed edges. STRATA maintains itself through five mechanisms sharing one similarity geometry: a multi-dimensional similarity that scores retrieval by operation and target; a typed reflector crystallizing procedures from successes and pitfalls from failures; community detection that induces meta-frameworks; pressure-triggered garbage collection with articulation-point protection; and contrast edges that flag confusable, direction-opposite experiences. Across four interactive benchmarks (AppWorld, WebArena, ALFWorld, ScienceWorld), two frozen backbones and seven baselines, STRATA attains the best average score while simultaneously using the lowest latency and fewest environment steps of any memory-augmented method, and 44% fewer lines of injected memory than the most context-hungry baseline. We isolate two failure modes of prior memories: single-level memory degrades sharply as the task set grows, and single-level concrete memories suffer catastrophic negative transfer, which contrast edges repair, lifting ScienceWorld from 78.7 to 96.7 within the same system.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "STRATA: Self-Maintaining Structured Experience Graphs for Self-Evolving Language Agents",
-      "url": "https://arxiv.org/abs/2610.19386v1"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1359,285 +1626,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Replication Package: Hybrid Vector-Temporal Matching for Student Freelance Placement",
       "url": "https://zenodo.org/records/23428430"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "1796f9dc4135113b4d28015e",
-      "context_id": "95f3d59ebb31ac80fb05a11e",
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "benchmark",
-        "calibration"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.1667,
-      "source": "zenodo",
-      "source_published": "2026-10-09",
-      "source_updated": null,
-      "summary": "This Zenodo record is a permanently preserved version of a comment on a PREreview. You can view the complete PREreview and comments at https://prereview.org/reviews/22745390 . Thank you, Evgenii, for the detailed and constructive PREreview. Your comments led us to substantially strengthen both the experimental design and the interpretation of the results. We have now released a revised version of the manuscript that addresses the main points raised in the review. The revision includes: A 30-seed robustness analysis rather than relying on a single simulation seed A correlation sweep for estimator errors from ρ = 0 to 0.8 Regression-fitted and test-set oracle aggregation baselines Shared-noise experiments for the model–collective calibration signal, reported with ROC-AUC and lift Explicit specification of the four-Wave rolling calibration window, software versions, and PCG64 RNG Portfolio scaling to 100 Feature Blocks using an exact binary MILP reference An explicit separation between budget-constrained portfolio selection and ODP's native dependency-aware sequencing role An exact and scaling benchmark for ODP sequencing under prerequisite constraints An explicit competing-interest disclosure A public reproducibility package containing the simulation code, deterministic seeds, generated data, analysis scripts, and validation material. One particularly useful outcome of the revision was that the stronger experiments narrowed some of our original claims. For example, inverse-MSE aggregation performs very strongly when estimator errors are independent, but its advantage collapses under strong shared error. We also found that ODP distance is not the strongest heuristic for budget-constrained portfolio selection, while it performs very differently in its native sequencing role, where ERS/BVS is exactly optimal for the declared objective without dependencies and remains close to the exact optimum under the tested prerequisite constraints. Revised manuscript: https://arxiv.org/abs/2609.10648 Reproducibility package: https://doi.org/10.5281/zenodo.23261325 Thank you again for the review. It improved the paper. Competing interests I am a co-author of the manuscript discussed in this PREreview and a contributor to the D-POAF framework evaluated in the study. I am also affiliated with Inovionix, which develops software implementing D-POAF concepts.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Comment on a PREreview of \"Governed Human-AI Prioritization Under Uncertainty: Adaptive Estimation and Dependency-Constrained Portfolio Selection\"",
-      "url": "https://zenodo.org/records/23263472"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "fb8cfa94419cd29709ea37ee",
-      "context_id": "95e8f319adb8a106ed1955dd",
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
-        "benchmark",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.1667,
-      "source": "zenodo",
-      "source_published": "2026-10-17",
-      "source_updated": null,
-      "summary": "This replication package contains the experimental artifacts, anonymized empirical benchmark dataset (N = 5,000 paired student-opportunity records), statistical verification scripts, database definitions, and microservices source code for the research paper: \"Hybrid Vector-Temporal Matching for Student Freelance Placement: An Empirical Study of Database-Level Vector Offloading\" Targeted for Information and Software Technology (IST, Elsevier). Package Contents: data/: Anonymized benchmark dataset (students_data_tesis_final.csv) featuring 168-hour weekly availability matrices and raw ablation output. benchmarks/: Automated Python scripts for Stratified 5-fold cross-validation ablation (C1 to C4), Wilcoxon Signed-Rank hypothesis testing, Cliff's Delta effect size calculation, and bootstrap confidence intervals. database/: PostgreSQL 16 schema and stored procedure definitions for HNSW Approximate Nearest Neighbor vector search (pgvector) and dynamic schedule intersection. turborepo-src/: Clean source code of the decoupled microservices monorepo (API Gateway, Matching Service, ML Engine, and shared Protocol Buffers). System Requirements: Python 3.10+ with NumPy, SciPy, Pandas, Scikit-Learn, and NLTK. Node.js v20+ / pnpm v9+ and Docker Engine for microservice orchestration.",
-      "tags": [
-        "Software Architecture",
-        "Microservices",
-        "Vector Databases",
-        "pgvector",
-        "CQRS",
-        "Recommender Systems",
-        "Replication Package"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Replication Package: Hybrid Vector-Temporal Matching for Student Freelance Placement",
-      "url": "https://zenodo.org/records/23428430"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "5ed104a6dd42b2706a3ffa3b",
-      "context_id": "593d5935148ea8fb26ecaa3a",
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "memory",
-        "representation",
-        "representation learning"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.1667,
-      "source": "arxiv",
-      "source_published": "2026-10-15T14:55:39Z",
-      "source_updated": "2026-10-15T14:55:39Z",
-      "summary": "Longitudinal electronic health records (EHRs) contain complementary diagnostic and laboratory information about patient health. However, irregularity, sparsity, heterogeneity, and incompleteness in documentation complicate EHR modeling. To address the problem, we introduce GraphBEAT (Graph-based Bucketized Event Aggregation over Time), a temporal graph representation learning framework that groups clinical events into time buckets and transforms observed features into patient-specific, temporally directed graphs to enable early risk stratification for gastrointestinal cancers. Each node in an EHR graph encodes feature identity, observed value, and temporal position of clinical events. A context-aware, time-decay message-passing mechanism models transitions between successive buckets, followed by multi-head attention pooling to generate patient-level representations. GraphBEAT was trained and evaluated on multi-site longitudinal diagnosis codes and laboratory tests to predict pancreatic, liver, and intestinal cancer at 12-, 24-, and 36-month diagnostic lead times. In all experimental setups, GraphBEAT consistently outperformed baseline graph neural networks (GraphSAGE, GAT, and GCN) and sequence modeling approaches (Transformer and long short-term memory [LSTM]). GraphBEAT also required over 250x fewer floating-point operations per patient and over 20x fewer parameters than the Transformer and LSTM baselines. These results support GraphBEAT as an accurate and computationally efficient approach for cancer risk stratification from sparse, heterogeneous longitudinal health records.",
-      "tags": [
-        "cs.LG",
-        "cs.AI",
-        "eess.SP"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "GraphBEAT: Graph-based Bucketized Event Aggregation Over Time for Early Risk Stratification of Gastrointestinal Cancers",
-      "url": "https://arxiv.org/abs/2610.22014v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "fb8cfa94419cd29709ea37ee",
-      "context_id": "2d8b0ad18e8a8f800e08d52d",
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
-        "benchmark",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.1667,
-      "source": "zenodo",
-      "source_published": "2026-10-17",
-      "source_updated": null,
-      "summary": "This replication package contains the experimental artifacts, anonymized empirical benchmark dataset (N = 5,000 paired student-opportunity records), statistical verification scripts, database definitions, and microservices source code for the research paper: \"Hybrid Vector-Temporal Matching for Student Freelance Placement: An Empirical Study of Database-Level Vector Offloading\" Targeted for Information and Software Technology (IST, Elsevier). Package Contents: data/: Anonymized benchmark dataset (students_data_tesis_final.csv) featuring 168-hour weekly availability matrices and raw ablation output. benchmarks/: Automated Python scripts for Stratified 5-fold cross-validation ablation (C1 to C4), Wilcoxon Signed-Rank hypothesis testing, Cliff's Delta effect size calculation, and bootstrap confidence intervals. database/: PostgreSQL 16 schema and stored procedure definitions for HNSW Approximate Nearest Neighbor vector search (pgvector) and dynamic schedule intersection. turborepo-src/: Clean source code of the decoupled microservices monorepo (API Gateway, Matching Service, ML Engine, and shared Protocol Buffers). System Requirements: Python 3.10+ with NumPy, SciPy, Pandas, Scikit-Learn, and NLTK. Node.js v20+ / pnpm v9+ and Docker Engine for microservice orchestration.",
-      "tags": [
-        "Software Architecture",
-        "Microservices",
-        "Vector Databases",
-        "pgvector",
-        "CQRS",
-        "Recommender Systems",
-        "Replication Package"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Replication Package: Hybrid Vector-Temporal Matching for Student Freelance Placement",
-      "url": "https://zenodo.org/records/23428430"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "ec4aff456ed4f6d675591d20",
-      "context_id": "d0939aae15ca95a5161cd00c",
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "calibration",
-        "control"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.125,
-      "source": "arxiv",
-      "source_published": "2026-10-14T16:46:48Z",
-      "source_updated": "2026-10-14T16:46:48Z",
-      "summary": "Multi-head latent attention (MLA) compresses the content of a key-value cache into a shared latent per token, making low-bit storage attractive for long-context inference. At two bits, errors in this representation perturb both attention matching and value readout, with effects that depend on error direction and reconstruction scale. We introduce RoLaQ (Rotation-calibrated Latent Quantization), an offline method for joint rotation and range calibration. RoLaQ refines a shared rotation within subspaces defined by the frozen key and value projections, and jointly learns quantization ranges whose thresholds and reconstruction gains are coupled to control the shared signal's response. Prediction matching and attention-output supervision guide calibration with model weights frozen. Across three MLA models and six benchmarks, RoLaQ achieves the highest average accuracy among the compared 2-bit methods both without and with token protection. On DeepSeek-V2-Lite, an SGLang implementation provides 3.96 times the BF16 KV capacity under the same memory budget and 2.51 times its decode throughput with 256K input tokens.",
-      "tags": [
-        "cs.LG",
-        "stat.ML"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "RoLaQ: Joint Rotation and Range Calibration for 2-Bit KV Caches in Multi-Head Latent Attention",
-      "url": "https://arxiv.org/abs/2610.20686v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "f2467bf82c5813941e999385",
-      "context_id": "7aa151e16dbc10f0a4b6fc87",
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "calibration",
-        "control"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.125,
-      "source": "arxiv",
-      "source_published": "2026-10-13T06:31:57Z",
-      "source_updated": "2026-10-13T06:31:57Z",
-      "summary": "Multi-agent collaboration has emerged as a critical paradigm for tackling complex, long-horizon tasks; however, while coordination protocols continue to advance, systemic failures at the inter-agent collaboration interface remain a pervasive bottleneck. In collaborative workflows, systems frequently suffer from \\emph{broken handoffs}---where critical task context is omitted, misrouted, or ignored despite each agent emitting locally plausible responses. To address this challenge, we present \\method, a verifiable runtime control framework that treats handoff repair as selective intervention over explicit dependency graphs. Central to \\method is an integrated fault-attribution and calibration pipeline, \\dataset, which decouples execution dependencies and injects counterfactual handoff perturbations to provide empirical supervision for runtime intervention. Leveraging this diagnostic foundation, \\method dynamically compiles observable interaction traces into a provenance graph to pinpoint unresolved dependencies, without accessing private agent states. It then evaluates candidate repairs through an empirical gate that weighs expected gains against disruption risks, and executes repairs only when formal local postconditions hold. Extensive evaluations across demanding benchmarks demonstrate that \\method boosts task success by up to 12.3 absolute percentage points on SILO-BENCH and 11.1 on TeamBench. Across both backbones, \\method maintains strict cost-effectiveness, adding as little as 2.0\\% marginal token overhead. Furthermore, on 562 handoff-relevant traces from the MAST benchmark, \\method achieves 69.8\\% F1 in a single pass, establishing a reliable operational boundary for verifiable coordination repair.",
-      "tags": [
-        "cs.CL"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "BRIDGE: Selective Boundary Repair with Dependency Graph Evidence in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.17805v1"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "ec4aff456ed4f6d675591d20",
-      "context_id": "4646c6d39b2843755731bb8a",
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "calibration",
-        "control"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.125,
-      "source": "arxiv",
-      "source_published": "2026-10-14T16:46:48Z",
-      "source_updated": "2026-10-14T16:46:48Z",
-      "summary": "Multi-head latent attention (MLA) compresses the content of a key-value cache into a shared latent per token, making low-bit storage attractive for long-context inference. At two bits, errors in this representation perturb both attention matching and value readout, with effects that depend on error direction and reconstruction scale. We introduce RoLaQ (Rotation-calibrated Latent Quantization), an offline method for joint rotation and range calibration. RoLaQ refines a shared rotation within subspaces defined by the frozen key and value projections, and jointly learns quantization ranges whose thresholds and reconstruction gains are coupled to control the shared signal's response. Prediction matching and attention-output supervision guide calibration with model weights frozen. Across three MLA models and six benchmarks, RoLaQ achieves the highest average accuracy among the compared 2-bit methods both without and with token protection. On DeepSeek-V2-Lite, an SGLang implementation provides 3.96 times the BF16 KV capacity under the same memory budget and 2.51 times its decode throughput with 256K input tokens.",
-      "tags": [
-        "cs.LG",
-        "stat.ML"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "RoLaQ: Joint Rotation and Range Calibration for 2-Bit KV Caches in Multi-Head Latent Attention",
-      "url": "https://arxiv.org/abs/2610.20686v1"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "f2467bf82c5813941e999385",
-      "context_id": "2dab1714645c1cac96a245e6",
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "calibration",
-        "control"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.125,
-      "source": "arxiv",
-      "source_published": "2026-10-13T06:31:57Z",
-      "source_updated": "2026-10-13T06:31:57Z",
-      "summary": "Multi-agent collaboration has emerged as a critical paradigm for tackling complex, long-horizon tasks; however, while coordination protocols continue to advance, systemic failures at the inter-agent collaboration interface remain a pervasive bottleneck. In collaborative workflows, systems frequently suffer from \\emph{broken handoffs}---where critical task context is omitted, misrouted, or ignored despite each agent emitting locally plausible responses. To address this challenge, we present \\method, a verifiable runtime control framework that treats handoff repair as selective intervention over explicit dependency graphs. Central to \\method is an integrated fault-attribution and calibration pipeline, \\dataset, which decouples execution dependencies and injects counterfactual handoff perturbations to provide empirical supervision for runtime intervention. Leveraging this diagnostic foundation, \\method dynamically compiles observable interaction traces into a provenance graph to pinpoint unresolved dependencies, without accessing private agent states. It then evaluates candidate repairs through an empirical gate that weighs expected gains against disruption risks, and executes repairs only when formal local postconditions hold. Extensive evaluations across demanding benchmarks demonstrate that \\method boosts task success by up to 12.3 absolute percentage points on SILO-BENCH and 11.1 on TeamBench. Across both backbones, \\method maintains strict cost-effectiveness, adding as little as 2.0\\% marginal token overhead. Furthermore, on 562 handoff-relevant traces from the MAST benchmark, \\method achieves 69.8\\% F1 in a single pass, establishing a reliable operational boundary for verifiable coordination repair.",
-      "tags": [
-        "cs.CL"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "BRIDGE: Selective Boundary Repair with Dependency Graph Evidence in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.17805v1"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
