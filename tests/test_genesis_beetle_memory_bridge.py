@@ -2,10 +2,13 @@
 from __future__ import annotations
 
 import hashlib
+import base64
+from io import BytesIO
 import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from tools.genesis_beetle_memory_bridge import (
     ACK_STATUS,
@@ -13,6 +16,7 @@ from tools.genesis_beetle_memory_bridge import (
     EPISTEMIC_STATUS,
     REPOSITORY,
     BeetleBridgeError,
+    fetch_producer_queue,
     sync,
 )
 
@@ -160,6 +164,40 @@ class BeetleMemoryBridgeTests(unittest.TestCase):
         self.ack(first)
         with self.assertRaisesRegex(BeetleBridgeError, 'invalid max_batches'):
             sync(self.inbox, self.home, self.queue, max_batches=0)
+
+    def test_producer_read_uses_only_fixed_github_get_endpoint(self):
+        queue = {'schema': 'janus.beetle.delivery_queue.v1', 'target_repository': REPOSITORY,
+                 'entries': [], 'next_sequence': 1}
+        api = {'encoding': 'base64', 'content': base64.b64encode(canonical(queue)).decode()}
+        requested = []
+
+        def fake_urlopen(request, timeout):
+            requested.append((request.full_url, request.get_method(), timeout))
+            return BytesIO(json.dumps(api).encode())
+
+        with patch('tools.genesis_beetle_memory_bridge.urllib.request.urlopen', fake_urlopen):
+            with patch.dict('os.environ', {'GH_TOKEN': '', 'GITHUB_TOKEN': ''}):
+                self.assertEqual(fetch_producer_queue(), queue)
+        self.assertEqual(requested, [(
+            'https://api.github.com/repos/Hawkar-usls/janus-lapis/contents/'
+            'data/beetle-state/mirrors/Hawkar-usls__Janus_Genesis/delivery.json?ref=beetle-state',
+            'GET', 15,
+        )])
+
+    def test_armor_surface_audits_classify_manifest_read_without_granting_authority(self):
+        from tools import audit_armor_effect_drift_v18_7_50 as armor50
+        from tools import audit_armor_effect_drift_v18_7_51 as armor51
+
+        for armor in (armor50, armor51):
+            self.assertEqual(
+                armor.classification('tools/genesis_beetle_memory_bridge.py'),
+                'READ_ONLY_FIXED_PUBLIC_BEETLE_PRODUCER_MANIFEST_FETCH',
+            )
+            findings = armor.scan(Path(__file__).resolve().parents[1] /
+                                  'tools/genesis_beetle_memory_bridge.py')
+            self.assertEqual(len(findings), 1)
+            self.assertEqual(findings[0]['call'], 'urllib.request.urlopen')
+            self.assertTrue(findings[0]['classified'])
 
 
 if __name__ == '__main__':

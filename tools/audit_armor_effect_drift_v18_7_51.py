@@ -73,6 +73,10 @@ SURFACE_CLASSIFICATIONS = (
         "tools/genesis_git_habitat_resident_provider.py",
         "LOOPBACK_ONLY_RESIDENT_MODEL_PROVIDER_BEHIND_MODEL_CALL",
     ),
+    (
+        "tools/genesis_beetle_memory_bridge.py",
+        "READ_ONLY_FIXED_PUBLIC_BEETLE_PRODUCER_MANIFEST_FETCH",
+    ),
     ("tools/genesis_third_wish_*.py", "THIRD_WISH_EFFECT_BROKER_ARMOR_SUBCLASS_COMPATIBLE"),
     ("tools/genesis_api_server.py", "LEGACY_LOCAL_MUTATION_SERVICE"),
     ("tools/genesis_hosted_gateway.py", "HOSTED_LOCAL_MUTATION_SERVICE"),

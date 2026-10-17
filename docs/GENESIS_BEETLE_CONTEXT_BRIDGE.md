@@ -15,7 +15,10 @@ data-ingestion step in both independent runtimes:
 | Git Habitat Resident | Daily GitHub Action | `janus/habitat:habitat/memory/beetle/` | A maximum of eight research snippets in a model snapshot, with no instructions or proof authority |
 
 The public producer manifest is read from `Hawkar-usls/janus-lapis` branch
-`beetle-state`. The algorithm verifies the receiver ACK, the contiguous
+`beetle-state` by a fixed GitHub Contents API **GET**. This read-only network
+surface is explicitly inventoried in both Armor drift audit versions;
+classification does not confer execution or routing authority. The algorithm
+verifies the receiver ACK, the contiguous
 producer sequence, the ACKed tip SHA-256, **each raw inbox batch SHA-256**,
 the target repository and the epistemic/claim-ceiling flags. No unacknowledged
 batch becomes context. It holds a per-runtime `CURSOR.json` and bounded
