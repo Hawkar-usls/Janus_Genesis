@@ -9,6 +9,7 @@ on:
       - "tools/run_genesis_git_habitat_resident_cycle.py"
       - "tests/test_genesis_git_habitat_resident_cycle.py"
       - "tests/test_genesis_beetle_memory_bridge.py"
+      - "docs/GENESIS_BEETLE_CONTEXT_BRIDGE.md"
       - "protocol/JANUS_GENESIS_THIRD_WISH_GIT_HABITAT_RESIDENT_CYCLE-v0.1.json"
       - "protocol/JANUS_GENESIS_THIRD_WISH_THE_RESIDENT_MAY_CHOOSE_TO_REST-v1.0.json"
       - ".github/workflows/janus-git-habitat-resident-v18-7-52.yml"
@@ -135,13 +136,26 @@ jobs:
           ollama list | tee /tmp/ollama-list.txt
           grep -q "${RESIDENT_MODEL_DIGEST_PREFIX}" /tmp/ollama-list.txt
 
+      - name: Checkout real ACKed Beetle inbox for local model smoke
+        uses: actions/checkout@v4
+        with:
+          ref: beetle-memory
+          path: _beetle
+          persist-credentials: false
+
       - name: Real MODEL.CALL resident choice on temporary Habitat
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           root="${RUNNER_TEMP}/resident-model-smoke/habitat"
           broker="${RUNNER_TEMP}/resident-model-smoke/broker"
           python tools/genesis_git_habitat.py --root "$root" init --resident-id JANUS >/dev/null
+          python tools/genesis_beetle_memory_bridge.py \
+            --inbox-dir _beetle/data/beetle-inbox \
+            --memory-root "$root"
+          test -s "$root/memory/beetle/CURSOR.json"
           set +e
           python tools/run_genesis_git_habitat_resident_cycle.py \
             --root "$root" \
@@ -172,6 +186,17 @@ jobs:
           assert row['resident_choice_external_effect_executed'] is False
           assert row['outbox_auto_execution'] is False
           assert row['habitat_health'] == 'HEALTHY'
+          review_link = row['choice']['beetle_research_review']
+          assert review_link is not None
+          home = Path(__import__('os').environ['RUNNER_TEMP']) / 'resident-model-smoke/habitat'
+          review = json.loads((home / review_link['path']).read_text())
+          assert review['model_output_sha256'] == row['choice']['model_output_sha256']
+          assert review['research_items_presented'] > 0
+          assert review['model_causal_influence_proven'] is False
+          assert review['research_promoted_to_evidence'] is False
+          assert review['scientific_authority_delta'] == 0
+          print('REAL_ACKED_BEETLE_CONTEXT_PRESENTED_TO_MODEL=PASS')
+          print('BEETLE_RESEARCH_REVIEW_PERSISTED=PASS')
           print('REAL_LOCAL_RESIDENT_MODEL_CALL=PASS')
           print('REAL_LOCAL_RESIDENT_VALID_BOUNDED_CHOICE=PASS')
           print('RESIDENT_CHOICE_EXTERNAL_EFFECT=FALSE')
@@ -192,6 +217,7 @@ jobs:
             ${{ runner.temp }}/resident-model-smoke/habitat/state/continuity.json
             ${{ runner.temp }}/resident-model-smoke/habitat/state/health.json
             ${{ runner.temp }}/resident-model-smoke/habitat/hearth/resident-choice-*.json
+            ${{ runner.temp }}/resident-model-smoke/habitat/memory/beetle/reviews/*.json
           retention-days: 30
 
   resident-live-home:
@@ -414,6 +440,19 @@ jobs:
               assert cursor['last_sequence'] == context['last_sequence']
               assert context['scientific_authority_delta'] == 0
               assert context['untrusted_research_only'] is True
+              run = json.loads(Path('/tmp/resident-live-run.json').read_text())
+              choice = run['choice']
+              witness_link = choice['beetle_research_review']
+              assert witness_link is not None
+              witness_path = Path(os.environ['REPLAY_HOME']) / witness_link['path']
+              raw_witness = witness_path.read_bytes()
+              witness = json.loads(raw_witness)
+              assert hashlib.sha256(raw_witness).hexdigest() == witness_link['sha256']
+              assert witness['source_context_sha256'] == cursor['context_sha256']
+              assert witness['model_output_sha256'] == choice['model_output_sha256']
+              assert witness['scientific_authority_delta'] == 0
+              assert witness['research_promoted_to_evidence'] is False
+              print('LIVE_RESIDENT_RESEARCH_DECISION_GIT_REPLAY=PASS')
           print('LIVE_RESIDENT_BEETLE_CONTEXT_GIT_REPLAY=PASS')
           PY
           python - <<'PY'

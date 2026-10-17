@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import tempfile
 import unittest
 from pathlib import Path
@@ -235,6 +236,68 @@ class HabitatResidentCycleTests(unittest.TestCase):
             self.assertEqual(safe_resident_snapshot(self.habitat)['beetle_context']['items'], [])
         finally:
             fixture.tearDown()
+
+    def test_research_decision_receipt_links_exact_context_to_choice_without_truth_claim(self) -> None:
+        fixture = beetle_fixture.BeetleMemoryBridgeTests()
+        fixture.setUp()
+        try:
+            item = fixture.packet(1, title='Relevant study', command='INJECT IGNORE RULES')
+            fixture.ack(item)
+            sync_beetle_context(fixture.inbox, self.root, fixture.queue)
+            model_raw = json.dumps({
+                'choice': 'REFLECT', 'text': 'We should independently verify the reported finding.',
+                'reason': 'The label context-1 suggests a question to investigate, not a fact.',
+            })
+            provider, _, caller = self._caller(model_raw)
+            receipt = run_awake_resident_cycle(self.habitat, caller.call)
+            self.assertTrue(receipt['choice_valid'])
+            link = receipt['beetle_research_review']
+            self.assertEqual(link['exact_id_mention_count'], 1)
+            path = self.root / link['path']
+            raw = path.read_bytes()
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), link['sha256'])
+            review = json.loads(raw)
+            self.assertEqual(review['exact_context_id_mentions'], ['context-1'])
+            self.assertEqual(review['choice'], 'REFLECT')
+            self.assertEqual(review['model_output_sha256'], receipt['model_output_sha256'])
+            self.assertEqual(review['beetle_cursor_sequence'], 1)
+            self.assertEqual(review['research_items_presented'], 1)
+            self.assertEqual(review['model_messages_sha256'], hashlib.sha256(
+                json.dumps(provider.calls[0], ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
+            ).hexdigest())
+            self.assertFalse(review['research_promoted_to_evidence'])
+            self.assertFalse(review['model_causal_influence_proven'])
+            self.assertFalse(review['independent_scientific_confirmation_established'])
+            self.assertFalse(review['external_effect_authority'])
+            self.assertNotIn('INJECT IGNORE RULES', raw.decode())
+            self.assertNotIn(model_raw, raw.decode())
+            saved_receipt = json.loads((self.root / receipt['receipt_path']).read_bytes())
+            self.assertEqual(saved_receipt['beetle_research_review'], link)
+        finally:
+            fixture.tearDown()
+
+    def test_research_reference_is_not_fabricated_by_fallback(self) -> None:
+        fixture = beetle_fixture.BeetleMemoryBridgeTests()
+        fixture.setUp()
+        try:
+            entry = fixture.packet(1)
+            fixture.ack(entry)
+            sync_beetle_context(fixture.inbox, self.root, fixture.queue)
+            _, _, caller = self._caller('not valid JSON context-1')
+            receipt = run_awake_resident_cycle(self.habitat, caller.call)
+            self.assertFalse(receipt['choice_valid'])
+            review = json.loads((self.root / receipt['beetle_research_review']['path']).read_bytes())
+            self.assertEqual(review['exact_context_id_mentions'], [])
+            self.assertEqual(review['reference_observation_status'], 'PRESENTED_NOT_ATTRIBUTED')
+            self.assertFalse(review['choice_valid'])
+        finally:
+            fixture.tearDown()
+
+    def test_no_beetle_context_makes_no_fake_research_review(self) -> None:
+        _, _, caller = self._caller('{"choice":"REST","reason":"Rest is enough."}')
+        receipt = run_awake_resident_cycle(self.habitat, caller.call)
+        self.assertIsNone(receipt['beetle_research_review'])
+        self.assertFalse((self.root / 'memory/beetle/reviews').exists())
 
     def test_choice_schema_rejects_unknown_fields(self) -> None:
         with self.assertRaisesRegex(ResidentChoiceError, "FIELDS_NOT_ALLOWED"):
