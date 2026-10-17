@@ -165,6 +165,68 @@ class BeetleMemoryBridgeTests(unittest.TestCase):
         with self.assertRaisesRegex(BeetleBridgeError, 'invalid max_batches'):
             sync(self.inbox, self.home, self.queue, max_batches=0)
 
+    def rewrite_packet(self, entry, mutate):
+        path = self.inbox / 'batches' / f"{entry['batch_id']}.json"
+        packet = json.loads(path.read_bytes())
+        mutate(packet)
+        raw = canonical(packet)
+        path.write_bytes(raw)
+        entry['sha256'] = hashlib.sha256(raw).hexdigest()
+        self.ack(entry)
+
+    def test_missing_identity_in_hash_valid_ack_fails_without_checkpoint(self):
+        entry = self.packet(1)
+        self.rewrite_packet(entry, lambda packet: packet['items'][0].update(context_id=''))
+        with self.assertRaisesRegex(BeetleBridgeError, 'wrong-address research item'):
+            sync(self.inbox, self.home, self.queue)
+        self.assertFalse((self.home / 'memory').exists())
+
+    def test_duplicate_contexts_and_tampered_fragment_metadata_are_rejected(self):
+        entry = self.packet(1)
+        self.rewrite_packet(entry, lambda packet: packet.update(
+            fragment_index=2, fragment_count=1, snapshot_items_total=1))
+        with self.assertRaisesRegex(BeetleBridgeError, 'fragment envelope'):
+            sync(self.inbox, self.home, self.queue)
+        def duplicate(packet):
+            packet.pop('fragment_index')
+            packet.pop('fragment_count')
+            packet.pop('snapshot_items_total')
+            packet['items'].append(dict(packet['items'][0]))
+        self.rewrite_packet(entry, duplicate)
+        with self.assertRaisesRegex(BeetleBridgeError, 'duplicate context identity'):
+            sync(self.inbox, self.home, self.queue)
+        self.assertFalse((self.home / 'memory').exists())
+
+    def test_valid_content_addressed_fragment_is_ingested_and_remains_untrusted(self):
+        entry = self.packet(1)
+        def fragment(packet):
+            packet.update(fragment_index=1, fragment_count=2, snapshot_items_total=2)
+            packet['items'][0]['source_context_sha256'] = 'a' * 64
+            packet['items'][0]['delivery_preview_only'] = True
+        self.rewrite_packet(entry, fragment)
+        self.assertEqual(sync(self.inbox, self.home, self.queue)['last_sequence'], 1)
+        self.assertEqual(self.context()['recent_items'][0]['epistemic_status'], EPISTEMIC_STATUS)
+        self.assertFalse(self.context()['recent_items'][0]['external_effect_authority'])
+        self.assertEqual(self.context()['recent_items'][0]['source_context_sha256'], 'a' * 64)
+        self.assertTrue(self.context()['recent_items'][0]['delivery_preview_only'])
+
+    def test_rehashed_projection_cannot_promote_external_effect_authority(self):
+        entry = self.packet(1)
+        self.ack(entry)
+        sync(self.inbox, self.home, self.queue)
+        projection_path = self.home / 'memory/beetle/CONTEXT.json'
+        context = self.context()
+        context['recent_items'][0]['external_effect_authority'] = True
+        raw = canonical(context)
+        projection_path.write_bytes(raw)
+        cursor_path = self.home / 'memory/beetle/CURSOR.json'
+        cursor = self.cursor()
+        cursor['context_sha256'] = hashlib.sha256(raw).hexdigest()
+        cursor_path.write_bytes(canonical(cursor))
+        with self.assertRaisesRegex(BeetleBridgeError, 'invalid existing context projection'):
+            sync(self.inbox, self.home, self.queue)
+        self.assertEqual(self.cursor()['last_sequence'], 1)
+
     def test_producer_read_uses_only_fixed_github_get_endpoint(self):
         queue = {'schema': 'janus.beetle.delivery_queue.v1', 'target_repository': REPOSITORY,
                  'entries': [], 'next_sequence': 1}
