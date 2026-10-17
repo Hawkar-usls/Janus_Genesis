@@ -1,5 +1,5 @@
 {
-  "batch_id": "5b5d60c7ecb364f3eaad",
+  "batch_id": "ce584549e4c812367762",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "items": [
     {
@@ -210,6 +210,37 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b24792c269e178908fde1780",
+      "context_id": "67e62fed25d82665120a5ded",
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 1.5833,
+      "source": "zenodo",
+      "source_published": "2026-10-17",
+      "source_updated": null,
+      "summary": "Suzuki proved that the Riemann hypothesis (RH) is equivalent to the nonnegativity of an explicit continuous function &Psi;, the negative of the screw function of the Riemann zeta function. We show that this continuum of sign conditions reduces exactly to one inequality per interval between consecutive prime powers: the minimum of &Psi; on the interval, its checkpoint margin, is nonnegative. The reduction rests on the exact curvature formula A&Prime;(log x) = (x&sup3; &minus; x &minus; 1)/(&radic;x &middot; (x&sup2; &minus; 1)) for the smooth archimedean part A of &Psi;. This curvature changes sign only at x = &rho;, the plastic constant (&rho;&sup3; = &rho; + 1, &rho; &asymp; 1.3247), which lies below the first prime power 2. As the prime-power part of &Psi; is affine between consecutive prime powers, &Psi; is strictly convex on each such interval, with a unique minimizer. Each margin equals a weighted logarithmic von Mangoldt moment minus a restricted convex conjugate of A and admits a Bregman-divergence formula and two-sided curvature bounds, so finite ranges can be verified without a sampling mesh. We certify all 5,762,859 intervals through q = 10⁸ with directed-rounding MPFR arithmetic and prove &Psi;(t) &gt; 0 for 0 &lt; t &le; log 10⁸. With an independent ball-arithmetic enclosure, the certificate shows that the minimum of &Psi; on [log 2, log 10⁸], 0.02149858082368106858&hellip;, is unique and lies in the interval beginning at q = 34,186,367. Unconditionally, no positive constant bounds the margins from below on any tail, and under RH their infimum is zero; finite positive margins therefore cannot be extrapolated. The infinite family of checkpoint inequalities remains open.",
+      "tags": [
+        "Riemann hypothesis, Riemann zeta function, Suzuki screw function, prime-power checkpoints, prime powers, plastic constant, archimedean reservoir, strict convexity, Legendre–Mangoldt representation, restricted Legendre transform, Bregman divergence, von Mangoldt function, checkpoint margins, directed rounding, MPFR, rigorous positivity certificate, computer-assisted theorem, streaming certification, segmented sieve, event recurrence, analytic number theory, explicit formula, Riemann zeta zeros, infinite checkpoint tail"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Prime-Power Checkpoints for the Riemann Zeta Screw Function: Exact Interval Minima, Convex Duality and a Certificate through 10⁸ — Part 1",
+      "url": "https://zenodo.org/records/23377143"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "08a7f2090780c08b7b2107a4",
       "context_id": "37d4b0a9d855ab3993e2ec17",
       "direction_id": "cognition_memory_reverse::FORWARD",
@@ -344,8 +375,8 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "7b2618b19bba87b2d37324e2",
-      "context_id": "fcc76d5ac6b33a682fd1571d",
+      "candidate_id": "e9a4abad614768bf7c947e92",
+      "context_id": "ffc4f955f8351a51fd461097",
       "direction_id": "cognition_memory_reverse::FORWARD",
       "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
@@ -365,40 +396,19 @@
       "source": "zenodo",
       "source_published": "2026-10-17",
       "source_updated": null,
-      "summary": "We have presented a mathematically closed, comprehensive foundation for the C861 discrete spectral benchmark. By establishing the exact rank-two projector geometry, resolving Dirichlet sum&nbsp;cancellations, providing constructive proofs for linear B-spline KAN operator reproduction, and&nbsp;formalizing the Lyapunov convergence of Dense Associative Memory on spherical manifolds, this&nbsp;framework eliminates ambiguities in evaluating learned physical operators. Furthermore, the spectral interlacing analysis of the CN &rarr; PN structural homotopy equips the scientific machine learning&nbsp;community with a tool to distinguish authentic topological sensitivity from numerical discretization&nbsp;artifacts.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Exact Discrete Spectral Invariants as a Falsification Baseline for Learned Operator",
-      "url": "https://zenodo.org/records/23428438"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "604b4044b1ce585f16304798",
-      "context_id": "8e60087a706e5c69e5476837",
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      "summary": "Input structures, calculation scripts, and results for the article \"Benchmarking Universal Machine-Learning Interatomic Potentials for Temperature-Dependent Elasticity of Binary and High-Entropy Refractory Carbides\" (arXiv:2610.11878). elastic.zip (9 files, one per model) &ndash; the 153 elastic-constant calculations, 17 per model (five binary carbides and six SQS of each high-entropy carbide). sqs_generation.zip &ndash; the 12 special quasirandom structures used, with their ICET search records. speed_tests.zip &ndash; MD throughput and GPU-memory benchmarks on an RTX 4090 and an H100.",
+      "tags": [
+        "universal machine-learning interatomic potential",
+        "MLIP",
+        "carbides",
+        "benchmark",
+        "finite-temperature elasticity",
+        "molecular dynamics",
+        "high-entropy carbides"
       ],
-      "keyword_hits": [
-        "memory"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.25,
-      "source": "zenodo",
-      "source_published": "2025-03-21",
-      "source_updated": null,
-      "summary": "Agentic frameworks, software libraries that coordinate large language model calls, tool use, memory, and multi step reasoning into autonomous or semi autonomous workflows, have moved from research prototypes to production infrastructure within a span of roughly two years. Four frameworks have emerged as leading options for enterprise adoption: LangGraph, a graph based orchestration library built around explicit state machines, CrewAI, a role based framework that models agents as a crew of collaborating specialists, Strands Agents, a model driven software development kit that emphasizes minimal orchestration code, and watsonx Orchestrate, a managed enterprise platform built around prepackaged skills and governance tooling. Despite rapid adoption, there has been little independent, head to head measurement of how these frameworks compare on the dimensions that matter most to enterprise adopters: end to end latency, latency under concurrent load, cost per task, reliability and error recovery, and enterprise readiness characteristics such as security, observability, and governance. This article presents an empirical benchmark of all four frameworks against a common task suite spanning six task categories and three complexity tiers. We report latency percentiles, a stage level latency breakdown, concurrency scaling behavior, cost per task, task success rates, and a structured enterprise readiness score. We further document each framework's orchestration topology, developer experience characteristics, and security and governance posture, and we translate the results into a practical decision framework for selecting among the four frameworks under different enterprise constraints. All benchmark figures in this article are illustrative, reflecting a representative test harness and reference workload rather than any single vendor's published numbers, and are intended to demonstrate a repeatable evaluation method rather than a definitive ranking.",
-      "tags": [],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "LANGGRAPH, CREWAI, STRANDS, OR WATSONX ORCHESTRATE? AN EMPIRICAL BENCHMARK OF AGENTIC FRAMEWORKS FOR ENTERPRISE READINESS AND LATENCY",
-      "url": "https://zenodo.org/records/23433515"
+      "title": "Data for: Benchmarking Universal Machine-Learning Interatomic Potentials for Temperature-Dependent Elasticity of Binary and High-Entropy Refractory Carbides",
+      "url": "https://zenodo.org/records/23437746"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -720,6 +730,35 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "44b0f92f82cad5d4130d8df8",
+      "context_id": "783c2f0bc3aa31c32f7f69e9",
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.5833,
+      "source": "zenodo",
+      "source_published": "2026-10-16",
+      "source_updated": null,
+      "summary": "Subclonal reconstruction results produced with CliPP 1.4 for three datasets: 5,424 tumors from TCGA, 2,008 whole-genome tumors from PCAWG, and CliPPSim4k, a&nbsp;cohort of 4,000 simulated tumors with known ground truth. Also deposited are&nbsp;13,960 TCGA driver mutations annotated with clonality, and the cancer type and&nbsp;tumor purity of every sample in the two real cohorts. These are the files served for download by CliPP-on-Web&nbsp;(https://bioinformatics.mdanderson.org/apps/CliPP/), the web interface to CliPP&nbsp;(https://github.com/wwylab/CliPP). The deposit accompanies manuscript&nbsp;submission and is the stable version as of 16 October 2026. Yujie Jiang and Matthew D. Montierth contributed equally to this work. Wenyi Wang is the corresponding author. README.md describes each archive's layout and the columns of every file.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Scalable subclonal reconstruction of cancer cells in DNA sequencing data using a penalized likelihood model",
+      "url": "https://zenodo.org/records/23424567"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "b4852952f41b3477684b03bb",
       "context_id": "514ab43faa77d189d77b8cb8",
       "direction_id": "cognition_memory_reverse::REVERSE",
@@ -796,35 +835,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Критерії контрольованого переходу між операціями судово-експертного дослідження як засіб забезпечення обґрунтованості висновку в судовій гірничотехнічній експертизі",
       "url": "https://zenodo.org/records/23432441"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "82bed5683890a7394df9e1f4",
-      "context_id": "3f9a3e2c8b206d4429c13258",
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "reconstruction"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.5833,
-      "source": "zenodo",
-      "source_published": "2026-10-17",
-      "source_updated": null,
-      "summary": "MRax is a JAX-based Python library for quantitative MRI model fitting, reconstruction, and analysis.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "MRax: JAX-based tools for quantitative MRI research",
-      "url": "https://zenodo.org/records/23436799"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1050,6 +1060,38 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "5b2ea2c1c91150c91ddc4629",
+      "context_id": "25f3c1887c9719110453811c",
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_published": "2026-10-17",
+      "source_updated": null,
+      "summary": "This repository contains the data and computational materials supporting the study Age-Structured Epidemic Insurance Valuation with Hospitalisation and Contact Heterogeneity . The study considers an age-structured SVIHRD epidemic environment coupled with a multistate insurance valuation model. The archive contains the demographic, contact, clinical, vaccination and contractual inputs used in the numerical study; the aggregated age-contact matrix; stored uncertainty-analysis draws; machine-readable numerical outputs; and Python code used to reproduce the principal tables, sensitivity calculations, robustness experiments, duration-dependent hospital-benefit calculations, Shapley accounting decomposition, and derivative-validation results. The numerical study is a synthetic modelling experiment and does not contain individual-level patient, policyholder, or confidential insurer data. The monetary values reported in the accompanying manuscript are conditional model outputs for the specified illustrative insurance portfolio and parameter assumptions. The archive includes a README, data dictionary, provenance information, reproducibility notes, version information, and SHA-256 checksums. The principal numerical outputs were regenerated from a clean working directory and checked against the deposited reference results.",
+      "tags": [
+        "epidemic insurance actuarial valuation age-structured epidemic model SVIHRD contact heterogeneity multistate insurance prospective reserves hospitalisation duration-dependent reserves fixed-\\(R_0\\) sensitivity Shapley decomposition reproducible research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Data and code for Age-Structured Epidemic Insurance Valuation with Hospitalisation and Contact Heterogeneity",
+      "url": "https://zenodo.org/records/23440489"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "5797bf9d42423aa2f0920f2f",
       "context_id": "06bee7f7d744f9d6e4266124",
       "direction_id": "registry_provenance::COUNTEREVIDENCE",
@@ -1186,44 +1228,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Drivers of LLM Consensus Formation Under Competing Incentives: A Simulation Study",
       "url": "https://arxiv.org/abs/2610.20200v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "4d352b674b8c61570df9d942",
-      "context_id": "5bd1cf68190b015bc1f9f3d1",
-      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
-      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure",
-        "world model"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.75,
-      "source": "zenodo",
-      "source_published": "2026-10-17",
-      "source_updated": null,
-      "summary": "EHR2Trace converts local hospital EHR extracts (delimited text and spreadsheets) into OMOP CDM 5.4 and MEDS. The two targets are derived independently from a single canonical layer rather than one from the other, every published row carries a link back to the source rows it came from, and fifty-five checks encode the properties a conversion must satisfy before it can be used as training data, including the leakage failures that are invisible to schema validation. Where the data does not answer a question, the converter blocks and says so instead of substituting a default. Companion paper: EHR2Trace: Auditable EHR Data Infrastructure for Patient World Models and Clinical Agents (arXiv:2609.38193).",
-      "tags": [
-        "OMOP CDM",
-        "MEDS",
-        "electronic health records",
-        "data provenance",
-        "ETL validation",
-        "clinical machine learning",
-        "MIMIC-IV"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "EHR2Trace: a deterministic converter from local EHR exports to OMOP CDM 5.4 and MEDS, with row-level lineage",
-      "url": "https://zenodo.org/records/23430727"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
