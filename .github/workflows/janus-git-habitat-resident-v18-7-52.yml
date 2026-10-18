@@ -143,6 +143,36 @@ jobs:
           path: _beetle
           persist-credentials: false
 
+      - name: Reproduce broker preflight against existing cloud HOME without mutating it
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin janus/habitat:refs/remotes/origin/janus/habitat
+          candidate="${RUNNER_TEMP}/janus-existing-home-preflight"
+          git worktree add --detach "$candidate" origin/janus/habitat
+          EXISTING_HOME="$candidate/habitat" python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from tools.genesis_git_habitat import GitHabitat
+          from tools.genesis_git_habitat_resident_cycle import safe_resident_snapshot, resident_messages
+          from tools.genesis_third_wish_sensor_model_schedule_broker import (
+              MAX_MODEL_MESSAGES, MAX_MODEL_INPUT_BYTES, ThirdWishSensorModelScheduleBroker,
+          )
+          snapshot = safe_resident_snapshot(GitHabitat(Path(os.environ["EXISTING_HOME"])))
+          messages = resident_messages(snapshot)
+          validated = ThirdWishSensorModelScheduleBroker._validated_messages(messages)
+          wire_bytes = len(json.dumps(validated, ensure_ascii=False, sort_keys=True,
+                                      separators=(",", ":")).encode("utf-8"))
+          assert 1 <= len(messages) <= MAX_MODEL_MESSAGES
+          assert wire_bytes <= MAX_MODEL_INPUT_BYTES
+          assert all(len(m["content"].encode("utf-8")) <= 16 * 1024 for m in messages)
+          print("EXISTING_HOME_PRE_EFFECT_MESSAGE_BOUNDS=PASS")
+          print("EXISTING_HOME_MODEL_MESSAGES=" + str(len(messages)))
+          print("EXISTING_HOME_MODEL_INPUT_BYTES=" + str(wire_bytes))
+          print("NO_MODEL_CALL_OR_HOME_WRITEBACK=TRUE")
+          PY
+
       - name: Real MODEL.CALL resident choice on temporary Habitat
         shell: bash
         env:
