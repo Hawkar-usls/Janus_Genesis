@@ -321,6 +321,56 @@ class HabitatResidentCycleTests(unittest.TestCase):
         self.assertFalse(row["external_effect_authority"])
         self.assertFalse(row["merge_authority"])
 
+    def test_large_home_is_losslessly_chunked_inside_third_wish_preflight(self) -> None:
+        from tools.genesis_git_habitat_resident_cycle import resident_messages
+        from tools.genesis_third_wish_sensor_model_schedule_broker import (
+            MAX_MODEL_INPUT_BYTES, MAX_MODEL_MESSAGES, ThirdWishSensorModelScheduleBroker,
+        )
+
+        snapshot = safe_resident_snapshot(self.habitat)
+        snapshot["letters"] = [
+            {"item_id": f"letter-{i}", "body": "untrusted " * 130,
+             "untrusted_letter": True, "command_authority": False}
+            for i in range(8)
+        ]
+        snapshot["workshop"] = [
+            {"work_id": f"work-{i}", "note": "review " * 130,
+             "external_effect_authority": False}
+            for i in range(8)
+        ]
+        original = json.loads(json.dumps(snapshot))
+        messages = resident_messages(snapshot)
+        self.assertGreater(len(messages), 2)
+        self.assertLessEqual(len(messages), MAX_MODEL_MESSAGES)
+        self.assertEqual(snapshot, original)
+        self.assertTrue(all(len(x["content"].encode("utf-8")) <= 16 * 1024
+                            for x in messages))
+        clean = ThirdWishSensorModelScheduleBroker._validated_messages(messages)
+        self.assertLessEqual(len(json.dumps(clean, ensure_ascii=False,
+                                           sort_keys=True, separators=(",", ":")).encode("utf-8")),
+                             MAX_MODEL_INPUT_BYTES)
+        restored = {}
+        hashes = set()
+        for index, message in enumerate(messages[1:], 1):
+            envelope = json.loads(message["content"])
+            self.assertEqual(envelope["part_index"], index)
+            self.assertEqual(envelope["part_count"], len(messages) - 1)
+            hashes.add(envelope["snapshot_sha256"])
+            for key, value in envelope["snapshot_part"].items():
+                self.assertNotIn(key, restored)
+                restored[key] = value
+        self.assertEqual(len(hashes), 1)
+        self.assertEqual(restored, original)
+        provider, _, caller = self._caller('{"choice":"REST","reason":"Safe."}')
+        outcome = caller.call(cycle_id="chunked-context", messages=messages)
+        self.assertEqual(outcome["output"], '{"choice":"REST","reason":"Safe."}')
+        self.assertEqual(len(provider.calls), 1)
+
+    def test_single_oversize_snapshot_component_fails_closed_without_truncation(self) -> None:
+        from tools.genesis_git_habitat_resident_cycle import resident_messages
+        with self.assertRaisesRegex(ResidentChoiceError, "MODEL_SNAPSHOT_COMPONENT_TOO_LARGE"):
+            resident_messages({"oversize_untrusted_text": "x" * (20 * 1024)})
+
     def test_transport_schema_requires_nonempty_candidate_semantic_strings(self) -> None:
         properties = RESIDENT_CHOICE_JSON_SCHEMA["properties"]
         for field in (
