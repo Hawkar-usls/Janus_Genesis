@@ -1,5 +1,5 @@
 {
-  "batch_id": "5e0df092c66fba2faa4b",
+  "batch_id": "0b4528728b04540bd642",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
@@ -460,6 +460,39 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b1dcee0232a99d11f0cf7d11",
+      "context_id": "3e7c401c90935632acd1e390",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "inversion"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.6667,
+      "source": "zenodo",
+      "source_context_sha256": "f93eb07b2286e4f3224ebdef224cf44611222182cf61f22fb801461f8bf69c84",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "Profiles across an edge with the covariance between bins, the extra charge per unit length of edge, exact Bayesian error bars without a dense inverse, two unit dependences fixed, and CI-robust tests of the stacked map fit. Added region_profile(coefficients, dw1, dw2, sigma1, sigma2, coordinate, bins, *, mask=None, shift_correlation=None, ref_sigma=None) , returning a RegionProfile : the mean strain and density in bins of a coordinate (for example the distance from an edge), each bin with the error budget of region_mean (shift noise, calibration, reference frequencies, homogeneity check), plus the covariance between all bins ( covariance , covariance_shifts , covariance_calibration , covariance_reference , shape (R, 2, R, 2)). The bins share the lever arms and the reference frequencies, so their errors are correlated: calibration covariance sum_m (x_i^T C_m x_j) k_m k_m^T between bins i and j, reference covariance K^-1 diag(u1^2, u2^2) K^-T for every pair, no shift covariance (different pixels). Propagation as in JCGM 100:2008 (GUM), 5.2.2, Eq. (13), first order in the calibration. RegionProfile.combination(strain_weights, density_weights) (any weighted sum of the bins, with its error parts, as a new LinearEstimate ), RegionProfile.integrated_excess(bulk, quantity=&quot;density&quot;, widths=None) (sum over the other bins of width times value minus the bulk value: across a straight edge, the excess per unit length of edge; the reference error cancels) and RegionProfile.contrast(i, j) (bin i minus bin j, as region_contrast gives it). Validation: each bin equals the mean of the per-pixel SeparationModel.invert maps (1e-14) and region_mean on that bin (relative 1e-12); the cross-bin calibration covariance equals that from a finite-difference Jacobian of an independent re-solve (relative 1e-6); combinations equal c^T C c (relative 1e-10); the integrated excess equals the sum by hand (1e-13), its shift part a pixel-level linear form (1e-10) and its calibration part finite differences (1e-6); contrast equals region_contrast (1e-12). Over 300 seeded trials that repeat calibration, map noise and reference error, the spread of the excess and of a bin mean is within 15 % of the error bars (measured 3 % and 4 %), and the measured correlation of two bins (0.988) matches the reported one (0.987). README: the profile and its refusals in the package list, a third tutorial, test descriptions, corrections and limits. Fixed bayesian_map_inversion depended on the units of the lever arms. Before: with the density column in cm^-2 (K / [1, 1e13]), the maps of the test problem differed from an independent dense solve by a relative 6.1e-4 (density) and 1.4e-4 (strain), and with K * [1, 1e6] by 8e-13. After: 1.1e-15 and 6.7e-16 (density in cm^-2). When the column norms of K differ by more than 2^10, the problem is solved for density / t with t a power of two (exact rescaling) and scaled back. Smaller ratios (all shipped sets, all README examples) run the unchanged code. Test: test_bayesian_map_does_not_depend_on_the_density_unit . MultiModeModel , ThreeCauseModel and bayesian_map_inversion refused a well-separating lever-arm matrix as &quot;rank &lt; 2&quot; (&quot;rank &lt; 3&quot;) when the density was in m^-2 (arms near 1e-17 cm^-1 per m^-2; also for K / [1, 1e15]), and compare_mode_sets returned [] for it instead of three subsets. The rank is now judged on K with unit-length columns ( _has_full_column_rank ), as calibrate_lever_arms does since 0.14.0. After: the results equal those in 1e13 cm^-2, rescaled (measured relative differences below 1e-14); a rank-deficient matrix is still refused in any unit. Test: test_rank_tests_do_not_depend_on_the_units . Documentation and tests: fit_map was documented (module docstring, README) to give &quot;bit for bit&quot; the numbers of the per-pixel loop over fit_two_modes , and nine tests demanded exact equality between the stacked and the single-spectrum fits (and between ThreeCauseModel runs on stacks of diff",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "ramansep: two-mode separation of strain and carrier density in 2D-material Raman maps",
+      "url": "https://zenodo.org/records/23451152"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "edb1c7f53a8721f2db365409",
       "context_id": "022c5e1bf7e2603e2d887852",
       "delivery_preview_only": true,
@@ -831,42 +864,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "key4hep/k4Bench: v0.0.50",
       "url": "https://zenodo.org/records/23440470"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "f27e0ad9f3aff3fd44337248",
-      "context_id": "eb2679bdb018a9ebf17db346",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "reconstruction"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.5833,
-      "source": "arxiv",
-      "source_context_sha256": "89f836ccf92f58b6313a567223c73d19532b9d8adb72cfd6e57086308bcbc0c5",
-      "source_published": "2026-09-08T02:28:43Z",
-      "source_updated": "2026-09-08T02:28:43Z",
-      "summary": "Full-duplex speech models require training data that preserves turn-taking, overlap, interruption, and backchannel behavior, yet these signals are entangled across speakers in noisy real-world recordings. We present Conversational Voice, a pipeline that converts real two-speaker excerpts into three complementary training-data artifacts. (1) Separation recovers speaker-specific tracks with stable speaker assignments, a canonical transcript, and naturally observed interaction timing. (2) Reconstruction generates speech in matched voices from a fixed source transcript, reconstructs the source turn order, pauses, and overlaps, and adds word-level alignment and delivery instructions. (3) Expansion generates new dialogue constrained by the source context, speakers, and observed interaction pattern. Automatic speaker-verification metrics remain strong across stages, with same-speaker similarity of 0.983-0.991 and positive discrimination margins of 0.199-0.209. Predicted speech quality (NISQA MOS) is 3.56 for separation, 4.41 for reconstruction, and 4.61 for expansion. A Gemini-based automatic evaluator assigns expansion mean scores of 4.94/5 for contextual coherence and 4.80/5 for dialogue naturalness. Expansion and reconstruction exhibit broadly similar interaction profiles; expansion's turn, overlap-event, backchannel, and interruption rates are 4.6%, 8.0%, 13.2%, and 16.0% lower, respectively. We evaluate data properties only; downstream gains in full-duplex model training remain for future work.",
-      "tags": [
-        "cs.CL",
-        "cs.SD",
-        "eess.AS"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "ConversationalVoice: Full-Duplex Speech Data from Real Conversations through Source-Faithful Reconstruction and Conversation-Grounded Expansion",
-      "url": "https://arxiv.org/abs/2609.08147v1"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1502,6 +1499,47 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "b4d0209ae2c2f1f3dba40aa6",
+      "context_id": "7b82e53953a9316767d2195d",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.2917,
+      "source": "zenodo",
+      "source_context_sha256": "ee45bfc6c8f44be39fbc39658fc9702e21bd1871534bce70b83d792106499fd5",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "This release contains the Python code, synthetic numerical data, figure-generation scripts, verification routines and supporting documentation accompanying \"Tempered fractional hypercomplex fuzzy neural networks: &mu;-pseudo almost automorphic solutions and global exponential attraction.\" The package includes quaternion and octonion examples, structured real-component controls, compensated-gain comparisons and a manufactured periodic whole-line benchmark. Reproduction instructions, dependency versions and numerical limitations are documented in the README. The computations provide numerical verification of the stated models. No external measured dataset or application-calibrated performance evaluation is included. Code is released under the MIT License; the numerical data and figures are released under CC-BY-4.0. See LICENSE and NOTICE-licenses.md in the archive.",
+      "tags": [
+        "tempered fractional calculus",
+        "hypercomplex neural networks",
+        "fuzzy cellular neural networks",
+        "mu-pseudo almost automorphic",
+        "global exponential attraction",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Code and data for \"Tempered fractional hypercomplex fuzzy neural networks: μ-pseudo almost automorphic solutions and global exponential attraction\"",
+      "url": "https://zenodo.org/records/23447953"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "82ebe541ad24ad602525b91a",
       "context_id": "c96e17fd0aa5b0220b77b1ed",
       "delivery_preview_only": true,
@@ -1764,6 +1802,47 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "bc8e08e649f0ca545024ac48",
+      "context_id": "d87cb02bd0fc2616f2b32c5f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "replication",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0833,
+      "source": "zenodo",
+      "source_context_sha256": "a871c584ae7f8438e27c9cfc3f4a3494fbd320b6db3c19217c0daf0dc77ebe25",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "Analysis code and result tables for the manuscript \"Cellular composition, not cell-intrinsic mechanotransduction, distinguishes human fracture nonunion tissue: a composition-matched analysis with independent replication\". Contents (zipped because Zenodo caps a record at 100 files; unpack each with 'unzip ' to recover the directory layout) nonunion_scripts.zip the complete analysis pipeline (01-28), 28 scripts nonunion_results.zip every result table quoted in the manuscript (89 CSV/JSON) nonunion_figures.zip the seven main figures and one supplementary figure, as vector PDF MANUSCRIPT_v1.md, TABLES.md, REFERENCES_VERIFIED.md the manuscript sources ZENODO_SHA256SUMS.txt per-file SHA-256 and the bundle that carries each file Data sources (all publicly available, no new participants were involved) GSE226566 / GSE226568 bulk RNA-seq of revision-surgery nonunion tissue GSE337700 single-cell RNA-seq of the same series GSE217792 independent replication single-cell series Reproducibility: running scripts 01-28 in numerical order on the four GEO accessions regenerates every number in the manuscript. The manuscript's own claim audit (scripts/11_claim_audit.py) re-derives 226 numerical claims directly from the CSV files in results/ and passes 226/226. Licence: MIT for the code; the result tables are released under CC BY 4.0.",
+      "tags": [
+        "fracture nonunion",
+        "cellular senescence",
+        "mechanotransduction",
+        "single-cell RNA sequencing",
+        "deconvolution",
+        "PIEZO1",
+        "composition-matched analysis"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Composition-adjusted single-cell and bulk transcriptomic profiling of human fracture nonunion: analysis code and result tables",
+      "url": "https://zenodo.org/records/23451356"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "15288e05ffd42a2eab8d9cd9",
       "context_id": "bb3a8539b90e98d96666e631",
       "delivery_preview_only": true,
@@ -1800,81 +1879,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Replication package for \"Knowledge or Correlation? How Large Language Models Choose Features\"",
       "url": "https://zenodo.org/records/23432850"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "4dbc920d1df8a83d48d6aec8",
-      "context_id": "ef85b7edc54be2ddefa7aa29",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "120a9f03c4df85110bc6dd9782b60681d1e6f9bdd74dcf7f7ba7bffa20c95521",
-      "source_published": "2026-10-18",
-      "source_updated": "",
-      "summary": "Machine-readable evidence and analysis code for a PRISMA-2020 systematic review of fairness in histopathology AI. Contents. (i) The dual-coded, adjudicated extraction table for the 88-study analytical corpus (61 from the main search, 17 from the demographic-term update, 2 retrieved in October 2026, 2 suggested in peer review, 1 candidate resolved on full text and 5 from a re-screen of the keyword-filtered records; 89 records, one conference abstract linked to its journal paper; the earlier 62- and 79-study tables are kept alongside), with the pre-pass snapshots and the script that applies the October 2026 revisions, with the raw multi-coder outputs and inter-coder agreement statistics; (ii) the screening, de-duplication and post-hoc eligibility-audit logs; (iii) adjudicated QUADAS-2 risk-of-bias judgements for all 88 studies, with per-coder judgements for the original 62; (iv) the full consensus-endorsement coding pipeline &mdash; screened review pools, the pre-specified random sample (n=30, seed 20260913), the coding specification, two independent coder passes, disagreements and their adjudication, and tallies with Wilson 95% confidence intervals; (v) the 39-dataset demographic-metadata audit; and (vi) a claim-by-claim statistics register mapping every reported number to its source rows, together with the code that produces each value. Full texts of the reviewed papers are not included, for copyright reasons. Code is licensed MIT; data tables are licensed CC BY 4.0. A SHA-256 manifest ( MANIFEST.sha256 ) covers every file in the package. This package is a working-tree snapshot of the manuscript as of 18 October 2026 (61 pp main + 45 pp supplementary). Manuscript v0.6.6 (18 October 2026). Same manuscript text as v0.6.5; this version adds data/context_fulltexts/, the full texts of eleven context-only works cited in the manuscript (final STARD-AI, CLAIM 2020 and 2024, TRIPOD+AI, PROBAST+AI, PRISMA 2020, QUADAS-2, Yang 2025, Bhattacharyya 2025, the EU AI Act and the 2021 GMLP principles) with a per-file licence list; this record's CC BY 4.0 licence covers the depositor's own materials only, and each of those texts keeps its rights holder's terms (three are publisher-copyrighted, one is non-commercial, one licence was not verified). v0.6.5 content, carried forward: Fourth deep-review response (every comment except the human audit, which has not been run); no coded value, count, grade or headline statistic changed. Table 12 caption and Table 10 footnote arithmetic corrected; PRISMA items 8, 13f, 20d and 23c completed; the Methods now separates the adapted QUADAS-2 appraisal from the full-text search for self-reported reporting-guideline adherence; the D6 attention metric is piecewise-normalized on [-1, 1] with an explicit dispersion formula; the final STARD-AI statement, CLAIM 2024, TRIPOD+AI, PROBAST+AI, PRISMA 2020, QUADAS-2, the EU AI Act and the 2021 GMLP principles were read in full as context (full texts are not deposited); ten references carry full author lists and one wrong co-author list was corrected; the 62 re-screen records without an abstract were reassessed (none added). v0.6.4 content, carried forward: One wording fix on top of v0.6.3 (the Confounding exemplars in the taxonomy figure, Results and Appendix S2 no longer cite a study that is coded institutional/selection rather than confounding); no coded value, count, grade or headline statistic changed. v0.6.3 content, carried forward: provenance correction, a record of a second LLM re-read, and a full-manuscript consistency sweep; no coded value, grade or headline statistic changed. This version also replaces v0.6.1 (the v0.6.1 supplement PDF printed an unresolved figure reference). The analytical corpus is 88 studies (89 records, 86 evaluate a model). Headlines: any fairness metric 25/86 (29.1%), external validation 47/88 (53.4%), overall risk of bias 7 low, 60 unclear, 21 high; 113 mitigation rows; feature-level harmonization is the only Strong family. data/coding_",
-      "tags": [
-        "histopathology",
-        "computational pathology",
-        "algorithmic fairness",
-        "bias",
-        "systematic review",
-        "reproducibility",
-        "risk of bias",
-        "consensus coding"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Fairness in histopathology AI — systematic review: extraction, audit, and verification artifacts (88-study corpus, manuscript v0.6.6)",
-      "url": "https://zenodo.org/records/23447570"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "91895eed2280c7411681b935",
-      "context_id": "fc6b9ad3fdb3744118d195a6",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0,
-      "source": "zenodo",
-      "source_context_sha256": "076e50cf05b16b7e50b4fb94b28f0b997d9524d0f2080c026e3cbfc5968f7e58",
-      "source_published": "2026-10-18",
-      "source_updated": "",
-      "summary": "Initial release of dermsr , the reference implementation of the DERMS-R model-selection score, implementing the &quot;Reproducibility and Reference Implementation&quot; section of the companion paper (Ramos, 2026). derms_score(...) with the paper's exact documented signature DERMSRScorer , a reusable scorer for raw cross-validation fold accuracies Sensitivity-analysis scenarios (Table 5) and statistical comparison tools (Friedman test, Iman-Davenport correction, Nemenyi critical difference) Functions reproducing the manuscript's Tables 2-6 from raw results A bundled, verified 12-architecture x 5-ratio CIFAR-10 benchmark dataset, so reproduction scripts and tests are fully self-contained 47 tests (43 unit + 4 doctests), using published paper values as fixtures rather than invented examples MIT licensed See README.md for usage and scripts/ for runnable reproductions of the manuscript's tables and statistical analyses.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "dermsr: a reference implementation of the DERMS-R model-selection score",
-      "url": "https://zenodo.org/records/23442778"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
