@@ -19,3 +19,5 @@ python -m unittest -v tests.test_genesis_becker_tmt_lens tests.test_genesis_git_
 ```
 
 The delivery test runs the real resident orchestration with a clearly scripted provider. It checks the exact messages and receipt. Controlled LLM baseline-versus-lens experiments are a separate, unrun research gate.
+
+The first live smoke failed at the provider boundary; a second fresh temporary run returned an outbox capability outside the native allowlist and was correctly rejected. These failures are retained as failed checks. Transport generation now uses the same action/capability enums as the unchanged semantic admission gate, without inventing values, repairing choices or granting retries. The runner exposes only allowlisted constant provider error codes for diagnostics; arbitrary exception messages remain hidden.

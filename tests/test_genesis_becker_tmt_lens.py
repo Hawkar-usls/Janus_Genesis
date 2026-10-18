@@ -8,8 +8,10 @@ from pathlib import Path
 
 from tools.genesis_becker_tmt_lens import LENS_PATH, lens_context, review_structured_proposal
 from tools.genesis_git_habitat import GitHabitat
-from tools.genesis_git_habitat_resident_cycle import run_awake_resident_cycle, safe_resident_snapshot
-from tools.genesis_git_habitat_resident_provider import ResidentProviderError
+from tools.genesis_git_habitat_resident_cycle import (
+    ALLOWED_CHOICES, RESIDENT_PROPOSABLE_CAPABILITIES, run_awake_resident_cycle, safe_resident_snapshot,
+)
+from tools.genesis_git_habitat_resident_provider import RESIDENT_CHOICE_JSON_SCHEMA, ResidentProviderError
 from tools.run_genesis_git_habitat_resident_cycle import _safe_provider_failure_code
 
 
@@ -74,6 +76,11 @@ class BeckerTMTLensTests(unittest.TestCase):
         self.assertEqual(_safe_provider_failure_code(outer), "RESIDENT_OLLAMA_TRANSPORT_FIELDS_INVALID")
         outer.__cause__ = ResidentProviderError("private provider response must stay hidden")
         self.assertIsNone(_safe_provider_failure_code(outer))
+
+    def test_transport_enums_match_the_unchanged_semantic_allowlists(self):
+        props = RESIDENT_CHOICE_JSON_SCHEMA["properties"]
+        self.assertEqual(set(props["choice"]["enum"]), set(ALLOWED_CHOICES))
+        self.assertEqual(set(props["capability_id"]["enum"]), RESIDENT_PROPOSABLE_CAPABILITIES)
 
 
 if __name__ == "__main__":
