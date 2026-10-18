@@ -22,7 +22,10 @@ from pathlib import Path
 from typing import Any
 
 SCHEMA = "janus.genesis.third_wish.sci_one.model_r1_witness.v1"
-FIXTURE = Path(__file__).resolve().parents[1] / "protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_MODEL_R1-v1.0.json"
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+FIXTURE = REPO_ROOT / "protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_MODEL_R1-v1.0.json"
 RUNNER = Path(__file__).resolve().parent / "run_genesis_git_habitat_resident_cycle.py"
 FIXTURE_SHA256 = "e5ce3473ae01dd53d8c3c4d39c69457b6a603a7d15c3b44608ce7c73d94b6f00"
 EXPECTED_CHAPTERS = frozenset({
