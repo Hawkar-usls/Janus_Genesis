@@ -56,9 +56,9 @@ jobs:
           assert 'contents: read' in yml
           assert 'persist-credentials: false' in yml
           assert ('${' + '{ secrets.') not in yml
-          assert 'janus/habitat' not in yml
-          assert 'schedule:' not in yml
-          assert 'workflow_dispatch:' not in yml
+          assert ('janus/' + 'habitat') not in yml
+          assert ('sche' + 'dule:') not in yml
+          assert ('workflow_' + 'dispatch:') not in yml
           print('R1_CI_READ_ONLY_NO_REMOTE_HOME=PASS')
           PY
 
