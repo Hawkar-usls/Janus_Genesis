@@ -1,5 +1,5 @@
 {
-  "batch_id": "2547e8b800c39a9d35e1",
+  "batch_id": "154d42ab6ebfeb7f202d",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
@@ -664,39 +664,6 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "d624fc06c6d4febc60c57044",
-      "context_id": "7c13fb5b557169384dcdbe8d",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "counterexample",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.2083,
-      "source": "zenodo",
-      "source_context_sha256": "656adc8e94dd92f344157e20f3120250a6fe5254f8cbda29b47a1de5674e3167",
-      "source_published": "2026-10-17",
-      "source_updated": "",
-      "summary": "Initial public release of the code and data accompanying the manuscript Reusable Löwner Bounds for Elliptic Problems with Moving Inclusions . Includes numerical experiments, raw benchmark results, theorem verification scripts, counterexamples, and reproducibility instructions. The repository provides the computational materials supporting the SISC submission.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "loewner-moving-inclusions: code and raw results for reusable Löwner bounds with moving inclusions",
-      "url": "https://zenodo.org/records/23442339"
-    },
-    {
-      "base_direction_id": "registry_provenance",
       "candidate_id": "495fa966090febf96b9daf09",
       "context_id": "48b28c0c6825983eba6481bf",
       "delivery_preview_only": true,
@@ -734,6 +701,39 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Assignment-Aligned Effective States in a 2-SAT Transformer",
       "url": "https://zenodo.org/records/23454637"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "070a7b100a9b5f2e96684706",
+      "context_id": "1748c8d53cdf1df56ca4c40a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "3fbcc475bf64f76a97d08c41a10404d5df08aa80cf55d501809155f1a63e51b1",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "XOPT v1.0.0 — Research Artifact Research artifact for sparse temporal counterfactual explanations in mixed-integer optimization with fixed continuous recourse. Included Components Source Code ( experiments/src/ ): Exact column-and-constraint generation algorithm ( XOPT.jl ). Anytime bounding and baseline initialization ( anytime.jl ). Stability radius estimation ( robustness.jl ). Auditing, calibration, and scenario separation ( audit.jl ). Unit and holding cost levers ( levers.jl , enumerate_levers.jl ). Unit commitment models on PGLib-UC instances ( uc.jl , uc2.jl ). Independent literature comparator implementation ( literature_cg.jl ). Datasets ( data/ ): Preprocessed and raw empirical benchmarks (NHS emergency attendance, Online Retail transactions). PGLib-UC power systems data ( experiments/data/pglib_uc/ ). Data provenance and SHA-256 verification records ( data/metadata/ ). Experimental Results ( experiments/results/ ): Complete primary benchmark records (320 runs) and supplementary evaluations (250 runs). Paired sensitivity and capacity classifications. Verification traces and numerical audit logs. Reproducibility : Pinned Julia environment ( Manifest.toml , Project.toml ). Automated reproduction script ( experiments/scripts/reproduce.sh ). Test suites ( experiments/test/ ). License Original Julia and Python code is licensed under the MIT License. Data sources retain their respective original licenses as documented in experiments/LICENSING.md .",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MadBezoui/XOPT: XOPT v1.0.0: Research Artifact — Code, Data, and Experiments",
+      "url": "https://zenodo.org/records/23458562"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -900,6 +900,42 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Resilient Decentralized Shape Formation of Multi-Robot Swarms Under Adversarial Real-World Faults in High-Complexity Disaster Environments",
       "url": "https://zenodo.org/records/23447648"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "070a7b100a9b5f2e96684706",
+      "context_id": "2380cb4ddc097a1face9621e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "calibration",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 19.2083,
+      "source": "zenodo",
+      "source_context_sha256": "1bafc10a4ccc292e3a43dc259bcd71b988107558a8117e9c9f9c55e56bf90761",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "XOPT v1.0.0 — Research Artifact Research artifact for sparse temporal counterfactual explanations in mixed-integer optimization with fixed continuous recourse. Included Components Source Code ( experiments/src/ ): Exact column-and-constraint generation algorithm ( XOPT.jl ). Anytime bounding and baseline initialization ( anytime.jl ). Stability radius estimation ( robustness.jl ). Auditing, calibration, and scenario separation ( audit.jl ). Unit and holding cost levers ( levers.jl , enumerate_levers.jl ). Unit commitment models on PGLib-UC instances ( uc.jl , uc2.jl ). Independent literature comparator implementation ( literature_cg.jl ). Datasets ( data/ ): Preprocessed and raw empirical benchmarks (NHS emergency attendance, Online Retail transactions). PGLib-UC power systems data ( experiments/data/pglib_uc/ ). Data provenance and SHA-256 verification records ( data/metadata/ ). Experimental Results ( experiments/results/ ): Complete primary benchmark records (320 runs) and supplementary evaluations (250 runs). Paired sensitivity and capacity classifications. Verification traces and numerical audit logs. Reproducibility : Pinned Julia environment ( Manifest.toml , Project.toml ). Automated reproduction script ( experiments/scripts/reproduce.sh ). Test suites ( experiments/test/ ). License Original Julia and Python code is licensed under the MIT License. Data sources retain their respective original licenses as documented in experiments/LICENSING.md .",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MadBezoui/XOPT: XOPT v1.0.0: Research Artifact — Code, Data, and Experiments",
+      "url": "https://zenodo.org/records/23458562"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1357,6 +1393,74 @@
       "url": "https://zenodo.org/records/23444426"
     },
     {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "070a7b100a9b5f2e96684706",
+      "context_id": "6141063abab0e86f974d4bdb",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "calibration"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.1667,
+      "source": "zenodo",
+      "source_context_sha256": "3b75e239159226cb46bd56fd078e109cd798a4dda0cb7b77d27e8f97965b948e",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "XOPT v1.0.0 — Research Artifact Research artifact for sparse temporal counterfactual explanations in mixed-integer optimization with fixed continuous recourse. Included Components Source Code ( experiments/src/ ): Exact column-and-constraint generation algorithm ( XOPT.jl ). Anytime bounding and baseline initialization ( anytime.jl ). Stability radius estimation ( robustness.jl ). Auditing, calibration, and scenario separation ( audit.jl ). Unit and holding cost levers ( levers.jl , enumerate_levers.jl ). Unit commitment models on PGLib-UC instances ( uc.jl , uc2.jl ). Independent literature comparator implementation ( literature_cg.jl ). Datasets ( data/ ): Preprocessed and raw empirical benchmarks (NHS emergency attendance, Online Retail transactions). PGLib-UC power systems data ( experiments/data/pglib_uc/ ). Data provenance and SHA-256 verification records ( data/metadata/ ). Experimental Results ( experiments/results/ ): Complete primary benchmark records (320 runs) and supplementary evaluations (250 runs). Paired sensitivity and capacity classifications. Verification traces and numerical audit logs. Reproducibility : Pinned Julia environment ( Manifest.toml , Project.toml ). Automated reproduction script ( experiments/scripts/reproduce.sh ). Test suites ( experiments/test/ ). License Original Julia and Python code is licensed under the MIT License. Data sources retain their respective original licenses as documented in experiments/LICENSING.md .",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MadBezoui/XOPT: XOPT v1.0.0: Research Artifact — Code, Data, and Experiments",
+      "url": "https://zenodo.org/records/23458562"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "070a7b100a9b5f2e96684706",
+      "context_id": "132e320d11aa3809695e1f44",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "calibration"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.1667,
+      "source": "zenodo",
+      "source_context_sha256": "223d3541ba76d9e781aae00ec752b4f750de4d68987ef5afdb7bcd97bbcc45d1",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "XOPT v1.0.0 — Research Artifact Research artifact for sparse temporal counterfactual explanations in mixed-integer optimization with fixed continuous recourse. Included Components Source Code ( experiments/src/ ): Exact column-and-constraint generation algorithm ( XOPT.jl ). Anytime bounding and baseline initialization ( anytime.jl ). Stability radius estimation ( robustness.jl ). Auditing, calibration, and scenario separation ( audit.jl ). Unit and holding cost levers ( levers.jl , enumerate_levers.jl ). Unit commitment models on PGLib-UC instances ( uc.jl , uc2.jl ). Independent literature comparator implementation ( literature_cg.jl ). Datasets ( data/ ): Preprocessed and raw empirical benchmarks (NHS emergency attendance, Online Retail transactions). PGLib-UC power systems data ( experiments/data/pglib_uc/ ). Data provenance and SHA-256 verification records ( data/metadata/ ). Experimental Results ( experiments/results/ ): Complete primary benchmark records (320 runs) and supplementary evaluations (250 runs). Paired sensitivity and capacity classifications. Verification traces and numerical audit logs. Reproducibility : Pinned Julia environment ( Manifest.toml , Project.toml ). Automated reproduction script ( experiments/scripts/reproduce.sh ). Test suites ( experiments/test/ ). License Original Julia and Python code is licensed under the MIT License. Data sources retain their respective original licenses as documented in experiments/LICENSING.md .",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MadBezoui/XOPT: XOPT v1.0.0: Research Artifact — Code, Data, and Experiments",
+      "url": "https://zenodo.org/records/23458562"
+    },
+    {
       "base_direction_id": "registry_provenance",
       "candidate_id": "edb1c7f53a8721f2db365409",
       "context_id": "bc4c278856ea99f7785d674d",
@@ -1749,107 +1853,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "PHOTONIC CRYSTAL MICROROBOTICS AT THE LIMIT FLAGSHIP 12/30 | STARLI INSTITUTE XXIV | GROUP B This prospective research monograph examines whether bandgap engineering and localized photonic crystal modes can enable physically predictable, reversible optical manipulation of microscopic agents when act",
       "url": "https://zenodo.org/records/23456362"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "00d35697abe1e9d5e669cf06",
-      "context_id": "3bd50fcc27700dee804e1e9f",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "control",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.75,
-      "source": "zenodo",
-      "source_context_sha256": "7fa4b473a0b02c1a2fb8dfdc99ba49c23092aa451252e3b8477de37c02e2ad33",
-      "source_published": "2026-09-20",
-      "source_updated": "",
-      "summary": "These are experimental time series recorded for four boards realizing a Minati-Frasca single-transistor chaotic oscillator together with the amplifiers necessary for reading out three voltages and two currents. The supply voltage is swept as the principal control parameter. These materials are made available to support the replication of the results reported in the associated publication(s), as well as any further public-domain academic research in the field of nonlinear electronic circuits, and related aspects, in compliance with the specified license terms and all applicable legal clauses. For any questions regarding these data, the corresponding author of the publication referenced below should be contacted. The following reference must be cited when using these data:&nbsp; Mohammad Sharifian, Qingyu Li, Chiranjib Mukhopadhyay, Abolfazl Bayat, Ludovico Minati. Quantum extreme learning for forecasting experimental chaotic electronic circuits. arXiv:2610.13388 AB acknowledges support from the National Natural Sci- ence Foundation of China (grants No. W2541020, No. 12274059, No. 12574528, and No. 1251101297). MS ac- knowledges support from the National Natural Science Foun- dation of China (grant No. W2633018). CM acknowledges support from National Natural Science Foundation of China (grant no. 12374482) and a talent introduction scholarship. LM gratefully acknowledges the support of the &ldquo;Hundred Tal- ents&rdquo; program of the University of Electronic Science and Technology of China, of the &ldquo;Outstanding Young Talents Program (Overseas)&rdquo; program of the National Natural Sci- ence Foundation of China, and of the talent programs of the Sichuan province and Chengdu municipality. The funders played no role in study design, data collection, analysis and interpretation of data, or the writing of this manuscript. The authors are grateful to Manyu Zhao for initial discussions re- garding the estimation and the influence of temporal autocor- relation.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Experimental time series acquired for \"Quantum extreme learning for forecasting experimental chaotic electronic circuits\".",
-      "url": "https://zenodo.org/records/22857591"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "62cbddfbb95b7f58d877d6dd",
-      "context_id": "2bfbd6f39f4f80a825436f21",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "control",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.75,
-      "source": "zenodo",
-      "source_context_sha256": "8fdb3b710772a6d797d638cb2d41d699ff6bb6c2b2e44ce7035bab08d36d4f51",
-      "source_published": "2026-10-18",
-      "source_updated": "",
-      "summary": "Replication files for &ldquo;Bans versus Controlled Access: Reserve Substitution and Issuer Buybacks under Financial Sanctions&rdquo;. The A7A5 archive covers the TRON base contract TLeVfrdym8RoJreJ23dAGyfJDygRtiWKBZ from 7&ndash;27 August 2025 UTC. Data were retrieved on 17 October 2026 UTC. It includes 5,244 unique events from 37 daily response pages, additional event-class and receipt checks, frozen source responses and request provenance, event-level records, daily and weekly aggregates, supply accounting, data definitions, and analysis and verification scripts. Coverage is specific to the queried contract and provider. Gross transfers do not measure trading volume, beneficial ownership, reserve flows, or issuer buyback expenditure. The pilot is descriptive and does not identify a causal sanctions effect. The model archive contains Python scripts and supplied outputs for hypothetical numerical examples of route substitution, constrained issuer purchases, monitoring-dependent depth, surplus access and fallback. Parameters are not calibrated to A7A5. Both archives use Python 3.9 or later and its standard library; their README files give offline reproduction commands. Access: metadata are public; files are restricted and available on request to the corresponding author, hyoungkang@hanyang.ac.kr. The accompanying RIGHTS_AND_SOURCES.md distinguishes author-created materials from third-party responses. Rights in original materials are reserved; no blanket open license is granted for the mixed archive. The associated manuscript is unpublished.",
-      "tags": [
-        "A7A5"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "A7A5 pilot data and model replication files for Bans versus Controlled Access",
-      "url": "https://zenodo.org/records/23444486"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "00d35697abe1e9d5e669cf06",
-      "context_id": "1f93bb44fada8fc5c565ce3d",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "control",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.75,
-      "source": "zenodo",
-      "source_context_sha256": "fbdb4d4287fa8f67e50f5ee55841f2289efd855c22a7a487387983b308ed8adc",
-      "source_published": "2026-09-20",
-      "source_updated": "",
-      "summary": "These are experimental time series recorded for four boards realizing a Minati-Frasca single-transistor chaotic oscillator together with the amplifiers necessary for reading out three voltages and two currents. The supply voltage is swept as the principal control parameter. These materials are made available to support the replication of the results reported in the associated publication(s), as well as any further public-domain academic research in the field of nonlinear electronic circuits, and related aspects, in compliance with the specified license terms and all applicable legal clauses. For any questions regarding these data, the corresponding author of the publication referenced below should be contacted. The following reference must be cited when using these data:&nbsp; Mohammad Sharifian, Qingyu Li, Chiranjib Mukhopadhyay, Abolfazl Bayat, Ludovico Minati. Quantum extreme learning for forecasting experimental chaotic electronic circuits. arXiv:2610.13388 AB acknowledges support from the National Natural Sci- ence Foundation of China (grants No. W2541020, No. 12274059, No. 12574528, and No. 1251101297). MS ac- knowledges support from the National Natural Science Foun- dation of China (grant No. W2633018). CM acknowledges support from National Natural Science Foundation of China (grant no. 12374482) and a talent introduction scholarship. LM gratefully acknowledges the support of the &ldquo;Hundred Tal- ents&rdquo; program of the University of Electronic Science and Technology of China, of the &ldquo;Outstanding Young Talents Program (Overseas)&rdquo; program of the National Natural Sci- ence Foundation of China, and of the talent programs of the Sichuan province and Chengdu municipality. The funders played no role in study design, data collection, analysis and interpretation of data, or the writing of this manuscript. The authors are grateful to Manyu Zhao for initial discussions re- garding the estimation and the influence of temporal autocor- relation.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Experimental time series acquired for \"Quantum extreme learning for forecasting experimental chaotic electronic circuits\".",
-      "url": "https://zenodo.org/records/22857591"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
