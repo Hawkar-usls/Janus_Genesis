@@ -143,13 +143,19 @@ jobs:
           path: _beetle
           persist-credentials: false
 
-      - name: Reproduce broker preflight against existing cloud HOME without mutating it
+      - name: Reproduce broker preflight with actual staged Beetle context on isolated HOME
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           git fetch --no-tags origin janus/habitat:refs/remotes/origin/janus/habitat
           candidate="${RUNNER_TEMP}/janus-existing-home-preflight"
           git worktree add --detach "$candidate" origin/janus/habitat
+          python tools/genesis_beetle_memory_bridge.py \
+            --inbox-dir _beetle/data/beetle-inbox \
+            --memory-root "$candidate/habitat" \
+            >/dev/null
           EXISTING_HOME="$candidate/habitat" python - <<'PY'
           import json
           import os
@@ -160,6 +166,11 @@ jobs:
               MAX_MODEL_MESSAGES, MAX_MODEL_INPUT_BYTES, ThirdWishSensorModelScheduleBroker,
           )
           snapshot = safe_resident_snapshot(GitHabitat(Path(os.environ["EXISTING_HOME"])))
+          raw_home = json.dumps({
+              "instruction": "Observe this bounded home snapshot and freely choose one allowed internal option.",
+              "snapshot": snapshot,
+          }, ensure_ascii=False, sort_keys=True)
+          original_bytes = len(raw_home.encode("utf-8"))
           messages = resident_messages(snapshot)
           validated = ThirdWishSensorModelScheduleBroker._validated_messages(messages)
           wire_bytes = len(json.dumps(validated, ensure_ascii=False, sort_keys=True,
@@ -167,6 +178,8 @@ jobs:
           assert 1 <= len(messages) <= MAX_MODEL_MESSAGES
           assert wire_bytes <= MAX_MODEL_INPUT_BYTES
           assert all(len(m["content"].encode("utf-8")) <= 16 * 1024 for m in messages)
+          print("STAGED_HOME_SINGLE_MESSAGE_BYTES=" + str(original_bytes))
+          print("STAGED_HOME_SINGLE_MESSAGE_EXCEEDS_BROKER_16K=" + str(original_bytes > 16 * 1024))
           print("EXISTING_HOME_PRE_EFFECT_MESSAGE_BOUNDS=PASS")
           print("EXISTING_HOME_MODEL_MESSAGES=" + str(len(messages)))
           print("EXISTING_HOME_MODEL_INPUT_BYTES=" + str(wire_bytes))
