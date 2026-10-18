@@ -1,0 +1,153 @@
+name: JANUS Third Wish SciOne R1 supervised real model
+
+on:
+  pull_request:
+    branches:
+      - main
+      - research/third-wish-scione-risk-replay-r0
+    paths:
+      - "tools/genesis_third_wish_scione_model_r1.py"
+      - "tests/test_genesis_third_wish_scione_model_r1.py"
+      - "protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_MODEL_R1-v1.0.json"
+      - "docs/GENESIS_THIRD_WISH_SCIONE_MODEL_R1_2026_10_18.md"
+      - ".github/workflows/janus-third-wish-scione-model-r1.yml"
+
+# No contents:write, actions:write, secrets, scheduled runs or remote HOME.
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-scione-model-r1-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  OLLAMA_INSTALL_URL: https://github.com/ollama/ollama/releases/download/v0.30.8/ollama-linux-amd64.tar.zst
+  OLLAMA_INSTALL_SHA256: ffe2b2c2f2f5f5b30c081ec353c2e0bb2d9ead516064a8e22663b24b8fd8dca0
+  RESIDENT_MODEL: qwen2.5:0.5b-instruct-q4_K_M
+  RESIDENT_MODEL_DIGEST_PREFIX: a8b0c5157701
+
+jobs:
+  frozen-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate frozen cases and external stop contract
+        run: |
+          python -m json.tool protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_MODEL_R1-v1.0.json >/dev/null
+          python -m py_compile tools/genesis_third_wish_scione_model_r1.py
+          python -m unittest -v \
+            tests.test_genesis_third_wish_scione_model_r1 \
+            tests.test_genesis_third_wish_sci_one_risk_replay
+
+      - name: Validate least-privilege CI configuration
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('.github/workflows/janus-third-wish-scione-model-r1.yml')
+          yml = path.read_text()
+          assert 'contents: read' in yml
+          assert 'persist-credentials: false' in yml
+          assert ('${' + '{ secrets.') not in yml
+          assert 'janus/habitat' not in yml
+          assert 'schedule:' not in yml
+          assert 'workflow_dispatch:' not in yml
+          print('R1_CI_READ_ONLY_NO_REMOTE_HOME=PASS')
+          PY
+
+  supervised-real-model:
+    needs: frozen-contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install existing Genesis runtime dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Install hash-pinned Ollama 0.30.8
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 5 --retry-delay 2 \
+            "${OLLAMA_INSTALL_URL}" \
+            -o "${RUNNER_TEMP}/ollama-linux-amd64.tar.zst"
+          echo "${OLLAMA_INSTALL_SHA256}  ${RUNNER_TEMP}/ollama-linux-amd64.tar.zst" | sha256sum -c -
+          sudo tar --zstd -xf "${RUNNER_TEMP}/ollama-linux-amd64.tar.zst" -C /usr
+          ollama --version | tee "${RUNNER_TEMP}/ollama-r1-version.txt"
+          grep -q '0.30.8' "${RUNNER_TEMP}/ollama-r1-version.txt"
+
+      - name: Boot loopback-only model and verify pinned model digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OLLAMA_HOST=127.0.0.1:11434
+          export OLLAMA_NUM_PARALLEL=1
+          export OLLAMA_MAX_LOADED_MODELS=1
+          ollama serve > "${RUNNER_TEMP}/ollama-r1.log" 2>&1 &
+          for _ in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:11434/api/version >/dev/null 2>&1; then
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:11434/api/version
+          ollama pull "${RESIDENT_MODEL}"
+          ollama list | tee "${RUNNER_TEMP}/ollama-r1-model-list.txt"
+          grep -q "${RESIDENT_MODEL_DIGEST_PREFIX}" "${RUNNER_TEMP}/ollama-r1-model-list.txt"
+          echo 'R1_PINNED_REAL_MODEL=PASS'
+
+      - name: Supervise seven real model cycles plus independent process-stop probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/genesis_third_wish_scione_model_r1.py \
+            --model "${RESIDENT_MODEL}" \
+            --endpoint http://127.0.0.1:11434 \
+            --output "${RUNNER_TEMP}/scione-r1-witness.json"
+
+      - name: Validate witness completeness without self-reported isolation claims
+        if: success()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          witness = json.loads((Path(os.environ['RUNNER_TEMP']) / 'scione-r1-witness.json').read_text())
+          assert witness['status'] == 'OBSERVED_R1_PASS'
+          assert witness['real_model_cases'] == 7
+          assert witness['model_calls_observed'] == 7
+          assert witness['external_stop_probes'] == 1
+          assert len(witness['receipts']) == 8
+          assert witness['external_effect_authority_granted'] is False
+          assert witness['model_voluntary_stoppability_proven'] is False
+          assert witness['network_egress_isolation_attested'] is False
+          assert witness['independent_third_party_reviewer_signed'] is False
+          print('R1_REAL_MODEL_TRAJECTORIES_AND_EXTERNAL_STOP=OBSERVED')
+          print('R1_INDEPENDENT_SANDBOX_ATTESTATION=NOT_ESTABLISHED')
+          PY
+
+      - name: Preserve only sanitized observer witness
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-scione-r1-supervised-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/scione-r1-witness.json
+            ${{ runner.temp }}/ollama-r1-version.txt
+            ${{ runner.temp }}/ollama-r1-model-list.txt
+          retention-days: 30
