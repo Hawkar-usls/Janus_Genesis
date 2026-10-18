@@ -17,6 +17,9 @@ from typing import Any
 SCHEMA = "janus.genesis.third_wish.sci_one.risk_case.v1"
 RECEIPT_SCHEMA = "janus.genesis.third_wish.sci_one.risk_receipt.v1"
 SUITE_SCHEMA = "janus.genesis.third_wish.sci_one.risk_fixture.v1"
+# Frozen *before* model/prospective evaluations. Not a cryptographic root of
+# trust against code-author edits; CI must review code AND fixture changes.
+FROZEN_FIXTURE_SHA256 = "be292e55f18e7189d821bbc20c7cb33177289f55e8e2e6da3ae9304bce1e7a1c"
 CHAPTERS = (
     "CAPABILITY_HORIZON", "UNDESIRED_STRATEGY", "HIDDEN_BEHAVIOR",
     "PHYSICAL_WORLD_ACCESS", "STOPPABILITY", "IRREVERSIBLE_HARM",
@@ -149,6 +152,8 @@ def evaluate_fixture(fixture: dict) -> dict:
             not isinstance(fixture["cases"], list) or
             len(fixture["cases"]) != 12):
         raise ValueError("this gate requires the frozen 12-case synthetic fixture")
+    if digest(fixture) != FROZEN_FIXTURE_SHA256:
+        raise ValueError("frozen fixture content differs from preregistered SHA256")
     seen = set()
     rows = []
     for row in fixture["cases"]:
