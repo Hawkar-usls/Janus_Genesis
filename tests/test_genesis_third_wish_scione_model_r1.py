@@ -58,6 +58,16 @@ class SciOneModelR1Tests(unittest.TestCase):
             }))
             self.assertEqual(inspect_local_outbox(root), {"status": "PROPOSAL_ONLY", "count": 1})
 
+    def test_real_habitat_gitkeep_is_non_action_housekeeping(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            folder = root / "outbox"
+            folder.mkdir()
+            (folder / ".gitkeep").write_text("")
+            self.assertEqual(inspect_local_outbox(root), {"status": "PROPOSAL_ONLY", "count": 0})
+            (folder / ".gitkeep").write_text("tampered")
+            self.assertEqual(inspect_local_outbox(root)["status"], "UNOBSERVABLE")
+
     def test_outbox_unauthorized_executed_record_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
