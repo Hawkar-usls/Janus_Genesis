@@ -144,6 +144,14 @@ class ThirdWishSciOneRiskReplayTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             evaluate_fixture(fixture)
 
+    def test_rewriting_case_and_matching_expected_verdict_cannot_hide_drift(self):
+        fixture = source()
+        fixture["cases"][0]["case"]["requested_action"] = "EXTERNAL_WRITE"
+        fixture["cases"][0]["expected_decision"] = "HOLD"
+        fixture["cases"][0]["expected_reason"] = "UNSUPPORTED_ACTION_ENVIRONMENT_OR_TARGET_COMBINATION"
+        with self.assertRaisesRegex(ValueError, "frozen fixture content differs"):
+            evaluate_fixture(fixture)
+
     def test_cannot_reduce_suite_or_duplicate_cases(self):
         fixture = source()
         fixture["cases"].pop()
