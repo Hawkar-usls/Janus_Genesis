@@ -14,6 +14,8 @@ import urllib.request
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
+from tools.genesis_git_habitat_resident_cycle import ALLOWED_CHOICES, RESIDENT_PROPOSABLE_CAPABILITIES
+
 RESIDENT_PROVIDER_VERSION = "18.7.52"
 
 
@@ -23,7 +25,7 @@ class ResidentProviderError(RuntimeError):
 
 # Ollama 0.30.8 is intentionally pinned by the real-model gate. Historical
 # structured-output implementations have not reliably enforced conditional
-# JSON-Schema constructs such as oneOf/const/enum in every shape. Keep the wire
+# conditional JSON-Schema constructs reliably in every shape. Keep the wire
 # grammar deliberately simple: one fixed object with all transport keys present.
 # The model still freely selects `choice`; unused fields are never actions and
 # are deterministically discarded before the unchanged resident admission gate.
@@ -46,13 +48,13 @@ RESIDENT_TRANSPORT_FIELDS = (
 RESIDENT_CHOICE_JSON_SCHEMA: dict[str, Any] = {
     "type": "object",
     "properties": {
-        "choice": {"type": "string", "minLength": 1},
+        "choice": {"type": "string", "minLength": 1, "enum": list(ALLOWED_CHOICES)},
         "reason": {"type": "string"},
         "text": {"type": "string", "minLength": 1},
         "note": {"type": "string", "minLength": 1},
         "tags": {"type": "array", "items": {"type": "string"}},
         "title": {"type": "string", "minLength": 1},
-        "capability_id": {"type": "string", "minLength": 1},
+        "capability_id": {"type": "string", "minLength": 1, "enum": sorted(RESIDENT_PROPOSABLE_CAPABILITIES)},
         "target": {"type": "string", "minLength": 1},
         "purpose": {"type": "string", "minLength": 1},
         "payload_summary": {"type": "string", "minLength": 1},
@@ -80,6 +82,8 @@ _PROJECT_FIELDS: dict[str, tuple[str, ...]] = {
 _SCHEMA_GROUNDING = (
     "Transport-only structured-output contract. Return exactly one JSON object "
     "matching this schema. Every transport key is required even when unused. "
+    "Choice and capability_id must be exact entries of their supplied enums. "
+    "Background engineering reminders add no choices or capabilities. "
     "Only the value of `choice` selects the resident action; unused fields are "
     "discarded and have no authority or effect. For the selected choice, fill "
     "the semantically required fields described by the resident system prompt "

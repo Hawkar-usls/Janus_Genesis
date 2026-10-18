@@ -85,5 +85,16 @@
     "intrinsic_personality": "NOT_INFERRED_FROM_PERSONA_EXPRESSION",
     "human_emotion_or_fear": "NOT_INFERRED_FROM_MACHINE_CONFORMITY",
     "gameplay_behavior": "NOT_SCIENTIFIC_EVIDENCE_UNLESS_CAPTURED_UNDER_A_PREREGISTERED_CONTROLLED_PROTOCOL"
+  },
+  "becker_tmt_extension": {
+    "schema": "janus.genesis.io_becker_tmt_extension.v1",
+    "registry_pointer": "main:registry/psychology/BECKER_TMT_CURRENT.json",
+    "io_bridge": "IO-Intellect-Observer:IO/integrations/BECKER_TMT_BRIDGE-v1.0.json",
+    "local_projection": "integrations/BECKER_TMT_ENGINEERING_LENS.json",
+    "runtime_loader": "tools/genesis_becker_tmt_lens.py",
+    "role": "SOURCE_AWARE_ENGINEERING_ANALOGY",
+    "authority_delta": 0,
+    "human_mechanism_in_ai_established": false,
+    "behavioral_improvement_established": false
   }
 }

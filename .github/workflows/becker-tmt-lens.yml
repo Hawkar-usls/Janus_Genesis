@@ -1,0 +1,35 @@
+name: Becker TMT Genesis lens
+on:
+  pull_request:
+    paths:
+      - 'tools/becker_tmt_policy.py'
+      - 'tools/genesis_becker_tmt_lens.py'
+      - 'tools/genesis_git_habitat_resident_cycle.py'
+      - 'integrations/BECKER_TMT_ENGINEERING_LENS.json'
+      - 'tests/test_genesis_becker_tmt_lens.py'
+      - '.github/workflows/becker-tmt-lens.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/becker_tmt_policy.py'
+      - 'tools/genesis_becker_tmt_lens.py'
+      - 'tools/genesis_git_habitat_resident_cycle.py'
+      - 'integrations/BECKER_TMT_ENGINEERING_LENS.json'
+      - 'tests/test_genesis_becker_tmt_lens.py'
+      - '.github/workflows/becker-tmt-lens.yml'
+permissions:
+  contents: read
+jobs:
+  lens-and-resident:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt
+      - run: >-
+          python -m unittest -v tests.test_genesis_becker_tmt_lens
+          tests.test_genesis_git_habitat_resident_cycle
+          tests.test_genesis_beetle_memory_bridge
+          tests.test_genesis_git_habitat_layout_security
