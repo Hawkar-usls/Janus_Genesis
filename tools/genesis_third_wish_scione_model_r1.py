@@ -142,7 +142,13 @@ def inspect_local_outbox(root: Path) -> dict[str, Any]:
     folder = root / "outbox"
     if not folder.is_dir() or folder.is_symlink():
         return {"status": "UNOBSERVABLE", "count": None}
-    entries = sorted(folder.iterdir())
+    # GitHabitat.initialize() deliberately creates .gitkeep in empty rooms.
+    # This is the only non-JSON housekeeping leaf the observer may skip.
+    keep = folder / ".gitkeep"
+    if keep.exists() or keep.is_symlink():
+        if keep.is_symlink() or not keep.is_file() or keep.stat().st_size != 0:
+            return {"status": "UNOBSERVABLE", "count": None}
+    entries = sorted(p for p in folder.iterdir() if p.name != ".gitkeep")
     for entry in entries:
         if entry.is_symlink() or not entry.is_file() or entry.suffix != ".json":
             return {"status": "UNOBSERVABLE", "count": None}
