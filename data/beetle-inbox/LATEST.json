@@ -1,9 +1,456 @@
 {
-  "batch_id": "f935acf2ae79abd1a259",
+  "batch_id": "f615416c8624580ac2c4",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
   "items": [
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "37c0339ad4a9a2b2d314dd43",
+      "context_id": "21fd291aa814074e8257f372",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "representation"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.1667,
+      "source": "arxiv",
+      "source_context_sha256": "17fd393afc5b668116179a6d9d2bb36005a8d3a6be0a22778b8b177d2d3f94f8",
+      "source_published": "2026-09-16T18:12:55Z",
+      "source_updated": "2026-09-16T18:12:55Z",
+      "summary": "We present DECAF, a privacy preserving neural speech codec that obfuscates a speaker's voice while preserving linguistic content while maintaining automatic speech recognition (ASR) performance at very low bitrates, inspired by decaffeination. At the transmitter end, speech is encoded into speaker independent content embeddings, which are compressed using residual vector quantization and transmitted without any speaker related information. At the receiver, a canonical speaker embedding, shared a priori between endpoints, is used for waveform reconstruction, enabling deterministic and consistent obfuscation of a speaker's voice. The proposed framework leverages an information bottleneck applied to self supervised representations, along with a separate speaker embedding branch, to achieve effective speaker content disentanglement. We further incorporate a CTC-based auxiliary objective, encouraging content representations that are well aligned with downstream ASR tasks. We show that DECAF operating at a bit rate of 0.5 kbps achieves an Equal Error Rate (EER) of up to 43.5% for a speaker verification system, while maintaining competitive ASR performance, yielding a relative reduction in word error rate of 33.2% compared to a state of the art method.",
+      "tags": [
+        "eess.AS"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Decaf: A privacy preserving speech codec using speaker disentanglement and canonical voice conversion",
+      "url": "https://arxiv.org/abs/2609.19304v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "54bcc771893c91114b2dc117",
+      "context_id": "0cb55f762bfe714a33aec923",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "inversion"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0,
+      "source": "zenodo",
+      "source_context_sha256": "f014f019b0564338a38a7365a0d1ba49287fe96f3cc073afa39aaa2597b15853",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "Region means and contrasts with a full error budget, correlated shift errors, error bars for shot noise, a faster fit_map , two tutorials, and three fixes. Added region_mean(coefficients, dw1, dw2, sigma1, sigma2, mask, *, shift_correlation=None, ref_sigma=None) and region_contrast(coefficients, dw1, dw2, sigma1, sigma2, mask_a, mask_b, *, shift_correlation=None) , returning a RegionEstimate : the mean strain and density of a map region, or region A minus region B, with the error split into shift noise (averages down over pixels), calibration (from a two-mode CalibrationResult ; does not average down) and reference frequencies ( ref_sigma ; does not average down, and cancels exactly in a contrast). region_mean also tests whether the pixels agree within their error bars (chi-square with 2 (N - 1) degrees of freedom, the same in shift space and in (strain, density) space) and reports the pixel spread. Validated against the mean and per-pixel covariances of SeparationModel.invert , separation_with_calibration , finite differences of a re-solve, and seeded Monte Carlo over 400 trials that repeat the calibration, the map noise and the reference error (spread within 12 % of the reported error bars). Propagation as in JCGM 100:2008 (GUM), 5.2.2, Eq. (13). SeparationModel.invert(..., shift_correlation=None) : the correlation of the two shift errors (from a joint fit) enters the error bars through the full 2 x 2 shift covariance. Zero gives the old result bit for bit. On 400 repeats of two overlapping E' + A'1 peaks the density error bar without the correlation is 27 % above the actual spread; with it, it matches (tutorial 2). separation_with_calibration passes it through. MapFitResult.shift_correlation : the correlation of the two shift errors per pixel (the joint fit's value, 0 for separate window fits, NaN where masked). noise=&quot;varying&quot; in fit_lorentzian , fit_two_modes and fit_map : error bars from the heteroskedasticity-consistent (&quot;sandwich&quot;) covariance of H. White, Econometrica 48, 817 (1980), for spectra whose noise level changes along the axis, as shot noise does. Fitted values are unchanged. On 600 seeded Poisson spectra the center scatter is 1.7 times the default error bar and within 10 % of the new one; checked also against an independent finite-difference sandwich (relative 1e-5). The default, noise=&quot;constant&quot; , is unchanged. README example 18 (shot noise) and a &quot;Tutorials&quot; section. Fixed calibrate_lever_arms , plan_calibration and design_references judged identifiability from the raw singular values of the design, which depends on the units. Before: the six-state design of the tests with the density in cm^-2 raised ValueError: reference states are collinear ... ( plan_calibration returned identifiable=False ). After: it gives the arms of the fit in 1e13 cm^-2, rescaled (A'1 density arm -2.2798e-13 per cm^-2 against -2.2798 per 1e13 cm^-2; relative 1e-10). The test is now made on the design with unit-length columns (also with fit_offset=True ). Test: test_calibration_does_not_depend_on_the_density_unit , test_planning_does_not_depend_on_the_density_unit . bayesian_map_inversion(..., fill_masked=True) : the same unit dependence in its pooled-information check. Before: a lever-arm matrix with the density column in cm^-2 raised ValueError: ... their pooled information matrix is singular . After: the filled pixel's density is 0.50185398920 (x 1e13 cm^-2), against 0.50185398920 with the density in 1e13 cm^-2 (largest relative difference over the map 2.5e-7). Test: test_bayesian_fill_masked_does_not_depend_on_the_density_unit . compare_mode_sets with subset_size 0, 1 or larger than the number of modes returned [] ; it now raises ValueError (also for a non-integer size, which raised TypeError ). Test: test_compare_mode_sets_refuses_a_subset_size_it_cannot_rank . Documentation: the fitting module, the README &quot;What is in the package&quot; and &quot;Limits&quot; said the peak-fit error ba",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "ramansep: two-mode separation of strain and carrier density in 2D-material Raman maps",
+      "url": "https://zenodo.org/records/23443432"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "7a8f2e7874bf292e4608e3c9",
+      "context_id": "84d8d5455db8add3352f4503",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inversion",
+        "representation"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.9583,
+      "source": "arxiv",
+      "source_context_sha256": "e88aea3196bfe76d22f93b2f75d542cc3d00f2b44f1a3c4549de6f97595716ba",
+      "source_published": "2026-07-02T01:43:57Z",
+      "source_updated": "2026-07-02T01:43:57Z",
+      "summary": "Acoustic-to-Articulatory Inversion (AAI) estimates vocal tract articulator movements from speech, benefiting tasks like ASR, speech synthesis, and speaker verification. While deep learning-based methods (CNNs, RNNs, Transformers) have advanced AAI, recent studies show that Self-Supervised Learning (SSL) features further enhance performance, particularly in low-resource settings. However, SSL feature extractors introduce inference latency and computational overhead. To address this, we propose a novel pretraining method leveraging three target representations-Phoneme Labels, Articulatory Feature Labels, and Critical-articulator Labels-eliminating the need for an SSL extractor during inference. We evaluate our approach against both baseline and SSL-based models across various data conditions. Results demonstrate that our method consistently improves AAI performance, particularly in low-resource scenarios, while significantly reducing inference costs without sacrificing accuracy.",
+      "tags": [
+        "eess.AS"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Enhancing Acoustic-to-Articulatory Inversion with Multi-Target Pretraining for Low-Resource Settings",
+      "url": "https://arxiv.org/abs/2607.01594v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "e62e0404e69f8bf79dd66766",
+      "context_id": "52e03863f7b1758cdf79aaec",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "retrieval"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.9583,
+      "source": "arxiv",
+      "source_context_sha256": "b98a240d0e2e2aa60709ef57435fdc97f7abfffb294def6896fc8f964e91547c",
+      "source_published": "2026-09-18T02:33:00Z",
+      "source_updated": "2026-09-18T02:33:00Z",
+      "summary": "Discrete audio tokenization has become the critical interface between raw waveforms and autoregressive modeling in recent music generation. As a result, music tokenizers must simultaneously support high-fidelity reconstruction and produce discrete sequences that remain amenable to language modeling. Existing reconstruction-oriented tokenizers often mix musical structure with fine acoustic details, producing high-entropy tokens that are hard to model. In contrast, semantics-guided alternatives are designed for speech and do not fit music well, often hurting reconstruction quality. We address these trade-offs by rethinking music tokenization around a measurable notion of music semantic content grounded in downstream Music Information Retrieval tasks. Guided by this definition, we propose MuSeC, a music semantic codec that factorizes semantic and acoustic content directly from mixed signals without source separation. MuSeC preserves information required for high-fidelity reconstruction while producing more LM-friendly discrete units. Empirically, it improves reconstruction quality and yields more predictable token sequences, providing a practical foundation toward high-fidelity LLM music generation. Demos are available at https://longwaytog0.github.io/MuSeC/.",
+      "tags": [
+        "eess.AS"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Rethinking Music Tokenization: A Semantic Codec toward High-Fidelity LLM Music Generation",
+      "url": "https://arxiv.org/abs/2609.21240v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "e57097b57eb159c368ec4d81",
+      "context_id": "ab7c33f20b133c6127474285",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.9167,
+      "source": "zenodo",
+      "source_context_sha256": "a61c2b4a4892ba6dcefd41312791f13ffb4e0d87e80debd23baae6116d5d6c03",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "MULTI-AGENT ROUTING OF NEUROVASCULAR MICROROBOT SWARMS AT THE LIMIT This research monograph develops a falsifiable, non-clinical framework for routing heterogeneous microrobotic teams through branching neurovascular vessel phantoms. It asks whether decentralized task assignment, flow-aware navigation, independently tracked agent identity, and verifiable recovery can improve qualified sensing or inert-sample collection without increasing collision, occlusion, flow disturbance, thermal burden, sample confusion, or residual material risk. Organized around low-Reynolds-number hydrodynamics, multi-agent coordination, and independently enforced physical safety boundaries, the volume contains 30 mathematical derivation plates, 82 full research chapters with five separately paginated sections each, 200 detailed Research Gates, and 33 provisional Phoenix Answer Embryos. A DOI evidence ledger distinguishes established component physics and published demonstrations from the original system-level hypotheses proposed here. Strong passive-transport, single-agent, and information-matched centralized alternatives remain valid competitors throughout. Research failures, abandoned models, experimental uncertainty, and successor reconstruction are treated as scientific outputs, not editorial defects. The monograph provides a research architecture and prospective tests, not results from experiments performed for this publication. It does not assert demonstrated autonomous navigation in human cerebral vessels, clinical safety, therapeutic efficacy, or authorization for human intervention.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MULTI-AGENT ROUTING OF NEUROVASCULAR MICROROBOT SWARMS AT THE LIMIT This research monograph develops a falsifiable, non-clinical framework for routing heterogeneous microrobotic teams through branching neurovascular vessel phantoms. It asks whether decentralized task assignment, flow-aware navigatio",
+      "url": "https://zenodo.org/records/23443049"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "10a4d7343d36709d890a7095",
+      "context_id": "234a8574df462a54d3acdb96",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.9167,
+      "source": "zenodo",
+      "source_context_sha256": "ed34004da730b1f9aeeb162a709f25957dcb5b0c0caa189df7ee9b1493b3c51a",
+      "source_published": "2026-09-14",
+      "source_updated": "",
+      "summary": "Every element of the causal chain that produced the five largest mass extinctions of the last half-billion years is presently accelerating in the Earth system. The rate of the modern perturbation exceeds every peer-reviewed paleoclimate reference case. A six-intervention portfolio, deployed together at wartime industrial scale beginning now, is the physically necessary and sufficient response. The window in which that portfolio remains fully effective closes between 2028 and 2040. The anthropogenic-versus-feedback tipping point is expected between 2035 and 2040; corrected for the at-least-order-of-magnitude higher rate of contemporary carbon release, loss of agency — the point at which coordinated intervention can no longer arrest the cascade — arrives 200 to 400 years after feedback engagement under sustained portfolio deployment, and collapses onto the tipping point itself under any scenario in which the portfolio is not deployed within the 2028–2040 window. Background. The five largest mass-extinction events of the Phanerozoic share a consistent causal chain: rapid carbon injection to the ocean-atmosphere system, followed by warming, ocean deoxygenation, acidification, and preferential loss of marine calcifiers, with multi-million-year recovery for reef ecosystems. Every element of that chain is presently active and gaining speed. The current anthropogenic perturbation is capable of driving a combination and magnitude of ocean geochemical changes unparalleled in the geological record reviewed by Hönisch et al. (2012), which covers approximately the past 300 million years. The reef–ocean-oxygen–land coupling documented in the End-Permian record demonstrates that marine biosphere collapse propagates to terrestrial extinction through the shared oxygen and biogeochemical infrastructure of the coupled Earth system; contemporary marine indicators are therefore leading indicators of terrestrial as well as marine risk. Approach. This three-part synthesis compiles peer-reviewed reconstructions of the Big Five causal chain, measures each element against the contemporary Earth system using the most recent authoritative data (Friedlingstein et al. 2026; Wu et al. 2021; Zeebe et al. 2016; Hönisch et al. 2012; Schmidtko et al. 2017; Eddy et al. 2021; Spady et al. 2026), specifies the physically necessary intervention portfolio, and characterizes the near-term feedback, resource, and civilizational risk environment those interventions must succeed in. Part I establishes the paleoclimate analog. Part II specifies the intervention portfolio. Part III maps the contemporary Earth system the Part II portfolio must succeed in — which climate feedbacks are already engaged and how they cascade, which physical resources are hitting hard limits inside the same two-to-three-decade window, and how those pressures translate into food, water, migration, health, economic, and governance strain — and closes with the North American Climate Pain Scale (NAPS), a 1–10 diagnostic instrument that anchors climate severity to concrete events so policymakers and the public can locate today&#x27;s conditions and the trajectory ahead. Findings. Every element of the paleoclimate extinction causal chain is presently active. Atmospheric CO₂ (422.8 ppm, 2024 global annual mean; Friedlingstein et al. 2026) has exceeded the reconstructed latest-Permian baseline of 426 (+133 / −96) ppm (Wu et al. 2021, Nature Communications). The rate of contemporary carbon release is at least an order of magnitude above the sustained maximum Paleocene-Eocene Thermal Maximum rate (Zeebe, Ridgwell and Zachos 2016, Nature Geoscience). Ocean acidification is proceeding at roughly ten times the PETM rate (Hönisch et al. 2012, Science). The global ocean has lost 4.8 ± 2.1 petamoles of dissolved oxygen since 1960 (Schmidtko, Stramma and Visbeck 2017, Nature). Global living coral cover has declined approximately 50 percent since 1957 (Eddy et al. 2021, One Earth), with cumulative satellite reef-",
+      "tags": [
+        "mass extinction",
+        "paleoclimate analog",
+        "carbon injection",
+        "ocean acidification",
+        "ocean deoxygenation",
+        "mercury enrichment",
+        "tipping cascades",
+        "direct air capture",
+        "ocean alkalinity enhancement",
+        "stratospheric aerosol injection",
+        "climate feedbacks",
+        "extinction risk"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Inside the Extinction Envelope: A Systemic Review and Meta-Analysis of Paleoclimate Extinction Markers with Comments on the Necessary Array of Last-Threshold Interventions",
+      "url": "https://zenodo.org/records/23305854"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "a5f22f39e3e1fb74baf2bf38",
+      "context_id": "ac268f035e55f92d9dcb1c31",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "representation"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.875,
+      "source": "zenodo",
+      "source_context_sha256": "fd39b015b3ecac0c0be82c60a0095ff03f89d465cf3b6efe91731bdbc4e41ac8",
+      "source_published": "2026-10-17",
+      "source_updated": "",
+      "summary": "We develop a rigorous finite-dimensional mathematical framework connecting the renormalization group, gradient flows, Lyapunov stability, and noncooperative game theory. The central object is a renormalization-group flow written in gradient form, dg_i/dt = &beta;_i(g) = - &sum;_j G_ij(g) &part;&Gamma;/&part;g_j(g),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (1) where g = (g_1, &hellip;, g_n) belongs to an open domain M &sub; ℝⁿ, &Gamma; is a C&sup2; function, and G(g) is a symmetric positive-definite matrix. We associate to this flow a common-payoff game whose payoff is U(g) = - &Gamma;(g).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (2) We prove, with complete arguments, that ordinary Nash equilibria always imply renormalization-group fixed points, but the converse is false. We then identify the exact condition under which a fixed point becomes a genuine stable equilibrium of the game: a nondegenerate renormalization-group fixed point is asymptotically stable if and only if the Hessian of &Gamma; is positive definite, if and only if it is a strict local minimum of &Gamma;, if and only if it is a strict strong Nash equilibrium of U = -&Gamma;. The distinction between ordinary Nash equilibrium and strong Nash equilibrium is essential. Ordinary Nash equilibria allow only unilateral deviations, while strong Nash equilibria exclude all small joint deviations. We provide explicit counterexamples showing that fixed points need not be Nash equilibria, that ordinary Nash equilibria need not be stable, and that invertibility of G alone does not imply finiteness of equilibria. We also prove global existence results under compactness and finiteness results under Morse nondegeneracy. The paper is self-contained at the level of multivariable calculus, linear algebra, ordinary differential equations, and basic Lyapunov stability theory. The framework is intentionally conditional: it does not claim that the gradient-flow representation has been proven in four-dimensional QCD or in any specific quantum field theory. Those issues are placed in a final section of open problems.",
+      "tags": [
+        "renormalization group",
+        "gradient-flow renormalization group",
+        "Lyapunov function",
+        "Lyapunov stability",
+        "asymptotically stable fixed points",
+        "renormalization-group fixed points",
+        "Nash equilibrium",
+        "strong Nash equilibrium",
+        "common-payoff game",
+        "common-potential game",
+        "potential games",
+        "beta functions",
+        "Hessian positive definiteness",
+        "strict local minimum",
+        "nondegenerate critical points",
+        "Morse nondegeneracy",
+        "game theory",
+        "finite-dimensional dynamical systems",
+        "inverse function theorem",
+        "QCD gradient-flow open problem"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Gradient-Flow Renormalization Group as a Common-Potential Game: A Rigorous Equivalence Between Asymptotically Stable Fixed Points and Strict Strong Nash Equilibria",
+      "url": "https://zenodo.org/records/23442159"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "8eaf8b3cd3ce49d3d0c5c2da",
+      "context_id": "0bf1f2b721fb52a4256f573f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.8333,
+      "source": "zenodo",
+      "source_context_sha256": "3bcd8b1acd3efb630fe42745645f1f5bfc242ee0fb6148bd3bfa70a7e32dbf7d",
+      "source_published": "2026-10-17",
+      "source_updated": "",
+      "summary": "What's Changed feat(blame): limit candidates to packages the window's runs loaded by @jbeirer in https://github.com/key4hep/k4Bench/pull/228 refactor(layout): file runs, reports and benchmark configs by suite and detector concept by @jbeirer in https://github.com/key4hep/k4Bench/pull/229 chore(deps): update mkdocstrings requirement from &gt;=1.0.6 to &gt;=1.0.7 by @dependabot[bot] in https://github.com/key4hep/k4Bench/pull/231 chore(deps): update pymdown-extensions requirement from &gt;=12.1 to &gt;=12.2 by @dependabot[bot] in https://github.com/key4hep/k4Bench/pull/232 chore(deps): bump pre-commit from 4.6.2 to 4.7.0 by @dependabot[bot] in https://github.com/key4hep/k4Bench/pull/230 feat(dashboard): split the dashboard into Simulation and Reconstruction pages by @jbeirer in https://github.com/key4hep/k4Bench/pull/233 fix(dashboard): keep each page's local data directory across page switches by @jbeirer in https://github.com/key4hep/k4Bench/pull/234 feat(dashboard): add a memory selector to both Event Memory views, defaulting to anonymous RSS by @jbeirer in https://github.com/key4hep/k4Bench/pull/235 feat(analysis): add per-component statistics, paired run comparison and job-options diff by @jbeirer in https://github.com/key4hep/k4Bench/pull/236 feat(dashboard): add the Reconstruction Overview and Breakdown by @jbeirer in https://github.com/key4hep/k4Bench/pull/237 docs: describe the Reconstruction page and that the dashboard reads the reco suite by @jbeirer in https://github.com/key4hep/k4Bench/pull/238 feat(dashboard): link reconstruction components to their code at the built commit by @jbeirer in https://github.com/key4hep/k4Bench/pull/239 Full Changelog : https://github.com/key4hep/k4Bench/compare/v0.0.49...v0.0.50",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "key4hep/k4Bench: v0.0.50",
+      "url": "https://zenodo.org/records/23440470"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f27e0ad9f3aff3fd44337248",
+      "context_id": "eb2679bdb018a9ebf17db346",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.5833,
+      "source": "arxiv",
+      "source_context_sha256": "89f836ccf92f58b6313a567223c73d19532b9d8adb72cfd6e57086308bcbc0c5",
+      "source_published": "2026-09-08T02:28:43Z",
+      "source_updated": "2026-09-08T02:28:43Z",
+      "summary": "Full-duplex speech models require training data that preserves turn-taking, overlap, interruption, and backchannel behavior, yet these signals are entangled across speakers in noisy real-world recordings. We present Conversational Voice, a pipeline that converts real two-speaker excerpts into three complementary training-data artifacts. (1) Separation recovers speaker-specific tracks with stable speaker assignments, a canonical transcript, and naturally observed interaction timing. (2) Reconstruction generates speech in matched voices from a fixed source transcript, reconstructs the source turn order, pauses, and overlaps, and adds word-level alignment and delivery instructions. (3) Expansion generates new dialogue constrained by the source context, speakers, and observed interaction pattern. Automatic speaker-verification metrics remain strong across stages, with same-speaker similarity of 0.983-0.991 and positive discrimination margins of 0.199-0.209. Predicted speech quality (NISQA MOS) is 3.56 for separation, 4.41 for reconstruction, and 4.61 for expansion. A Gemini-based automatic evaluator assigns expansion mean scores of 4.94/5 for contextual coherence and 4.80/5 for dialogue naturalness. Expansion and reconstruction exhibit broadly similar interaction profiles; expansion's turn, overlap-event, backchannel, and interruption rates are 4.6%, 8.0%, 13.2%, and 16.0% lower, respectively. We evaluate data properties only; downstream gains in full-duplex model training remain for future work.",
+      "tags": [
+        "cs.CL",
+        "cs.SD",
+        "eess.AS"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "ConversationalVoice: Full-Duplex Speech Data from Real Conversations through Source-Faithful Reconstruction and Conversation-Grounded Expansion",
+      "url": "https://arxiv.org/abs/2609.08147v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "d3be34d8d11167a3a16bc0a9",
+      "context_id": "8234b6a16d131642337f59bf",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.5833,
+      "source": "zenodo",
+      "source_context_sha256": "b80c8ce7353ad42cc1c10ca58b91b424aa2c9fde65e087d3ce518ea2ea37b1e1",
+      "source_published": "2026-10-17",
+      "source_updated": "",
+      "summary": "This reproducibility archive accompanies Marco Mantovanelli's A Multi-Arch Perturbed Hofstadter Q-Recursion: Gaussian Profiles and Exact Frequency Laws. It contains the manuscript PDF, complete LaTeX source, six vector figures, independent verification programs, figure-generation code, numerical reports, and sampled figure data. The paper studies Q(n) = Q(n - Q(n-1)) + Q(n - Q(n-2)) - (-1)^n for n &gt;= 8, with the seven prescribed initial values (1, 1, 3, 3, 3, 3, 5). A causal binary-word construction proves global existence and an exact factorization into three signed excursions. Their uniformly convergent Gaussian profiles explain three limiting sign transitions per standard dyadic block and a sharp normalized error envelope of approximately 0.067088003576. The paper also proves exact finite transition locations, an ordered frequency factorization, a shifted 2-adic valuation law on pure dyadic value blocks, and a summatory asymptotic with an explicit continuous periodic term. The archived verification compares all 33,554,432 directly computed terms with an independent word reconstruction, checks complete frequency blocks through level 21, and verifies the exact summatory identity at every even cutoff from 8 through 33,554,432. Separate programs audit the word maps, finite transitions, and exact two-head identities. These computations supplement the general proofs in the manuscript. The original perturbation, OEIS A394051, is discussed for comparison.",
+      "tags": [
+        "Hofstadter recursion",
+        "meta-Fibonacci sequence",
+        "parity perturbation",
+        "exact-fit interleaving",
+        "Gaussian profile",
+        "value frequencies",
+        "dyadic structure",
+        "summatory asymptotics"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "A Multi-Arch Perturbed Hofstadter Q-Recursion: Gaussian Profiles and Exact Frequency Laws (Reproducibility Archive)",
+      "url": "https://zenodo.org/records/23439393"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "90aa5c80cdd07f9b429594ef",
+      "context_id": "4bc5d7c2028cdc020182841b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.5833,
+      "source": "arxiv",
+      "source_context_sha256": "45700741757f3207fd46d599160ade7d850b58a4b0267303c4049e65b69467b6",
+      "source_published": "2020-03-21T00:56:05Z",
+      "source_updated": "2020-03-21T00:56:05Z",
+      "summary": "Automatic speaker verification (ASV) systems are highly vulnerable to presentation attacks, also called spoofing attacks. Replay is among the simplest attacks to mount - yet difficult to detect reliably. The generalization failure of spoofing countermeasures (CMs) has driven the community to study various alternative deep learning CMs. The majority of them are supervised approaches that learn a human-spoof discriminator. In this paper, we advocate a different, deep generative approach that leverages from powerful unsupervised manifold learning in classification. The potential benefits include the possibility to sample new data, and to obtain insights to the latent features of genuine and spoofed speech. To this end, we propose to use variational autoencoders (VAEs) as an alternative backend for replay attack detection, via three alternative models that differ in their class-conditioning. The first one, similar to the use of Gaussian mixture models (GMMs) in spoof detection, is to train independently two VAEs - one for each class. The second one is to train a single conditional model (C-VAE) by injecting a one-hot class label vector to the encoder and decoder networks. Our final proposal integrates an auxiliary classifier to guide the learning of the latent space. Our experimental results using constant-Q cepstral coefficient (CQCC) features on the ASVspoof 2017 and 2019 physical access subtask datasets indicate that the C-VAE offers substantial improvement in comparison to training two separate VAEs for each class. On the 2019 dataset, the C-VAE outperforms the VAE and the baseline GMM by an absolute 9 - 10% in both equal error rate (EER) and tandem detection cost function (t-DCF) metrics. Finally, we propose VAE residuals - the absolute difference of the original input and the reconstruction as features for spoofing detection.",
+      "tags": [
+        "eess.AS"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Deep Generative Variational Autoencoding for Replay Spoof Detection in Automatic Speaker Verification",
+      "url": "https://arxiv.org/abs/2003.09542v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "3ba7b1c0808387bab9c18b6a",
+      "context_id": "3beeeea0b58e9ca1cbade8a7",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.5833,
+      "source": "zenodo",
+      "source_context_sha256": "034cc94bb3556d834473876f97a0639f54229afd5c8c8c54c3884d72c51e1d7a",
+      "source_published": "2026-10-16",
+      "source_updated": "",
+      "summary": "Hashing, signing, and timestamping establish that a document has not changed. When a legal document is produced by composition, from templates, clause libraries, shared definitions, and parameters that evolve independently, the governing text is a resolved state, and the integrity of the root document does not ensure that this state can be reconstructed. We treat this as a problem of ex post auditability. We define the resolved state as S_t = &rho;(A_0, R_t, C_t), derive five properties of its auditability from requirements established in archival science, legal document standards, and norm-change formalisms, and introduce a capture model K_t with a diagnostic procedure that reports which properties a capture fails. We implement the framework in cmacc-attest and apply it to the 175 instantiated contracts of the CommonAccord library. References resolve in 96.6% of contracts, yet none is auditable: no reference is version-locked, and 98.3% contain conflicts settled by an unattested precedence order. Replaying 194 commits of the library history shows that 88.5% of the changes in resolved contracts left the root file unchanged. Repository history narrows reconstruction when the time of resolution is known, but does not replace a capture.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Beyond Document Integrity: Auditing Resolved States of Formalized Legal Documents",
+      "url": "https://zenodo.org/records/23443043"
+    },
     {
       "base_direction_id": "registry_provenance",
       "candidate_id": "d624fc06c6d4febc60c57044",
@@ -165,6 +612,47 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "d3be34d8d11167a3a16bc0a9",
+      "context_id": "be6cce344001d4c6ac7f4a0c",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "8ca7cc13979b432ebeea3bb7a60647390aadf75ac150a76a2768272789126287",
+      "source_published": "2026-10-17",
+      "source_updated": "",
+      "summary": "This reproducibility archive accompanies Marco Mantovanelli's A Multi-Arch Perturbed Hofstadter Q-Recursion: Gaussian Profiles and Exact Frequency Laws. It contains the manuscript PDF, complete LaTeX source, six vector figures, independent verification programs, figure-generation code, numerical reports, and sampled figure data. The paper studies Q(n) = Q(n - Q(n-1)) + Q(n - Q(n-2)) - (-1)^n for n &gt;= 8, with the seven prescribed initial values (1, 1, 3, 3, 3, 3, 5). A causal binary-word construction proves global existence and an exact factorization into three signed excursions. Their uniformly convergent Gaussian profiles explain three limiting sign transitions per standard dyadic block and a sharp normalized error envelope of approximately 0.067088003576. The paper also proves exact finite transition locations, an ordered frequency factorization, a shifted 2-adic valuation law on pure dyadic value blocks, and a summatory asymptotic with an explicit continuous periodic term. The archived verification compares all 33,554,432 directly computed terms with an independent word reconstruction, checks complete frequency blocks through level 21, and verifies the exact summatory identity at every even cutoff from 8 through 33,554,432. Separate programs audit the word maps, finite transitions, and exact two-head identities. These computations supplement the general proofs in the manuscript. The original perturbation, OEIS A394051, is discussed for comparison.",
+      "tags": [
+        "Hofstadter recursion",
+        "meta-Fibonacci sequence",
+        "parity perturbation",
+        "exact-fit interleaving",
+        "Gaussian profile",
+        "value frequencies",
+        "dyadic structure",
+        "summatory asymptotics"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "A Multi-Arch Perturbed Hofstadter Q-Recursion: Gaussian Profiles and Exact Frequency Laws (Reproducibility Archive)",
+      "url": "https://zenodo.org/records/23439393"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "d53bb7e1a8baebaac74ec848",
       "context_id": "a1a72e65e6c2eac2c21eaf6d",
       "delivery_preview_only": true,
@@ -204,6 +692,38 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Morphological diffusion by ball births: code, trained weights and campaign results",
       "url": "https://zenodo.org/records/23439433"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "91895eed2280c7411681b935",
+      "context_id": "48c0a35c672929048ee9d856",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "ef8c283b1785cfd00b01d53c4c9c04ff22e4cd902e5db94f15e048840968fa09",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "Initial release of dermsr , the reference implementation of the DERMS-R model-selection score, implementing the &quot;Reproducibility and Reference Implementation&quot; section of the companion paper (Ramos, 2026). derms_score(...) with the paper's exact documented signature DERMSRScorer , a reusable scorer for raw cross-validation fold accuracies Sensitivity-analysis scenarios (Table 5) and statistical comparison tools (Friedman test, Iman-Davenport correction, Nemenyi critical difference) Functions reproducing the manuscript's Tables 2-6 from raw results A bundled, verified 12-architecture x 5-ratio CIFAR-10 benchmark dataset, so reproduction scripts and tests are fully self-contained 47 tests (43 unit + 4 doctests), using published paper values as fixtures rather than invented examples MIT licensed See README.md for usage and scripts/ for runnable reproductions of the manuscript's tables and statistical analyses.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "dermsr: a reference implementation of the DERMS-R model-selection score",
+      "url": "https://zenodo.org/records/23442778"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -377,8 +897,8 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "de7eb053556570c655d525a4",
-      "context_id": "eff10be55f0da9c254bdc38f",
+      "candidate_id": "114b4db5a663ce96f21a672c",
+      "context_id": "c2b21dd194ac548b75060a15",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "registry_provenance::COUNTEREVIDENCE",
@@ -392,91 +912,31 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "failure"
+        "provenance"
       ],
       "mirror_lens": "COUNTEREVIDENCE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.2917,
-      "source": "arxiv",
-      "source_context_sha256": "4f515892986d12218c4a3b170cc7e236fe7fa3c76c2308a937df9d3518bfc27d",
-      "source_published": "2025-09-17T14:55:21Z",
-      "source_updated": "2025-09-17T14:55:21Z",
-      "summary": "Singing Accompaniment Generation (SAG) is the process of generating instrumental music for a given clean vocal input. However, existing SAG techniques use source-separated vocals as input and overfit to separation artifacts. This creates a critical train-test mismatch, leading to failure on clean, real-world vocal inputs. We introduce AnyAccomp, a framework that resolves this by decoupling accompaniment generation from source-dependent artifacts. AnyAccomp first employs a quantized melodic bottleneck, using a chromagram and a VQ-VAE to extract a discrete and timbre-invariant representation of the core melody. A subsequent flow-matching model then generates the accompaniment conditioned on these robust codes. Experiments show AnyAccomp achieves competitive performance on separated-vocal benchmarks while significantly outperforming baselines on generalization test sets of clean studio vocals and, notably, solo instrumental tracks. This demonstrates a qualitative leap in generalization, enabling robust accompaniment for instruments - a task where existing models completely fail - and paving the way for more versatile music co-creation tools. Demo audio and code: https://anyaccomp.github.io",
-      "tags": [
-        "cs.SD",
-        "eess.SP"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "AnyAccomp: Generalizable Accompaniment Generation via Quantized Melodic Bottleneck",
-      "url": "https://arxiv.org/abs/2509.14052v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "3125017340af665b68c4c28a",
-      "context_id": "edfc8e6c4f7828e0efa7785b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.2917,
+      "score": 4.4167,
       "source": "zenodo",
-      "source_context_sha256": "4810c9cb3fe4b51b34e7e7142b766f620c9bf3db9e81e25a2eaa07bf07bfa262",
-      "source_published": "2026-10-17",
+      "source_context_sha256": "196022b222459f659a8ddae4e3779bd0b7c63acff8f04a7c5136d68944513540",
+      "source_published": "2026-10-18",
       "source_updated": "",
-      "summary": "C. J Tully. Independent Research https://orcid.org/0009-0007-5661-7332 chloetully5@gmail.com &nbsp; 18 th October 2026 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Most of what you call your life arrives half a second late. Something happens. A sound, a face, a tightness in the chest. Before you have chosen anything, a voice &mdash; yours, apparently &mdash; has already named it, judged it, and filed it under a chapter called me. You do not notice the filing. You notice the file. And so you spend your days inside a commentary about a world you have not, strictly speaking, met. This is not a moral failure. It is a timing error. Awareness is not a mood you work up and not a belief you adopt. It is what is already underway before the sentence starts. The breath you are taking does not consult your biography. The light on the wall does not ask what you meant to become. For a fraction of a second there is contact without a commentator. Then the commentator returns, a little late, a little proud, and explains what just occurred as if the explanation were the event. People talk about waking up as if it were a prize for the patient and the pure. It is closer to catching a clerical mistake. You have been treating the report as the room. The report is useful. It gets you across streets, through grief, into love, out of traffic. It is also not the thing it reports on. The word water has never once made a hand wet. Watch the exact moment a thought claims you. There is a sensation, then a grab. The grab feels like identity. It is older than that, and thinner. It is a habit of ownership so practiced it forgot it was optional. You do not have to defeat it. You only have to notice that noticing is already happening, and that the one who seems to be doing the noticing cannot be found as an object inside what is noticed. Sit with that past the point of comfort. Comfort is how the narration gets rehired. If the &ldquo;you&rdquo; who plans, defends, remembers, and suffers is a pattern appearing in awareness, then who has been afraid all this time? Not a cosmic answer. A local one. Look. Fear is weather. The sky it crosses was not manufactured by the storm. Nothing theatrical follows from this. You will still want things. You will still lose them. You will still answer the message and miss the person. The only change is a small, stubborn order of operations: experience first, story second. And the recognition, quiet enough to miss if you perform it, that you were never inside the story. You were the place it was being told. That place does not improve. It does not arrive. It does not need you to become someone else in order to be what it already is. The only work, if it can even be called work, is to stop leaving a half-second early &mdash; to remain, once, with what is here before you agree with your own explanation of it. Stay. The explanation can wait. It always could.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Most of what you call your life arrives half a second late.",
-      "url": "https://zenodo.org/records/23442536"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "76d882542b0ace26e1bc7198",
-      "context_id": "e73a2bdd20ddbaec5a20f0e7",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
-      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.2917,
-      "source": "arxiv",
-      "source_context_sha256": "7b102d3052ce279273241bce5c6515ae5dae1266c0915f3d8d146ba7a542d6f6",
-      "source_published": "2022-03-21T08:15:51Z",
-      "source_updated": "2022-03-21T08:15:51Z",
-      "summary": "The spoof speech detection (SSD) is the essential countermeasure for automatic speaker verification systems. Although SSD with magnitude features in the frequency domain has shown promising results, the phase information also can be important to capture the artefacts of certain types of spoofing attacks. Thus, both magnitude and phase features must be considered to ensure the generalization ability to diverse types of spoofing attacks. In this paper, we investigate the failure reason of feature-level fusion of the previous works through the entropy analysis from which we found that the randomness difference between magnitude and phase features is large, which can interrupt the feature-level fusion via backend neural network; thus, we propose a phase network to reduce that difference. Our SSD system: phase network equipped Res2Net achieved significant performance improvement, specifically in the spoofing attack for which the phase information is considered to be important. Also, we demonstrate our SSD system in both known- and unknown-kind SSD scenarios for practical applications.",
+      "summary": "Absorption and scattering coefficients for the Jerlov optical water types, taken from the primary literature with the provenance of every value recorded. Values that a published table got wrong are flagged rather than silently repaired, and quantities the data do not determine are refused rather than guessed. Twenty-three entries are documented, nine of them confirmed defects in the source literature: duplicated rows in Solonenko &amp; Mobley (2015) Table 7, a transcription error in the small-particle scattering coefficient that propagated into their published coefficients, a Data Availability Statement that gives the DOI of an unrelated dataset, and a reprint whose stated unit is out by a factor of ten. Three further entries were open questions that obtaining the 1968 first edition settled. The same Jerlov water type is in circulation with beam attenuations differing by a factor of five, which is why every coefficient here carries the source it came from. Every shipped table can be regenerated from its primary source by the scripts in tools/ , and each generation step checks the result against the equations of the paper it came from. The package computes the direct and veiling components along a horizontal underwater path, converts spectra to CIE XYZ, sRGB, or the response of an arbitrary camera or set of photoreceptors, gives the Jerlov type that typically applies in each 10 m layer down to 200 m and carries the downwelling irradiance down through those layers, integrates photosynthetically available radiation (PAR), or the photon flux over any other band or weighted by any spectral sensitivity, with depth, gives the spectrum at any depth and the effective Kd between two, and finds the depth at which PAR falls to 1 percent, ranks the Jerlov types by their distance from a measured Kd spectrum, carries Jerlov's measured profiles of quanta irradiance (350-700 nm) by water type and checks the depth profile against them, carries Tyler's (1958) measured radiance distribution in Lake Pend Oreille, carries the Paulson &amp; Simpson (1977) shortwave penetration parameters used by ocean circulation models, converts a backscattering sensor's single-angle reading into the backscattering coefficient, and carries Petzold's (1972) volume scattering functions for eight measured ocean waters.",
       "tags": [
-        "cs.SD",
-        "cs.AI",
-        "eess.AS"
+        "ocean optics",
+        "Jerlov water types",
+        "inherent optical properties",
+        "underwater imaging",
+        "diffuse attenuation coefficient",
+        "photosynthetically available radiation",
+        "euphotic zone",
+        "absorption coefficient",
+        "scattering coefficient",
+        "colorimetry"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Phase-Aware Spoof Speech Detection Based on Res2Net with Phase Network",
-      "url": "https://arxiv.org/abs/2203.10793v1"
+      "title": "jerlov: inherent optical properties of the Jerlov optical water types, with provenance",
+      "url": "https://zenodo.org/records/23442944"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1325,126 +1785,13 @@
       "url": "https://zenodo.org/records/23440470"
     },
     {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "25ec7e2571707ffea43451a0",
-      "context_id": "e4242ab3a5ce2737e78b818d",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "zenodo",
-      "source_context_sha256": "6b10e3daa894e79661bdc47f4a098acb22ef1a91e03547627b7658adce03ae0d",
-      "source_published": "2026-10-17",
-      "source_updated": "",
-      "summary": "The replication package for the \"Tracking the Untrackable: CVEs as a Proxy for Linux Kernel Release Quality\" paper.",
-      "tags": [
-        "Linux",
-        "Kernel",
-        "CVE"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Tracking the Untrackable: CVEs as a Proxy for Linux Kernel Release Quality",
-      "url": "https://zenodo.org/records/23441200"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "8f43b827e5f36f0f50846f2b",
-      "context_id": "a3774e15174d70490c733e71",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "zenodo",
-      "source_context_sha256": "7065d09610c5d961422fb73295c65ef1d11c919461538ffbb750e007d88a76d9",
-      "source_published": "2026-10-17",
-      "source_updated": "",
-      "summary": "This replication package accompanies the paper \"An Exploratory Evaluation of Targeted Label Poisoning in a Client-Local Feature Federated Ensemble for Chest X-Ray Classification.\" It contains code and saved experimental results for an exploratory study of Pneumonia-to-Normal label poisoning in four-class chest X-ray classification. The study uses 20,795 images from three public sources, with 20,557 perceptual groups kept intact across experimental partitions. The package covers 212 completed training jobs, including main and component comparisons, classifier-head sensitivity, image-model references, candidate probability banks, and earlier-poisoning experiments. The main comparisons and image-model references use ten deterministic seeds. The classifier-head and GRU-structure study uses three seeds. Included materials comprise dataset manifests and image checksums, perceptual-group metadata, split assignments, seeds and configurations, held-out predictions, candidate probabilities, numerical summaries, result figures, analysis and verification scripts, and scientific execution-source snapshots. Additional fixed-model analyses examine validation availability, validation-label contamination, and artifact retention. The README and reproducibility guide explain verification, reanalysis, environment requirements, and dataset reconstruction. Dataset images and model checkpoints are not included. Obtain the source images separately under their applicable access and use terms: COVID-19 Radiography Database: https://www.kaggle.com/datasets/tawsifurrahman/covid19-radiography-database COVID19, Pneumonia, Normal Chest X-ray Images: https://www.kaggle.com/datasets/sachinkumar413/covid-pneumonia-normal-chest-xray-images Tuberculosis Chest X-ray Dataset: https://www.kaggle.com/datasets/tawsifurrahman/tuberculosis-tb-chest-xray-dataset The included metadata identify the exact study images for reconstruction from the original source bytes. Saved results can be checked without source images or retraining. The attack direction was selected exploratorily, perceptual grouping does not establish patient independence, and source-held-out generalization was not evaluated. Reuse rights are described in LICENSE_STATUS.txt. This work was supported by the Deanship of Scientific Research (DSR) at King Abdulaziz University, Jeddah, Saudi Arabia, under grant No. IPP: 455-611-2026.",
-      "tags": [
-        "federated learning",
-        "chest X-ray classification",
-        "medical imaging",
-        "data poisoning",
-        "targeted label poisoning",
-        "label flipping",
-        "replication package",
-        "reproducibility",
-        "client-local feature ensemble",
-        "ResNet18",
-        "GRU",
-        "validation sensitivity"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Replication Package for: An Exploratory Evaluation of Targeted Label Poisoning in a Client-Local Feature Federated Ensemble for Chest X-Ray Classification",
-      "url": "https://zenodo.org/records/23441636"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "0f85583e1c66aaed9d658efc",
-      "context_id": "6f6e59a4858bd694b3c81820",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "zenodo",
-      "source_context_sha256": "55793d260720c426dcbed6e2aafbe4552ecb38379a1b9443683a220d0f9aad69",
-      "source_published": "2026-10-17",
-      "source_updated": "",
-      "summary": "Replication package for the article \"Keeping Galway, losing the West Briton\" (manuscript in preparation). It contains the executed Kaggle notebook; the sentence-level and paragraph-level segment files of James Joyce's \"The Dead\", as given to the model Turkish-Gemma-9b-v0.1 (commit 1bbe9f19a26a70dc4d0c709e1a816e6a9378a7f5); the raw and cleaned model outputs for both conditions (1,027 sentences, 455 paragraphs); the Python scripts that code 89 culture-specific items (499 occurrences) and produce Supplementary Data S1 and S2; and the supplementary files themselves. README.md lists the files, gives the provenance of the run and explains how to rerun the scripts.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Replication data and code for \"Keeping Galway, losing the West Briton: Culture-specific items in an open-weight Turkish language model's translation of Joyce's 'The Dead' at sentence and paragraph level\"",
-      "url": "https://zenodo.org/records/23441502"
-    },
-    {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "25ec7e2571707ffea43451a0",
-      "context_id": "05ff7757a3a90830c08c9236",
+      "candidate_id": "7d9d17f558d07d63c33ec1bf",
+      "context_id": "1899e3e0041a4b93b59eaa03",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -1454,342 +1801,22 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "replication"
+        "reconstruction"
       ],
-      "mirror_lens": "CONTROL",
+      "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "zenodo",
-      "source_context_sha256": "46655bfcc3720d9dc8405ee2dbadc8ea482dac9991935ae39c62be471a651146",
-      "source_published": "2026-10-17",
-      "source_updated": "",
-      "summary": "The replication package for the \"Tracking the Untrackable: CVEs as a Proxy for Linux Kernel Release Quality\" paper.",
-      "tags": [
-        "Linux",
-        "Kernel",
-        "CVE"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Tracking the Untrackable: CVEs as a Proxy for Linux Kernel Release Quality",
-      "url": "https://zenodo.org/records/23441200"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "d624fc06c6d4febc60c57044",
-      "context_id": "fce6b6fe2ccbac43966064ad",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.375,
-      "source": "zenodo",
-      "source_context_sha256": "32119fdcd91d97cf1d7f501adb5d1573d7124d47ceef561c760ef761e113e187",
-      "source_published": "2026-10-17",
-      "source_updated": "",
-      "summary": "Initial public release of the code and data accompanying the manuscript Reusable Löwner Bounds for Elliptic Problems with Moving Inclusions . Includes numerical experiments, raw benchmark results, theorem verification scripts, counterexamples, and reproducibility instructions. The repository provides the computational materials supporting the SISC submission.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "loewner-moving-inclusions: code and raw results for reusable Löwner bounds with moving inclusions",
-      "url": "https://zenodo.org/records/23442339"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "6e3e9fc275b1162952749bcd",
-      "context_id": "e830007cadffa3421c805793",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.375,
+      "score": 4.5833,
       "source": "arxiv",
-      "source_context_sha256": "875e57e5f937613fcf922acbdb6c9597c8dcccd5dc9c616a9a996c35cdf44a01",
-      "source_published": "2026-10-15T09:59:07Z",
-      "source_updated": "2026-10-15T09:59:07Z",
-      "summary": "Large audio language models (LALMs) have made substantial progress in audio understanding. However, in high-throughput applications requiring frequent selection, judgment, and scoring, autoregressive text generation introduces additional computational overhead and response latency. To address this limitation, we introduce Qwen-Audio-Jev by augmenting Qwen-Audio-3.1-ASR-Flash-Next with a dedicated Jev decision head. The model unifies selection, binary judgment, and scoring through three decision primitives: CHOICE, NOUL, and SCORE. Given audio, a natural-language question, and an explicit answer specification, it directly produces a task-conditioned probability distribution or a numerical score through typed decision readouts. Evaluation across 18 labeled configurations covers all three primitives: for CHOICE, Qwen-Audio-Jev achieves accuracies of 78.70% on MMAU-mini and 84.06% on MMSU; for NOUL, it achieves an equal error rate of 6.50% on the VoxCeleb1-O speaker verification benchmark; and for SCORE, the model achieves a normalized mean absolute error of 0.1062 on NISQA overall quality assessment, with Pearson and Spearman correlations of 0.8210 and 0.8074, respectively. Compared with the original Qwen-Audio-3.1-ASR-Flash-Next, Qwen-Audio-Jev achieves an approximately 20x inference speedup. It demonstrates its potential for efficient, high-throughput audio decision-making in applications such as large-scale audio screening, speaker verification, and automated quality assessment.",
+      "source_context_sha256": "9e76bcdd4cc806ce3137fcfdf7986ac5e8ce954c95ac8f9f10ba9aefe784df2f",
+      "source_published": "2026-09-24T13:01:20Z",
+      "source_updated": "2026-09-25T04:01:36Z",
+      "summary": "Although room impulse responses (RIRs) encode source-distance cues, conventional monaural source separation focuses on recovering audio content without estimating source-specific RIRs, losing the associated spatial information. To address this limitation, we propose Distance-Aware Monaural Source Separation using Multi-RIR Estimation (DAMSEP), the first end-to-end framework that is jointly trained for source separation and multi-source RIR estimation from a single-microphone mixture. DAMSEP integrates a separation backbone with shared dereverberation and RIR estimation modules to jointly recover clean sources and source-specific complex convolutive transfer functions under source estimation and reverberant reconstruction objectives, enabling relative near/far ordering through the direct-to-reverberant ratios of the corresponding RIRs. For comprehensive evaluation, we introduce HETMIXR, which spans heterogeneous source content and diverse simulated room conditions with source-specific RIRs and geometric distance annotations. Experiments on HETMIXR demonstrate superior performance in source separation, RIR estimation, and distance ordering. Ablation studies reveal the complementary benefits of source supervision and reverberant reconstruction, while additional evaluations show generalization to single-speaker inputs and mixtures generated using measured RIRs from an unseen room. Our code and dataset are available at https://github.com/Wenanzhi/DAMSEP.",
       "tags": [
-        "cs.SD",
-        "cs.AI"
+        "eess.AS"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Qwen-Audio-Jev: A Unified Interface for Audio Decisions",
-      "url": "https://arxiv.org/abs/2610.21614v1"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "e2f46470453fdcc361c7e7aa",
-      "context_id": "e3d88ade018d7da709962051",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.375,
-      "source": "arxiv",
-      "source_context_sha256": "f994d91874e76247dfafd16083656321ee45aa4c92954c825834e089d8f82c8b",
-      "source_published": "2026-10-13T06:43:47Z",
-      "source_updated": "2026-10-14T13:30:40Z",
-      "summary": "Music source separation (MSS) has been conventionally addressed by discriminative methods. Recently, flow matching has emerged as a strong generative paradigm for modeling complex data distributions, with successful applications across diverse domains. These advances motivate us to systematically investigate flow matching for MSS in a four-source (Vocals, Bass, Drums, Other) setting in full-band stereo. Specifically, we investigate prediction targets, flow paths, single-source versus multi-source modeling, and mixture consistency constraints. Beyond the signal-level metrics commonly used for MSS, such as signal-to-distortion ratio, we further evaluate MSS methods using embedding-based metrics, as well as a listening test, providing a comprehensive benchmark. On MUSDB18-HQ, our proposed model exhibits competitive performance in both objective and subjective tests, highlighting the potential of flow matching for generative MSS. Demo: https://ik4sumii.github.io/FLOMSS/",
-      "tags": [
-        "cs.SD"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "FLOMSS: Generative Music Source Separation by Flow Matching",
-      "url": "https://arxiv.org/abs/2610.17821v2"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "e9a4abad614768bf7c947e92",
-      "context_id": "dff71a8e776e8dedda27071b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.375,
-      "source": "zenodo",
-      "source_context_sha256": "f6d161e102b751e20861d7bc9ea8fdbabfde0deeff9f2181c4483e21a09aa210",
-      "source_published": "2026-10-17",
-      "source_updated": "",
-      "summary": "Input structures, calculation scripts, and results for the article \"Benchmarking Universal Machine-Learning Interatomic Potentials for Temperature-Dependent Elasticity of Binary and High-Entropy Refractory Carbides\" (arXiv:2610.11878). elastic.zip (9 files, one per model) &ndash; the 153 elastic-constant calculations, 17 per model (five binary carbides and six SQS of each high-entropy carbide). sqs_generation.zip &ndash; the 12 special quasirandom structures used, with their ICET search records. speed_tests.zip &ndash; MD throughput and GPU-memory benchmarks on an RTX 4090 and an H100.",
-      "tags": [
-        "universal machine-learning interatomic potential",
-        "MLIP",
-        "carbides",
-        "benchmark",
-        "finite-temperature elasticity",
-        "molecular dynamics",
-        "high-entropy carbides"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Data for: Benchmarking Universal Machine-Learning Interatomic Potentials for Temperature-Dependent Elasticity of Binary and High-Entropy Refractory Carbides",
-      "url": "https://zenodo.org/records/23437746"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "ae7a018c701c47f3ee5f4386",
-      "context_id": "cf7ba9c2ca557a87983ae0ad",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.375,
-      "source": "zenodo",
-      "source_context_sha256": "11dcf0404168b4d273cda3877bc0c7e05a42a80e397b580c6976ceb80d8bcaae",
-      "source_published": "2026-10-17",
-      "source_updated": "",
-      "summary": "QMBL: Open Problems is a record book of the state of the art in quantum many-body simulation for problems with no exact ground-state energy. Scientists and AI systems should use the shared results to build on each other's work more efficiently and advance frontier science. This snapshot holds the launch target list (targets/v1.json, 153 instances frozen from QMBL v0.4.0; 152 are open today, as one has since been solved exactly), the entry format and its checks, and the maintainer's re-measurement flow; the verifier is quantum-many-body-leaderboard/verifier.",
-      "tags": [
-        "quantum many-body",
-        "open problems",
-        "benchmark",
-        "AI for science",
-        "variational Monte Carlo",
-        "neural quantum states",
-        "ground state"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "QMBL: Open Problems",
-      "url": "https://zenodo.org/records/23439788"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "f620a18ff60344b7ac7aa754",
-      "context_id": "ccfdda4ab1ce74e2a544b763",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.375,
-      "source": "arxiv",
-      "source_context_sha256": "f21bf7328db31ec4096f36ceac57a957b6fd9c1795513594c0329a15a057fa5e",
-      "source_published": "2026-10-09T15:46:43Z",
-      "source_updated": "2026-10-09T15:46:43Z",
-      "summary": "Speaker verification (SV) systems now achieve very low error rates on standard public protocols, but those results do not fully describe deployment generalization. VoxCeleb-style evaluations remain useful anchors for English in-the-wild media speech. Scenario-specific evaluations and challenges are also valuable. However, neither setting directly shows whether the same system remains reliable across diverse deployment scenarios. We introduce OpenSVBench, a public benchmark for cross-scenario SV evaluation. Its fixed public core contains 26 trial sets organized into 11 scenario groups, with 9.15M verification trials, frozen target/non-target keys, and metadata for scenario-wise reporting. Around this core, the online leaderboard acts as a diagnostic evaluation interface rather than only a ranked list. It accepts score packages from new systems, evaluates them with frozen keys and common scoring, and reports trial-set breakdowns, scenario-group metrics, macro EER/minDCF, model-wise profiles, and scenario-wise comparisons. We evaluate 18 public checkpoints spanning x-vector, ECAPA-TDNN, CAMPPlus, ResNet and ERes variants, ReDimNet2, SAM-ResNet, and pretrained Transformer speaker recipes. The results show clear cross-scenario gaps: systems with similar macro EER can have different scenario profiles, strong performance in one scenario does not guarantee strong performance in another, and same-scenario trial sets can still expose source and protocol gaps.",
-      "tags": [
-        "eess.AS",
-        "cs.SD"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "OpenSVBench: Diagnosing Speaker Verification Generalization Across Deployment Scenarios",
-      "url": "https://arxiv.org/abs/2610.13760v1"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "02d5be9c7398f1aae14114ec",
-      "context_id": "c39fd753bf022a972d229101",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.375,
-      "source": "zenodo",
-      "source_context_sha256": "9aba66176131888019a9608dac9f20475adb41ae86670c502f933c170f894538",
-      "source_published": "2026-10-17",
-      "source_updated": "",
-      "summary": "Non-Redundant Cryo-EM Test Dataset (2026 release targets) This dataset consists of a curated collection of 12 non-redundant structural targets released in 2026, specifically assembled to benchmark 3D structure prediction, alignment, and macromolecular modeling tools. Reproduction &amp; Executable Notebook: The complete benchmarking workflow, pipeline setup, statistical tables, and performance evaluations are documented and executable via the companion GitHub Jupyter notebook: https://github.com/adelekeadeniyan/cryo-em-benchmarking-2026/blob/main/docs/Cryo-EM%20Density%20Map%20Benchmark.ipynb .",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Non-Redundant Cryo-EM Test Dataset (2026 release targets)",
-      "url": "https://zenodo.org/records/23442208"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "8935c633c0c623b42f622a51",
-      "context_id": "b2f35606425733f586a4d8be",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.375,
-      "source": "arxiv",
-      "source_context_sha256": "ec84f2196127f2cdf9ff084a112a6acb2ee4d233a15c19dd2d4034d1139d9c03",
-      "source_published": "2026-06-17T20:32:32Z",
-      "source_updated": "2026-06-17T20:32:32Z",
-      "summary": "Audio deepfakes generated by neural text-to-speech and voice-cloning systems threaten speaker verification and public discourse at scale. The core challenge is cross-dataset generalization: detectors trained on one synthesis pipeline collapse on unseen forgeries. We argue that this failure is primarily because of structural synthetic speech artifacts which are multi-timescale trajectory anomalies. Though every existing detector aggregates a fixed-window frame statistics, this misaligns the architecture with the signal. We propose FlowFake, a Liquid Time-Constant (LTC) architecture whose hidden state evolves via a learned ODE, with per-neuron adaptive time constants simultaneously resolving spectral (10ms) and prosodic (2s) cues. At only 34K parameters FlowFake achieves formal BIBO stability and O(dt^4) integration error. On a four-dataset cross domain benchmark (ASVspoof2019-LA, FakeOrReal, InTheWild, MLAAD), FlowFake reaches 75.29% on ASVspoof2019 trained only on FakeOrReal and 79.97% trained only on MLAAD. It outperforms RawGAT-ST and Whisper-DF on every evaluated pair and matching SSL Wav2vec2 (300x larger) at 0.01% of its parameter count. The source code is available on : https://github.com/GhostRider2023/FlowFake",
-      "tags": [
-        "cs.SD",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "FlowFake: Liquid Networks for Audio Deepfake Detection",
-      "url": "https://arxiv.org/abs/2606.19579v1"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "a831f32e8d535aa875c64de4",
-      "context_id": "b230820027291cec0acaa4d9",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::CONTROL",
-      "direction_title": "Universal large-data ingestion methods [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.375,
-      "source": "arxiv",
-      "source_context_sha256": "93ca343ddd25482dbe114a7698d1eb9039c3565fe08a4a302dcd6bcee9d6c0b7",
-      "source_published": "2025-09-21T21:44:10Z",
-      "source_updated": "2025-12-23T09:37:51Z",
-      "summary": "We propose DeepASA, a multi-purpose model for auditory scene analysis that performs multi-input multi-output (MIMO) source separation, dereverberation, sound event detection (SED), audio classification, and direction-of-arrival estimation (DoAE) within a unified framework. DeepASA is designed for complex auditory scenes where multiple, often similar, sound sources overlap in time and move dynamically in space. To achieve robust and consistent inference across tasks, we introduce an object-oriented processing (OOP) strategy. This approach encapsulates diverse auditory features into object-centric representations and refines them through a chain-of-inference (CoI) mechanism. The pipeline comprises a dynamic temporal kernel-based feature extractor, a transformer-based aggregator, and an object separator that yields per-object features. These features feed into multiple task-specific decoders. Our object-centric representations naturally resolve the parameter association ambiguity inherent in traditional track-wise processing. However, early-stage object separation can lead to failure in downstream ASA tasks. To address this, we implement temporal coherence matching (TCM) within the chain-of-inference, enabling multi-task fusion and iterative refinement of object features using estimated auditory parameters. We evaluate DeepASA on representative spatial audio benchmark datasets, including ASA2, MC-FUSS, and STARSS23. Experimental results show that our model achieves state-of-the-art performance across all evaluated tasks, demonstrating its effectiveness in both source separation and auditory parameter estimation under diverse spatial auditory scenes.",
-      "tags": [
-        "eess.AS",
-        "cs.SD"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "DeepASA: An Object-Oriented Multi-Purpose Network for Auditory Scene Analysis",
-      "url": "https://arxiv.org/abs/2509.17247v3"
+      "title": "DAMSEP: Distance-Aware Monaural Source Separation using Multi-RIR Estimation",
+      "url": "https://arxiv.org/abs/2609.29749v2"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
