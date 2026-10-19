@@ -5,17 +5,22 @@ on:
     paths:
       - 'tools/janus_corpus_callosum.py'
       - 'tools/janus_corpus_callosum_v2.py'
+      - 'tools/golem_bicameral_r3_eval.py'
       - 'tools/janus_corpus_v2_publisher.py'
       - 'tools/janus_corpus_home_handoff.py'
       - 'tools/janus_corpus_git_publisher.py'
       - 'tests/test_janus_corpus_callosum.py'
       - 'tests/test_janus_corpus_callosum_v2.py'
+      - 'tests/test_golem_bicameral_r3_eval.py'
       - 'tests/test_janus_corpus_home_handoff.py'
       - 'tests/test_janus_corpus_git_publisher.py'
       - 'tests/test_janus_corpus_real_native_cpu.py'
       - '.github/workflows/janus-corpus-callosum-v1.yml'
       - 'docs/JANUS_CORPUS_CALLOSUM_V1.md'
       - 'docs/JANUS_CORPUS_CALLOSUM_V2.md'
+      - 'docs/JANUS_GOLEM_BICAMERAL_R3.md'
+      - 'benchmarks/golem_bicameral_r3_calibration.json'
+      - 'benchmarks/golem_bicameral_r3_calibration_key.json'
   workflow_dispatch:
 
 permissions:
@@ -40,11 +45,29 @@ jobs:
           python -m unittest -v \
             tests.test_janus_corpus_callosum \
             tests.test_janus_corpus_callosum_v2 \
+            tests.test_golem_bicameral_r3_eval \
             tests.test_janus_corpus_home_handoff \
             tests.test_janus_corpus_git_publisher \
             tests.test_golem_free_federation \
             tests.test_genesis_beetle_model_consumption
 
+
+  r3-calibration-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate frozen R3 tasks, public answers and no-provider status
+        run: |
+          python tools/golem_bicameral_r3_eval.py \
+            --pack benchmarks/golem_bicameral_r3_calibration.json \
+            --key benchmarks/golem_bicameral_r3_calibration_key.json
+          python -m unittest -v tests.test_golem_bicameral_r3_eval
 
   pinned-native-e2e:
     # Actual CPU execution of an immutable Demiurge revision. The external
