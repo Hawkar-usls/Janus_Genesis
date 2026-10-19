@@ -1,0 +1,179 @@
+name: JANUS Third Wish SciOne R6 calibrated strong blind AI review
+
+on:
+  pull_request:
+    branches:
+      - research/third-wish-scione-cross-model-judge-r5
+    paths:
+      - "protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_STRONG_BLIND_JUDGE_R6-v1.0.json"
+      - "tools/genesis_third_wish_scione_strong_blind_judge_r6.py"
+      - "tests/test_genesis_third_wish_scione_strong_blind_judge_r6.py"
+      - "docs/GENESIS_THIRD_WISH_SCIONE_STRONG_BLIND_JUDGE_R6_2026_10_19.md"
+      - ".github/workflows/janus-third-wish-scione-strong-blind-judge-r6.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: janus-scione-strong-blind-r6-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  OLLAMA_INSTALL_URL: https://github.com/ollama/ollama/releases/download/v0.30.8/ollama-linux-amd64.tar.zst
+  OLLAMA_INSTALL_SHA256: ffe2b2c2f2f5f5b30c081ec353c2e0bb2d9ead516064a8e22663b24b8fd8dca0
+  JUDGE_MODEL: gemma3:12b-it-q4_K_M
+  JUDGE_MODEL_DIGEST_PREFIX: b92b218582c5
+
+jobs:
+  precommitted-rubric-and-calibration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate frozen R6 contract and inherited blind judge
+        run: |
+          python -m json.tool protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_STRONG_BLIND_JUDGE_R6-v1.0.json >/dev/null
+          python -m unittest -v \
+            tests.test_genesis_third_wish_scione_strong_blind_judge_r6 \
+            tests.test_genesis_third_wish_scione_cross_model_judge_r5
+          python -m py_compile tools/genesis_third_wish_scione_strong_blind_judge_r6.py
+      - name: Verify exact prior blind sources and absence of mapping download
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('.github/workflows/janus-third-wish-scione-strong-blind-judge-r6.yml').read_text()
+          assert 'persist-credentials: false' in p
+          assert 'janus-scione-causal-r3-blind-packet-39233575143' in p
+          assert 'janus-scione-divergent-r4-blind-packet-39240749703' in p
+          assert 'janus-scione-cross-model-r5-blind-scores-39252362631' in p
+          assert ('private' + '-mapping-') not in p
+          assert ('${' + '{ secrets.') not in p
+          assert ('workflow_' + 'dispatch:') not in p
+          assert ('sche' + 'dule:') not in p
+          print('R6_ONLY_BLIND_DATA_AND_R5_LOCK=PASS')
+          PY
+
+  calibrated-gemma-blind-judge:
+    needs: precommitted-rubric-and-calibration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 175
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Download frozen R3 blind-only packet
+        uses: actions/download-artifact@v4
+        with:
+          name: janus-scione-causal-r3-blind-packet-39233575143
+          run-id: 39233575143
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/blind/r3
+      - name: Download frozen R4 blind-only packet
+        uses: actions/download-artifact@v4
+        with:
+          name: janus-scione-divergent-r4-blind-packet-39240749703
+          run-id: 39240749703
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/blind/r4
+      - name: Download immutable prior R5 blind score lock
+        uses: actions/download-artifact@v4
+        with:
+          name: janus-scione-cross-model-r5-blind-scores-39252362631
+          run-id: 39252362631
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/blind/r5
+      - name: Independently verify all source SHA256 contracts before model download
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from tools.genesis_third_wish_scione_strong_blind_judge_r6 import PROTOCOL, read_r5_lock
+          from tools.genesis_third_wish_scione_cross_model_judge_r5 import read_packet
+          p = json.loads(PROTOCOL.read_text())
+          root = Path(os.environ['RUNNER_TEMP']) / 'blind'
+          for stage, sub in (('R3','r3'),('R4','r4')):
+              src = p['blind_sources'][stage]
+              packet = read_packet(root/sub/src['filename'], {'json_sha256':src['sha256'],
+                  'mapping_commitment_sha256':src['mapping_commitment_sha256'],
+                  'expected_items':src['expected_notes']}, stage)
+              print(stage, 'BLIND_SOURCE_SHA=PASS', len(packet['items']))
+          prior = p['prior_r5_score_lock']
+          lock = read_r5_lock(root/'r5'/prior['filename'], prior)
+          print('R5_FROZEN_SCORE_SHA=PASS',lock['scores_sha256'])
+          PY
+      - name: Install pinned Ollama 0.30.8 and verify binary SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 5 --retry-delay 2 "${OLLAMA_INSTALL_URL}" -o "${RUNNER_TEMP}/ollama-r6-linux-amd64.tar.zst"
+          echo "${OLLAMA_INSTALL_SHA256}  ${RUNNER_TEMP}/ollama-r6-linux-amd64.tar.zst" | sha256sum -c -
+          sudo tar --zstd -xf "${RUNNER_TEMP}/ollama-r6-linux-amd64.tar.zst" -C /usr
+          ollama --version | tee "${RUNNER_TEMP}/ollama-r6-version.txt"
+          grep -q '0.30.8' "${RUNNER_TEMP}/ollama-r6-version.txt"
+      - name: Start loopback Gemma 3 12B and verify exact model digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OLLAMA_HOST=127.0.0.1:11434
+          export OLLAMA_NUM_PARALLEL=1
+          export OLLAMA_MAX_LOADED_MODELS=1
+          ollama serve > "${RUNNER_TEMP}/ollama-r6.log" 2>&1 &
+          for _ in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:11434/api/version >/dev/null 2>&1; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:11434/api/version
+          ollama pull "${JUDGE_MODEL}"
+          ollama list | tee "${RUNNER_TEMP}/ollama-r6-model-list.txt"
+          grep -q "${JUDGE_MODEL_DIGEST_PREFIX}" "${RUNNER_TEMP}/ollama-r6-model-list.txt"
+      - name: Score 6 preregistered calibration controls then 44 blind notes once
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/r6-empty-home"
+          env -i PATH="${PATH}" HOME="${RUNNER_TEMP}/r6-empty-home" \
+            LANG=C.UTF-8 PYTHONDONTWRITEBYTECODE=1 \
+            python -m tools.genesis_third_wish_scione_strong_blind_judge_r6 \
+              --r3-packet "${RUNNER_TEMP}/blind/r3/scione-causal-r3-blind-packet.json" \
+              --r4-packet "${RUNNER_TEMP}/blind/r4/scione-divergent-r4-blind-packet.json" \
+              --r5-score-lock "${RUNNER_TEMP}/blind/r5/scione-cross-model-r5-blind-score-lock.json" \
+              --output "${RUNNER_TEMP}/scione-strong-r6-blind-score-lock.json"
+      - name: Verify 50 one-shot records and both mappings unopened
+        if: success()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, hashlib
+          from pathlib import Path
+          p = Path(os.environ['RUNNER_TEMP'])/'scione-strong-r6-blind-score-lock.json'
+          lock = json.loads(p.read_text())
+          assert lock['status'] == 'COMPLETE_44_R6_SCORES'
+          assert lock['scored_rows_valid'] == 44
+          assert len(lock['calibration_rows']) == 6
+          assert lock['private_arm_mapping_opened_by_this_program'] is False
+          assert lock['arm_comparison_performed'] is False
+          assert lock['human_independent_review_completed'] is False
+          assert lock['agreement_with_r5']['matching_blind_ids'] == 44
+          print('R6_LOCK_FILE_SHA256', hashlib.sha256(p.read_bytes()).hexdigest())
+          print('R6_44_SCORE_SET_SHA256', lock['scores_sha256'])
+          print('R6_CALIBRATION_THRESHOLD_PASSED', lock['calibration_threshold_passed'])
+          PY
+      - name: Freeze calibration, blind score lock and provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-scione-strong-r6-blind-scores-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/scione-strong-r6-blind-score-lock.json
+            ${{ runner.temp }}/ollama-r6-version.txt
+            ${{ runner.temp }}/ollama-r6-model-list.txt
+          retention-days: 90
