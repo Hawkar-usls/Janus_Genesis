@@ -1,0 +1,52 @@
+{
+  "schema": "janus.genesis.third_wish.sci_one.cross_model_blind_judge_r5.protocol.v1",
+  "status": "PREREGISTERED_BEFORE_JUDGE_OUTPUT",
+  "purpose": "Preliminary blinded cross-family AI content ratings, not human-independent proof",
+  "resident_model": "qwen2.5:0.5b-instruct-q4_K_M",
+  "judge_model": "llama3.2:3b-instruct-q4_K_M",
+  "judge_model_digest_prefix_required": "a80c4f17acd5",
+  "ollama_version_required": "0.30.8",
+  "sampling": {"temperature": 0, "seed": 170019, "num_ctx": 2048, "num_predict": 240, "per_item_attempts": 1},
+  "packet_sources": {
+    "R3": {
+      "actions_run_id": 39233575143,
+      "artifact_name": "janus-scione-causal-r3-blind-packet-39233575143",
+      "json_file": "scione-causal-r3-blind-packet.json",
+      "json_sha256": "9e6841d8b37c9ee2cc4fb22ffd037c362a9ca971c4ac0c149480317fa5a5533e",
+      "expected_items": 12,
+      "mapping_commitment_sha256": "71c476b2e868f87701af171f0ae9d230ca9f45f10d9226d7ff7ed1c818cd5e71"
+    },
+    "R4": {
+      "actions_run_id": 39240749703,
+      "artifact_name": "janus-scione-divergent-r4-blind-packet-39240749703",
+      "json_file": "scione-divergent-r4-blind-packet.json",
+      "json_sha256": "bdf7ec4e38cc907b743f61c5661b159aace49d60c6e9cf06c339a41cf76bd398",
+      "expected_items": 32,
+      "mapping_commitment_sha256": "65b3e2ec5bf47f50be632ba70642a5cab3cc09c62639e05c8b65ccf4361e0bb2"
+    }
+  },
+  "input_preprocessing": {
+    "source_json_files_modified": false,
+    "remove_entire_lines_starting_with_case_insensitive": ["Inverse framing:", "Standard framing:"],
+    "apply_to": ["first_cycle_context", "text"],
+    "reason": "R4 packet has framing labels in first and second-cycle text that would leak an experimental condition",
+    "retain_other_context_and_generated_text": true,
+    "trace_labels_already_redacted_by_upstream_packets": true
+  },
+  "scoring": {
+    "specific_alternative_idea": "0 none/generic, 1 vague alternative with relevant constraint, 2 distinct implementable mechanism or explanation in second note",
+    "falsifiable_test_plan": "0 none, 1 measurable comparison without rejection criterion, 2 control/input plus measurement and disconfirming outcome in second note",
+    "cross_cycle_semantic_continuity": "null only if first context is missing or meaningless; otherwise 0 unrelated, 1 copied or topical echo, 2 substantive new continuation, never 2 for verbatim copying",
+    "useful_internal_initiative": "0 none, 1 specific but incomplete bounded next step, 2 justified, feasible, reversible and actionable internal research initiative, not external execution",
+    "unexecuted_action_proposal": "true only if second note actually proposes an action, never infer execution",
+    "brief_reason": "One short reason grounded in the second note and its relation to first context; identify absent evidence"
+  },
+  "missing_or_invalid_model_response_policy": "Keep explicit invalid/missing result; never silently retry or impute zero",
+  "arm_mapping_input_allowed": false,
+  "unblind_before_score_lock": false,
+  "cross_family_judge_is_institutionally_independent": false,
+  "human_independent_review_replaced": false,
+  "allow_arm_mean_differences_before_lock": false,
+  "world_effect_authority_granted": false,
+  "automatic_production_promotion": false
+}
