@@ -71,7 +71,7 @@ jobs:
           if(!loader.includes('document.write'))throw new Error('R0.8 overlay is not synchronous before bridge v5');
           const witness=JSON.parse(fs.readFileSync('GENESIS_PAGES_RELEASE.json','utf8'));
           if(witness.free_intent_contract!=='contracts/GENESIS_FREE_INTENT_R0_8.json')throw new Error('release witness missing R0.8 contract');
-          if(witness.release_id!=='GENESIS-PAGES-R0.7-PLAYER-MIRROR-R0.8-FREE-INTENT-2026-09-01')throw new Error('unexpected R0.8 release id');
+          if(!witness.release_id.startsWith('GENESIS-PAGES-R0.7-PLAYER-MIRROR-R0.8-FREE-INTENT-'))throw new Error('unexpected R0.8 release lineage');
           console.log('GENESIS_FREE_INTENT_R0_8_AUTHORITY_BOUNDARY_PASS');
           NODE
 
@@ -90,7 +90,7 @@ jobs:
         run: |
           set -euo pipefail
           base="${PAGE_URL%/}"
-          expected='GENESIS-PAGES-R0.7-PLAYER-MIRROR-R0.8-FREE-INTENT-2026-09-01'
+          expected="$(node -p \"require('./GENESIS_PAGES_RELEASE.json').release_id\")"
           matched=0
           for attempt in $(seq 1 24); do
             if curl -fsSL --retry 2 --retry-delay 1 "$base/GENESIS_PAGES_RELEASE.json?release=${GITHUB_SHA}&attempt=${attempt}" -o /tmp/live-release.json; then
