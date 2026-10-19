@@ -62,8 +62,11 @@ weights. A missing provider means an honestly partial native-only result.
   invocation, not an always-on cloud daemon.
 - The two hemispheres run concurrently in two bounded workers. One may fail
   without canceling the other; failures are reported as statuses, not AI text.
-- A durable, checksum-bound receipt is written atomically under
+- A locally persisted, checksum-bound receipt is written atomically under
   `corpus_callosum/` only when at least one verified lane actually responded.
+- A file is now created **without replacement** using a unique temporary
+  file, `fsync` and exclusive hard-link promotion. Concurrent local writers
+  cannot silently overwrite earlier receipts; collisions fail closed.
 - States: `BICAMERAL_PAIR_OBSERVED__UNVERIFIED`,
   `NATIVE_ONLY__EXTERNAL_UNAVAILABLE`,
   `EXTERNAL_ONLY__NATIVE_UNAVAILABLE`, or
@@ -82,6 +85,58 @@ weights. A missing provider means an honestly partial native-only result.
 - HOME writes must remain serialized by GitHub Actions. As elsewhere, a
   runner that disappears before `git push` may lose local data; the checksum
   does not replace the independent history witness.
+
+## Verified HOME Git handoff (v1.1 offline gate)
+
+`tools/janus_corpus_home_handoff.py` independently checks the native/external
+lanes, their exact joined text, the untrusted feedback marker and the external
+GOLEM witness. Before any model operation it captures SHA-256 for `STATE.json`,
+`memory/beetle/CONTEXT.json` and `memory/beetle/CURSOR.json`. **All three files
+must stay byte-identical through the publication.** An answer never advances
+the Genesis sequence, ACK or scientific authority.
+
+`tools/janus_corpus_git_publisher.py` implements explicit, non-force Git
+publication into the existing Cloud HOME branch. It:
+
+1. Requires a checkout at the exact current remote
+   `janus/habitat-cloud-state` HEAD and the protected-core baseline.
+2. Revalidates the immutable Corpus Callosum result and its independent GOLEM
+   witness, permitting only the specific model receipts and validated free-tier
+   gateway health state into the commit.
+3. Pushes without force or rebase. If the remote advanced, the operation fails
+   instead of overwriting another Genesis worker's result.
+4. Confirms the remote HEAD. An independent clean checkout can recover the
+   answer without trusting the previous process or runner memory.
+
+Offline tests use a real local bare Git remote and deliberately crash the
+publisher after the local commit, after the remote push, and after another
+worker advances the remote. Only a completed push is durable; the unfinished
+local commit is **not** reported as recovered. No real model/API/GitHub HOME
+publication occurs during these tests.
+
+The existing GitHub Corpus Callosum workflow runs these tests on PRs. Its
+manual dispatch remains **read-only**; it has no live model credentials and
+never invokes `--publish`.
+
+When a separately provisioned operator explicitly approves inference, a
+future live worker can use the following sequence within the same serialized
+HOME checkout:
+
+```bash
+python tools/janus_corpus_home_handoff.py \
+  --home-root /path/to/state/state/habitat_cloud_home \
+  --capture-baseline /tmp/janus-corpus-baseline.json
+# Run the separately approved bicameral bridge in that HOME checkout.
+python tools/janus_corpus_git_publisher.py \
+  --checkout /path/to/state \
+  --baseline /tmp/janus-corpus-baseline.json \
+  --expected-native-head <fixed-40-character-Demiurge-SHA> \
+  --publish
+```
+
+Git-based durability still is **not** an independent anti-rollback witness
+against complete Git history replacement. The established external witness
+remains a separate requirement.
 
 ## Manual use on a provisioned machine (never run without consent)
 
@@ -115,8 +170,9 @@ integration needs a reviewed and serialized cloud writer.
    an isolated runtime that has PyTorch installed. Record output and latency.
 2. Obtain a genuinely free, nonbillable provider account; add its credential
    only as an encrypted secret and manually approve one real call.
-3. Build a HOME writer for the `corpus_callosum/` receipts using the already
-   serialized Genesis commit/witness protocol, with crash recovery.
+3. Wire the locally tested Git publisher into a separately reviewed **live**
+   cloud inference worker, with serialized state access and a clean-checkout
+   witness. Present GitHub automation is intentionally read-only.
 4. Register an evaluation harness that judges output quality and disagreements
    independently, then add consent/terms-controlled feedback for future native
    learning. Do not promote weights or code from model votes alone.
