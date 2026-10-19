@@ -19,6 +19,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import tempfile
 import time
 from typing import Callable
 
@@ -192,14 +193,27 @@ def _save_atomic(path: Path, doc: dict) -> None:
     if len(raw) > MAX_COMBINED_BYTES:
         raise ConsumptionError('oversized Corpus Callosum receipt')
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix('.json.tmp')
-    if temporary.is_symlink():
-        raise ConsumptionError('unsafe Corpus Callosum temporary path')
-    with temporary.open('wb') as fd:
-        fd.write(raw)
-        fd.flush()
-        os.fsync(fd.fileno())
-    temporary.replace(path)
+    # Never replace a previously witnessed result (even when two local
+    # invocations raced through the initial existence check). A unique temp
+    # file plus an exclusive same-directory hard-link is append-only on Linux.
+    fd, temp_name = tempfile.mkstemp(prefix='.janus-corpus-', suffix='.tmp',
+                                     dir=path.parent)
+    try:
+        with os.fdopen(fd, 'wb') as stream:
+            stream.write(raw)
+            stream.flush()
+            os.fsync(stream.fileno())
+        try:
+            os.link(temp_name, path, follow_symlinks=False)
+        except FileExistsError as exc:
+            raise ConsumptionError('concurrent Corpus Callosum receipt exists; no overwrite') from exc
+        directory_fd = os.open(path.parent, os.O_RDONLY)
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
+    finally:
+        Path(temp_name).unlink(missing_ok=True)
 
 
 def bridge(home: Path, env: dict[str, str], *, execute: bool = False,
