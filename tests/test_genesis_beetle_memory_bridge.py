@@ -262,5 +262,20 @@ class BeetleMemoryBridgeTests(unittest.TestCase):
             self.assertTrue(findings[0]['classified'])
 
 
+class CloudHomeReceiverWakeupContractTests(unittest.TestCase):
+    def test_only_trusted_main_receiver_success_can_wake_cloud_home(self):
+        workflow = (Path(__file__).resolve().parents[1] /
+                    '.github/workflows/janus-habitat-cloud-home-v1.yml').read_text()
+        self.assertIn("workflows: ['JANUS Beetle Memory Receiver']", workflow)
+        self.assertIn('types: [completed]', workflow)
+        self.assertIn('branches: [main]', workflow)
+        self.assertIn("github.event.workflow_run.conclusion == 'success'", workflow)
+        self.assertIn("github.event.workflow_run.head_branch == 'main'", workflow)
+        self.assertIn('github.event.workflow_run.head_repository.full_name == github.repository',
+                      workflow)
+        self.assertIn("if: github.event_name != 'pull_request'", workflow)
+        self.assertIn('cancel-in-progress: false', workflow)
+
+
 if __name__ == '__main__':
     unittest.main()
