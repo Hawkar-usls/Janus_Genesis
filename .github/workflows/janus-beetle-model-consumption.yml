@@ -1,0 +1,77 @@
+name: JANUS Beetle Model Consumption Canary
+
+on:
+  workflow_dispatch:
+    inputs:
+      execute:
+        description: "Explicitly send bounded untrusted context to configured model (API cost)"
+        type: boolean
+        required: true
+        default: false
+
+# Serialized with the HOME writer: receipts are a separate namespace under
+# the same durable branch; they never change STATE.sequence or receiver ACK.
+concurrency:
+  group: janus-habitat-cloud-home-state
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  canary:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout trusted model-consumption code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: _code
+          persist-credentials: false
+      - name: Checkout durable HOME context
+        uses: actions/checkout@v4
+        with:
+          ref: janus/habitat-cloud-state
+          path: _state
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source-to-model receipt contract
+        run: python -m unittest -v tests.test_genesis_beetle_model_consumption
+        working-directory: _code
+      - name: Dry-run context safety validation without model call
+        if: ${{ !inputs.execute }}
+        run: |
+          python _code/tools/genesis_beetle_model_consumption.py \
+            --home-root _state/state/habitat_cloud_home
+      - name: Explicitly query configured HTTPS model and validate actual response
+        if: ${{ inputs.execute }}
+        env:
+          JANUS_MODEL_CONSUMPTION_ENABLED: '1'
+          JANUS_MODEL_API_URL: ${{ vars.JANUS_MODEL_API_URL }}
+          JANUS_MODEL_API_MODEL: ${{ vars.JANUS_MODEL_API_MODEL }}
+          JANUS_MODEL_API_TOKEN: ${{ secrets.JANUS_MODEL_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          python _code/tools/genesis_beetle_model_consumption.py \
+            --home-root _state/state/habitat_cloud_home --execute
+      - name: Commit provider-observed receipt independently of Cloud HOME sequence
+        if: ${{ inputs.execute }}
+        working-directory: _state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'janus-model-consumption[bot]'
+          git config user.email 'janus-model-consumption[bot]@users.noreply.github.com'
+          git add state/habitat_cloud_home/model_consumption
+          if git diff --cached --quiet; then
+            echo 'Model context already receipted; no write'
+            exit 0
+          fi
+          git diff --cached --check
+          git commit -m "JANUS model context response receipt ${GITHUB_RUN_ID}"
+          git push origin HEAD:janus/habitat-cloud-state
