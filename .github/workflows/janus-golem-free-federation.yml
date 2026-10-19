@@ -1,0 +1,99 @@
+name: JANUS GOLEM Free Federation (manual, zero paid fallback)
+
+on:
+  pull_request:
+    paths:
+      - 'tools/golem_free_federation.py'
+      - 'tests/test_golem_free_federation.py'
+      - '.github/workflows/janus-golem-free-federation.yml'
+  workflow_dispatch:
+    inputs:
+      execute:
+        description: 'Explicitly call previously configured FREE-PLAN APIs (no paid fallback)'
+        type: boolean
+        default: false
+        required: true
+
+permissions:
+  contents: read
+
+# HOME writes are serialized with the real Genesis checkpoint writer and
+# earlier model-consumption canary; never modify HOME sequence or receiver ACK.
+concurrency:
+  group: janus-habitat-cloud-home-state
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify free-tier, provenance, failover and opt-in contracts offline
+        run: |
+          python -m unittest -v tests.test_genesis_beetle_model_consumption
+          python -m unittest -v tests.test_golem_free_federation
+
+  probe:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout trusted GOLEM code (no persisted write credential)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: _code
+          persist-credentials: false
+      - name: Checkout durable Genesis HOME
+        uses: actions/checkout@v4
+        with:
+          ref: janus/habitat-cloud-state
+          fetch-depth: 0
+          path: _state
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate bounded public research context, plan only (NO NETWORK)
+        if: ${{ !inputs.execute }}
+        run: |
+          python _code/tools/golem_free_federation.py \
+            --home-root _state/state/habitat_cloud_home
+      - name: Explicitly query only configured free-plan providers
+        if: ${{ inputs.execute }}
+        env:
+          JANUS_GOLEM_FREE_ENABLED: '1'
+          JANUS_GOLEM_OPENROUTER_TOKEN: ${{ secrets.JANUS_GOLEM_OPENROUTER_TOKEN }}
+          JANUS_GOLEM_GROQ_TOKEN: ${{ secrets.JANUS_GOLEM_GROQ_TOKEN }}
+          JANUS_GOLEM_GROQ_FREE_PLAN: ${{ vars.JANUS_GOLEM_GROQ_FREE_PLAN }}
+          JANUS_GOLEM_GEMINI_TOKEN: ${{ secrets.JANUS_GOLEM_GEMINI_TOKEN }}
+          JANUS_GOLEM_GEMINI_FREE_PLAN: ${{ vars.JANUS_GOLEM_GEMINI_FREE_PLAN }}
+          JANUS_GOLEM_CLOUDFLARE_TOKEN: ${{ secrets.JANUS_GOLEM_CLOUDFLARE_TOKEN }}
+          JANUS_GOLEM_CLOUDFLARE_ACCOUNT_ID: ${{ vars.JANUS_GOLEM_CLOUDFLARE_ACCOUNT_ID }}
+          JANUS_GOLEM_CLOUDFLARE_FREE_PLAN: ${{ vars.JANUS_GOLEM_CLOUDFLARE_FREE_PLAN }}
+        run: |
+          set -euo pipefail
+          python _code/tools/golem_free_federation.py \
+            --home-root _state/state/habitat_cloud_home --execute --max-attempts 2
+      - name: Commit verified external response separately from Genesis HOME state
+        if: ${{ inputs.execute }}
+        working-directory: _state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'janus-golem-free[bot]'
+          git config user.email 'janus-golem-free[bot]@users.noreply.github.com'
+          git add state/habitat_cloud_home/model_federation
+          if git diff --cached --quiet; then
+            echo 'No new provenance receipt; checkpoint untouched'
+            exit 0
+          fi
+          git diff --cached --check
+          git commit -m "JANUS GOLEM free external provider response ${GITHUB_RUN_ID}"
+          git push origin HEAD:janus/habitat-cloud-state
