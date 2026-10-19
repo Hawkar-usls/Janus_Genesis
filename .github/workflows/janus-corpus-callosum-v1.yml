@@ -6,12 +6,14 @@ on:
       - 'tools/janus_corpus_callosum.py'
       - 'tools/janus_corpus_callosum_v2.py'
       - 'tools/golem_bicameral_r3_eval.py'
+      - 'tools/golem_bicameral_r4_native_probe.py'
       - 'tools/janus_corpus_v2_publisher.py'
       - 'tools/janus_corpus_home_handoff.py'
       - 'tools/janus_corpus_git_publisher.py'
       - 'tests/test_janus_corpus_callosum.py'
       - 'tests/test_janus_corpus_callosum_v2.py'
       - 'tests/test_golem_bicameral_r3_eval.py'
+      - 'tests/test_golem_bicameral_r4_native_probe.py'
       - 'tests/test_janus_corpus_home_handoff.py'
       - 'tests/test_janus_corpus_git_publisher.py'
       - 'tests/test_janus_corpus_real_native_cpu.py'
@@ -19,6 +21,9 @@ on:
       - 'docs/JANUS_CORPUS_CALLOSUM_V1.md'
       - 'docs/JANUS_CORPUS_CALLOSUM_V2.md'
       - 'docs/JANUS_GOLEM_BICAMERAL_R3.md'
+      - 'docs/JANUS_GOLEM_BICAMERAL_R4.md'
+      - 'benchmarks/golem_r4_native_cpu_pilot.json'
+      - 'benchmarks/golem_r4_native_cpu_pilot_key.json'
       - 'benchmarks/golem_bicameral_r3_calibration.json'
       - 'benchmarks/golem_bicameral_r3_calibration_key.json'
   workflow_dispatch:
@@ -46,6 +51,7 @@ jobs:
             tests.test_janus_corpus_callosum \
             tests.test_janus_corpus_callosum_v2 \
             tests.test_golem_bicameral_r3_eval \
+            tests.test_golem_bicameral_r4_native_probe \
             tests.test_janus_corpus_home_handoff \
             tests.test_janus_corpus_git_publisher \
             tests.test_golem_free_federation \
@@ -100,6 +106,22 @@ jobs:
       - name: Run actual native CPU and injected external/rollback gauntlet
         run: |
           python -m unittest -v tests.test_janus_corpus_real_native_cpu
+      - name: Measure PUBLIC short native-only R4A pilot with real pinned weights
+        run: |
+          python tools/golem_bicameral_r4_native_probe.py \
+            --pack benchmarks/golem_r4_native_cpu_pilot.json \
+            --key benchmarks/golem_r4_native_cpu_pilot_key.json \
+            --native-repo "$JANUS_NATIVE_DEMIURGE_CHECKOUT" \
+            --native-head 8873e5121a67daac5c8afb8ff297d6565dc87c32 \
+            --execute --out "$RUNNER_TEMP/golem-r4-native-baseline.json"
+      - name: Attach native-only pilot evidence, even on incomplete run
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: golem-r4-native-public-pilot
+          path: ${{ runner.temp }}/golem-r4-native-baseline.json
+          if-no-files-found: warn
+          retention-days: 14
 
   inspect-home:
     if: ${{ github.event_name == 'workflow_dispatch' }}
