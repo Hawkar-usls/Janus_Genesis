@@ -12,6 +12,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 import sys
 from typing import Callable
 
@@ -114,6 +115,7 @@ def probe(pack: dict, key: dict, repo: Path | None = None, *,
         raise R4Error("native checkout missing")
     # No fallback to mocked native generation. Any crash means INCOMPLETE,
     # not a falsely low accuracy for a functioning neural network.
+    real_adapter = native_runner is run_demiurge_native
     checkpoint = None
     correct = 0
     abstain = 0
@@ -123,7 +125,7 @@ def probe(pack: dict, key: dict, repo: Path | None = None, *,
             output = _valid_native(native_runner(repo, native_head, task_prompt),
                                    native_head, task_prompt)
         except (OSError, ConsumptionError, ValueError, TypeError, KeyError,
-                RuntimeError) as exc:
+                RuntimeError, subprocess.SubprocessError):
             # No raw model exception (potentially includes paths/tokens) is persisted.
             base.update(status="R4_NATIVE_CPU_INCOMPLETE_RUNTIME_FAILURE",
                         failure_at_task=item["id"], native_score=None)
@@ -147,13 +149,16 @@ def probe(pack: dict, key: dict, repo: Path | None = None, *,
             "source_commit": output["source_commit"],
             "checkpoint_sha256": observed_checkpoint,
         })
-    base["status"] = "R4_REAL_NATIVE_CPU_PUBLIC_PILOT__EXTERNAL_BLOCKED"
-    base["source_type"] = "PINNED_NATIVE_CPU_SUBPROCESS"
+    base["status"] = ("R4_REAL_NATIVE_CPU_PUBLIC_PILOT__EXTERNAL_BLOCKED"
+                      if real_adapter else "R4_SYNTHETIC_NATIVE_PROBE__NOT_EVIDENCE")
+    base["source_type"] = ("PINNED_NATIVE_CPU_SUBPROCESS" if real_adapter
+                           else "TEST_FIXTURE__NOT_REAL_NATIVE")
     base["checkpoint_sha256"] = checkpoint
     base["native_score"] = {
         "correct": correct, "denominator": REQUIRED_TASKS,
         "abstentions": abstain, "accuracy": correct / REQUIRED_TASKS,
         "sample_type": "PUBLIC_SMALL_PILOT_NOT_INDEPENDENT",
+        "actual_native_inference_verified": real_adapter,
     }
     return base
 
