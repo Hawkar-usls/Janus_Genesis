@@ -139,14 +139,15 @@
     veil.setAttribute('role','dialog');
     veil.setAttribute('aria-modal','true');
     veil.setAttribute('aria-labelledby','genesis-birth-title');
-    veil.innerHTML=`<div class="genesis-birth-card"><span class="genesis-birth-eyebrow">GENESIS / R0.6 / BEFORE THE FIRST CAUSE</span><h1 id="genesis-birth-title">НИЧЕГО ЕЩЁ НЕТ.</h1><p>Опиши первое, что должно существовать. Твой текст сначала станет причиной в Chronicle — и только после этого Genesis позволит миру появиться.</p><form id="genesis-birth-form"><textarea id="genesis-birth-intent" maxlength="4000" required placeholder="Например: пусть в темноте появится один тёплый огонь…"></textarea><button id="genesis-birth-submit" type="submit">ПУСТЬ БУДЕТ</button><div id="genesis-birth-status" aria-live="polite"></div></form><div class="genesis-birth-law">CAUSE → GENESIS_BIRTH → FIRST CHUNK → PLAYER MIRROR</div></div>`;
+    veil.innerHTML=`<div class="genesis-birth-card"><span class="genesis-birth-eyebrow">GENESIS / R0.6 / BEFORE THE FIRST CAUSE</span><h1 id="genesis-birth-title">НИЧЕГО ЕЩЁ НЕТ.</h1><p>Опиши первое, что должно существовать. Твой текст сначала станет причиной в Chronicle — и только после этого Genesis позволит миру появиться.</p><form id="genesis-birth-form"><textarea id="genesis-birth-intent" maxlength="4000" required aria-label="Первая причина мира" placeholder="Например: пусть в темноте появится один тёплый огонь…"></textarea><button id="genesis-birth-submit" type="submit">ПУСТЬ БУДЕТ</button><div id="genesis-birth-status" aria-live="polite"></div></form><div class="genesis-birth-law">CAUSE → GENESIS_BIRTH → FIRST CHUNK → PLAYER MIRROR</div></div>`;
     document.body.appendChild(veil);
 
     const form=veil.querySelector('#genesis-birth-form');
     const input=veil.querySelector('#genesis-birth-intent');
     const submit=veil.querySelector('#genesis-birth-submit');
     const status=veil.querySelector('#genesis-birth-status');
-    setTimeout(()=>input?.focus(),30);
+    // Let touch players see the first-cause form before opening the keyboard.
+    if(!globalThis.matchMedia?.('(any-pointer: coarse)').matches)setTimeout(()=>input?.focus(),30);
 
     form?.addEventListener('submit',async event=>{
       event.preventDefault();

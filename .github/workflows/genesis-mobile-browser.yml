@@ -1,0 +1,27 @@
+name: Genesis mobile browser checks
+
+on:
+  pull_request:
+    paths: ['index.html', 'site/**', 'genesis-audio-forge.js', 'tests/browser/**', '.github/workflows/genesis-mobile-browser.yml']
+  push:
+    branches: [main]
+    paths: ['index.html', 'site/**', 'genesis-audio-forge.js', 'tests/browser/**', '.github/workflows/genesis-mobile-browser.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: tests/browser/package-lock.json
+      - run: npm ci --prefix tests/browser
+      - run: npx --prefix tests/browser playwright install --with-deps chromium webkit
+      - run: npm test --prefix tests/browser
