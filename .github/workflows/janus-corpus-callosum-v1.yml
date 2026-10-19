@@ -4,14 +4,18 @@ on:
   pull_request:
     paths:
       - 'tools/janus_corpus_callosum.py'
+      - 'tools/janus_corpus_callosum_v2.py'
+      - 'tools/janus_corpus_v2_publisher.py'
       - 'tools/janus_corpus_home_handoff.py'
       - 'tools/janus_corpus_git_publisher.py'
       - 'tests/test_janus_corpus_callosum.py'
+      - 'tests/test_janus_corpus_callosum_v2.py'
       - 'tests/test_janus_corpus_home_handoff.py'
       - 'tests/test_janus_corpus_git_publisher.py'
       - 'tests/test_janus_corpus_real_native_cpu.py'
       - '.github/workflows/janus-corpus-callosum-v1.yml'
       - 'docs/JANUS_CORPUS_CALLOSUM_V1.md'
+      - 'docs/JANUS_CORPUS_CALLOSUM_V2.md'
   workflow_dispatch:
 
 permissions:
@@ -35,6 +39,7 @@ jobs:
         run: |
           python -m unittest -v \
             tests.test_janus_corpus_callosum \
+            tests.test_janus_corpus_callosum_v2 \
             tests.test_janus_corpus_home_handoff \
             tests.test_janus_corpus_git_publisher \
             tests.test_golem_free_federation \
