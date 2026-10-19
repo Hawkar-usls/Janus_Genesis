@@ -18,6 +18,13 @@ on:
       - 'tests/test_genesis_beetle_memory_bridge.py'
       - '.github/workflows/janus-habitat-cloud-home-v1.yml'
   workflow_dispatch:
+  # Receiver completion is an independent wake-up path when the hourly
+  # schedule is delayed. Only trusted successful main-branch runs are eligible
+  # to reconstruct Cloud HOME; the isolated inbox remains unverified data.
+  workflow_run:
+    workflows: ['JANUS Beetle Memory Receiver']
+    types: [completed]
+    branches: [main]
   schedule:
     - cron: '17 * * * *'
 
@@ -30,6 +37,11 @@ permissions:
 
 jobs:
   contract:
+    if: >-
+      ${{ github.event_name != 'workflow_run' ||
+          (github.event.workflow_run.conclusion == 'success' &&
+           github.event.workflow_run.head_branch == 'main' &&
+           github.event.workflow_run.head_repository.full_name == github.repository) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
