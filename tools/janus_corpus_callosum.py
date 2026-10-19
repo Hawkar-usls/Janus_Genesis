@@ -54,7 +54,8 @@ def _safe_native_env() -> dict[str, str]:
     """Never let native subprocess inherit GitHub, provider, or billing secrets."""
     return {'PATH': os.environ.get('PATH', '/usr/bin:/bin'),
             'LANG': 'C.UTF-8', 'PYTHONNOUSERSITE': '1',
-            'PYTHONPATH': '', 'OMP_NUM_THREADS': '1',
+            'PYTHONPATH': '', 'PYTHONDONTWRITEBYTECODE': '1',
+            'OMP_NUM_THREADS': '1',
             'CUDA_VISIBLE_DEVICES': ''}
 
 
