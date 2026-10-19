@@ -123,6 +123,53 @@ class RealNativeBicameralCPU(unittest.TestCase):
         self.assertIsNone(body["hemispheres"]["external"])
         self.assertIsNotNone(body["hemispheres"]["native"])
 
+    def test_v2_two_actual_native_cpu_passes_with_simulated_external_reply(self):
+        from janus_corpus_callosum_v2 import roundtrip, attest_roundtrip
+        from janus_corpus_v2_publisher import publish_v2
+
+        seen = []
+        def simulator(challenge):
+            seen.append(challenge)
+            return {
+                "mode": "OFFLINE_SIMULATED_EXTERNAL",
+                "provider": "FIXTURE_ONLY_NOT_A_REAL_PROVIDER",
+                "text": "Independent mock challenges the initial speculation.",
+                "stance": "DISPUTES",
+                "context_sha256": challenge["context_sha256"],
+                "native_initial_sha256": challenge["native_initial_sha256"],
+                "observed_context_ids": challenge["observed_context_ids"][:1],
+            }
+
+        with patch("urllib.request.OpenerDirector.open",
+                   side_effect=AssertionError("NETWORK_REQUEST_FORBIDDEN")):
+            result = roundtrip(
+                self.home, {"JANUS_BICAMERAL_V2_OFFLINE": "1"}, execute=True,
+                native_repo=self.native_repo, native_head=REVIEWED_DEMIURGE_SHA,
+                external_simulator=simulator)
+        self.assertEqual(result["status"], "NATIVE_EXTERNAL_NATIVE__UNVERIFIED")
+        self.assertEqual(len(seen), 1)
+        verified = attest_roundtrip(self.home, baseline=self.core_before,
+                                    expected_native_head=REVIEWED_DEMIURGE_SHA)
+        body = __import__("json").loads(
+            (self.home / verified["receipt_path"]).read_text())
+        self.assertEqual(body["native_initial"]["checkpoint_sha256"],
+                         self.checkpoint_before)
+        self.assertEqual(body["native_review"]["checkpoint_sha256"],
+                         self.checkpoint_before)
+        self.assertNotEqual(body["native_review"]["prompt_sha256"],
+                            body["native_initial"]["prompt_sha256"])
+        self.assertEqual(body["disagreement"], "DISPUTE_REPORTED_NOT_ADJUDICATED")
+        pushed = publish_v2(self.scenario.worker, baseline=self.core_before,
+                            expected_native_head=REVIEWED_DEMIURGE_SHA)
+        fresh = self.scenario.fresh_clone("v2-real-native-replay")
+        check = attest_roundtrip(fresh / "state/habitat_cloud_home",
+                                 baseline=self.core_before,
+                                 expected_native_head=REVIEWED_DEMIURGE_SHA)
+        self.assertEqual(check["receipt_sha256"], pushed["receipt_sha256"])
+        self.assertEqual(hashlib.sha256(
+            (self.native_repo / "janus_model/checkpoints/promoted.pt").read_bytes()
+        ).hexdigest(), self.checkpoint_before)
+
     def test_rejected_candidate_leaves_last_verified_native_checkpoint_intact(self):
         # Distinct from a real model update/rollback: a corrupt candidate is
         # rejected; the active last verified checkpoint never changes.
