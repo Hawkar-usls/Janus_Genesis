@@ -1,0 +1,64 @@
+name: JANUS Corpus Callosum (bicameral offline gate)
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_corpus_callosum.py'
+      - 'tests/test_janus_corpus_callosum.py'
+      - '.github/workflows/janus-corpus-callosum-v1.yml'
+      - 'docs/JANUS_CORPUS_CALLOSUM_V1.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Respect Genesis HOME writer serialization even during read-only experiments.
+concurrency:
+  group: janus-habitat-cloud-home-state
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run bicameral and free-gateway fake-inference tests (NO NETWORK)
+        run: |
+          python -m unittest -v \
+            tests.test_janus_corpus_callosum \
+            tests.test_golem_free_federation \
+            tests.test_genesis_beetle_model_consumption
+
+  inspect-home:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout trusted bridge code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: _code
+          persist-credentials: false
+      - name: Checkout existing read-only Genesis HOME
+        uses: actions/checkout@v4
+        with:
+          ref: janus/habitat-cloud-state
+          path: _state
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate staged context without running either hemisphere
+        run: |
+          python _code/tools/janus_corpus_callosum.py \
+            --home-root _state/state/habitat_cloud_home
+
+# Deliberately no live or paid-capable job. Real native inference requires a
+# separately approved fixed Demiurge checkout and a provisioned PyTorch CPU.
+# External model credentials are not exposed to this workflow.
