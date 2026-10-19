@@ -91,7 +91,7 @@
     const qs=new URLSearchParams(location.search);endpoint=qs.get('janus_api')||localStorage.getItem(ENDPOINT_KEY)||'';const form=$('action-form'),input=$('action-input');
     form?.addEventListener('submit',e=>{e.preventDefault();const text=input?.value||'';executeText(text);if(input){input.value='';input.focus({preventScroll:true});}});
     input?.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){e.preventDefault();input.blur();return;}if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();submitConsole();}});input?.addEventListener('keyup',e=>e.stopPropagation());input?.addEventListener('click',e=>e.stopPropagation());
-    addEventListener('keydown',e=>{if(e.key==='Enter'&&!textTarget(e.target)){e.preventDefault();focusConsole(false);}else if(e.key==='Escape'&&document.activeElement===input)input.blur();},true);
+    addEventListener('keydown',e=>{if(document.body?.dataset?.genesisDrawerOpen==='true'||e.target?.closest?.('button,a,summary,select,[role=button]'))return;if(e.key==='Enter'&&!textTarget(e.target)){e.preventDefault();focusConsole(false);}else if(e.key==='Escape'&&document.activeElement===input)input.blur();},true);
     const ep=$('janus-api-endpoint');if(ep){ep.value=endpoint;ep.addEventListener('change',()=>configureEndpoint(ep.value));}$('janus-api-connect')?.addEventListener('click',()=>configureEndpoint(ep?.value||endpoint));updateStateHash();healthCheck();setInterval(healthCheck,15000);setInterval(updateStateHash,1200);
   }
   setup();

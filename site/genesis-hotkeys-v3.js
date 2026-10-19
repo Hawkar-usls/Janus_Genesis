@@ -2,7 +2,7 @@
   'use strict';
   function textTarget(target){return target instanceof HTMLInputElement||target instanceof HTMLTextAreaElement||target?.isContentEditable;}
   addEventListener('keydown',event=>{
-    if(textTarget(event.target)||event.repeat)return;
+    if(textTarget(event.target)||event.repeat||document.body?.dataset?.genesisDrawerOpen==='true'||event.target?.closest?.('button,a,summary,select,[role=button]'))return;
     const rt=globalThis.GENESIS_WORLD_RUNTIME_V5||globalThis.GENESIS_WORLD_RUNTIME_V4;if(!rt)return;
     if(event.code==='Space'){event.preventDefault();rt.jump?.();return;}
     if(event.code==='KeyE'){event.preventDefault();rt.leaveMark('PLAYER MARK');return;}

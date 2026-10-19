@@ -25,3 +25,4 @@ jobs:
       - run: npm ci --prefix tests/browser
       - run: npx --prefix tests/browser playwright install --with-deps chromium webkit
       - run: npm test --prefix tests/browser
+      - run: npm run test:play --prefix tests/browser

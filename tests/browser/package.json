@@ -1,6 +1,6 @@
 {
   "name": "genesis-browser-checks",
   "private": true,
-  "scripts": { "test": "node mobile-smoke.cjs" },
+  "scripts": { "test": "node mobile-smoke.cjs", "test:play": "node first-playable.cjs" },
   "devDependencies": { "playwright": "1.64.1" }
 }
