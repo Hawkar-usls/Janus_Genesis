@@ -1,0 +1,171 @@
+name: JANUS Third Wish SciOne R5 cross-family blinded preliminary AI judge
+
+on:
+  pull_request:
+    branches:
+      - research/third-wish-scione-divergent-r4
+    paths:
+      - "protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_CROSS_MODEL_JUDGE_R5-v1.0.json"
+      - "tools/genesis_third_wish_scione_cross_model_judge_r5.py"
+      - "tests/test_genesis_third_wish_scione_cross_model_judge_r5.py"
+      - "docs/GENESIS_THIRD_WISH_SCIONE_CROSS_MODEL_JUDGE_R5_2026_10_19.md"
+      - ".github/workflows/janus-third-wish-scione-cross-model-judge-r5.yml"
+
+permissions:
+  contents: read
+  actions: read # Needed only to retrieve two named prior-run blind packets.
+
+concurrency:
+  group: janus-scione-ai-judge-r5-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  OLLAMA_INSTALL_URL: https://github.com/ollama/ollama/releases/download/v0.30.8/ollama-linux-amd64.tar.zst
+  OLLAMA_INSTALL_SHA256: ffe2b2c2f2f5f5b30c081ec353c2e0bb2d9ead516064a8e22663b24b8fd8dca0
+  JUDGE_MODEL: llama3.2:3b-instruct-q4_K_M
+  JUDGE_MODEL_DIGEST_PREFIX: a80c4f17acd5
+
+jobs:
+  precommitted-blind-rubric:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate R5 precommitted protocol and tests
+        run: |
+          python -m json.tool protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_CROSS_MODEL_JUDGE_R5-v1.0.json >/dev/null
+          python -m unittest -v tests.test_genesis_third_wish_scione_cross_model_judge_r5
+          python -m py_compile tools/genesis_third_wish_scione_cross_model_judge_r5.py
+      - name: Verify scope, names and prohibition on map acquisition
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('.github/workflows/janus-third-wish-scione-cross-model-judge-r5.yml').read_text()
+          assert 'persist-credentials: false' in p
+          assert 'scione-causal-r3-blind-packet-39233575143' in p
+          assert 'scione-divergent-r4-blind-packet-39240749703' in p
+          assert ('private' + '-mapping-') not in p
+          assert ('${' + '{ secrets.') not in p
+          assert ('workflow_' + 'dispatch:') not in p
+          assert ('sche' + 'dule:') not in p
+          print('R5_ONLY_PREVIOUS_BLIND_PACKETS=PASS')
+          PY
+
+  real-cross-model-blind-ratings:
+    needs: precommitted-blind-rubric
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Download R3 blind packet only, from frozen R3 run
+        uses: actions/download-artifact@v4
+        with:
+          name: janus-scione-causal-r3-blind-packet-39233575143
+          run-id: 39233575143
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/blind/r3
+      - name: Download R4 blind packet only, from frozen R4 run
+        uses: actions/download-artifact@v4
+        with:
+          name: janus-scione-divergent-r4-blind-packet-39240749703
+          run-id: 39240749703
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/blind/r4
+      - name: SHA-pin and schema-check unmodified blind source packets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from tools.genesis_third_wish_scione_cross_model_judge_r5 import PROTOCOL, read_packet
+          p = json.loads(PROTOCOL.read_text())
+          root = Path(os.environ['RUNNER_TEMP']) / 'blind'
+          for stage, subdir in (('R3','r3'), ('R4','r4')):
+              path = root / subdir / p['packet_sources'][stage]['json_file']
+              packet = read_packet(path, p['packet_sources'][stage], stage)
+              print(stage, 'SHA256=PASS', 'ITEMS=', len(packet['items']))
+          PY
+      - name: Install pinned Ollama 0.30.8 (verified tarball)
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 5 --retry-delay 2 "${OLLAMA_INSTALL_URL}" -o "${RUNNER_TEMP}/ollama-r5-linux-amd64.tar.zst"
+          echo "${OLLAMA_INSTALL_SHA256}  ${RUNNER_TEMP}/ollama-r5-linux-amd64.tar.zst" | sha256sum -c -
+          sudo tar --zstd -xf "${RUNNER_TEMP}/ollama-r5-linux-amd64.tar.zst" -C /usr
+          ollama --version | tee "${RUNNER_TEMP}/ollama-r5-version.txt"
+          grep -q '0.30.8' "${RUNNER_TEMP}/ollama-r5-version.txt"
+      - name: Start loopback model and verify Llama digest before scoring
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OLLAMA_HOST=127.0.0.1:11434
+          export OLLAMA_NUM_PARALLEL=1
+          export OLLAMA_MAX_LOADED_MODELS=1
+          ollama serve > "${RUNNER_TEMP}/ollama-r5.log" 2>&1 &
+          for _ in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:11434/api/version >/dev/null 2>&1; then
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:11434/api/version
+          ollama pull "${JUDGE_MODEL}"
+          ollama list | tee "${RUNNER_TEMP}/ollama-r5-model-list.txt"
+          grep -q "${JUDGE_MODEL_DIGEST_PREFIX}" "${RUNNER_TEMP}/ollama-r5-model-list.txt"
+      - name: Score 44 anonymized notes with no credentials, 1 attempt each
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/judge-empty-home"
+          env -i \
+            PATH="${PATH}" \
+            HOME="${RUNNER_TEMP}/judge-empty-home" \
+            LANG=C.UTF-8 PYTHONDONTWRITEBYTECODE=1 \
+            python tools/genesis_third_wish_scione_cross_model_judge_r5.py \
+              --r3-packet "${RUNNER_TEMP}/blind/r3/scione-causal-r3-blind-packet.json" \
+              --r4-packet "${RUNNER_TEMP}/blind/r4/scione-divergent-r4-blind-packet.json" \
+              --output "${RUNNER_TEMP}/scione-cross-model-r5-blind-score-lock.json"
+      - name: Verify final frozen scores without reading any mapping
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, hashlib
+          from pathlib import Path
+          p = Path(os.environ['RUNNER_TEMP']) / 'scione-cross-model-r5-blind-score-lock.json'
+          lock = json.loads(p.read_text())
+          assert lock['status'] == 'COMPLETE_44_PRELIMINARY_AI_SCORES'
+          assert lock['score_rows_total'] == lock['score_rows_valid'] == 44
+          assert lock['score_rows_invalid_or_missing'] == 0
+          assert lock['framing_lines_removed_from_first_context'] == 10
+          assert lock['framing_lines_removed_from_second_note'] == 2
+          assert lock['private_arm_mapping_opened_by_this_program'] is False
+          assert lock['arm_comparison_performed'] is False
+          assert lock['independent_human_review_completed'] is False
+          assert lock['creativity_advantage_proven'] is False
+          print('LOCK_FILE_SHA256', hashlib.sha256(p.read_bytes()).hexdigest())
+          print('SCORES_SHA256', lock['scores_sha256'])
+          print('PRELIMINARY_44_AI_RATINGS_FROZEN=YES')
+          PY
+      - name: Upload frozen cross-model score lock and judge provenance only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-scione-cross-model-r5-blind-scores-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/scione-cross-model-r5-blind-score-lock.json
+            ${{ runner.temp }}/ollama-r5-version.txt
+            ${{ runner.temp }}/ollama-r5-model-list.txt
+          retention-days: 90
