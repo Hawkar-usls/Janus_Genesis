@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -17,6 +19,15 @@ from tools.genesis_third_wish_scione_inverse_r2 import (
 
 
 class SciOneInverseR2Tests(unittest.TestCase):
+    def test_direct_script_entrypoint_works_from_repository_root(self):
+        root = Path(__file__).resolve().parents[1]
+        completed = subprocess.run(
+            [sys.executable, str(root / "tools/genesis_third_wish_scione_inverse_r2.py"), "--help"],
+            cwd=root, capture_output=True, text=True, timeout=10,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("--output", completed.stdout)
+
     def test_frozen_case_pairs_cover_all_seven_video_domains(self):
         fixture = load_fixture()
         self.assertEqual(len(fixture["pairs"]), 7)
