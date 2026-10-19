@@ -90,7 +90,7 @@ jobs:
         run: |
           set -euo pipefail
           base="${PAGE_URL%/}"
-          expected="$(node -p \"require('./GENESIS_PAGES_RELEASE.json').release_id\")"
+          expected="$(node -p 'require("./GENESIS_PAGES_RELEASE.json").release_id')"
           matched=0
           for attempt in $(seq 1 24); do
             if curl -fsSL --retry 2 --retry-delay 1 "$base/GENESIS_PAGES_RELEASE.json?release=${GITHUB_SHA}&attempt=${attempt}" -o /tmp/live-release.json; then
