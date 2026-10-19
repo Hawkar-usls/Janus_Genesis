@@ -12,6 +12,9 @@ import urllib.error
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
 from genesis_beetle_model_consumption import ConsumptionError
 from golem_free_federation import FREE_PROVIDERS, available, federate
+from golem_adaptive_tower import (DAILY_ATTEMPT_CAPS, STATE_NAME, TowerError,
+    blank_state, eligible_providers, load_state, record_failure,
+    reserve_attempt, save_state)
 
 
 class GolemFreeFederationTests(unittest.TestCase):
@@ -130,10 +133,14 @@ class GolemFreeFederationTests(unittest.TestCase):
         ]:
             fake = self.good_response()
             fake['choices'][0]['message']['content'] = json.dumps(content)
-            with self.assertRaisesRegex(ConsumptionError, 'all permitted'):
-                federate(self.home, env, execute=True,
-                         transport=lambda *args: fake)
-        self.assertFalse((self.home / 'model_federation').exists())
+            try:
+                outcome = federate(self.home, env, execute=True,
+                                   transport=lambda *args: fake)
+                self.assertEqual(outcome['status'],
+                                 'FREE_FEDERATION_NO_ELIGIBLE_GATEWAY__NO_NETWORK')
+            except ConsumptionError as exc:
+                self.assertIn('all permitted', str(exc))
+        self.assertEqual(list((self.home / 'model_federation').glob('000*.json')), [])
 
     def test_attempt_budget_fails_closed(self):
         with self.assertRaisesRegex(ConsumptionError, 'unbounded'):
@@ -160,6 +167,105 @@ class GolemFreeFederationTests(unittest.TestCase):
         self.assertEqual(p.name, 'cloudflare-free')
         self.assertEqual(endpoint, 'https://api.cloudflare.com/client/v4/accounts/' +
                          'a' * 32 + '/ai/v1/chat/completions')
+
+    def test_429_is_durable_and_next_context_skips_cooling_provider(self):
+        env = {'JANUS_GOLEM_FREE_ENABLED': '1',
+               'JANUS_GOLEM_OPENROUTER_TOKEN': 'topsecret',
+               'JANUS_GOLEM_GROQ_TOKEN': 'topsecret2',
+               'JANUS_GOLEM_GROQ_FREE_PLAN': '1'}
+        calls = []
+
+        def mock(provider, endpoint, token, payload):
+            calls.append(provider.name)
+            if provider.name == 'openrouter-free':
+                raise urllib.error.HTTPError(endpoint, 429, 'limited', {}, None)
+            return self.good_response()
+
+        result = federate(self.home, env, execute=True, transport=mock,
+                          clock=lambda: 1735689600)
+        self.assertEqual(result['provider'], 'groq-free')
+        state_path = self.home / 'model_federation' / STATE_NAME
+        state = load_state(state_path, 1735689600)
+        self.assertEqual(state['providers']['openrouter-free']['day_attempts'], 1)
+        self.assertEqual(state['providers']['groq-free']['day_success'], 1)
+        self.assertGreater(state['providers']['openrouter-free']['cooldown_until'],
+                           1735689600)
+        raw = state_path.read_text()
+        self.assertNotIn('topsecret', raw)
+        self.assertNotIn('limited', raw)
+
+        self._bump_context(18)
+        calls.clear()
+        later = federate(self.home, env, execute=True, transport=mock,
+                         clock=lambda: 1735689601)
+        self.assertEqual(later['provider'], 'groq-free')
+        self.assertEqual(calls, ['groq-free'])
+
+    def _bump_context(self, sequence):
+        memory = self.home / 'memory' / 'beetle'
+        context_path = memory / 'CONTEXT.json'
+        context = json.loads(context_path.read_text())
+        context['last_sequence'] = sequence
+        raw = (json.dumps(context, sort_keys=True) + '\n').encode()
+        context_path.write_bytes(raw)
+        cursor_path = memory / 'CURSOR.json'
+        cursor = json.loads(cursor_path.read_text())
+        cursor['last_sequence'] = sequence
+        cursor['context_sha256'] = hashlib.sha256(raw).hexdigest()
+        cursor_path.write_text(json.dumps(cursor))
+
+    def test_no_success_is_degraded_without_receipt_and_cools_down(self):
+        env = {'JANUS_GOLEM_FREE_ENABLED': '1',
+               'JANUS_GOLEM_OPENROUTER_TOKEN': 'secret'}
+        calls = []
+
+        def reject(*args):
+            calls.append(1)
+            raise urllib.error.HTTPError('https://example.invalid', 429, '', {}, None)
+
+        result = federate(self.home, env, execute=True, transport=reject,
+                          clock=lambda: 1735689600, degraded_ok=True)
+        self.assertEqual(result['status'], 'FREE_FEDERATION_DEGRADED__NO_RECEIPT')
+        self.assertEqual(calls, [1])
+        again = federate(self.home, env, execute=True, transport=reject,
+                         clock=lambda: 1735689601, degraded_ok=True)
+        self.assertEqual(again['status'],
+                         'FREE_FEDERATION_NO_ELIGIBLE_GATEWAY__NO_NETWORK')
+        self.assertEqual(calls, [1])
+        self.assertFalse(list((self.home / 'model_federation').glob('000*.json')))
+
+    def test_tower_rejects_tampered_counters_without_network(self):
+        env = {'JANUS_GOLEM_FREE_ENABLED': '1',
+               'JANUS_GOLEM_OPENROUTER_TOKEN': 'secret'}
+        state_path = self.home / 'model_federation' / STATE_NAME
+        save_state(state_path, blank_state(1735689600), 1735689600)
+        state = json.loads(state_path.read_text())
+        state['providers']['openrouter-free']['day_attempts'] = 99999
+        state_path.write_text(json.dumps(state))
+        with self.assertRaisesRegex(TowerError, 'untrusted'):
+            federate(self.home, env, execute=True, clock=lambda: 1735689600,
+                     transport=lambda *args: self.fail('network forbidden'))
+
+    def test_internal_daily_cap_and_rollover(self):
+        epoch = 1735689600
+        state_path = self.home / 'model_federation' / STATE_NAME
+        state = blank_state(epoch)
+        for _ in range(DAILY_ATTEMPT_CAPS['openrouter-free']):
+            reserve_attempt(state, 'openrouter-free')
+        save_state(state_path, state, epoch)
+        configured = available({'JANUS_GOLEM_OPENROUTER_TOKEN': 'x'})
+        self.assertEqual(eligible_providers(configured, load_state(state_path, epoch),
+                                            epoch), [])
+        next_day = load_state(state_path, epoch + 86400)
+        self.assertEqual(next_day['providers']['openrouter-free']['day_attempts'], 0)
+        self.assertEqual(len(eligible_providers(configured, next_day,
+                                                epoch + 86400)), 1)
+
+    def test_unauthorized_provider_is_not_a_route(self):
+        env = {'JANUS_GOLEM_OPENROUTER_TOKEN': 'a',
+               'JANUS_GOLEM_GEMINI_TOKEN': 'b',
+               'JANUS_GOLEM_CLOUDFLARE_TOKEN': 'c'}
+        self.assertEqual([x[0].name for x in available(env)], ['openrouter-free'])
 
 
 if __name__ == '__main__':
