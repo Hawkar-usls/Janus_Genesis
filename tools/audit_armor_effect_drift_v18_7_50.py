@@ -78,6 +78,10 @@ SURFACE_CLASSIFICATIONS = (
         "EXPLICIT_OPT_IN_PINNED_NATIVE_MODEL_SUBPROCESS_NOT_ARMOR_ADMITTED",
     ),
     (
+        "tools/janus_corpus_git_publisher.py",
+        "EXPLICIT_OPERATOR_NONFORCE_GIT_HOME_RECEIPT_PUBLISHER_NOT_ARMOR_ADMITTED",
+    ),
+    (
         "tools/genesis_beetle_memory_bridge.py",
         "READ_ONLY_FIXED_PUBLIC_BEETLE_PRODUCER_MANIFEST_FETCH",
     ),

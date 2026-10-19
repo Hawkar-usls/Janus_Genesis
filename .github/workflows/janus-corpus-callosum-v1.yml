@@ -4,7 +4,11 @@ on:
   pull_request:
     paths:
       - 'tools/janus_corpus_callosum.py'
+      - 'tools/janus_corpus_home_handoff.py'
+      - 'tools/janus_corpus_git_publisher.py'
       - 'tests/test_janus_corpus_callosum.py'
+      - 'tests/test_janus_corpus_home_handoff.py'
+      - 'tests/test_janus_corpus_git_publisher.py'
       - '.github/workflows/janus-corpus-callosum-v1.yml'
       - 'docs/JANUS_CORPUS_CALLOSUM_V1.md'
   workflow_dispatch:
@@ -30,6 +34,8 @@ jobs:
         run: |
           python -m unittest -v \
             tests.test_janus_corpus_callosum \
+            tests.test_janus_corpus_home_handoff \
+            tests.test_janus_corpus_git_publisher \
             tests.test_golem_free_federation \
             tests.test_genesis_beetle_model_consumption
 
@@ -58,7 +64,19 @@ jobs:
         run: |
           python _code/tools/janus_corpus_callosum.py \
             --home-root _state/state/habitat_cloud_home
+      - name: Capture immutable HOME core and inspect publication (NO PUSH)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python _code/tools/janus_corpus_home_handoff.py \
+            --home-root _state/state/habitat_cloud_home \
+            --capture-baseline "$RUNNER_TEMP/janus-corpus-before.json"
+          python _code/tools/janus_corpus_git_publisher.py \
+            --checkout _state \
+            --baseline "$RUNNER_TEMP/janus-corpus-before.json"
 
 # Deliberately no live or paid-capable job. Real native inference requires a
 # separately approved fixed Demiurge checkout and a provisioned PyTorch CPU.
-# External model credentials are not exposed to this workflow.
+# External model credentials are not exposed to this workflow. The offline Git
+# bare-remote gauntlet proves the publisher's non-force crash semantics before
+# any later reviewed live workflow can invoke its explicit --publish gate.
