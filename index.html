@@ -1,12 +1,102 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><meta name="color-scheme" content="dark"><meta name="description" content="JANUS Genesis R0.7 — causal Birth R0.6 plus Player-local perceptual hardware over the Parograd × Krieger browser-native world engine."><meta name="janus-runtime-lineage" content="SCENE INTENT GRAPH R0.4 lineage: genesis-world-runtime-v4.js genesis-command-bridge-v3.js genesis-scene-graph-executor-r0-4.js genesis-command-bridge-v4.js genesis-asset-materializer-v2.js genesis-hotkeys-v2.js runtime-v4.css; preserved, not active. PAROGRAD × KRIEGER R0.5 preserved; provider fallback R0.5.1 preserved; BIRTH R0.6 preserves causal UNBORN -> GENESIS_BIRTH -> CHUNK_DISCOVERED -> first intent materialization; active PLAYER MIRROR R0.7 adds player-local perceptual hardware via genesis-player-mirror-r0-7.js without changing canonical R0.5 generator facts"><title>GENESIS // BIRTH R0.6 // MIRROR R0.7</title><link rel="stylesheet" href="./site/world-shell.css"><link rel="stylesheet" href="./site/world-shell-camera.css"><link rel="stylesheet" href="./site/action-forge.css"><link rel="stylesheet" href="./site/runtime-v3.css"><link rel="stylesheet" href="./site/runtime-v4.css"><link rel="stylesheet" href="./site/scene-graph-r0-4.css"></head>
-<body><canvas id="genesis-world" aria-label="Procedurally generated 3D Genesis world"></canvas><div class="world-vignette" aria-hidden="true"></div>
-<header class="hud top-hud"><div class="brand-block"><span class="eyebrow">JANUS / GENESIS ORGAN / BIRTH R0.6 / MIRROR R0.7</span><strong>GENESIS</strong><span class="world-subtitle">TEXT-NATIVE WORLD ENGINE // ONE SHARED REALITY // CAUSE FIRST // PLAYER MIRROR R0.7 // PAROGRAD × KRIEGER</span></div><div class="top-actions"><button id="audio-toggle" type="button">AUDIO: OFF</button><span id="camera-chip" class="status-chip">CAMERA THIRD PERSON</span><span id="mirror-chip" class="status-chip">STYLE ORIGIN</span><button id="chronicle-toggle" type="button">CHRONICLE</button><a class="hud-button" href="./kernel-lab.html">KERNEL LAB</a></div></header>
-<aside id="world-status-panel" class="hud world-status"><div class="panel-head"><strong>WORLD / STREAMING</strong><button class="panel-collapse" data-collapse-target="world-status-panel" aria-label="Свернуть или развернуть статус мира" type="button">−/+</button></div><div class="panel-body"><div class="status-row"><span>WORLD</span><strong id="world-id">GENESIS_ONE_WORLD_R0</strong></div><div class="status-row"><span>ROUTING</span><strong id="world-mode" class="warn">LOCAL DEGRADED</strong></div><div class="status-row"><span>MMO AUTHORITY</span><strong class="warn">NOT YET CONNECTED</strong></div><div class="status-rule"></div><div class="status-row"><span>CHUNK</span><strong id="chunk-coords">0,0</strong></div><div class="status-row"><span>FACT HASH</span><strong id="fact-hash">--------</strong></div><div class="status-row"><span>FULL DETAIL</span><strong id="visible-count">24m</strong></div><div class="status-row"><span>COARSE LOD</span><strong id="prewarm-count">64m</strong></div><div class="status-row"><span>HORIZON</span><strong id="horizon-count">160m</strong></div><div class="status-row"><span>RECIPE ONLY</span><strong>∞</strong></div><div class="status-row"><span>DISCOVERED</span><strong id="discovered-count">0</strong></div><div class="status-rule"></div><div class="status-row"><span>STYLE</span><strong id="mirror-name">ORIGIN</strong></div><div class="status-row"><span>DIMENSION</span><strong id="dimension-name">3D</strong></div><div class="status-row"><span>CAMERA</span><strong id="camera-name">THIRD PERSON</strong></div></div></aside>
-<aside class="hud minimap-shell"><canvas id="minimap" width="180" height="180"></canvas><div class="minimap-caption">CAUSE MAP / NOT RENDER CACHE</div></aside>
-<aside id="janus-nerve-panel" class="janus-nerve"><div class="panel-head"><h3>JANUS NERVE // ASSET TRUNKS</h3><button class="panel-collapse" data-collapse-target="janus-nerve-panel" aria-label="Свернуть или развернуть JANUS API" type="button">−/+</button></div><div class="panel-body"><div class="nerve-row"><span>JANUS API</span><strong id="janus-api-status" class="warn">NO ENDPOINT</strong></div><div class="nerve-row"><span>TRUNKS</span><strong>MATERIAL · MESH · AUDIO · MECHANIC</strong></div><div class="janus-endpoint"><input id="janus-api-endpoint" type="url" placeholder="https://janus.example base"><button id="janus-api-connect" type="button">CONNECT</button></div><div class="asset-trunk-title">ASSET TRUNK // RIGHTS-GATED KRR <strong id="asset-count">0</strong></div><div id="asset-trunk-results">JANUS OFFLINE / DIRECT PUBLIC PROVIDER FALLBACK READY</div><small>JANUS HOME is preferred. If unavailable, browser read-only fallback may query Poly Haven and Wikimedia Commons, verify rights metadata, and stream bytes directly from provider/CDN. SLIME never carries binary bytes. Attribution is recorded locally for CC-BY/BY-SA.</small></div></aside>
-<section id="welcome" class="center-message"><span class="eyebrow">AFTER THE FIRST CAUSE</span><h1>YOUR CAUSE EXISTS.<br>NOW WALK INSIDE ITS WORLD.</h1><p>Genesis synchronizes causes. Your Mirror renders the experience. Nearby world is generated in full detail, distance is progressively distilled, and far reality remains seed + recipe.</p><button id="enter-world" class="enter-button" type="button">ENTER GENESIS</button></section>
-<section id="chronicle-panel" class="drawer chronicle-drawer" hidden><div class="drawer-head"><div><span class="eyebrow">HASH-LINKED MEMORY</span><h2>Chronicle</h2></div><button class="close-drawer" aria-label="Закрыть хронику" data-close="chronicle-panel" type="button">×</button></div><p>Canonical save keeps causes, mutations, history and provenance pointers — never provider binaries.</p><ol id="chronicle-list" class="chronicle-list"></ol></section>
-<section class="action-forge"><div class="action-forge-head"><strong>GENESIS SCENE // WRITE → JANUS GRAPH → TRUNKS → VALIDATE → MATERIALIZE</strong><span class="command-hint">ENTER command · SPACE jump · WASD · SHIFT sprint · 1/3/I cameras · wheel distance</span></div><form id="action-form" autocomplete="off"><textarea id="action-input" aria-label="Действие в мире Genesis" rows="1" maxlength="4000" inputmode="text" spellcheck="true" placeholder="построй старый каменный маяк · добавь шум моря · spawn a castle · прыгни"></textarea><button id="action-submit" type="submit">MATERIALIZE</button></form><div class="action-forge-meta"><span>WORLD STATE HASH <strong id="action-state-hash">--------</strong></span><span id="action-plan">ENTER → SCENE CONSOLE</span></div><div id="action-result" class="action-result" aria-live="polite">JANUS proposes. Genesis validates. Rights fail closed. Direct public provider fallback is data-plane only.</div></section>
-<div class="mobile-pad" role="group" aria-label="Управление движением"><button type="button" data-move="up" aria-label="Вперёд">▲</button><button type="button" data-move="left" aria-label="Влево">◀</button><button type="button" data-move="down" aria-label="Назад">▼</button><button type="button" data-move="right" aria-label="Вправо">▶</button><button type="button" data-action="jump" aria-label="Прыжок">JUMP</button></div><div id="toast" class="toast"></div><footer class="world-footer"><span id="generator-state">BOOTING GENESIS BIRTH R0.6 + PLAYER MIRROR R0.7</span></footer>
-<script src="./genesis-audio-forge.js"></script><script src="./site/genesis-mechanic-forge-r0-5.js"></script><script src="./site/genesis-birth-r0-6.js"></script><script src="./site/genesis-world-runtime-v5.js"></script><script src="./site/genesis-player-mirror-r0-7.js"></script><script src="./site/genesis-asset-materializer-v3.js"></script><script src="./site/genesis-audio-runtime-v1.js"></script><script src="./site/genesis-audio-asset-runtime-r0-5-1.js"></script><script src="./site/genesis-hotkeys-v3.js"></script><script src="./site/genesis-command-bridge-v3.js"></script><script src="./site/genesis-command-lexicon-r0-5.js"></script><script src="./site/genesis-public-provider-fallback-r0-5-1.js"></script><script src="./site/genesis-asset-trunk-r0-5-1.js"></script><script src="./site/genesis-scene-graph-executor-r0-5.js"></script><script src="./site/genesis-scene-graph-executor-r0-5-1.js"></script><script src="./site/genesis-command-bridge-v5.js"></script></body></html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Genesis — исследуй мир, создавай места своими словами и зажги первый маяк.">
+<meta name="janus-runtime-lineage" content="SCENE INTENT GRAPH R0.4 lineage: genesis-world-runtime-v4.js genesis-command-bridge-v3.js genesis-scene-graph-executor-r0-4.js genesis-command-bridge-v4.js genesis-asset-materializer-v2.js genesis-hotkeys-v2.js runtime-v4.css; preserved, not active. PAROGRAD × KRIEGER R0.5 preserved; provider fallback R0.5.1 preserved; BIRTH R0.6 preserves causal UNBORN -> GENESIS_BIRTH -> CHUNK_DISCOVERED -> first intent materialization; active PLAYER MIRROR R0.7 adds player-local perceptual hardware via genesis-player-mirror-r0-7.js without changing canonical R0.5 generator facts">
+<meta name="janus-player-lineage" content="GENESIS // BIRTH R0.6 // MIRROR R0.7 // TEXT-NATIVE WORLD ENGINE // KERNEL LAB">
+<title>GENESIS — твой мир</title>
+<link rel="stylesheet" href="./site/world-shell.css">
+<link rel="stylesheet" href="./site/world-shell-camera.css">
+<link rel="stylesheet" href="./site/action-forge.css">
+<link rel="stylesheet" href="./site/runtime-v3.css">
+<link rel="stylesheet" href="./site/runtime-v4.css">
+<link rel="stylesheet" href="./site/scene-graph-r0-4.css">
+<link rel="stylesheet" href="./site/player-experience.css">
+</head>
+<body>
+
+<canvas id="genesis-world" aria-label="Мир Genesis"></canvas>
+<div class="world-vignette" aria-hidden="true"></div>
+<header class="hud top-hud" aria-label="Управление миром">
+  <div class="brand-block"><strong>GENESIS</strong><span class="world-subtitle">Мир начинается с твоих слов</span></div>
+  <nav class="top-actions" aria-label="Настройки и история">
+    <button id="audio-toggle" type="button" aria-label="Включить звук">Звук выкл</button>
+    <span id="mirror-chip" class="status-chip" hidden>STYLE ORIGIN</span>
+    <button id="chronicle-toggle" type="button" aria-controls="chronicle-panel" aria-expanded="false">История</button>
+    <button id="settings-toggle" type="button" aria-controls="settings-panel" aria-expanded="false">Настройки</button>
+  </nav>
+</header>
+<section id="objective-guide" class="objective-guide" aria-labelledby="objective-title">
+  <div class="objective-copy"><span class="objective-eyebrow">НЕОБЯЗАТЕЛЬНАЯ ЦЕЛЬ</span><strong id="objective-title">Зажги свой первый маяк</strong><p id="objective-step">Осмотрись, создай маяк и подойди к его двери.</p></div>
+  <button id="objective-dismiss" type="button" aria-label="Скрыть подсказку" title="Скрыть подсказку">×</button>
+</section>
+<section id="world-interaction" class="world-interaction" aria-label="Взаимодействие с миром" hidden>
+  <p id="world-interaction-hint"></p><button id="world-interact" type="button">Подойти к маяку</button>
+</section>
+<section id="welcome" class="center-message" aria-labelledby="welcome-title">
+  <span class="eyebrow">ТВОЙ МИР УЖЕ ЗДЕСЬ</span><h1 id="welcome-title">Дай миру<br>продолжение.</h1>
+  <p>Гуляй, создавай и пробуй. Напиши, что хочешь сделать, или начни с осмотра. Твои постройки и история сохраняются на этом устройстве.</p>
+  <button id="enter-world" class="enter-button" type="button">Войти в мир</button>
+</section>
+<div id="drawer-backdrop" class="drawer-backdrop" hidden></div>
+<section id="chronicle-panel" class="drawer chronicle-drawer" role="dialog" aria-modal="true" aria-labelledby="chronicle-title" tabindex="-1" hidden>
+  <div class="drawer-head"><div><span class="eyebrow">ТВОИ СЛЕДЫ В МИРЕ</span><h2 id="chronicle-title">История</h2></div><button class="close-drawer" aria-label="Закрыть историю" data-close="chronicle-panel" type="button">×</button></div>
+  <p>Здесь остаются созданные места, путешествия и зажжённые огни. Подробности события можно раскрыть отдельно.</p>
+  <ol id="chronicle-list" class="chronicle-list"></ol>
+</section>
+<section id="settings-panel" class="drawer settings-drawer" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1" hidden>
+  <div class="drawer-head"><div><span class="eyebrow">УСТРОЙ МИР ПО-СВОЕМУ</span><h2 id="settings-title">Настройки</h2></div><button class="close-drawer" aria-label="Закрыть настройки" data-close="settings-panel" type="button">×</button></div>
+  <section class="settings-section" aria-labelledby="camera-title">
+    <h3 id="camera-title">Камера</h3>
+    <div class="player-options" role="group" aria-label="Режим камеры"><button data-player-camera="THIRD_PERSON" type="button" aria-pressed="true">За персонажем</button><button data-player-camera="FIRST_PERSON" type="button" aria-pressed="false">От первого лица</button><button data-player-camera="ISOMETRIC" type="button" aria-pressed="false">Сверху</button></div>
+    <label class="distance-control" for="camera-distance"><span>Расстояние <output id="camera-distance-value">8 м</output></span><input id="camera-distance" type="range" min="3" max="24" step="1" value="8"></label>
+    <p class="settings-note">Проведи пальцем по миру, чтобы оглядеться. На компьютере — потяни мышью. Двигайся стрелками или WASD; пробел — прыжок.</p>
+  </section>
+  <section class="settings-section" aria-labelledby="save-title">
+    <h3 id="save-title">Твой мир</h3><p id="save-status" class="save-status" aria-live="polite">Проверяем сохранение…</p>
+    <p class="settings-note">Скачай копию мира и загрузи её на другом устройстве, чтобы продолжить с того же места.</p>
+    <div class="save-actions"><button id="save-export" type="button">Скачать мир</button><label class="file-picker" for="save-import">Загрузить мир<input id="save-import" type="file" accept=".json,application/json" aria-label="Выбрать файл сохранённого мира"></label></div>
+    <p id="save-import-status" class="save-import-status" role="status" aria-live="polite"></p><div class="save-confirm-actions"><button id="save-import-confirm" type="button" hidden>Заменить текущий мир</button><button id="save-import-cancel" type="button" hidden>Отмена</button></div>
+  </section>
+  <section class="settings-section" aria-labelledby="help-title"><h3 id="help-title">Первые шаги</h3><p class="settings-note">Создай маяк, подойди к двери и зажги его огонь. Или напиши собственную идею — свободный ввод всегда доступен.</p><button id="objective-show" type="button">Показать подсказку в мире</button></section>
+  <details id="diagnostics" class="diagnostics"><summary>Диагностика и подключение JANUS</summary>
+    <p class="settings-note">Состояние движка и необязательное подключение к серверу. Локальная игра доступна без подключения.</p>
+    <aside id="world-status-panel" class="hud world-status"><div class="panel-head"><strong>Состояние мира</strong><button class="panel-collapse" data-collapse-target="world-status-panel" aria-label="Свернуть или развернуть статус мира" type="button">−/+</button></div><div class="panel-body"><div class="status-row"><span>Мир</span><strong id="world-id">GENESIS_ONE_WORLD_R0</strong></div><div class="status-row"><span>Подключение</span><strong id="world-mode" class="warn">LOCAL DEGRADED</strong></div><div class="status-row"><span>Общий сервер</span><strong class="warn">Не подключён</strong></div><div class="status-rule"></div><div class="status-row"><span>Участок</span><strong id="chunk-coords">0,0</strong></div><div class="status-row"><span>Хеш фактов</span><strong id="fact-hash">--------</strong></div><div class="status-row"><span>Полные детали</span><strong id="visible-count">24m</strong></div><div class="status-row"><span>Дальний план</span><strong id="prewarm-count">64m</strong></div><div class="status-row"><span>Горизонт</span><strong id="horizon-count">160m</strong></div><div class="status-row"><span>Исследовано</span><strong id="discovered-count">0</strong></div><div class="status-row"><span>Стиль</span><strong id="mirror-name">ORIGIN</strong></div><div class="status-row"><span>Измерение</span><strong id="dimension-name">3D</strong></div><div class="status-row"><span>Камера</span><strong id="camera-name">THIRD PERSON</strong></div><span id="camera-chip" class="status-chip">CAMERA THIRD PERSON</span></div></aside>
+    <aside class="hud minimap-shell"><canvas id="minimap" width="180" height="180" aria-label="Карта ближайшего мира"></canvas><div class="minimap-caption">Карта мира</div></aside>
+    <aside id="janus-nerve-panel" class="janus-nerve"><div class="panel-head"><h3>Подключение JANUS</h3><button class="panel-collapse" data-collapse-target="janus-nerve-panel" aria-label="Свернуть или развернуть JANUS API" type="button">−/+</button></div><div class="panel-body"><div class="nerve-row"><span>JANUS API</span><strong id="janus-api-status" class="warn">NO ENDPOINT</strong></div><div class="nerve-row"><span>Ресурсы</span><strong>Материал · модель · звук · механика</strong></div><div class="janus-endpoint"><input id="janus-api-endpoint" type="url" aria-label="Адрес сервера JANUS" placeholder="https://janus.example"><button id="janus-api-connect" type="button">Подключить</button></div><div class="asset-trunk-title">Внешние ресурсы <strong id="asset-count">0</strong></div><div id="asset-trunk-results">Процедурные ресурсы доступны без сервера.</div><small>При подключении внешних ресурсов проверяются права и сохраняется атрибуция.</small></div></aside>
+    <div class="action-forge-meta"><span>Хеш состояния <strong id="action-state-hash">--------</strong></span><span id="action-plan">Готов к действию</span></div><p id="generator-state"></p>
+    <a class="hud-button" href="./kernel-lab.html">Лаборатория движка</a>
+  </details>
+</section>
+<section class="action-forge" aria-label="Действие в мире">
+  <div class="quick-actions" role="group" aria-label="Быстрые действия"><button type="button" data-player-command="осмотри место">Осмотреться</button><button type="button" data-player-command="построй старый каменный маяк">Создать маяк</button><button type="button" data-player-command="вернись к первому огню">К первому огню</button></div>
+  <form id="action-form" autocomplete="off"><textarea id="action-input" aria-label="Действие в мире Genesis" rows="1" maxlength="4000" inputmode="text" spellcheck="true" placeholder="Что ты хочешь сделать?"></textarea><button id="action-submit" type="submit" aria-label="Выполнить действие">Сделать</button></form>
+  <div id="action-result" class="action-result" aria-live="polite" aria-atomic="true">Мир слушает. Осмотрись или напиши своё действие.</div>
+</section>
+<div class="mobile-pad" role="group" aria-label="Управление движением"><button type="button" data-move="up" aria-label="Вперёд">▲</button><button type="button" data-move="left" aria-label="Влево">◀</button><button type="button" data-move="down" aria-label="Назад">▼</button><button type="button" data-move="right" aria-label="Вправо">▶</button><button type="button" data-action="jump" aria-label="Прыжок">Прыжок</button></div>
+<div id="toast" class="toast" role="status"></div>
+<noscript>Чтобы войти в Genesis, включи JavaScript в настройках браузера.</noscript>
+<script src="./genesis-audio-forge.js"></script>
+<script src="./site/genesis-mechanic-forge-r0-5.js"></script>
+<script src="./site/genesis-birth-r0-6.js"></script>
+<script src="./site/genesis-world-runtime-v5.js"></script>
+<script src="./site/genesis-player-mirror-r0-7.js"></script>
+<script src="./site/genesis-asset-materializer-v3.js"></script>
+<script src="./site/genesis-audio-runtime-v1.js"></script>
+<script src="./site/genesis-audio-asset-runtime-r0-5-1.js"></script>
+<script src="./site/genesis-hotkeys-v3.js"></script>
+<script src="./site/genesis-command-bridge-v3.js"></script>
+<script src="./site/genesis-command-lexicon-r0-5.js"></script>
+<script src="./site/genesis-public-provider-fallback-r0-5-1.js"></script>
+<script src="./site/genesis-asset-trunk-r0-5-1.js"></script>
+<script src="./site/genesis-scene-graph-executor-r0-5.js"></script>
+<script src="./site/genesis-scene-graph-executor-r0-5-1.js"></script>
+<script src="./site/genesis-player-feedback.js"></script>
+<script src="./site/genesis-command-bridge-v5.js"></script>
+<script src="./site/genesis-world-journal.js"></script>
+<script src="./site/genesis-player-ui.js"></script>
+</body>
+</html>

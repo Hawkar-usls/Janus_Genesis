@@ -154,7 +154,8 @@ async function check(page, base, entry, width, height, touch, label) {
   console.log(`PASS ${label}: birth, command, ${touch?'touch controls, release/cancel/blur, jump':'keyboard'}, chronicle, save/reload`);
 }
 
-(async () => {
+module.exports = {localServer, usable};
+if (require.main === module) (async () => {
   const server = localServer();
   await new Promise(resolve => server.listen(0,'127.0.0.1',resolve));
   const base = process.env.GENESIS_BASE_URL || `http://127.0.0.1:${server.address().port}/`;
