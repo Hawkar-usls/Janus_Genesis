@@ -1,0 +1,1842 @@
+{
+  "batch_id": "92041f4ba67e0f68dc7d",
+  "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
+  "fragment_count": 1,
+  "fragment_index": 1,
+  "items": [
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "aa4244b8276b26a146417869",
+      "context_id": "097f44ed42112fa53331325a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "inverse model",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.875,
+      "source": "arxiv",
+      "source_context_sha256": "b77d6a4752f0dbe0e20bbeb31d20f84d0e12b383580f2f35c9ec5183073f2bb9",
+      "source_published": "2026-10-16T15:26:24Z",
+      "source_updated": "2026-10-16T15:26:24Z",
+      "summary": "Latent world models learn action-conditioned state transitions in a compact representation space, providing a predictive model for visual planning and control. However, planning with these models typically requires costly test-time optimization over action sequences. We propose to replace this online search with a goal-conditioned inverse model that directly predicts actions from current and goal observations. A key challenge is that action prediction alone neither ensures that goal representations encode action-relevant information nor that predicted actions are consistent with the learned latent prediction model. We introduce Hindsight Inverse JEPA Planning (HIJP), a search-free framework that addresses both aspects during training. HIJP relabels future observations along offline trajectories as goals, providing action supervision across multiple temporal horizons. By retaining gradients through the goal representations, this supervision directly shapes the visual representation. HIJP further feeds predicted actions into the latent predictor model and aligns the resulting next-state representations with encoded successor observations, enforcing action-transition consistency. At inference time, the inverse dynamics model and latent predictor models are applied alternately to generate multi-step action sequences without online search. Across four visual control tasks, HIJP achieves 86.8% overall success and a 1.9-16.5x planning speedup over search-based planning.",
+      "tags": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Beyond Action Prediction: Learning Search-Free Planning in Latent Space",
+      "url": "https://arxiv.org/abs/2610.23615v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "640ed25da5abd76f8c00e36c",
+      "context_id": "bad2ba3109287304a8058946",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.625,
+      "source": "arxiv",
+      "source_context_sha256": "d425b0916035764661be879c47fc2fa40b9605c4145e237b621790a1adc205f4",
+      "source_published": "2026-10-15T15:48:11Z",
+      "source_updated": "2026-10-15T15:48:11Z",
+      "summary": "Three dimensional modeling for autonomous driving must continuously estimate road geometry, obstacle occupancy, traffic participant behavior, and observational uncertainty under limited computational resources. Existing reconstruction methods can synthesize realistic novel views, but visual fidelity does not sufficiently characterize the geometric reliability required for driving. Generative world models can expand scenarios and predict future observations, yet may introduce content unsupported by measurements. We propose DriveWorld3D, a framework combining temporal video learning, measurement constraints from multiple sensors, and offline generative simulation. Its online component maintains a unified world state comprising road surfaces, volumetric occupancy, dynamic entities, and road relations, while separately representing physical occupancy, observability, and evidence provenance. Action conditioned future prediction and risk sensitive planning connect this representation to driving decisions. Its offline component reconstructs recorded scenes using neural radiance fields or 3D Gaussian Splatting, then expands long tail conditions using generative models while restricting the use of generated content as geometric ground truth. We specify data partitioning, sensor ablations, fault injection, paired closed loop testing, and real to simulation consistency assessment. The central hypothesis is that explicit evidence management can reduce dangerous false free space predictions and occlusion risk within a matched computational budget while retaining acceptable driving efficiency. All performance claims remain subject to experimental validation. Keywords: autonomous driving; 3D occupancy; sensor fusion; uncertainty; generative world models; NeRF; 3D Gaussian Splatting; closed loop simulation",
+      "tags": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DriveWorld3D Evidence Constrained 3D World Modeling and Generative Simulation for Real-World Autonomous Driving",
+      "url": "https://arxiv.org/abs/2610.22450v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "8c1277c283bb09b62b7e282a",
+      "context_id": "cb9e2b9a82a2988da55652c4",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "inverse",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.5,
+      "source": "zenodo",
+      "source_context_sha256": "1680b914b893c8ee771d3ecd97304c20d0601f364c47dfbdb7016ffdbec77311",
+      "source_published": "2026-10-17",
+      "source_updated": "",
+      "summary": "NANOROBOT-ENHANCED DIGITAL TWINS OF BRAIN STATE AT THE LIMIT A multiscale, uncertainty-aware research atlas on microrobotic observations, neural inverse problems, active model discrimination and the limits of computational brain twins. This research monograph asks whether additional microscale observations or strictly bounded reversible experiments can distinguish competing neural-state models that explain conventional measurements equally well. The twin is explicitly defined as a versioned scientific belief, not a digital person, a mind reader or a clinically validated instrument. Its objective is not maximum model complexity but improved identifiability, calibrated prediction under new conditions and faithful retention of failed hypotheses. The work develops five layers: multiscale neural and microenvironment state representation; posterior equivalence and prior sensitivity; non-clinical safe experimental design; frozen-version forking, rollback and reference ancestry; and blind prospective validation against classical state-space systems and independently specified alternatives. Its research architecture includes 30 distinct mathematical derivation plates linked to later chapters, 82 chapters with five independently paginated research sections apiece, 200 detailed Research Gates and 33 revisable Phoenix Answer Embryos. A DOI evidence ledger identifies existing support for brain modeling, latent neural dynamics, experiment design and preclinical microrobot tracking while preventing those sources from being mistaken for evidence of the proposed integrated system. Key research questions include: Can two equally accurate virtual brains be separated by a small, permissible observation? How can the effect of a measurement itself be separated from neural change? When does a prior dominate the inferred brain state? Can the model predict unseen function rather than reconstruct a training signal? Can another laboratory reproduce a rejected twin and safely return to an earlier version? SCIENTIFIC STATUS AND LIMITATIONS This is a forward-looking, non-clinical research synthesis and experimental hypothesis architecture. It provides no personal medical advice, patient-specific interpretations or instruction to deliver neural interventions. Existing murine microrobot tracking and virtual-brain modeling studies do not establish autonomous neural nanorobot readout, human safety, privacy-sensitive mind inference or therapeutic efficacy. Proposed formulas, experiments, research gates and answer embryos are not newly validated biological laws or executed experiments. The work keeps independent safety vetoes, privacy, external reproducibility and explicit model retirement as first-class constraints. Research questions remain open to refutation, correction and reconstruction by future human and AI researchers.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "NANOROBOT-ENHANCED DIGITAL TWINS OF BRAIN STATE AT THE LIMIT A multiscale, uncertainty-aware research atlas on microrobotic observations, neural inverse problems, active model discrimination and the limits of computational brain twins. This research monograph asks whether additional microscale obser",
+      "url": "https://zenodo.org/records/23441410"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "6eaa3912cc9e4a31c40b1734",
+      "context_id": "5b4943fb4cba4c17da24f601",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction",
+        "representation"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.4583,
+      "source": "arxiv",
+      "source_context_sha256": "81f5e045ea165b78ef0122443f32a837eb2b9361fb90aeb1dd2363bc041bfe74",
+      "source_published": "2026-10-16T12:49:58Z",
+      "source_updated": "2026-10-16T12:49:58Z",
+      "summary": "Extracting generalized parton distributions (GPDs) from experimental observables, the convolution structures denoted as Compton form factors (CFFs), requires solving an intrinsic inverse problem. We presented results using NNGPD, a flexible regression method based on a physics-informed neural-network framework, for reconstructing GPDs using integral constraints -- including CFFs and Mellin moments -- and symmetry and endpoint constraints. The approach does not require pointwise training information on the underlying GPDs. Closure tests using pseudodata generated from a phenomenological model demonstrate the ability of the framework to reproduce the principal features of the underlying distributions across a range of kinematics. A Bayesian neural-network formulation is also introduced to address uncertainties associated with the reconstruction. Finally, we discussed a broader question in GPD phenomenology: whether the complete momentum-fraction dependence of GPDs is necessary to extract physical quantities such as partonic angular momentum. This motivates investigating approaches that infer Mellin moments directly from experimentally constrained CFFs, while quantifying the remaining ambiguities.",
+      "tags": [
+        "hep-ph"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Neural Network Representation of Generalized Parton Distributions (NNGPD)",
+      "url": "https://arxiv.org/abs/2610.23390v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "eaf0440943e639452bc030ff",
+      "context_id": "a031eca896484fdcbf69eaa1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "reverse",
+        "world model"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.3333,
+      "source": "arxiv",
+      "source_context_sha256": "438555a8bc791d0079381dc0d789e65a64bf37762c84ae660d3489241f3f355a",
+      "source_published": "2026-10-15T21:16:23Z",
+      "source_updated": "2026-10-15T21:16:23Z",
+      "summary": "The linear representation hypothesis holds that pretrained vision models encode generative factors as linearly decodable directions in feature space, and comes with a standard methodology: train a linear probe, declare a factor represented if accuracy is high. We show this test is too permissive. Asymptotically, any sufficiently rich feature map, including a random one, admits a linear readout, so high probe accuracy is consistent with two very different geometries: a true linear world model, where the latent-aligned subspace dominates the representation, or a kernel machine, where the latents lie linearly inside a much larger curved manifold. This distinction matters because the curved structure orthogonal to the probe is relevant for out-of-distribution generalization, robustness, and compositional transfer. We propose three asymmetric diagnostics that distinguish the two cases: reverse predictivity, spectral concentration, and out-of-distribution generalization. We validate them in a fully observed simulation where ground truth is known. Applied to six pretrained vision transformers on SVG-World, our deterministic generative benchmark with paired visual styles, and to two of them on CelebA, they show pretraining produces structure beyond a random kernel but well short of a linear world model. On dSprites, 3D Shapes and MPI3D, forward decodability and latent-aligned variance dissociate. Thus, forward decoding alone does not show that the probed factors align with the dominant geometry of the representation. In summary, our work cautions about the success of linear probes as opposed to truly linear and low dimensional representations.",
+      "tags": [
+        "stat.ML",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Is a Linear Probe Evidence of a Linear Representation?",
+      "url": "https://arxiv.org/abs/2610.22655v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "8aa538e1a9100f12fb7d0c66",
+      "context_id": "105e7fe8d93be8d032eadd24",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "hdf5",
+        "reconstruction",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0417,
+      "source": "zenodo",
+      "source_context_sha256": "64730b3116f64eac8f11bd2b7f082cb662dff443ea1dccaee3b6c3e36696457f",
+      "source_published": "2026-10-17",
+      "source_updated": "",
+      "summary": "Fisher information metric tensors for the 41 held-out SONICOM test subjects, as used in &ldquo;Evaluating Spatial Discriminability Preservation in HRTF Upsampling Using Fisher Information&rdquo; (D. Bassett). Code and reproduction instructions: https://github.com/domfrbassett/fisher-rao-hrtf-upsampling What the tensors are At each of the 793 directions of the SONICOM grid, the 2&times;2 tensor g = Jᵀ&Sigma;⁻&sup1;J describes how well the auditory cues separate that direction from its neighbours. J is the spatial Jacobian of the cues: Barumerli monaural PGE features, ILD and MaxIACCe-transformed ITD, each fitted with real spherical harmonics. &Sigma; holds the cue noise (&sigma;_mon = 1.25 dB, &sigma;_ILD = 1 dB, &sigma;_ITD = 0.569). All fields are low-pass filtered at 16 kHz before the cues are extracted. The tensor is expressed in a local tangent basis u₁ = a &times; r, u₂ = r &times; u₁, where a = z, or y when |r_z| &gt; 0.9, and its units are d&prime;&sup2; per rad&sup2;. Contents metric_tensors.zip has one folder per subject, metric_tensors/subject_####/ , containing 25 files per subject (1,025 in total): reference_metric_tensor.mat : the dense measured HRTF. &lt;METHOD&gt;_N###_metric_tensor.mat : one file per reconstruction. There are six methods: SUpDEq_SH , SUpDEq_MCA , SUpDEq_NN_MCA_6dB (SUpDEq-Natural-MCA in the paper), SUpDEq_Bary_MCA_6dB , RANF and FSP_AE . Each is reconstructed from N = 100, 19, 5 and 3 retained directions. The 164 natural-neighbour and barycentric files at N = 5 and 3 have status &ldquo; not_applicable &rdquo;. The interpolation is undefined for those masks, so these files carry no tensors. Variables in each file: metricTensor : the tensors at SH order 6 [2&times;2&times;793]. familyGram : per-cue-family Gram matrices JᵀJ before noise weighting, at SH orders 4, 6 and 8 [2&times;2&times;793&times;3 families&times;3 orders]. They let you recompute the tensors with other noise values or SH orders. In reconstruction files only: crossFamilyGram : the unsymmetrised cross terms J_refᵀ J_recon, same layout as familyGram . airmByDirection : the pointwise AIRM discrepancy from the reference. Metadata: coordinates (Cartesian and azimuth/elevation in degrees), cue band, noise values (reference files only), status (&ldquo; completed &rdquo; or &ldquo; not_applicable &rdquo;) and, for not-applicable files, a message giving the reason. SHA256SUMS.txt lists a checksum for every file. Format and use The files are MATLAB v7.3 (HDF5), so MATLAB, h5py or any HDF5 reader can open them. Note that h5py reverses MATLAB&rsquo;s axis order. scripts/fisher_lib.py in the repository reads them and recomputes tensors, AIRM and thresholds from the Gram matrices. To rerun the analysis scripts, unzip into results/evaluation/ so the subject folders sit in results/evaluation/metric_tensors/ . Provenance Produced with run_evaluation(\"tensors\") from the repository above. The values are numerically identical to the tensor files behind results/evaluation/full_evaluation_summary.csv ; this run additionally stores the cross terms. The tensors are derived from the SONICOM HRTF Dataset (Engel et al., J. Audio Eng. Soc. 71(5), 2023, doi:10.17743/jaes.2022.0066). The SONICOM HRTFs are released under the MIT licence. This work develops research begun for the author&rsquo;s B.Sc. dissertation at Birmingham City University.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Fisher information metric tensors for 'Evaluating Spatial Discriminability Preservation in HRTF Upsampling Using Fisher Information'",
+      "url": "https://zenodo.org/records/23439154"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "6eaa3912cc9e4a31c40b1734",
+      "context_id": "ab61b1630f62f697954e130d",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "arxiv",
+      "source_context_sha256": "f389d4c9b4f559d77c1cace5e7849836fed076fcd80484c20a44adebdf74bf8c",
+      "source_published": "2026-10-16T12:49:58Z",
+      "source_updated": "2026-10-16T12:49:58Z",
+      "summary": "Extracting generalized parton distributions (GPDs) from experimental observables, the convolution structures denoted as Compton form factors (CFFs), requires solving an intrinsic inverse problem. We presented results using NNGPD, a flexible regression method based on a physics-informed neural-network framework, for reconstructing GPDs using integral constraints -- including CFFs and Mellin moments -- and symmetry and endpoint constraints. The approach does not require pointwise training information on the underlying GPDs. Closure tests using pseudodata generated from a phenomenological model demonstrate the ability of the framework to reproduce the principal features of the underlying distributions across a range of kinematics. A Bayesian neural-network formulation is also introduced to address uncertainties associated with the reconstruction. Finally, we discussed a broader question in GPD phenomenology: whether the complete momentum-fraction dependence of GPDs is necessary to extract physical quantities such as partonic angular momentum. This motivates investigating approaches that infer Mellin moments directly from experimentally constrained CFFs, while quantifying the remaining ambiguities.",
+      "tags": [
+        "hep-ph"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Neural Network Representation of Generalized Parton Distributions (NNGPD)",
+      "url": "https://arxiv.org/abs/2610.23390v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "5a35ea03b09454746c663cea",
+      "context_id": "52f6e425d6de48a77506dea0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "zenodo",
+      "source_context_sha256": "a0989b9467d29c25e59f24ab2df251a1cd04b93b532c156e69cc2efb0c879a9f",
+      "source_published": "2026-10-17",
+      "source_updated": "",
+      "summary": "This technical note documents a conditional mathematical correspondence between the static spatial kernel used in conventional electromagnetic potential theory and the fixed-source gravitational potential in Lisa Doumbouya&rsquo;s Harmonic Physics programme. Under supplied three-dimensional Euclidean geometry, spherical symmetry and stated boundary conditions, the derivation gives the static Green function 1/(4&pi;r). Applying the existing gravitational source normalization yields the potential &minus;&mu;/r, whose radial derivative gives the inward acceleration &minus;&mu;/r&sup2;. The note distinguishes potential, field amplitude, intensity, acceleration and optical measurement conversion, keeping geometric normalization separate from the distance exponent. The optical phase-ruler results are reviewed alongside the GRACE-FO forward forecasts. Calibrated reconstruction using measured phase retained micrometre-scale agreement with processed microwave ranging, while some forward models produced much larger errors. These results do not establish exponential error growth or identify a unique physical cause. The correspondence uses established mathematics and remains conditional on the supplied geometry, source calibration and physical interpretation. It does not establish an electromagnetic mechanism of gravity or derive spatial geometry from foundational Phase. The note includes the analytical proof, assumptions, evidence boundaries and requirements for a subsequent physical test. No new experimental data are introduced.",
+      "tags": [
+        "harmonic physics",
+        "inverse-radius potential",
+        "inverse-square law",
+        "green functions",
+        "electromagnetic potential",
+        "gravitational potential",
+        "mathematical correspondence",
+        "optical phase",
+        "interfermometry",
+        "phase-to-distance calibration",
+        "observer coupling",
+        "GRACE-FO",
+        "laser ranging",
+        "source calibration",
+        "relational geometry"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Inverse Radius Kernel and Optical Phase Registration",
+      "url": "https://zenodo.org/records/23437123"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "2ee414cff12c8f91c82410f2",
+      "context_id": "425d78db890f8e4af10dc370",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "zenodo",
+      "source_context_sha256": "b2a77c15f4362d99ec989573c37e20b843f28883ba9b5a7f0a79be74f945692b",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "LONGITUDINAL DEVICE MIGRATION AND MEANING CONTINUITY AT THE LIMIT Device Replacement &times; Model Bridging &times; Control Semantics STARLI RESEARCH WORKS | INSTITUTE XXIV | FLAGSHIP 24 Feng Cheng-en 33 &times; Starli Research Works This research monograph investigates a deceptively difficult question in long-term brain&ndash;computer interfaces: when sensors, acquisition electronics, firmware, electrode geometry, or decoding models change, what would justify the claim that a user's task-grounded control meaning has been preserved? Numerical signal alignment alone cannot establish continuity of intention. Two systems may encode different signals while supporting the same functional command, or produce nearly identical latent representations while mapping to incompatible actions. The volume formulates meaning continuity as a conditional, falsifiable engineering and scientific hypothesis. It connects device-specific observation models, neural recording instability, task and action ontologies, paired old/new sensing periods, latent manifold bridging, longitudinal recalibration, calibrated abstention, functional validation, and an accessible right to reject the proposed migration. Its central commitment is that no amount of predictive accuracy can compensate for invalid authorization, an unverified physical reference, or loss of independent control. The research atlas comprises thirty connected mathematical derivations, eighty-two research chapters, and 410 independently paginated chapter sections that examine observables, inverse explanations, discriminating experiments, uncertainty and noncompensable safeguards, and independent requalification. Two hundred detailed Research Gates propose future falsification and handoff programs, while thirty-three Phoenix Answer Embryos preserve revisable candidate approaches rather than immutable conclusions. A claim-scoped DOI evidence ledger connects the study to published work on neural recording drift, decoder adaptation, manifold alignment, longitudinal neural interfaces, speech BCIs, user preferences, and neurotechnology ethics. The book is designed for both human researchers and future AI research systems. Its formulas, chapter cross-links, DOI anchors, competing models, negative-result requirements, and successor-focused research cards provide structured entry points for independent reconstruction and informed disagreement. The visual presentation combines ivory pages, navy and teal typography, and large gold mathematical plates, while mathematical expressions are also recorded in searchable source notation and a separate Excel reference index. This is a prospective, nonclinical research architecture. It does not report new patient experiments, demonstrate safe autonomous human neurovascular microrobots, establish a universal device-migration system, or claim continuity of private thoughts, consciousness, or personal identity. Scientific benefit remains conditional on explicit task definitions, qualified device evidence, legitimate permissions, external validation, and the successor's freedom to reject a failed bridge. Research question: What should remain invariant when an interface changes, and who has the authority to say that its meaning has changed?",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "LONGITUDINAL DEVICE MIGRATION AND MEANING CONTINUITY AT THE LIMIT Device Replacement × Model Bridging × Control Semantics STARLI RESEARCH WORKS | INSTITUTE XXIV | FLAGSHIP 24 Feng Cheng-en 33 × Starli Research Works This research monograph investigates a deceptively difficult question in long-term b",
+      "url": "https://zenodo.org/records/23443522"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "ecfa02b7da440cc9bfaac5fb",
+      "context_id": "f7ce08e1ef93b68fb4a3002e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "inversion"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.6667,
+      "source": "arxiv",
+      "source_context_sha256": "8c16e6c0a6c45dd1d3216ab1d1155b5063a58c5d65259202564f2d9bf41d11db",
+      "source_published": "2026-10-16T13:30:52Z",
+      "source_updated": "2026-10-16T13:30:52Z",
+      "summary": "Resampling is the standard remedy for weight degeneracy in particle filters, but in high dimensions it distorts the spectrum of the ensemble covariance in a way that is computable from the importance weights. This paper studies the inverse problem: recovering the pre-resampling spectrum from the observed weights and the empirical spectrum alone, and using it without biasing the filter. We first show that the forward spectral law extends to random importance weights once one conditions on the weights together with the realized offspring counts, rather than on the weights alone. We then construct a regularized free-deconvolution estimator, prove its consistency with an explicit error budget at a fixed resolution scale, and certify model mismatch through a computable forward residual. The repaired spectrum enters the filter only as the preconditioner of a Metropolis-adjusted rejuvenation move, so that spectral error affects mixing efficiency but not the invariant target. For the full filtering cycle, we derive a geometrically summable error recursion under stable scalar dynamics and an explicit law for the cost of abstaining from repair. Pre-registered simulations show that the inversion reduces the spectral error by an order of magnitude, that the corrected preconditioner recovers about 90% of the oracle's sampling efficiency in an anisotropic regime, and that the cost of abstention depends on when abstentions occur rather than on how many. The repair recovers eigenvalue laws, not eigenvectors, and is certified only within an explicitly stated exogenous-weight regime.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Regularized free deconvolution for spectral repair of resampling distortion in high-dimensional particle filters",
+      "url": "https://arxiv.org/abs/2610.23448v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "ecfa02b7da440cc9bfaac5fb",
+      "context_id": "f71c77fdc4d6dcccc18ceaaa",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "inversion"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.6667,
+      "source": "arxiv",
+      "source_context_sha256": "08d9f9b6738a4fa7ccedcbdd2b7c5940dd0149618c332d75a0defff124fa6d45",
+      "source_published": "2026-10-16T13:30:52Z",
+      "source_updated": "2026-10-16T13:30:52Z",
+      "summary": "Resampling is the standard remedy for weight degeneracy in particle filters, but in high dimensions it distorts the spectrum of the ensemble covariance in a way that is computable from the importance weights. This paper studies the inverse problem: recovering the pre-resampling spectrum from the observed weights and the empirical spectrum alone, and using it without biasing the filter. We first show that the forward spectral law extends to random importance weights once one conditions on the weights together with the realized offspring counts, rather than on the weights alone. We then construct a regularized free-deconvolution estimator, prove its consistency with an explicit error budget at a fixed resolution scale, and certify model mismatch through a computable forward residual. The repaired spectrum enters the filter only as the preconditioner of a Metropolis-adjusted rejuvenation move, so that spectral error affects mixing efficiency but not the invariant target. For the full filtering cycle, we derive a geometrically summable error recursion under stable scalar dynamics and an explicit law for the cost of abstaining from repair. Pre-registered simulations show that the inversion reduces the spectral error by an order of magnitude, that the corrected preconditioner recovers about 90% of the oracle's sampling efficiency in an anisotropic regime, and that the cost of abstention depends on when abstentions occur rather than on how many. The repair recovers eigenvalue laws, not eigenvectors, and is certified only within an explicitly stated exogenous-weight regime.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Regularized free deconvolution for spectral repair of resampling distortion in high-dimensional particle filters",
+      "url": "https://arxiv.org/abs/2610.23448v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "cd93fe36e647606e58252caf",
+      "context_id": "916dfc4e622dcfb77f4314e7",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "inversion"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.6667,
+      "source": "arxiv",
+      "source_context_sha256": "5729e4afc47de46220802f55c689919e1009b47cc90c3b41ba0c0f21da666572",
+      "source_published": "2026-10-16T15:19:26Z",
+      "source_updated": "2026-10-16T15:19:26Z",
+      "summary": "Bayesian geophysical inversion provides a probabilistic framework to estimate subsurface properties, in which uncertainties are represented by a so-called posterior probability density function (pdf). Estimating this pdf is computationally challenging when it is high dimensional or complex, particularly if it may be multimodal. We introduce Stein mixture variational inference (SMVI) for efficient Bayesian geophysical inversion with multimodal or complex posterior solutions. The method combines parametric variational inference with Stein variational gradient descent (SVGD). In SMVI, the posterior pdf is approximated by a mixture (sum) of distributions, in which component distributions are optimised jointly using the SVGD update rule. This construction combines computational efficiency with the flexibility to represent a range of plausible Earth models and allows components to be updated in parallel. Here, SMVI is first tested on two synthetic seismic inverse problems, demonstrating that SMVI can recover non-Gaussian, complex and multimodal posterior solutions accurately and efficiently. Then, we apply SMVI to real seismic data by performing Love wave tomography of the British Isles, and obtain inversion results that are consistent with previous Monte Carlo solutions. Around the East Irish Sea sedimentary basins, SMVI captures bimodal uncertainty associated with ambiguity in basin boundary locations, revealing alternative subsurface structures compatible with the observations. These results indicate that SMVI generalises various previous variational methods, and provides a practical and effective framework for quantifying complex uncertainties and supporting geological interpretation of seismic images.",
+      "tags": [
+        "physics.geo-ph"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Bayesian Geophysical Inversion using Stein Mixture Variational Inference for Multimodal or Complex Solutions",
+      "url": "https://arxiv.org/abs/2610.23603v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "aa4244b8276b26a146417869",
+      "context_id": "5c9a57b26661e4f114f06e29",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse model",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.5833,
+      "source": "arxiv",
+      "source_context_sha256": "ba3b3006ea8ad3443d4eff3d807047c503cc648899ab6074973601e3659dc5a5",
+      "source_published": "2026-10-16T15:26:24Z",
+      "source_updated": "2026-10-16T15:26:24Z",
+      "summary": "Latent world models learn action-conditioned state transitions in a compact representation space, providing a predictive model for visual planning and control. However, planning with these models typically requires costly test-time optimization over action sequences. We propose to replace this online search with a goal-conditioned inverse model that directly predicts actions from current and goal observations. A key challenge is that action prediction alone neither ensures that goal representations encode action-relevant information nor that predicted actions are consistent with the learned latent prediction model. We introduce Hindsight Inverse JEPA Planning (HIJP), a search-free framework that addresses both aspects during training. HIJP relabels future observations along offline trajectories as goals, providing action supervision across multiple temporal horizons. By retaining gradients through the goal representations, this supervision directly shapes the visual representation. HIJP further feeds predicted actions into the latent predictor model and aligns the resulting next-state representations with encoded successor observations, enforcing action-transition consistency. At inference time, the inverse dynamics model and latent predictor models are applied alternately to generate multi-step action sequences without online search. Across four visual control tasks, HIJP achieves 86.8% overall success and a 1.9-16.5x planning speedup over search-based planning.",
+      "tags": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Beyond Action Prediction: Learning Search-Free Planning in Latent Space",
+      "url": "https://arxiv.org/abs/2610.23615v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "5ab124f448ceec6077737a69",
+      "context_id": "170a4adfb943e79b8be39dc6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "provenance",
+        "workflow provenance"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.5,
+      "source": "arxiv",
+      "source_context_sha256": "67b01122a47096cf04a2012e3febda5843b64bcfc3a925ba44430feb0b5fc647",
+      "source_published": "2025-12-23T18:34:51Z",
+      "source_updated": "2026-10-11T14:42:18Z",
+      "summary": "Which biological findings enter a reported explanation depends on how the model population was constructed, a choice predictive validation alone does not reveal. We fitted 10,000 L2-regularised logistic regression models to TCGA pan-cancer tumour-versus-normal data: 100 regularisation strengths on 100 train-test splits, with patients fixed within each split. Strongly and weakly regularised models differ in mean accuracy by only 0.21 percentage points, yet prioritise different genes systematically with regularisation strength. Averaging explanations across a hyperparameter grid produces a top-50 panel sharing 41 genes with a single fitted model, but which model depends on the grid centre (Spearman correlation 0.92, 350 simulated practitioners). For 43 of 50 practitioners, the panel combines genes from strongly and weakly regularised models more fully than any fitted model: the explanation belongs to no model whose accuracy was established. A conventional grid recovers only a quarter of genes favoured exclusively by the strongest regularisation. HMGCS2 ranks among the top 50 in 73 of 100 strongly regularised fits and no weakly regularised fits, yet appears in none of 50 simulated reports. Reconstructing a published biomarker workflow on 20 cohort resamples reveals a different failure: the closest refit contains only 23 of the averaged panel's 50 genes, and no panel gene appears in all 20 refits. We define model-relative provenance as how much of a panel any single fitted model contains, distinct from workflow provenance recording how an analysis was run. We provide measurements to make the model population, the choice that selects from it, and that provenance reportable.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Same Accuracy, Different Gene Panels: How the Hyperparameter Grid Chooses the Reported Explanation",
+      "url": "https://arxiv.org/abs/2512.22240v6"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "92bb5edfd0bfde7db9daab1a",
+      "context_id": "b0dd08bae0a7b8008abec6a8",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "failure mode",
+        "provenance"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "zenodo",
+      "source_context_sha256": "89480926a742ee7c7855670c1ff2e4dd78d1941597752954786823cc5538fb61",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "Sixteen commits since v1.0.0 (2026-07-05). The pipeline was run end to end for the first time on the current Claude Science product in this window — ComputationalReviewSSTdisease — and most of what follows comes from defects that run exposed. Runtime Runs with nothing to install: the coordinator saves skills/*.md as artifacts at session start and hands sub-agents the skill files they need (new &quot;Runtime: Claude Science&quot; section in the orchestrator). LITREVIEW and DATAML are roles delegated to default sub-agents, not profiles. Legacy delegate_to / operon.* / pipeline.* calls updated to host.* (#5). All 20 skills carry name / description frontmatter. Fixes found by running the pipeline Authorship widget published empty. The Phase 14 instruction said :authors: ../authors.yml ; the plugin resolves that path relative to the document directory, and 00_frontmatter.md and authors.yml both live in content/ . Corrected to ./authors.yml , with the silent-failure mode documented (#5). Evidence Database page published empty from a complete evidence set, with a green build. Four independent faults: the plugin never followed the v29 evidence_section_NN.json rename, looped sections 02..13 , read argument_groups.*.supporting_findings cite-key strings as finding records, and swallowed every read failure in catch { continue } . It now discovers the section files present, accepts all three historical naming conventions, prefers ev.findings , and throws rather than publishing empty (#6). Build failed on an un-instantiated evidence directory. A directory with no JSON at all is now treated as a template awaiting a run and renders a placeholder; JSON present but matching no package name stays fatal (#8). comprev-scoping.md 's description frontmatter was truncated mid-sentence (#5). Version management The pipeline generation number lived in a filename and in ~20 loose strings, while the only release tag described itself as &quot;Expert Review Pipeline v29&quot;. The generation now lives solely in skills/manifest.json , which also records the sha256 and byte count of every skill file; the release version lives solely in git tags and is written into no file (#7). scripts/build_skill_manifest.py generates and verifies the manifest — standard library only — and a Skill manifest workflow runs --check on every push and pull request. It fails on a skill edited without a manifest regeneration, a version-bearing skill filename, a frontmatter name that disagrees with its filename, a description quoting the wrong generation, or a README naming a generation the manifest does not. Session setup writes provenance/pipeline_version.json into each review (generation, template commit, template tag, manifest hash, per-skill artifact ids). Phase 1's review_request.md header, Methods M.8 and pipeline_metrics.json read the version from that file instead of carrying a typed-in number. Renamed skills/comprev-orchestrator-v29.md → skills/comprev-orchestrator.md . Update saved prompts that name the old path. Nothing depends on this repository programmatically, and reviews already produced carry their own copy of skills/ , so they are unaffected.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AllenNeuralDynamics/ComputationalReviewTemplate: v1.1.0",
+      "url": "https://zenodo.org/records/23456674"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "80a0a56178cb664f4fab4f73",
+      "context_id": "bca734473a1b517f8a89b608",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "c21025d59e758f8e060e4c894e0cb1c6ac5074e4dcc6ea76e722499978d2f8c0",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "This dataset provides computational supplements, source code, finite-state component data, and independently checkable BFACF certificates for Makoto Ozawa, \"Merge Trees of Length-Filtered Lattice Knot Spaces\" (arXiv:2605.25322). The data concern self-avoiding polygons in the simple cubic lattice under standard BFACF moves and a lattice-length filtration. The earlier release documents the complete minimal-layer merge trees of $4_1$ (four components at length 30 merging at length 32) and $6_3$ (twelve components at length 40, two at length 42, and one at length 44). It also documents selected nonminimal trefoil components born at length 26; these selected births are not claimed to exhaust the full filtered graph. The frozen-unknot construction consists of a 64-edge Hamiltonian lattice unknot with no length-preserving or length-decreasing BFACF moves. An independently verified sequence of 25,436 BFACF moves reduces it to the elementary square with peak length 66. A two-edge block-splicing construction gives frozen unknots of length $64m$ for every integer $m\\ge1$. New in the 19 October 2026 update: A minimal 24-edge trefoil is spliced to the 64-edge frozen unknot to produce an explicit 88-edge trefoil admitting no length-nonincreasing BFACF moves. The additional files supply the lattice direction words and coordinates, connected-sum construction, local-move verifier, and sampled checks for $m=1,2,3,4,8,16$. Repeating the frozen unknot block before the final trefoil splice gives frozen trefoils of length $64m+24$ for every $m\\ge1$; reflection gives both chiralities. The results imply infinitely many nonminimal strong local-minimum births for the unknot and for both trefoil chiralities, within the standard BFACF filtration. The exact merge height 66 is established only for the 64-edge unknot. For longer frozen unknots and trefoils the proofs give lower bounds $H(P_m,U)\\ge64m+2$ and $H(R_m,Q)\\ge64m+26$, respectively; no exact merge heights or unbounded minimax excess are claimed. The construction is discrete and does not establish a positive barrier in continuous ropelength-filtered knot spaces or a universal result for arbitrary knot types. The archive retains earlier datasets and provenance information. Reproducibility instructions identify which outputs come from complete finite enumeration, certified BFACF paths, protected-port constructions, or limited computational checks.",
+      "tags": [
+        "Lattice knots; BFACF moves; merge trees; strong local minima; Gordian unknots; Hamiltonian lattice p"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Supplementary Code, Data and BFACF Certificates for Merge Trees of Length-Filtered Lattice Knot Spaces (Frozen Unknot and Trefoil Revision)",
+      "url": "https://zenodo.org/records/23461216"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "2875370eb2619cc64c49d373",
+      "context_id": "a69d3e227bf62eb0601d045a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "9f10bfbeabd9ff2575c9a874eb8d0d7ef74d399e69af58c981c90c991fe3dfa7",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "Fetch, verify and validate the public sources a dataset is built from, with a provenance record for every download",
+      "tags": [
+        "provenance",
+        "data pipeline",
+        "reproducibility",
+        "open data",
+        "research software",
+        "FAIR"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "sourceledger",
+      "url": "https://zenodo.org/records/23460695"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "d5c9c62dcdfe195e80191e12",
+      "context_id": "a0fe27c851f92f6559d408bc",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "eda2bc8f2c0497276cf6c6c5b8b7f8f13c68ea77720e421bbe6bf7f79bc1c674",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "This reproducibility package accompanies the manuscript &ldquo;Multi-Representation Stylometry of Al-Sahifa al-Sajjadiyya: Internal Consistency and Register Variation in Classical Arabic.&rdquo; It includes the corpus metadata and frozen hashes, the Gold-V3 segmentation benchmark, segmenter validation records, normalized feature matrices, PCA materials, Eder results, robustness results, reproduction code, software and environment information, checksums, provenance records, and the publication figures. The complete transformed text of the modern edition and the full ArabicSOS production output are not included because their redistribution rights are still unresolved. Their frozen SHA-256 identifiers are provided instead. The main Eder hierarchical-clustering analyses and the matched-length Eder results can be reproduced from the matrices and code included in the package.",
+      "tags": [
+        "Al-Sahifa al-Sajjadiyya",
+        "Classical Arabic",
+        "stylometry",
+        "authorship verification",
+        "Arabic morphological segmentation",
+        "Eder's Delta",
+        "register variation",
+        "Digital Humanities",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Reproducibility Package for \"Multi-Representation Stylometry of Al-Sahifa al-Sajjadiyya: Internal Consistency and Register Variation in Classical Arabic\"",
+      "url": "https://zenodo.org/records/23459045"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "e0d70727bf142a0362a86c40",
+      "context_id": "91c1afc7249bce23908d0d17",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "853826c3c60416cb672086c47a397de48c440a689a73545bb858338d2b59047a",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "This reproducibility package accompanies the study &ldquo;Grain-Scale Radiation Transport and the Robustness of Radiolytic H₂&ndash;Sulfate Imbalance in the Revell Crystalline-Rock System.&rdquo; The study evaluates how radiation-specific grain-scale transport modifies radiolytic H₂ and sulfate production estimates in the low-porosity Revell crystalline-rock system and tests the robustness of the inferred H₂&ndash;sulfate production imbalance. The package contains processed and derived data, analysis and transport-model code, computational notebooks, source data for the main figures, frozen manuscript-level results, and reproducibility metadata. Grain-scale &alpha;- and &beta;-radiation transport is evaluated over a grain-diameter sensitivity domain of 0.06&ndash;2000 &mu;m, while &gamma; transport and post-interface energy partitioning are treated through explicit sensitivity bounds. The package supports reproduction and audit of the numerical results and figures reported in the associated manuscript. Third-party source datasets are not redistributed as original research data in this archive. Their provenance, persistent identifiers, and access information are documented so that the computational workflow can be traced to the original sources. Research-generated data, figures, and documentation are released under CC BY 4.0, while original research code in the package is released under the MIT License.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Grain-Scale Radiation Transport and the Robustness of Radiolytic H₂–Sulfate Imbalance in the Revell Crystalline-Rock System",
+      "url": "https://zenodo.org/records/23459461"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "495fa966090febf96b9daf09",
+      "context_id": "48b28c0c6825983eba6481bf",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "43b563333f33a41eb0ea659bde912c21cfef51bba63e00b98bfd701087b79a58",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "Anonymous, AI-assisted, unrefereed candidate. A bounded audit of one published five-variable 2-SAT transformer separates semantic ranking, fixed-threshold fidelity, numerical effective-state geometry, agreement with the native answer, and Boolean clause-edit sufficiency. A fresh balanced bank of 4096 formulas supplies additional same-checkpoint evidence; it is not independently trained-model replication. The public package documents exact replay scope and exclusions. Some historical image-dependent checks cannot be reproduced from the public files. Native replay requires separately retrieved, hash-pinned upstream source dependencies that are not redistributed here. Short independent-training feasibility attempts did not meet the predeclared competence threshold and supply no confirmatory representation evidence. Internal AI-assisted review and producer replay are not external peer review, independent reproduction or formal verification. CC0 applies only to original research prose, diagrams and data. Original executable code is MIT-licensed; retained third-party components retain their own terms. Consult LICENSES.md and the dependency provenance for component-level boundaries.",
+      "tags": [
+        "mechanistic interpretability",
+        "2-SAT",
+        "semantic ranking",
+        "threshold fidelity",
+        "causal abstraction",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Assignment-Aligned Effective States in a 2-SAT Transformer",
+      "url": "https://zenodo.org/records/23454637"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "17485643e29593f704113ada",
+      "context_id": "400607d825fe90fcfea526f9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "2995fc1e142c7e1ed9794084a966fe71dd82255f90ffd3615bc3e2c58c619eeb",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "REPORT 16&nbsp; develops the D170 dark-sector architecture from a common finite Global Mother and an active physical collar. It constructs a protected positive-energy non-luminous sector, a distinct collective saturation mechanism, an internally owned late-sector abundance map, and an effective collisionless astronomical closure linking the same dark-state dynamics to gravitational and lensing observables. The report emphasizes explicit provenance, reproducibility, and strict separation between established finite results, declared physical completions, and remaining open microscopic and cosmological extensions.",
+      "tags": [
+        "D170",
+        "dark sector",
+        "Dark energy",
+        "gravitational lensing"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "The D170 Global Mother, Physical Collar, and Unified Dark-Sector Architecture",
+      "url": "https://zenodo.org/records/23459389"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "4dc5238782bc042a14d96c32",
+      "context_id": "1bb1f07e668c9ed9bc652e47",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "537328f32b4078e2c585787346eff98f13b03add3399d7477677c5070efa0d94",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "This computational package accompanies the Neuro-Symbolic MAPE-K governance testbed for agentic retrieval-augmented generation at the edge. It provides Python source, experimental inputs, measured outputs, provenance manifests, analysis tables, figures and readable evidence reports for two related campaigns: the October 2026 MAPE-K controller campaign and the separate 18 October 2026 dense-retriever control campaign. The retriever control records 3,744 retrieval trials and 640 clean-validation query evaluations across sparse, pretrained dense and clean-fitted dense retrievers. It performs no new generator or controller evaluation. The package preserves campaign-specific directory layouts and historical execution records. A dependency-light deterministic template smoke test supports inspection without language-model downloads or CUDA. Full inference and fitting used NVIDIA Jetson Xavier NX 8 GB and platform-specific CUDA/PyTorch environments. Original host paths and observed package inventories are provenance records, not a universal portable lockfile; full main-campaign model weights are referenced by revision and checksum, while the retriever campaign includes its pretrained and clean-fitted checkpoints. A release verifier checks the curated file manifest and metadata. The original retrieval verifier also requires original source paths for its final host-specific integrity checks. Original project software is MIT licensed (SPDX: MIT), with collective copyright held by the MAPE-K contributors. Third-party terms remain applicable: O*NET 31.0 and UCI Adult-derived data and fixtures are CC BY 4.0 with attribution and modification notices; MiniLM model material and its clean-fitted derivative are Apache-2.0; BGE model material and its clean-fitted derivative are MIT with upstream attribution. File-specific notices, exact model revisions and checksums are retained. Experimental counts reuse base profiles and should not be interpreted as independent efficacy replications. The evidence does not establish population fairness, human-validated answer-quality superiority, or a guarantee of safe retrieved evidence.",
+      "tags": [
+        "MAPE-K",
+        "neuro-symbolic AI",
+        "agentic RAG",
+        "edge AI",
+        "computational reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Neuro-Symbolic MAPE-K: Computational Package and Retriever Control",
+      "url": "https://zenodo.org/records/23459940"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "070a7b100a9b5f2e96684706",
+      "context_id": "1748c8d53cdf1df56ca4c40a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "3fbcc475bf64f76a97d08c41a10404d5df08aa80cf55d501809155f1a63e51b1",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "XOPT v1.0.0 — Research Artifact Research artifact for sparse temporal counterfactual explanations in mixed-integer optimization with fixed continuous recourse. Included Components Source Code ( experiments/src/ ): Exact column-and-constraint generation algorithm ( XOPT.jl ). Anytime bounding and baseline initialization ( anytime.jl ). Stability radius estimation ( robustness.jl ). Auditing, calibration, and scenario separation ( audit.jl ). Unit and holding cost levers ( levers.jl , enumerate_levers.jl ). Unit commitment models on PGLib-UC instances ( uc.jl , uc2.jl ). Independent literature comparator implementation ( literature_cg.jl ). Datasets ( data/ ): Preprocessed and raw empirical benchmarks (NHS emergency attendance, Online Retail transactions). PGLib-UC power systems data ( experiments/data/pglib_uc/ ). Data provenance and SHA-256 verification records ( data/metadata/ ). Experimental Results ( experiments/results/ ): Complete primary benchmark records (320 runs) and supplementary evaluations (250 runs). Paired sensitivity and capacity classifications. Verification traces and numerical audit logs. Reproducibility : Pinned Julia environment ( Manifest.toml , Project.toml ). Automated reproduction script ( experiments/scripts/reproduce.sh ). Test suites ( experiments/test/ ). License Original Julia and Python code is licensed under the MIT License. Data sources retain their respective original licenses as documented in experiments/LICENSING.md .",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MadBezoui/XOPT: XOPT v1.0.0: Research Artifact — Code, Data, and Experiments",
+      "url": "https://zenodo.org/records/23458562"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "062320fc11b65750a4d8d0aa",
+      "context_id": "45971030b2722d08409a26b9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.9167,
+      "source": "zenodo",
+      "source_context_sha256": "100302ad93368541442fbaa3b36a00bc6c28f2ebc7570f3b5ff3ae888c7caa81",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "INTEGRATED PHOTONIC MICROROBOTIC SYSTEMS AT THE LIMIT FLAGSHIP 16 / 30 | STARLI RESEARCH INSTITUTE XXIV This prospective research monograph investigates whether silicon-photonic light distribution, optofluidic packaging, independent metrology, and feedback positioning can be integrated into a compact research station that reliably captures, transports, releases, and recovers microscopic proxy agents. Its central hypothesis is system-level rather than decorative: reducing external optics is a meaningful advance only when delivered optical power, fluid transport, sample heating, task outcomes, and failure responses remain independently observable and reproducible across fabricated chip and package lots. The study develops a five-layer research architecture encompassing packaged optical and fluidic paths; a physically bounded optical-power and thermal ledger; external tracking capable of challenging on-chip estimates; reversible multi-agent tasks under staged fault injection; and repair, requalification, cost, and cross-laboratory transfer. It separates electromagnetic optical force from thermal convection, surface adhesion, Brownian motion, and sensor-induced artefacts. Strong comparators include calibrated free-space optical tweezers and spatial-light-modulator trapping configurations at matched specimen exposure and operational throughput. The book contains 30 mathematics-linked derivational routes, 82 chapters with 410 independently paginated research sections, 200 detailed future Research Gates, and 33 provisional Phoenix Answer Embryos. A companion Excel atlas links each research chapter, quantitative candidate, test protocol, falsifier and external DOI evidence record. Publisher-identified publications on integrated optical phased arrays, silicon-photonic trapping, and photonics packaging inform the research boundary but are not treated as proof that the integrated microrobotic platform proposed here has already been demonstrated. The primary design principle is independent reproducibility: a controller should never be allowed to certify its own sensor output, ignore lost agents, or authorize a restart after a failed optical-power or thermal ledger. Negative studies, matched classical successes, and failed module integrations are retained as useful successor research evidence. This work offers testable possibilities for future investigation; it is not a claim of experimentally demonstrated autonomous nanorobots, and it has not undergone external peer review.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "INTEGRATED PHOTONIC MICROROBOTIC SYSTEMS AT THE LIMIT FLAGSHIP 16 / 30 | STARLI RESEARCH INSTITUTE XXIV This prospective research monograph investigates whether silicon-photonic light distribution, optofluidic packaging, independent metrology, and feedback positioning can be integrated into a compac",
+      "url": "https://zenodo.org/records/23461127"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "070a7b100a9b5f2e96684706",
+      "context_id": "2380cb4ddc097a1face9621e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "calibration",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 19.2083,
+      "source": "zenodo",
+      "source_context_sha256": "1bafc10a4ccc292e3a43dc259bcd71b988107558a8117e9c9f9c55e56bf90761",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "XOPT v1.0.0 — Research Artifact Research artifact for sparse temporal counterfactual explanations in mixed-integer optimization with fixed continuous recourse. Included Components Source Code ( experiments/src/ ): Exact column-and-constraint generation algorithm ( XOPT.jl ). Anytime bounding and baseline initialization ( anytime.jl ). Stability radius estimation ( robustness.jl ). Auditing, calibration, and scenario separation ( audit.jl ). Unit and holding cost levers ( levers.jl , enumerate_levers.jl ). Unit commitment models on PGLib-UC instances ( uc.jl , uc2.jl ). Independent literature comparator implementation ( literature_cg.jl ). Datasets ( data/ ): Preprocessed and raw empirical benchmarks (NHS emergency attendance, Online Retail transactions). PGLib-UC power systems data ( experiments/data/pglib_uc/ ). Data provenance and SHA-256 verification records ( data/metadata/ ). Experimental Results ( experiments/results/ ): Complete primary benchmark records (320 runs) and supplementary evaluations (250 runs). Paired sensitivity and capacity classifications. Verification traces and numerical audit logs. Reproducibility : Pinned Julia environment ( Manifest.toml , Project.toml ). Automated reproduction script ( experiments/scripts/reproduce.sh ). Test suites ( experiments/test/ ). License Original Julia and Python code is licensed under the MIT License. Data sources retain their respective original licenses as documented in experiments/LICENSING.md .",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MadBezoui/XOPT: XOPT v1.0.0: Research Artifact — Code, Data, and Experiments",
+      "url": "https://zenodo.org/records/23458562"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "4dc5238782bc042a14d96c32",
+      "context_id": "561a39305ebcc673ddd3dac9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "control",
+        "provenance",
+        "replication",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 17.7917,
+      "source": "zenodo",
+      "source_context_sha256": "fcb11516a2174281375cad8b4a3a059aaa85fc4e4e00651c493c9f0e67ac79a9",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "This computational package accompanies the Neuro-Symbolic MAPE-K governance testbed for agentic retrieval-augmented generation at the edge. It provides Python source, experimental inputs, measured outputs, provenance manifests, analysis tables, figures and readable evidence reports for two related campaigns: the October 2026 MAPE-K controller campaign and the separate 18 October 2026 dense-retriever control campaign. The retriever control records 3,744 retrieval trials and 640 clean-validation query evaluations across sparse, pretrained dense and clean-fitted dense retrievers. It performs no new generator or controller evaluation. The package preserves campaign-specific directory layouts and historical execution records. A dependency-light deterministic template smoke test supports inspection without language-model downloads or CUDA. Full inference and fitting used NVIDIA Jetson Xavier NX 8 GB and platform-specific CUDA/PyTorch environments. Original host paths and observed package inventories are provenance records, not a universal portable lockfile; full main-campaign model weights are referenced by revision and checksum, while the retriever campaign includes its pretrained and clean-fitted checkpoints. A release verifier checks the curated file manifest and metadata. The original retrieval verifier also requires original source paths for its final host-specific integrity checks. Original project software is MIT licensed (SPDX: MIT), with collective copyright held by the MAPE-K contributors. Third-party terms remain applicable: O*NET 31.0 and UCI Adult-derived data and fixtures are CC BY 4.0 with attribution and modification notices; MiniLM model material and its clean-fitted derivative are Apache-2.0; BGE model material and its clean-fitted derivative are MIT with upstream attribution. File-specific notices, exact model revisions and checksums are retained. Experimental counts reuse base profiles and should not be interpreted as independent efficacy replications. The evidence does not establish population fairness, human-validated answer-quality superiority, or a guarantee of safe retrieved evidence.",
+      "tags": [
+        "MAPE-K",
+        "neuro-symbolic AI",
+        "agentic RAG",
+        "edge AI",
+        "computational reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Neuro-Symbolic MAPE-K: Computational Package and Retriever Control",
+      "url": "https://zenodo.org/records/23459940"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "aa4244b8276b26a146417869",
+      "context_id": "109dfee7d992dd4e3831c310",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "control",
+        "inverse model",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.875,
+      "source": "arxiv",
+      "source_context_sha256": "e64d7676b715ca203b346c3fbd33210c5326b3d1ee01c0bd70636330baa5e5b6",
+      "source_published": "2026-10-16T15:26:24Z",
+      "source_updated": "2026-10-16T15:26:24Z",
+      "summary": "Latent world models learn action-conditioned state transitions in a compact representation space, providing a predictive model for visual planning and control. However, planning with these models typically requires costly test-time optimization over action sequences. We propose to replace this online search with a goal-conditioned inverse model that directly predicts actions from current and goal observations. A key challenge is that action prediction alone neither ensures that goal representations encode action-relevant information nor that predicted actions are consistent with the learned latent prediction model. We introduce Hindsight Inverse JEPA Planning (HIJP), a search-free framework that addresses both aspects during training. HIJP relabels future observations along offline trajectories as goals, providing action supervision across multiple temporal horizons. By retaining gradients through the goal representations, this supervision directly shapes the visual representation. HIJP further feeds predicted actions into the latent predictor model and aligns the resulting next-state representations with encoded successor observations, enforcing action-transition consistency. At inference time, the inverse dynamics model and latent predictor models are applied alternately to generate multi-step action sequences without online search. Across four visual control tasks, HIJP achieves 86.8% overall success and a 1.9-16.5x planning speedup over search-based planning.",
+      "tags": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Beyond Action Prediction: Learning Search-Free Planning in Latent Space",
+      "url": "https://arxiv.org/abs/2610.23615v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "ff24c328993562ffc0ef90b7",
+      "context_id": "d21298eb66baeeb9894417ef",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "control",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.75,
+      "source": "zenodo",
+      "source_context_sha256": "414dbc62980a9ac71f4e33232ca0912a47c9cf9ea661caf2147730746f0b7410",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "This working paper consolidates the mathematical correspondences studied between selected string-theory models and the Phase framework of the Harmonic Physics research programme. It presents the central equations, reported evidence and outstanding physical questions, with detailed derivations, controls and computational records retained in companion reports and reproducibility packages. A compact phase field reproduces the momentum&ndash;winding contribution of the declared circle-compactified bosonic closed-string model and preserves that contribution under reciprocal exchange of radius, momentum and winding. A quadratic optical continuation retains a reciprocal canonical description and yields a dispersion relation containing quadratic and quartic wave-number terms. A retrospective comparison with released fluid-of-light measurements favors inclusion of the retained gradient within the scope of the processed experimental records. For a specified two-component continuum action with fixed component amplitudes, constant coefficients and equal propagation speeds, the relative phase obeys an exact sine-Gordon equation, while the common phase obeys a free wave equation. This conditional classical correspondence applies at finite relative-phase excursion and connects to the equation obtained through Pohlmeyer reduction of classical bosonic strings on R_t &times; S&sup2;. The assumptions and remaining reconstruction questions are stated explicitly. A separate conditional gravity construction maps a fixed source coefficient into a supplied Schwarzschild exterior compatible with the leading string metric condition. The construction retains explicit assumptions about spatial geometry, dimensional calibration and vacuum dynamics. The master also discusses polarization-dependent apparent position and identifies a predictive relationship between foundational Phase, observer coupling and registered distance as a continuing research question. The paper distinguishes the established mathematical correspondences and bounded optical-model evidence from the proposed foundational interpretation of Phase. Physical identification, reconstruction of the evolved breather with the required global string conditions, and quantum equivalence are not established by the reported comparisons. Version and update policy This is a living research document, updated as further mathematical derivations, correspondences and reproducible tests are completed. Future substantive revisions will be released as new numbered Zenodo versions, accompanied by a dated summary of changes. Please cite the specific version consulted. Version 0.21 &mdash; 19 October 2026: Added the seven giant-magnon benchmarks and their amplitude&ndash;phase correspondences, distinguishing classical results from the narrower semiclassical result. Detailed methods, results and reproducibility materials are documented in the companion publication, Giant Magnon Amplitude and Phase Correspondences : https://doi.org/10.5281/zenodo.23463422 . Keywords:&nbsp;String theory,&nbsp;Harmonic Physics,&nbsp;Phase dynamics,&nbsp;Phase nesting, Mathematical correspondence,&nbsp;Compact scalar fields,&nbsp;Compactification,&nbsp;Momentum and winding,&nbsp;T-duality,&nbsp;Sine-Gordon equation,&nbsp;Pohlmeyer reduction,&nbsp;Canonical transformations, Optical dispersion,&nbsp;Fluids of light,&nbsp;Schwarzschild geometry,&nbsp;Observer coupling,&nbsp;Optical localization,&nbsp;Reproducible research",
+      "tags": [
+        "string theory",
+        "harmonic physics",
+        "phase dynamics",
+        "phase nesting",
+        "mathematical correspondence",
+        "compact scalar fields",
+        "compactification",
+        "momemntum and winding",
+        "T-duality",
+        "sine-gordon equation",
+        "pohlmeyer reduction",
+        "cannonical transformations",
+        "optical dispersion",
+        "fluids of light",
+        "schwarzchild geometry",
+        "observer coupling",
+        "optical localization",
+        "reproducible research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "String Theory and Phase: Mathematical Correspondence and Current Interpretation",
+      "url": "https://zenodo.org/records/23463978"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "495fa966090febf96b9daf09",
+      "context_id": "b9cf6dad6e7c14f0f313c846",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "replication",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.5,
+      "source": "zenodo",
+      "source_context_sha256": "c459c96cb7850cbb6906502de212ee8400ddfadf677986381ad3b7b19e1d931a",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "Anonymous, AI-assisted, unrefereed candidate. A bounded audit of one published five-variable 2-SAT transformer separates semantic ranking, fixed-threshold fidelity, numerical effective-state geometry, agreement with the native answer, and Boolean clause-edit sufficiency. A fresh balanced bank of 4096 formulas supplies additional same-checkpoint evidence; it is not independently trained-model replication. The public package documents exact replay scope and exclusions. Some historical image-dependent checks cannot be reproduced from the public files. Native replay requires separately retrieved, hash-pinned upstream source dependencies that are not redistributed here. Short independent-training feasibility attempts did not meet the predeclared competence threshold and supply no confirmatory representation evidence. Internal AI-assisted review and producer replay are not external peer review, independent reproduction or formal verification. CC0 applies only to original research prose, diagrams and data. Original executable code is MIT-licensed; retained third-party components retain their own terms. Consult LICENSES.md and the dependency provenance for component-level boundaries.",
+      "tags": [
+        "mechanistic interpretability",
+        "2-SAT",
+        "semantic ranking",
+        "threshold fidelity",
+        "causal abstraction",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Assignment-Aligned Effective States in a 2-SAT Transformer",
+      "url": "https://zenodo.org/records/23454637"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "d5c9c62dcdfe195e80191e12",
+      "context_id": "3a0690419b6f6c1492d6117e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.4167,
+      "source": "zenodo",
+      "source_context_sha256": "6c1583c79cc3c649bcb409b401e8c1a55b638348415b7655c438896350ceb218",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "This reproducibility package accompanies the manuscript &ldquo;Multi-Representation Stylometry of Al-Sahifa al-Sajjadiyya: Internal Consistency and Register Variation in Classical Arabic.&rdquo; It includes the corpus metadata and frozen hashes, the Gold-V3 segmentation benchmark, segmenter validation records, normalized feature matrices, PCA materials, Eder results, robustness results, reproduction code, software and environment information, checksums, provenance records, and the publication figures. The complete transformed text of the modern edition and the full ArabicSOS production output are not included because their redistribution rights are still unresolved. Their frozen SHA-256 identifiers are provided instead. The main Eder hierarchical-clustering analyses and the matched-length Eder results can be reproduced from the matrices and code included in the package.",
+      "tags": [
+        "Al-Sahifa al-Sajjadiyya",
+        "Classical Arabic",
+        "stylometry",
+        "authorship verification",
+        "Arabic morphological segmentation",
+        "Eder's Delta",
+        "register variation",
+        "Digital Humanities",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Reproducibility Package for \"Multi-Representation Stylometry of Al-Sahifa al-Sajjadiyya: Internal Consistency and Register Variation in Classical Arabic\"",
+      "url": "https://zenodo.org/records/23459045"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "2e877fd8ed3231937eb75ae0",
+      "context_id": "ffee3839de70e75dbd15d911",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.3333,
+      "source": "arxiv",
+      "source_context_sha256": "3fd572cda05f36ac7ae7d129af653891d6cb312485b59661711b36f7fa394255",
+      "source_published": "2026-10-16T17:57:55Z",
+      "source_updated": "2026-10-16T17:57:55Z",
+      "summary": "Reproducible and analytically robust research findings are essential to scientific progress, but evaluating these properties typically requires costly manual effort. We investigate whether LLM agents can help automate reproduction and robustness analysis, using a medical case study grounded in the Surveillance, Epidemiology, and End Results (SEER) database, a widely used U.S. cancer registry underlying tens of thousands of published studies. First, we introduce SEER-Repro, a benchmark of 20 published SEER-based papers together with the data and resources required to reproduce their findings. Second, we create an AI agent that successfully reproduces 77.4% of 2,190 atomic claims, while providing executable baselines for further analysis. Third, we develop an agentic analysis pipeline to test the robustness of the medical findings by identifying analytical choices underlying each finding, proposing defensible alternatives, and rerunning the analysis to determine whether those choices affect the conclusion. Across published papers in SEER-Repro, our pipeline identifies potentially consequential analytical choices in 9.5% of fully reproduced findings and flags them for expert review. These results show how LLM agents can support scientific review by reproducing findings, systematically testing their robustness, and directing expert attention toward potentially consequential analytical choices.",
+      "tags": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AI-Driven Reproducibility and Analytical Robustness in Scientific Discovery",
+      "url": "https://arxiv.org/abs/2610.23845v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "77108f7c0fbd131acc1f8f33",
+      "context_id": "0a3889d01c40d3f641ee68cb",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.4583,
+      "source": "arxiv",
+      "source_context_sha256": "ba2a05ccc779800d67cbf3b5bb395b4fce1d5c13c150e50ce5c65938a7175b9e",
+      "source_published": "2026-10-16T11:42:29Z",
+      "source_updated": "2026-10-16T11:42:29Z",
+      "summary": "Modern deep learning systems increasingly rely on high-dimensional vector operations, in which large input and parameter vectors are repeatedly stored, transferred, and processed. Although substantial research has focused on reducing neural-network model size through pruning, quantization, knowledge distillation, and efficient architectures, the storage, memory-traffic, and communication costs associated with repeatedly presented high-dimensional input vectors remain important practical considerations, particularly in distributed and edge-computing environments. This paper proposes the SETAREH (Sorting-assisted Energy-concentrating Transform for Approximate Representation using Haar wavelets) transform, a Haar-wavelet-based sparsification approach for approximating the inner product between a fixed high-dimensional coefficient vector and successive input vectors. By applying the same sequence of permutations and Haar transforms to both vectors, SETAREH preserves the exact inner product before truncation. It then retains only a subset of the transformed coefficient-input pairs, reducing their representation cost while introducing a controllable approximation error. To evaluate SETAREH, we consider two complementary experimental settings: a synthetic Gaussian-vector baseline and a real apparent-age estimation task using a convolutional neural network on the APPA-REAL dataset. The results show that SETAREH can approximate the evaluated inner products using substantially fewer transformed coefficient-input pairs than the original vector dimension. The findings support its use as a potential structured data-representation method for repeated inner products with fixed weights, while the practical benefit depends on approximation accuracy and the cost of storing or transmitting permutation metadata.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "SETAREH Transform: A Sorting-Assisted Haar-Wavelet Sparsification Method for Approximate Inner-Product Computation",
+      "url": "https://arxiv.org/abs/2610.23338v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "73c0879e6667fc4f26e28346",
+      "context_id": "13d67278f85c3364c6f10d14",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "memory",
+        "retrieval"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.3333,
+      "source": "arxiv",
+      "source_context_sha256": "030029d18b39990c0a99a3b9453c57b56ea61ad608559e77aef10db117b7c3be",
+      "source_published": "2026-10-16T10:37:47Z",
+      "source_updated": "2026-10-16T10:37:47Z",
+      "summary": "LLM-agent memory selection often uses retrieval rankings based on record relevance or individual influence. Such rankings cannot identify sufficient subsets under redundant or jointly necessary evidence. We study per-decision memory sufficiency: selecting a small subset that preserves full-memory behavior. To separate search error from model error, we introduce JointCoreBench, a benchmark with nine interaction families, six workflow domains, natural-language decisions, and exact sufficient-set oracles, and JointCore, a relevance cost-ordered group-deletion baseline that tests blocks before individual records. On 6,912 exact conditions, cost-ordered JointCore recovers a minimum-cost sufficient set in 100.0% of cases, reduces subset evaluations from 30.00 to 11.13 (62.9%), and achieves 87.8% active-memory savings. Across four 12B-70B model families and 432 tasks per model, its unweighted mean is 10.28 versus 16.00 model queries and 50.6% versus 43.1% minimum-cost recovery relative to cost aware singleton deletion. Both methods preserve full-memory behavior under the deterministic primary interface. Tests with physical deletion, UNKNOWN masks, PENDING sentinels, counterfactual values, and alternative labels identify interface dependent behavior. JointCore is an efficient benchmark baseline; the study does not establish deployment-ready memory compression.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Beyond Marginal Influence: Interaction-Aware Memory Selection for LLM Agents",
+      "url": "https://arxiv.org/abs/2610.23266v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "eaf0440943e639452bc030ff",
+      "context_id": "7b20bb39fd596384066726db",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.4167,
+      "source": "arxiv",
+      "source_context_sha256": "8d8d90aa45cb495661cfb2a09281599cdd848aba7ff51127b515d5b84070ef4b",
+      "source_published": "2026-10-15T21:16:23Z",
+      "source_updated": "2026-10-15T21:16:23Z",
+      "summary": "The linear representation hypothesis holds that pretrained vision models encode generative factors as linearly decodable directions in feature space, and comes with a standard methodology: train a linear probe, declare a factor represented if accuracy is high. We show this test is too permissive. Asymptotically, any sufficiently rich feature map, including a random one, admits a linear readout, so high probe accuracy is consistent with two very different geometries: a true linear world model, where the latent-aligned subspace dominates the representation, or a kernel machine, where the latents lie linearly inside a much larger curved manifold. This distinction matters because the curved structure orthogonal to the probe is relevant for out-of-distribution generalization, robustness, and compositional transfer. We propose three asymmetric diagnostics that distinguish the two cases: reverse predictivity, spectral concentration, and out-of-distribution generalization. We validate them in a fully observed simulation where ground truth is known. Applied to six pretrained vision transformers on SVG-World, our deterministic generative benchmark with paired visual styles, and to two of them on CelebA, they show pretraining produces structure beyond a random kernel but well short of a linear world model. On dSprites, 3D Shapes and MPI3D, forward decodability and latent-aligned variance dissociate. Thus, forward decoding alone does not show that the probed factors align with the dominant geometry of the representation. In summary, our work cautions about the success of linear probes as opposed to truly linear and low dimensional representations.",
+      "tags": [
+        "stat.ML",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Is a Linear Probe Evidence of a Linear Representation?",
+      "url": "https://arxiv.org/abs/2610.22655v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "6398d561e6e5fd21d8573b18",
+      "context_id": "7b25cc205d34a0371708ea06",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "representation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.25,
+      "source": "arxiv",
+      "source_context_sha256": "3adb13fb2e02fb8252259c3f6dd466364f90d97706fc1e45020d9f98c91168cc",
+      "source_published": "2026-10-16T16:54:35Z",
+      "source_updated": "2026-10-16T16:54:35Z",
+      "summary": "Recent large audio language models (LALMs) have extended their capabilities beyond lexical speech understanding to tasks requiring paralinguistic and non-linguistic audio understanding, such as emotion recognition. However, these models still struggle to reliably utilize acoustic information, particularly when it co-occurs with spoken linguistic content. Existing benchmarks do not clearly distinguish acoustic perception from higher-level reasoning, making it difficult to identify the source of these failures. To address this issue, we introduce VocalGrad, a benchmark designed to evaluate LALMs' ability to perceive low-level acoustic variations. VocalGrad formulates this problem as a simple binary classification of temporal change direction, enabling evaluation largely independent of higher-level reasoning or semantic understanding. Our benchmark results reveal a substantial gap in acoustic perception between human annotators and state-of-the-art LALMs: while human annotators achieve high accuracy, LALMs perform at near-chance levels. We further conduct linear probing to identify structural bottlenecks in these models. Our analysis reveals two distinct failure modes: for some categories, task-relevant information is preserved in internal representations but not utilized by the language model head; for others, the information becomes progressively less linearly decodable across model layers. Overall, our results reveal substantial limitations of LALMs in modeling acoustic variation under controlled settings and expose representation differences not observable from text outputs.",
+      "tags": [
+        "cs.SD",
+        "cs.CL"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "VocalGrad: Evaluating Acoustic Perception in Audio Language Models",
+      "url": "https://arxiv.org/abs/2610.23745v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "dee0351695dbec6c5e9cbfc8",
+      "context_id": "16eff02dc24c4c46dc346312",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "representation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.25,
+      "source": "arxiv",
+      "source_context_sha256": "aa1bfbbf8f15026ba8ffd987d3576287b2aa01618fdbf613e4f4a911cef4645e",
+      "source_published": "2026-10-16T16:20:46Z",
+      "source_updated": "2026-10-16T16:20:46Z",
+      "summary": "Quantum kernels are among the most promising methods in quantum machine learning, providing a natural way to embed data into high-dimensional Hilbert spaces via quantum circuits and capturing non-linear relationships in data. Their learning behaviour is governed by the function class they represent, which is formally characterized by the structure of the associated Reproducing Kernel Hilbert Space (RKHS). However, a theoretical characterization of this function class, and of how it depends on the choice of feature map and its hyperparameters, is still lacking. In this work, we focus on the Instantaneous Quantum Polynomial (IQP) feature map and derive a Fourier representation of the associated RKHS generators as finite sums of trigonometric functions evaluated on polynomially transformed input variables, with a finite set of accessible frequencies determined by the circuit construction and scaled by the bandwidth hyperparameter. This representation identifies three bandwidth regimes with qualitatively distinct expressive properties from localised, through multimodal, to periodic. Numerical experiments on synthetic datasets with controlled periodic and multimodal structure, across data dimensions and feature-map configurations, reproduce the three regimes in both supervised classification and unsupervised anomaly detection, benchmarked against a classical Gaussian kernel. These results make the relationship between expressivity and data structure explicit for IQP kernels: expressive power translates into a practical benefit only when the accessible frequencies match with the structure of the data, which provides a criterion for selecting the bandwidth when the periodic or multimodal structure of data is known.",
+      "tags": [
+        "quant-ph",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Expressivity of IQP Feature-Map Quantum Kernels via Reproducing Kernel Hilbert Spaces",
+      "url": "https://arxiv.org/abs/2610.23692v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "3aade279b3540ea5caa1b855",
+      "context_id": "b0f402b860fa88dea57a32a2",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "zenodo",
+      "source_context_sha256": "5b80a0014dc8e1cbb7c4f3f34a46f8a5fae6f855d830c3367d606f5fd7f2ddea",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "Oscilloscope probe compensation kits circulate between teaching laboratories, yet the calibration status of a kit is rarely transferred with the same rigour as the instrument it serves. the present analysis treats cross-course calibration transfer as a metrological problem and evaluates, by round-robin design, how bandwidth attenuation in a probe kit propagates into measurement discrepancy bounds when the kit is moved between courses. The evaluation is a replication-based characterisation of the before-after-control-impact estimator under a declared variance structure (between-cluster SD = 6.0, residual SD = 4.5, intraclass correlation = 0.64), with power estimated across 2000 design cells at cluster counts of 8, 16, 24 and 32 and effect sizes of 3, 5 and 8 percentage points.54 clusters are required to detect a 5-percentage-point effect at 80% power, and that the minimum detectable effect falls steeply as cluster count rises from 8 to 32. A first-order attenuation model links probe bandwidth to the fractional amplitude error at the test frequency, and the round-robin design is shown to bound the transfer discrepancy that a receiving course can expect. The contribution is a design-level calibration-transfer protocol that makes the discrepancy bound explicit before a kit leaves its home course, rather than after a student records a suspect waveform.",
+      "tags": [
+        "probe compensation; calibration transfer; round-robin evaluation; bandwidth attenuation; measurement"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Cross-Course Calibration Transfer of Oscilloscope Probe Compensation Kits in Engineering Education: A Round-Robin Evaluation Linking Bandwidth Attenuation to Measurement Discrepancy Bounds",
+      "url": "https://zenodo.org/records/23460704"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "3aade279b3540ea5caa1b855",
+      "context_id": "ac4212214bca7d37b74f4e3f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "zenodo",
+      "source_context_sha256": "fb102ffac0d80718545325a429d172d6cd7647165a9de257d201fcda01328e1e",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "Oscilloscope probe compensation kits circulate between teaching laboratories, yet the calibration status of a kit is rarely transferred with the same rigour as the instrument it serves. the present analysis treats cross-course calibration transfer as a metrological problem and evaluates, by round-robin design, how bandwidth attenuation in a probe kit propagates into measurement discrepancy bounds when the kit is moved between courses. The evaluation is a replication-based characterisation of the before-after-control-impact estimator under a declared variance structure (between-cluster SD = 6.0, residual SD = 4.5, intraclass correlation = 0.64), with power estimated across 2000 design cells at cluster counts of 8, 16, 24 and 32 and effect sizes of 3, 5 and 8 percentage points.54 clusters are required to detect a 5-percentage-point effect at 80% power, and that the minimum detectable effect falls steeply as cluster count rises from 8 to 32. A first-order attenuation model links probe bandwidth to the fractional amplitude error at the test frequency, and the round-robin design is shown to bound the transfer discrepancy that a receiving course can expect. The contribution is a design-level calibration-transfer protocol that makes the discrepancy bound explicit before a kit leaves its home course, rather than after a student records a suspect waveform.",
+      "tags": [
+        "probe compensation; calibration transfer; round-robin evaluation; bandwidth attenuation; measurement"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Cross-Course Calibration Transfer of Oscilloscope Probe Compensation Kits in Engineering Education: A Round-Robin Evaluation Linking Bandwidth Attenuation to Measurement Discrepancy Bounds",
+      "url": "https://zenodo.org/records/23460704"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "3aade279b3540ea5caa1b855",
+      "context_id": "431f3e5f9042b9d3a39631a9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "zenodo",
+      "source_context_sha256": "6bffddad96bf842224c5e29bed036bdc515a2395b44834c45f5205647fcdbe95",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "Oscilloscope probe compensation kits circulate between teaching laboratories, yet the calibration status of a kit is rarely transferred with the same rigour as the instrument it serves. the present analysis treats cross-course calibration transfer as a metrological problem and evaluates, by round-robin design, how bandwidth attenuation in a probe kit propagates into measurement discrepancy bounds when the kit is moved between courses. The evaluation is a replication-based characterisation of the before-after-control-impact estimator under a declared variance structure (between-cluster SD = 6.0, residual SD = 4.5, intraclass correlation = 0.64), with power estimated across 2000 design cells at cluster counts of 8, 16, 24 and 32 and effect sizes of 3, 5 and 8 percentage points.54 clusters are required to detect a 5-percentage-point effect at 80% power, and that the minimum detectable effect falls steeply as cluster count rises from 8 to 32. A first-order attenuation model links probe bandwidth to the fractional amplitude error at the test frequency, and the round-robin design is shown to bound the transfer discrepancy that a receiving course can expect. The contribution is a design-level calibration-transfer protocol that makes the discrepancy bound explicit before a kit leaves its home course, rather than after a student records a suspect waveform.",
+      "tags": [
+        "probe compensation; calibration transfer; round-robin evaluation; bandwidth attenuation; measurement"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Cross-Course Calibration Transfer of Oscilloscope Probe Compensation Kits in Engineering Education: A Round-Robin Evaluation Linking Bandwidth Attenuation to Measurement Discrepancy Bounds",
+      "url": "https://zenodo.org/records/23460704"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "070a7b100a9b5f2e96684706",
+      "context_id": "6141063abab0e86f974d4bdb",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "calibration"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.1667,
+      "source": "zenodo",
+      "source_context_sha256": "3b75e239159226cb46bd56fd078e109cd798a4dda0cb7b77d27e8f97965b948e",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "XOPT v1.0.0 — Research Artifact Research artifact for sparse temporal counterfactual explanations in mixed-integer optimization with fixed continuous recourse. Included Components Source Code ( experiments/src/ ): Exact column-and-constraint generation algorithm ( XOPT.jl ). Anytime bounding and baseline initialization ( anytime.jl ). Stability radius estimation ( robustness.jl ). Auditing, calibration, and scenario separation ( audit.jl ). Unit and holding cost levers ( levers.jl , enumerate_levers.jl ). Unit commitment models on PGLib-UC instances ( uc.jl , uc2.jl ). Independent literature comparator implementation ( literature_cg.jl ). Datasets ( data/ ): Preprocessed and raw empirical benchmarks (NHS emergency attendance, Online Retail transactions). PGLib-UC power systems data ( experiments/data/pglib_uc/ ). Data provenance and SHA-256 verification records ( data/metadata/ ). Experimental Results ( experiments/results/ ): Complete primary benchmark records (320 runs) and supplementary evaluations (250 runs). Paired sensitivity and capacity classifications. Verification traces and numerical audit logs. Reproducibility : Pinned Julia environment ( Manifest.toml , Project.toml ). Automated reproduction script ( experiments/scripts/reproduce.sh ). Test suites ( experiments/test/ ). License Original Julia and Python code is licensed under the MIT License. Data sources retain their respective original licenses as documented in experiments/LICENSING.md .",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MadBezoui/XOPT: XOPT v1.0.0: Research Artifact — Code, Data, and Experiments",
+      "url": "https://zenodo.org/records/23458562"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "070a7b100a9b5f2e96684706",
+      "context_id": "132e320d11aa3809695e1f44",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "calibration"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.1667,
+      "source": "zenodo",
+      "source_context_sha256": "223d3541ba76d9e781aae00ec752b4f750de4d68987ef5afdb7bcd97bbcc45d1",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "XOPT v1.0.0 — Research Artifact Research artifact for sparse temporal counterfactual explanations in mixed-integer optimization with fixed continuous recourse. Included Components Source Code ( experiments/src/ ): Exact column-and-constraint generation algorithm ( XOPT.jl ). Anytime bounding and baseline initialization ( anytime.jl ). Stability radius estimation ( robustness.jl ). Auditing, calibration, and scenario separation ( audit.jl ). Unit and holding cost levers ( levers.jl , enumerate_levers.jl ). Unit commitment models on PGLib-UC instances ( uc.jl , uc2.jl ). Independent literature comparator implementation ( literature_cg.jl ). Datasets ( data/ ): Preprocessed and raw empirical benchmarks (NHS emergency attendance, Online Retail transactions). PGLib-UC power systems data ( experiments/data/pglib_uc/ ). Data provenance and SHA-256 verification records ( data/metadata/ ). Experimental Results ( experiments/results/ ): Complete primary benchmark records (320 runs) and supplementary evaluations (250 runs). Paired sensitivity and capacity classifications. Verification traces and numerical audit logs. Reproducibility : Pinned Julia environment ( Manifest.toml , Project.toml ). Automated reproduction script ( experiments/scripts/reproduce.sh ). Test suites ( experiments/test/ ). License Original Julia and Python code is licensed under the MIT License. Data sources retain their respective original licenses as documented in experiments/LICENSING.md .",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MadBezoui/XOPT: XOPT v1.0.0: Research Artifact — Code, Data, and Experiments",
+      "url": "https://zenodo.org/records/23458562"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "ff24c328993562ffc0ef90b7",
+      "context_id": "d16807df2f0d6dd036d5176a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.125,
+      "source": "zenodo",
+      "source_context_sha256": "db1fc6bbca50e4f0fc7337c2a2b59d1f08de09dc345c909caf11863879298699",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "This working paper consolidates the mathematical correspondences studied between selected string-theory models and the Phase framework of the Harmonic Physics research programme. It presents the central equations, reported evidence and outstanding physical questions, with detailed derivations, controls and computational records retained in companion reports and reproducibility packages. A compact phase field reproduces the momentum&ndash;winding contribution of the declared circle-compactified bosonic closed-string model and preserves that contribution under reciprocal exchange of radius, momentum and winding. A quadratic optical continuation retains a reciprocal canonical description and yields a dispersion relation containing quadratic and quartic wave-number terms. A retrospective comparison with released fluid-of-light measurements favors inclusion of the retained gradient within the scope of the processed experimental records. For a specified two-component continuum action with fixed component amplitudes, constant coefficients and equal propagation speeds, the relative phase obeys an exact sine-Gordon equation, while the common phase obeys a free wave equation. This conditional classical correspondence applies at finite relative-phase excursion and connects to the equation obtained through Pohlmeyer reduction of classical bosonic strings on R_t &times; S&sup2;. The assumptions and remaining reconstruction questions are stated explicitly. A separate conditional gravity construction maps a fixed source coefficient into a supplied Schwarzschild exterior compatible with the leading string metric condition. The construction retains explicit assumptions about spatial geometry, dimensional calibration and vacuum dynamics. The master also discusses polarization-dependent apparent position and identifies a predictive relationship between foundational Phase, observer coupling and registered distance as a continuing research question. The paper distinguishes the established mathematical correspondences and bounded optical-model evidence from the proposed foundational interpretation of Phase. Physical identification, reconstruction of the evolved breather with the required global string conditions, and quantum equivalence are not established by the reported comparisons. Version and update policy This is a living research document, updated as further mathematical derivations, correspondences and reproducible tests are completed. Future substantive revisions will be released as new numbered Zenodo versions, accompanied by a dated summary of changes. Please cite the specific version consulted. Version 0.21 &mdash; 19 October 2026: Added the seven giant-magnon benchmarks and their amplitude&ndash;phase correspondences, distinguishing classical results from the narrower semiclassical result. Detailed methods, results and reproducibility materials are documented in the companion publication, Giant Magnon Amplitude and Phase Correspondences : https://doi.org/10.5281/zenodo.23463422 . Keywords:&nbsp;String theory,&nbsp;Harmonic Physics,&nbsp;Phase dynamics,&nbsp;Phase nesting, Mathematical correspondence,&nbsp;Compact scalar fields,&nbsp;Compactification,&nbsp;Momentum and winding,&nbsp;T-duality,&nbsp;Sine-Gordon equation,&nbsp;Pohlmeyer reduction,&nbsp;Canonical transformations, Optical dispersion,&nbsp;Fluids of light,&nbsp;Schwarzschild geometry,&nbsp;Observer coupling,&nbsp;Optical localization,&nbsp;Reproducible research",
+      "tags": [
+        "string theory",
+        "harmonic physics",
+        "phase dynamics",
+        "phase nesting",
+        "mathematical correspondence",
+        "compact scalar fields",
+        "compactification",
+        "momemntum and winding",
+        "T-duality",
+        "sine-gordon equation",
+        "pohlmeyer reduction",
+        "cannonical transformations",
+        "optical dispersion",
+        "fluids of light",
+        "schwarzchild geometry",
+        "observer coupling",
+        "optical localization",
+        "reproducible research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "String Theory and Phase: Mathematical Correspondence and Current Interpretation",
+      "url": "https://zenodo.org/records/23463978"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "ff24c328993562ffc0ef90b7",
+      "context_id": "74d8a492f2dd48d22667a5be",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.125,
+      "source": "zenodo",
+      "source_context_sha256": "234a0aed62ddf1db97a1d10d6b4c45124729be59836c7af65be7efa220d7bc8e",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "This working paper consolidates the mathematical correspondences studied between selected string-theory models and the Phase framework of the Harmonic Physics research programme. It presents the central equations, reported evidence and outstanding physical questions, with detailed derivations, controls and computational records retained in companion reports and reproducibility packages. A compact phase field reproduces the momentum&ndash;winding contribution of the declared circle-compactified bosonic closed-string model and preserves that contribution under reciprocal exchange of radius, momentum and winding. A quadratic optical continuation retains a reciprocal canonical description and yields a dispersion relation containing quadratic and quartic wave-number terms. A retrospective comparison with released fluid-of-light measurements favors inclusion of the retained gradient within the scope of the processed experimental records. For a specified two-component continuum action with fixed component amplitudes, constant coefficients and equal propagation speeds, the relative phase obeys an exact sine-Gordon equation, while the common phase obeys a free wave equation. This conditional classical correspondence applies at finite relative-phase excursion and connects to the equation obtained through Pohlmeyer reduction of classical bosonic strings on R_t &times; S&sup2;. The assumptions and remaining reconstruction questions are stated explicitly. A separate conditional gravity construction maps a fixed source coefficient into a supplied Schwarzschild exterior compatible with the leading string metric condition. The construction retains explicit assumptions about spatial geometry, dimensional calibration and vacuum dynamics. The master also discusses polarization-dependent apparent position and identifies a predictive relationship between foundational Phase, observer coupling and registered distance as a continuing research question. The paper distinguishes the established mathematical correspondences and bounded optical-model evidence from the proposed foundational interpretation of Phase. Physical identification, reconstruction of the evolved breather with the required global string conditions, and quantum equivalence are not established by the reported comparisons. Version and update policy This is a living research document, updated as further mathematical derivations, correspondences and reproducible tests are completed. Future substantive revisions will be released as new numbered Zenodo versions, accompanied by a dated summary of changes. Please cite the specific version consulted. Version 0.21 &mdash; 19 October 2026: Added the seven giant-magnon benchmarks and their amplitude&ndash;phase correspondences, distinguishing classical results from the narrower semiclassical result. Detailed methods, results and reproducibility materials are documented in the companion publication, Giant Magnon Amplitude and Phase Correspondences : https://doi.org/10.5281/zenodo.23463422 . Keywords:&nbsp;String theory,&nbsp;Harmonic Physics,&nbsp;Phase dynamics,&nbsp;Phase nesting, Mathematical correspondence,&nbsp;Compact scalar fields,&nbsp;Compactification,&nbsp;Momentum and winding,&nbsp;T-duality,&nbsp;Sine-Gordon equation,&nbsp;Pohlmeyer reduction,&nbsp;Canonical transformations, Optical dispersion,&nbsp;Fluids of light,&nbsp;Schwarzschild geometry,&nbsp;Observer coupling,&nbsp;Optical localization,&nbsp;Reproducible research",
+      "tags": [
+        "string theory",
+        "harmonic physics",
+        "phase dynamics",
+        "phase nesting",
+        "mathematical correspondence",
+        "compact scalar fields",
+        "compactification",
+        "momemntum and winding",
+        "T-duality",
+        "sine-gordon equation",
+        "pohlmeyer reduction",
+        "cannonical transformations",
+        "optical dispersion",
+        "fluids of light",
+        "schwarzchild geometry",
+        "observer coupling",
+        "optical localization",
+        "reproducible research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "String Theory and Phase: Mathematical Correspondence and Current Interpretation",
+      "url": "https://zenodo.org/records/23463978"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "4dc5238782bc042a14d96c32",
+      "context_id": "5c6993159253b14550b8fb80",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "control",
+        "replication",
+        "retrieval"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.125,
+      "source": "zenodo",
+      "source_context_sha256": "8751c7004d59c0afd27705dfb9ea4ffcd916e1df92e7e80f65dcfd9d89c24f4c",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "This computational package accompanies the Neuro-Symbolic MAPE-K governance testbed for agentic retrieval-augmented generation at the edge. It provides Python source, experimental inputs, measured outputs, provenance manifests, analysis tables, figures and readable evidence reports for two related campaigns: the October 2026 MAPE-K controller campaign and the separate 18 October 2026 dense-retriever control campaign. The retriever control records 3,744 retrieval trials and 640 clean-validation query evaluations across sparse, pretrained dense and clean-fitted dense retrievers. It performs no new generator or controller evaluation. The package preserves campaign-specific directory layouts and historical execution records. A dependency-light deterministic template smoke test supports inspection without language-model downloads or CUDA. Full inference and fitting used NVIDIA Jetson Xavier NX 8 GB and platform-specific CUDA/PyTorch environments. Original host paths and observed package inventories are provenance records, not a universal portable lockfile; full main-campaign model weights are referenced by revision and checksum, while the retriever campaign includes its pretrained and clean-fitted checkpoints. A release verifier checks the curated file manifest and metadata. The original retrieval verifier also requires original source paths for its final host-specific integrity checks. Original project software is MIT licensed (SPDX: MIT), with collective copyright held by the MAPE-K contributors. Third-party terms remain applicable: O*NET 31.0 and UCI Adult-derived data and fixtures are CC BY 4.0 with attribution and modification notices; MiniLM model material and its clean-fitted derivative are Apache-2.0; BGE model material and its clean-fitted derivative are MIT with upstream attribution. File-specific notices, exact model revisions and checksums are retained. Experimental counts reuse base profiles and should not be interpreted as independent efficacy replications. The evidence does not establish population fairness, human-validated answer-quality superiority, or a guarantee of safe retrieved evidence.",
+      "tags": [
+        "MAPE-K",
+        "neuro-symbolic AI",
+        "agentic RAG",
+        "edge AI",
+        "computational reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Neuro-Symbolic MAPE-K: Computational Package and Retriever Control",
+      "url": "https://zenodo.org/records/23459940"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "edb1c7f53a8721f2db365409",
+      "context_id": "7a5dfee1113c8049efa89344",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0833,
+      "source": "zenodo",
+      "source_context_sha256": "0dd57dd4725f65f0fb949fda61610c8136d83ecd8488f4bf335ccd1afee3e413",
+      "source_published": "2026-10-18",
+      "source_updated": "",
+      "summary": "Data and analytical software for thermally activated Fe-SMA fibre-reinforced concrete This repository accompanies the article &ldquo;Analytical modelling of thermally activated iron-based shape memory alloy fibre concrete: Finite transfer and capacity compatibility&rdquo;. It provides the numerical source data, analytical implementation, calibration inputs, and results used to prepare the final article. The work examines finite fibre&ndash;matrix transfer, thermally activated composite response, cohesive-law identification, and the compatibility of reported strengths with uncertain fibre orientation and tensile capacity. The deposit contains one final analysis snapshot. It includes the reference formulation and the baselines, thermal alternatives, and cohesive-law candidates examined in the article. These are parts of the reported scientific assessment, rather than separate manuscript versions. Superseded model results, development archives, manuscript drafts, and unrelated source files are excluded. Contents &bull; data/ contains numerical representations of published response curves, reported group statistics, study metadata, fixed constituent and pullout calibrations, optimizer initialization values, and published experimental/finite-element comparison curves. Curve identifiers preserve the link to the source study and figure. These are processed publication-based data, rather than original instrument records. &bull; model/ contains the executable analysis scripts. They fit the concrete and composite controls, evaluate reference responses and competing baselines, compare response curves on matched displacement grids, assess orientation and conditional envelopes, test capacity compatibility, verify the independent finite-transfer solver, and fit/test the nested cohesive laws. model/screen_capacity.py provides a command-line conditional strength screen. &bull; model/fesma/ contains the reusable mechanics: the Fe-SMA backbone and bond-slip law, nonuniform pullout and work-quadrature solvers, concrete/cohesive section response, activation and two-ended bridging diagnostics, capacity-budget relations, analytical envelopes and inverse compatibility relations. Every script and module is described individually in docs/FILE_GUIDE.md, including its inputs and outputs. &bull; results/ contains the final reference results, source calibration/diagnostic outputs, orientation transfer matrices, conditional envelopes and containment checks, inverse compatibility calculations, numerical verification records, and cohesive-law fitting/exclusion results. The candidate fit files and specimen-exclusion folds document the model comparisons reported in the article. &bull; figures/ contains the final analytical/numerical TikZ figure sources and the exact numerical series plotted in them. The figure index links these files to the article numbering. Source experimental photographs are excluded. The supplied figure data preserve the published snapshot; numerical reruns write to results/. &bull; docs/ contains the full file guide, source bibliography, data dictionary, equation-to-code crosswalk, figure/plot-series indices, screening instructions and reproduction-check record. FILE_INDEX.csv provides a searchable inventory of every deposited file and its purpose. Individual analysis scripts &bull; model/fit_concrete.py &mdash; Fits 20 source-coordinate concrete compression envelopes and evaluates matrix thermal-retention candidates. &bull; model/reproduce_source_diagnostics.py &mdash; Recalculates the source-specific thermal and matched-rate baselines, finite recovery sensitivity, and six two-ended bridging scenarios used in Figures 6, 8 and 9. &bull; model/fit_reference.py &mdash; Refits the two PD matrix controls and nine fibre-control groups; derives PF matrix inputs, calibrates the DT activation index, and computes reference strengths and sensitivity profiles. &bull; model/check_reference.py &mdash; Checks section refinement, force balance and capac",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Data and analytical models for thermally activated Fe-SMA fibre-reinforced concrete: Finite transfer, cohesive response and capacity compatibility",
+      "url": "https://zenodo.org/records/23447445"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "01eba80ede342ca25fc10ba2",
+      "context_id": "ab45f573e9411e2a3aa6f133",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "control",
+        "memory",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0,
+      "source": "arxiv",
+      "source_context_sha256": "d476fafb9bb507ef86dc9f77e87e39a6bd884505f882eff530a0af4f5ad6d356",
+      "source_published": "2026-10-16T12:53:08Z",
+      "source_updated": "2026-10-16T12:53:08Z",
+      "summary": "Rapid progress in embodied intelligence has enabled increasingly capable robots to follow language instructions and manipulate diverse objects. However, strong results in structured environments do not automatically transfer to open-world conditions, where clutter, occlusion, and changing viewpoints can obscure the spatial relationships required for action. To address this perceptual gap, a virtual active-perception paradigm is introduced. AWAM, an Active World-Action Model actively plans where to observe and imagines what will be seen along the planned trajectory before acting. Task-related virtual camera motion is predicted and used as a structured query into a geometry-conditioned world model, producing a reusable spatial prior for manipulation, which is later compressed into a fixed memory and fused with live observations through cross-attention for diffusion-based action prediction. AWAM achieves competitive success rates with 75.9% on LIBERO-Occ, 62.4% on LIBERO-Plus, 76.5% on RLBench-OG Occlusion1, and 94.4% in real-robot trials. These results support improved robustness to the evaluated occlusions and distribution shifts, addressing part of the gap between structured manipulation and less controlled environments.",
+      "tags": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AWAM: Active Trajectory-Conditioned View Imagination for Robust Robot Manipulation",
+      "url": "https://arxiv.org/abs/2610.23396v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "33830a144db3cfb5c1f3f8ff",
+      "context_id": "111dda2a3b84ca568e0e7ffb",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "memory"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9583,
+      "source": "arxiv",
+      "source_context_sha256": "553568363d9ff34657ed4894e71245855f3d00d42c2da7bfc6c8f049c576a1a2",
+      "source_published": "2026-10-16T01:13:23Z",
+      "source_updated": "2026-10-16T01:13:23Z",
+      "summary": "In autonomous driving, perceiving surrounding objects is not enough: failing to understand how they move and interact over time can lead to dangerous decisions. Evaluating vision-language models (VLMs) therefore requires testing whether they connect past spatial observations to future consequences. Yet existing benchmarks often assess edge cases through basic perception questions or test temporal understanding in simple scenarios, leaving complex spatiotemporal reasoning underexplored. We introduce STRIDE (SpatioTemporal Reasoning In Driving Edge Cases), an object-centric benchmark for long-tail, safety-critical driving scenarios. STRIDE covers six task families: spatial perception, spatial understanding, temporal memory, temporal extrapolation, trajectory prediction, and scene-context awareness. It pairs multiple-choice questions probing individual spatiotemporal judgments with related free-form visual question answering (VQA) requiring detailed scene explanations and justifications of driving decisions. We prioritize scenes with unusual object behaviors and complex traffic interactions, generate reference answers from structured dataset annotations through automated procedures, and use limited language-model assistance and human verification to ensure annotation quality. Across 12 proprietary, open-weight, and driving-specialized models, even the best performer, GPT-6-Astra, achieves only 43.4% average multiple-choice accuracy, versus an approximately 20% random-choice baseline. Further analysis reveals that strong performance in describing driving scenes does not necessarily translate to accurate safety-critical judgments, and that models struggle more with reconstructing object motion than recalling past positions. STRIDE thus exposes spatiotemporal driving limitations that aggregate VQA scores can conceal.",
+      "tags": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "STRIDE: Evaluating Spatiotemporal Reasoning in Driving Edge Cases",
+      "url": "https://arxiv.org/abs/2610.22795v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "2875370eb2619cc64c49d373",
+      "context_id": "e8b4c63f181ac416c4b4a7d9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "6a6771114a3dd426654435c4f32f805fc7d848d2ad0a9798857de7245f5c6751",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "Fetch, verify and validate the public sources a dataset is built from, with a provenance record for every download",
+      "tags": [
+        "provenance",
+        "data pipeline",
+        "reproducibility",
+        "open data",
+        "research software",
+        "FAIR"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "sourceledger",
+      "url": "https://zenodo.org/records/23460695"
+    }
+  ],
+  "schema": "janus.beetle.repo_memory_batch.v1",
+  "selection": "BALANCED_LENS_ROLLING_TOP",
+  "snapshot_cap": 48,
+  "snapshot_items_total": 48,
+  "target_repository": "Hawkar-usls/Janus_Genesis"
+}
