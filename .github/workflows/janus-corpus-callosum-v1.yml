@@ -9,6 +9,7 @@ on:
       - 'tests/test_janus_corpus_callosum.py'
       - 'tests/test_janus_corpus_home_handoff.py'
       - 'tests/test_janus_corpus_git_publisher.py'
+      - 'tests/test_janus_corpus_real_native_cpu.py'
       - '.github/workflows/janus-corpus-callosum-v1.yml'
       - 'docs/JANUS_CORPUS_CALLOSUM_V1.md'
   workflow_dispatch:
@@ -38,6 +39,39 @@ jobs:
             tests.test_janus_corpus_git_publisher \
             tests.test_golem_free_federation \
             tests.test_genesis_beetle_model_consumption
+
+
+  pinned-native-e2e:
+    # Actual CPU execution of an immutable Demiurge revision. The external
+    # provider is always mocked and Git publishing stays on a local bare remote.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    env:
+      JANUS_NATIVE_DEMIURGE_CHECKOUT: ${{ github.workspace }}/_native_demiurge
+      JANUS_REQUIRE_REAL_NATIVE: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout Genesis test contract without write credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Checkout reviewed immutable Demiurge CPU kernel
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          ref: 8873e5121a67daac5c8afb8ff297d6565dc87c32
+          path: _native_demiurge
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install CPU-only PyTorch (no GPU, no external model inference)
+        run: |
+          python -m pip install --disable-pip-version-check \
+            'torch>=2.6,<3' --index-url https://download.pytorch.org/whl/cpu
+      - name: Run actual native CPU and injected external/rollback gauntlet
+        run: |
+          python -m unittest -v tests.test_janus_corpus_real_native_cpu
 
   inspect-home:
     if: ${{ github.event_name == 'workflow_dispatch' }}
