@@ -4,7 +4,10 @@ on:
   pull_request:
     paths:
       - 'tools/golem_free_federation.py'
+      - 'tools/golem_adaptive_tower.py'
       - 'tests/test_golem_free_federation.py'
+      - 'docs/GOLEM_GATEWAY_TOWER_ARCHAEOLOGY.md'
+      - 'docs/GOLEM_FREE_FEDERATION.md'
       - '.github/workflows/janus-golem-free-federation.yml'
   workflow_dispatch:
     inputs:
@@ -66,7 +69,9 @@ jobs:
           python _code/tools/golem_free_federation.py \
             --home-root _state/state/habitat_cloud_home
       - name: Explicitly query only configured free-plan providers
+        id: golem_call
         if: ${{ inputs.execute }}
+        continue-on-error: true
         env:
           JANUS_GOLEM_FREE_ENABLED: '1'
           JANUS_GOLEM_OPENROUTER_TOKEN: ${{ secrets.JANUS_GOLEM_OPENROUTER_TOKEN }}
@@ -81,7 +86,7 @@ jobs:
           set -euo pipefail
           python _code/tools/golem_free_federation.py \
             --home-root _state/state/habitat_cloud_home --execute --max-attempts 2
-      - name: Commit verified external response separately from Genesis HOME state
+      - name: Commit bounded gateway health and any verified response without moving Genesis ACK
         if: ${{ inputs.execute }}
         working-directory: _state
         shell: bash
@@ -91,9 +96,19 @@ jobs:
           git config user.email 'janus-golem-free[bot]@users.noreply.github.com'
           git add state/habitat_cloud_home/model_federation
           if git diff --cached --quiet; then
-            echo 'No new provenance receipt; checkpoint untouched'
+            echo 'No new gateway health or provenance receipt; checkpoint untouched'
             exit 0
           fi
           git diff --cached --check
-          git commit -m "JANUS GOLEM free external provider response ${GITHUB_RUN_ID}"
+          git commit -m "JANUS GOLEM free gateway health or model receipt ${GITHUB_RUN_ID}"
           git push origin HEAD:janus/habitat-cloud-state
+      - name: Report degraded provider availability without falsifying model success
+        if: ${{ inputs.execute && always() }}
+        shell: bash
+        env:
+          GOLEM_OUTCOME: ${{ steps.golem_call.outcome }}
+        run: |
+          if [ "$GOLEM_OUTCOME" != 'success' ]; then
+            echo '::warning::GOLEM did not receive a validated model answer; persisted cooldowns where possible'
+            exit 1
+          fi
