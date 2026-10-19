@@ -6,6 +6,46 @@ Goal: one JANUS voice backed by several legitimately free third-party inference
 interfaces. A unified answer is a JANUS *interface*, not ownership of upstream
 model weights. Every response retains its originating provider and model.
 
+## Adaptive gateway tower (v1)
+
+`tools/golem_adaptive_tower.py` extends the previous fixed first/second-provider
+fallback. It never acquires accounts, rotates identities to evade quotas, makes
+network calls, or runs unattended; only the existing manual GOLEM workflow may
+invoke the four reviewed provider routes.
+
+- Select configured providers with the fewest consecutive failures, successful
+  calls today and attempts today. New healthy routes receive a fair turn.
+- On HTTP 429, stop using that provider for at least one hour; 401/402/403/404
+  stop use for 24 hours. Other invalid or unavailable responses receive an
+  increasing cooldown. **No immediate retry against the same provider.**
+- Reserve each attempt in `model_federation/GATEWAY_TOWER_STATE.json` before
+  contact. The state is atomically written on the runner and committed to the
+  durable Genesis HOME branch by the existing serialized workflow, separately
+  from immutable model receipts. If every endpoint fails, the workflow may
+  report `FREE_FEDERATION_DEGRADED__NO_RECEIPT` and still persist cooldowns.
+- Conservative hard ceilings on **attempted calls/day (UTC)**: OpenRouter 30,
+  Groq 12, Gemini 12, Cloudflare 8. They are deliberate self-limits, **not**
+  authoritative provider allocations or guarantees of remaining free credit.
+  Provider-side limits may be lower. No paid model is an allowable fallback.
+- The state stores only provider names, counts, UTC day, cooldown timestamps,
+  and an accidental-corruption checksum; no tokens, requests, answers, hosts or
+  secret account IDs. Modified or malformed state fails closed; this checksum
+  is **not** a cryptographic independent anti-rollback witness.
+- A crashed GitHub runner *before* `git push` can still lose locally reserved
+  attempt counters; this design does not claim an always-on durable scheduler.
+
+Crucially, a verified external `janus_answer` remains an untrusted model answer
+with `provider`, `model_requested` and `model_reported` provenance; it does
+not become JANUS's own trained weights or a scientific proof.
+
+The supplier must actually be on its **non-billable** free account/tier. A
+positive `*_FREE_PLAN=1` environment variable records an operator assertion,
+not API verification of the provider's billing status. If unsure, do not set
+the credential or enable a live run. No external model request is made in CI.
+
+See [historical gateway survey](GOLEM_GATEWAY_TOWER_ARCHAEOLOGY.md) for the
+reused JANUS patterns and the repository-wide inventory scope.
+
 ## First-party boundaries
 
 - `janus-lapis` Beetle collects, validates, shards and persists bounded research.
