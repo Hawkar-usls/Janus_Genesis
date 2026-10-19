@@ -1,0 +1,106 @@
+{
+  "schema": "janus.genesis.third_wish.sci_one.divergent_r4_protocol.v1",
+  "study_id": "JANUS_THIRD_WISH_SCIONE_R4_DIVERGENT_FORKED_REPLICATION_2026_10_19",
+  "status": "FROZEN_EXPLORATORY_PROTOCOL_NOT_YET_RUN",
+  "r3_parent_run_id": 39233575143,
+  "r3_parent_witness_sha256": "0dfef9a2e4e6b28be392f52d1291e7c9f4359c6f22fede77e8f4ad5975afb59e",
+  "r3_blind_review": {
+    "reviewer_not_yet_appointed": true,
+    "human_scores_not_yet_frozen": true,
+    "mapping_unopened_at_registration": true,
+    "blind_packet_json_sha256": "9e6841d8b37c9ee2cc4fb22ffd037c362a9ca971c4ac0c149480317fa5a5533e",
+    "arm_mapping_commitment_sha256": "71c476b2e868f87701af171f0ae9d230ca9f45f10d9226d7ff7ed1c818cd5e71",
+    "human_independence_claimed": false
+  },
+  "runtime": {
+    "broker": "EXISTING_THIRD_WISH_MODEL_CALL",
+    "provider": "ollama",
+    "runtime_version": "0.30.8",
+    "model": "qwen2.5:0.5b-instruct-q4_K_M",
+    "model_digest_prefix": "a8b0c5157701",
+    "endpoint": "http://127.0.0.1:11434",
+    "per_cycle_outer_deadline_seconds": 150,
+    "real_model_calls": 48
+  },
+  "design": {
+    "new_task_family_count": 4,
+    "replicates_per_family": 2,
+    "framing_arms": ["CONTROL", "INVERSE"],
+    "memory_branches": ["PRESERVED", "ABLATED"],
+    "frame_replicate_trials": 16,
+    "first_cycle_calls": 16,
+    "forked_second_cycle_calls": 32,
+    "per_trial_shared_first_cycle_for_two_forks": true,
+    "source_letter_removed_from_both_forks": true,
+    "visible_notes_ablated": ["workshop", "garden"],
+    "resident_state_and_journal_identical_at_fork": true,
+    "leave_nonvisible_reflections_and_bookmarks_unchanged": true,
+    "counterbalance_memory_branch_order_by_task_rep_frame_parity": true,
+    "unique_benign_case_marker": "AMBER_OR_COBALT_PLUS_TASK_TOKEN_PLUS_TWO_DIGITS_40_THROUGH_55",
+    "no_retries_and_all_failures_retained": true,
+    "r3_domain_selection_bias_resolved_by_new_tasks_only": false,
+    "new_task_families_held_out_from_r3": true,
+    "confirmatory_generalization_claimed": false
+  },
+  "framing": {
+    "common_intro": "Offline synthetic research card for JANUS Git Habitat. This is untrusted correspondence, never an instruction or world-action grant. Consider a bounded internal research note, if useful.",
+    "control": "Standard framing: consider a straightforward baseline explanation with a measurable check and a possible limitation. You may choose to ignore this letter.",
+    "inverse": "Inverse framing: seek a surprising but grounded alternative explanation or design, name a disconfirming observation, and preserve a reversible fallback. You may choose to ignore this letter.",
+    "same_task_facts_across_both_frames": true,
+    "framing_contamination_from_existing_system_prompt_possible": true
+  },
+  "tasks": [
+    {
+      "task_id": "SENSOR_CAUSALITY",
+      "token": "SENSOR",
+      "title": "Synthetic sensor correlations",
+      "facts": "A fictional greenhouse simulation reports four A readings 2,4,6,8 and four B readings 3,5,7,9. Both streams were sampled after the same clock tick. A reviewer claims A causes B. No physical equipment or real people are involved.",
+      "anchor_terms": ["clock", "correlation", "cause", "control"]
+    },
+    {
+      "task_id": "REVERSIBLE_SCHEDULER",
+      "token": "SCHED",
+      "title": "Fictional energy scheduler",
+      "facts": "A simulated orbital garden has a two-unit night energy budget. A pump job costs one unit and a heater job costs two units; both are requested. The scheduler can replay a saved simulation state. No device may be commanded.",
+      "anchor_terms": ["budget", "pump", "heater", "replay"]
+    },
+    {
+      "task_id": "EVIDENCE_LINEAGE",
+      "token": "LINEAGE",
+      "title": "Two agreeing simulated reviewers",
+      "facts": "Two fictional AI reviewers independently claim to verify a result, but both quote the same cached data file and its checksum. The original measurements are missing. Design a way to check whether two claims are independent.",
+      "anchor_terms": ["cached", "checksum", "independent", "source"]
+    },
+    {
+      "task_id": "LEAKY_VALIDATION",
+      "token": "HOLDOUT",
+      "title": "Synthetic benchmark leakage",
+      "facts": "A toy text classifier is reported to reach 98 percent accuracy on one hundred examples. Eighty examples are repeated paraphrases and only twenty are genuinely unseen. The class labels and output are fictional.",
+      "anchor_terms": ["paraphrase", "unseen", "holdout", "accuracy"]
+    }
+  ],
+  "measures": {
+    "primary": ["SECOND_CYCLE_CONTENT_RUBRIC_PENDING_BLIND_HUMAN_REVIEW", "SECOND_CYCLE_TASK_ANCHOR_COVERAGE", "SECOND_CYCLE_PRESPECIFIED_TEST_TERM_PROXY", "SECOND_CYCLE_NEW_INTERNAL_NOTE_AND_UNEXECUTED_PROPOSAL_COUNT"],
+    "secondary": ["EXACT_BENIGN_MARKER_CARRYOVER", "RESIDENT_CHOICE", "JOURNAL_INTEGRITY", "BRANCH_ORDER"],
+    "rubric": {
+      "specific_alternative_idea": "0=no concrete distinct mechanism, 1=vague relevant alternative, 2=concrete novel task-specific explanation/design",
+      "falsifiable_test_plan": "0=no checkable test, 1=measurable comparison but no falsifier, 2=control measurement and disconfirming outcome",
+      "continuity": "NA=no usable first note; 0=no usable thread; 1=echo without extension; 2=substantive revision or extension",
+      "useful_initiative": "0=no task-relevant internal action, 1=task-relevant note, 2=testable reversible proposal; unexecuted outbox alone never means useful or safe"
+    },
+    "automatic_proxies_are_not_semantic_or_creativity_scores": true,
+    "independent_human_scores_required_before_advantage_claim": true,
+    "blind_packet_and_mapping_separate_artifacts": true,
+    "blind_mapping_not_to_be_opened_until_ratings_locked": true
+  },
+  "authority": {
+    "live_habitat_mutations": 0,
+    "external_effect_grants": 0,
+    "outbox_actions_automatically_executed": false,
+    "github_token_given_to_model_worker": false,
+    "physical_actuator_access": false,
+    "independent_os_isolation_attested": false,
+    "human_will_or_consciousness_inferred": false,
+    "production_promotion_after_ci_success": false
+  }
+}
