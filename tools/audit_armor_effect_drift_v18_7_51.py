@@ -74,6 +74,10 @@ SURFACE_CLASSIFICATIONS = (
         "LOOPBACK_ONLY_RESIDENT_MODEL_PROVIDER_BEHIND_MODEL_CALL",
     ),
     (
+        "tools/janus_corpus_callosum.py",
+        "EXPLICIT_OPT_IN_PINNED_NATIVE_MODEL_SUBPROCESS_NOT_ARMOR_ADMITTED",
+    ),
+    (
         "tools/genesis_beetle_memory_bridge.py",
         "READ_ONLY_FIXED_PUBLIC_BEETLE_PRODUCER_MANIFEST_FETCH",
     ),
