@@ -49,7 +49,7 @@ jobs:
           assert 'persist-credentials: false' in p
           assert 'scione-causal-r3-blind-packet-39233575143' in p
           assert 'scione-divergent-r4-blind-packet-39240749703' in p
-          assert 'private-mapping-' not in p
+          assert ('private' + '-mapping-') not in p
           assert ('${' + '{ secrets.') not in p
           assert ('workflow_' + 'dispatch:') not in p
           assert ('sche' + 'dule:') not in p
