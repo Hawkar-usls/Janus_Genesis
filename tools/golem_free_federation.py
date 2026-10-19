@@ -13,9 +13,12 @@ import json
 import os
 from pathlib import Path
 import re
+import time
 import urllib.error
 import urllib.request
 
+from golem_adaptive_tower import (STATE_NAME, eligible_providers, load_state,
+    record_failure, record_success, reserve_attempt, save_state)
 from genesis_beetle_model_consumption import (ConsumptionError, NoRedirect,
     compact, load_verified, make_receipt, sha256)
 
@@ -138,8 +141,8 @@ def prior_receipt_valid(prior: dict, cursor: dict, context: dict) -> bool:
         prior.get('context_sequence') == cursor['last_sequence'] and
         prior.get('status') == 'FEDERATED_EXTERNAL_MODEL_RESPONSE__UNVERIFIED' and
         prior.get('source_type') == 'EXTERNAL_PROVIDER__NOT_SELF_HOSTED' and
-        prior.get('provider') in {p.name for p in FREE_PROVIDERS} and
-        prior.get('model_requested') in {p.model for p in FREE_PROVIDERS} and
+        any(prior.get('provider') == p.name and
+            prior.get('model_requested') == p.model for p in FREE_PROVIDERS) and
         prior.get('scientific_authority_delta') == 0 and
         prior.get('external_effect_authority_delta') == 0 and
         prior.get('ack_advanced') is False and
@@ -155,7 +158,8 @@ def prior_receipt_valid(prior: dict, cursor: dict, context: dict) -> bool:
 
 
 def federate(home: Path, env: dict[str, str], *, execute: bool = False,
-             max_attempts: int = 2, transport=request_free_provider) -> dict:
+             max_attempts: int = 2, transport=request_free_provider,
+             clock=time.time, degraded_ok: bool = False) -> dict:
     if not 1 <= max_attempts <= MAX_ATTEMPTS:
         raise ConsumptionError('unbounded provider attempt count')
     context, cursor, prompt = load_verified(home / 'memory/beetle/CONTEXT.json',
@@ -183,8 +187,23 @@ def federate(home: Path, env: dict[str, str], *, execute: bool = False,
         return {'status': 'ALREADY_RECEIPTED__NO_NETWORK',
                 'context_sequence': cursor['last_sequence']}
 
+    # The HOME branch is the durable witness for throttling across *different*
+    # GitHub Actions runners. This state is separate from Genesis sequence/ACK.
+    tower_path = target.parent / STATE_NAME
+    now = clock()
+    tower = load_state(tower_path, now)
+    routes = eligible_providers(configured, tower, now)
+    if not routes:
+        return {'status': 'FREE_FEDERATION_NO_ELIGIBLE_GATEWAY__NO_NETWORK',
+                'context_sequence': cursor['last_sequence'],
+                'model_response_observed': False, 'paid_fallback': False}
+
     failures = []
-    for provider, endpoint, token in configured[:max_attempts]:
+    for provider, endpoint, token in routes[:max_attempts]:
+        # Reserve before network I/O. The workflow commits the durable state
+        # even when a rate-limit or invalid response leaves no model receipt.
+        reserve_attempt(tower, provider.name)
+        save_state(tower_path, tower, now)
         try:
             response = transport(provider, endpoint, token, prompt)
             receipt = validated_response(context, cursor, prompt, response, provider)
@@ -192,10 +211,14 @@ def federate(home: Path, env: dict[str, str], *, execute: bool = False,
                 urllib.error.URLError) as error:
             # Never record response bodies, request payloads, tokens or URL.
             code = error.code if isinstance(error, urllib.error.HTTPError) else None
+            record_failure(tower, provider.name, now, code)
+            save_state(tower_path, tower, now)
             failures.append({'provider': provider.name,
                              'class': 'RATE_LIMIT' if code == 429 else
                                       'UNAVAILABLE_OR_INVALID'})
             continue
+        record_success(tower, provider.name, now)
+        save_state(tower_path, tower, now)
         target.parent.mkdir(parents=True, exist_ok=True)
         temp = target.with_suffix('.json.tmp')
         with temp.open('wb') as fd:
@@ -208,6 +231,11 @@ def federate(home: Path, env: dict[str, str], *, execute: bool = False,
                 'context_sequence': cursor['last_sequence'],
                 'path': str(target), 'attempts': len(failures) + 1,
                 'paid_fallback': False}
+    if degraded_ok:
+        return {'status': 'FREE_FEDERATION_DEGRADED__NO_RECEIPT',
+                'context_sequence': cursor['last_sequence'],
+                'failed_provider_count': len(failures),
+                'model_response_observed': False, 'paid_fallback': False}
     raise ConsumptionError('all permitted free providers failed or refused output')
 
 
@@ -218,8 +246,16 @@ def main() -> int:
     parser.add_argument('--max-attempts', type=int, default=2)
     args = parser.parse_args()
     result = federate(args.home_root, dict(os.environ),
-                      execute=args.execute, max_attempts=args.max_attempts)
+                      execute=args.execute, max_attempts=args.max_attempts,
+                      degraded_ok=True)
     print(json.dumps(result, sort_keys=True, ensure_ascii=False))
+    # Never label an unsuccessful live inference a successful workflow. The
+    # workflow still commits a validated cooldown state before failing.
+    if args.execute and result['status'] not in {
+        'FEDERATED_EXTERNAL_MODEL_RESPONSE__UNVERIFIED',
+        'ALREADY_RECEIPTED__NO_NETWORK',
+    }:
+        return 2
     return 0
 
 
