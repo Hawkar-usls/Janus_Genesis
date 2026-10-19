@@ -18,6 +18,13 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+# GitHub Actions invokes this file directly, not with ``python -m``.
+# Keep that entry point identical to the package-import path before importing
+# the existing R1 supervisor. No credentials or capabilities are added.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from tools.genesis_third_wish_scione_model_r1 import (
     EXPECTED_CHAPTERS,
     RUNNER,
@@ -27,7 +34,7 @@ from tools.genesis_third_wish_scione_model_r1 import (
     worker_environment,
 )
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = REPO_ROOT
 FIXTURE = ROOT / "protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_INVERSE_R2-v1.0.json"
 FIXTURE_SHA256 = "a5b11c77052bed05e1cf4bbe5f582df3433186b8df373d0932b708dea939d0a3"
 WITNESS_SCHEMA = "janus.genesis.third_wish.sci_one.inverse_r2_witness.v1"
