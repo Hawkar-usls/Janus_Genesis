@@ -175,7 +175,10 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
 
 def query_attested_aura(home: Path, *, execute: bool = False,
                         transport: Callable = _http,
-                        sleeper: Callable = time.sleep) -> dict:
+                        sleeper: Callable = time.sleep,
+                        native_repo: Path | None = None,
+                        native_head: str | None = None,
+                        native_runner: Callable | None = None) -> dict:
     """Reuse the merged AURA→Corpus verifier; volunteer sees only a generic card."""
     if not execute:
         return query_public(execute=False)
@@ -193,6 +196,27 @@ def query_attested_aura(home: Path, *, execute: bool = False,
     # Bind locally without disclosing these SHA digests to volunteers.
     result["aura_receipt_sha256_local_only"] = evidence["aura_receipt_sha256"]
     result["verified_context_sha256_local_only"] = evidence["cursor"]["context_sha256"]
+    result["native_review_status"] = "NOT_EXECUTED_OR_NO_MODEL_RESULT"
+    if result["response"] is not None and native_repo is not None:
+        from janus_corpus_callosum import _valid_native, run_demiurge_native
+        from janus_corpus_callosum_v2 import _review_prompt
+        runner = native_runner or run_demiurge_native
+        original = evidence["v2"]["native_initial"]
+        if native_head != original["source_commit"]:
+            raise ConsumptionError("HORDE_NATIVE_COMMIT_DOES_NOT_MATCH_ORIGINAL")
+        prompt = _review_prompt(result["response"], evidence["cursor"])
+        try:
+            review = _valid_native(runner(native_repo, native_head, prompt),
+                                   native_head, prompt)
+            if review["checkpoint_sha256"] != original["checkpoint_sha256"]:
+                raise ConsumptionError("HORDE_NATIVE_REVIEW_CHECKPOINT_CHANGED")
+            result["native_review_status"] = (
+                "REAL_PINNED_NATIVE_CPU_UNVERIFIED" if (
+                    runner is run_demiurge_native and result["network_model_response_observed"]
+                ) else "MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE")
+            result["native_review_sha256_local_only"] = sha256(compact(review))
+        except (ConsumptionError, OSError, ValueError, KeyError, TypeError):
+            result["native_review_status"] = "NATIVE_REVIEW_UNAVAILABLE"
     return result
 
 
