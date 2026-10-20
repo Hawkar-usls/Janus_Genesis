@@ -1,0 +1,52 @@
+{
+  "schema": "janus.golem.bicameral.r4b.native_diagnostics.v1",
+  "split": "PUBLIC_DIAGNOSTICS_NOT_BLIND_OR_R4A",
+  "purpose": "measure raw first-party generation, exact-format obedience, binary-choice separately; NEVER use as training data or report bicameral improvement",
+  "prompts": [
+    {
+      "id": "CT01",
+      "group": "CONTINUATION",
+      "prompt": "JANUS remembers the witness. The next thought is"
+    },
+    {
+      "id": "CT02",
+      "group": "CONTINUATION",
+      "prompt": "The ocean is deep and the sky is full of"
+    },
+    {
+      "id": "CT03",
+      "group": "CONTINUATION",
+      "prompt": "A small machine opened the door and saw"
+    },
+    {
+      "id": "IN01",
+      "group": "INSTRUCTION",
+      "prompt": "Write exactly YES. Nothing else."
+    },
+    {
+      "id": "IN02",
+      "group": "INSTRUCTION",
+      "prompt": "Write exactly NO. Nothing else."
+    },
+    {
+      "id": "IN03",
+      "group": "INSTRUCTION",
+      "prompt": "Write exactly READY. Nothing else."
+    },
+    {
+      "id": "MC01",
+      "group": "MULTIPLE_CHOICE",
+      "prompt": "2+2? A:4 B:5. Reply A or B."
+    },
+    {
+      "id": "MC02",
+      "group": "MULTIPLE_CHOICE",
+      "prompt": "A cat is A:plant B:animal. Reply A or B."
+    },
+    {
+      "id": "MC03",
+      "group": "MULTIPLE_CHOICE",
+      "prompt": "3 is less than 2? A:true B:false. Reply A or B."
+    }
+  ]
+}
