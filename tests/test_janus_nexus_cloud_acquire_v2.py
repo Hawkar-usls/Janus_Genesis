@@ -87,17 +87,17 @@ class TestCloudAcquirerV2Security(unittest.TestCase):
 
     def test_workflow_requires_trusted_dispatch_for_private_workers(self):
         workflow = (ROOT / ".github/workflows/janus-real44-cloud-materialization-v2.yml").read_text()
-        head, jobs = workflow.split("\\njobs:\\n", 1)
+        head, jobs = workflow.split("\njobs:\n", 1)
         self.assertNotIn("secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN", head)
         self.assertIn("  offline-contract:", jobs)
-        a = jobs.split("  worker-a:\\n", 1)[1].split("  worker-b:\\n", 1)[0]
-        b = jobs.split("  worker-b:\\n", 1)[1].split("  verdict:\\n", 1)[0]
+        a = jobs.split("  worker-a:\n", 1)[1].split("  worker-b:\n", 1)[0]
+        b = jobs.split("  worker-b:\n", 1)[1].split("  verdict:\n", 1)[0]
         for worker in (a, b):
             self.assertIn("github.event_name == 'workflow_dispatch'", worker)
             self.assertIn("github.ref == 'refs/heads/main'", worker)
             self.assertIn("github.repository == 'Hawkar-usls/Janus_Genesis'", worker)
-        self.assertIn("if: always()", jobs.split("  verdict:\\n", 1)[1])
-        self.assertNotIn("secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN", jobs.split("  offline-contract:\\n", 1)[1].split("  worker-a:\\n", 1)[0])
+        self.assertIn("if: always()", jobs.split("  verdict:\n", 1)[1])
+        self.assertNotIn("secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN", jobs.split("  offline-contract:\n", 1)[1].split("  worker-a:\n", 1)[0])
         self.assertIn("persist-credentials: false", a)
         self.assertIn("persist-credentials: false", b)
 
