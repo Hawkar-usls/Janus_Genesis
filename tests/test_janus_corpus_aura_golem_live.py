@@ -52,12 +52,13 @@ class AuraGolemTests(unittest.TestCase):
         self.assertTrue(data["original_corpus_v2_external_was_simulated"])
         self.assertFalse(data["native_input_or_home_memory_exported"])
         self.assertNotIn(self.checkpoint, payload.decode())
+        self.assertNotIn("CID-1", payload.decode())
         self.assertEqual(provider.model, "openrouter/free")
         self.assertTrue(endpoint.startswith("https://openrouter.ai/"))
         self.assertEqual(token, self.env["JANUS_GOLEM_OPENROUTER_TOKEN"])
         return {"model": "test-model-not-real", "choices": [{"message": {"content": json.dumps({
             "intake_status": "UNVERIFIED_CONTEXT_SEEN",
-            "observed_context_ids": ["CID-1"],
+            "observed_context_ids": ["idsha256:" + sha256(b"CID-1")[:24]],
             "janus_answer": "Researcher should seek a genuine independent witness.",
         })}}]}
 
