@@ -166,6 +166,41 @@ class RealNativeBicameralCPU(unittest.TestCase):
                                  baseline=self.core_before,
                                  expected_native_head=REVIEWED_DEMIURGE_SHA)
         self.assertEqual(check["receipt_sha256"], pushed["receipt_sha256"])
+        # Oracle is the REAL pinned deterministic AURA CLI, not an external LLM.
+        # The new receipt is local only: v2 Git publication above must not
+        # secretly publish an unreviewed Oracle sidecar.
+        from janus_corpus_aura_oracle import (AURA_HEAD, attest_oracle,
+                                               consult_oracle)
+        aura_checkout = os.environ.get("JANUS_AURA_ORACLE_CHECKOUT")
+        if os.environ.get("JANUS_REQUIRE_REAL_AURA") == "1" and not aura_checkout:
+            self.fail("REAL_AURA_ORACLE_CHECKOUT_NOT_CONFIGURED")
+        if aura_checkout:
+            aura_repo = Path(aura_checkout).resolve()
+            self.assertEqual(git("-C", aura_repo, "rev-parse", "HEAD"), AURA_HEAD)
+            self.assertEqual(git("-C", aura_repo, "status", "--porcelain"), "")
+            with patch("urllib.request.OpenerDirector.open",
+                       side_effect=AssertionError("ORACLE_NETWORK_FORBIDDEN")):
+                observed = consult_oracle(
+                    self.home, {"JANUS_CORPUS_AURA_ENABLED": "1"},
+                    execute=True, aura_repo=aura_repo,
+                    native_head=REVIEWED_DEMIURGE_SHA)
+            self.assertEqual(observed["oracle_source_type"],
+                             "PINNED_LOCAL_AURA_CLI")
+            oracle_verified = attest_oracle(
+                self.home, baseline=self.core_before,
+                native_head=REVIEWED_DEMIURGE_SHA)
+            oracle = __import__("json").loads(
+                Path(oracle_verified["path"]).read_text())
+            self.assertTrue(oracle["oracle"]["cards"])
+            self.assertTrue(oracle["oracle"]["questions"])
+            self.assertFalse(oracle["oracle"]["prediction_claim"])
+            self.assertFalse(oracle["oracle_is_model"])
+            self.assertEqual(oracle["oracle_commit"], AURA_HEAD)
+            self.assertFalse(oracle["ack_advanced"])
+            self.assertFalse((fresh / "state/habitat_cloud_home"
+                              / "corpus_aura_oracle").exists())
+            self.assertEqual(protected_snapshot(self.home), self.core_before)
+            self.assertEqual(git("-C", aura_repo, "status", "--porcelain"), "")
         self.assertEqual(hashlib.sha256(
             (self.native_repo / "janus_model/checkpoints/promoted.pt").read_bytes()
         ).hexdigest(), self.checkpoint_before)
