@@ -94,7 +94,7 @@ def _clone_public(repository: str, destination: Path) -> None:
 
 
 def _clone_private(repo_id: str, full_name: str, token: str, destination: Path) -> None:
-    if not token or any(c in token for c in "\\r\\n"):
+    if not token or any(c in token for c in (chr(10), chr(13))):
         raise AcquisitionError("PRIVATE_CREDENTIAL_INVALID")
     if not re.fullmatch(r"[A-Za-z0-9_.-]{1,100}/[A-Za-z0-9_.-]{1,200}", full_name):
         raise AcquisitionError("PRIVATE_REPOSITORY_NAME_INVALID")
