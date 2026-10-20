@@ -11,7 +11,7 @@ advisory integration. It does **not** edit their receipt format.
 1. Revalidate the pre-existing, pinned real local AURA advisory receipt **and**
    its upstream Corpus v2. If either is absent or tampered, do not call GOLEM.
 2. Extract a bounded **question** from AURA (heuristic, not evidence). Send
-   only this question, opaque context IDs and SHA-256 bindings to a
+   only this question, SHA-256-derived pseudonymous context labels and bindings to a
    specifically selected free-plan model. No raw native generations, protected
    HOME text, model checkpoint, token or full conversation is sent.
 3. Reuse `golem_free_federation`'s existing fixed providers, fixed model IDs,
