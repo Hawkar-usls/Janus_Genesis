@@ -1,0 +1,34 @@
+name: JANUS Corpus AURA to GOLEM free live adapter (offline contract)
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_corpus_aura_golem_live.py'
+      - 'tests/test_janus_corpus_aura_golem_live.py'
+      - 'docs/JANUS_CORPUS_AURA_GOLEM_LIVE_R0.md'
+      - '.github/workflows/janus-corpus-aura-golem-live-r0.yml'
+  push:
+    paths:
+      - 'tools/janus_corpus_aura_golem_live.py'
+      - 'tests/test_janus_corpus_aura_golem_live.py'
+      - '.github/workflows/janus-corpus-aura-golem-live-r0.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-no-provider-key:
+    runs-on: ubuntu-latest
+    env:
+      JANUS_CORPUS_AURA_GOLEM_LIVE_ENABLED: '0'
+      JANUS_GOLEM_FREE_ENABLED: '0'
+      JANUS_GOLEM_NO_BILLING_CONFIRMED: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify the checked adapter compiles
+        run: python -m py_compile tools/janus_corpus_aura_golem_live.py
+      - name: Offline adversarial contracts, no network or secrets
+        run: python -m unittest discover -s tests -p 'test_janus_corpus_aura_golem_live.py' -v
