@@ -59,9 +59,11 @@ def challenge(evidence: dict) -> dict:
             any(not isinstance(q, str) or not 0 < len(q) <= 600 for q in questions)):
         raise ConsumptionError("AURA_QUESTIONS_UNSAFE_OR_EMPTY")
     cursor = evidence["cursor"]
-    context_ids = [item["context_id"] for item in evidence["context"]["recent_items"]][:3]
-    if not context_ids or any(not isinstance(c, str) for c in context_ids):
+    original_ids = [item["context_id"] for item in evidence["context"]["recent_items"]][:3]
+    if not original_ids or any(not isinstance(c, str) or not c for c in original_ids):
         raise ConsumptionError("CONTEXT_IDS_REQUIRED")
+    # Provider sees labels that cannot directly disclose free-form context IDs.
+    context_ids = ["idsha256:" + sha256(c.encode("utf-8"))[:24] for c in original_ids]
     return {
         "schema": REQUEST_SCHEMA,
         "context_sha256": cursor["context_sha256"],
