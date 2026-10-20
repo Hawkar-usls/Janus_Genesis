@@ -1,0 +1,59 @@
+name: JANUS GOLEM keyless AI Horde public question R1
+
+on:
+  pull_request:
+    paths:
+      - 'tools/golem_ai_horde_anonymous.py'
+      - 'tests/test_golem_ai_horde_anonymous.py'
+      - 'docs/JANUS_GOLEM_AI_HORDE_ANONYMOUS_R1.md'
+      - '.github/workflows/janus-golem-ai-horde-keyless-r1.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-horde-public-r1-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify strict public-only, non-paid, no-leak AI Horde adapter
+        run: |
+          python -m py_compile tools/golem_ai_horde_anonymous.py
+          python -m unittest -v tests.test_golem_ai_horde_anonymous
+          python tools/golem_ai_horde_anonymous.py
+
+  one-public-anonymous-canary:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    needs: offline-contract
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Submit exactly ONE official anonymous text job; no keys or HOME
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python tools/golem_ai_horde_anonymous.py --execute-public-demo \
+            --out "$RUNNER_TEMP/golem-horde-anonymous-public-r1.json"
+      - name: Preserve real status including outage or timeout
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-horde-r1-public-observation
+          path: ${{ runner.temp }}/golem-horde-anonymous-public-r1.json
+          if-no-files-found: warn
+          retention-days: 14
