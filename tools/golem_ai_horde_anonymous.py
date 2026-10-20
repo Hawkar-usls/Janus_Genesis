@@ -76,9 +76,12 @@ def _http(method: str, path: str, body: dict | None = None) -> dict:
         if not isinstance(decoded, dict):
             raise ConsumptionError("HORDE_BAD_JSON_OBJECT")
         return decoded
-    except (error.HTTPError, error.URLError, TimeoutError, ValueError,
-            UnicodeDecodeError) as exc:
-        raise ConsumptionError("HORDE_NETWORK_UNAVAILABLE_OR_REJECTED") from exc
+    except error.HTTPError as exc:
+        raise ConsumptionError(f"HORDE_HTTP_{exc.code}") from exc
+    except error.URLError as exc:
+        raise ConsumptionError("HORDE_TRANSPORT_UNREACHABLE") from exc
+    except (TimeoutError, ValueError, UnicodeDecodeError) as exc:
+        raise ConsumptionError("HORDE_NETWORK_OR_JSON_FAILED") from exc
 
 
 def _public_prompt(question: str) -> str:
@@ -113,6 +116,7 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
         "status": "DRY_RUN_NO_NETWORK",
         "attempts": 0, "polls": 0, "model_reported_unverified": None,
         "response": None, "response_sha256": None, "job_id": None,
+        "failure_class": None,
         "scientific_authority_delta": 0, "ack_advanced": False,
         "auto_training_allowed": False,
     }
@@ -168,8 +172,11 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
         except (ConsumptionError, OSError, ValueError):
             pass
         return base
-    except (ConsumptionError, OSError, ValueError, KeyError, TypeError):
+    except (ConsumptionError, OSError, ValueError, KeyError, TypeError) as exc:
         base["status"] = "PROVIDER_UNAVAILABLE__NO_RESPONSE"
+        label = str(exc) if isinstance(exc, ConsumptionError) else ""
+        base["failure_class"] = (label if label.startswith("HORDE_") and
+                                  len(label) <= 64 else "UNCLASSIFIED_NETWORK_FAILURE")
         return base
 
 
