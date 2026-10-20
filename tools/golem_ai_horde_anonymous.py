@@ -245,6 +245,7 @@ def main() -> int:
         "network_model_response_observed": report["network_model_response_observed"],
         "source": report["source"],
         "model": report["model_reported_unverified"],
+        "failure_class": report["failure_class"],
         "sha256": sha256(body.encode("utf-8")),
     }, sort_keys=True))
     return 0
