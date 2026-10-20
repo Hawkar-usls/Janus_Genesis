@@ -140,6 +140,21 @@ class TestHordeAnonymous(unittest.TestCase):
                                            transport=self.fake, sleeper=lambda *_: None)
         self.assertEqual(self.calls, [])
 
+    def test_identifies_official_client_with_public_contact(self):
+        class Refused:
+            def open(self, req, timeout):
+                self.req = req
+                raise horde.error.HTTPError(req.full_url, 403, "Forbidden",
+                                            {}, io.BytesIO(b'{}'))
+        client = Refused()
+        with patch.object(horde.request, "build_opener", return_value=client):
+            with self.assertRaises(ConsumptionError):
+                horde._http("POST", "/generate/text/async", {"prompt": "public"})
+        agent = client.req.get_header("Client-agent")
+        self.assertTrue(agent.startswith("JANUS-AURA-GOLEM:0.2:"))
+        self.assertIn("github.com/Hawkar-usls/Janus_Genesis/issues", agent)
+        self.assertIn("JANUS-AURA-GOLEM/0.2", client.req.get_header("User-agent"))
+
     def test_403_official_refusal_code_is_safely_classified(self):
         class Refused:
             def open(self, request, timeout):
