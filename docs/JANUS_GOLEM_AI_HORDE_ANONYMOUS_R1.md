@@ -43,3 +43,32 @@ A real received response is an external model observation, NOT a verified
 prediction or proof. A future full Native → External → Native quality trial
 still requires independent evaluation. GitHub Actions runner minutes may
 be consumed even though the provider has no monetary API tariff.
+
+## R1.1 strict availability gate (Draft PR #287, not an inference claim)
+
+The offline unit tests remain free of network and prove only protocol handling.
+The pull request canary now uses `--execute-public-demo --require-real-answer`.
+The process exits **2** unless the built-in HTTPS transport observes an actual
+nonempty one-generation model response; HTTP 403, queue timeouts and invalid
+results are availability **FAIL/HOLD**, never a successful provider result.
+An `always()` artifact step preserves the complete bounded receipt even
+after the strict canary step fails.
+
+For HTTP errors, a bounded JSON error body is inspected **only** for a
+pre-reviewed official `rc` value. Public diagnostics contain the HTTP number
+and optional allowed `rc` classification; never upstream `message`,
+HTML, arbitrary strings, response headers or credentials. An unrecognized
+or malformed body is reported only as `HORDE_HTTP_403` (or the observed
+numeric HTTP status). This helps distinguish an explicitly forbidden anonymous
+request from a refused Client-Agent, but does not circumvent either.
+
+Do not switch hosts, rotate anonymous identities, evade rate limits or
+submit retry storms in response to HTTP 403. A provider can refuse public
+access at any time; credentials for other free GOLEM routes are a separate
+explicit opt-in and cannot be inferred from this test.
+
+`ANONYMOUS_CANARY_SOFTWARE_TESTS = NOT_LIVE_PROVIDER_EVIDENCE`
+
+`ANONYMOUS_PROVIDER_RESPONSE = PASS_ONLY_AFTER_ACTUAL_RESPONSE`
+
+`JANUS_HABITAT_OPERATIONAL = NOT_ESTABLISHED_BY_THIS_LANE`
