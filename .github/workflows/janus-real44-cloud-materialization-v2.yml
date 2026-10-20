@@ -55,8 +55,6 @@ jobs:
   worker-a:
     needs: offline-contract
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
-    env:
-      JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     outputs:
@@ -78,6 +76,8 @@ jobs:
       - name: Verify no-PC contract and credential presence
         id: gate
         shell: bash
+        env:
+          JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
         run: |
           set -euo pipefail
           python - <<'PY'
@@ -123,6 +123,8 @@ jobs:
         if: steps.gate.outputs.credential_available == 'true'
         id: materialize
         shell: bash
+        env:
+          JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
         run: |
           set -uo pipefail
           sources="$RUNNER_TEMP/real44-a-sources"
@@ -253,8 +255,6 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis' && needs.worker-a.outputs.credential_available == 'true' && needs.worker-a.outputs.materialized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 120
-    env:
-      JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
     outputs:
       match: ${{ steps.materialize.outputs.match }}
       hold_class: ${{ steps.materialize.outputs.hold_class }}
@@ -282,6 +282,7 @@ jobs:
         id: materialize
         shell: bash
         env:
+          JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
           COMMITMENT_NONCE: ${{ needs.worker-a.outputs.commitment_nonce }}
           EXPECTED_COMMITMENT: ${{ needs.worker-a.outputs.nexus_commitment }}
         run: |
