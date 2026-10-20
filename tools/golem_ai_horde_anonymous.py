@@ -64,7 +64,10 @@ def _http(method: str, path: str, body: dict | None = None) -> dict:
     data = compact(body) if body is not None else None
     headers = {
         "Accept": "application/json",
-        "Client-Agent": "JANUS-AURA-GOLEM:0.1:public-anonymous-research",
+        # Official integration guidance requires name:version:contact_details.
+        # Identify this client truthfully; do not imitate a browser.
+        "Client-Agent": "JANUS-AURA-GOLEM:0.2:github.com/Hawkar-usls/Janus_Genesis/issues",
+        "User-Agent": "JANUS-AURA-GOLEM/0.2 (+https://github.com/Hawkar-usls/Janus_Genesis/issues)",
         "apikey": ANON_KEY,
     }
     if data is not None:
