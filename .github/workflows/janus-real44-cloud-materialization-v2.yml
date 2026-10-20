@@ -37,17 +37,19 @@ jobs:
           set -euo pipefail
           python -m py_compile tools/janus_nexus_cloud_acquire_v2.py
           python -m unittest -v tests.test_janus_nexus_cloud_acquire_v2
-          python tools/audit_armor_effect_drift_v18_7_50.py > "$RUNNER_TEMP/armor-inventory.json"
+          python tools/audit_armor_effect_drift_v18_7_50.py > "$RUNNER_TEMP/armor-inventory-50.json"
+          python tools/audit_armor_effect_drift_v18_7_51.py > "$RUNNER_TEMP/armor-inventory-51.json"
           python - <<'PY'
           import json, os
           from pathlib import Path
-          rows=json.loads((Path(os.environ['RUNNER_TEMP'])/'armor-inventory.json').read_text())
-          assert rows['unclassified_surface_count']==0
-          target=rows['surfaces']['tools/janus_nexus_cloud_acquire_v2.py']
-          assert target['classification']=='EXPLICIT_DISPATCH_ONLY_READ_ONLY_CLOUD_SOURCE_ACQUISITION_NOT_ARMOR_ADMITTED'
-          assert 'subprocess.run' in target['calls']
-          assert 'subprocess.check_output' in target['calls']
-          assert rows['classification_is_security_certification'] is False
+          for version in ("50", "51"):
+              rows=json.loads((Path(os.environ['RUNNER_TEMP'])/f'armor-inventory-{version}.json').read_text())
+              assert rows['unclassified_surface_count']==0, version
+              target=rows['surfaces']['tools/janus_nexus_cloud_acquire_v2.py']
+              assert target['classification']=='EXPLICIT_DISPATCH_ONLY_READ_ONLY_CLOUD_SOURCE_ACQUISITION_NOT_ARMOR_ADMITTED'
+              assert 'subprocess.run' in target['calls']
+              assert 'subprocess.check_output' in target['calls']
+              assert rows['classification_is_security_certification'] is False
           print('REAL44_V2_OFFLINE_SECURITY_CONTRACT=PASS')
           print('REAL44_LIVE_FULL_BYTES_NOT_RUN_ON_PR=TRUE')
           PY
