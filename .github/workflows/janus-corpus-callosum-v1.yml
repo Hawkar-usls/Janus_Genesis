@@ -146,11 +146,11 @@ jobs:
             --native-repo "$JANUS_NATIVE_DEMIURGE_CHECKOUT" \
             --execute --out "$RUNNER_TEMP/golem-r4b-public-diagnostics.json"
       - name: Attach separate R4B raw excerpts for audit
-        if: \${{ always() }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: golem-r4b-public-native-diagnostics
-          path: \${{ runner.temp }}/golem-r4b-public-diagnostics.json
+          path: ${{ runner.temp }}/golem-r4b-public-diagnostics.json
           if-no-files-found: warn
           retention-days: 14
       - name: Attach native-only pilot evidence, even on incomplete run
