@@ -1,442 +1,9 @@
 {
-  "batch_id": "29f1ebbb5083e197d287",
+  "batch_id": "11a36ce9fce2bc023128",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
   "items": [
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ee8ad76a4f173a5dc073dfee",
-      "context_id": "c14ab46279570addb8a2434a",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "representation",
-        "representation learning",
-        "world model"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "arxiv",
-      "source_context_sha256": "b8e5828d86f2fe775f6c6fd5dca0d04ee4adff6aefecc5756186f80cdffbaa81",
-      "source_published": "2026-10-20T16:30:27Z",
-      "source_updated": "2026-10-20T16:30:27Z",
-      "summary": "Learning latent dynamics is fundamental to building action-conditioned world models for planning. Among existing families, Joint Embedding Predictive Architectures (JEPAs) offer a natural framework by modeling transitions directly in latent space rather than at the pixel level. However, two issues remain in JEPA-based world models: (i) physical grounding lacks explicit aggregation of temporal context and (ii) action planning always overly relies on generic sampling distributions. To this end, we propose $\\mathcal{G}$-JEPA, which incorporates temporal context into physical grounding for latent world models and couples the learned models with prior-guided action planning. Specifically, during learning, we incorporate a shared causal temporal module that aggregates temporal context within observation and prediction sequences under physical state supervision, grounding both in task-relevant physical states. When planning, we further introduce action inference through stepwise conditioning of a generative action distribution on the current and goal latent representations together with their evolving discrepancy, yielding anchored proposals that guide model-based online refinement. Together, physical state supervision guides temporal representation learning, while the action prior guides search through the learned world model. Experiments demonstrate improved planning performance on manipulation tasks, including tasks with increasing temporal separation between initial and goal observations. Code is publicly available at https://github.com/myl11045/G-JEPA.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Exploring Temporal Context-Aware Physical Grounding in Latent World Models",
-      "url": "https://arxiv.org/abs/2610.28483v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ce0b8ffd43a2a29dd8671068",
-      "context_id": "087d0f9d2dfc3cfc270eaf6e",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation",
-        "world model"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.2917,
-      "source": "arxiv",
-      "source_context_sha256": "4626f6256a9d44285055e70ed55ba626f1b48690cd0fe685af13ef6d65b22b07",
-      "source_published": "2026-10-20T11:53:42Z",
-      "source_updated": "2026-10-20T11:53:42Z",
-      "summary": "As a prototypical latent world model, Joint-Embedding Predictive Architectures (JEPAs) provide strong semantic representations. However, dense patch representations expose a redundant interface to downstream predictors, which must implicitly infer spatial organization and temporal correspondence, presenting three challenges. First, object information is distributed across patches, forcing each downstream predictor to redundantly recover object structure that could otherwise be reused across tasks before modeling interactions. Second, the lack of explicit entity correspondence across time makes historical transitions expensive, restricting the predictor's flexibility in utilizing context. Third, without explicit transport structure, existing JEPA models typically use pointwise l1/l2 distances, which are insensitive to spatial displacement when predicted and goal supports are largely disjoint. We propose the Slot-based Joint-Embedding Predictive Architecture (Slot-JEPA), which decomposes dense representations into stable semantic slots and time-varying spatial masks. Pretrained once and frozen downstream, this decomposition exposes a reusable object-structured interface. Building on it, our Transition Memory Predictor (TMP) stores visual transitions as compact masks and retrieves useful context using statistics of corresponding slots. Its two branches separate slot-specific dynamics from shared cross-slot dynamics. We further use Unbalanced Optimal Transport (UOT) to supervise mask prediction and evaluate candidate plans by transporting mass between aligned predicted and goal masks, providing a signal better aligned with spatial progress. Across seven visual-understanding benchmarks, the slot-reconstructed features remain transferable. Slot-JEPA also improves goal-conditioned planning across six planar environments and four robotic arm planning tasks on the REALM-JEPA benchmark.",
-      "tags": [
-        "cs.AI",
-        "cs.CV"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Slot-JEPA: Object-Structured Prediction Interfaces for Latent World Models",
-      "url": "https://arxiv.org/abs/2610.28074v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "834078df5196c8f833252f1a",
-      "context_id": "cb1bd93d43257da721e6fe5b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "representation",
-        "world model"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.0417,
-      "source": "arxiv",
-      "source_context_sha256": "5e1bab9659c0e462f3a0cd68a578fdf0744824f46856db562044d591f6dbe2c0",
-      "source_published": "2026-10-20T09:33:35Z",
-      "source_updated": "2026-10-20T09:33:35Z",
-      "summary": "A single observation can admit several plausible futures, making uncertainty an essential part of world modelling. However, quantum generative models remain underexplored for this task. We introduce Quantum-JEPA, a latent-action JEPA framework that learns distributions of future representations using a conditional quantum Born prior. Circuit measurements generate binary latent actions, which a shared predictor maps to alternative future representations. We train the quantum prior through the quality and diversity of these predictions using a sampled energy objective. Our model learns distinct continuations on constructed multimodal tasks and captures latent-action correlations that support coordinated multi-agent futures. On D3IL, a benchmark of diverse human demonstrations, our trained models generate multiple obstacle-crossing routes from a common starting point without observed motion. On the controlled tasks, our classical and quantum prior implementations improve prediction validity and distributional fidelity over the evaluated variational baselines. Our quantum priors combine competitive predictive quality with a parameter-efficient sampling structure: they avoid an exponentially sized categorical output layer while supporting correlated latent actions. We further validate finite-shot parameter-shift training, including training with readout noise. Unlike most prior work, which focuses on simulation, we also verify the feasibility of inference with trained priors on a real QPU. These results establish a trainable quantum component for JEPA future prediction and a basis for exploring quantum-enhanced world models at larger scales.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Quantum-JEPA: Quantum Born Priors for Latent-Action JEPA World Models",
-      "url": "https://arxiv.org/abs/2610.27921v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "e51d52930687f76eaae5dfe2",
-      "context_id": "96a2824f6e77333f36337dca",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "world model"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "arxiv",
-      "source_context_sha256": "a75237acdf80790892bc6bdd7f2b1435a22959ec019dcd008bfddc1c89f58ef7",
-      "source_published": "2026-10-19T23:21:18Z",
-      "source_updated": "2026-10-19T23:21:18Z",
-      "summary": "Action-conditioned video generative models trained on successful, goal-directed demonstrations tend to ignore the commanded action, rendering a plausible expert-like future regardless of what is asked of them. We trace this failure to training data that lack sufficient action influence. We analyze this metric and prove that it upper bounds the action influence that any model trained on that data can express. Expert demonstrations, whose narrow action distributions let next states be predicted without attending to the action, set a low ceiling that no amount of model capacity alone can raise. Raising it requires collecting different data. We introduce Action Influence Maximization (AIM), an algorithm for actively collecting training data for improving dataset action influence. We compare the performance and data-efficiency of AIM against exploration heuristics and intrinsic-motivation methods on simulated navigation and manipulation tasks. In pixel-based manipulation, AIM is the only method that consistently improves controllability: 500 actively collected episodes added to 3k demonstrations match a world model trained on 300k expert episodes on end-effector controllability, an $85\\times$ reduction in data.",
-      "tags": [
-        "cs.RO",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Training Controllable World Models via Action Influence Maximization",
-      "url": "https://arxiv.org/abs/2610.27387v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "4a1ad331cd1cbb0521e4fbf7",
-      "context_id": "01fedfe3d78716381ced16da",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "world model"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "arxiv",
-      "source_context_sha256": "d4559ca7da21955f6d762ff0294ca9ae96a11859b6be0169cb13e34bb142a4b6",
-      "source_published": "2026-10-20T12:05:49Z",
-      "source_updated": "2026-10-20T12:05:49Z",
-      "summary": "Real-time video generation, interactive world models, and on-device image synthesis are almost a reality. Diffusion Transformers (DiT) achieve excellent sample quality, shifting the bottleneck to the throughput of the models themselves. Natural images are inherently sparse, as large portions of an image are often background, contribute little to the scene content, and are easy to denoise. DiTs fail to exploit this sparsity, as they process image tokens statically and uniformly. We propose MoDDiT, a simple architecture modification that learns to route tokens through both MLP and self-attention operations. By routing tokens through both blocks independently, MoDDiT allows for dynamic compute allocation in MLPs that varies across tokens, images, and denoising timesteps. Using MoDDiT to train image generation models from scratch significantly reduces computational costs of training and inference, processing as few as 12.5% of the tokens. By increasing sparsity and model depth, MoDDiT reduces costs and improves generation performance over unrouted baselines. The learned allocation is interpretable, revealing how computation varies with visual content and noise level. We also use MoDDiT to train video generation models, where allocation correlates with motion, and to distill a dense bidirectional video model into a sparse autoregressive student.",
-      "tags": [
-        "cs.CV",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "MoDDiT: Simple Token Routing in Diffusion Transformers",
-      "url": "https://arxiv.org/abs/2610.28086v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "0207d0ceee5674f172403697",
-      "context_id": "babe519c2a2ebe9a8b36631b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation",
-        "retrieval"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.2083,
-      "source": "arxiv",
-      "source_context_sha256": "a6ae6ab01bd642b91e328648a2f028d6a5ad1841063e5eaed57c41ffcd961352",
-      "source_published": "2026-10-20T06:31:27Z",
-      "source_updated": "2026-10-20T06:31:27Z",
-      "summary": "When does experience memory help a closed-loop LLM driving agent? Published gains cannot say, because the two factors we find to matter most, which warmup experiences the pool contains and what any injected tokens do to the prompt, are controlled in none of them. We answer with a controlled evaluation on one audited HighwayEnv testbed (1Hz, gpt-4o-mini for the decisive contrasts). We treat the warmup pool as a resampled random factor (ten disjoint pools) and add token-matched irrelevant-filler controls, oracle-certified diagnostics, caution-pricing metrics, and quantified audits of the baseline ports. The probe suite spans flat-text retrieval (a DiLu port), a single-frame grid port (RESPOND-inspired), our episodic temporal-graph memory, a retrieval-free consolidated rulebook, and a flat K-step observation-history baseline. Four findings follow, each a property of this testbed. (1) Headline memory gains belong to the warmup draw. The reported pool is the best of ten for both retrieval memories, which beat No-Memory in only one pool of ten (sign test p=0.011), and even the rulebook's apparent pool-immunity collapsed on five fresh draws. (2) No retrieval design tested exceeds token-matched filler. The collision-only merge ceiling is reached by a single 15-token caution instruction, and metrics that price caution erase the rulebook's lead. (3) Representational sophistication is nowhere robustly operative. (4) Baseline port quality silently inverts conclusions. On this testbed, a single-pool comparison without filler controls would have reported memory gains that these controls reverse. We release the testbed, audited ports, seeds, and caches.",
-      "tags": [
-        "cs.AI",
-        "cs.CL",
-        "cs.CV",
-        "cs.LG",
-        "cs.RO"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "When Does Experience Memory Help Closed-Loop LLM Driving Agents? A Controlled Evaluation with Resampled Warmup Pools, Token-Matched Fillers, and Audited Baselines",
-      "url": "https://arxiv.org/abs/2610.27714v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "75713c5800ed62c4a363dfdd",
-      "context_id": "46792a3ab6623ed6a2446c1e",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "continual learning",
-        "memory"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 3.0,
-      "source": "arxiv",
-      "source_context_sha256": "25dc0d6163d63562269c19d9fc471070360d3003f82f804357b9bb45c005f0fd",
-      "source_published": "2026-10-20T08:24:56Z",
-      "source_updated": "2026-10-20T08:24:56Z",
-      "summary": "Online Continual Learning (OCL) requires models to learn from non-stationary data streams under a strict single-pass constraint, making them highly susceptible to catastrophic forgetting. While existing studies have explored various strategies from data, architecture, and optimization perspectives, the optimizer often directly uses generic approaches such as SGD and AdamW. In this work, we reveal a new link between optimization dynamics and OCL needs by recasting Polyak-Ruppert averaging as the engine of \"plasticity\" and Primal averaging as the anchor of \"stability\". This inspires our novel optimizer, SPIN (Stability-Plasticity INterpolation), which explicitly decouples plasticity and stability by interpolating between a fast-moving \"plasticity\" sequence and an adaptive \"stability\" sequence. We theoretically demonstrate that SPIN implicitly employs an inverse Hessian approximation, providing crucial Tikhonov regularization to damp noisy, single-sample Hessian estimates and mitigate forgetting. More importantly, SPIN can be seamlessly integrated into existing OCL methods by taking resulted gradients as input and replacing standard optimizers. Extensive experiments show that using SPIN instead of standard optimizers yields consistent and significant performance gains across multiple OCL approaches, including the challenging rehearsal-free setting and under strict memory constraints.",
-      "tags": [
-        "cs.LG",
-        "cs.CV"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "From Generic to Dedicated: A Novel Optimizer for Online Continual Learning",
-      "url": "https://arxiv.org/abs/2610.27835v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "d85f5884f27d6ed990265fb2",
-      "context_id": "e378da5024114bd9c15e8749",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.8333,
-      "source": "arxiv",
-      "source_context_sha256": "f8730bfb0f702d0a262d93c405cd479ee52e12412a3046a9c5d3b3c57bff8d3c",
-      "source_published": "2026-10-20T15:34:02Z",
-      "source_updated": "2026-10-20T15:34:02Z",
-      "summary": "Head-dimension compression can reduce the memory required by the key-value (KV) cache, but existing methods often reconstruct full-dimensional representations during inference, adding significant decoding FLOPs overhead. We formalize the design considerations for converting pretrained attention into a natively reduced-dimensional form that reduces both KV-cache storage and attention computation using a calibration set. Specifically, we consider reductions that (1) apply a shared projection to queries and keys so that they remain in a common reduced feature space, (2) derive this projection jointly from query and key activations to better preserve their interaction, and (3) are compatible with the pretrained RoPE transformation. To obtain a reconstruction-free realization of this reduction, we restrict it to coordinate selection and theoretically show that RoPE compatibility then holds if and only if complete rotary pairs are retained. Building on this characterization, we introduce RACE, a post-training method that selects rotary pairs using their joint query-key activation energy. We theoretically show that this criterion minimizes a separable, calibration-dependent upper bound on post-RoPE query-key product approximation error. The resulting reductions are folded into the model weights and require neither runtime reconstruction nor specialized kernels. Across three model families and different compression levels, RACE outperforms structured pruning and remains competitive with reconstruction-based methods on language-modeling, zero-shot, and long-context tasks. At 50% KV-cache retention and 256K context, RACE reduces total inference FLOPs by 47.8%, yielding 1.79x higher throughput, 43.2% lower time-to-first-token (TTFT), and 28.1% lower allocated GPU memory in comparison to an uncompressed model.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "RACE: RoPE-Aligned Attention Compression Based on Query-Key Activation Energies",
-      "url": "https://arxiv.org/abs/2610.28385v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "76f6675831a140c46de09104",
-      "context_id": "de0413c4db58dd53585f549d",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.8333,
-      "source": "arxiv",
-      "source_context_sha256": "6483d766a2319f3ed519e5b3af9eb3ad577335133f9df6ca359fc95d0fee0da7",
-      "source_published": "2026-10-20T17:47:07Z",
-      "source_updated": "2026-10-20T17:47:07Z",
-      "summary": "Neural implicit representations provide memory-efficient signed distance field (SDF) parameterizations for large-scale LiDAR scenes, but the geometry recovered from sparse and often noisy inputs carries jitter and artifacts. Classical geometric optimization techniques resolve such artifacts with surface energy functionals, whose minimizers correspond to smooth surfaces. Motivated by this principle, we formulate neural LiDAR mapping as the optimization of energy functionals over the parameter space of neural implicit representations. Specifically, we regularize the signed distance field with an energy functional defined on the shape operator of its level set, which represents the curvature of the surface, thus encouraging smoothness along the surface. This adapts classical geometric priors to the scale of million-point LiDAR maps. Experiments on large-scale datasets show reconstructions with improved smoothness at preserved geometric fidelity, and no additional inference-time cost. The code is publicly available at \\href{https://github.com/HrishikeshVish/nieo}{https://github.com/HrishikeshVish/nieo}",
-      "tags": [
-        "cs.CV",
-        "cs.GR",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Neural Implicit Energy Optimization for LiDAR Mapping",
-      "url": "https://arxiv.org/abs/2610.28598v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "cb88a5897c6f1d26ca0071df",
-      "context_id": "dc1a6f371a103ad1389dbacf",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.8333,
-      "source": "arxiv",
-      "source_context_sha256": "8c344905bb98f3b16df4d5c7c3c95e04b131017f18619d5482e1e66cadd00b67",
-      "source_published": "2026-10-20T07:33:06Z",
-      "source_updated": "2026-10-20T07:33:06Z",
-      "summary": "Artificial intelligence systems are increasingly deployed in high-stakes decision-making. In response, prototype-based models in explainable AI have attracted growing attention for their ability to retrieve visually similar examples as faithful explanations. Although these models achieve competitive classification accuracy, they often exhibit degraded explanation quality across datasets with varying characteristics, limiting their practical applicability. We draw on insights from cognitive neuroscience, particularly the human memory system, which encodes input-relevant information into representations that support recognition. We propose an Engram Memory Network (EMN), a model that emulates the ventral visual stream and inferior temporal cortex in the human brain. Central to this model is a Hopfield-inspired memory module that iteratively retrieves representative prototypes. These memory-refined latents are used for both reconstruction and classification, encouraging the selected prototypes to capture input-relevant information across diverse datasets. To address the lack of standardized evaluation for prototype explanations, we assess three complementary aspects: perceptual similarity (LPIPS and DISTS) for perceived resemblance, subclass alignment, measuring whether prototypes match the input's fine-grained category beyond supervised labels, and information preservation (NMI), measuring how much input information is captured by selected prototypes. Experiments show that EMN improves visual similarity by 17.06%, subclass alignment by 104.57%, and NMI by 42.42% on average across CIFAR-10/100, MNIST, HAM10000, and CUB-200, while achieving the highest average classification accuracy (87.62%) among all methods. These findings underscore the effectiveness of neuroscience-inspired explanation mechanisms in advancing the interpretability and reliability of prototype-based models.",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Engram Memory Network: Brain-Inspired Prototype Explanations",
-      "url": "https://arxiv.org/abs/2610.27770v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "82300e3af4d0ce54047ec8b8",
-      "context_id": "c526c69df4649159eec15133",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.8333,
-      "source": "arxiv",
-      "source_context_sha256": "0d36210d2b3b885bcb89eb7b72dbf2d36f25a5df1a39813c55e994ba57aea183",
-      "source_published": "2026-10-20T17:59:04Z",
-      "source_updated": "2026-10-20T17:59:04Z",
-      "summary": "Motivated by the human ability to integrate experience across language, perception, and action, we introduce UniWALM, a unified world-action-language model that learns video, action, and language in a single shared representation, where each modality is both a conditioning signal and a supervision target. We ask: can jointly generating language enrich this shared representation, improving manipulation and supporting memory-dependent behavior? Unlike prior approaches that attach a reasoning or vision-language model to a video-action backbone and run them as distinct stages, UniWALM unifies all three modalities inside a single mixture-of-transformers backbone whose per-modality diffusion heads co-denoise synchronously, decoding subtask and textual memory in the same pass as action with no separate planning stage; the generated language is re-consumed on the next step, closing a language-as-memory loop without an external planner or memory bank. To keep the action stream reliable under this richer objective, we further introduce Flow Matching with Correction (FMC), a training objective that teaches recovery from perturbed action trajectories at no inference-time cost. UniWALM consistently improves over same-backbone baselines (e.g., FastWAM) on compositional pick-and-place (MolmoSpaces) and across the memory-dependent subset of RMBench, where it reaches 34.5% without any pretrained language or reasoning model and exceeds Mem-0's keyframe-equipped setup (28.5%) using only a single anchor frame. On a real-world Find-the-Item task, generating textual memory lifts success from 11.1% to 61.1%, while state-of-the-art VLAs stay at or below chance (<=33.3%).",
-      "tags": [
-        "cs.RO",
-        "cs.AI",
-        "cs.CV"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "UniWALM: Unified World Action Language Model for Embodied Robot Control",
-      "url": "https://arxiv.org/abs/2610.28626v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "c7ab168e645981873e088989",
-      "context_id": "b3e5e51acec6506c9640ae14",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.8333,
-      "source": "arxiv",
-      "source_context_sha256": "cd51bc28cb620f691cb7e022c55e0fbbe097a4e27ddfa541b106d67397cf3b74",
-      "source_published": "2026-10-20T17:56:05Z",
-      "source_updated": "2026-10-20T17:56:05Z",
-      "summary": "Graph generative models commonly use graph-specific Transformer architectures to jointly update node and edge features. However, these architectures do not directly benefit from recent hardware-aware attention implementations, limiting their scalability. The adaptation is, however, non-trivial: edge and graph-level features must be injected into pairwise attention scores, graph masks must be respected, and dynamic edge updates remain a major source of quadratic memory usage. We propose an edge-aware attention layer for graph generation that incorporates structural information through head-wise score modulation, while updating edge representations with a lightweight residual mechanism that retains attention-score dependent edge updates. This layer can be effectively implemented using PyTorch's FlexAttention. We achieve similar generation quality to our baseline while reducing peak GPU memory by around 65% and substantially improving training and sampling throughput. These results suggest that the proposed architecture is a practical step toward scalable graph foundation models.",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Efficient Edge-aware Attention Network for Graph Generation",
-      "url": "https://arxiv.org/abs/2610.28618v1"
-    },
     {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "ee03fef7b00a1eb4587a3e26",
@@ -720,46 +287,6 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "69a0ba3bb8cf31f9e8600e6e",
-      "context_id": "3081058dbf7af1e51a2f68ce",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "reconstruction",
-        "reverse"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "zenodo",
-      "source_context_sha256": "f4990316d5b6b3e55eff7d731a3576eb4cfb205acf786ccbb939963d44007125",
-      "source_published": "1999-02-05",
-      "source_updated": "",
-      "summary": "This paper demonstrates an objective method of computing monthly mean 700-mb height anomalies (H) at 108 grid points in the Western Hemisphere for a 40-yr period as a function of concurrent anomalies of monthly mean sea level pressure (P), at the same 108 points used for H, and monthly mean surface air temperature (T) averaged over 112 areas in North America. The authors applied a forward stepwise program to derive linear multiple regression equations that explained 81% of the variance of H by means of only 3.5 variables, averaged over all months and grid points. The stability of these equations held up well on 6 yr of independent data in terms of explained variance, root-mean-square error, and the spatial anomaly correlation coefficient. Therefore, it seems feasible to reconstruct maps of H for the first half of the twentieth century as a function of data on P and T only. Deposited content: descriptive metadata only; underlying research data are not included.",
-      "tags": [
-        "Meteorology",
-        "Bering Sea",
-        "Alaska",
-        "Arctic",
-        "North Pacific Ocean",
-        "pices-metadata-only"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Reconstruction of Monthly Mean 700-mb Heights from Surface Data by Reverse Specification - FGDC XML metadata artifact",
-      "url": "https://zenodo.org/records/23504942"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "ad26e371c3d66f0a96015bad",
       "context_id": "279800d4cc26ebd093d5e6c9",
       "delivery_preview_only": true,
@@ -923,6 +450,76 @@
       "url": "https://arxiv.org/abs/2610.27714v1"
     },
     {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "4a907cee89a3a9659449a1c7",
+      "context_id": "d9632ef9d3ec0cd1128579cc",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.5417,
+      "source": "zenodo",
+      "source_context_sha256": "5447d2dbcd0d9766bad4d903fc0d9c5bc421eae0b73deb7eea52ee052e1b7a22",
+      "source_published": "2026-10-20",
+      "source_updated": "",
+      "summary": "This repository provides the reproducibility package supporting the study &ldquo;Self-Diagnosing Reliability of Neutron&ndash;Gamma Pulse-Shape Discrimination under Operational Drift.&rdquo; The study experimentally evaluates a reliability framework for neutron&ndash;gamma pulse-shape discrimination (PSD) under controlled operational drift. Rather than proposing a new PSD observable or classifier, the framework distinguishes PSD separability, calibration validity, and decision reliability through controlled perturbation experiments, label-free waveform-health monitoring, identifiability assessment, conditional adaptive recalibration, verification, and fail-safe refusal when the available unlabeled evidence is insufficient to support trusted autonomous correction. The package contains the final analysis and figure-generation scripts, derived numerical tables, and six final manuscript figures. The analyses include independent reconstruction and validation of a frequency-domain classification index (FCI), controlled baseline, gain, additive-noise, timing, and clipping perturbations, label-free degradation diagnosis, identifiability-based recalibration, class-prior robustness testing, and an independent NE213A PSD-domain audit. The primary experimental CLYC&ndash;SiPM waveform data are publicly available from Zenodo record 8037239 (DOI: 10.5281/zenodo.8037239) . The independent NE213A experimental dataset is publicly available from Zenodo record 14305929 (DOI: 10.5281/zenodo.14305929) . Raw experimental data are not redistributed in this package. The NE213A dataset is used as an independent detector- and PSD-domain audit. Waveform-level drift and recovery are deliberately not claimed for NE213A because the acquisition-specific QDC quantities could not be reconstructed from the released waveforms with sufficient held-out fidelity. The repository includes documentation describing data provenance, analysis order, software dependencies, and the scope and limitations of the reproducibility workflow.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Reproducibility Package for Self-Diagnosing Reliability of Neutron–Gamma Pulse-Shape Discrimination under Operational Drift",
+      "url": "https://zenodo.org/records/23512177"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "fac482073a64948e4d61276e",
+      "context_id": "d16c5fe854780e0f04484797",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "limitation",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.4583,
+      "source": "zenodo",
+      "source_context_sha256": "8175cd812daf23e9c18ff716c58bc0f1ce915faf3dccb77e523a01e195696824",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "This dataset provides supporting numerical artifacts for the manuscript &ldquo;Reduced-Regularity Consistency for a Direct ABC-Adapted L1-Type Operator: Analysis and Diffusion Benchmarks.&rdquo; The archive contains the locked Problem-1 FDM/FEM common-resolution results, the Chebyshev spectral results, the Problem-1 temporal-contamination audit and its derived summary, the Problem-2 Q=64 FDM/Spectral graded-mesh validation results, and the FEM Pilot-2 console-verified summary. A README, artifact manifest, and SHA-256 checksum list document the archive contents, integrity checks, evidence status, and item-specific limitations. This is a supporting-data archive, not a complete source-code or computational-environment release. The archived CSV files were retained from the project artifacts and integrity-checked during packaging; the original numerical experiments were not rerun for this deposit. The FEM Pilot-2 file is a console-verified summary rather than a complete raw export. Known provenance limitations are documented in the accompanying README and manifest. The Q=64 results show refinement trends consistent with the stated consistency upper bound for the tested cases. They do not establish sharpness of the estimate or an unconditional fully discrete convergence theorem.",
+      "tags": [
+        "Atangana–Baleanu–Caputo derivative; fractional diffusion; ABC-L1 discretization; numerical analysis;"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Supporting numerical data for: Reduced-Regularity Consistency for a Direct ABC-Adapted L1-Type Operator: Analysis and Diffusion Benchmarks",
+      "url": "https://zenodo.org/records/23479799"
+    },
+    {
       "base_direction_id": "registry_provenance",
       "candidate_id": "4a907cee89a3a9659449a1c7",
       "context_id": "3260c99055c240f11fa4c2b5",
@@ -1031,39 +628,6 @@
       "url": "https://zenodo.org/records/23515136"
     },
     {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "1fe0021bfa38bfb45083cb07",
-      "context_id": "eb56680ae5119b422e52b156",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "48492e89055dbbabeb04558f52960f4834e4e30731d3a1ce489c3c8e6c7e32d4",
-      "source_published": "2026-10-20",
-      "source_updated": "",
-      "summary": "Welcome to WARP WARP (WDL Analysis Research Pipelines) repository is a collection of cloud-optimized pipelines for processing biological data from the Broad Institute Data Sciences Platform and collaborators. The contents of this repository are open source and released under the BSD 3-Clause license . Table of Contents WARP Overview Navigating WARP Using WARP WARP Versioning and Releasing Testing in WARP Feedback Acknowledgements WARP Overview WARP pipelines provide robust, standardized data analysis for the Broad Institute Genomics Platform and large consortia like the Human Cell Atlas and the BRAIN Initiative. You can count on WARP for rigorously scientifically validated, high scale, reproducible and open source pipelines. Our pipelines are written as \"workflows\" using the Workflow Description Language (WDL) and they process a broad spectrum of \"omic\" and array-related datasets (see the overview table below). | Pipeline Category | Data Types | | --- | --- | | Germline Variant Discovery | Genomes, Exomes | | Genotyping Arrays | Variant discovery, Chip validation, Joint array analysis | | Single-cell/nuclei Transcriptomics | Droplet based (10x Genomics), Smartseq2 | | Single-cell Epigenomics | Single nuclei ATAC-seq, Single nuclei MethylC-seq | | Joint Genotyping | Genomes, Exomes | | Somatic Alignment (beta) | Exomes | Try our pipelines in Terra , a platform for collaborative cloud analysis! Learn how in the Using WARP section. Navigating WARP All versioned and released pipelines are in one of the three pipelines subdirectories: broad (pipelines for the Broad Institute's Genomics Platform), cemba (pipelines for the BRAIN Initiative) or skylab (pipelines for the Human Cell Atlas Project). Each pipeline directory hosts a main workflow WDL that includes a pipeline version number and a corresponding changelog file. Workflows may call additional WDLs, referred to as tasks, that are located in the tasks directory. Pipelines that are in progress or have not yet been validated are in the beta-pipelines folder. Using WARP There are three ways to use WARP pipelines: 1. Download the workflow and run on a WDL-compatible execution engine WDL workflows run on multiple systems, including Cromwell , miniWDL , and dxWDL (see the openwdl documentation ). To run a pipeline's latest release, first navigate to WARP Releases , search for your pipeline's tag, and download the pipeline's assets (the WDL workflow, the JSON, and the ZIP with accompanying dependencies; see Optimus example below). You can also access a pipeline's release page by selecting the pipeline version number at the top of the pipeline's README. After downloading the pipeline's assets, launch the workflow following your execution engine's instructions. 2. Run the pipeline in Terra Several WARP pipelines are available in public workspaces on the Terra cloud platform. These workspaces include both the WDL workflow and downsampled data so that you can test the pipeline at low-cost. If you are new to Terra, you can get started by registering with your Google account and visiting Terra Support . After registration, search for WARP-related workspaces with the \"warp-pipelines\" tag. To test the pipeline, clone (make a copy of) the workspace following the instructions in this Terra Support guide . 3. Run or export the pipeline from Dockstore Dockstore is a GA4GH compliant open platform for sharing Docker-based tools like WDL workflows. You can find WARP pipelines in Dockstore and run them on the Dockstore platform or export them to other platforms (including Terra). To view all available pipelines, just search \"warp\" in the Dockstore search and browse the workflow list. See Dockstore documentation for details on launching the workflow. WARP Versioning and Releasing Pipelines in WARP are versioned semantically to support reproducibility in scientific analysis and provide clearer analysis provenance. Version numbers allow researchers to confirm their data has all been processed in a compati",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "github.com/broadinstitute/warp/IlluminaGenotypingArray",
-      "url": "https://zenodo.org/records/23510258"
-    },
-    {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "ee8ad76a4f173a5dc073dfee",
       "context_id": "e4be1d484723669d007cfa49",
@@ -1134,39 +698,6 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "b8c40ad8b5f35b56f51f2133",
-      "context_id": "bf60510d52b8f8c93a357d2c",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "eb92eae9023d8d2bd756347a79efaf10b7584fae668e900e78541cb3e57fa6b1",
-      "source_published": "2026-10-20",
-      "source_updated": "",
-      "summary": "Welcome to WARP WARP (WDL Analysis Research Pipelines) repository is a collection of cloud-optimized pipelines for processing biological data from the Broad Institute Data Sciences Platform and collaborators. The contents of this repository are open source and released under the BSD 3-Clause license . Table of Contents WARP Overview Navigating WARP Using WARP WARP Versioning and Releasing Testing in WARP Feedback Acknowledgements WARP Overview WARP pipelines provide robust, standardized data analysis for the Broad Institute Genomics Platform and large consortia like the Human Cell Atlas and the BRAIN Initiative. You can count on WARP for rigorously scientifically validated, high scale, reproducible and open source pipelines. Our pipelines are written as \"workflows\" using the Workflow Description Language (WDL) and they process a broad spectrum of \"omic\" and array-related datasets (see the overview table below). | Pipeline Category | Data Types | | --- | --- | | Germline Variant Discovery | Genomes, Exomes | | Genotyping Arrays | Variant discovery, Chip validation, Joint array analysis | | Single-cell/nuclei Transcriptomics | Droplet based (10x Genomics), Smartseq2 | | Single-cell Epigenomics | Single nuclei ATAC-seq, Single nuclei MethylC-seq | | Joint Genotyping | Genomes, Exomes | | Somatic Alignment (beta) | Exomes | Try our pipelines in Terra , a platform for collaborative cloud analysis! Learn how in the Using WARP section. Navigating WARP All versioned and released pipelines are in one of the three pipelines subdirectories: broad (pipelines for the Broad Institute's Genomics Platform), cemba (pipelines for the BRAIN Initiative) or skylab (pipelines for the Human Cell Atlas Project). Each pipeline directory hosts a main workflow WDL that includes a pipeline version number and a corresponding changelog file. Workflows may call additional WDLs, referred to as tasks, that are located in the tasks directory. Pipelines that are in progress or have not yet been validated are in the beta-pipelines folder. Using WARP There are three ways to use WARP pipelines: 1. Download the workflow and run on a WDL-compatible execution engine WDL workflows run on multiple systems, including Cromwell , miniWDL , and dxWDL (see the openwdl documentation ). To run a pipeline's latest release, first navigate to WARP Releases , search for your pipeline's tag, and download the pipeline's assets (the WDL workflow, the JSON, and the ZIP with accompanying dependencies; see Optimus example below). You can also access a pipeline's release page by selecting the pipeline version number at the top of the pipeline's README. After downloading the pipeline's assets, launch the workflow following your execution engine's instructions. 2. Run the pipeline in Terra Several WARP pipelines are available in public workspaces on the Terra cloud platform. These workspaces include both the WDL workflow and downsampled data so that you can test the pipeline at low-cost. If you are new to Terra, you can get started by registering with your Google account and visiting Terra Support . After registration, search for WARP-related workspaces with the \"warp-pipelines\" tag. To test the pipeline, clone (make a copy of) the workspace following the instructions in this Terra Support guide . 3. Run or export the pipeline from Dockstore Dockstore is a GA4GH compliant open platform for sharing Docker-based tools like WDL workflows. You can find WARP pipelines in Dockstore and run them on the Dockstore platform or export them to other platforms (including Terra). To view all available pipelines, just search \"warp\" in the Dockstore search and browse the workflow list. See Dockstore documentation for details on launching the workflow. WARP Versioning and Releasing Pipelines in WARP are versioned semantically to support reproducibility in scientific analysis and provide clearer analysis provenance. Version numbers allow researchers to confirm their data has all been processed in a compati",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "github.com/broadinstitute/warp/JointGenotyping",
-      "url": "https://zenodo.org/records/23510267"
-    },
-    {
-      "base_direction_id": "registry_provenance",
       "candidate_id": "7f324928a7f99ff0858275dd",
       "context_id": "bc60a4664e4bfe977e851726",
       "delivery_preview_only": true,
@@ -1197,6 +728,45 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "github.com/broadinstitute/warp/IlluminaGenotypingArray",
       "url": "https://zenodo.org/records/23514420"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "99871452a8ad1b8d7facae93",
+      "context_id": "b9ee35bed4cc4de254e75dfc",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "395e4f6fc08665c30315ade610ba62674c01b8376f91e27ef5633e6f1380672f",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "This archive provides the numerical models, processed experimental data, simulation results, statistical analyses, figure sources, and reproduction scripts associated with the study \"Measurement limits and model discrepancy in reconstructing pre-earthquake residual deformation.\" The package includes OpenSeesPy model implementations, nonlinear earthquake-sequence analyses, measurement-resolution and model-discrepancy evaluations, experimental response comparisons, and modal-probe diagnostics. The archive is distributed in five ZIP parts. Download and extract all five parts into the same directory, preserving the internal folder structure. Reproduction instructions, dependencies, input provenance, and file-integrity verification are provided in README.md. Experimental measurements support validation of essentially elastic global response; nonlinear retrospective-state reconstruction is evaluated numerically.",
+      "tags": [
+        "Structural identifiability",
+        "Residual deformation",
+        "Earthquake engineering",
+        "Model discrepancy",
+        "Reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Measurement limits and model discrepancy in reconstructing pre-earthquake residual deformation: Reproduction package",
+      "url": "https://zenodo.org/records/23524056"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1265,6 +835,48 @@
       "url": "https://zenodo.org/records/23520894"
     },
     {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "e979711323d82e7584c423a0",
+      "context_id": "537fc16837e487cf93732f7f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "bf59762e4603ccb20963c3dd16530a3839899d9599c6d177b99988b727e67001",
+      "source_published": "2026-10-19",
+      "source_updated": "",
+      "summary": "This is a study commissioned by the Panel for the Future of Science and Technology, European Parliament: Generative Artificial Intelligence could strengthen open science by improving accessibility, findability, and usability. Still, under less favourable conditions, it could also weaken scientific exchange by obscuring provenance, deepening dependency on opaque infrastructures, and reinforcing inequalities and increasing synthetic overload, in which large volumes of AI-generated scientific content overwhelm the capacity of researchers and systems to verify, interpret, and trust information. This study describes how Generative AI is reshaping scientific exchange within the broader framework of open science. It shows that the main policy challenge is not whether Generative AI will be used in scientific exchange, but under what institutional, infrastructural, and normative conditions it can support reliable research, and knowledge valorisation. The European Union should treat scientific exchange as public-interest infrastructure and enact policies to support skills, strengthened provenance, transparency, reproducibility, inclusion, and strategic capacity in an AI-mediated research environment. This report provides specific policy options tackling the risks that can be associated with the use of AI in scientific exchange. This study is prepared for, and addressed to, the Members and staff of the European Parliament as background material to assist them in their parliamentary work. The content of the document is the sole responsibility of its author(s) and any opinions expressed herein should not be taken to represent an official position of the Parliament.",
+      "tags": [
+        "Open Science",
+        "Artificial Intelligence",
+        "Scientific Exchange",
+        "Research Integrity",
+        "Reproducibility",
+        "Provenance",
+        "Capacity Building",
+        "Reliable Research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Open science and the effects of Generative Artificial Intelligence in scientific exchange: Policy options for reliable research",
+      "url": "https://zenodo.org/records/23531856"
+    },
+    {
       "base_direction_id": "swarm_distributed_systems",
       "candidate_id": "14076abd60bec648022510c1",
       "context_id": "dc177b3f1db6dbafa0bfbda3",
@@ -1298,42 +910,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "LatBridge: Efficient and Stable Model Replacement in Latent-Communication Multi-Agent Systems",
       "url": "https://arxiv.org/abs/2610.27813v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "e51d52930687f76eaae5dfe2",
-      "context_id": "71e985b2e5cd042ed299e50a",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
-      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure",
-        "world model"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.75,
-      "source": "arxiv",
-      "source_context_sha256": "4359912ba32da5f111db6071992020f4b97dc1f5ce93cdbc67f7c93834ba7700",
-      "source_published": "2026-10-19T23:21:18Z",
-      "source_updated": "2026-10-19T23:21:18Z",
-      "summary": "Action-conditioned video generative models trained on successful, goal-directed demonstrations tend to ignore the commanded action, rendering a plausible expert-like future regardless of what is asked of them. We trace this failure to training data that lack sufficient action influence. We analyze this metric and prove that it upper bounds the action influence that any model trained on that data can express. Expert demonstrations, whose narrow action distributions let next states be predicted without attending to the action, set a low ceiling that no amount of model capacity alone can raise. Raising it requires collecting different data. We introduce Action Influence Maximization (AIM), an algorithm for actively collecting training data for improving dataset action influence. We compare the performance and data-efficiency of AIM against exploration heuristics and intrinsic-motivation methods on simulated navigation and manipulation tasks. In pixel-based manipulation, AIM is the only method that consistently improves controllability: 500 actively collected episodes added to 3k demonstrations match a world model trained on 300k expert episodes on end-effector controllability, an $85\\times$ reduction in data.",
-      "tags": [
-        "cs.RO",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Training Controllable World Models via Action Influence Maximization",
-      "url": "https://arxiv.org/abs/2610.27387v1"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1446,6 +1022,42 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Learning Computational Structure for Sample-Efficient Prediction",
       "url": "https://arxiv.org/abs/2610.28555v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "fac482073a64948e4d61276e",
+      "context_id": "65e5901ba30b0aafc5bacc6f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.4167,
+      "source": "zenodo",
+      "source_context_sha256": "5b040a5574887118817c9e08ef6412bbc0e1630f6a18b87d1d2fd0c8df2c155f",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "This dataset provides supporting numerical artifacts for the manuscript &ldquo;Reduced-Regularity Consistency for a Direct ABC-Adapted L1-Type Operator: Analysis and Diffusion Benchmarks.&rdquo; The archive contains the locked Problem-1 FDM/FEM common-resolution results, the Chebyshev spectral results, the Problem-1 temporal-contamination audit and its derived summary, the Problem-2 Q=64 FDM/Spectral graded-mesh validation results, and the FEM Pilot-2 console-verified summary. A README, artifact manifest, and SHA-256 checksum list document the archive contents, integrity checks, evidence status, and item-specific limitations. This is a supporting-data archive, not a complete source-code or computational-environment release. The archived CSV files were retained from the project artifacts and integrity-checked during packaging; the original numerical experiments were not rerun for this deposit. The FEM Pilot-2 file is a console-verified summary rather than a complete raw export. Known provenance limitations are documented in the accompanying README and manifest. The Q=64 results show refinement trends consistent with the stated consistency upper bound for the tested cases. They do not establish sharpness of the estimate or an unconditional fully discrete convergence theorem.",
+      "tags": [
+        "Atangana–Baleanu–Caputo derivative; fractional diffusion; ABC-L1 discretization; numerical analysis;"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Supporting numerical data for: Reduced-Regularity Consistency for a Direct ABC-Adapted L1-Type Operator: Analysis and Diffusion Benchmarks",
+      "url": "https://zenodo.org/records/23479799"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1786,6 +1398,413 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "When Does Experience Memory Help Closed-Loop LLM Driving Agents? A Controlled Evaluation with Resampled Warmup Pools, Token-Matched Fillers, and Audited Baselines",
       "url": "https://arxiv.org/abs/2610.27714v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "ce0b8ffd43a2a29dd8671068",
+      "context_id": "44eb196df5a024d03cf73bbc",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "memory",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.6667,
+      "source": "arxiv",
+      "source_context_sha256": "780c28f6ace5a07d2e01ea893b61e8d3d734f9bafe4eeccb48ac2bd4101c3271",
+      "source_published": "2026-10-20T11:53:42Z",
+      "source_updated": "2026-10-20T11:53:42Z",
+      "summary": "As a prototypical latent world model, Joint-Embedding Predictive Architectures (JEPAs) provide strong semantic representations. However, dense patch representations expose a redundant interface to downstream predictors, which must implicitly infer spatial organization and temporal correspondence, presenting three challenges. First, object information is distributed across patches, forcing each downstream predictor to redundantly recover object structure that could otherwise be reused across tasks before modeling interactions. Second, the lack of explicit entity correspondence across time makes historical transitions expensive, restricting the predictor's flexibility in utilizing context. Third, without explicit transport structure, existing JEPA models typically use pointwise l1/l2 distances, which are insensitive to spatial displacement when predicted and goal supports are largely disjoint. We propose the Slot-based Joint-Embedding Predictive Architecture (Slot-JEPA), which decomposes dense representations into stable semantic slots and time-varying spatial masks. Pretrained once and frozen downstream, this decomposition exposes a reusable object-structured interface. Building on it, our Transition Memory Predictor (TMP) stores visual transitions as compact masks and retrieves useful context using statistics of corresponding slots. Its two branches separate slot-specific dynamics from shared cross-slot dynamics. We further use Unbalanced Optimal Transport (UOT) to supervise mask prediction and evaluate candidate plans by transporting mass between aligned predicted and goal masks, providing a signal better aligned with spatial progress. Across seven visual-understanding benchmarks, the slot-reconstructed features remain transferable. Slot-JEPA also improves goal-conditioned planning across six planar environments and four robotic arm planning tasks on the REALM-JEPA benchmark.",
+      "tags": [
+        "cs.AI",
+        "cs.CV"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Slot-JEPA: Object-Structured Prediction Interfaces for Latent World Models",
+      "url": "https://arxiv.org/abs/2610.28074v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "95d5cefcadcdca0fbab12433",
+      "context_id": "f31ca0256751565bd2a637db",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.4583,
+      "source": "arxiv",
+      "source_context_sha256": "0aa3d86a06c383fd83aaf4d45738ec6ceed168538c5ceb3129fcff63c00d98b1",
+      "source_published": "2026-10-20T06:30:48Z",
+      "source_updated": "2026-10-20T06:30:48Z",
+      "summary": "Feed-forward 3D Gaussian Splatting (FF3DGS) reconstructs 3D scenes from images in a single forward pass, making it well-suited to applications that must operate within limited resource budgets. To further improve its practicality, recent budget-controllable FF3DGS methods allow the number of Gaussians to be adjusted at inference, so that the output meets a given storage limit or rendering-latency constraint. However, these methods overlook the cost of inference itself: to produce a representation with the target number of Gaussians, they first predict a dense set of Gaussians and then prune or select from it, requiring nearly constant latency and peak memory regardless of the budget. We therefore propose RLSplat, a resource-linear budget-controllable FF3DGS framework whose representation size, inference latency, and peak memory all decrease linearly as the Gaussian budget is reduced. Instead of pruning or selection, RLSplat learns a Gaussian allocation policy that distributes the budget across local scene regions, so that exactly the requested number of Gaussians is generated. These Gaussians are then refined through resource-linear Gaussian decoding, in which each Gaussian attends only to nearby Gaussians found via an efficient hierarchical neighbor search, so that the decoding cost decreases linearly with fewer Gaussians. In zero-shot evaluation, RLSplat outperforms prior budget-controllable methods at every budget, surpassing the strongest baseline even with 4$\\times$ fewer Gaussians, while running up to 4.1$\\times$ faster with 9.6$\\times$ less peak memory at low budgets.",
+      "tags": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "RLSplat: Resource-Linear Budget Control for Feed-forward 3D Gaussian Splatting",
+      "url": "https://arxiv.org/abs/2610.27712v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "82300e3af4d0ce54047ec8b8",
+      "context_id": "19863ed409bddd0c2fb1e312",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.4583,
+      "source": "arxiv",
+      "source_context_sha256": "2bfc402173a8513c2ffb7d5d4ef3cce47ae0041c7ec2da3c195b3b8655533774",
+      "source_published": "2026-10-20T17:59:04Z",
+      "source_updated": "2026-10-20T17:59:04Z",
+      "summary": "Motivated by the human ability to integrate experience across language, perception, and action, we introduce UniWALM, a unified world-action-language model that learns video, action, and language in a single shared representation, where each modality is both a conditioning signal and a supervision target. We ask: can jointly generating language enrich this shared representation, improving manipulation and supporting memory-dependent behavior? Unlike prior approaches that attach a reasoning or vision-language model to a video-action backbone and run them as distinct stages, UniWALM unifies all three modalities inside a single mixture-of-transformers backbone whose per-modality diffusion heads co-denoise synchronously, decoding subtask and textual memory in the same pass as action with no separate planning stage; the generated language is re-consumed on the next step, closing a language-as-memory loop without an external planner or memory bank. To keep the action stream reliable under this richer objective, we further introduce Flow Matching with Correction (FMC), a training objective that teaches recovery from perturbed action trajectories at no inference-time cost. UniWALM consistently improves over same-backbone baselines (e.g., FastWAM) on compositional pick-and-place (MolmoSpaces) and across the memory-dependent subset of RMBench, where it reaches 34.5% without any pretrained language or reasoning model and exceeds Mem-0's keyframe-equipped setup (28.5%) using only a single anchor frame. On a real-world Find-the-Item task, generating textual memory lifts success from 11.1% to 61.1%, while state-of-the-art VLAs stay at or below chance (<=33.3%).",
+      "tags": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "UniWALM: Unified World Action Language Model for Embodied Robot Control",
+      "url": "https://arxiv.org/abs/2610.28626v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f59fa63285787020f084ebc5",
+      "context_id": "3f45bbc6b5a03ca069a3330b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "fair data",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.4167,
+      "source": "zenodo",
+      "source_context_sha256": "77a75f500a2ffeb9c055f01d226c24cad91a1b553ab7ff0b34c728603e92b62e",
+      "source_published": "2026-10-20",
+      "source_updated": "",
+      "summary": "The Julia interface to the FAIR Data Pipeline, intended to enable tracking of provenance of FAIR (findable, accessible, interoperable and reusable) data",
+      "tags": [
+        "FAIR data",
+        "data management",
+        "julia",
+        "reproducibility",
+        "workflows"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DataPipeline.jl",
+      "url": "https://zenodo.org/records/23515009"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "5392e837cd1f5d8378889f92",
+      "context_id": "b80436087c1d3e49fbd76322",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "representation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.25,
+      "source": "arxiv",
+      "source_context_sha256": "cb0a181f3e447a618ed2f6f30d0546ec3d9bb4638a7750104248195d972f9173",
+      "source_published": "2026-10-20T17:59:48Z",
+      "source_updated": "2026-10-20T17:59:48Z",
+      "summary": "Game engines and coding agents can specify the layout, motion, and camera of a scene, yet turning such coarse structure into realistic video requires a renderer that follows the structure and completes the appearance it leaves open. Existing renderers are tied to the representation of one engine, need tens of denoising steps or a costly distillation of their own, and learn from conditions that are not aligned with their target videos. We present SolarRenderer, a structure-conditioned video renderer that adapts a frozen MiniMax-H3 33B backbone with two lightweight LoRAs. Structural videos enter the native reference pathway of the backbone at the positions of the frames they describe, without a type identifier and described only in plain text, so that a single control LoRA follows arbitrary structural representations. Starting from a pretrained four-step LoRA, structure-guided distribution matching renders in four steps, 12.3 times faster than 50-step sampling, while preserving the learned control. A block-causal variant extends the same design to streaming and renders 768p video in real time. To train the model, we build a frame-aligned corpus of 136K clips from game engines, simulators, and YouTube videos. Experiments on an in-distribution test set and a generalization benchmark of 16 structural representations show that SolarRenderer achieves state-of-the-art results across both, and generalizes to 11 unseen representations, including pose skeletons, drawings, and point clouds.",
+      "tags": [
+        "cs.CV"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "SolarRenderer: Few-Step Generative Reference Rendering",
+      "url": "https://arxiv.org/abs/2610.28630v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "86d2a2b505a3fab17a30216a",
+      "context_id": "e965daf463c06b97b5a5f30c",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "zenodo",
+      "source_context_sha256": "6c183a67178d775d73f855f9d32b77c6147f502c0fe71b63c7117e2433859bf1",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "Contents - `code/` &mdash; complete pipeline (dataset construction, BERT4Rec encoder, conditional-logit calibration, counterfactual with common random numbers, comparators, bootstrap, aggregation, figures, manuscript generation). Execution order in `code/README.md`; environment in `code/requirements.txt`. License: MIT. - `data_public/` &mdash; course- and program-level data and the aggregated result tables (R1&ndash;R14, main as-of construction and retrospective sensitivity). No individual-level records. License: CC BY 4.0. Codebook in `DATA_README.md`. - `data_synthetic/` &mdash; synthetic trajectories with the schema of the controlled-access tier, for executing the code end to end only. License: CC BY 4.0. - `DATA_README.md` &mdash; codebook of all data files, pseudonymization procedure and description of the controlled-access tier. Controlled-access tier Pseudonymized student&ndash;term records are not part of this deposit. They are available under a data-use agreement with Universidad del Magdalena [AUTHORS: office, procedure, or restricted Zenodo record]. Reproducing the main results from the controlled-access tier: see `code/README.md`, steps 4&ndash;8. Reproducing only the tables and figures from the aggregated outputs: `code/fill_rev_v5.py` reads `data_public/tablas_revision_asof/` and `tablas_revision_retro/`.",
+      "tags": [
+        "course recommendation; choice architecture; nudge; discrete choice; conditional logit; BERT4Rec; hig"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Academic Nudge: behaviorally calibrated choice architecture for sequential course recommendation — replication data and code",
+      "url": "https://zenodo.org/records/23525081"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "86d2a2b505a3fab17a30216a",
+      "context_id": "34ee3289129857f0135ed3df",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "zenodo",
+      "source_context_sha256": "e1cadaee7dfb5e6de7f22e95e79fd7366ea23c708fad1ff3c6a4e5c32b06677e",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "Contents - `code/` &mdash; complete pipeline (dataset construction, BERT4Rec encoder, conditional-logit calibration, counterfactual with common random numbers, comparators, bootstrap, aggregation, figures, manuscript generation). Execution order in `code/README.md`; environment in `code/requirements.txt`. License: MIT. - `data_public/` &mdash; course- and program-level data and the aggregated result tables (R1&ndash;R14, main as-of construction and retrospective sensitivity). No individual-level records. License: CC BY 4.0. Codebook in `DATA_README.md`. - `data_synthetic/` &mdash; synthetic trajectories with the schema of the controlled-access tier, for executing the code end to end only. License: CC BY 4.0. - `DATA_README.md` &mdash; codebook of all data files, pseudonymization procedure and description of the controlled-access tier. Controlled-access tier Pseudonymized student&ndash;term records are not part of this deposit. They are available under a data-use agreement with Universidad del Magdalena [AUTHORS: office, procedure, or restricted Zenodo record]. Reproducing the main results from the controlled-access tier: see `code/README.md`, steps 4&ndash;8. Reproducing only the tables and figures from the aggregated outputs: `code/fill_rev_v5.py` reads `data_public/tablas_revision_asof/` and `tablas_revision_retro/`.",
+      "tags": [
+        "course recommendation; choice architecture; nudge; discrete choice; conditional logit; BERT4Rec; hig"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Academic Nudge: behaviorally calibrated choice architecture for sequential course recommendation — replication data and code",
+      "url": "https://zenodo.org/records/23525081"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "86d2a2b505a3fab17a30216a",
+      "context_id": "2beb5677a1927ee96922a747",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "zenodo",
+      "source_context_sha256": "3d7d42541d0712bc0345555cd1624e91432cc03f90b81798ddecceb3cea66f35",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "Contents - `code/` &mdash; complete pipeline (dataset construction, BERT4Rec encoder, conditional-logit calibration, counterfactual with common random numbers, comparators, bootstrap, aggregation, figures, manuscript generation). Execution order in `code/README.md`; environment in `code/requirements.txt`. License: MIT. - `data_public/` &mdash; course- and program-level data and the aggregated result tables (R1&ndash;R14, main as-of construction and retrospective sensitivity). No individual-level records. License: CC BY 4.0. Codebook in `DATA_README.md`. - `data_synthetic/` &mdash; synthetic trajectories with the schema of the controlled-access tier, for executing the code end to end only. License: CC BY 4.0. - `DATA_README.md` &mdash; codebook of all data files, pseudonymization procedure and description of the controlled-access tier. Controlled-access tier Pseudonymized student&ndash;term records are not part of this deposit. They are available under a data-use agreement with Universidad del Magdalena [AUTHORS: office, procedure, or restricted Zenodo record]. Reproducing the main results from the controlled-access tier: see `code/README.md`, steps 4&ndash;8. Reproducing only the tables and figures from the aggregated outputs: `code/fill_rev_v5.py` reads `data_public/tablas_revision_asof/` and `tablas_revision_retro/`.",
+      "tags": [
+        "course recommendation; choice architecture; nudge; discrete choice; conditional logit; BERT4Rec; hig"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Academic Nudge: behaviorally calibrated choice architecture for sequential course recommendation — replication data and code",
+      "url": "https://zenodo.org/records/23525081"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "ae444585bcdf7fa87733d88e",
+      "context_id": "f8a04bed3f9c70b00e23b781",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "provenance"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.1667,
+      "source": "zenodo",
+      "source_context_sha256": "1ff3525a1a534677499af77c9c198f27952f3d0f4d60cae8390fc58362a54954",
+      "source_published": "2026-10-20",
+      "source_updated": "",
+      "summary": "Patient Specific Regenerative Microfactories and Swarm Manufacturing at the Limit English Publication Description STARLI Flagship 22 &nbsp; 30 Physicalized Models &nbsp; 82 Chapters &nbsp; 200 Research Gates Patient Specific Regenerative Microfactories and Swarm Manufacturing at the Limit is a high-density research monograph on manufacturing individualized cells, scaffolds, microtissues, and therapeutic components through distributed robotic systems without weakening lot release quality. The book treats every patient as a distinct manufacturing lot. Starting material, cell genealogy, material flow, agent action, calibration, environmental state, contamination evidence, identity, purity, maturation, and blind terminal function remain linked throughout production. Personalization changes the process path but never waives the release contract. Thirty physicalized models connect stochastic lot release, population dynamics, clonal diversity, living-product mass balance, contamination transport, Bayesian sterility, microfluidic residence time, oxygen and thermal transport, scaffold maturation, viscoelasticity, adhesion injury, swarm allocation, fault-bounded consensus, common-cause reliability, calibration drift, sensor fusion, change detection, small-lot inference, potency, multivariate release, logistics, recipe portability, provenance, economics, and robust joint qualification. Eighty-two chapters each open with a governing gold equation and develop five one-page research sections. Two hundred Research Gates challenge the system with donor shift, contamination, agent failure, supply interruption, calibration drift, reagent substitution, incomplete genealogy, and blinded transfer to a second laboratory. The work is a preclinical manufacturing research framework rather than a clinical protocol or release authorization. Contamination, identity failure, unclosed genealogy, invalid calibration, and failed independent function are noncompensable vetoes. Its Phoenix Answer Embryo, the Regenerative Microfactory Capsule, binds patient material, lineage, agent capability, process state, substitutions, deviations, blind potency, release, quarantine, and terminal disposition into one auditable and portable evidence object. Suggested Metadata Subtitle Patient-lot genealogy, distributed robotic manufacture, and independent functional release Primary fields regenerative medicine; cell manufacturing; biofabrication; swarm robotics; quality science Method fields stochastic processes; transport; reliability; metrology; Bayesian release; robust control Core keywords microfactory; personalized lot; cell genealogy; contamination; potency; cross-site transfer Scientific boundary Preclinical manufacturing framework only; no clinical protocol or release authorization Series STARLI Research Institute 27 Flagship 22 &nbsp; Short Catalog Description A research monograph on patient-specific regenerative production through distributed robotic microfactories. Thirty governing models, eighty-two chapters, and two hundred Research Gates test lot genealogy, living-material physics, contamination, agent faults, small-batch release, supply resilience, independent potency, and cross-site reconstruction. Every started lot remains visible, and local speed never compensates for failed identity, sterility, or function. STARLI FLAGSHIP 22 &nbsp; English Publication Description",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Patient Specific Regenerative Microfactories and Swarm Manufacturing at the Limit English Publication Description STARLI Flagship 22 30 Physicalized Models 82 Chapters 200 Research Gates Patient Specific Regenerative Microfactories and Swarm Manufacturing at the Limit is a high-density research mono",
+      "url": "https://zenodo.org/records/23515136"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b8c651dd05bbca90e8406f08",
+      "context_id": "ecd2125e546c446960275e97",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0833,
+      "source": "zenodo",
+      "source_context_sha256": "2226904147c6bc34d3648d54cb61dbdd8436b3a404079cfedd4ca2b2518d0d96",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "Description: Arduino firmware for the control unit of a low-cost, marble-type gas&ndash;water equilibrator used for continuous measurement of dissolved pCO₂ in inland waters. The firmware controls the water and gas pumps, reads a SenseAir K30 NDIR CO₂ sensor and a DS18B20 water-temperature probe, and logs the data to an SD card with timestamps from a real-time clock. It accompanies the manuscript &ldquo;A microcontroller-based, low-cost platform for continuous pCO₂ measurements in lakes and reservoirs&rdquo; (Grochocki and Mannich, Limnology and Oceanography: Methods, under review). Hardware &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arduino Uno (ATmega328P) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SenseAir K30 NDIR CO₂ sensor, 0&ndash;10,000 ppm (UART/Modbus via SoftwareSerial; RX pin 3, TX pin 2) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DS18B20 waterproof temperature probe (OneWire, pin 6) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DS1307 real-time clock (I&sup2;C) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SD card module (SPI, CS pin 10) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Two-channel relay module: water pump (pin 7) and gas pump (pin 5) Operating cycle 1. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Switch on the water and gas pumps. 2. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For the duration of a measurement cycle, read CO₂ and water temperature at a fixed interval and append each reading to a daily file on the SD card. 3. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Switch off both pumps and stay idle until the next cycle. Configuration Timing parameters are read at boot from a config.txt file on the SD card, one key=value per line: &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; measurementInterval : idle time between cycles (minutes) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dataCollectionInterval : time between readings (seconds) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fullMeasurementTime : duration of each cycle (minutes) If the file does not exist, the firmware creates one with default values, which take effect at the next boot. The values hard-coded in the sketch are a 10-min cycle, 5-s readings and a 45-min idle period. Output One comma-separated text file per day, named YY-MM-DD.txt , with the header Date Time, CO2 (ppm), Water Temp (C) . Timestamps are written as YYYY-M-D H:M:S , without zero padding. Each file is opened and closed at every write, so data are not lost if power is cut. Notes &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The CO₂ values logged are the raw K30 output. Calibration against a reference analyzer, conversion to pCO₂ (water-vapor and pressure correction) and conversion to dissolved CO₂ are done in post-processing, as described in the accompanying paper (Eqs. 1&ndash;5). &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If the RTC has not been set, it is set at first boot to the compile time of the sketch. &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The K30 automatic baseline correction (ABC) assumes regular exposure to ~400 ppm air, so it should be disabled for underwater use. Required libraries: SD, SPI, Wire, SoftwareSerial (Arduino core); OneWire; DallasTemperature; TimeLib; DS1307RTC.",
+      "tags": [
+        "PCO2",
+        "arduino"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Arduino firmware for the control unit of a low-cost, marble-type gas–water equilibrator for continuous measurement of dissolved pCO2",
+      "url": "https://zenodo.org/records/23483283"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "b8c651dd05bbca90e8406f08",
+      "context_id": "cf35782e95d08a219be463e3",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0833,
+      "source": "zenodo",
+      "source_context_sha256": "b4fcc408b642d12fb49021d30710759abfdb939aed72158e37736f3ef3a56561",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "Description: Arduino firmware for the control unit of a low-cost, marble-type gas&ndash;water equilibrator used for continuous measurement of dissolved pCO₂ in inland waters. The firmware controls the water and gas pumps, reads a SenseAir K30 NDIR CO₂ sensor and a DS18B20 water-temperature probe, and logs the data to an SD card with timestamps from a real-time clock. It accompanies the manuscript &ldquo;A microcontroller-based, low-cost platform for continuous pCO₂ measurements in lakes and reservoirs&rdquo; (Grochocki and Mannich, Limnology and Oceanography: Methods, under review). Hardware &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arduino Uno (ATmega328P) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SenseAir K30 NDIR CO₂ sensor, 0&ndash;10,000 ppm (UART/Modbus via SoftwareSerial; RX pin 3, TX pin 2) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DS18B20 waterproof temperature probe (OneWire, pin 6) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DS1307 real-time clock (I&sup2;C) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SD card module (SPI, CS pin 10) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Two-channel relay module: water pump (pin 7) and gas pump (pin 5) Operating cycle 1. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Switch on the water and gas pumps. 2. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For the duration of a measurement cycle, read CO₂ and water temperature at a fixed interval and append each reading to a daily file on the SD card. 3. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Switch off both pumps and stay idle until the next cycle. Configuration Timing parameters are read at boot from a config.txt file on the SD card, one key=value per line: &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; measurementInterval : idle time between cycles (minutes) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dataCollectionInterval : time between readings (seconds) &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fullMeasurementTime : duration of each cycle (minutes) If the file does not exist, the firmware creates one with default values, which take effect at the next boot. The values hard-coded in the sketch are a 10-min cycle, 5-s readings and a 45-min idle period. Output One comma-separated text file per day, named YY-MM-DD.txt , with the header Date Time, CO2 (ppm), Water Temp (C) . Timestamps are written as YYYY-M-D H:M:S , without zero padding. Each file is opened and closed at every write, so data are not lost if power is cut. Notes &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The CO₂ values logged are the raw K30 output. Calibration against a reference analyzer, conversion to pCO₂ (water-vapor and pressure correction) and conversion to dissolved CO₂ are done in post-processing, as described in the accompanying paper (Eqs. 1&ndash;5). &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If the RTC has not been set, it is set at first boot to the compile time of the sketch. &middot; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The K30 automatic baseline correction (ABC) assumes regular exposure to ~400 ppm air, so it should be disabled for underwater use. Required libraries: SD, SPI, Wire, SoftwareSerial (Arduino core); OneWire; DallasTemperature; TimeLib; DS1307RTC.",
+      "tags": [
+        "PCO2",
+        "arduino"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Arduino firmware for the control unit of a low-cost, marble-type gas–water equilibrator for continuous measurement of dissolved pCO2",
+      "url": "https://zenodo.org/records/23483283"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
