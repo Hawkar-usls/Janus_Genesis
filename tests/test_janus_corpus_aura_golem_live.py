@@ -150,5 +150,41 @@ class AuraGolemTests(unittest.TestCase):
             self.call(native_head_override="a" * 40)
 
 
+    def test_aura_receipt_replaced_after_attestation_cannot_be_consumed(self):
+        # An attacker swaps the advisory after attestation, retaining the
+        # binding fields but injecting a question. The exact byte hash must
+        # be pinned before *any* question is consumed or sent to GOLEM.
+        receipt = self.home / "AURA-receipt.json"
+        original = json.dumps({"oracle": {"questions": ["reviewed"]}}).encode()
+        changed = json.dumps({"oracle": {"questions": ["unreviewed private payload"]}}).encode()
+        receipt.write_bytes(changed)
+
+        def attestor(*_args, **_kwargs):
+            return {"path": str(receipt), "receipt_sha256": sha256(original)}
+
+        with patch.object(lane, "protected_snapshot", return_value="BASELINE"):
+            with patch("janus_corpus_aura_oracle.attest_oracle", side_effect=attestor):
+                with patch("janus_corpus_aura_oracle._context",
+                           return_value=({}, "f" * 64)):
+                    with self.assertRaisesRegex(ConsumptionError,
+                                                "AURA_RECEIPT_SNAPSHOT_HASH_CHANGED"):
+                        lane.load_aura_evidence(self.home)
+
+    def test_aura_original_bytes_are_validated_against_v2(self):
+        receipt = self.home / "AURA-receipt.json"
+        raw = json.dumps({"oracle": {"questions": ["reviewed"]}}).encode()
+        receipt.write_bytes(raw)
+        with patch.object(lane, "protected_snapshot", return_value="BASELINE"):
+            with patch("janus_corpus_aura_oracle.attest_oracle",
+                       return_value={"path": str(receipt), "receipt_sha256": sha256(raw)}):
+                with patch("janus_corpus_aura_oracle._context",
+                           return_value=({}, "f" * 64)):
+                    with patch("janus_corpus_aura_oracle._validate_receipt",
+                               side_effect=ConsumptionError("AURA_INVALID_UNTRUSTED_RECEIPT")):
+                        with self.assertRaisesRegex(ConsumptionError,
+                                                    "AURA_INVALID_UNTRUSTED_RECEIPT"):
+                            lane.load_aura_evidence(self.home)
+
+
 if __name__ == "__main__":
     unittest.main()
