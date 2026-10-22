@@ -209,5 +209,19 @@ class TestHordeAnonymous(unittest.TestCase):
                     self.assertEqual(horde.main(), 0)
 
 
+    def test_http_403_may_have_disclosed_prompt_even_without_job(self):
+        class Refused:
+            def open(self, req, timeout):
+                raise horde.error.HTTPError(req.full_url, 403, "Forbidden",
+                                            {}, io.BytesIO(b'{}'))
+        with patch.object(horde.request, "build_opener", return_value=Refused()):
+            result = horde.query_public(execute=True)
+        self.assertEqual(result["failure_class"], "HORDE_HTTP_403")
+        self.assertEqual(result["status"], "PROVIDER_UNAVAILABLE__NO_RESPONSE")
+        self.assertIsNone(result["prompt_sent"])
+        self.assertEqual(result["attempts"], 1)
+        self.assertFalse(result["network_model_response_observed"])
+
+
 if __name__ == "__main__":
     unittest.main()
