@@ -223,5 +223,21 @@ class TestHordeAnonymous(unittest.TestCase):
         self.assertFalse(result["network_model_response_observed"])
 
 
+    def test_whitespace_or_control_only_external_reply_cannot_pass_canary(self):
+        for bad_text in (" \t\n ", "\x00\x01", "\r\t\n"):
+            def blank_generation(method, path, body=None):
+                if method == "POST":
+                    return {"id": UUID}
+                return {"done": True, "generations": [
+                    {"model": "provider-model", "text": bad_text}
+                ]}
+            result = horde.query_public(execute=True, transport=blank_generation,
+                                        sleeper=lambda *_: None)
+            self.assertEqual(result["status"], "INVALID_EXTERNAL_GENERATION")
+            self.assertFalse(result["network_model_response_observed"])
+            self.assertIsNone(result["response"])
+
+
+
 if __name__ == "__main__":
     unittest.main()
