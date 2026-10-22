@@ -186,5 +186,34 @@ class AuraGolemTests(unittest.TestCase):
                             lane.load_aura_evidence(self.home)
 
 
+    def test_raced_aura_symlink_with_identical_bytes_is_rejected(self):
+        if not hasattr(lane.os, "O_NOFOLLOW"):
+            self.skipTest("atomic no-follow unavailable")
+        receipt = self.home / "AURA-receipt.json"
+        clone = self.home / "same-content.json"
+        raw = json.dumps({"oracle": {"questions": ["reviewed"]}}).encode()
+        receipt.write_bytes(raw)
+        clone.write_bytes(raw)
+        original_open = lane.os.open
+
+        def raced_open(path, flags, *args, **kwargs):
+            if path == receipt.name and "dir_fd" in kwargs:
+                receipt.unlink()
+                receipt.symlink_to(clone)
+            return original_open(path, flags, *args, **kwargs)
+
+        with patch.object(lane, "protected_snapshot", return_value="BASELINE"):
+            with patch("janus_corpus_aura_oracle.attest_oracle",
+                       return_value={"path": str(receipt),
+                                     "receipt_sha256": sha256(raw)}):
+                with patch("janus_corpus_aura_oracle._context",
+                           return_value=({}, "f" * 64)):
+                    with patch.object(lane.os, "open", side_effect=raced_open):
+                        with self.assertRaisesRegex(
+                                ConsumptionError, "AURA_RECEIPT_SNAPSHOT_OPEN_UNSAFE"):
+                            lane.load_aura_evidence(self.home)
+
+
+
 if __name__ == "__main__":
     unittest.main()
