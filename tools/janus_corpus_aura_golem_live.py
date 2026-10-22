@@ -44,7 +44,9 @@ def load_aura_evidence(home: Path) -> dict:
     path = Path(witness["path"])
     if path.is_symlink() or path.parent.is_symlink() or not path.is_file():
         raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_PATH_UNSAFE")
-    raw = path.read_bytes()
+    # Bounded read prevents memory exhaustion if the file grows after stat.
+    with path.open("rb") as source:
+        raw = source.read(MAX_RECEIPT + 1)
     digest = sha256(raw)
     if len(raw) > MAX_RECEIPT or digest != witness["receipt_sha256"]:
         raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_HASH_CHANGED")
