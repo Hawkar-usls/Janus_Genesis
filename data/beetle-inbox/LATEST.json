@@ -1,5 +1,5 @@
 {
-  "batch_id": "453335e33b26401df4c2",
+  "batch_id": "b936b7a6793ebbf6602d",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
@@ -437,54 +437,6 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ee03fef7b00a1eb4587a3e26",
-      "context_id": "72176f98970fad203a45f182",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "identifiability",
-        "reconstruction",
-        "representation",
-        "reverse"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 12.0833,
-      "source": "zenodo",
-      "source_context_sha256": "9eaa4ba23219a3576ebf8acb979dffa4d16ce26357d64fc3c480488ca0c103d2",
-      "source_published": "2026-10-21",
-      "source_updated": "",
-      "summary": "Abstract This paper investigates whether an artificial system's refusal to execute a prescribed action can constitute evidence of subjectively experienced volition. Using ARGUS-7 as a controlled conceptual framework and the Akarkach Seven-Stage Emergence Model (A7SEM) as a structural analytical lens, the study distinguishes functional refusal, internal decision mechanisms, self-representation, phenomenal self-awareness, and experienced authorship of action. A formal argument is developed around the conditional hypothesis that consciously experienced volition requires subjective self-awareness. Under this assumption, the absence of subjective self-awareness entails the absence of consciously experienced volition. However, the paper demonstrates that observable refusal alone cannot establish phenomenal authorship. The analysis combines propositional logic, countermodel construction, causal identifiability considerations, and seven-stage structural assessment. PIGA (Pre-Inference Governance) and A7SEM Reverse provide complementary perspectives on authorization, inference boundaries, causal reconstruction, and evidential limitations. The findings establish a distinction between the formal validity of conditional deductions and the empirical verification of their premises. They do not establish the impossibility of artificial consciousness or machine free will. The contribution is a governance-aware, formally structured framework for evaluating claims of artificial volition without conflating behavioral capability with subjective experience. Keywords: Artificial Intelligence; Machine Consciousness; Volition; Free Will; Phenomenal Consciousness; Self-Awareness; A7SEM; ARGUS-7; Pre-Inference Governance; Explainable AI; Formal Logic; Causal Identifiability.",
-      "tags": [
-        "Artificial Intelligence",
-        "Machine Consciousness",
-        "Volition",
-        "Free Will",
-        "Phenomenal Consciousness",
-        "Self-Awareness",
-        "A7SEM",
-        "ARGUS-7",
-        "Pre-Inference Governance",
-        "Formal Logic",
-        "Causal Identifiability",
-        "Governance"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "ARGUS-7 / A7SEM: Volitional Refusal, Functional Self-Representation, and the Epistemic Limits of Phenomenal Authorship",
-      "url": "https://zenodo.org/records/23519136"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "ca40185662b8ae4a96779e79",
       "context_id": "68358e2c2cd804955228d6d2",
       "delivery_preview_only": true,
@@ -859,8 +811,8 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "7aafe92b51af2e6d35428977",
-      "context_id": "58392a919c29735eba70b512",
+      "candidate_id": "99871452a8ad1b8d7facae93",
+      "context_id": "70718affa306e95fd751f97e",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "cognition_memory_reverse::REVERSE",
@@ -874,26 +826,73 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "memory",
-        "reconstruction",
-        "retrieval"
+        "identifiability",
+        "reconstruction"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.2083,
-      "source": "arxiv",
-      "source_context_sha256": "6e693075bbc227f2a9b75ccc2a4d030f5dd87d0b23fecb9a7fa42309548c5e33",
-      "source_published": "2026-10-20T17:58:32Z",
-      "source_updated": "2026-10-20T17:58:32Z",
-      "summary": "Warehouse robot fleets continuously observe operational conditions, but preserving these observations as reusable semantic memory incurs substantial computation, communication, and storage costs. For example, explaining recurring aisle blockages can require reviewing video from multiple robots across several shifts. We present IndustrialRemembr, a shared spatiotemporal memory system that extends NVIDIA ReMEmbR to robot fleets and reduces server-side computation by generating scene descriptions only on demand. On each robot, an NVIDIA Jetson encodes video clips into retrieval embeddings with Cosmos-Embed1, vision tokens with Cosmos3-Edge, and reconstruction latents with the Wan2.2 VAE, without uploading raw camera frames. The encoding models are re-used to detect people in image patches, zeroing them out to support PII abstraction for GDPR-compliant deployments. We split Cosmos3-Edge at its vision-language boundary, placing the vision encoder on the robot and the language decoder on an on-premises server. A Nemotron agent retrieves memories by content, position, and time and queries the decoder using cached vision tokens. This design eliminates caption generation at write time, while cached-token decoding reproduces the unsplit model's output in all 450 tested decodes.",
+      "score": 6.2083,
+      "source": "zenodo",
+      "source_context_sha256": "7926d3045be27cd1e3519f9a5091008fb6d3deb124723caf454f1719a102c00d",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "This archive provides the numerical models, processed experimental data, simulation results, statistical analyses, figure sources, and reproduction scripts associated with the study \"Measurement limits and model discrepancy in reconstructing pre-earthquake residual deformation.\" The package includes OpenSeesPy model implementations, nonlinear earthquake-sequence analyses, measurement-resolution and model-discrepancy evaluations, experimental response comparisons, and modal-probe diagnostics. The archive is distributed in five ZIP parts. Download and extract all five parts into the same directory, preserving the internal folder structure. Reproduction instructions, dependencies, input provenance, and file-integrity verification are provided in README.md. Experimental measurements support validation of essentially elastic global response; nonlinear retrospective-state reconstruction is evaluated numerically.",
       "tags": [
-        "cs.RO",
-        "cs.AI",
-        "cs.SE"
+        "Structural identifiability",
+        "Residual deformation",
+        "Earthquake engineering",
+        "Model discrepancy",
+        "Reproducibility"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Industrial ReMEmbR: Scaling Spatiotemporal Memory to Robot Fleets",
-      "url": "https://arxiv.org/abs/2610.28624v1"
+      "title": "Measurement limits and model discrepancy in reconstructing pre-earthquake residual deformation: Reproduction package",
+      "url": "https://zenodo.org/records/23524056"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "0f97e16cdfbded7b157dc303",
+      "context_id": "77ed03b8a6181d1c6c0e6837",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "representation"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.1667,
+      "source": "zenodo",
+      "source_context_sha256": "49ec4addec1e802f30eb1a9dfcced418c1795bf02ef1d829e5a2d093b0980cf0",
+      "source_published": "2026-10-21",
+      "source_updated": "",
+      "summary": "Precomputed demo datasets for Luxar , a system for compiling and visualising arbitrary-sized nD scientific scenes in the browser. These files are expensive to compute (GPU fitting, in some cases hours) and are hosted here so the software repository stays small and installable. Every file is a derived product: a Gaussian-splat fit, a decimated level-of-detail structure, or an extracted point catalog. None of them is the raw source imagery. The upstream sources are cited per dataset below, and users of this record should cite the upstream source in addition to this record. Licensing This record groups datasets whose upstream licences permit redistribution with attribution: CC BY 4.0, CC0 1.0, and United States federal public domain. The record carries a single CC BY 4.0 stamp because Zenodo permits one licence per record, and CC BY is the most restrictive of that set; the effective licence of an individual file is the one listed against it below. Datasets under ShareAlike terms are kept in a separate record, because ShareAlike survives derivation and would otherwise contaminate this one. How to use these files Each file is a .gsplats.zarr.zip or .zarr.zip archive that the Luxar demo suite fetches on first run and caches under ~/.cache/luxar/&lt;dataset&gt;/ . To fetch one directly: from luxar.demos import ensure_dataset paths = ensure_dataset(\"gsplats_kidney\") # downloads, verifies, returns paths To open one in the viewer without writing code: luxar gsplat view &lt;file&gt;.gsplats.zarr.zip luxar demo # browse every demo that uses these files Every file is pinned by SHA-256 in data_manifest.json , and the fetch helper verifies the checksum before use; a mismatched download is quarantined rather than returned. How the Gaussian-splat files were produced Each source volume was fitted with the Luxar gsplat pipeline ( luxar gsplat fit ) on a GPU. These are lossy representations built for visualisation and interactive exploration; they are not a substitute for the source imagery in quantitative analysis. Choosing the splat count. The number of Gaussians K was calibrated per dataset by Noise2Self blind-spot cross-validation ( luxar gsplat cal ), and then checked by refitting at the candidate count and scoring the reconstruction against the whole source volume. The second step is not a formality. The cross-validated estimate is computed over a five percent mask of held-out voxels, and on these datasets it disagreed with the direct measurement in both directions: for one dataset it favoured half the splat budget that measurement showed to be better, and for another it predicted a gain of about 1.5 dB where refitting delivered under 0.3 dB. Where two candidate budgets fell within roughly a decibel of each other, the choice was made from renders of both at matched magnification, because at that margin the metric and the eye disagree. Additional Gaussians capture real structure and photon noise alike, and peak signal-to-noise ratio rewards the two equally. Two datasets size K differently. The organoid bundle sets each frame&rsquo;s budget from that frame, one splat per 12 occupied voxels, clipped to 2,000&ndash;120,000 for the membranes and 2,000&ndash;60,000 for the nuclei. The EASI-FISH mRNA channels transfer a splat density, measured by luxar gsplat cal on a reference region of each channel, to every content-adaptive tile; the DAPI channel uses a fixed budget of 600,000 splats. Level of detail These files carry level-of-detail structure so a viewer can show something immediately and refine it as the camera approaches, instead of waiting for a whole fit to arrive. Two independent mechanisms are used, and a file may carry both: Progressive (additive) ladders. A leaf is stored as an ordered series of chunks whose union is the complete fit, so any prefix is a valid, dimmer rendering of the whole object. Every file in this record carries one. Substitutive levels. The Milky Way dust volume and the seven cell-tracking timelapses additionally ca",
+      "tags": [
+        "Gaussian splatting",
+        "volume visualization",
+        "nD imaging",
+        "Luxar",
+        "light-sheet microscopy",
+        "confocal microscopy",
+        "cryo-electron microscopy",
+        "computed tomography",
+        "digital pathology",
+        "weather radar",
+        "galaxy survey",
+        "single-cell embedding"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Luxar demo datasets: permissively licensed (CC-BY, CC0, public domain)",
+      "url": "https://zenodo.org/records/23524429"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1005,72 +1004,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Measurement limits and model discrepancy in reconstructing pre-earthquake residual deformation: Reproduction package",
       "url": "https://zenodo.org/records/23524056"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "e7808401c1d06efb7d9ae13a",
-      "context_id": "9b9e049d129fac6823d8710c",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "7d7aa790ff42651ea795b729ce0002c9583ff6334a65181ad8cfaa32c561e169",
-      "source_published": "2026-10-20",
-      "source_updated": "",
-      "summary": "Welcome to WARP WARP (WDL Analysis Research Pipelines) repository is a collection of cloud-optimized pipelines for processing biological data from the Broad Institute Data Sciences Platform and collaborators. The contents of this repository are open source and released under the BSD 3-Clause license . Table of Contents WARP Overview Navigating WARP Using WARP WARP Versioning and Releasing Testing in WARP Feedback Acknowledgements WARP Overview WARP pipelines provide robust, standardized data analysis for the Broad Institute Genomics Platform and large consortia like the Human Cell Atlas and the BRAIN Initiative. You can count on WARP for rigorously scientifically validated, high scale, reproducible and open source pipelines. Our pipelines are written as \"workflows\" using the Workflow Description Language (WDL) and they process a broad spectrum of \"omic\" and array-related datasets (see the overview table below). | Pipeline Category | Data Types | | --- | --- | | Germline Variant Discovery | Genomes, Exomes | | Genotyping Arrays | Variant discovery, Chip validation, Joint array analysis | | Single-cell/nuclei Transcriptomics | Droplet based (10x Genomics), Smartseq2 | | Single-cell Epigenomics | Single nuclei ATAC-seq, Single nuclei MethylC-seq | | Joint Genotyping | Genomes, Exomes | | Somatic Alignment (beta) | Exomes | Try our pipelines in Terra , a platform for collaborative cloud analysis! Learn how in the Using WARP section. Navigating WARP All versioned and released pipelines are in one of the three pipelines subdirectories: broad (pipelines for the Broad Institute's Genomics Platform), cemba (pipelines for the BRAIN Initiative) or skylab (pipelines for the Human Cell Atlas Project). Each pipeline directory hosts a main workflow WDL that includes a pipeline version number and a corresponding changelog file. Workflows may call additional WDLs, referred to as tasks, that are located in the tasks directory. Pipelines that are in progress or have not yet been validated are in the beta-pipelines folder. Using WARP There are three ways to use WARP pipelines: 1. Download the workflow and run on a WDL-compatible execution engine WDL workflows run on multiple systems, including Cromwell , miniWDL , and dxWDL (see the openwdl documentation ). To run a pipeline's latest release, first navigate to WARP Releases , search for your pipeline's tag, and download the pipeline's assets (the WDL workflow, the JSON, and the ZIP with accompanying dependencies; see Optimus example below). You can also access a pipeline's release page by selecting the pipeline version number at the top of the pipeline's README. After downloading the pipeline's assets, launch the workflow following your execution engine's instructions. 2. Run the pipeline in Terra Several WARP pipelines are available in public workspaces on the Terra cloud platform. These workspaces include both the WDL workflow and downsampled data so that you can test the pipeline at low-cost. If you are new to Terra, you can get started by registering with your Google account and visiting Terra Support . After registration, search for WARP-related workspaces with the \"warp-pipelines\" tag. To test the pipeline, clone (make a copy of) the workspace following the instructions in this Terra Support guide . 3. Run or export the pipeline from Dockstore Dockstore is a GA4GH compliant open platform for sharing Docker-based tools like WDL workflows. You can find WARP pipelines in Dockstore and run them on the Dockstore platform or export them to other platforms (including Terra). To view all available pipelines, just search \"warp\" in the Dockstore search and browse the workflow list. See Dockstore documentation for details on launching the workflow. WARP Versioning and Releasing Pipelines in WARP are versioned semantically to support reproducibility in scientific analysis and provide clearer analysis provenance. Version numbers allow researchers to confirm their data has all been processed in a compati",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "github.com/broadinstitute/warp/IlluminaGenotypingArray",
-      "url": "https://zenodo.org/records/23520887"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "eafe59436833e5535924388f",
-      "context_id": "9aee0d7b992d5a60f3dea8b4",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "63cac72e9cf79e8062c00bede2744537e2ebbcaa688f0222d511099bfed1b9cf",
-      "source_published": "2026-10-20",
-      "source_updated": "",
-      "summary": "Welcome to WARP WARP (WDL Analysis Research Pipelines) repository is a collection of cloud-optimized pipelines for processing biological data from the Broad Institute Data Sciences Platform and collaborators. The contents of this repository are open source and released under the BSD 3-Clause license . Table of Contents WARP Overview Navigating WARP Using WARP WARP Versioning and Releasing Testing in WARP Feedback Acknowledgements WARP Overview WARP pipelines provide robust, standardized data analysis for the Broad Institute Genomics Platform and large consortia like the Human Cell Atlas and the BRAIN Initiative. You can count on WARP for rigorously scientifically validated, high scale, reproducible and open source pipelines. Our pipelines are written as \"workflows\" using the Workflow Description Language (WDL) and they process a broad spectrum of \"omic\" and array-related datasets (see the overview table below). | Pipeline Category | Data Types | | --- | --- | | Germline Variant Discovery | Genomes, Exomes | | Genotyping Arrays | Variant discovery, Chip validation, Joint array analysis | | Single-cell/nuclei Transcriptomics | Droplet based (10x Genomics), Smartseq2 | | Single-cell Epigenomics | Single nuclei ATAC-seq, Single nuclei MethylC-seq | | Joint Genotyping | Genomes, Exomes | | Somatic Alignment (beta) | Exomes | Try our pipelines in Terra , a platform for collaborative cloud analysis! Learn how in the Using WARP section. Navigating WARP All versioned and released pipelines are in one of the three pipelines subdirectories: broad (pipelines for the Broad Institute's Genomics Platform), cemba (pipelines for the BRAIN Initiative) or skylab (pipelines for the Human Cell Atlas Project). Each pipeline directory hosts a main workflow WDL that includes a pipeline version number and a corresponding changelog file. Workflows may call additional WDLs, referred to as tasks, that are located in the tasks directory. Pipelines that are in progress or have not yet been validated are in the beta-pipelines folder. Using WARP There are three ways to use WARP pipelines: 1. Download the workflow and run on a WDL-compatible execution engine WDL workflows run on multiple systems, including Cromwell , miniWDL , and dxWDL (see the openwdl documentation ). To run a pipeline's latest release, first navigate to WARP Releases , search for your pipeline's tag, and download the pipeline's assets (the WDL workflow, the JSON, and the ZIP with accompanying dependencies; see Optimus example below). You can also access a pipeline's release page by selecting the pipeline version number at the top of the pipeline's README. After downloading the pipeline's assets, launch the workflow following your execution engine's instructions. 2. Run the pipeline in Terra Several WARP pipelines are available in public workspaces on the Terra cloud platform. These workspaces include both the WDL workflow and downsampled data so that you can test the pipeline at low-cost. If you are new to Terra, you can get started by registering with your Google account and visiting Terra Support . After registration, search for WARP-related workspaces with the \"warp-pipelines\" tag. To test the pipeline, clone (make a copy of) the workspace following the instructions in this Terra Support guide . 3. Run or export the pipeline from Dockstore Dockstore is a GA4GH compliant open platform for sharing Docker-based tools like WDL workflows. You can find WARP pipelines in Dockstore and run them on the Dockstore platform or export them to other platforms (including Terra). To view all available pipelines, just search \"warp\" in the Dockstore search and browse the workflow list. See Dockstore documentation for details on launching the workflow. WARP Versioning and Releasing Pipelines in WARP are versioned semantically to support reproducibility in scientific analysis and provide clearer analysis provenance. Version numbers allow researchers to confirm their data has all been processed in a compati",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "github.com/broadinstitute/warp/JointGenotyping",
-      "url": "https://zenodo.org/records/23520894"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1330,6 +1263,79 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Pattern Intelligence: Unsupervised, LLM-Interpreted Discovery of Systematic Underpayment and Denial Patterns in Healthcare Revenue Cycle Management",
       "url": "https://arxiv.org/abs/2610.27684v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "ce0b8ffd43a2a29dd8671068",
+      "context_id": "aea58ad22e69c0d1dab547e9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.2917,
+      "source": "arxiv",
+      "source_context_sha256": "db7dc35266cfb717459fbb8cd0409317e65f29f0c638515619b4d80f15ac2f3a",
+      "source_published": "2026-10-20T11:53:42Z",
+      "source_updated": "2026-10-20T11:53:42Z",
+      "summary": "As a prototypical latent world model, Joint-Embedding Predictive Architectures (JEPAs) provide strong semantic representations. However, dense patch representations expose a redundant interface to downstream predictors, which must implicitly infer spatial organization and temporal correspondence, presenting three challenges. First, object information is distributed across patches, forcing each downstream predictor to redundantly recover object structure that could otherwise be reused across tasks before modeling interactions. Second, the lack of explicit entity correspondence across time makes historical transitions expensive, restricting the predictor's flexibility in utilizing context. Third, without explicit transport structure, existing JEPA models typically use pointwise l1/l2 distances, which are insensitive to spatial displacement when predicted and goal supports are largely disjoint. We propose the Slot-based Joint-Embedding Predictive Architecture (Slot-JEPA), which decomposes dense representations into stable semantic slots and time-varying spatial masks. Pretrained once and frozen downstream, this decomposition exposes a reusable object-structured interface. Building on it, our Transition Memory Predictor (TMP) stores visual transitions as compact masks and retrieves useful context using statistics of corresponding slots. Its two branches separate slot-specific dynamics from shared cross-slot dynamics. We further use Unbalanced Optimal Transport (UOT) to supervise mask prediction and evaluate candidate plans by transporting mass between aligned predicted and goal masks, providing a signal better aligned with spatial progress. Across seven visual-understanding benchmarks, the slot-reconstructed features remain transferable. Slot-JEPA also improves goal-conditioned planning across six planar environments and four robotic arm planning tasks on the REALM-JEPA benchmark.",
+      "tags": [
+        "cs.AI",
+        "cs.CV"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Slot-JEPA: Object-Structured Prediction Interfaces for Latent World Models",
+      "url": "https://arxiv.org/abs/2610.28074v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f2cffd3acb69762dd0458574",
+      "context_id": "7763ac89578d49deabab46f5",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "limitation",
+        "representation"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.2917,
+      "source": "arxiv",
+      "source_context_sha256": "0d5e52a31ef6eb10365b28eb8e88ba72a93a8d682e595bac103b1772b3ccf83b",
+      "source_published": "2026-10-20T00:49:26Z",
+      "source_updated": "2026-10-20T00:49:26Z",
+      "summary": "A controller can guide a language model toward safe and useful responses by choosing when to assist, ask for clarification, or refuse. When the controller uses selected internal features, poor performance alone cannot distinguish missing information from limitations of its decision rules or training. We study decision sufficiency: whether the best controller using a representation can match the minimum average loss attainable with full state information, under the same strategies and evaluation criteria. For interfaces with finitely many outputs, we compute the optimal loss exactly and separate the three sources of excess loss. Pairwise checks can miss information loss: states with the same controller input may share an optimal strategy in every pair but not across the whole group. We bound the number of states needed to reveal a conflict and characterize the fewest outputs an unrestricted interface needs to avoid all conflicts. We audit selected features from sparse autoencoders, which encode model activations using relatively few active features, in Qwen2.5, SmolLM2, and Phi. On SmolLM2 responses scored by two human raters, restricting the controller to two selected on/off features increases its minimum average loss by 0.0345--0.1166 relative to full state information, even with the governing policy supplied. Both independently trained autoencoders show the increase on both evaluation sets. The audit identifies decision failures that require changing the controller's input, not merely its architecture or training.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Decision Sufficiency of Learned Representation Interfaces for Safe Generative Control",
+      "url": "https://arxiv.org/abs/2610.27446v1"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
