@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import stat
 from pathlib import Path
 import time
 from typing import Callable
@@ -44,9 +45,28 @@ def load_aura_evidence(home: Path) -> dict:
     path = Path(witness["path"])
     if path.is_symlink() or path.parent.is_symlink() or not path.is_file():
         raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_PATH_UNSAFE")
-    # Bounded read prevents memory exhaustion if the file grows after stat.
-    with path.open("rb") as source:
-        raw = source.read(MAX_RECEIPT + 1)
+    # Directory and leaf descriptors are opened with NOFOLLOW atomically.
+    # NONBLOCK prevents racing a regular file into a blocking FIFO/device.
+    if not all(hasattr(os, name) for name in ("O_NOFOLLOW", "O_DIRECTORY", "O_NONBLOCK")):
+        raise ConsumptionError("AURA_RECEIPT_ATOMIC_NOFOLLOW_UNSUPPORTED")
+    parent_fd = None
+    leaf_fd = None
+    try:
+        parent_fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        leaf_fd = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                          dir_fd=parent_fd)
+        if not stat.S_ISREG(os.fstat(leaf_fd).st_mode):
+            raise ConsumptionError("AURA_RECEIPT_OPENED_NOT_REGULAR")
+        # Bound the actual descriptor read, not a previous path stat.
+        with os.fdopen(leaf_fd, "rb", closefd=False) as source:
+            raw = source.read(MAX_RECEIPT + 1)
+    except OSError as exc:
+        raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_OPEN_UNSAFE") from exc
+    finally:
+        if leaf_fd is not None:
+            os.close(leaf_fd)
+        if parent_fd is not None:
+            os.close(parent_fd)
     digest = sha256(raw)
     if len(raw) > MAX_RECEIPT or digest != witness["receipt_sha256"]:
         raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_HASH_CHANGED")
