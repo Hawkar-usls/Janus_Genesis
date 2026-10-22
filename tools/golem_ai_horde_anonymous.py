@@ -176,6 +176,8 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
                 text = entry.get("text") if isinstance(entry, dict) else None
                 name = entry.get("model") if isinstance(entry, dict) else None
                 if (not isinstance(text, str) or not 0 < len(text) <= MAX_OUTPUT
+                    or not any(c.isprintable() and not c.isspace() for c in text)
+                    or any(ord(c) < 32 and c not in "\\n\\t\\r" for c in text)
                     or not isinstance(name, str) or not 0 < len(name) <= 160):
                     base["status"] = "INVALID_EXTERNAL_GENERATION"
                     break
