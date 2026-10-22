@@ -50,9 +50,11 @@ def load_aura_evidence(home: Path) -> dict:
         raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_HASH_CHANGED")
     try:
         aura = json.loads(raw)
-        _validate_receipt(aura, v2, v2_sha)
-    except (ValueError, KeyError, TypeError) as exc:
+    except (ValueError, UnicodeError, TypeError) as exc:
         raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_INVALID") from exc
+    # Preserve the verifier's fail-closed error, rather than masking it as
+    # a JSON parse failure (ConsumptionError derives from ValueError).
+    _validate_receipt(aura, v2, v2_sha)
     context, cursor, _ = load_verified(home / "memory/beetle/CONTEXT.json",
                                        home / "memory/beetle/CURSOR.json")
     if (aura["v2_receipt_sha256"] != v2_sha or
