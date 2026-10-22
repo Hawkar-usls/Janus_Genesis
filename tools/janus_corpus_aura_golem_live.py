@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import stat
 from pathlib import Path
 import time
 from typing import Callable
@@ -38,7 +39,44 @@ def load_aura_evidence(home: Path) -> dict:
     baseline = protected_snapshot(home)
     witness = attest_oracle(home, baseline=baseline)
     v2, v2_sha = _context(home, baseline, None)
-    aura = json.loads(Path(witness["path"]).read_text(encoding="utf-8"))
+    # Pin a single byte snapshot. The attestor may have read this path
+    # before an adversary replaced it; never consume separately read bytes.
+    from janus_corpus_aura_oracle import MAX_RECEIPT, _validate_receipt
+    path = Path(witness["path"])
+    if path.is_symlink() or path.parent.is_symlink() or not path.is_file():
+        raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_PATH_UNSAFE")
+    # Directory and leaf descriptors are opened with NOFOLLOW atomically.
+    # NONBLOCK prevents racing a regular file into a blocking FIFO/device.
+    if not all(hasattr(os, name) for name in ("O_NOFOLLOW", "O_DIRECTORY", "O_NONBLOCK")):
+        raise ConsumptionError("AURA_RECEIPT_ATOMIC_NOFOLLOW_UNSUPPORTED")
+    parent_fd = None
+    leaf_fd = None
+    try:
+        parent_fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        leaf_fd = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                          dir_fd=parent_fd)
+        if not stat.S_ISREG(os.fstat(leaf_fd).st_mode):
+            raise ConsumptionError("AURA_RECEIPT_OPENED_NOT_REGULAR")
+        # Bound the actual descriptor read, not a previous path stat.
+        with os.fdopen(leaf_fd, "rb", closefd=False) as source:
+            raw = source.read(MAX_RECEIPT + 1)
+    except OSError as exc:
+        raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_OPEN_UNSAFE") from exc
+    finally:
+        if leaf_fd is not None:
+            os.close(leaf_fd)
+        if parent_fd is not None:
+            os.close(parent_fd)
+    digest = sha256(raw)
+    if len(raw) > MAX_RECEIPT or digest != witness["receipt_sha256"]:
+        raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_HASH_CHANGED")
+    try:
+        aura = json.loads(raw)
+    except (ValueError, UnicodeError, TypeError) as exc:
+        raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_INVALID") from exc
+    # Preserve the verifier's fail-closed error, rather than masking it as
+    # a JSON parse failure (ConsumptionError derives from ValueError).
+    _validate_receipt(aura, v2, v2_sha)
     context, cursor, _ = load_verified(home / "memory/beetle/CONTEXT.json",
                                        home / "memory/beetle/CURSOR.json")
     if (aura["v2_receipt_sha256"] != v2_sha or
@@ -47,7 +85,7 @@ def load_aura_evidence(home: Path) -> dict:
             aura["context_sequence"] != cursor["last_sequence"]):
         raise ConsumptionError("AURA_PROVENANCE_BINDING_INVALID")
     return {"home_baseline": baseline, "aura": aura,
-            "aura_receipt_sha256": sha256(Path(witness["path"]).read_bytes()),
+            "aura_receipt_sha256": digest,
             "v2": v2, "context": context, "cursor": cursor}
 
 

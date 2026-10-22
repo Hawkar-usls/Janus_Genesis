@@ -43,3 +43,61 @@ A real received response is an external model observation, NOT a verified
 prediction or proof. A future full Native → External → Native quality trial
 still requires independent evaluation. GitHub Actions runner minutes may
 be consumed even though the provider has no monetary API tariff.
+
+## R1.1 strict availability gate (Draft PR #287, not an inference claim)
+
+The offline unit tests remain free of network and prove only protocol handling.
+The pull request canary now uses `--execute-public-demo --require-real-answer`.
+The process exits **2** unless the built-in HTTPS transport observes an actual
+nonempty one-generation model response; HTTP 403, queue timeouts and invalid
+results are availability **FAIL/HOLD**, never a successful provider result.
+An `always()` artifact step preserves the complete bounded receipt even
+after the strict canary step fails.
+
+For HTTP errors, a bounded JSON error body is inspected **only** for a
+pre-reviewed official `rc` value. Public diagnostics contain the HTTP number
+and optional allowed `rc` classification; never upstream `message`,
+HTML, arbitrary strings, response headers or credentials. An unrecognized
+or malformed body is reported only as `HORDE_HTTP_403` (or the observed
+numeric HTTP status). This helps distinguish an explicitly forbidden anonymous
+request from a refused Client-Agent, but does not circumvent either.
+
+Do not switch hosts, rotate anonymous identities, evade rate limits or
+submit retry storms in response to HTTP 403. A provider can refuse public
+access at any time; credentials for other free GOLEM routes are a separate
+explicit opt-in and cannot be inferred from this test.
+
+`ANONYMOUS_CANARY_SOFTWARE_TESTS = NOT_LIVE_PROVIDER_EVIDENCE`
+
+`ANONYMOUS_PROVIDER_RESPONSE = PASS_ONLY_AFTER_ACTUAL_RESPONSE`
+
+`JANUS_HABITAT_OPERATIONAL = NOT_ESTABLISHED_BY_THIS_LANE`
+
+
+## R1.2 provenance hardening (23 October 2026)
+
+- An explicit `prompt_sent: null` on an attempted real POST with no
+  acknowledged transport outcome means disclosure is **unknown/possible**,
+  including HTTP 403. `false` is retained for a no-network dry run or
+  injected test transport, and `true` only after real HTTP acknowledgement.
+  The caller must not interpret `null` as proof that the provider never saw
+  the prompt.
+- The AURA source reader now hashes one bounded, freshly loaded receipt
+  byte snapshot and requires it to equal the independent attestor's digest.
+  Exactly that snapshot is validated against the existing pinned Corpus v2
+  receipt; no later independent read is used to extract questions.
+- The public-only AI Horde adapter never receives HOME text, memory or
+  context hashes and is **not** an unrestricted private prompt service.
+- Previously attested single anonymous live answer: GitHub workflow
+  39507617171 at SHA aec9b7d403a0988fb286571c568c4407e6dac448.
+  This was a genuine external observation, not a claim about quality,
+  continued provider availability or an end-to-end native review.
+- The new security regressions run in the PR's offline contract CI. The
+  strict real-provider canary remains an availability gate: no simulated
+  answer can make it pass. Any future failed run must be reported as a
+  provider block, not a rollback of past observations.
+
+`AURA_BYTE_SNAPSHOT_RECHECK = REQUIRED`
+`PROMPT_ON_FAILED_POST = DISCLOSURE_POSSIBLE`
+`FULL_PRIVATE_END_TO_END_CHAIN = NOT_YET_ATTESTED`
+`EXTERNAL_SCIENTIFIC_AUTHORITY = ZERO`

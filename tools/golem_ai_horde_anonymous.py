@@ -29,6 +29,13 @@ MAX_POLLS = 6
 POLL_SECONDS = 4
 ID = re.compile(r"[a-fA-F0-9]{8}-[a-fA-F0-9-]{27,40}\Z")
 
+# Only official pre-reviewed refusal codes may be included in public receipts.
+# Never print an upstream message, HTML body, header, URL or arbitrary string.
+SAFE_REJECTION_CODES = frozenset({
+    "AnonForbidden", "BadClientAgent", "InvalidAPIKey", "KudosUpfront",
+    "TimeoutIP", "TooManySameIPs", "UnsafeIP", "NotTrusted",
+})
+
 # Exact immutable card questions from AURA's reviewed Shabitat heuristic v1.
 # Anything containing user content, metadata, a customized prompt or a new
 # card not explicitly audited is NOT eligible for anonymous volunteer egress.
@@ -57,7 +64,10 @@ def _http(method: str, path: str, body: dict | None = None) -> dict:
     data = compact(body) if body is not None else None
     headers = {
         "Accept": "application/json",
-        "Client-Agent": "JANUS-AURA-GOLEM:0.1:public-anonymous-research",
+        # Official integration guidance requires name:version:contact_details.
+        # Identify this client truthfully; do not imitate a browser.
+        "Client-Agent": "JANUS-AURA-GOLEM:0.2:github.com/Hawkar-usls/Janus_Genesis/issues",
+        "User-Agent": "JANUS-AURA-GOLEM/0.2 (+https://github.com/Hawkar-usls/Janus_Genesis/issues)",
         "apikey": ANON_KEY,
     }
     if data is not None:
@@ -77,7 +87,17 @@ def _http(method: str, path: str, body: dict | None = None) -> dict:
             raise ConsumptionError("HORDE_BAD_JSON_OBJECT")
         return decoded
     except error.HTTPError as exc:
-        raise ConsumptionError(f"HORDE_HTTP_{exc.code}") from exc
+        label = f"HORDE_HTTP_{exc.code}"
+        try:
+            # Bounded diagnostic read; never echo the provider's message.
+            raw_error = exc.read(2049)
+            if len(raw_error) <= 2048:
+                parsed = json.loads(raw_error)
+                if isinstance(parsed, dict) and parsed.get("rc") in SAFE_REJECTION_CODES:
+                    label += "_" + parsed["rc"]
+        except (ValueError, UnicodeError, OSError, TypeError):
+            pass
+        raise ConsumptionError(label) from exc
     except error.URLError as exc:
         raise ConsumptionError("HORDE_TRANSPORT_UNREACHABLE") from exc
     except (TimeoutError, ValueError, UnicodeDecodeError) as exc:
@@ -124,9 +144,14 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
         return base
     params = {"max_length": 64, "max_context_length": 256, "n": 1}
     payload = {"prompt": prompt, "params": params, "nsfw": False}
-    base.update(status="SUBMISSION_UNCONFIRMED", attempts=1)
+    # Sending over HTTPS can disclose the request even when POST fails
+    # or returns HTTP 403. None = indeterminate, NEVER falsely report False.
+    base.update(status="SUBMISSION_UNCONFIRMED", attempts=1,
+                prompt_sent=None if transport is _http else False)
     try:
         accepted = transport("POST", "/generate/text/async", payload)
+        if transport is _http:
+            base["prompt_sent"] = True
         job = accepted.get("id") if isinstance(accepted, dict) else None
         if not isinstance(job, str) or not ID.fullmatch(job):
             base["status"] = "SUBMISSION_REJECTED_OR_UNVERIFIED"
@@ -151,6 +176,8 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
                 text = entry.get("text") if isinstance(entry, dict) else None
                 name = entry.get("model") if isinstance(entry, dict) else None
                 if (not isinstance(text, str) or not 0 < len(text) <= MAX_OUTPUT
+                    or not any(c.isprintable() and not c.isspace() for c in text)
+                    or any(ord(c) < 32 and c not in "\n\t\r" for c in text)
                     or not isinstance(name, str) or not 0 < len(name) <= 160):
                     base["status"] = "INVALID_EXTERNAL_GENERATION"
                     break
@@ -230,9 +257,13 @@ def query_attested_aura(home: Path, *, execute: bool = False,
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--execute-public-demo", action="store_true")
+    p.add_argument("--require-real-answer", action="store_true",
+                   help="fail the availability canary unless real text arrived")
     p.add_argument("--home-root", type=Path)
     p.add_argument("--out", type=Path)
     args = p.parse_args()
+    if args.require_real_answer and not args.execute_public_demo:
+        p.error("--require-real-answer requires --execute-public-demo")
     if args.home_root is not None:
         report = query_attested_aura(args.home_root, execute=args.execute_public_demo)
     else:
@@ -245,8 +276,15 @@ def main() -> int:
         "network_model_response_observed": report["network_model_response_observed"],
         "source": report["source"],
         "model": report["model_reported_unverified"],
+        "failure_class": report["failure_class"],
         "sha256": sha256(body.encode("utf-8")),
     }, sort_keys=True))
+    # An offline contract PASS is separate from a live-model response PASS.
+    if args.require_real_answer and (
+        report["status"] != "REAL_ANONYMOUS_RESPONSE__UNVERIFIED"
+        or report["network_model_response_observed"] is not True
+    ):
+        return 2
     return 0
 
 

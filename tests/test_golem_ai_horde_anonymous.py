@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import io
+from contextlib import redirect_stdout
 from pathlib import Path
 import sys
 import unittest
@@ -137,6 +139,104 @@ class TestHordeAnonymous(unittest.TestCase):
                 horde.query_attested_aura(Path("/none"), execute=True,
                                            transport=self.fake, sleeper=lambda *_: None)
         self.assertEqual(self.calls, [])
+
+    def test_identifies_official_client_with_public_contact(self):
+        class Refused:
+            def open(self, req, timeout):
+                self.req = req
+                raise horde.error.HTTPError(req.full_url, 403, "Forbidden",
+                                            {}, io.BytesIO(b'{}'))
+        client = Refused()
+        with patch.object(horde.request, "build_opener", return_value=client):
+            with self.assertRaises(ConsumptionError):
+                horde._http("POST", "/generate/text/async", {"prompt": "public"})
+        agent = client.req.get_header("Client-agent")
+        self.assertTrue(agent.startswith("JANUS-AURA-GOLEM:0.2:"))
+        self.assertIn("github.com/Hawkar-usls/Janus_Genesis/issues", agent)
+        self.assertIn("JANUS-AURA-GOLEM/0.2", client.req.get_header("User-agent"))
+
+    def test_403_official_refusal_code_is_safely_classified(self):
+        class Refused:
+            def open(self, request, timeout):
+                raise horde.error.HTTPError(
+                    request.full_url, 403, "Forbidden", {},
+                    io.BytesIO(b'{"rc":"AnonForbidden","message":"DO_NOT_ECHO_MARKER"}'))
+        with patch.object(horde.request, "build_opener", return_value=Refused()):
+            with self.assertRaises(ConsumptionError) as caught:
+                horde._http("POST", "/generate/text/async", {"prompt": "public"})
+        self.assertEqual(str(caught.exception), "HORDE_HTTP_403_AnonForbidden")
+        self.assertNotIn("DO_NOT_ECHO_MARKER", str(caught.exception))
+
+    def test_403_untrusted_return_code_never_reaches_public_log(self):
+        class Refused:
+            def open(self, request, timeout):
+                raise horde.error.HTTPError(
+                    request.full_url, 403, "Forbidden", {},
+                    io.BytesIO(b'{"rc":"DO_NOT_ECHO_MARKER","message":"secret"}'))
+        with patch.object(horde.request, "build_opener", return_value=Refused()):
+            with self.assertRaises(ConsumptionError) as caught:
+                horde._http("POST", "/generate/text/async", {"prompt": "public"})
+        self.assertEqual(str(caught.exception), "HORDE_HTTP_403")
+
+    def test_strict_live_cli_rejects_false_green_without_second_attempt(self):
+        refused = {
+            "status": "PROVIDER_UNAVAILABLE__NO_RESPONSE",
+            "network_model_response_observed": False,
+            "source": "ACTUAL_ANONYMOUS_HTTP",
+            "model_reported_unverified": None,
+            "failure_class": "HORDE_HTTP_403",
+        }
+        with patch.object(horde, "query_public", return_value=refused) as client:
+            with patch.object(sys, "argv", [
+                    "horde", "--execute-public-demo", "--require-real-answer"]):
+                with redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(horde.main(), 2)
+        self.assertEqual(client.call_count, 1)
+        self.assertIn('"failure_class": "HORDE_HTTP_403"', output.getvalue())
+
+    def test_strict_live_cli_passes_only_real_observed_text(self):
+        received = {
+            "status": "REAL_ANONYMOUS_RESPONSE__UNVERIFIED",
+            "network_model_response_observed": True,
+            "source": "ACTUAL_ANONYMOUS_HTTP",
+            "model_reported_unverified": "reported-model",
+            "failure_class": None,
+        }
+        with patch.object(horde, "query_public", return_value=received):
+            with patch.object(sys, "argv", [
+                    "horde", "--execute-public-demo", "--require-real-answer"]):
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(horde.main(), 0)
+
+
+    def test_http_403_may_have_disclosed_prompt_even_without_job(self):
+        class Refused:
+            def open(self, req, timeout):
+                raise horde.error.HTTPError(req.full_url, 403, "Forbidden",
+                                            {}, io.BytesIO(b'{}'))
+        with patch.object(horde.request, "build_opener", return_value=Refused()):
+            result = horde.query_public(execute=True)
+        self.assertEqual(result["failure_class"], "HORDE_HTTP_403")
+        self.assertEqual(result["status"], "PROVIDER_UNAVAILABLE__NO_RESPONSE")
+        self.assertIsNone(result["prompt_sent"])
+        self.assertEqual(result["attempts"], 1)
+        self.assertFalse(result["network_model_response_observed"])
+
+
+    def test_whitespace_or_control_only_external_reply_cannot_pass_canary(self):
+        for bad_text in (" \t\n ", "\x00\x01", "\r\t\n"):
+            def blank_generation(method, path, body=None):
+                if method == "POST":
+                    return {"id": UUID}
+                return {"done": True, "generations": [
+                    {"model": "provider-model", "text": bad_text}
+                ]}
+            result = horde.query_public(execute=True, transport=blank_generation,
+                                        sleeper=lambda *_: None)
+            self.assertEqual(result["status"], "INVALID_EXTERNAL_GENERATION")
+            self.assertFalse(result["network_model_response_observed"])
+            self.assertIsNone(result["response"])
+
 
 
 if __name__ == "__main__":

@@ -43,11 +43,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Submit exactly ONE official anonymous text job; no keys or HOME
+      # Availability must not be reported as success after HTTP 403 or timeout.
+      # The always() artifact step below preserves sanitized failure evidence.
+      - name: Submit one public text job; require an actual model answer
         env:
           PYTHONDONTWRITEBYTECODE: '1'
         run: |
           python tools/golem_ai_horde_anonymous.py --execute-public-demo \
+            --require-real-answer \
             --out "$RUNNER_TEMP/golem-horde-anonymous-public-r1.json"
       - name: Preserve real status including outage or timeout
         if: ${{ always() }}
