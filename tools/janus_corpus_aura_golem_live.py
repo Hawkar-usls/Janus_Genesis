@@ -38,7 +38,21 @@ def load_aura_evidence(home: Path) -> dict:
     baseline = protected_snapshot(home)
     witness = attest_oracle(home, baseline=baseline)
     v2, v2_sha = _context(home, baseline, None)
-    aura = json.loads(Path(witness["path"]).read_text(encoding="utf-8"))
+    # Pin a single byte snapshot. The attestor may have read this path
+    # before an adversary replaced it; never consume separately read bytes.
+    from janus_corpus_aura_oracle import MAX_RECEIPT, _validate_receipt
+    path = Path(witness["path"])
+    if path.is_symlink() or path.parent.is_symlink() or not path.is_file():
+        raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_PATH_UNSAFE")
+    raw = path.read_bytes()
+    digest = sha256(raw)
+    if len(raw) > MAX_RECEIPT or digest != witness["receipt_sha256"]:
+        raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_HASH_CHANGED")
+    try:
+        aura = json.loads(raw)
+        _validate_receipt(aura, v2, v2_sha)
+    except (ValueError, KeyError, TypeError) as exc:
+        raise ConsumptionError("AURA_RECEIPT_SNAPSHOT_INVALID") from exc
     context, cursor, _ = load_verified(home / "memory/beetle/CONTEXT.json",
                                        home / "memory/beetle/CURSOR.json")
     if (aura["v2_receipt_sha256"] != v2_sha or
@@ -47,7 +61,7 @@ def load_aura_evidence(home: Path) -> dict:
             aura["context_sequence"] != cursor["last_sequence"]):
         raise ConsumptionError("AURA_PROVENANCE_BINDING_INVALID")
     return {"home_baseline": baseline, "aura": aura,
-            "aura_receipt_sha256": sha256(Path(witness["path"]).read_bytes()),
+            "aura_receipt_sha256": digest,
             "v2": v2, "context": context, "cursor": cursor}
 
 
