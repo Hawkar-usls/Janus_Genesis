@@ -144,9 +144,14 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
         return base
     params = {"max_length": 64, "max_context_length": 256, "n": 1}
     payload = {"prompt": prompt, "params": params, "nsfw": False}
-    base.update(status="SUBMISSION_UNCONFIRMED", attempts=1)
+    # Sending over HTTPS can disclose the request even when POST fails
+    # or returns HTTP 403. None = indeterminate, NEVER falsely report False.
+    base.update(status="SUBMISSION_UNCONFIRMED", attempts=1,
+                prompt_sent=None if transport is _http else False)
     try:
         accepted = transport("POST", "/generate/text/async", payload)
+        if transport is _http:
+            base["prompt_sent"] = True
         job = accepted.get("id") if isinstance(accepted, dict) else None
         if not isinstance(job, str) or not ID.fullmatch(job):
             base["status"] = "SUBMISSION_REJECTED_OR_UNVERIFIED"
