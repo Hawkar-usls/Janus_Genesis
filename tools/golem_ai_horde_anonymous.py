@@ -117,6 +117,29 @@ def _public_prompt(question: str) -> str:
     )
 
 
+def _generation_failure_class(entry: object) -> str | None:
+    """Return only reviewed, non-sensitive failure labels; never provider text."""
+    if not isinstance(entry, dict):
+        return "HORDE_GENERATION_ENTRY_INVALID"
+    answer = entry.get("text")
+    model = entry.get("model")
+    if not isinstance(answer, str):
+        return "HORDE_GENERATION_TEXT_MISSING"
+    if len(answer) > MAX_OUTPUT:
+        return "HORDE_GENERATION_TEXT_OVERSIZE"
+    if not answer or not any(c.isprintable() and not c.isspace() for c in answer):
+        return "HORDE_GENERATION_TEXT_BLANK"
+    if any(ord(c) < 32 and c not in "\\n\\t\\r" for c in answer):
+        return "HORDE_GENERATION_TEXT_CONTROLS"
+    if not isinstance(model, str) or not model.strip():
+        return "HORDE_GENERATION_MODEL_MISSING"
+    if len(model) > 160:
+        return "HORDE_GENERATION_MODEL_OVERSIZE"
+    if any(not c.isprintable() for c in model):
+        return "HORDE_GENERATION_MODEL_CONTROLS"
+    return None
+
+
 def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
                  execute: bool = False, transport: Callable = _http,
                  sleeper: Callable = time.sleep) -> dict:
@@ -175,14 +198,12 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
                     base["status"] = "COMPLETED_WITHOUT_ONE_VALID_GENERATION"
                     break
                 entry = generations[0]
-                text = entry.get("text") if isinstance(entry, dict) else None
-                name = entry.get("model") if isinstance(entry, dict) else None
-                if (not isinstance(text, str) or not 0 < len(text) <= MAX_OUTPUT
-                    or not any(c.isprintable() and not c.isspace() for c in text)
-                    or any(ord(c) < 32 and c not in "\n\t\r" for c in text)
-                    or not isinstance(name, str) or not 0 < len(name) <= 160):
+                failure = _generation_failure_class(entry)
+                if failure is not None:
                     base["status"] = "INVALID_EXTERNAL_GENERATION"
+                    base["failure_class"] = failure
                     break
+                text, name = entry["text"], entry["model"]
                 base.update({
                     "status": ("REAL_ANONYMOUS_RESPONSE__UNVERIFIED"
                                if transport is _http else
@@ -321,7 +342,9 @@ def real_answer_observed(report: dict) -> bool:
     answer = report.get("response")
     model = report.get("model_reported_unverified")
     return (
-        report.get("status") == "REAL_ANONYMOUS_RESPONSE__UNVERIFIED"
+        _generation_failure_class({"text": answer, "model": model}) is None
+        and report.get("failure_class") is None
+        and report.get("status") == "REAL_ANONYMOUS_RESPONSE__UNVERIFIED"
         and report.get("network_model_response_observed") is True
         and report.get("source") == "ACTUAL_ANONYMOUS_HTTP"
         and report.get("prompt_sent") is True
