@@ -1,5 +1,5 @@
 {
-  "batch_id": "4f4bac5319070431c68b",
+  "batch_id": "fc6d4821a783f1b84168",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
@@ -221,45 +221,6 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "cf12b4752dbab64e7dac81e7",
-      "context_id": "6e6d5502412d4123e5573369",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.8333,
-      "source": "arxiv",
-      "source_context_sha256": "4e3690db528ef021456470a6f35ba500c577e6939863d14ceeb5556f9f191415",
-      "source_published": "2026-10-21T13:29:46Z",
-      "source_updated": "2026-10-21T13:29:46Z",
-      "summary": "Spiking Neural Networks (SNNs) promise energy-efficient inference through sparse, event-driven computation, yet remain constrained on continuous, context-dependent tasks such as automatic speech recognition (ASR). A key bottleneck is the Leaky Integrate-and-Fire (LIF) neuron, whose membrane decay erases information across pauses and phonetic boundaries while it must both extract features and retain long-range context. Inspired by cortical separation of nonlinear filtering and somatic integration, we introduce the Spiking Ternary GRU (stGRU): a ternary-weight gated recurrent unit performs temporal filtering, while downstream Resonate-and-Fire (RF) neurons generate the binary spike stream driving the next block's event pathway. This makes binary event transmission a native training constraint rather than a separate deployment-time activation quantization step; together with ternary weights, learned projections avoid dense floating-point matrix MACs. Trained end-to-end on LibriSpeech-960, Small, Medium, and Large stGRUs reach 8.09%, 7.04%, and $6.44 \\pm 0.17\\%$ WER on test-clean without an external language model. To our knowledge, these are the first matrix-MAC-free spiking networks without a learned ANN sequence decoder to achieve single-digit WER on LibriSpeech. The architecture also achieves 10.88% test CER on Aishell-1 (9.28% on dev) when trained from scratch. Internally, trained networks develop a depth-graded hierarchy: shallow layers act as fast acoustic filters, while deep layers form slower semantic integrators whose latent representations segregate into part-of-speech manifolds and word-level spike events. Deep-layer firing rates follow lognormal distributions with a sparsity gradient, mirroring hierarchical processing observed in human cortex in vivo. Our biologically grounded architecture combines competitive ASR with favorable modeled compute and memory cost.",
-      "tags": [
-        "cs.SD",
-        "cs.AI",
-        "cs.NE",
-        "eess.AS",
-        "q-bio.NC"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Bio-Inspired Auditory Processing: Coupling Parallel Resonate-and-Fire Dynamics with Ternary Recurrent Networks for Speech Recognition",
-      "url": "https://arxiv.org/abs/2610.29720v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "9c178eb80116fd5d9e19dc80",
       "context_id": "37aeeb5b8c14c2d988cabea3",
       "delivery_preview_only": true,
@@ -439,6 +400,42 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "841e66f971bf30f42fc3e12e",
+      "context_id": "00e92babe31f62e287498ea2",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "retrieval"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 2.625,
+      "source": "arxiv",
+      "source_context_sha256": "bd432e9b5b407cef52a091d26c68adcc653b102cadab7fe3d014af074c0bf3cb",
+      "source_published": "2026-10-22T09:34:52Z",
+      "source_updated": "2026-10-22T09:34:52Z",
+      "summary": "Personal agents need to draw on long-term interaction history to retrieve and apply external knowledge suited to a user's current request. Even an answer grounded in relevant documents can be unsuitable when it overlooks the user's circumstances. This creates two connected challenges: using historical conditions to identify the knowledge needed for a new request, and applying that knowledge to the user's situation. Existing benchmarks advance memory recall, personalized retrieval, and memory-guided action, while the joint evaluation of these two challenges remains underexplored. We introduce ColaBench, a synthetic benchmark in health and daily living, with 349 tasks across 10 Profiles and a knowledge base of 13,033 documents. Its Evidence Graph connects personal conditions to their disclosures across public interaction sessions, records prior document exposure, and links answer requirements to personal and newly acquired document evidence. We also introduce MemKB, which uses state summaries to inform queries and rule application, and memory-document links to retrieve knowledge associated with the user's history. MemKB achieves 86.25% Accuracy with an average of 4.07 interaction rounds per task. Task-level analysis finds larger gains on tasks integrating information across multiple historical Facts; error analysis further identifies unsupported personal assumptions and rule misapplication as obstacles to using retrieved evidence. ColaBench provides traceable tasks and an evaluation framework for studying how memory guides knowledge acquisition and rule application.",
+      "tags": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "ColaBench: Evaluating Memory-Guided Knowledge Acquisition in Personal Agents",
+      "url": "https://arxiv.org/abs/2610.30989v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "63f620c6d48216f5739b5aca",
       "context_id": "dbb57981d061a941d12d971b",
       "delivery_preview_only": true,
@@ -550,39 +547,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Learning from Next-Frame Prediction: Towards Unified and Scalable Visual Representation Learning",
       "url": "https://arxiv.org/abs/2610.30724v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "337a3ba8312985ae25c1c652",
-      "context_id": "f7de8932fc9860c9d2efeb9f",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": true,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "inverse",
-        "reconstruction"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "zenodo",
-      "source_context_sha256": "46aa4777d36f8f08fc29dd32e02f9b40481988b062a68d68f8dfcf38b3ebd40a",
-      "source_published": "2026-10-22",
-      "source_updated": "",
-      "summary": "QUANTUM SENSING AND MICROROBOTIC PERTURBATION ANALYSIS OF CELLULAR MICROENVIRONMENTS AT THE LIMIT Microenvironment Gradients &times; Quantum Readout &times; Measurement-Induced Perturbation Separation STARLI Research Institute XXIX &mdash; Flagship Research Monograph 13 What happens when an instrument changes the very microenvironment it is supposed to measure? This research monograph investigates the scientific and engineering boundaries of quantum-enabled thermometry and microrobotic observation in confined, nonclinical cellular microenvironment models. Its central question is whether a localized temperature or magnetic-field gradient can be separated from disturbances introduced by the sensing and manipulation apparatus itself. The proposed research architecture combines hydrogel phantoms, controlled heat sources, nitrogen-vacancy (NV) diamond sensors, independent classical fluorescent thermometry, spatial reference points, blinded sham-actuation experiments, and uncertainty-aware thermal-field reconstruction. Rather than treating a sharp image or improved instrument sensitivity as proof of biological discovery, the study asks how to establish the physical origin, spatial validity, and reproducibility of each reported field. The 770-page volume contains 82 research chapters, five independently paginated research sections per chapter, 30 interconnected mathematical derivation plates, 200 Research Gates, and 33 Phoenix Answer Embryos. Topics range from NV resonance cross-sensitivity, microwave and laser heating, photon statistics, soft-matter interfaces, hydrodynamic motion, and anisotropic thermal conduction to causal controls, inverse problems, spatial covariance, interlaboratory comparison, and qualified instrument retirement. Each research chapter connects a physical mechanism to a falsifiable claim, a nonclinical experimental comparator, a measurement endpoint, and an explicit condition for withholding or retiring the conclusion. The Research Gates preserve actionable questions for future investigators. The Phoenix Answer Embryos offer provisional designs that can be separated, reconfigured, or abandoned when evidence contradicts them. DOI-linked scholarly literature supplies foundations for metrology, quantum sensing, microhandling, and thermal-field measurement without being mistaken for validation of the proposed integrated platform. Scientific Scope and Limitations This is a hypothesis-forming research blueprint, not a report of completed laboratory experiments or independently peer-reviewed findings. It does not establish autonomous nanoscale robotic systems, clinical diagnostic performance, therapeutic efficacy, or universal quantum advantage. Its minimum experimental setting uses confined hydrogels, artificial microenvironments, and properly authorized reference materials. A temperature or magnetic-field reading alone cannot establish cell health, metabolism, viability, or treatment outcomes. STARLI Research Philosophy A scientifically responsible observation includes the possibility that observing changed the result. By making such failures measurable, preserving negative evidence, and leaving research questions open to revision, this monograph invites future human and AI researchers to challenge, extend, and reconstruct its proposed methods.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "QUANTUM SENSING AND MICROROBOTIC PERTURBATION ANALYSIS OF CELLULAR MICROENVIRONMENTS AT THE LIMIT Microenvironment Gradients × Quantum Readout × Measurement-Induced Perturbation Separation STARLI Research Institute XXIX — Flagship Research Monograph 13 What happens when an instrument changes the ver",
-      "url": "https://zenodo.org/records/23562293"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -894,6 +858,46 @@
       "url": "https://arxiv.org/abs/2610.31366v1"
     },
     {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "bd0bdc162aa15a9f26eede7f",
+      "context_id": "373ff5b090d62760ac2ec76b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.2083,
+      "source": "zenodo",
+      "source_context_sha256": "fbe7265f1139e77b8d439fb8128165962e954c3380015192903898472794024b",
+      "source_published": "2026-10-22",
+      "source_updated": "",
+      "summary": "Gratitude can concern a benefit received, a harm that did not occur, or the conditions that make one's own assumptions examinable. We develop the proposal that appreciating these conditions can orient practice toward realizing emptiness: examining how distinctions arise, relinquishing their assumed intrinsic necessity, and retaining their conditional usefulness. The argument distinguishes an observed absence, a missing observation, counterfactual valuation and non-reification, and places their differences in dialogue with explicitly situated philosophical and scriptural sources. We reconstruct Fisher, Sandved Smith and Hohwy's gratitude and gaze notebooks, then separate faithful reconstruction from corrected experiments and new mechanisms. GNN-declared paired recall experiments use 5120 independent agent-world units, matched environmental exposure and replay dose, normalized likelihoods, and independent predictive assessment. Pinned Realizing Emptiness interfaces supply structural admission and finite mathematical comparators. An enacted inquiry model separates appreciation, costly activity, access to alternatives and evidence-responsive retention or revision; explicit learning-to-gaze and joint scene/encoding experiments examine transfer and identifiability. Exact count enumeration, mathematical nulls, paired controls and joint bootstrap inference make the resulting software claims independently checkable. Selective positive recall reduces the declared optimism summary, while its predictive consequences depend on the world mixture and the specified transfer bridge. Counterfactual absence valuation preserves inference by construction. Accessible inquiry can revise a contradicted restriction and retain a useful one; activity without access instead incurs costs while preserving rigid forecasts. Exact analysis exposes rare adverse selections absent from seeded realizations. The original gaze code reproduces the pre-intervention occupancy but contains no implemented after intervention. Our active-scene extension finds a context-dependent access advantage without an additional inquiry-specific predictive advantage. Joint scene/encoding inquiry distinguishes learning an encoding from combining it with scene evidence: observationally equivalent labels remain unidentifiable, and excluded hypotheses cannot be recovered. Known-answer fixtures also retain skew-related undercoverage and unavailable rare-event estimates rather than treating replication size as a remedy for every inferential failure. The contribution is a reproducible account of enabling operations and their limits, together with a falsifiable human research program that separates inquiry value from patience, anticipated good news and instrumental information demand. Synthetic model results establish neither human gratitude nor contemplative realization or clinical benefit. Code, declared models and reproducibility materials are available at github.com/docxology/thanks_for_nothing .",
+      "tags": [
+        "gratitude",
+        "emptiness",
+        "active inference",
+        "model revisability",
+        "generalized notation notation",
+        "reproducible research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Thanks for Nothing: Gratitude, Model Revisability, and the Practice of Realizing Emptiness",
+      "url": "https://zenodo.org/records/23402517"
+    },
+    {
       "base_direction_id": "registry_provenance",
       "candidate_id": "30aaae460ae02db98a1c9947",
       "context_id": "65473e4628d9e6d73bf04a3a",
@@ -1089,40 +1093,6 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "337a3ba8312985ae25c1c652",
-      "context_id": "1dc9622b0043253b736a148d",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": true,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure",
-        "limitation",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.3333,
-      "source": "zenodo",
-      "source_context_sha256": "1ce5d827d7ed552f0f917084861adc4b4e9f98f8de8989a8f64a850170dcbb0b",
-      "source_published": "2026-10-22",
-      "source_updated": "",
-      "summary": "QUANTUM SENSING AND MICROROBOTIC PERTURBATION ANALYSIS OF CELLULAR MICROENVIRONMENTS AT THE LIMIT Microenvironment Gradients &times; Quantum Readout &times; Measurement-Induced Perturbation Separation STARLI Research Institute XXIX &mdash; Flagship Research Monograph 13 What happens when an instrument changes the very microenvironment it is supposed to measure? This research monograph investigates the scientific and engineering boundaries of quantum-enabled thermometry and microrobotic observation in confined, nonclinical cellular microenvironment models. Its central question is whether a localized temperature or magnetic-field gradient can be separated from disturbances introduced by the sensing and manipulation apparatus itself. The proposed research architecture combines hydrogel phantoms, controlled heat sources, nitrogen-vacancy (NV) diamond sensors, independent classical fluorescent thermometry, spatial reference points, blinded sham-actuation experiments, and uncertainty-aware thermal-field reconstruction. Rather than treating a sharp image or improved instrument sensitivity as proof of biological discovery, the study asks how to establish the physical origin, spatial validity, and reproducibility of each reported field. The 770-page volume contains 82 research chapters, five independently paginated research sections per chapter, 30 interconnected mathematical derivation plates, 200 Research Gates, and 33 Phoenix Answer Embryos. Topics range from NV resonance cross-sensitivity, microwave and laser heating, photon statistics, soft-matter interfaces, hydrodynamic motion, and anisotropic thermal conduction to causal controls, inverse problems, spatial covariance, interlaboratory comparison, and qualified instrument retirement. Each research chapter connects a physical mechanism to a falsifiable claim, a nonclinical experimental comparator, a measurement endpoint, and an explicit condition for withholding or retiring the conclusion. The Research Gates preserve actionable questions for future investigators. The Phoenix Answer Embryos offer provisional designs that can be separated, reconfigured, or abandoned when evidence contradicts them. DOI-linked scholarly literature supplies foundations for metrology, quantum sensing, microhandling, and thermal-field measurement without being mistaken for validation of the proposed integrated platform. Scientific Scope and Limitations This is a hypothesis-forming research blueprint, not a report of completed laboratory experiments or independently peer-reviewed findings. It does not establish autonomous nanoscale robotic systems, clinical diagnostic performance, therapeutic efficacy, or universal quantum advantage. Its minimum experimental setting uses confined hydrogels, artificial microenvironments, and properly authorized reference materials. A temperature or magnetic-field reading alone cannot establish cell health, metabolism, viability, or treatment outcomes. STARLI Research Philosophy A scientifically responsible observation includes the possibility that observing changed the result. By making such failures measurable, preserving negative evidence, and leaving research questions open to revision, this monograph invites future human and AI researchers to challenge, extend, and reconstruct its proposed methods.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "QUANTUM SENSING AND MICROROBOTIC PERTURBATION ANALYSIS OF CELLULAR MICROENVIRONMENTS AT THE LIMIT Microenvironment Gradients × Quantum Readout × Measurement-Induced Perturbation Separation STARLI Research Institute XXIX — Flagship Research Monograph 13 What happens when an instrument changes the ver",
-      "url": "https://zenodo.org/records/23562293"
-    },
-    {
-      "base_direction_id": "registry_provenance",
       "candidate_id": "5052e787e4a7a4909b997cd0",
       "context_id": "b8d8c6d27d5363ababd78e2a",
       "delivery_preview_only": true,
@@ -1289,48 +1259,6 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "5af26d46758c535011e911c9",
-      "context_id": "728c0988823255eae849912c",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "b3ddf91f2cef99574b65caf275f2d0b2a59fbae3471f210586ede2ac2c4d9468",
-      "source_published": "2026-10-22",
-      "source_updated": "",
-      "summary": "This record contains the analysis code and derived data supporting the study &ldquo;Shared stress-response genes differ in response amplitude between tolerant and sensitive crop genotypes&rdquo; by Liming Xiong, Zhehao Liu, Xuexiao Zou and Feng Liu. The study compares stress-response amplitude, direction and programme specificity in tolerant and sensitive tomato (Solanum lycopersicum) and pepper (Capsicum annuum) genotypes, combining five genotype-by-environment stress systems, a 400-sample pepper perturbation atlas, independent cold and heat datasets, HSFA1a RNA interference resources and preregistered independent validation. The archive includes original analysis and reproduction scripts; compact gene-level and sample-level derived data; the 964-member recurrent-gene catalogue and 66-member cross-species subset; final Supplemental Tables 1&ndash;29; complete main and supplemental figure inputs; programme scores and inference; and preregistration, execution and provenance records. Large raw sequencing files, reference indexes and regenerable upstream or intermediate outputs are not included. Their source accessions, exclusions and reproduction requirements are documented in the archive. See README.md, REPRODUCE.md and metadata/FIGURE_AND_TABLE_MAP.md for contents, reproduction routes and the mapping between manuscript figure numbers and historical script output names. PepperHub atlas T1 and T2 correspond to 0.5 h and 1 h; historical time labels and their provenance are retained and explained. Licensing: original study analysis, figure-adaptation and reproduction code is licensed under MIT. Original author-derived results, curated tables, figure source data and documentation are licensed under CC BY 4.0, to the extent the authors hold the rights. Third-party data, annotations, code and reference resources remain subject to their original terms. See LICENSE_SCOPE.md, LICENSE_STATUS.md, LICENSE-MIT.txt and LICENSE-CC-BY-4.0.txt for the applicable scope and exclusions. Funding: National Natural Science Foundation of China (NSFC), Grant No. 32494784. Version: 2026-10-22-public.",
-      "tags": [
-        "plant stress",
-        "genotype-by-environment",
-        "tomato",
-        "pepper",
-        "transcriptomics",
-        "HSFA1a",
-        "response amplitude",
-        "reproducibility"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Shared stress-response genes differ in response amplitude between tolerant and sensitive crop genotypes — Code and derived data",
-      "url": "https://zenodo.org/records/23556466"
-    },
-    {
-      "base_direction_id": "registry_provenance",
       "candidate_id": "b3fce2473de9d76a97d3bc9b",
       "context_id": "5104995fd27f215ac516f470",
       "delivery_preview_only": true,
@@ -1367,6 +1295,83 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "EFGB: Team-Independent Round-Trip Energy Admission for Decentralized Multi-UAV Rescue Allocation under Lossy Communication — MATLAB Simulator",
       "url": "https://zenodo.org/records/23581830"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "dbf702dcd44f712283fbe90e",
+      "context_id": "39d8fae846d9488f38996285",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "representation learning",
+        "world model"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "arxiv",
+      "source_context_sha256": "e97c3a88f5a497768462a0a29d9ed3e2be0ba3278fd16e6cd2e8a460bf5928be",
+      "source_published": "2026-10-22T04:46:49Z",
+      "source_updated": "2026-10-22T04:46:49Z",
+      "summary": "Video provides a natural source of supervision: what happens next serves as a learning signal for visual world modeling. Yet masked video pretraining focuses on recovering missing content from surrounding context rather than predicting the future from the past. Autoregressive methods instead predict forward one token at a time, but have yet to match joint-embedding methods in representation quality. This gap motivates us to revisit the granularity and space of future prediction. In this work, we introduce VANE, a self-supervised visual pretraining framework built on next-frame prediction in embedding space. A causal encoder summarizes past observations for a state predictor that infers the representation of the entire next frame, making temporal evolution the primary learning signal. This prediction is carried out in a fixed embedding space provided by a frozen semantic tokenizer, emphasizing scene content and structure. To retain fine-grained spatial detail alongside semantic content, a lightweight auxiliary generative decoder reconstructs future-frame patches conditioned on the predicted representations. To unify visual modeling across images and videos, we construct a local-to-global crop sequence for still images, allowing the same encoder to predict newly revealed regions from earlier crops under the same objective. Experiments show that VANE improves with model and data scaling, achieving SOTA on most anticipation, recognition, and dense perception benchmarks among unified encoders. Especially on EPIC-KITCHENS-100 action anticipation, it surpasses V-JEPA 2.1 by 7.1 points in mean-class recall@5. These results demonstrate that next-frame prediction in embedding space is effective and scalable for visual world modeling.",
+      "tags": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Learning from Next-Frame Prediction: Towards Unified and Scalable Visual Representation Learning",
+      "url": "https://arxiv.org/abs/2610.30724v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "bd0bdc162aa15a9f26eede7f",
+      "context_id": "134f9a7f00bdba1bd837272a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.9167,
+      "source": "zenodo",
+      "source_context_sha256": "cf139ad5c65684335df71bd747782331c4d17c0f259defd9d737b614caff8aaa",
+      "source_published": "2026-10-22",
+      "source_updated": "",
+      "summary": "Gratitude can concern a benefit received, a harm that did not occur, or the conditions that make one's own assumptions examinable. We develop the proposal that appreciating these conditions can orient practice toward realizing emptiness: examining how distinctions arise, relinquishing their assumed intrinsic necessity, and retaining their conditional usefulness. The argument distinguishes an observed absence, a missing observation, counterfactual valuation and non-reification, and places their differences in dialogue with explicitly situated philosophical and scriptural sources. We reconstruct Fisher, Sandved Smith and Hohwy's gratitude and gaze notebooks, then separate faithful reconstruction from corrected experiments and new mechanisms. GNN-declared paired recall experiments use 5120 independent agent-world units, matched environmental exposure and replay dose, normalized likelihoods, and independent predictive assessment. Pinned Realizing Emptiness interfaces supply structural admission and finite mathematical comparators. An enacted inquiry model separates appreciation, costly activity, access to alternatives and evidence-responsive retention or revision; explicit learning-to-gaze and joint scene/encoding experiments examine transfer and identifiability. Exact count enumeration, mathematical nulls, paired controls and joint bootstrap inference make the resulting software claims independently checkable. Selective positive recall reduces the declared optimism summary, while its predictive consequences depend on the world mixture and the specified transfer bridge. Counterfactual absence valuation preserves inference by construction. Accessible inquiry can revise a contradicted restriction and retain a useful one; activity without access instead incurs costs while preserving rigid forecasts. Exact analysis exposes rare adverse selections absent from seeded realizations. The original gaze code reproduces the pre-intervention occupancy but contains no implemented after intervention. Our active-scene extension finds a context-dependent access advantage without an additional inquiry-specific predictive advantage. Joint scene/encoding inquiry distinguishes learning an encoding from combining it with scene evidence: observationally equivalent labels remain unidentifiable, and excluded hypotheses cannot be recovered. Known-answer fixtures also retain skew-related undercoverage and unavailable rare-event estimates rather than treating replication size as a remedy for every inferential failure. The contribution is a reproducible account of enabling operations and their limits, together with a falsifiable human research program that separates inquiry value from patience, anticipated good news and instrumental information demand. Synthetic model results establish neither human gratitude nor contemplative realization or clinical benefit. Code, declared models and reproducibility materials are available at github.com/docxology/thanks_for_nothing .",
+      "tags": [
+        "gratitude",
+        "emptiness",
+        "active inference",
+        "model revisability",
+        "generalized notation notation",
+        "reproducible research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Thanks for Nothing: Gratitude, Model Revisability, and the Practice of Realizing Emptiness",
+      "url": "https://zenodo.org/records/23402517"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1573,47 +1578,6 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "6f5e5996d5792b5be5d3e98b",
-      "context_id": "dd6c4d133a4defa3f08af71c",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "control",
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.3333,
-      "source": "zenodo",
-      "source_context_sha256": "9fbea183b9bb2bbf8192d6183672a34155ffd3afdbc1601a96dfb9fecccc1ff3",
-      "source_published": "2026-10-22",
-      "source_updated": "",
-      "summary": "This record accompanies the manuscript 'Evidence-Gated Claim Qualification for LLM-Assisted AirTOP Simulation: A Retrospective Protocol Evaluation'. It provides the executable EvidenceGate specification, replay and analysis code, anonymized encoded inputs from 12 initial cases and 11 clarified recodings of the same case series, and reference outputs for agreement, gate ceilings, control dependencies and synthetic software boundary checks. The archive reproduces calculations on supplied encoding; it does not reproduce licensed AirTOP scenarios or independently recover the underlying evidence-to-predicate judgments. Native evidence excerpts, proprietary projects, operational raw inputs, participant identities and verbatim coder explanations are excluded. Repeated coding is not an additional independent engineering sample. Source-audit cautions for two coder-derived G2 outputs are retained separately. Python code is licensed under MIT. The specification, synthetic references, approved anonymized data, templates and documentation are licensed under CC BY 4.0. File-specific scope and the full license texts are included in the archive. These licenses do not cover excluded third-party materials or software. This is a method-level reproduction resource, not a claim of operational validation or acceptance of the associated manuscript. Version 1.0.0.",
-      "tags": [
-        "simulation",
-        "claim qualification",
-        "evidence provenance",
-        "deterministic replay",
-        "AirTOP",
-        "reproducibility"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "EvidenceGate: executable claim-qualification rules, anonymized coding inputs, and replay code",
-      "url": "https://zenodo.org/records/23562705"
-    },
-    {
-      "base_direction_id": "registry_provenance",
       "candidate_id": "5052e787e4a7a4909b997cd0",
       "context_id": "00ac723f12b00302d33bca45",
       "delivery_preview_only": true,
@@ -1726,49 +1690,6 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "5af26d46758c535011e911c9",
-      "context_id": "b649846a591ebec709d06454",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "independent validation",
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.9583,
-      "source": "zenodo",
-      "source_context_sha256": "2679359a63bb3eaf92c1eacff281952db16a5d3ceb909585db9f103202f075b7",
-      "source_published": "2026-10-22",
-      "source_updated": "",
-      "summary": "This record contains the analysis code and derived data supporting the study &ldquo;Shared stress-response genes differ in response amplitude between tolerant and sensitive crop genotypes&rdquo; by Liming Xiong, Zhehao Liu, Xuexiao Zou and Feng Liu. The study compares stress-response amplitude, direction and programme specificity in tolerant and sensitive tomato (Solanum lycopersicum) and pepper (Capsicum annuum) genotypes, combining five genotype-by-environment stress systems, a 400-sample pepper perturbation atlas, independent cold and heat datasets, HSFA1a RNA interference resources and preregistered independent validation. The archive includes original analysis and reproduction scripts; compact gene-level and sample-level derived data; the 964-member recurrent-gene catalogue and 66-member cross-species subset; final Supplemental Tables 1&ndash;29; complete main and supplemental figure inputs; programme scores and inference; and preregistration, execution and provenance records. Large raw sequencing files, reference indexes and regenerable upstream or intermediate outputs are not included. Their source accessions, exclusions and reproduction requirements are documented in the archive. See README.md, REPRODUCE.md and metadata/FIGURE_AND_TABLE_MAP.md for contents, reproduction routes and the mapping between manuscript figure numbers and historical script output names. PepperHub atlas T1 and T2 correspond to 0.5 h and 1 h; historical time labels and their provenance are retained and explained. Licensing: original study analysis, figure-adaptation and reproduction code is licensed under MIT. Original author-derived results, curated tables, figure source data and documentation are licensed under CC BY 4.0, to the extent the authors hold the rights. Third-party data, annotations, code and reference resources remain subject to their original terms. See LICENSE_SCOPE.md, LICENSE_STATUS.md, LICENSE-MIT.txt and LICENSE-CC-BY-4.0.txt for the applicable scope and exclusions. Funding: National Natural Science Foundation of China (NSFC), Grant No. 32494784. Version: 2026-10-22-public.",
-      "tags": [
-        "plant stress",
-        "genotype-by-environment",
-        "tomato",
-        "pepper",
-        "transcriptomics",
-        "HSFA1a",
-        "response amplitude",
-        "reproducibility"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Shared stress-response genes differ in response amplitude between tolerant and sensitive crop genotypes — Code and derived data",
-      "url": "https://zenodo.org/records/23556466"
-    },
-    {
-      "base_direction_id": "registry_provenance",
       "candidate_id": "b3fce2473de9d76a97d3bc9b",
       "context_id": "5ab27870727260b02ac211db",
       "delivery_preview_only": true,
@@ -1840,6 +1761,84 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "SliferSkyd/iqtree2: hPartition: An Efficient and Robust Alignment Partitioning Framework for Large-Scale DNA and Protein Phylogenomics",
       "url": "https://zenodo.org/records/23563227"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "aa1d926e8556e7e89480f10e",
+      "context_id": "823648040329bdb0cf882c23",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "provenance",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.3333,
+      "source": "zenodo",
+      "source_context_sha256": "9b8b10ea41c7ad8ea6be678a13a2f11027a191f6ba3965220349d4c3483c9d57",
+      "source_published": "2026-10-20",
+      "source_updated": "",
+      "summary": "We implement a narrow, testable next step in the MICA-NEX proposal: cryptographically binding nanoscale instrument measurement claims to externally provisioned acquisition and calibration signer roles while denying model planners the ability to self-certify measurement status. The reference implementation uses Ed25519 signatures, SHA-256 content binding, typed units, time windows, source-kind separation, and a persistent local replay ledger. In a hardware-disconnected test harness, 60/60 signed synthetic test records from three simulated instrument classes were admitted and 30/30 adversarial cases were rejected for the expected reason; 28/28 Python tests passed. No instrument, laboratory calibration, external reviewer, clinical context or independent physical replication was involved. Signature validity is deliberately distinguished from scientific validity. Status: SOFTWARE SYNTHETIC PASS; PHYSICAL INTEROPERABILITY NOT RUN; INDEPENDENT REPLICATION NOT RUN; FIRST-IN-WORLD NOVELTY NOT ESTABLISHED. Research report v0.3 dated 2026-10-20; substantial AI-assisted code, writing, test design and analysis. Source: the author's iCloud Recents (files dated 2026-10-21), downloaded 2026-10-22; published on Zenodo per the author's standing approval to publish all of his research, including items marked confidential/proprietary. (Two byte-identical copies of the report and of the package were found; each is deposited once.) IETF status: converted by the author's assistant into the RFCXML v3 Internet-Draft draft-watts-mica-nex-measurement-ingestion-00 (intended status Informational), validated with xml2rfc 3.34.1 (no errors or warnings) and idnits 3 (0 errors, 0 warnings; 1 comment for the non-ASCII author name). Submitted to the IETF Datatracker on 2026-10-22 as submission 170762 ( status ); it is awaiting the author's email confirmation and is not posted until confirmed. Internet-Drafts are works in progress, not IETF standards. The I-D text is a faithful conversion of the paper (math rendered as plain text; the figure described in prose); the confidentiality handling label was left out of the I-D because it cannot carry one under BCP 78, and IANA/Security Considerations sections were added. License: the research package's own LICENSE file is retained unchanged (it carries the author's 'CONFIDENTIAL — PROPRIETARY' handling label and reserves rights; the author has since approved open publication). No Creative Commons license is granted; the Zenodo license field ('other open') refers to these terms. The attached Internet-Draft files ( .xml , .txt , .pdf named draft-watts-* ) are subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents ( https://trustee.ietf.org/license-info ). Files: MICA-NEX_v0.3_Research_Report.pdf (sha256 3e5b6b30a47c9e640a6fb053fb26069f42bd0bebc73d145d9332664705d9afa0) MICA-NEX_v0.3_Research_Package.zip (sha256 07a072eed3db29a270c0960d4fb977cfbc91976c84f0777fdcd8b54025f856c3) draft-watts-mica-nex-measurement-ingestion-00.xml (sha256 d31e046daa30825d8077c05a34b14494b8c77cb8f5a21fe95a1cdad5ec85d721) draft-watts-mica-nex-measurement-ingestion-00.txt (sha256 f884ae089323323d76aef82c339b3e40ea850c9e799106585b73e5104c462c0d) draft-watts-mica-nex-measurement-ingestion-00.pdf (sha256 d3fc12c55d3c011b8ffd83742bc82a9542cf7602ca5959fa0b25429a03018e27)",
+      "tags": [
+        "MICA-NEX",
+        "nanotechnology",
+        "measurement provenance",
+        "Ed25519",
+        "agent swarms",
+        "metrological traceability",
+        "IETF",
+        "Internet-Draft",
+        "draft-watts-mica-nex-measurement-ingestion"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MICA-NEX v0.3: Authenticated Measurement Ingestion for Model-Agnostic Nano-Instrument Agent Swarms",
+      "url": "https://zenodo.org/records/23572688"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "d9db9598e8bde4ebde8824d1",
+      "context_id": "1db24710640d03fcad61a56e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2917,
+      "source": "zenodo",
+      "source_context_sha256": "2ba7653308d1da5d2b8eb9c70a561aa130d6e0766d09f02d9e88b3bdbd2628fa",
+      "source_published": "2026-10-22",
+      "source_updated": "",
+      "summary": "TRUSTWORTHY AUTONOMOUS BIOLABORATORIES THROUGH MICROROBOTICS AND QUANTUM SENSING AT THE LIMIT Replayable Experiments x Permission Governance x External Metrology STARLI Research Institute XXIX - Flagship Research Monograph 20 Can an autonomous biolaboratory become scientifically useful without acquiring the authority to redefine its own permissions, validate its own evidence, or release untraceable measurements? This nonclinical research monograph investigates a bounded laboratory architecture connecting microrobotic sample handling, quantum-enabled and classical sensing, independent metrological reference chains, experiment replay, physical safe stopping, and human authority. Its central proposition is that reliable autonomy is a property of the entire evidence pathway rather than of any single robotic manipulator or AI model. A laboratory result is eligible for release only when sample identity and integrity, authorized execution, traceable references, justified uncertainty limits, and external acceptance are all demonstrated. An apparently successful action is not equivalent to a scientifically accepted sample. Digital replay does not replace physical replication, cryptographic event integrity does not guarantee sensor truth, and a quantum hardware label does not establish a practical sensing advantage. The research design is developed across 82 chapter-level inquiries with five independently paginated investigations per chapter, 30 connected mathematical research plates, 200 distinct Research Gates, and 33 Phoenix Answer Embryos. The chapters address typed authority graphs, specimen provenance, sample exposure, closed-chip physics, covariance-aware sensing, AI planning within finite action spaces, common-cause fault injection, external interlocks, blinded classical benchmarks, evidence DAGs, cross-site replication, data retention, and responsible system retirement. The proposed minimum experimental prototype uses a closed microfluidic chip with interchangeable handling modules, two independently referenced readout channels, simulated or inert-tracer specimens, a separate audit service, and a physically verifiable stop mechanism. Proposed tests include unauthorized-action challenges, hidden calibration drift, interrupted events, sample contamination, unannounced network partitions, and independent laboratory replay or rerun. DOI-linked scientific references establish the relevant literature in automated laboratories, microrobotics, quantum sensing, uncertainty metrology, FAIR data stewardship, and computational reproducibility. They do not independently validate the integrated system proposed here. SCIENTIFIC STATUS AND LIMITATIONS This book is a hypothesis-forming nonclinical research architecture. It reports no completed microrobotic or quantum biosensing experiments, no demonstrated clinical performance, no universal quantum advantage, and no autonomous system capable of authorizing itself. Statistical models, formulas, and decision policies require experimental verification, specialized review, and appropriate boundary conditions. A failed external reference, unavailable provenance chain, or revoked permission requires abstention rather than inference by convenience. STARLI RESEARCH PHILOSOPHY A trustworthy laboratory must remain answerable to evidence outside itself. Autonomy becomes scientifically meaningful when an experiment can be stopped, questioned, reconstructed, and handed to future researchers who retain the right to refuse its original assumptions.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "TRUSTWORTHY AUTONOMOUS BIOLABORATORIES THROUGH MICROROBOTICS AND QUANTUM SENSING AT THE LIMIT Replayable Experiments x Permission Governance x External Metrology STARLI Research Institute XXIX - Flagship Research Monograph 20 Can an autonomous biolaboratory become scientifically useful without acqui",
+      "url": "https://zenodo.org/records/23572483"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
