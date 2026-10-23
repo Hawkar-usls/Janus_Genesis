@@ -1,0 +1,28 @@
+name: JANUS Third Wish SciOne - Offline Risk Replay R0
+
+on:
+  pull_request:
+    paths:
+      - 'tools/genesis_third_wish_sci_one_risk_replay.py'
+      - 'tests/test_genesis_third_wish_sci_one_risk_replay.py'
+      - 'protocol/JANUS_GENESIS_THIRD_WISH_SCIONE_RISK_REPLAY-v1.0.json'
+      - 'docs/GENESIS_THIRD_WISH_SCIONE_RISK_REPLAY_2026_10_18.md'
+      - '.github/workflows/janus-third-wish-sci-one-risk-replay.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test source-bounded Third Wish risk cases
+        run: python -m unittest discover -s tests -p 'test_genesis_third_wish_sci_one_risk_replay.py' -v
+      - name: Produce local synthetic R0 receipt
+        run: python -m tools.genesis_third_wish_sci_one_risk_replay
