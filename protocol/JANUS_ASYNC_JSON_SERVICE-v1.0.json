@@ -1,0 +1,108 @@
+{
+  "schema": "janus.async_json_service.protocol.v1",
+  "artifact_id": "JANUS-ASYNC-JSON-SERVICE-v1.0",
+  "status": "IMPLEMENTATION_CANDIDATE",
+  "module": "tools/janus_async_json_service.py",
+  "purpose": "Provide bounded high-speed JSON parsing/serialization, backend-independent canonical fingerprints, JSON-safe state diffs, and an explicitly isolated trusted-object codec for JANUS.",
+  "normal_json_surface": {
+    "untrusted_ingress_allowed": true,
+    "default_max_json_bytes": 16777216,
+    "strict_nonfinite_numbers": "REJECT",
+    "non_string_object_keys_for_service_serialization": "REJECT",
+    "arbitrary_python_objects": "REJECT",
+    "jsonpickle_reachable": false,
+    "parse_success_grants_trust": false,
+    "parse_success_grants_command_authority": false
+  },
+  "performance_contract": {
+    "preferred_fast_backend_when_available": "orjson",
+    "complete_safe_fallback": "python_stdlib_json",
+    "small_call_thread_dispatch": "AVOID_BY_DEFAULT",
+    "known_size_input_auto_offload_threshold_bytes": 262144,
+    "serialization_thread_offload": "EXPLICIT_CALLER_OPT_IN",
+    "async_api_means_every_call_uses_thread": false
+  },
+  "identity_contract": {
+    "fingerprint_algorithm": "SHA-256",
+    "fingerprint_input": "STRICT_CANONICAL_JSON_BYTES",
+    "canonical_backend": "python-stdlib-json-sortkeys-v1",
+    "canonical_backend_depends_on_orjson_presence": false,
+    "key_order_normalized": true,
+    "ensure_ascii": false,
+    "compact_separators": true,
+    "allow_nan": false,
+    "default_max_canonical_depth": 128,
+    "jsonpickle_output_allowed_as_identity_surface": false,
+    "ordinary_fast_dump_bytes_equal_canonical_identity_bytes": false
+  },
+  "exact_parse_contract": {
+    "method": "loads_exact",
+    "backend": "python_stdlib_json",
+    "purpose": "Identity/protocol-sensitive JSON inputs where optional accelerator number semantics must not define the contract.",
+    "nonstandard_constants": "REJECT"
+  },
+  "trusted_object_codec": {
+    "backend": "jsonpickle_optional",
+    "encode_method": "encode_trusted_object",
+    "decode_method": "decode_trusted_object",
+    "explicit_trusted_true_required_before_backend_call": true,
+    "user_input_allowed": false,
+    "network_input_allowed_by_syntax_validity_alone": false,
+    "repository_text_allowed_by_syntax_validity_alone": false,
+    "canonical": false,
+    "cryptographic_identity_surface": false,
+    "claim": "TRUST ADMISSION IS EXTERNAL TO THIS SERVICE"
+  },
+  "diff_contract": {
+    "builtin_engine": "DETERMINISTIC_JSON_SAFE",
+    "jsondiff_backend": "OPTIONAL",
+    "jsondiff_marshal_mode": true,
+    "diff_output_must_reenter_strict_json_domain": true,
+    "diff_result_grants_truth_authority": false
+  },
+  "effect_boundary": {
+    "network_access": false,
+    "subprocess_execution": false,
+    "filesystem_write": false,
+    "source_writeback": false,
+    "source_delete": false,
+    "history_rewrite": false,
+    "external_effect_authority": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "test_contract": {
+    "canonical_key_order_replay": true,
+    "canonical_backend_independence": true,
+    "nonfinite_rejection": true,
+    "nonstring_key_rejection": true,
+    "custom_object_rejection_on_normal_json_surface": true,
+    "input_output_byte_limits": true,
+    "stable_parse_error_codes_without_payload_echo": true,
+    "jsonpickle_shaped_untrusted_input_remains_plain_data": true,
+    "trusted_decode_requires_explicit_true_before_backend": true,
+    "builtin_diff_json_safe": true,
+    "small_fast_parse_avoids_thread_dispatch": true,
+    "large_known_input_auto_offloads": true,
+    "sync_async_core_registration": true,
+    "ast_effect_surface_canary": true
+  },
+  "optional_backend_claim_ceiling": {
+    "orjson_runtime_compatibility": "USED_WHEN_PRESENT_BUT_NOT_REQUIRED_FOR_CORE_CORRECTNESS",
+    "jsonpickle_runtime_compatibility": "OPTIONAL_TRUSTED_ONLY",
+    "jsondiff_runtime_compatibility": "OPTIONAL",
+    "dependency_locked_benchmark": "NOT_ESTABLISHED_BY_THIS_PRIMITIVE"
+  },
+  "canonical_laws": [
+    "JSON != PYTHON_OBJECT_GRAPH",
+    "PARSE_SUCCESS != TRUST",
+    "FAST_PARSE != IDENTITY_CANONICALIZATION",
+    "JSONPICKLE_DECODE != SAFE_UNTRUSTED_DESERIALIZATION",
+    "FINGERPRINT != ORDINARY_DUMP_HASH_UNLESS_CANONICALIZED",
+    "ASYNC_API != THREAD_OFFLOAD_REQUIRED_FOR_EVERY_CALL",
+    "DIFF != TRUTH",
+    "SERVICE_REGISTRATION != AUTHORITY_GRANT",
+    "CI_GREEN != MERGE_PERMISSION"
+  ],
+  "claim_ceiling": "This candidate establishes a bounded JSON service primitive and explicit trusted-object isolation. It does not certify arbitrary jsonpickle payloads as safe, benchmark every optional backend/environment, grant command or writeback authority, or turn parsed/diffed data into trusted facts."
+}
