@@ -212,3 +212,25 @@ reason code. Later runs can be distinguished without retaining provider text.
 `INVALID_GENERATION_REASON = SANITIZED_CLASSIFICATION_ONLY`
 `INVALID_GENERATION_NETWORK_SUCCESS = FALSE`
 `LIVE_NATIVE_END_TO_END = NOT_ATTESTED`
+
+
+### R1.3.2 — native checkpoint descriptor hardening
+
+The optional pinned-local Demiurge preflight no longer trusts a path stat
+followed by an unrestricted `Path.read_bytes()`. It opens the native checkout,
+`janus_model`, `checkpoints`, and `promoted.pt` through a directory-descriptor
+chain with `O_NOFOLLOW`, checks that the opened leaf is a regular file via
+`fstat`, and reads no more than 100,000,001 bytes before hashing. A replaced
+symlink, directory traversal into a link, FIFO/device, oversized or mismatched
+checkpoint fails closed **before public AURA question egress**. Offline
+regressions cover the correct byte snapshot and an identical-content symlink
+swapped immediately before the final open.
+
+This protects the **preflight stage**, not the entire filesystem from hostile
+concurrent mutation. A real native review still requires the independent
+pinned source/weights receipt and the protected-HOME checks. The public
+no-HOME canary cannot prove this real native chain.
+
+`NATIVE_PRE_EGRESS_CHECKPOINT_DESCRIPTOR = HARDENED`
+
+`NATIVE_REVIEW_PROVEN_AT_RUNTIME = NOT_YET`
