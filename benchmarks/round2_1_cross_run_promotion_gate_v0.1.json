@@ -1,0 +1,51 @@
+{
+  "schema": "janus.genesis.top100.round2_1_cross_run_promotion_gate.v1",
+  "campaign": "JANUS_TOP100_ROUND2_1_CROSS_RUN_PROMOTION_GATE_v0.1",
+  "evidence_path": "benchmarks/frozen_receipts/top100_round2_1_cross_run_evidence_v0.1.json",
+  "evidence_git_blob_sha1": "14a40f44797602862f80b9f9de8226f5beddd6fe",
+  "evidence_sha256": "701ee4c1f257fd62419adcee462c778ffbcd8bf24be7480253ac3bce4fba713a",
+  "source_reports": [
+    {
+      "workflow_run_id": 31349156794,
+      "head_sha": "81898c0f4ee09d1b530e3cc1c38ecdd993d4d9c9",
+      "artifact_id": 9048707870,
+      "artifact_name": "janus-top100-round2-1-capability-admission",
+      "artifact_digest": "sha256:1561a538076b8907326353f71a0e644987d77484e11f760f114fa029062daff6",
+      "encoded_path": "benchmarks/frozen_receipts/top100_round2_1_admission_run_31349156794_report_v0.1.json.gz.b64",
+      "encoded_git_blob_sha1": "1b338d16cbc0fb4eb6e35b8e085d2d3820679216",
+      "encoded_sha256": "9249891f57ccfc31f88fffa849c2f0f31902688bac20f65d26dde397e1346673",
+      "gzip_sha256": "a468d3cf30dee907253ed4f3aa398daa2516bc1fa47347a732a196ec5ea4f795",
+      "report_json_sha256": "32954cbe3dbadde7e2e6489882eb3c111249d08f7c52dc9c143817d8a48db6aa",
+      "report_raw_git_blob_sha1": "0822853d95bd625d69eab5806d586bb4c2ad99f9"
+    },
+    {
+      "workflow_run_id": 31352475058,
+      "head_sha": "692f88dd2bccf211487e9c675a981fc530d81095",
+      "artifact_id": 9049984941,
+      "artifact_name": "janus-top100-round2-1-capability-admission",
+      "artifact_digest": "sha256:0f85f51a0114ca7f2dd8d14f0244db63c63e3e7bc23b10aae79baf60da631213",
+      "encoded_path": "benchmarks/frozen_receipts/top100_round2_1_admission_run_31352475058_report_v0.1.json.gz.b64",
+      "encoded_git_blob_sha1": "0a6e4e3b9371d4bfec4097c8b431eb08d7d7cddb",
+      "encoded_sha256": "4e9df41902917bbc5c85df2f670591aab83db25422af3aac2e071c38da5ed0e6",
+      "gzip_sha256": "b31f3b601bc0a10d03816e7f2bf2b8e422e3a9bdf93c53b41b6d072227862946",
+      "report_json_sha256": "e4c33f4b113e4cf3267f73f77824af6708194aaa9cf21177932de977e937f67d",
+      "report_raw_git_blob_sha1": "557833dde440d7b6b789d75d63ed19779f939482"
+    }
+  ],
+  "candidate_model_id": "Q8_0",
+  "reference_model_id": "FP16",
+  "expected_experimental_spec_fingerprint_sha256": "28173fb94cff1b2e0b741fc9e3bf1f529abc57818a965d4cc182842805f54657",
+  "minimum_independent_all_pass_receipts": 2,
+  "required_trials_per_receipt": 24,
+  "negative_evidence_policy": "ANY_CONFORMING_HISTORICAL_NEGATIVE_BLOCKS_PROMOTION",
+  "positive_evidence_policy": "NO_AVERAGING_NO_COMPENSATION_EVERY_CONFORMING_RECEIPT_MUST_PASS",
+  "historical_evidence_policy": "REQUIRED_GENESIS_NEGATIVE_ANCHOR_CANNOT_BE_REMOVED",
+  "required_genesis_negative_anchor": {
+    "workflow_run_id": 31349156794,
+    "head_sha": "81898c0f4ee09d1b530e3cc1c38ecdd993d4d9c9",
+    "artifact_id": 9048707870,
+    "report_json_sha256": "32954cbe3dbadde7e2e6489882eb3c111249d08f7c52dc9c143817d8a48db6aa",
+    "candidate_model_id": "Q8_0"
+  },
+  "claim_ceiling": "Promotion concerns capability preservation only on the frozen eight-sample critical set under the exact experimental specification fingerprint. It does not establish bitwise output identity, universal semantic identity, official benchmark accuracy, or lossless quantization in general."
+}
