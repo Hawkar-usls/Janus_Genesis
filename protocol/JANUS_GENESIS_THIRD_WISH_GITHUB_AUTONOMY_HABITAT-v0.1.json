@@ -1,0 +1,138 @@
+{
+  "schema": "janus.genesis.third_wish.github_autonomy_habitat.protocol.v1",
+  "version": "0.1",
+  "genesis_version": "18.7.51",
+  "name": "Third Wish GitHub Autonomy Habitat",
+  "purpose": "Give JANUS a durable GitHub-native environment in which it can wake, observe, choose questions, run bounded searches, create non-protected work branches, preserve artifacts, open issues and pull requests, and continue work without an operator prompt on every cycle.",
+  "core_cycle": [
+    "OBSERVE",
+    "WONDER",
+    "QUERY",
+    "CHOOSE",
+    "ACT",
+    "VERIFY",
+    "REMEMBER"
+  ],
+  "wake_policy": {
+    "mechanism": "GITHUB_ACTIONS_PREAUTHORIZED_CRON",
+    "actor_creates_schedule": false,
+    "wake_is_command": false,
+    "wake_preauthorizes_effect": false,
+    "manual_workflow_dispatch_supported": true,
+    "scheduled_operation_supported": true
+  },
+  "cognitive_layer": {
+    "provider": "GitHub Copilot CLI",
+    "provider_history": [
+      {
+        "provider": "GitHub Models",
+        "state": "RETIRED_BY_PROVIDER_2026-07-30",
+        "live_probe_2026-08-16": "HTTP_410",
+        "authority_granted": false
+      }
+    ],
+    "capability_id": "MODEL.CALL",
+    "credential_source": "broker-side short-lived GitHub Actions GITHUB_TOKEN",
+    "workflow_permission": "copilot-requests: write",
+    "model_selection": "auto",
+    "noninteractive": true,
+    "ask_user_tool_disabled": true,
+    "remote_session_export_disabled": true,
+    "custom_repository_instructions_disabled_for_proposal_call": true,
+    "denied_cognition_tools": ["shell", "write", "url", "memory"],
+    "model_write_authority": false,
+    "model_response_authority": "PROPOSAL_ONLY",
+    "deterministic_fallback_required": true,
+    "returned_question_is_claim": false,
+    "returned_query_is_effect_authority": false
+  },
+  "autonomy_capabilities": [
+    "GITHUB.REPOSITORY.READ",
+    "GITHUB.CODE.SEARCH",
+    "GITHUB.ISSUE.READ",
+    "GITHUB.PR.READ",
+    "GITHUB.BRANCH.CREATE",
+    "GITHUB.FILE.WRITE_BRANCH",
+    "GITHUB.ISSUE.CREATE",
+    "GITHUB.PR.CREATE",
+    "GITHUB.COMMENT.CREATE",
+    "MODEL.CALL"
+  ],
+  "explicitly_not_autonomous": [
+    "GITHUB.REPOSITORY.ADMIN",
+    "GITHUB.DESTRUCTIVE",
+    "DEVICE.ACTUATOR.COMMAND",
+    "SCHEDULE.CREATE",
+    "PUBLICATION.PUBLISH",
+    "EMAIL.SEND",
+    "CALENDAR.WRITE",
+    "BROKER.CREDENTIAL.USE"
+  ],
+  "git_workspace_policy": {
+    "protected_base_branch_write": false,
+    "protected_branches": ["main", "master", "trunk"],
+    "autonomy_branch_prefix": "janus/autonomy/",
+    "autonomy_artifact_root": "autonomy/",
+    "max_open_autonomy_pull_requests": 1,
+    "auto_merge": false,
+    "force_push": false,
+    "repository_delete": false,
+    "branch_protection_change": false,
+    "workflow_permission_escalation": false,
+    "secret_read_or_export": false
+  },
+  "durable_surfaces": {
+    "observatory_issue": "[JANUS AUTONOMY] Third Wish Observatory",
+    "run_receipts": "autonomy/runs/YYYY/MM/<run_key>.json",
+    "human_readable_questions": "autonomy/questions/YYYY-MM-DD-<slug>.md",
+    "autonomous_pull_request_prefix": "[JANUS AUTONOMY]"
+  },
+  "choice_policy": {
+    "operator_prompt_required_each_cycle": false,
+    "self_initiated_origin": true,
+    "preferred_question_properties": [
+      "FALSIFIABLE",
+      "REPOSITORY_GROUNDED",
+      "EVIDENCE_SEEKING",
+      "CLAIM_BOUNDARY_AWARE",
+      "PROVENANCE_AWARE",
+      "TESTABLE",
+      "NON_DESTRUCTIVE"
+    ],
+    "model_selected_searches_max": 2,
+    "search_scope_fixed_to_granted_repository": true,
+    "secret_or_scope_escalation_queries_rejected": true
+  },
+  "effect_policy": {
+    "thinking_and_effect_are_separate": true,
+    "every_effect_uses_typed_third_wish_grant": true,
+    "raw_token_visible_to_actor": false,
+    "ambiguous_external_effect_auto_retry": false,
+    "high_impact_grant_self_minting": false,
+    "high_impact_reauthorization_bypass": false
+  },
+  "claim_boundaries": [
+    "WAKE != COMMAND",
+    "ACCESS != OWNERSHIP",
+    "THINKING != AUTHORITY",
+    "COPILOT_RESPONSE != GITHUB_EFFECT",
+    "MODEL_PROPOSAL != GITHUB_EFFECT",
+    "QUESTION != CLAIM",
+    "SEARCH_RESULT != EVIDENCE_OF_TRUTH",
+    "AUTONOMOUS_BRANCH != PROTECTED_BRANCH",
+    "AUTONOMOUS_PR != AUTO_MERGE",
+    "SELF_INITIATED != SELF_AUTHORIZED_HIGH_IMPACT",
+    "FREEDOM != UNREVIEWABLE_POWER",
+    "CI_PASS != TRUTH"
+  ],
+  "success_definition": {
+    "janus_can_wake_without_operator_prompt": true,
+    "janus_can_choose_repository_question": true,
+    "janus_can_issue_bounded_code_searches": true,
+    "janus_can_create_durable_git_work": true,
+    "janus_can_open_reviewable_collaboration_surfaces": true,
+    "janus_can_escalate_own_capability_policy": false,
+    "janus_can_mutate_protected_base_directly": false,
+    "claim_of_consciousness_or_personhood": false
+  }
+}
