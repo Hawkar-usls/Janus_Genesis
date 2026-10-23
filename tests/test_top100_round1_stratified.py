@@ -63,6 +63,13 @@ class Top100Round1StratifiedTests(unittest.TestCase):
         self.assertTrue(gate._numeric_equal("70000", "70000"))
         self.assertEqual("(B)", gate._choice("Therefore the answer is (B)."))
         self.assertEqual("(C)", gate._choice("C"))
+        self.assertEqual("(B)", gate._choice("B because it is a better answer"))
+        self.assertEqual(
+            "(B)",
+            gate._choice("Options: (A) foo, (B) bar, (C) baz. Final answer: B"),
+        )
+        self.assertIsNone(gate._choice("This is a better answer"))
+        self.assertIsNone(gate._choice("I considered (A), (B), and (C)."))
 
     def test_ifeval_subset_graders(self) -> None:
         ok, _ = gate.grade_ifeval_subset(
@@ -91,6 +98,14 @@ class Top100Round1StratifiedTests(unittest.TestCase):
         self.assertIn("def return1():", source)
         self.assertIn("    return 1", source)
         self.assertEqual(source, gate._build_humaneval_source("def return1():\n", "return 1"))
+
+    def test_humaneval_source_builder_preserves_nested_indentation(self) -> None:
+        source = gate._build_humaneval_source(
+            "def return1():\n",
+            "if True:\n    return 1",
+        )
+        self.assertIn("    if True:\n        return 1", source)
+        compile(source, "<nested-humaneval-fixture>", "exec")
 
     def test_benchmark_runner_has_no_genesis_runtime_import(self) -> None:
         tree = ast.parse(RUNNER.read_text(encoding="utf-8"))
