@@ -118,10 +118,12 @@ class TestHordeAnonymous(unittest.TestCase):
                 "What single observation would most reduce uncertainty?"
             ]}},
         }
+        evidence["home_baseline"] = "BASELINE"
         with patch("janus_corpus_aura_golem_live.load_aura_evidence",
                    return_value=evidence):
-            result = horde.query_attested_aura(Path("/never-read"),
-                             execute=True, transport=self.fake, sleeper=lambda *_: None)
+            with patch.object(horde, "protected_snapshot", return_value="BASELINE"):
+                result = horde.query_attested_aura(Path("/never-read"),
+                                 execute=True, transport=self.fake, sleeper=lambda *_: None)
         self.assertEqual(result["status"], "MOCKED_HORDE_RESPONSE__NOT_REAL")
         self.assertEqual(result["verified_context_sha256_local_only"], "f" * 64)
         self.assertNotIn("f" * 64, json.dumps(self.calls))
@@ -195,11 +197,15 @@ class TestHordeAnonymous(unittest.TestCase):
         self.assertIn('"failure_class": "HORDE_HTTP_403"', output.getvalue())
 
     def test_strict_live_cli_passes_only_real_observed_text(self):
+        answer = "One independently testable hypothesis."
         received = {
             "status": "REAL_ANONYMOUS_RESPONSE__UNVERIFIED",
             "network_model_response_observed": True,
             "source": "ACTUAL_ANONYMOUS_HTTP",
+            "prompt_sent": True, "attempts": 1,
             "model_reported_unverified": "reported-model",
+            "response": answer,
+            "response_sha256": horde.sha256(answer.encode("utf-8")),
             "failure_class": None,
         }
         with patch.object(horde, "query_public", return_value=received):
@@ -237,6 +243,114 @@ class TestHordeAnonymous(unittest.TestCase):
             self.assertFalse(result["network_model_response_observed"])
             self.assertIsNone(result["response"])
 
+
+
+    def test_strict_real_canary_rejects_forged_model_response_or_digest(self):
+        answer = "A small independent test is needed."
+        good = {
+            "status": "REAL_ANONYMOUS_RESPONSE__UNVERIFIED",
+            "network_model_response_observed": True,
+            "source": "ACTUAL_ANONYMOUS_HTTP",
+            "prompt_sent": True, "attempts": 1,
+            "response": answer,
+            "response_sha256": horde.sha256(answer.encode()),
+            "model_reported_unverified": "observed-model",
+        }
+        self.assertTrue(horde.real_answer_observed(good))
+        for patch_value in (
+            {"response_sha256": "0" * 64},
+            {"response": "   \n"},
+            {"prompt_sent": None},
+            {"attempts": 2},
+            {"source": "INJECTED_FIXTURE_NOT_REAL_AI"},
+            {"model_reported_unverified": ""},
+            {"network_model_response_observed": False},
+        ):
+            with self.subTest(patch_value=patch_value):
+                self.assertFalse(horde.real_answer_observed({**good, **patch_value}))
+
+    def test_native_head_mismatch_rejected_before_external_post(self):
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura_receipt_sha256": "e" * 64,
+            "cursor": {"context_sha256": "f" * 64},
+            "aura": {"oracle_source_type": "PINNED_LOCAL_AURA_CLI",
+                     "oracle": {"questions": [
+                         "What single observation would most reduce uncertainty?"
+                     ]}},
+            "v2": {"native_initial": {
+                "source_commit": "a" * 40, "checkpoint_sha256": "b" * 64}},
+        }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with self.assertRaisesRegex(ConsumptionError, "HORDE_NATIVE_COMMIT"):
+                horde.query_attested_aura(Path("/never-read"),
+                    execute=True, transport=self.fake, sleeper=lambda *_: None,
+                    native_repo=Path("/missing"), native_head="c" * 40)
+        self.assertEqual(self.calls, [])
+
+    def test_pinned_checkout_preflight_failure_before_external_post(self):
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura_receipt_sha256": "e" * 64,
+            "cursor": {"context_sha256": "f" * 64},
+            "aura": {"oracle_source_type": "PINNED_LOCAL_AURA_CLI",
+                     "oracle": {"questions": [
+                         "What single observation would most reduce uncertainty?"
+                     ]}},
+            "v2": {"native_initial": {
+                "source_commit": "a" * 40, "checkpoint_sha256": "b" * 64}},
+        }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with patch.object(horde, "preflight_native_checkout",
+                              side_effect=ConsumptionError("PREFLIGHT_STOP")):
+                with self.assertRaisesRegex(ConsumptionError, "PREFLIGHT_STOP"):
+                    horde.query_attested_aura(Path("/never-read"),
+                        execute=True, transport=self.fake,
+                        native_repo=Path("/missing"), native_head="a" * 40)
+        self.assertEqual(self.calls, [])
+
+    def test_private_home_drift_rejected_before_and_after_external(self):
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura_receipt_sha256": "e" * 64,
+            "cursor": {"context_sha256": "f" * 64},
+            "aura": {"oracle_source_type": "PINNED_LOCAL_AURA_CLI",
+                     "oracle": {"questions": [
+                         "What single observation would most reduce uncertainty?"
+                     ]}},
+        }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with patch.object(horde, "protected_snapshot", return_value="DRIFT"):
+                with self.assertRaisesRegex(ConsumptionError, "BEFORE_EGRESS"):
+                    horde.query_attested_aura(Path("/never-read"),
+                        execute=True, transport=self.fake)
+            self.assertEqual(self.calls, [])
+            with patch.object(horde, "protected_snapshot",
+                              side_effect=["BASELINE", "DRIFT"]):
+                with self.assertRaisesRegex(ConsumptionError, "AFTER_EGRESS"):
+                    horde.query_attested_aura(Path("/never-read"),
+                        execute=True, transport=self.fake, sleeper=lambda *_: None)
+        self.assertEqual(sum(c[0] == "POST" for c in self.calls), 1)
+
+    def test_mock_aura_cannot_be_used_for_live_public_external_egress(self):
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura": {"oracle_source_type": "MOCKED_AURA_TEST_ONLY",
+                     "oracle": {"questions": [
+                         "What single observation would most reduce uncertainty?"
+                     ]}},
+        }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with patch.object(horde, "query_public",
+                              side_effect=AssertionError("No real external egress")):
+                with self.assertRaisesRegex(ConsumptionError,
+                                            "REAL_EGRESS_REQUIRES_REAL_PINNED_AURA"):
+                    horde.query_attested_aura(Path("/never-read"), execute=True)
+        self.assertEqual(self.calls, [])
 
 
 if __name__ == "__main__":
