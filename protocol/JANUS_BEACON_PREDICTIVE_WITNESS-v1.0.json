@@ -1,0 +1,80 @@
+{
+  "schema": "janus.beacon.predictive_witness_contract.v1",
+  "artifact_id": "JANUS-BEACON-PREDICTIVE-WITNESS-2026-08-16-v1.0",
+  "historical_lineage": {
+    "concept": "ADV_BEACON_SENSOR_PREDICTION_TO_GLOBAL_HABITAT_FORECASTING",
+    "lineage_claim": "CONCEPTUAL_INHERITANCE_ONLY_UNTIL_EXACT_HISTORICAL_SOURCE_BINDING",
+    "preserved_traits": [
+      "ONLINE_PREDICTION",
+      "PREDICTION_ERROR_MEMORY",
+      "FIT_OR_CALIBRATION_FEEDBACK",
+      "REPEATED_TRANSITION_LEARNING"
+    ],
+    "expanded_scope": [
+      "NEXT_HABITAT_ACTION_DISTRIBUTION",
+      "CANDIDATE_ACTION_SUCCESS_PROBABILITY",
+      "PREQUENTIAL_CALIBRATION",
+      "PERSISTENT_MODEL_STATE"
+    ]
+  },
+  "inputs": {
+    "context": "BOUNDED_JSON_SCALARS_HASHED_BEFORE_PERSISTENCE",
+    "candidate_actions": "CALLER_DECLARED_CLOSED_SET",
+    "outcome": "LATER_SETTLED_ACTUAL_ACTION_PLUS_BOOLEAN_SUCCESS",
+    "raw_context_persisted": false
+  },
+  "forecast_semantics": {
+    "next_action": "P(ACTION_NEXT | HASHED_CONTEXT, HISTORY)",
+    "success": "P(SUCCESS | CANDIDATE_ACTION, HASHED_CONTEXT, HISTORY)",
+    "evaluation": "PREQUENTIAL_FORECAST_BEFORE_OUTCOME",
+    "success_model": "HIERARCHICAL_BETA_BINOMIAL_STYLE_BACKOFF",
+    "next_action_model": "DIRICHLET_SMOOTHED_CONTEXTUAL_TRANSITION_COUNTS",
+    "calibration": "10_BIN_EMPIRICAL_SHRINKAGE_AFTER_MINIMUM_SUPPORT",
+    "metrics": [
+      "BRIER_RAW",
+      "BRIER_CALIBRATED",
+      "SUCCESS_LOGLOSS",
+      "NEXT_ACTION_LOGLOSS",
+      "EXPECTED_CALIBRATION_ERROR"
+    ],
+    "wrong_predictions_retained": true
+  },
+  "selection_contamination": {
+    "forecast_exposed_to_selector_recorded": true,
+    "unexposed_forecasts_preferred_for_clean_predictive_accuracy": true,
+    "forecast_influenced_action_is_not_clean_passive_prediction": true
+  },
+  "persistence": {
+    "state_export_receipt": "SHA256_CANONICAL_JSON",
+    "pending_forecasts_preserved": true,
+    "settled_forecasts_preserved": true,
+    "raw_context_persisted": false
+  },
+  "authority": {
+    "prediction_is_command": false,
+    "prediction_is_permission": false,
+    "prediction_is_truth": false,
+    "prediction_is_independent_evidence_root": false,
+    "source_writeback": false,
+    "external_effect_authority": false,
+    "merge_authority": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "laws": [
+    "PREDICTION != COMMAND",
+    "LIKELY_NEXT_ACTION != RECOMMENDED_ACTION",
+    "SUCCESS_PROBABILITY != MERGE_PERMISSION",
+    "CALIBRATION != TRUTH",
+    "PAST_CORRELATION != CAUSATION",
+    "MODEL_CONFIDENCE != AUTHORITY",
+    "FORECAST_MUST_PRECEDE_OUTCOME",
+    "MISSPREDICTION != DELETE",
+    "BEACON_MEMORY != CANONICAL_PROJECT_TRUTH",
+    "PROJECT_ACTION_FORECAST != HUMAN_INTENT_PROOF",
+    "USER_BEHAVIOR_FORECAST != PSYCHOLOGICAL_DIAGNOSIS",
+    "BEACON_OUTPUT != INDEPENDENT_EVIDENCE_ROOT",
+    "RANDOM_LABEL_TRAINING != FUTURE_PREDICTION",
+    "CI_GREEN != MERGE_PERMISSION"
+  ]
+}
