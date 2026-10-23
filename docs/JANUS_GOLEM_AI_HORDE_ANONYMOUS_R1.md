@@ -140,3 +140,31 @@ an external response, not the completed three-stage chain.
 `FULL_PINNED_NATIVE_END_TO_END = NOT_ATTESTED`
 
 `SCIENTIFIC_AUTHORITY_DELTA = 0`
+
+
+### Opt-in strict three-stage CLI (isolated research HOME only)
+
+When the owner of an isolated, independently validated research HOME and a
+clean pinned `Janus-Demiurge` checkout chooses to run all three stages, use:
+
+```bash
+python tools/golem_ai_horde_anonymous.py \
+  --execute-public-demo \
+  --home-root /path/to/isolated-research-home \
+  --native-repo /path/to/clean-pinned-Janus-Demiurge \
+  --native-head FULL_40_HEX_NATIVE_COMMIT \
+  --require-real-answer --require-native-review \
+  --out /path/to/research-receipts/keyless-r13.json
+```
+
+`--require-native-review` exits nonzero unless a genuine digest-bound
+anonymous HTTPS answer **and** an exact-checkpoint pinned local Demiurge
+review both exist, with AURA source hashes attached locally. Missing or
+mismatched flags fail before contacting a provider. The public CI runs
+only the generic question canary; it does not have the operator's HOME
+or native model and cannot assert completion of this full three-stage
+path. This CLI is an opt-in research sidecar, not an instruction to expose
+production HOME. Nothing in the provider answer is granted authority
+to modify user data, code, coins, inventory, ACK or model weights.
+
+`REAL_NATIVE_E2E_R1_3_RUN = NOT_OBSERVED`
