@@ -333,18 +333,46 @@ def real_answer_observed(report: dict) -> bool:
     )
 
 
+def native_end_to_end_observed(report: dict) -> bool:
+    """Strict real-external + pinned-native status, not a science verdict."""
+    native_hash = report.get("native_review_sha256_local_only")
+    return (
+        real_answer_observed(report)
+        and report.get("native_review_status") == "REAL_PINNED_NATIVE_CPU_UNVERIFIED"
+        and isinstance(native_hash, str)
+        and re.fullmatch(r"[0-9a-f]{64}", native_hash) is not None
+        and isinstance(report.get("aura_receipt_sha256_local_only"), str)
+        and isinstance(report.get("verified_context_sha256_local_only"), str)
+    )
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--execute-public-demo", action="store_true")
     p.add_argument("--require-real-answer", action="store_true",
                    help="fail the availability canary unless real text arrived")
     p.add_argument("--home-root", type=Path)
+    p.add_argument("--native-repo", type=Path)
+    p.add_argument("--native-head")
+    p.add_argument("--require-native-review", action="store_true",
+                   help="fail unless real keyless + pinned native CPU review succeed")
     p.add_argument("--out", type=Path)
     args = p.parse_args()
     if args.require_real_answer and not args.execute_public_demo:
         p.error("--require-real-answer requires --execute-public-demo")
+    if bool(args.native_repo) != bool(args.native_head):
+        p.error("--native-repo and --native-head must both be set")
+    if (args.native_repo is not None and
+            (args.home_root is None or not args.execute_public_demo)):
+        p.error("native review requires --home-root and --execute-public-demo")
+    if (args.require_native_review and
+            (args.home_root is None or not args.execute_public_demo
+             or args.native_repo is None or args.native_head is None)):
+        p.error("--require-native-review requires real execution, HOME and pinned native")
     if args.home_root is not None:
-        report = query_attested_aura(args.home_root, execute=args.execute_public_demo)
+        report = query_attested_aura(
+            args.home_root, execute=args.execute_public_demo,
+            native_repo=args.native_repo, native_head=args.native_head)
     else:
         report = query_public(execute=args.execute_public_demo)
     body = json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
@@ -357,10 +385,14 @@ def main() -> int:
         "model": report["model_reported_unverified"],
         "failure_class": report["failure_class"],
         "response_sha256": report.get("response_sha256"),
+        "native_review_status": report.get("native_review_status"),
+        "native_review_sha256": report.get("native_review_sha256_local_only"),
         "sha256": sha256(body.encode("utf-8")),
     }, sort_keys=True))
     # An offline contract PASS is separate from a live-model response PASS.
     if args.require_real_answer and not real_answer_observed(report):
+        return 2
+    if args.require_native_review and not native_end_to_end_observed(report):
         return 2
     return 0
 
