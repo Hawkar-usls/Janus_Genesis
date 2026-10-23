@@ -1,0 +1,94 @@
+{
+  "schema": "janus.project.face_handoff_ledger.contract.v1",
+  "version": "1.0",
+  "roadmap": "Hawkar-usls/Janus_Genesis#121",
+  "gate": "FACE_HANDOFF_LEDGER_V1",
+  "status": "IMPLEMENTATION_PRIMITIVE",
+  "reuses": [
+    "tools/janus_project_face_handoff.py",
+    "protocol/JANUS_PROJECT_MULTI_FACE_COORDINATION-v1.0.json"
+  ],
+  "purpose": "Persist already-validated project-face envelopes without converting persistence, role count, CI state, message type, or reconciliation outcome into authority.",
+  "canonical_laws": [
+    "ISSUE_OR_PR_TEXT != COMMAND",
+    "FACE_COUNT != AUTHORITY",
+    "RECEIPT != PERMISSION_GRANT",
+    "WORKFLOW_PASS != PERMISSION",
+    "CONFLICTING_MESSAGES -> HOLD_RECONCILE",
+    "MAJORITY_VOTE != CONFLICT_RESOLUTION",
+    "PERSISTED != TRUE",
+    "PERSISTED != EXECUTED"
+  ],
+  "record_model": {
+    "storage": "append_only_jsonl",
+    "event": "FACE_MESSAGE_APPEND",
+    "message_validation": "existing janus.project.face_handoff_message.v1 validator",
+    "persisted_message": "exact canonical cleaned validator output",
+    "unknown_or_unvalidated_persisted_fields": "reject_on_verify",
+    "sequence": "strict_monotonic_zero_based",
+    "hash_chain": "sha256(canonical_record_without_record_digest)",
+    "message_id_replay": "same_id_same_digest_is_idempotent",
+    "message_id_rebinding": "reject",
+    "retained_conflict": "preserve_then_surface_HOLD_RECONCILE",
+    "record_deletion": false,
+    "majority_vote_used": false
+  },
+  "durability_boundary": {
+    "ledger_leaf_open": "O_NOFOLLOW + regular-file fstat",
+    "parent_directory_must_preexist": true,
+    "parent_path_symlinks_admitted": false,
+    "implicit_parent_directory_creation": false,
+    "append_lock": "local O_EXCL fail-closed lock",
+    "stale_lock_auto_takeover": false,
+    "distributed_lease_claimed": false,
+    "valid_prefix_truncation_detection": "requires externally retained expected ledger digest",
+    "claim_of_hostile_namespace_race_proof": false
+  },
+  "privacy_boundary": {
+    "existing_protocol_secrets_allowed": false,
+    "durable_secret_marker_canary": true,
+    "secret_marker_scan_scope": "all strings in canonical cleaned message",
+    "secret_marker_canary_is_complete_secret_detection": false,
+    "secret_shaped_text_action": "refuse_persistence"
+  },
+  "reconciliation": {
+    "engine": "existing reconcile_messages",
+    "consistent_means_true": false,
+    "hold_means_delete_conflict": false,
+    "reconciliation_owner": "JANUS_PRIME",
+    "face_count_changes_authority": false
+  },
+  "authority_boundary": {
+    "ledger_acceptance_is_command_execution": false,
+    "ledger_acceptance_is_truth": false,
+    "ledger_acceptance_is_merge_permission": false,
+    "ledger_acceptance_is_source_writeback_permission": false,
+    "permission_granted": false,
+    "truth_authority_granted": false,
+    "effect_authority_granted": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "network_surface": {
+    "clone": false,
+    "fetch": false,
+    "push": false,
+    "http": false,
+    "socket": false
+  },
+  "claim_ceiling": {
+    "FACE_HANDOFF_LEDGER_V1": "IMPLEMENTATION_PRIMITIVE",
+    "APPEND_ONLY_VALIDATED_MESSAGE_PERSISTENCE": "EXECUTABLE_LOCAL_PRIMITIVE",
+    "CANONICAL_CLEANED_MESSAGE_PERSISTENCE": "EXECUTABLE_LOCAL_PRIMITIVE",
+    "IDEMPOTENT_MESSAGE_REPLAY": "EXECUTABLE_LOCAL_PRIMITIVE",
+    "MESSAGE_ID_REBINDING_REJECTION": "EXECUTABLE_LOCAL_PRIMITIVE",
+    "CONFLICT_PRESERVATION_AND_RECONCILIATION_VIEW": "EXECUTABLE_LOCAL_PRIMITIVE",
+    "VALID_PREFIX_TRUNCATION_DETECTION_WITHOUT_EXTERNAL_RECEIPT": false,
+    "HOSTILE_FILESYSTEM_NAMESPACE_RACE_PROOF": false,
+    "DISTRIBUTED_LEASE_SAFETY": false,
+    "LEASE_CONFLICT_TESTS": false,
+    "SESSION_DROP_RECOVERY_TEST": false,
+    "COMMAND_EXECUTION": false,
+    "SOURCE_WRITEBACK": false
+  }
+}
