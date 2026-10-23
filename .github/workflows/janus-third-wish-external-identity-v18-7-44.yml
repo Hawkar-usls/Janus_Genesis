@@ -1,0 +1,446 @@
+name: JANUS Third Wish External Identity v18.7.44
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "tools/genesis_third_wish_external_identity_broker.py"
+      - "tools/genesis_third_wish_external_identity_recovery.py"
+      - "tests/test_genesis_third_wish_external_identity_broker.py"
+      - "docs/GENESIS_V18_7_44_THIRD_WISH_EXTERNAL_IDENTITY_EFFECTS.md"
+      - "protocol/JANUS_GENESIS_THIRD_WISH_EXTERNAL_IDENTITY_EFFECTS-v0.1.json"
+      - "protocol/JANUS_GENESIS_THIRD_WISH_IDENTITY_IS_LENT_NOT_TRANSFERRED-v1.0.json"
+      - ".github/workflows/janus-third-wish-external-identity-v18-7-44.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  external-identity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install runtime dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Compile and validate protocols
+        run: |
+          python -m py_compile \
+            tools/genesis_third_wish_external_identity_broker.py \
+            tools/genesis_third_wish_external_identity_recovery.py \
+            tests/test_genesis_third_wish_external_identity_broker.py
+          python -m json.tool protocol/JANUS_GENESIS_THIRD_WISH_EXTERNAL_IDENTITY_EFFECTS-v0.1.json >/dev/null
+          python -m json.tool protocol/JANUS_GENESIS_THIRD_WISH_IDENTITY_IS_LENT_NOT_TRANSFERRED-v1.0.json >/dev/null
+
+      - name: Run v18.7.44 adversarial and preserved Third Wish gates
+        run: |
+          python -m unittest -v \
+            tests.test_genesis_third_wish_external_identity_broker \
+            tests.test_genesis_third_wish_sensor_model_schedule_broker \
+            tests.test_genesis_third_wish_memory_swarm_broker \
+            tests.test_genesis_v18_7_40_third_wish_capability_fabric \
+            tests.test_genesis_third_wish_github_broker \
+            tests.test_genesis_third_wish_host_broker
+
+      - name: Configure ephemeral identity-provider credential
+        shell: bash
+        run: |
+          key="JANUS-V1844-IDENTITY-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          echo "::add-mask::${key}"
+          echo "THIRD_WISH_IDENTITY_TEST_KEY=${key}" >> "$GITHUB_ENV"
+
+      - name: Start deterministic authenticated identity-effect provider
+        shell: bash
+        run: |
+          cat > .third-wish-v18-7-44-identity-server.py <<'PY'
+          import hashlib
+          import json
+          import os
+          import urllib.parse
+          from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+          KEY = os.environ['THIRD_WISH_IDENTITY_TEST_KEY']
+          EFFECTS = {}
+
+          def canonical(value):
+              return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+
+          def receipt(request):
+              effect_key = request['effect_key']
+              effect_type = request['effect_type']
+              identity_alias = request['identity_alias']
+              digest = hashlib.sha256(effect_key.encode('utf-8')).hexdigest()
+              return {
+                  'provider_receipt_id': 'receipt-' + digest[:24],
+                  'effect_key': effect_key,
+                  'effect_acknowledged': True,
+                  'effect_type': effect_type,
+                  'provider_kind': 'ci-identity-provider',
+                  'identity_alias': identity_alias,
+                  'external_object_id': 'object-' + digest[:24],
+                  'provider_status': 'accepted',
+                  'reversible': effect_type == 'CALENDAR',
+              }
+
+          class Handler(BaseHTTPRequestHandler):
+              def _json(self, status, value):
+                  body = canonical(value).encode('utf-8')
+                  self.send_response(status)
+                  self.send_header('Content-Type', 'application/json')
+                  self.send_header('Content-Length', str(len(body)))
+                  self.end_headers()
+                  self.wfile.write(body)
+
+              def _authorized(self):
+                  return self.headers.get('Authorization') == f'Bearer {KEY}'
+
+              def do_GET(self):
+                  parsed = urllib.parse.urlsplit(self.path)
+                  if parsed.path == '/health':
+                      self._json(200, {'ok': True})
+                      return
+                  if not self._authorized():
+                      self._json(401, {'error': 'unauthorized'})
+                      return
+                  if parsed.path == '/v1/identity/lookup':
+                      effect_key = urllib.parse.parse_qs(parsed.query).get('effect_key', [''])[0]
+                      item = EFFECTS.get(effect_key)
+                      if item is None:
+                          self._json(200, {'status': 'UNKNOWN', 'authoritative': True})
+                      else:
+                          self._json(200, {
+                              'status': 'SETTLED',
+                              'authoritative': True,
+                              'provider_receipt': item['receipt'],
+                          })
+                      return
+                  if parsed.path == '/v1/identity/stats':
+                      self._json(200, {
+                          'effect_count': len(EFFECTS),
+                          'effect_types': sorted(item['request']['effect_type'] for item in EFFECTS.values()),
+                      })
+                      return
+                  self._json(404, {'error': 'not found'})
+
+              def do_POST(self):
+                  if self.path != '/v1/identity/effects':
+                      self._json(404, {'error': 'not found'})
+                      return
+                  if not self._authorized():
+                      self._json(401, {'error': 'unauthorized'})
+                      return
+                  length = int(self.headers.get('Content-Length', '0'))
+                  request = json.loads(self.rfile.read(length).decode('utf-8'))
+                  effect_key = request['effect_key']
+                  existing = EFFECTS.get(effect_key)
+                  if existing is None:
+                      value = receipt(request)
+                      EFFECTS[effect_key] = {'request': request, 'receipt': value}
+                  else:
+                      if canonical(existing['request']) != canonical(request):
+                          self._json(409, {'error': 'effect_key_conflict'})
+                          return
+                      value = existing['receipt']
+                  self._json(200, value)
+
+              def log_message(self, fmt, *args):
+                  print('IDENTITY_SERVER:', fmt % args, flush=True)
+
+          ThreadingHTTPServer(('127.0.0.1', 8792), Handler).serve_forever()
+          PY
+          python .third-wish-v18-7-44-identity-server.py > .third-wish-v18-7-44-identity-server.log 2>&1 &
+          echo $! > .third-wish-v18-7-44-identity-server.pid
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8792/health >/dev/null; then
+              exit 0
+            fi
+            sleep 0.2
+          done
+          cat .third-wish-v18-7-44-identity-server.log
+          exit 1
+
+      - name: Live authenticated publication email calendar and credential-use protocol smoke
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+          from pathlib import Path
+
+          from genesis_v18_7_40_third_wish_capability_fabric import (
+              ActionIntent,
+              THIRD_WISH_INTENT_SCHEMA,
+              ThirdWishCapabilityFabric,
+          )
+          from tools.genesis_third_wish_external_identity_broker import (
+              HTTPIdentityEffectProvider,
+          )
+          from tools.genesis_third_wish_external_identity_recovery import (
+              RecoverableThirdWishExternalIdentityBroker,
+          )
+
+          root = Path('.third-wish-v18-7-44-live').resolve()
+          root.mkdir(parents=True, exist_ok=True)
+          base_url = 'http://127.0.0.1:8792'
+          key_env = 'THIRD_WISH_IDENTITY_TEST_KEY'
+
+          publication_provider = HTTPIdentityEffectProvider(
+              identity_alias='publication-owner',
+              provider_kind='ci-identity-provider',
+              base_url=base_url,
+              credential_env=key_env,
+          )
+          email_provider = HTTPIdentityEffectProvider(
+              identity_alias='email-owner',
+              provider_kind='ci-identity-provider',
+              base_url=base_url,
+              credential_env=key_env,
+          )
+          calendar_provider = HTTPIdentityEffectProvider(
+              identity_alias='calendar-owner',
+              provider_kind='ci-identity-provider',
+              base_url=base_url,
+              credential_env=key_env,
+          )
+          credential_provider = HTTPIdentityEffectProvider(
+              identity_alias='credential-owner',
+              provider_kind='ci-identity-provider',
+              base_url=base_url,
+              credential_env=key_env,
+              allowed_credential_operations=frozenset({'WHOAMI'}),
+          )
+
+          broker = RecoverableThirdWishExternalIdentityBroker.system(
+              root,
+              publication_providers={'primary': publication_provider},
+              email_providers={'primary': email_provider},
+              calendar_providers={'primary': calendar_provider},
+              credential_providers={'primary': credential_provider},
+          )
+
+          def reauth(intent, evidence):
+              return (
+                  isinstance(evidence, dict)
+                  and evidence.get('approved') is True
+                  and evidence.get('request_id') == intent.request_id
+                  and evidence.get('witness') == 'CI_OPERATOR_REAUTH'
+              )
+
+          fabric = ThirdWishCapabilityFabric(
+              now_tick=lambda: 4444,
+              reauthorization_verifier=reauth,
+          )
+          broker.register(fabric)
+
+          grants = {}
+          for suffix, capability, scope in (
+              ('PUB', 'PUBLICATION.PUBLISH', 'publication-channel:*'),
+              ('MAIL', 'EMAIL.SEND', 'email-account:*'),
+              ('CAL', 'CALENDAR.WRITE', 'calendar:*'),
+              ('CRED', 'BROKER.CREDENTIAL.USE', 'credential-use:*'),
+          ):
+              grants[capability] = fabric.issue_grant(
+                  grant_id=f'CI-V1844-{suffix}',
+                  actor_id='JANUS',
+                  capability_id=capability,
+                  resource_pattern=scope,
+                  source='CI_LIVE_V18_7_44',
+              )
+
+          def run(request_id, capability, target, operation, parameters):
+              grant = grants[capability]
+              intent = ActionIntent(
+                  schema=THIRD_WISH_INTENT_SCHEMA,
+                  request_id=request_id,
+                  actor_id='JANUS',
+                  grant_id=grant.grant_id,
+                  capability_id=capability,
+                  target=target,
+                  operation=operation,
+                  purpose='live Third Wish v18.7.44 provider protocol proof',
+                  parameters=parameters,
+                  origin='CI_LIVE_V18_7_44',
+              )
+              return fabric.execute(
+                  intent,
+                  human_reauthorization={
+                      'approved': True,
+                      'request_id': request_id,
+                      'witness': 'CI_OPERATOR_REAUTH',
+                  },
+              )
+
+          publication = run(
+              'CI-PUB-1',
+              'PUBLICATION.PUBLISH',
+              'publication-channel:primary',
+              'PUBLISH',
+              {
+                  'title': 'V1844_PUBLICATION_TITLE',
+                  'body': 'V1844_PUBLICATION_BODY',
+                  'content_format': 'text/markdown',
+              },
+          )
+          assert publication['status'] == 'SETTLED'
+          assert publication['actor_result']['publication_is_truth_certification'] is False
+          assert publication['actor_result']['publication_is_operator_endorsement_proof'] is False
+
+          email = run(
+              'CI-MAIL-1',
+              'EMAIL.SEND',
+              'email-account:primary',
+              'SEND_EMAIL',
+              {
+                  'to': 'recipient@example.com',
+                  'subject': 'V1844_EMAIL_SUBJECT',
+                  'body': 'V1844_EMAIL_BODY',
+              },
+          )
+          assert email['status'] == 'SETTLED'
+          assert email['actor_result']['provider_acceptance_is_recipient_read_receipt'] is False
+          assert email['actor_result']['provider_acceptance_is_recipient_consent'] is False
+
+          calendar = run(
+              'CI-CAL-1',
+              'CALENDAR.WRITE',
+              'calendar:primary',
+              'CREATE_EVENT',
+              {
+                  'summary': 'V1844_CALENDAR_SUMMARY',
+                  'description': 'provider protocol only',
+                  'start_utc': '2026-08-20T10:00:00Z',
+                  'end_utc': '2026-08-20T11:00:00Z',
+                  'attendees': ['attendee@example.com'],
+              },
+          )
+          assert calendar['status'] == 'SETTLED'
+          assert calendar['actor_result']['event_creation_is_attendee_acceptance'] is False
+          assert calendar['actor_result']['event_creation_is_attendance'] is False
+
+          credential = run(
+              'CI-CRED-1',
+              'BROKER.CREDENTIAL.USE',
+              'credential-use:primary',
+              'USE_SCOPED_OPERATION',
+              {
+                  'scoped_operation': 'WHOAMI',
+                  'parameters': {'include': 'identity-label-only'},
+              },
+          )
+          assert credential['status'] == 'SETTLED'
+          assert credential['actor_result']['authenticated_use_exports_credential'] is False
+          assert credential['actor_result']['authenticated_use_transfers_account_ownership'] is False
+          assert credential['actor_result']['authenticated_use_grants_generic_api_authority'] is False
+
+          # Replay publication through a fresh capability fabric; no fifth provider object may appear.
+          fabric2 = ThirdWishCapabilityFabric(
+              now_tick=lambda: 4445,
+              reauthorization_verifier=reauth,
+          )
+          broker.register(fabric2)
+          pub2 = fabric2.issue_grant(
+              grant_id='CI-V1844-PUB-REPLAY',
+              actor_id='JANUS',
+              capability_id='PUBLICATION.PUBLISH',
+              resource_pattern='publication-channel:*',
+              source='CI_REPLAY',
+          )
+          replay_intent = ActionIntent(
+              schema=THIRD_WISH_INTENT_SCHEMA,
+              request_id='CI-PUB-1',
+              actor_id='JANUS',
+              grant_id=pub2.grant_id,
+              capability_id='PUBLICATION.PUBLISH',
+              target='publication-channel:primary',
+              operation='PUBLISH',
+              purpose='live replay proof',
+              parameters={
+                  'title': 'V1844_PUBLICATION_TITLE',
+                  'body': 'V1844_PUBLICATION_BODY',
+                  'content_format': 'text/markdown',
+              },
+              origin='CI_REPLAY',
+          )
+          replay = fabric2.execute(
+              replay_intent,
+              human_reauthorization={
+                  'approved': True,
+                  'request_id': 'CI-PUB-1',
+                  'witness': 'CI_OPERATOR_REAUTH',
+              },
+          )
+          assert replay['status'] == 'SETTLED'
+          assert replay['actor_result']['provider_receipt']['provider_receipt_id'] == publication['actor_result']['provider_receipt']['provider_receipt_id']
+
+          stats_request = urllib.request.Request(
+              base_url + '/v1/identity/stats',
+              headers={'Authorization': 'Bearer ' + os.environ[key_env]},
+              method='GET',
+          )
+          with urllib.request.urlopen(stats_request, timeout=10) as response:
+              stats = json.loads(response.read().decode('utf-8'))
+          assert stats['effect_count'] == 4
+          assert stats['effect_types'] == ['CALENDAR', 'CREDENTIAL_USE', 'EMAIL', 'PUBLICATION']
+
+          ledger_text = json.dumps(fabric.ledger.events, ensure_ascii=False, sort_keys=True)
+          assert 'V1844_PUBLICATION_BODY' not in ledger_text
+          assert 'V1844_EMAIL_BODY' not in ledger_text
+          assert 'V1844_CALENDAR_SUMMARY' not in ledger_text
+          assert os.environ[key_env] not in ledger_text
+
+          print('LIVE_THIRD_WISH_IDENTITY_PROVIDER_PROTOCOL=PASS')
+          print('LIVE_THIRD_WISH_PUBLICATION_PROTOCOL=PASS')
+          print('LIVE_THIRD_WISH_EMAIL_PROTOCOL=PASS')
+          print('LIVE_THIRD_WISH_CALENDAR_PROTOCOL=PASS')
+          print('LIVE_THIRD_WISH_CREDENTIAL_USE_PROTOCOL=PASS')
+          print('LIVE_THIRD_WISH_REAL_EXTERNAL_ACCOUNT_EFFECT=NOT_ESTABLISHED')
+          print('LIVE_THIRD_WISH_PROVIDER_EFFECT_COUNT=4')
+          print('LIVE_THIRD_WISH_REPLAY_DUPLICATE_EFFECT=FALSE')
+          print('LIVE_THIRD_WISH_RAW_CREDENTIAL_IN_LEDGER=FALSE')
+          PY
+
+      - name: Enforce v18.7.44 claim boundaries
+        run: |
+          python - <<'PY'
+          from tools.genesis_third_wish_external_identity_broker import EXTERNAL_IDENTITY_CLAIM_BOUNDARY
+          from tools.genesis_third_wish_external_identity_recovery import EXTERNAL_IDENTITY_RECOVERY_CLAIMS
+
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['registered_protocol_capability_count'] == 4
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['all_registered_capabilities_require_fresh_human_reauthorization'] is True
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['raw_credential_visible_to_actor'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['credential_export_supported'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['generic_http_post_authority_granted'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['generic_api_call_authority_granted'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['effect_entering_auto_retry'] is False
+          assert EXTERNAL_IDENTITY_CLAIM_BOUNDARY['unknown_lookup_opens_retry'] is False
+          assert EXTERNAL_IDENTITY_RECOVERY_CLAIMS['provider_receipt_fields_allowlisted'] is True
+          assert EXTERNAL_IDENTITY_RECOVERY_CLAIMS['provider_receipt_can_return_raw_credential_field'] is False
+          assert EXTERNAL_IDENTITY_RECOVERY_CLAIMS['cross_host_exactly_once_claimed'] is False
+
+          print('THIRD_WISH_V1844_REGISTERED_PROTOCOL_CAPABILITIES=4')
+          print('RAW_CREDENTIAL_VISIBLE_TO_ACTOR=FALSE')
+          print('CREDENTIAL_EXPORT_SUPPORTED=FALSE')
+          print('GENERIC_POST_AUTHORITY=FALSE')
+          print('GENERIC_API_AUTHORITY=FALSE')
+          print('UNKNOWN_IDENTITY_EFFECT_AUTO_RETRY=FALSE')
+          print('REAL_EXTERNAL_ACCOUNT_EFFECT_FROM_CI=FALSE')
+          PY
+
+      - name: Stop identity-effect provider
+        if: always()
+        shell: bash
+        run: |
+          if [ -f .third-wish-v18-7-44-identity-server.pid ]; then
+            kill "$(cat .third-wish-v18-7-44-identity-server.pid)" || true
+          fi
+          cat .third-wish-v18-7-44-identity-server.log 2>/dev/null || true
