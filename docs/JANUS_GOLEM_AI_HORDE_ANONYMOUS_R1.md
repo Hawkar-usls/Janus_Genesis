@@ -101,3 +101,42 @@ explicit opt-in and cannot be inferred from this test.
 `PROMPT_ON_FAILED_POST = DISCLOSURE_POSSIBLE`
 `FULL_PRIVATE_END_TO_END_CHAIN = NOT_YET_ATTESTED`
 `EXTERNAL_SCIENTIFIC_AUTHORITY = ZERO`
+
+
+## R1.3 — strict public answer provenance and native preflight
+
+The `--require-real-answer` CI gate now requires all of the following:
+a built-in real HTTPS source, exactly one POST, acknowledged prompt submission,
+nonblank printable model text, a bounded nonblank server-reported model ID and
+a SHA-256 digest matching the **actual** returned text. A status flag alone
+cannot turn a simulated or empty result green. The public CI log records only
+the model name, hashes and sanitized failure classification, not a private
+AURA or HOME record.
+
+The optional `query_attested_aura` path now preflights before external egress:
+an approved public AURA question; a real pinned local AURA receipt for actual
+HTTPS calls (not a mocked source); matching original Demiurge commit if native
+review is requested; and, for the real subprocess runner, a clean local Git
+checkout with the exact original promoted checkpoint SHA-256. Protected HOME
+is independently snapshotted **before** the third-party call, **after** the
+third-party call, and **after** native review when invoked. A mismatch fails
+closed and does not grant model or science authority.
+
+Preflight prevents avoidable public prompt disclosure on known-invalid native
+checkouts. It does **not** promise zero disclosures if a host changes after
+the request begins. External volunteers may read the fixed public card and
+their response. The only keyless egress is the official AI Horde HTTPS
+endpoint, with no paid or private-context fallback. No production HOME data
+are made public, and no model automatically changes JANUS state.
+
+The preflight, native review and HOME guards have adversarial offline tests.
+**These unit tests do not establish the actual full AURA→GOLEM→Demiurge
+native-weights run**. That requires a separately attested, isolated real
+pinned HOME and native CPU checkout; public canaries alone are only proof of
+an external response, not the completed three-stage chain.
+
+`R1_3_SOURCE_AND_NATIVE_PREFLIGHT = IMPLEMENTED_SOFTWARE_GATE`
+
+`FULL_PINNED_NATIVE_END_TO_END = NOT_ATTESTED`
+
+`SCIENTIFIC_AUTHORITY_DELTA = 0`
