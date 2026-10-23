@@ -168,3 +168,17 @@ production HOME. Nothing in the provider answer is granted authority
 to modify user data, code, coins, inventory, ACK or model weights.
 
 `REAL_NATIVE_E2E_R1_3_RUN = NOT_OBSERVED`
+
+
+### Armor effect-inventory boundary
+
+The optional R1.3 pinned-native preflight invokes `git rev-parse` and
+`git status` in a sanitized environment to **inspect** an existing local
+checkout. This adds a direct subprocess effect to the keyless adapter.
+`audit_armor_effect_drift_v18_7_50.py` classifies it explicitly as an
+**opt-in research-only, not Armor-admitted** effect surface. Classification
+does not grant production admission and does not establish whole-repository
+Armor routing coverage. No subprocess is started by the default standalone
+public canary.
+
+`GOLEM_NATIVE_PREFLIGHT_ARMOR_ADMISSION = NO`
