@@ -1,0 +1,124 @@
+{
+  "schema": "janus.nexus.variant_lineage.contract.v1",
+  "version": "1.0",
+  "roadmap": "Hawkar-usls/Janus_Genesis#121",
+  "gate": "NEXUS_VARIANT_LINEAGE_V1",
+  "status": "IMPLEMENTATION_PRIMITIVE",
+  "canonical_law": [
+    "MERGE THE VIEW, NOT THE HISTORY",
+    "SOURCE_REPOSITORY = HISTORICAL_AUTHORITY",
+    "NEXUS = LABORATORY",
+    "NEXUS_WRITEBACK_DEFAULT = DENY",
+    "JANUS PRESERVES THE PATH, NOT ONLY THE DESTINATION"
+  ],
+  "record_model": {
+    "storage": "append_only_jsonl",
+    "event": "VARIANT_APPEND",
+    "sequence": "strict_monotonic_zero_based",
+    "hash_chain": "sha256(canonical_record_without_record_digest)",
+    "parent_rule": "parents_must_exist_in_prior_records",
+    "generation_rule": "root=0; child=1+max(parent_generation)",
+    "duplicate_variant_rule": "deny",
+    "descendants": "derived_from_immutable_child_to_parent_edges",
+    "ancestor_mutation_for_descendant_update": false,
+    "failed_variant_retention": true,
+    "rejected_variant_deletion": false,
+    "persisted_payload_must_equal_normalized_payload": true
+  },
+  "variant_identity": {
+    "algorithm": "sha256",
+    "domain_separator": "JANUS_NEXUS_VARIANT_V1\\x00",
+    "input": "normalized_canonical_variant_payload",
+    "caller_supplied_variant_id": false,
+    "parent_variant_ids_order_semantic": false,
+    "parent_variant_ids_normalization": "lexicographic_digest_sort",
+    "source_repository_shas_order_semantic": false,
+    "source_repository_shas_normalization": "repository_id_sort"
+  },
+  "required_variant_fields": [
+    "NEXUS_IDENTITY_DIGEST",
+    "PARENT_VARIANT_IDS",
+    "SOURCE_REPOSITORY_SHAS",
+    "INHERITED_TRAITS",
+    "MUTATIONS",
+    "TEST_SUITE",
+    "METRICS",
+    "GATE_RESULTS",
+    "FAILURE_REASON_IF_ANY",
+    "RECEIPT_DIGEST",
+    "SELECTION_SCOPE"
+  ],
+  "selection_scope": {
+    "required": [
+      "objective",
+      "constraints",
+      "dataset"
+    ],
+    "selection_authority_granted": false,
+    "best_means_absolute_best": false,
+    "pareto_retention_recommended": true
+  },
+  "source_binding": {
+    "repository_identifier": "opaque_safe_id",
+    "git_sha": "exact_lowercase_40_hex",
+    "minimum_sources": 1,
+    "source_writeback": false,
+    "source_delete": false,
+    "history_rewrite": false
+  },
+  "receipt_model": {
+    "head_record_digest": true,
+    "lineage_digest": true,
+    "record_count": true,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0,
+    "truncation_detection": "requires_externally_retained_expected_lineage_digest",
+    "internal_hash_chain_alone_proves_no_valid_prefix_truncation": false
+  },
+  "filesystem_boundary": {
+    "ledger_leaf_open": "O_NOFOLLOW + regular-file fstat",
+    "parent_directory_must_preexist": true,
+    "parent_path_symlinks_admitted": false,
+    "implicit_parent_directory_creation": false,
+    "claim_of_hostile_namespace_race_proof": false
+  },
+  "concurrency": {
+    "append_lock": "fail_closed_O_EXCL_local_lock",
+    "stale_lock_auto_takeover": false,
+    "distributed_lease_claimed": false,
+    "lease_conflict_gate_satisfied_by_this_contract": false
+  },
+  "authority_boundary": {
+    "variant_record_is_command": false,
+    "variant_record_is_claim_of_truth": false,
+    "workflow_pass_is_permission": false,
+    "lineage_is_execution_admission": false,
+    "lineage_is_writeback_permission": false,
+    "selection_authority_granted": false,
+    "execution_authority_granted": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "network_surface": {
+    "clone": false,
+    "fetch": false,
+    "push": false,
+    "http": false,
+    "socket": false
+  },
+  "claim_ceiling": {
+    "NEXUS_VARIANT_LINEAGE_V1": "IMPLEMENTATION_PRIMITIVE",
+    "APPEND_ONLY_PARENT_GRAPH": "EXECUTABLE_LOCAL_PRIMITIVE",
+    "FAILURE_RETENTION": "EXECUTABLE_LOCAL_PRIMITIVE",
+    "DESCENDANT_VIEW": "DERIVED_NOT_MUTATED",
+    "ORDER_INDEPENDENT_PARENT_AND_SOURCE_SET_IDENTITY": "EXECUTABLE_LOCAL_PRIMITIVE",
+    "VALID_PREFIX_TRUNCATION_DETECTION_WITHOUT_EXTERNAL_RECEIPT": false,
+    "HOSTILE_FILESYSTEM_NAMESPACE_RACE_PROOF": false,
+    "VARIANT_SELECTION_ENGINE": false,
+    "FULL_44_SOURCE_EVOLUTION_REPLAY": false,
+    "FACE_HANDOFF_LEDGER_V1": false,
+    "LEASE_CONFLICT_TESTS": false,
+    "SESSION_DROP_RECOVERY_TEST": false,
+    "SOURCE_WRITEBACK": false
+  }
+}
