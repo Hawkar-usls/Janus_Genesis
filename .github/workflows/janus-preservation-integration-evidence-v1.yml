@@ -1,0 +1,72 @@
+name: JANUS Preservation Integration Evidence v1
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_preservation_integration_evidence.py'
+      - 'tests/test_janus_preservation_integration_*.py'
+      - 'protocol/JANUS_PRESERVATION_INTEGRATION_EVIDENCE-v1.0.json'
+      - '.github/workflows/janus-preservation-integration-evidence-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preservation-integration-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR state
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate contract JSON
+        run: python -m json.tool protocol/JANUS_PRESERVATION_INTEGRATION_EVIDENCE-v1.0.json >/dev/null
+
+      - name: Compile verifier and complete contract tests
+        run: |
+          python -m py_compile \
+            tools/janus_preservation_integration_evidence.py \
+            tests/test_janus_preservation_integration_*.py
+
+      - name: Run complete evidence admission adversarial contract
+        run: python -m unittest discover -s tests -p 'test_janus_preservation_integration_*.py' -v
+
+      - name: Assert verifier has no network or subprocess primitive
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          path = Path('tools/janus_preservation_integration_evidence.py')
+          tree = ast.parse(path.read_text(encoding='utf-8'), filename=str(path))
+          forbidden = {'socket', 'subprocess', 'urllib', 'http', 'requests', 'httpx'}
+          found = []
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  for alias in node.names:
+                      if alias.name.split('.')[0] in forbidden:
+                          found.append(alias.name)
+              elif isinstance(node, ast.ImportFrom):
+                  root = (node.module or '').split('.')[0]
+                  if root in forbidden:
+                      found.append(node.module or root)
+          assert not found, f'effect-capable imports found: {found}'
+          print('PRESERVATION_INTEGRATION_DIRECT_NETWORK_OR_SUBPROCESS_IMPORTS=NONE')
+          PY
+
+      - name: Emit narrow claim receipt
+        run: |
+          echo 'PRESERVATION_INTEGRATION_EVIDENCE_V1=TESTED_LOCAL_PRIMITIVE'
+          echo 'PRODUCER_ROLE_COUNT=7'
+          echo 'CANONICAL_PRODUCER_PR_BINDING=TRUE'
+          echo 'BUNDLE_CONSISTENCY_NOT_EMPIRICAL_REPLAY=TRUE'
+          echo 'SOURCE_WRITEBACK=FALSE'
+          echo 'MERGE_PERMISSION=FALSE'
+          echo 'AUTHORITY_DELTA=0'
+          echo 'MASS_EFFECT_BUDGET_DELTA=0'
