@@ -1,0 +1,163 @@
+{
+  "schema": "genesis.janus_cristal_fractalgpt.experiment.v3",
+  "artifact_id": "GENESIS-JANUS-CRISTAL-FRACTALGPT-v0.3",
+  "title": "Janus Cristal × recovered FractalGPT — Dual-Null Specificity Gate",
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "status": "CI_PASS_SEMANTIC_NULL_MIRROR_CANDIDATE_REJECTED_AS_NON_SPECIFIC",
+  "sandbox_only": true,
+  "authoritative_genesis_runtime_modified": false,
+  "lineage": {
+    "parent": "GENESIS-JANUS-CRISTAL-FRACTALGPT-v0.1",
+    "janus_cristal_parent": "Hawkar-usls/janus-meta-registry/registry/crystal/JANUS-CRISTAL-v1.0.json",
+    "recovered_user_file": "FractalGPT(12).py",
+    "original_library_sha256": "11e6c97ae7169a0fae4e0ad17f2fb7fb23b10265b04b4b057e3c968d6d0a3662",
+    "executed_vendored_sha256": "1dfc5bb1dabcb256d569de30dbe4431f6901c8dcddbe15fb76634fd57d9146e8",
+    "identity_rule": "ORIGINAL_LIBRARY_BYTES_AND_EXECUTED_GITHUB_TEXT_MIRROR_ARE_SEPARATE_IDENTITIES"
+  },
+  "question": "After adding a uniform random planner, a Fourier phase-scramble null, and non-quartz crystal controls, does any semantic or mirror-symmetry candidate remain specific to the petroleum-quartz visible/UV pair?",
+  "method": {
+    "source_count": 5,
+    "planner_count": 6,
+    "windows_per_planner": 20,
+    "real_windows_total": 600,
+    "block_control_windows_total": 600,
+    "phase_control_structure_windows_total": 600,
+    "planners": [
+      "logistic_baseline",
+      "uniform_random_baseline",
+      "fractalgpt_koch",
+      "fractalgpt_sierpinski",
+      "fractalgpt_fbm",
+      "fractalgpt_model"
+    ],
+    "null_models": {
+      "semantic_and_structure": "DETERMINISTIC_48PX_BLOCK_SHUFFLE",
+      "structure_only": "FOURIER_AMPLITUDE_PRESERVING_PHASE_SCRAMBLE"
+    },
+    "semantic_gate": "token length >=3; >=2 hits within a planner; word/formula/code-like; absent from block control; then >=2 independent planner families for cross-planner escalation",
+    "mirror_gate": "real minus block-control mirror correlation > 0 AND real minus phase-control mirror correlation > 0",
+    "human_selected_regions": false,
+    "post_hoc_cipher_search": false
+  },
+  "sources": [
+    {
+      "id": "petroleum_quartz_visible",
+      "material": "quartz_with_hydrocarbon_inclusions",
+      "role": "TARGET_SAME_SPECIMEN_VISIBLE"
+    },
+    {
+      "id": "petroleum_quartz_uv405",
+      "material": "quartz_with_hydrocarbon_inclusions",
+      "role": "TARGET_SAME_SPECIMEN_UV405"
+    },
+    {
+      "id": "usgs_quartz_visible_control",
+      "material": "quartz",
+      "role": "QUARTZ_IMAGE_CONTROL"
+    },
+    {
+      "id": "calcite_visible_control",
+      "material": "calcite",
+      "role": "NON_QUARTZ_CRYSTAL_CONTROL"
+    },
+    {
+      "id": "fluorite_optical_visible_control",
+      "material": "fluorite",
+      "role": "NON_QUARTZ_OPTICAL_CRYSTAL_CONTROL"
+    }
+  ],
+  "empirical_result": {
+    "sources_analyzed": "5_OF_5",
+    "source_errors": 0,
+    "unit_tests": "11_OF_11_PASS",
+    "recovered_model_training": {
+      "initial_eval_mse": 2.76375191,
+      "final_eval_mse": 2.70225584,
+      "interpretation": "The recovered micro-model executed deterministically and changed under training; model loss is not itself evidence about crystals."
+    },
+    "semantic_channels": {
+      "raw_cross_planner_ocr_candidates": 0,
+      "strict_cross_planner_escalation_candidates": 0,
+      "cross_modality_and_cross_planner_escalation_candidates": 0,
+      "word_like_admitted": 0,
+      "formula_like_admitted": 0,
+      "code_like_admitted": 0,
+      "algorithm_admitted": 0,
+      "status": "NO_MESSAGE_FORMULA_CODE_OR_ALGORITHM_ADMITTED"
+    },
+    "mirror_dual_null_specificity": {
+      "petroleum_quartz_visible": {
+        "positive_against_both_nulls": "1_OF_6_PLANNERS",
+        "classification": "NOT_ROBUST"
+      },
+      "petroleum_quartz_uv405": {
+        "positive_against_both_nulls": "3_OF_6_PLANNERS",
+        "classification": "PARTIAL_NOT_SPECIFIC"
+      },
+      "usgs_quartz_visible_control": {
+        "positive_against_both_nulls": "1_OF_6_PLANNERS"
+      },
+      "calcite_visible_control": {
+        "positive_against_both_nulls": "3_OF_6_PLANNERS"
+      },
+      "fluorite_optical_visible_control": {
+        "positive_against_both_nulls": "4_OF_6_PLANNERS"
+      },
+      "specificity_result": "REJECTED_AS_NON_QUARTZ_SPECIFIC_IMAGE_STRUCTURE",
+      "reason": "The target visible image loses the prior 5/5 sign under the phase null and uniform baseline, while non-quartz calcite and optical fluorite show equal or stronger dual-null planner counts."
+    },
+    "mirror_candidate_history": {
+      "v0_2": "IMAGE_LEVEL_MIRROR_STRUCTURE_ENRICHMENT_CANDIDATE",
+      "v0_3": "REJECTED_AS_NON_SPECIFIC_AFTER_STRONGER_NULLS_AND_NON_QUARTZ_CONTROLS",
+      "epistemic_value": "A prior positive-looking image effect was successfully falsified rather than promoted."
+    }
+  },
+  "source_provenance_additions": [
+    {
+      "id": "calcite_visible_control",
+      "page": "https://commons.wikimedia.org/wiki/File:Calcite_crystal.jpg",
+      "license": "CC BY 2.0"
+    },
+    {
+      "id": "fluorite_optical_visible_control",
+      "page": "https://commons.wikimedia.org/wiki/File:Fluorite_crystal.jpg",
+      "license": "CC BY 4.0",
+      "published_description": "8x8x8 mm optical fluorite crystal with Newton rings"
+    }
+  ],
+  "formal_rules": [
+    "FRACTAL_PATH != DISCOVERY",
+    "OCR_TOKEN != MESSAGE",
+    "FORMULA_LIKE != FORMULA",
+    "CODE_LIKE != ALGORITHM",
+    "CROSS_PLANNER_REPLICATION != MESSAGE",
+    "CROSS_MODALITY_REPLICATION != MESSAGE",
+    "IMAGE_SYMMETRY != MATERIAL_PROPERTY",
+    "NON_SPECIFIC_CONTROL_EFFECT_MUST_REJECT_TARGET_SPECIFICITY",
+    "NO_POST_HOC_CIPHER_SEARCH"
+  ],
+  "result_binding": {
+    "ci_status": "SUCCESS",
+    "measurement_head_sha": "d0a8677f18b0a768cdd20df68b293f1a11ee288e",
+    "workflow_run": 31356537070,
+    "job_id": 93357172437,
+    "artifact_name": "janus-cristal-fractalgpt-receipt",
+    "artifact_id": 9050886844,
+    "artifact_sha256": "088e2c50b68cbbade97f8ef3dd28fd1457b64ff008420a0858a6bea77b32e265",
+    "semantic_result": "NO_MESSAGE_FORMULA_CODE_OR_ALGORITHM_ADMITTED",
+    "mirror_specificity_result": "REJECTED_AS_NON_QUARTZ_SPECIFIC_IMAGE_STRUCTURE"
+  },
+  "next_gate": {
+    "name": "FRACTALGPT_SAME_SPECIMEN_SPECTRAL_DIFFERENCE_MAPPING",
+    "status": "OPEN",
+    "requirements": [
+      "register visible and UV405 images of the same specimen into one coordinate frame before region comparison",
+      "construct a preregistered visible-vs-UV difference map without OCR or semantic labels",
+      "use FractalGPT planners and uniform random sampling only to sample that difference field, not to define the field after seeing outcomes",
+      "compare fluorescence/inclusion contrast against spatially matched null regions",
+      "replicate on additional visible/UV pairs when open data are available",
+      "keep neon, sunlight and quartz-on-quartz as physical-test pending unless direct matched recordings are obtained"
+    ]
+  },
+  "claim_ceiling": "v0.3 finds no admissible hidden message, formula, code or algorithm. It also rejects the earlier mirror-symmetry candidate as non-specific after stronger null models and non-quartz controls. The next scientifically useful target is registered same-specimen spectral/material contrast, not symbolic decoding."
+}

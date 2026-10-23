@@ -1,0 +1,154 @@
+{
+  "schema": "genesis.janus_cristal.spectral_replication_binding.v2",
+  "artifact_id": "GENESIS-JANUS-CRISTAL-SPECTRAL-REPLICATION-v0.2",
+  "title": "Janus Cristal × FractalGPT Frozen Cross-Specimen Spectral Replication",
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "status": "FORMAL_INDEPENDENT_SAME_SPECIMEN_IMAGE_LEVEL_REPLICATION_ESTABLISHED",
+  "semantic_content_admitted": 0,
+  "registry_handoff": {
+    "target_repository": "Hawkar-usls/janus-meta-registry",
+    "suggested_path": "registry/crystal/JANUS-CRISTAL-GENESIS-FRACTALGPT-SPECTRAL-REPLICATION-v0.2.json",
+    "policy": "Genesis performs isolated measurement; the meta-registry stores the compact provenance-bound status."
+  },
+  "frozen_protocol": {
+    "parent": "GENESIS-JANUS-CRISTAL-SPECTRAL-DIFFERENCE-v0.1",
+    "registration": "EDGE_ECC_TRANSLATION_TO_EUCLIDEAN_TO_AFFINE_WITH_IDENTITY_GUARD",
+    "difference_weights": {"luminance": 0.40, "chromaticity": 0.40, "edge": 0.20},
+    "hotspot_quantile": 0.95,
+    "gamma_self_control": 0.72,
+    "planner_null_trajectories_per_planner": 2048,
+    "familywise_alpha": 0.01,
+    "familywise_alpha_per_planner": 0.00166667,
+    "pair_specific_retuning": false,
+    "semantic_analysis": "DISABLED_BY_DESIGN"
+  },
+  "authoritative_measurement_receipt": {
+    "workflow": "Janus Cristal spectral replication",
+    "workflow_run": 31392997858,
+    "measurement_head_sha": "4d50e06e1c6df2f33abe02fac0a8c3b05893ed57",
+    "conclusion": "SUCCESS",
+    "artifact_id": 9064508226,
+    "artifact_name": "janus-cristal-spectral-replication-receipt",
+    "artifact_sha256": "b2d62365fb93f330413a4ed8e60ec95c0604edbc98464c8ff7221d7284fd8cb2",
+    "final_admission_file": "GENESIS-JANUS-CRISTAL-SPECTRAL-REPLICATION-admission.json",
+    "final_admission_status": "FORMAL_REPLICATION_ESTABLISHED"
+  },
+  "discovery_anchor": {
+    "pair_id": "ALATAY_ANCHOR_VISIBLE_UV405",
+    "same_specimen": "CONFIRMED",
+    "registration": "USABLE_IMAGE_REGISTRATION",
+    "composite_median": 0.23846602,
+    "gamma_self_control_median": 0.03822943,
+    "pair_to_gamma_control_median_ratio": 6.23776028,
+    "planner_enrichment": "NO_PLANNER_ENRICHMENT",
+    "replication_count": 0
+  },
+  "formal_independent_replication": {
+    "pair_id": "FMS_1226_PAKISTAN_QUARTZ_NORMAL_LW365",
+    "source_record": "https://uvminerals.org/fmdb/specimen/1226/",
+    "same_specimen_status": "CONFIRMED_BY_SINGLE_FMS_SPECIMEN_RECORD_1226",
+    "material": "single_double_terminated_quartz_crystal_with_petroleum_inclusions",
+    "visible_sha256": "7b4ba40e0acc4fd505810acff03c0e05f0b22d01e1226183c8a8317cde1d1323",
+    "uv_sha256": "e13c68057bbfbdd98d2170e5f110714ea60094b2f8a68f559382a58ec0ed7332",
+    "uv_modality": "LONGWAVE_UV_365_NM_LED_RECORDED",
+    "registration": {
+      "quality": "USABLE_IMAGE_REGISTRATION",
+      "selected_motion": "AFFINE",
+      "selected_ecc": 0.50776042,
+      "edge_correlation_before": 0.36586243,
+      "edge_correlation_after": 0.40590494,
+      "overlap_fraction": 0.98594714,
+      "affine_determinant": 1.00517659,
+      "translation_pixels_resized_frame": 3.636727
+    },
+    "difference_field": {
+      "composite_mean": 0.25254803,
+      "composite_median": 0.25711361,
+      "composite_p95": 0.34055754,
+      "gamma_self_control_median": 0.04156784,
+      "pair_to_gamma_control_median_ratio": 6.18539741,
+      "status": "REGISTERED_MODALITY_DIFFERENCE_OBSERVED"
+    },
+    "fractalgpt_planner_enrichment": "NO_PLANNER_ENRICHMENT",
+    "final_admission": "FORMAL_INDEPENDENT_SAME_SPECIMEN_IMAGE_LEVEL_REPLICATION"
+  },
+  "provenance_limited_candidate": {
+    "pair_id": "LUCASFASSARI_THREE_PHASE_VISIBLE_LWUVR",
+    "same_specimen_status": "PROBABLE_NOT_EXPLICITLY_CONFIRMED_BY_COMMONS_TEXT",
+    "registration": "USABLE_IMAGE_REGISTRATION",
+    "pair_to_gamma_control_median_ratio": 7.72668792,
+    "planner_enrichment": "NO_PLANNER_ENRICHMENT",
+    "final_admission": "IMAGE_LEVEL_MODALITY_DIFFERENCE_REPLICATION_CANDIDATE_PROVENANCE_UNCONFIRMED"
+  },
+  "confirmatory_shortwave_modality": {
+    "pair_id": "FMS_1226_PAKISTAN_QUARTZ_NORMAL_SW254",
+    "same_specimen_status": "CONFIRMED_BY_SINGLE_FMS_SPECIMEN_RECORD_1226",
+    "uv_modality": "SHORTWAVE_UV_254_NM_MERCURY_LAMP_RECORDED",
+    "visible_sha256": "7b4ba40e0acc4fd505810acff03c0e05f0b22d01e1226183c8a8317cde1d1323",
+    "uv_sha256": "cfc2083b79c6426a6b5a8f205c2d0c091934a72ff028db01538650c3bb0ea10c",
+    "registration": "USABLE_IMAGE_REGISTRATION",
+    "composite_median": 0.22080340,
+    "composite_p95": 0.33257437,
+    "gamma_self_control_median": 0.04146319,
+    "pair_to_gamma_control_median_ratio": 5.32528732,
+    "independent_replication_count": 0,
+    "reason_not_independent": "The LW365 and SW254 pairs reuse the same physical FMS specimen 1226."
+  },
+  "fractalgpt_sierpinski_sw254_candidate": {
+    "status": "SINGLE_CONFIRMATORY_PAIR_ENRICHMENT_CANDIDATE_REQUIRES_INDEPENDENT_SPECIMEN_REPLICATION",
+    "planner": "fractalgpt_sierpinski",
+    "pair_id": "FMS_1226_PAKISTAN_QUARTZ_NORMAL_SW254",
+    "observed_median_composite": 0.24602730,
+    "null_median_composite": 0.23252131,
+    "p_composite": 0.00146413,
+    "observed_median_hotspot_fraction": 0.11693349,
+    "null_median_hotspot_fraction": 0.05410556,
+    "p_hotspot": 0.00048804,
+    "frozen_per_planner_threshold": 0.00166667,
+    "passes_original_single_pair_gate": true,
+    "sensitivity_bonferroni_over_12_planner_by_modality_tests": {
+      "threshold": 0.00083333,
+      "composite_pass": false,
+      "hotspot_pass": true,
+      "status": "SENSITIVITY_CHECK_ONLY_NOT_RETROACTIVE_PROTOCOL_CHANGE"
+    },
+    "claim_ceiling": "This is one pre-registered confirmatory same-specimen modality result, not an established FractalGPT effect or material-discovery capability."
+  },
+  "validator_self_audit": {
+    "validator": "AKAZE_RATIO_MATCH_PLUS_RANSAC_HOMOGRAPHY",
+    "positive_control_result": "INSUFFICIENT_MATCHES_ON_CONFIRMED_ALATAY_SAME_SPECIMEN",
+    "status": "INVALIDATED_FALSE_NEGATIVE_ON_CONFIRMED_SAME_SPECIMEN_POSITIVE_CONTROL",
+    "usable_as_necessary_admission_gate": false
+  },
+  "final_admission": {
+    "formal_independent_replication_count": 1,
+    "formal_independent_replications": ["FMS_1226_PAKISTAN_QUARTZ_NORMAL_LW365"],
+    "provenance_unconfirmed_candidate_count": 1,
+    "confirmatory_same_specimen_modality_count": 1,
+    "planner_enrichment_pair_count": 1,
+    "cross_specimen_replication_gate": "PASS",
+    "semantic_content_admitted": 0,
+    "status": "FORMAL_REPLICATION_ESTABLISHED"
+  },
+  "next_gate": {
+    "name": "FRACTALGPT_SIERPINSKI_SW254_INDEPENDENT_SPECIMEN_REPLICATION",
+    "status": "OPEN",
+    "requirements": [
+      "use a new physical quartz specimen with an explicit normal-light and 254 nm shortwave pair",
+      "freeze the existing Sierpinski trajectory and 2048 matched-random null procedure",
+      "do not retune regions, scales, registration, difference weights or thresholds after seeing the new outcome",
+      "keep semantic analysis disabled",
+      "require independent-specimen replication before any FractalGPT planner-effect claim"
+    ]
+  },
+  "formal_rules": [
+    "FORMAL_IMAGE_LEVEL_REPLICATION != UNIVERSAL_QUARTZ_LAW",
+    "FORMAL_IMAGE_LEVEL_REPLICATION != CHEMICAL_IDENTITY",
+    "SINGLE_CONFIRMATORY_PAIR_PLANNER_ENRICHMENT != REPLICATED_FRACTALGPT_EFFECT",
+    "PRIMARY_AND_CONFIRMATORY_MODALITIES_FROM_ONE_SPECIMEN_COUNT_AS_AT_MOST_ONE_INDEPENDENT_REPLICATION",
+    "REGISTERED_MODALITY_DIFFERENCE != HIDDEN_MESSAGE",
+    "FRACTALGPT_TRAJECTORY != MATERIAL_DISCOVERY",
+    "NO_POST_HOC_REGION_OR_CIPHER_SEARCH"
+  ],
+  "claim_ceiling": "The frozen visible/UV image-level difference protocol has one independent confirmed same-specimen quartz replication. A separate Sierpinski/SW254 enrichment is only a single confirmatory-pair candidate requiring independent-specimen replication. No semantic content, hidden code, chemical identity from images alone, or supernatural interpretation is admitted."
+}

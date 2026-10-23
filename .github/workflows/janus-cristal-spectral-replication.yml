@@ -1,0 +1,63 @@
+name: Janus Cristal spectral replication
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "experiments/janus_cristal_fractalgpt/spectral_replication_*.py"
+      - "experiments/janus_cristal_fractalgpt/spectral_replication_pairs.json"
+      - "experiments/janus_cristal_fractalgpt/tests/test_spectral_replication.py"
+      - ".github/workflows/janus-cristal-spectral-replication.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  replicate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install runtime
+        run: python -m pip install "opencv-python-headless==4.13.0.92"
+
+      - name: Replication unit tests
+        run: python experiments/janus_cristal_fractalgpt/tests/test_spectral_replication.py -v
+
+      - name: Frozen cross-specimen replay
+        run: >-
+          python experiments/janus_cristal_fractalgpt/spectral_replication_runner.py
+          --pairs experiments/janus_cristal_fractalgpt/spectral_replication_pairs.json
+          --trajectory-manifest experiments/janus_cristal_fractalgpt/sources.json
+          --out artifacts/janus-cristal-spectral-replication
+
+      - name: Positive-control-aware admission
+        run: >-
+          python experiments/janus_cristal_fractalgpt/spectral_replication_admission.py
+          --raw artifacts/janus-cristal-spectral-replication/GENESIS-JANUS-CRISTAL-SPECTRAL-REPLICATION-result.json
+          --out artifacts/janus-cristal-spectral-replication/GENESIS-JANUS-CRISTAL-SPECTRAL-REPLICATION-admission.json
+
+      - name: Publish summary
+        if: always()
+        run: |
+          if [ -f artifacts/janus-cristal-spectral-replication/SPECTRAL_REPLICATION_SUMMARY.md ]; then
+            cat artifacts/janus-cristal-spectral-replication/SPECTRAL_REPLICATION_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f artifacts/janus-cristal-spectral-replication/GENESIS-JANUS-CRISTAL-SPECTRAL-REPLICATION-admission.json ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            cat artifacts/janus-cristal-spectral-replication/GENESIS-JANUS-CRISTAL-SPECTRAL-REPLICATION-admission.json >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload receipt
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: janus-cristal-spectral-replication-receipt
+          path: artifacts/janus-cristal-spectral-replication/
+          if-no-files-found: error
