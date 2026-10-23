@@ -1,0 +1,142 @@
+{
+  "schema": "janus.hephaestus_crystal.contract.v2",
+  "artifact_id": "JANUS-HEPHAESTUS-CRYSTAL-v2.0",
+  "status": "IMPLEMENTATION_CANDIDATE_UNDER_EXACT_HEAD_CI",
+  "purpose": "Bounded metadata-only filesystem analysis with explicit separation of file-size entropy, tail-slack modelling, observed allocation counters, physical fragmentation, and historical Quantum-P=NP simulation claims.",
+  "historical_lineage": {
+    "origin_date": "2026-01-24",
+    "legacy_module": "hephaestus_crystal.py",
+    "legacy_success_simulation": "quantum_success_sim.py",
+    "legacy_label": "Quantum-P=NP / Perfect Fit",
+    "meta_registry_triage_commit": "557981a23250a30bd9988f8224a320fcbe700d6c",
+    "meta_registry_decision": "INDEX_ONLY_WRONG_LAYER_ROUTE_TO_CODE_REPOSITORY_AFTER_REVIEW",
+    "legacy_claim_preservation": "PRESERVE_AS_HISTORICAL_SIMULATION_CLAIM",
+    "legacy_claim_truth_status": "UNESTABLISHED",
+    "p_equals_np_proven": false
+  },
+  "historical_failure_modes_preserved_as_regressions": [
+    "constructor_was_named_init_instead_of___init__",
+    "size_distribution_entropy_was_described_as_filesystem_fragmentation",
+    "allocation_unit_was_assumed_to_be_4096_without_runtime provenance",
+    "first_slack_estimate_used_half_block_per_file_instead_of_exact_declared-unit tail arithmetic",
+    "perfect_zero_slack_model_was_labelled_as_Quantum-P=NP",
+    "dominant_or_hardcoded quantum_success_sim counts were promoted to P_equals_NP verification",
+    "database_success_record_was treated as evidence of theorem truth",
+    "file paths were retained in an unbounded in-memory metadata list",
+    "broad exceptions could silently convert incomplete scans into apparently complete analyses"
+  ],
+  "measurement_planes": {
+    "size_distribution_entropy": {
+      "definition": "Shannon entropy of the byte-weighted distribution p_i = file_size_i / total_logical_bytes",
+      "streaming_identity": "H = log2(S) - sum(s_i * log2(s_i)) / S",
+      "fragmentation_claim": false,
+      "seek_locality_claim": false
+    },
+    "tail_slack_model": {
+      "definition": "sum((allocation_unit - size mod allocation_unit) mod allocation_unit) over regular files",
+      "allocation_unit_sources": [
+        "EXPLICIT_MODEL_PARAMETER",
+        "STATVFS_F_FRSIZE_MODEL_HINT",
+        "STATVFS_F_BSIZE_MODEL_HINT",
+        "FALLBACK_MODEL_4096"
+      ],
+      "physical_layout_claim": false,
+      "filesystem_universality_claim": false
+    },
+    "observed_allocation": {
+      "source_when_available": "POSIX st_blocks * 512",
+      "interpretation": "namespace allocation observation for entries supporting st_blocks",
+      "unique_physical_extent_claim": false,
+      "hardlink_deduplication_claim": false,
+      "sparse_compressed_reflink_semantics_normalized": false
+    },
+    "perfect_byte_stream_lower_bound": {
+      "tail_slack_bytes": 0,
+      "role": "THEORETICAL_LOWER_BOUND_MODEL_ONLY",
+      "real_filesystem_layout_claim": false,
+      "quantum_algorithm_claim": false,
+      "complexity_class_proof_claim": false
+    },
+    "fragmentation": {
+      "measured_by_v2": false,
+      "future_required_evidence": [
+        "extent-level layout or platform equivalent",
+        "declared filesystem semantics",
+        "seek/locality measurement when HDD performance is claimed"
+      ]
+    }
+  },
+  "scan_boundary": {
+    "file_content_read": false,
+    "metadata_queries": [
+      "os.lstat(root)",
+      "os.scandir(directory)",
+      "DirEntry.stat(follow_symlinks=false)",
+      "os.statvfs(root) when available"
+    ],
+    "follow_symlinks": false,
+    "symlink_root": "REJECT",
+    "same_filesystem_only_default": true,
+    "default_max_files": 1000000,
+    "default_max_depth": 64,
+    "atomic_snapshot_claim": false,
+    "concurrent_mutation_can_affect_snapshot": true,
+    "network_access": false,
+    "subprocess": false,
+    "source_repository_writeback": false,
+    "source_delete": false,
+    "defragmentation": false,
+    "file_reordering": false
+  },
+  "privacy_boundary": {
+    "aggregate_report_contains_file_paths": false,
+    "aggregate_report_contains_file_names": false,
+    "aggregate_report_contains_target_path": false,
+    "sqlite_persistence_default": false,
+    "sqlite_persistence_requires_explicit_opt_in": true,
+    "sqlite_target_identity": "caller_supplied_opaque_target_id"
+  },
+  "persistence_boundary": {
+    "analysis_default_effect": "READ_ONLY_METADATA",
+    "optional_local_sqlite_write": true,
+    "optional_local_sqlite_write_default": false,
+    "database_row_is_evidence_of_theorem_truth": false,
+    "database_row_is_receipt_of_analyzer_output": true
+  },
+  "quantum_claim_boundary": {
+    "qiskit_executed": false,
+    "shor_adaptation_executed": false,
+    "grover_amplitude_amplification_executed": false,
+    "qnd_measurement_executed": false,
+    "p_equals_np_proven": false,
+    "bqp_equals_np_proven": false,
+    "historical_success_claim_retained": true,
+    "historical_success_claim_promoted_to_current_truth": false
+  },
+  "laws": [
+    "SIZE_DISTRIBUTION_ENTROPY != FILESYSTEM_FRAGMENTATION",
+    "TAIL_SLACK_MODEL != OBSERVED_PHYSICAL_LAYOUT",
+    "ST_BLOCKS_NAMESPACE_SUM != UNIQUE_PHYSICAL_EXTENT_PROOF",
+    "PERFECT_BYTE_STREAM_LOWER_BOUND != REAL_FILESYSTEM_ZERO_OVERHEAD",
+    "PERFECT_BYTE_STREAM_LOWER_BOUND != P_EQUALS_NP_PROOF",
+    "SIMULATED_CONVERGENCE != COMPLEXITY_CLASS_PROOF",
+    "QISKIT_COUNTS != P_EQUALS_NP",
+    "HARDCODED_COUNTS != EXPERIMENTAL_EVIDENCE",
+    "SQL_INSERT_SUCCESS != THEOREM_VERIFICATION",
+    "HISTORICAL_CLAIM_PRESERVED != HISTORICAL_CLAIM_ENDORSED",
+    "METADATA_ONLY_ANALYSIS != DEFRAGMENTATION",
+    "LOWER_SEEK_ACTIVITY_HYPOTHESIS != HDD_LIFETIME_GUARANTEE",
+    "CI_GREEN != MERGE_PERMISSION"
+  ],
+  "claim_ceiling": {
+    "real_qnap_scan_performed_by_ci": false,
+    "real_hdd_fragmentation_measured": false,
+    "real_hdd_seek_reduction_measured": false,
+    "drive_wear_reduction_measured": false,
+    "drive_lifetime_extension_established": false,
+    "p_equals_np_established": false,
+    "safe_to_rewrite_or_defragment_user_storage": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  }
+}

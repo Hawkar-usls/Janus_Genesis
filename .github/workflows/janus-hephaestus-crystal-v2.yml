@@ -1,0 +1,128 @@
+name: JANUS Hephaestus Crystal v2
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_hephaestus_crystal.py'
+      - 'tests/test_janus_hephaestus_crystal_v2.py'
+      - 'protocol/JANUS_HEPHAESTUS_CRYSTAL-v2.0.json'
+      - 'protocol/JANUS_HEPHAESTUS_CRYSTAL_HISTORY-v1.0.json'
+      - 'docs/JANUS_HEPHAESTUS_CRYSTAL-v2.md'
+      - '.github/workflows/janus-hephaestus-crystal-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hephaestus-crystal-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile exact implementation and tests
+        run: |
+          python -m py_compile \
+            tools/janus_hephaestus_crystal.py \
+            tests/test_janus_hephaestus_crystal_v2.py
+
+      - name: Validate contracts without duplicate keys
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          def load_closed(path_str):
+              path = Path(path_str)
+              raw = path.read_text(encoding='utf-8')
+
+              def no_duplicates(pairs):
+                  out = {}
+                  for key, value in pairs:
+                      if key in out:
+                          raise SystemExit(f'duplicate JSON key in {path}: {key}')
+                      out[key] = value
+                  return out
+
+              return json.loads(raw, object_pairs_hook=no_duplicates)
+
+          contract = load_closed('protocol/JANUS_HEPHAESTUS_CRYSTAL-v2.0.json')
+          history = load_closed('protocol/JANUS_HEPHAESTUS_CRYSTAL_HISTORY-v1.0.json')
+
+          assert contract['historical_lineage']['p_equals_np_proven'] is False
+          assert contract['measurement_planes']['fragmentation']['measured_by_v2'] is False
+          assert contract['scan_boundary']['file_content_read'] is False
+          assert contract['scan_boundary']['defragmentation'] is False
+          assert contract['privacy_boundary']['aggregate_report_contains_file_paths'] is False
+          assert contract['quantum_claim_boundary']['historical_success_claim_retained'] is True
+          assert contract['quantum_claim_boundary']['historical_success_claim_promoted_to_current_truth'] is False
+          assert contract['claim_ceiling']['authority_delta'] == 0
+          assert contract['claim_ceiling']['mass_effect_budget_delta'] == 0
+
+          truth = history['current_truth_state']
+          assert truth['p_equals_np_proven_by_janus'] is False
+          assert truth['historical_success_claims_deleted'] is False
+          assert truth['historical_success_claims_preserved'] is True
+          assert any(
+              event['event_type'] == 'SQL_SUCCESS_RECEIPT'
+              and event['current_epistemic_classification'] == 'DATABASE_RECEIPT_OF_CLAIM_NOT_THEOREM_EVIDENCE'
+              for event in history['events']
+          )
+          assert any(
+              event['event_type'] == 'QUANTUM_SUCCESS_SIMULATION_CODE'
+              and event['current_epistemic_classification'] == 'SIMULATION_DEMO_ONLY'
+              for event in history['events']
+          )
+          print('Hephaestus contracts: PASS')
+          PY
+
+      - name: Run adversarial unit tests
+        run: |
+          python -m unittest -v tests.test_janus_hephaestus_crystal_v2
+
+      - name: Enforce historical-claim and measurement boundaries
+        run: |
+          grep -F 'SIZE_DISTRIBUTION_ENTROPY != FILESYSTEM_FRAGMENTATION' protocol/JANUS_HEPHAESTUS_CRYSTAL-v2.0.json
+          grep -F 'SIMULATED_CONVERGENCE != COMPLEXITY_CLASS_PROOF' protocol/JANUS_HEPHAESTUS_CRYSTAL-v2.0.json
+          grep -F 'HARDCODED_COUNTS != EXPERIMENTAL_EVIDENCE' protocol/JANUS_HEPHAESTUS_CRYSTAL-v2.0.json
+          grep -F 'SQL_INSERT_SUCCESS != THEOREM_VERIFICATION' protocol/JANUS_HEPHAESTUS_CRYSTAL-v2.0.json
+          grep -F 'LOWER_SEEK_ACTIVITY_HYPOTHESIS != HDD_LIFETIME_GUARANTEE' protocol/JANUS_HEPHAESTUS_CRYSTAL-v2.0.json
+          grep -F 'SUCCESS_CLAIM != SUCCESS_PROOF' protocol/JANUS_HEPHAESTUS_CRYSTAL_HISTORY-v1.0.json
+
+      - name: Static effect-surface canary
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+
+          path = Path('tools/janus_hephaestus_crystal.py')
+          tree = ast.parse(path.read_text(encoding='utf-8'))
+          forbidden_imports = {'socket','subprocess','requests','httpx','urllib','ftplib','paramiko','shutil'}
+          forbidden_calls = {
+              'open','os.open','os.remove','os.unlink','os.rename','os.replace','os.rmdir',
+              'os.system','os.popen'
+          }
+          imports = set()
+          calls = set()
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  imports.update(alias.name.split('.')[0] for alias in node.names)
+              elif isinstance(node, ast.ImportFrom) and node.module:
+                  imports.add(node.module.split('.')[0])
+              elif isinstance(node, ast.Call):
+                  fn = node.func
+                  if isinstance(fn, ast.Name):
+                      calls.add(fn.id)
+                  elif isinstance(fn, ast.Attribute) and isinstance(fn.value, ast.Name):
+                      calls.add(f'{fn.value.id}.{fn.attr}')
+          bad_imports = imports & forbidden_imports
+          bad_calls = calls & forbidden_calls
+          if bad_imports or bad_calls:
+              raise SystemExit(f'effect-surface expansion imports={bad_imports} calls={bad_calls}')
+          print('Hephaestus static effect surface: PASS')
+          PY

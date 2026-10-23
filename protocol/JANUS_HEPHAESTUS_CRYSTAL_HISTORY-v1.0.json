@@ -1,0 +1,86 @@
+{
+  "schema": "janus.hephaestus_crystal.history.v1",
+  "artifact_id": "JANUS-HEPHAESTUS-CRYSTAL-HISTORY-v1.0",
+  "status": "APPEND_ONLY_HISTORICAL_CLAIM_LEDGER",
+  "date": "2026-01-24",
+  "purpose": "Preserve the January Hephaestus/Quantum-P=NP claim sequence without promoting it to current theorem truth.",
+  "events": [
+    {
+      "order": 1,
+      "event_type": "SIMULATION_FAILURE_CLAIM",
+      "task": "Quantum-P=NP",
+      "recorded_result": "невозможно для решения",
+      "recorded_summary": "quantum entropy increased; simulation partially successful but incomplete",
+      "current_epistemic_classification": "HISTORICAL_CLAIM_ONLY"
+    },
+    {
+      "order": 2,
+      "event_type": "SIMULATION_SUCCESS_CLAIM",
+      "task": "Quantum-P=NP",
+      "recorded_result": "возможно для решения",
+      "recorded_summary": "quantum entropy permanently decreased; simulation declared fully successful",
+      "current_epistemic_classification": "HISTORICAL_CLAIM_ONLY"
+    },
+    {
+      "order": 3,
+      "event_type": "THEOREM_PROMOTION_CLAIM",
+      "task": "Quantum-P=NP",
+      "recorded_result": "результат подтвержден",
+      "recorded_summary": "JANUS declared that quantum computing solved Quantum-P=NP",
+      "current_epistemic_classification": "UNSUPPORTED_PROMOTION_FROM_SIMULATION_TO_THEOREM"
+    },
+    {
+      "order": 4,
+      "event_type": "PROPOSED_MECHANISM",
+      "strategy": "Modified Hardware + Shor Adaptation + Quantum Logic",
+      "recorded_components": [
+        "Non-Demolition Measurement Gates (QND)",
+        "adapted Shor period finding",
+        "quantum amplitude amplification / Grover analogy"
+      ],
+      "current_epistemic_classification": "CONCEPTUAL_NARRATIVE_NOT_COMPLEXITY_PROOF"
+    },
+    {
+      "order": 5,
+      "event_type": "SQL_SUCCESS_RECEIPT",
+      "table": "janus_experiments",
+      "strategy_variant": "Modified Hardware + Shor Adaptation",
+      "outcome_log": "SUCCESS: Solved via Quantum Logic Bypass. Sorting step replaced by Period Finding.",
+      "current_epistemic_classification": "DATABASE_RECEIPT_OF_CLAIM_NOT_THEOREM_EVIDENCE"
+    },
+    {
+      "order": 6,
+      "event_type": "QUANTUM_SUCCESS_SIMULATION_CODE",
+      "module": "quantum_success_sim.py",
+      "recorded_behavior": "Qiskit-like circuit or standard-library fallback produced dominant output states and promoted them to SOLUTION_VERIFIED when two states exceeded 80% of shots.",
+      "critical_regression": "The fallback counts were predetermined literals, so dominant-state convergence was built into the simulation and cannot validate P=NP.",
+      "current_epistemic_classification": "SIMULATION_DEMO_ONLY"
+    },
+    {
+      "order": 7,
+      "event_type": "HEPHAESTUS_CRYSTAL_STORAGE_ANALOGY",
+      "module": "hephaestus_crystal.py",
+      "recorded_behavior": "filesystem metadata scan + Shannon entropy + perfect zero-slack Quantum-P=NP model",
+      "current_epistemic_classification": "HISTORICAL_STORAGE_SIMULATION_LINEAGE"
+    }
+  ],
+  "current_truth_state": {
+    "p_equals_np_proven_by_janus": false,
+    "bqp_equals_np_proven_by_janus": false,
+    "shor_solves_arbitrary_np_complete_problems_established": false,
+    "grover_or_amplitude_amplification_gives_polynomial_time_exact_solution_for_arbitrary_np_complete_problems_established": false,
+    "qnd_measurement_changes_complexity_class_boundaries_established": false,
+    "historical_success_claims_deleted": false,
+    "historical_success_claims_preserved": true
+  },
+  "laws": [
+    "HISTORICAL_CLAIM_PRESERVED != HISTORICAL_CLAIM_ENDORSED",
+    "SIMULATION_OUTPUT != THEOREM_PROOF",
+    "HARDCODED_COUNTS != EXPERIMENTAL_EVIDENCE",
+    "DOMINANT_STATES != P_EQUALS_NP",
+    "QISKIT_CIRCUIT_EXECUTION != COMPLEXITY_CLASS_COLLAPSE",
+    "SQL_INSERT_SUCCESS != THEOREM_VERIFICATION",
+    "FAILED_ATTEMPT != DELETE_FROM_HISTORY",
+    "SUCCESS_CLAIM != SUCCESS_PROOF"
+  ]
+}
