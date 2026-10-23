@@ -13,13 +13,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import re
+import subprocess
+import stat
 import time
 from typing import Callable
 from urllib import request, error
 
 from genesis_beetle_model_consumption import ConsumptionError, compact, sha256
+from janus_corpus_home_handoff import protected_snapshot
 
 SCHEMA = "janus.golem.ai_horde_public_anonymous.v1"
 API = "https://aihorde.net/api/v2"
@@ -115,6 +119,29 @@ def _public_prompt(question: str) -> str:
     )
 
 
+def _generation_failure_class(entry: object) -> str | None:
+    """Return only reviewed, non-sensitive failure labels; never provider text."""
+    if not isinstance(entry, dict):
+        return "HORDE_GENERATION_ENTRY_INVALID"
+    answer = entry.get("text")
+    model = entry.get("model")
+    if not isinstance(answer, str):
+        return "HORDE_GENERATION_TEXT_MISSING"
+    if len(answer) > MAX_OUTPUT:
+        return "HORDE_GENERATION_TEXT_OVERSIZE"
+    if not answer or not any(c.isprintable() and not c.isspace() for c in answer):
+        return "HORDE_GENERATION_TEXT_BLANK"
+    if any(ord(c) < 32 and c not in "\n\t\r" for c in answer):
+        return "HORDE_GENERATION_TEXT_CONTROLS"
+    if not isinstance(model, str) or not model.strip():
+        return "HORDE_GENERATION_MODEL_MISSING"
+    if len(model) > 160:
+        return "HORDE_GENERATION_MODEL_OVERSIZE"
+    if any(not c.isprintable() for c in model):
+        return "HORDE_GENERATION_MODEL_CONTROLS"
+    return None
+
+
 def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
                  execute: bool = False, transport: Callable = _http,
                  sleeper: Callable = time.sleep) -> dict:
@@ -173,14 +200,12 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
                     base["status"] = "COMPLETED_WITHOUT_ONE_VALID_GENERATION"
                     break
                 entry = generations[0]
-                text = entry.get("text") if isinstance(entry, dict) else None
-                name = entry.get("model") if isinstance(entry, dict) else None
-                if (not isinstance(text, str) or not 0 < len(text) <= MAX_OUTPUT
-                    or not any(c.isprintable() and not c.isspace() for c in text)
-                    or any(ord(c) < 32 and c not in "\n\t\r" for c in text)
-                    or not isinstance(name, str) or not 0 < len(name) <= 160):
+                failure = _generation_failure_class(entry)
+                if failure is not None:
                     base["status"] = "INVALID_EXTERNAL_GENERATION"
+                    base["failure_class"] = failure
                     break
+                text, name = entry["text"], entry["model"]
                 base.update({
                     "status": ("REAL_ANONYMOUS_RESPONSE__UNVERIFIED"
                                if transport is _http else
@@ -207,6 +232,65 @@ def query_public(question: str = DEFAULT_PUBLIC_QUESTION, *,
         return base
 
 
+def preflight_native_checkout(repo: Path, head: str, checkpoint_sha256: str) -> None:
+    """Reject invalid/dirty/unpinned native checkout before any external egress."""
+    from janus_corpus_callosum import SHA, CHECKPOINT_SHA, _safe_native_env
+
+    if (not isinstance(head, str) or not SHA.fullmatch(head)
+            or not isinstance(checkpoint_sha256, str)
+            or not CHECKPOINT_SHA.fullmatch(checkpoint_sha256)
+            or repo.is_symlink() or not repo.is_dir()):
+        raise ConsumptionError("HORDE_PINNED_NATIVE_CHECKOUT_INVALID")
+    try:
+        actual_head = subprocess.run(
+            ["git", "-C", str(repo), "rev-parse", "HEAD"],
+            capture_output=True, text=True, timeout=5, check=True,
+            env=_safe_native_env()).stdout.strip()
+        dirty = subprocess.run(
+            ["git", "-C", str(repo), "status", "--porcelain"],
+            capture_output=True, text=True, timeout=5, check=True,
+            env=_safe_native_env()).stdout.strip()
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_GIT_FAILED") from exc
+    if actual_head != head or dirty:
+        raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID")
+    if not all(hasattr(os, flag) for flag in
+               ("O_DIRECTORY", "O_NOFOLLOW", "O_NONBLOCK")):
+        raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_NOFOLLOW_UNSUPPORTED")
+
+    # Anchor all relative opens to descriptors and reject a symlink/FIFO swap
+    # after an earlier stat, including symlinked model/weights directories.
+    fds = []
+    try:
+        root = os.open(repo, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        fds.append(root)
+        parent = root
+        for segment in ("janus_model", "checkpoints"):
+            parent = os.open(segment,
+                             os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                             dir_fd=parent)
+            fds.append(parent)
+        leaf = os.open("promoted.pt",
+                       os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                       dir_fd=parent)
+        fds.append(leaf)
+        meta = os.fstat(leaf)
+        if (not stat.S_ISREG(meta.st_mode)
+                or meta.st_size > 100_000_000):
+            raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID")
+        with os.fdopen(leaf, "rb", closefd=False) as source:
+            weights = source.read(100_000_001)
+        if len(weights) > 100_000_000:
+            raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID")
+    except OSError as exc:
+        raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_CHECKPOINT_OPEN_UNSAFE") from exc
+    finally:
+        for fd in reversed(fds):
+            os.close(fd)
+    if sha256(weights) != checkpoint_sha256:
+        raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_CHECKPOINT_MISMATCH")
+
+
 def query_attested_aura(home: Path, *, execute: bool = False,
                         transport: Callable = _http,
                         sleeper: Callable = time.sleep,
@@ -217,6 +301,9 @@ def query_attested_aura(home: Path, *, execute: bool = False,
     if not execute:
         return query_public(execute=False)
     from janus_corpus_aura_golem_live import load_aura_evidence
+    from janus_corpus_callosum import _valid_native, run_demiurge_native
+    from janus_corpus_callosum_v2 import _review_prompt
+
     evidence = load_aura_evidence(home)
     questions = evidence["aura"]["oracle"]["questions"]
     if not isinstance(questions, list) or not questions:
@@ -225,33 +312,97 @@ def query_attested_aura(home: Path, *, execute: bool = False,
     if candidate not in PUBLIC_AURA_QUESTIONS:
         # Do NOT fall back to an unapproved AURA-generated question.
         raise ConsumptionError("HORDE_AURA_QUESTION_NOT_A_FROZEN_PUBLIC_CARD")
+    if (transport is _http and
+            evidence["aura"].get("oracle_source_type") != "PINNED_LOCAL_AURA_CLI"):
+        raise ConsumptionError("HORDE_REAL_EGRESS_REQUIRES_REAL_PINNED_AURA")
+
+    runner = native_runner or run_demiurge_native
+    native_original = None
+    if native_repo is not None or native_head is not None:
+        native_original = evidence["v2"]["native_initial"]
+        if (native_repo is None or native_head is None
+                or native_head != native_original["source_commit"]):
+            raise ConsumptionError("HORDE_NATIVE_COMMIT_DOES_NOT_MATCH_ORIGINAL")
+        # Real subprocess check is completed BEFORE the request reaches anyone.
+        # Injected test runners never impersonate this real checkout proof.
+        if runner is run_demiurge_native:
+            preflight_native_checkout(native_repo, native_head,
+                                      native_original["checkpoint_sha256"])
+
+    baseline = evidence.get("home_baseline")
+    if baseline is None or protected_snapshot(home) != baseline:
+        raise ConsumptionError("HORDE_PROTECTED_HOME_CHANGED_BEFORE_EGRESS")
+
+    # Network is permitted only after all local provenance/pin checks pass.
     result = query_public(candidate, execute=True,
                           transport=transport, sleeper=sleeper)
+    if protected_snapshot(home) != baseline:
+        raise ConsumptionError("HORDE_PROTECTED_HOME_CHANGED_AFTER_EGRESS")
+
     # Bind locally without disclosing these SHA digests to volunteers.
     result["aura_receipt_sha256_local_only"] = evidence["aura_receipt_sha256"]
     result["verified_context_sha256_local_only"] = evidence["cursor"]["context_sha256"]
     result["native_review_status"] = "NOT_EXECUTED_OR_NO_MODEL_RESULT"
     if result["response"] is not None and native_repo is not None:
-        from janus_corpus_callosum import _valid_native, run_demiurge_native
-        from janus_corpus_callosum_v2 import _review_prompt
-        runner = native_runner or run_demiurge_native
-        original = evidence["v2"]["native_initial"]
-        if native_head != original["source_commit"]:
-            raise ConsumptionError("HORDE_NATIVE_COMMIT_DOES_NOT_MATCH_ORIGINAL")
         prompt = _review_prompt(result["response"], evidence["cursor"])
         try:
             review = _valid_native(runner(native_repo, native_head, prompt),
                                    native_head, prompt)
-            if review["checkpoint_sha256"] != original["checkpoint_sha256"]:
+            if review["checkpoint_sha256"] != native_original["checkpoint_sha256"]:
                 raise ConsumptionError("HORDE_NATIVE_REVIEW_CHECKPOINT_CHANGED")
             result["native_review_status"] = (
                 "REAL_PINNED_NATIVE_CPU_UNVERIFIED" if (
-                    runner is run_demiurge_native and result["network_model_response_observed"]
+                    runner is run_demiurge_native
+                    and result["network_model_response_observed"]
                 ) else "MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE")
             result["native_review_sha256_local_only"] = sha256(compact(review))
         except (ConsumptionError, OSError, ValueError, KeyError, TypeError):
             result["native_review_status"] = "NATIVE_REVIEW_UNAVAILABLE"
+        if protected_snapshot(home) != baseline:
+            raise ConsumptionError("HORDE_PROTECTED_HOME_CHANGED_DURING_REVIEW")
     return result
+
+
+def real_answer_observed(report: dict) -> bool:
+    """Strict canary predicate: independently bind response bytes to receipt.
+
+    A green workflow is evidence of external inference only when the public
+    built-in HTTPS transport observed one well-formed, digest-bound answer.
+    """
+    if not isinstance(report, dict):
+        return False
+    answer = report.get("response")
+    model = report.get("model_reported_unverified")
+    return (
+        _generation_failure_class({"text": answer, "model": model}) is None
+        and report.get("failure_class") is None
+        and report.get("status") == "REAL_ANONYMOUS_RESPONSE__UNVERIFIED"
+        and report.get("network_model_response_observed") is True
+        and report.get("source") == "ACTUAL_ANONYMOUS_HTTP"
+        and report.get("prompt_sent") is True
+        and report.get("attempts") == 1
+        and isinstance(answer, str) and 0 < len(answer) <= MAX_OUTPUT
+        and any(c.isprintable() and not c.isspace() for c in answer)
+        and isinstance(model, str) and bool(model.strip()) and len(model) <= 160
+        and report.get("response_sha256") == sha256(answer.encode("utf-8"))
+    )
+
+
+def native_end_to_end_observed(report: dict) -> bool:
+    """Strict real-external + pinned-native status, not a science verdict."""
+    native_hash = report.get("native_review_sha256_local_only")
+    return (
+        real_answer_observed(report)
+        and report.get("native_review_status") == "REAL_PINNED_NATIVE_CPU_UNVERIFIED"
+        and isinstance(native_hash, str)
+        and re.fullmatch(r"[0-9a-f]{64}", native_hash) is not None
+        and isinstance(report.get("aura_receipt_sha256_local_only"), str)
+        and re.fullmatch(r"[0-9a-f]{64}",
+                         report["aura_receipt_sha256_local_only"]) is not None
+        and isinstance(report.get("verified_context_sha256_local_only"), str)
+        and re.fullmatch(r"[0-9a-f]{64}",
+                         report["verified_context_sha256_local_only"]) is not None
+    )
 
 
 def main() -> int:
@@ -260,12 +411,27 @@ def main() -> int:
     p.add_argument("--require-real-answer", action="store_true",
                    help="fail the availability canary unless real text arrived")
     p.add_argument("--home-root", type=Path)
+    p.add_argument("--native-repo", type=Path)
+    p.add_argument("--native-head")
+    p.add_argument("--require-native-review", action="store_true",
+                   help="fail unless real keyless + pinned native CPU review succeed")
     p.add_argument("--out", type=Path)
     args = p.parse_args()
     if args.require_real_answer and not args.execute_public_demo:
         p.error("--require-real-answer requires --execute-public-demo")
+    if bool(args.native_repo) != bool(args.native_head):
+        p.error("--native-repo and --native-head must both be set")
+    if (args.native_repo is not None and
+            (args.home_root is None or not args.execute_public_demo)):
+        p.error("native review requires --home-root and --execute-public-demo")
+    if (args.require_native_review and
+            (args.home_root is None or not args.execute_public_demo
+             or args.native_repo is None or args.native_head is None)):
+        p.error("--require-native-review requires real execution, HOME and pinned native")
     if args.home_root is not None:
-        report = query_attested_aura(args.home_root, execute=args.execute_public_demo)
+        report = query_attested_aura(
+            args.home_root, execute=args.execute_public_demo,
+            native_repo=args.native_repo, native_head=args.native_head)
     else:
         report = query_public(execute=args.execute_public_demo)
     body = json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
@@ -277,13 +443,15 @@ def main() -> int:
         "source": report["source"],
         "model": report["model_reported_unverified"],
         "failure_class": report["failure_class"],
+        "response_sha256": report.get("response_sha256"),
+        "native_review_status": report.get("native_review_status"),
+        "native_review_sha256": report.get("native_review_sha256_local_only"),
         "sha256": sha256(body.encode("utf-8")),
     }, sort_keys=True))
     # An offline contract PASS is separate from a live-model response PASS.
-    if args.require_real_answer and (
-        report["status"] != "REAL_ANONYMOUS_RESPONSE__UNVERIFIED"
-        or report["network_model_response_observed"] is not True
-    ):
+    if args.require_real_answer and not real_answer_observed(report):
+        return 2
+    if args.require_native_review and not native_end_to_end_observed(report):
         return 2
     return 0
 
