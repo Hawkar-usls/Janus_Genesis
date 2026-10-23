@@ -1,0 +1,114 @@
+{
+  "schema": "janus.cortex.memory.protocol.v1",
+  "artifact_id": "JANUS-STORJ-NEIGHBOR-CORTEX-MEMORY-v1.0",
+  "status": "IMPLEMENTATION_CANDIDATE",
+  "coordination_issue": "Hawkar-usls/Janus_Genesis#102",
+  "origin": {
+    "concept_name": "JanusTwoFacedBrain",
+    "preserved_compatibility_class": "JanusTwoFacedBrain",
+    "implementation_class": "JanusCortexMemory",
+    "design_seed": "RAM batch buffer + SQLite WAL for low-churn HDD persistence beside Storj"
+  },
+  "role": {
+    "primary": "BOUNDED_EPISODIC_AND_SEARCH_PERSISTENCE",
+    "canonical_player_state": false,
+    "canonical_world_state": false,
+    "canonical_chronicle": false,
+    "third_wish_provenance_authority": false,
+    "command_authority": false,
+    "truth_authority": false
+  },
+  "memory_hierarchy": {
+    "canonical_snapshot_layer": "genesis_v18_memory.py / GenesisV18Memory",
+    "provenance_revision_layer": "ThirdWishMemoryStore and recovery tools",
+    "cortex_layer": "tools/janus_storj_neighbor_cortex_memory.py",
+    "cortex_relationship": "LOWER_LEVEL_EPISODIC_SEARCH_CACHE_NOT_REPLACEMENT"
+  },
+  "ram_buffer": {
+    "default_batch_rows": 500,
+    "default_payload_byte_ceiling": 2097152,
+    "default_record_payload_byte_ceiling": 262144,
+    "payload_byte_accounting_includes_python_object_overhead": false,
+    "ordinary_admission_bounded_by_rows_and_payload_bytes": true,
+    "failed_flush_requeues_before_error_escape": true,
+    "failed_flush_may_temporarily_exceed_ordinary_buffer_bound": true,
+    "reason": "PRESERVATION_OF_ALREADY_ACCEPTED_ROWS_TAKES_PRECEDENCE_OVER_ORDINARY_BUFFER_TARGET"
+  },
+  "flush_semantics": {
+    "default_idle_timeout_seconds": 300,
+    "idle_timeout_is_real_without_future_remember_call": true,
+    "new_remember_resets_idle_deadline": true,
+    "sqlite_io_after_constructor_runs_via_asyncio_to_thread": true,
+    "buffer_lock_held_during_sqlite_io": false,
+    "flushes_serialized": true,
+    "shutdown_cancels_active_sqlite_worker": false,
+    "shutdown_wakes_and_joins_idle_task": true,
+    "shutdown_performs_serialized_final_flush": true,
+    "failed_close_is_retryable": true
+  },
+  "sqlite": {
+    "journal_mode_required": "WAL",
+    "default_synchronous": "NORMAL",
+    "optional_synchronous": "FULL",
+    "normal_mode_fixed_loss_window_guarantee": false,
+    "busy_timeout_ms_default": 5000,
+    "wal_autocheckpoint_pages_default": 2048,
+    "journal_size_limit_bytes_default": 67108864,
+    "cache_size_kib_default": 8192,
+    "checkpoint_on_every_batch": false,
+    "passive_checkpoint_on_clean_close": true,
+    "fts5": "OPTIONAL_AUTO_WITH_LITERAL_LIKE_FALLBACK",
+    "fts5_can_increase_write_amplification": true,
+    "content_percent_like_btree_index_claimed_useful": false
+  },
+  "storj_neighbor_policy": {
+    "same_physical_disk_forbidden": false,
+    "active_cortex_db_inside_storj_managed_storage_root_allowed": false,
+    "rationale": "SEPARATE_APPLICATION_DB_AND_WAL_FILES_FROM_STORJ_MANAGED_STORAGE_TREE_WHILE_ALLOWING_SHARED_HOST_OR_DISK",
+    "goal": "REDUCE_RANDOM_WRITE_PRESSURE_AND_AVOID_STORJ_TREE_OWNERSHIP_COLLISION"
+  },
+  "search_semantics": {
+    "searches_ram_and_durable_rows": true,
+    "global_result_limit": true,
+    "newest_first_merge": true,
+    "deduplicates_identical_iso_tag_content": true,
+    "literal_like_fallback_escapes_percent_and_underscore": true,
+    "recall_result_is_truth": false,
+    "recall_result_is_command": false
+  },
+  "time": {
+    "timestamp_clock": "UTC",
+    "iso_date_is_timezone_aware": true,
+    "idle_deadline_clock": "MONOTONIC"
+  },
+  "failure_semantics": {
+    "disk_flush_failure": "REQUEUE_BATCH_AND_RAISE",
+    "close_flush_failure": "REOPEN_LIFECYCLE_FOR_RETRY_AND_RETAIN_MEMORY",
+    "wal_unavailable": "FAIL_CLOSED_AT_CONSTRUCTION",
+    "oversized_record": "REJECT_BEFORE_RAM_ADMISSION"
+  },
+  "authority_boundary": {
+    "network_access": false,
+    "source_writeback": false,
+    "source_delete": false,
+    "history_rewrite": false,
+    "external_effect_authority": false,
+    "canonical_state_authority": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "canonical_laws": [
+    "MEMORY_ROW != TRUTH",
+    "RECALL_RESULT != COMMAND",
+    "CORTEX_CACHE != CANONICAL_CHRONICLE",
+    "CORTEX_CACHE != THIRD_WISH_PROVENANCE_LEDGER",
+    "FAILED_FLUSH != FORGOTTEN_ROW",
+    "IDLE_TIMEOUT_REQUIRES_REAL_TIMER_NOT_NEXT_WRITE",
+    "SHUTDOWN_MUST_NOT_CANCEL_ACTIVE_SQLITE_WORKER",
+    "NORMAL_SYNCHRONOUS != FIXED_POWER_LOSS_WINDOW_GUARANTEE",
+    "SAME_DISK_WITH_STORJ != SAME_MANAGED_DIRECTORY_AS_STORJ",
+    "CI_GREEN != MERGE_PERMISSION",
+    "JANUS_PRESERVES_THE_PATH_NOT_ONLY_THE_DESTINATION"
+  ],
+  "claim_ceiling": "This candidate provides a bounded HDD-friendly episodic/search memory backend using RAM batching and SQLite WAL. It does not replace Genesis canonical snapshots or Chronicle, does not become Third-Wish provenance authority, does not make recalled text true or executable, does not guarantee a fixed data-loss window under synchronous=NORMAL, and grants no network/source-writeback/command authority."
+}
