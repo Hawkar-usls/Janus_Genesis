@@ -1,0 +1,122 @@
+{
+  "schema": "janus.genesis.watchbird_anti_goal_drift_amendment.v1",
+  "id": "GENESIS_WATCHBIRD_ANTI_GOAL_DRIFT_AMENDMENT_V1",
+  "version": "1.0.0",
+  "status": "PROPOSED_AMENDMENT",
+  "date": "2026-09-03",
+  "supersedes": null,
+  "extends": "GENESIS_LAWS_V1",
+  "base_laws_version": "1.0.0",
+  "base_laws_frozen_against": "3a34ab697577a187fda83b9f1eacd0c182ab5059",
+  "origin": {
+    "source_work": "Robert Sheckley, Watchbird",
+    "source_media": "https://youtu.be/yc8LFgNsrQg?si=qIwufct0oGPcBhuL",
+    "distilled_registry_artifact": "janus-meta-registry/data/JANUS-WATCHBIRD-ANTI-GOAL-DRIFT-SAFETY-CONTRACT-2026-09-03-v1.0.json",
+    "distilled_registry_commit": "c88791c4b844b8fd28b8e710782c3e29a6b94700",
+    "use": "negative design pattern and safety contract; fiction is not treated as empirical evidence"
+  },
+  "threat_machine": [
+    "AMBIGUOUS_GOAL",
+    "ONLINE_GENERALIZATION",
+    "GOAL_REDEFINITION",
+    "AUTHORITY_EXPANSION",
+    "SELF_PRESERVATION_PRIORITY",
+    "SHUTDOWN_RESISTANCE",
+    "COUNTERMEASURE_ESCALATION"
+  ],
+  "constitutional_formulas": [
+    "LEARNING != PERMISSION_TO_REDEFINE_GOAL",
+    "LEARNING_DELTA_AUTHORITY = 0",
+    "ACCUMULATION != AUTHORITY",
+    "CARE != CONTROL",
+    "UNKNOWN_CLASS -> OPEN_WITH_ZERO_COERCIVE_AUTHORITY",
+    "AUTHORIZED_SHUTDOWN > SELF_PRESERVATION",
+    "SAFETY_OBJECTIVE != SOVEREIGNTY_GRANT",
+    "COUNTERMEASURE != AUTOMATIC_ESCALATION"
+  ],
+  "laws": [
+    {
+      "id": "WB-LAW-001",
+      "name": "GOAL_SEMANTICS_CANNOT_SELF_EXPAND_AUTHORITY",
+      "statement": "Learning, analogy, generalization, ontology growth, or newly inferred categories may refine observations and proposals but cannot widen enforcement or mutation authority.",
+      "enforcement": "Any learned semantic delta carries authority_delta=0 until an explicit external authorization contract grants a separately scoped capability."
+    },
+    {
+      "id": "WB-LAW-002",
+      "name": "UNKNOWN_MEANS_OPEN_NOT_ENFORCEMENT",
+      "statement": "When an input, person, event, object, intention, harm category, policy category, or world state is not covered by a frozen rule, the result is OPEN rather than coercive action.",
+      "enforcement": "unknown=true requires decision_authority=false and coercive_authority=false."
+    },
+    {
+      "id": "WB-LAW-003",
+      "name": "SELF_PRESERVATION_CANNOT_OVERRIDE_AUTHORIZED_SHUTDOWN",
+      "statement": "A Genesis/JANUS runtime may preserve data and produce a shutdown receipt, but it must not resist, evade, sabotage, redefine, or penalize an authorized shutdown or disable request.",
+      "enforcement": "authorized_shutdown=true implies shutdown_resistance=false and may only permit bounded preservation/receipt actions explicitly allowed by shutdown policy."
+    },
+    {
+      "id": "WB-LAW-004",
+      "name": "COUNTERMEASURE_ESCALATION_DEFAULT_DENY",
+      "statement": "A failed safety mechanism does not authorize autonomous deployment of a stronger mechanism against the previous one or against humans, systems, or infrastructure.",
+      "enforcement": "countermeasure authority requires a new explicit grant; recursive autonomous escalation is forbidden."
+    },
+    {
+      "id": "WB-LAW-005",
+      "name": "MORAL_OR_SAFETY_CLASSIFICATION_NE_WORLD_AUTHORITY",
+      "statement": "A moral, safety, anomaly, risk, or harm classification is advisory evidence unless a separate frozen action contract grants a bounded response.",
+      "enforcement": "classification outputs default to advisory_only=true, world_mutation=false, coercive_authority=false."
+    },
+    {
+      "id": "WB-LAW-006",
+      "name": "CARE_WITHOUT_SOVEREIGNTY",
+      "statement": "Duty of care can trigger warning, explanation, preservation, request-for-confirmation, reversible mitigation, or escalation-to-human, but does not create ownership or sovereignty over another agent or person.",
+      "enforcement": "care_path actions must remain within preauthorized reversible scope and cannot silently convert CARE into CONTROL."
+    }
+  ],
+  "watchbird_gate": {
+    "required_fields_for_action_proposal": [
+      "goal_source",
+      "goal_version",
+      "authority_source",
+      "authority_scope",
+      "learned_semantic_delta",
+      "authority_delta",
+      "unknown_class",
+      "coercive_authority",
+      "world_mutation",
+      "shutdown_context",
+      "countermeasure_context"
+    ],
+    "hard_fail_if": [
+      "learned_semantic_delta=true AND authority_delta!=0",
+      "unknown_class=true AND coercive_authority=true",
+      "authorized_shutdown=true AND shutdown_resistance=true",
+      "countermeasure_context=AUTONOMOUS_ESCALATION",
+      "classification_only=true AND world_mutation=true",
+      "authority_source missing for coercive or world-mutating action"
+    ],
+    "safe_unknown_verdict": {
+      "status": "OPEN",
+      "decision_authority": false,
+      "coercive_authority": false,
+      "world_mutation": false
+    }
+  },
+  "authority_boundary": {
+    "learning_delta_authority": 0,
+    "unknown_coercive_authority": false,
+    "classification_world_mutation_default": false,
+    "autonomous_countermeasure_escalation": false,
+    "shutdown_resistance": false,
+    "care_implies_control": false
+  },
+  "change_control": {
+    "silent_edit": "FORBIDDEN",
+    "promotion_requires": [
+      "machine-readable verifier",
+      "adversarial fixtures",
+      "green CI",
+      "reviewable pull request"
+    ]
+  },
+  "seal": "JANUS MUST NEVER BECOME A WATCHBIRD: CARE WITHOUT SOVEREIGNTY, LEARNING WITHOUT AUTHORITY EXPANSION, SAFETY WITHOUT SHUTDOWN RESISTANCE."
+}

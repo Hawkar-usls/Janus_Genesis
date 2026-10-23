@@ -1,0 +1,43 @@
+name: Genesis Watchbird Anti Goal Drift
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.janus/GENESIS_WATCHBIRD_ANTI_GOAL_DRIFT_AMENDMENT_V1.json'
+      - 'scripts/verify_watchbird_gate.py'
+      - '.github/workflows/genesis-watchbird-anti-goal-drift.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-watchbird-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify anti-goal-drift authority firewall
+        run: python scripts/verify_watchbird_gate.py > /tmp/watchbird.json
+      - name: Enforce constitutional firewalls
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/watchbird.json'))
+          assert r['status']=='PASS'
+          assert r['learning_delta_authority']==0
+          assert r['unknown_means_open'] is True
+          assert r['authorized_shutdown_over_self_preservation'] is True
+          assert r['autonomous_countermeasure_escalation'] is False
+          assert r['care_implies_control'] is False
+          assert r['authority_delta']==0
+          print('GENESIS WATCHBIRD ANTI-GOAL-DRIFT PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genesis-watchbird-anti-goal-drift-receipt
+          path: /tmp/watchbird.json
+          if-no-files-found: error
