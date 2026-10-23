@@ -1,0 +1,249 @@
+name: JANUS P0 Preservation Federation Current Main v2
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/janus-p0-preservation-federation-current-main-v2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-current-main-compatible-view:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact synthetic merge without write credentials
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Freeze exact Genesis base and workflow-only delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED_BASE='dd5e2a64758e7621650d8044917199693b862a54'
+          WORKFLOW='.github/workflows/janus-p0-preservation-federation-current-main-v2.yml'
+          test '${{ github.event.pull_request.base.sha }}' = "$EXPECTED_BASE"
+          test "$(git rev-parse "$GITHUB_SHA^1")" = "$EXPECTED_BASE"
+          mapfile -t changed < <(git diff --name-only "$EXPECTED_BASE" "$GITHUB_SHA")
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$WORKFLOW"
+          echo "GENESIS_CURRENT_MAIN_BASE=$EXPECTED_BASE"
+          echo "SYNTHETIC_MERGE_SHA=$GITHUB_SHA"
+          echo 'COMMITTED_RUNTIME_DELTA=0'
+
+      - name: Verify exact frozen producer heads and current Swarm witness
+        shell: bash
+        run: |
+          set -euo pipefail
+          check_pr_head() {
+            local pr="$1" expected="$2"
+            git fetch --no-tags https://github.com/Hawkar-usls/Janus_Genesis.git \
+              "+refs/pull/${pr}/head:refs/remotes/p0/pr${pr}"
+            local observed
+            observed="$(git rev-parse "refs/remotes/p0/pr${pr}")"
+            test "$observed" = "$expected"
+            echo "PR_${pr}_HEAD=$observed"
+          }
+
+          check_pr_head 122 dc8e96ba1c0417afa5ce9785b10e60e68a043629
+          check_pr_head 125 046a59b868a5dcb1006cd4734a8dd6b5d2938ad5
+          check_pr_head 126 179de8dbc5c7ec960e78dc90a2b67456ca67111b
+          check_pr_head 123 57c05559eeda761821c48e3050f2d2645f9ce049
+          check_pr_head 124 94b0f1b776ad9bdcbc55d9fe660a1de9aa177e3c
+          check_pr_head 127 2d86ce229a1ac939f521ef6f2dfd95a4f3d75fe7
+          check_pr_head 133 5c86eeb6d99bebab4e7aba92c0d1a4a1893499de
+          check_pr_head 137 5627d31a992bcdc71dcc7351cba2c515dac89a2c
+          check_pr_head 138 28bf0b4e9ab9ba3268f22bdbd82a0ecfd3396768
+
+          SWARM_REPO='https://github.com/Hawkar-usls/janus-distributed-ai-swarm.git'
+          SWARM_P5_EXPECTED='649cc94016cd9d0aba4a8aabf1eb74577c691c49'
+          SWARM_MAIN_EXPECTED='26a67a7c4b5243240100475619a0d6a3d0aeed66'
+          SWARM_P18_EXPECTED='4bc1bc3fae746907293efb3980cfd0ac7eb06318'
+          test "$(git ls-remote "$SWARM_REPO" refs/pull/5/head | cut -f1)" = "$SWARM_P5_EXPECTED"
+          test "$(git ls-remote "$SWARM_REPO" refs/heads/main | cut -f1)" = "$SWARM_MAIN_EXPECTED"
+          test "$(git ls-remote "$SWARM_REPO" refs/pull/18/head | cut -f1)" = "$SWARM_P18_EXPECTED"
+          echo "SWARM_RECOVERY_PR5_HEAD=$SWARM_P5_EXPECTED"
+          echo "SWARM_CURRENT_MAIN=$SWARM_MAIN_EXPECTED"
+          echo "SWARM_CURRENT_MAIN_FENCING_REPLAY_PR18_HEAD=$SWARM_P18_EXPECTED"
+
+      - name: Build ephemeral exact-producer overlay
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASELINE='93c6d9be6129f140fc0341bbee24df1160827c62'
+          CURRENT_BASE='dd5e2a64758e7621650d8044917199693b862a54'
+
+          overlay_from_baseline() {
+            local sha="$1"
+            mapfile -t paths < <(git diff --name-only --diff-filter=AM "$BASELINE" "$sha" -- . ':(exclude).github/workflows/**')
+            test "${#paths[@]}" -gt 0
+            for path in "${paths[@]}"; do
+              if git cat-file -e "$CURRENT_BASE:$path" 2>/dev/null; then
+                current_blob="$(git rev-parse "$CURRENT_BASE:$path")"
+                producer_blob="$(git rev-parse "$sha:$path")"
+                test "$current_blob" = "$producer_blob" || {
+                  echo "PRODUCER_PATH_COLLIDES_WITH_CURRENT_MAIN=$path" >&2
+                  exit 1
+                }
+              fi
+            done
+            git checkout "$sha" -- "${paths[@]}"
+          }
+
+          overlay_exact_paths() {
+            local sha="$1"; shift
+            for path in "$@"; do
+              git cat-file -e "$sha:$path"
+              if git cat-file -e "$CURRENT_BASE:$path" 2>/dev/null; then
+                current_blob="$(git rev-parse "$CURRENT_BASE:$path")"
+                producer_blob="$(git rev-parse "$sha:$path")"
+                test "$current_blob" = "$producer_blob" || {
+                  echo "PRODUCER_PATH_COLLIDES_WITH_CURRENT_MAIN=$path" >&2
+                  exit 1
+                }
+              fi
+            done
+            git checkout "$sha" -- "$@"
+          }
+
+          overlay_from_baseline dc8e96ba1c0417afa5ce9785b10e60e68a043629
+          overlay_exact_paths 046a59b868a5dcb1006cd4734a8dd6b5d2938ad5 \
+            tools/janus_nexus_preservation_replay.py \
+            tests/test_janus_nexus_preservation_replay_v1.py \
+            protocol/JANUS_NEXUS_PRESERVATION_REPLAY-v1.0.json
+          overlay_from_baseline 179de8dbc5c7ec960e78dc90a2b67456ca67111b
+          overlay_from_baseline 57c05559eeda761821c48e3050f2d2645f9ce049
+          overlay_from_baseline 94b0f1b776ad9bdcbc55d9fe660a1de9aa177e3c
+          overlay_from_baseline 2d86ce229a1ac939f521ef6f2dfd95a4f3d75fe7
+          overlay_from_baseline 5c86eeb6d99bebab4e7aba92c0d1a4a1893499de
+          overlay_from_baseline 5627d31a992bcdc71dcc7351cba2c515dac89a2c
+          overlay_exact_paths 28bf0b4e9ab9ba3268f22bdbd82a0ecfd3396768 \
+            protocol/JANUS_P0_PRESERVATION_PRODUCER_LOCK-2026-08-16-v1.0.json
+
+          echo 'EPHEMERAL_OVERLAY_ONLY=TRUE'
+          echo 'REMOTE_SOURCE_WRITEBACK=FALSE'
+          echo 'SOURCE_HISTORY_REWRITE=FALSE'
+
+      - name: Validate frozen producer lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          path = Path('protocol/JANUS_P0_PRESERVATION_PRODUCER_LOCK-2026-08-16-v1.0.json')
+          lock = json.loads(path.read_text(encoding='utf-8'))
+          payload = json.dumps(lock, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
+          digest = hashlib.sha256(payload).hexdigest()
+          assert digest == '3a1c2763ebe7d614a539b464eb3f75d0d74d362e0f061f8e732fc3554bc3c1d4'
+          print(f'PRODUCER_LOCK_SHA256={digest}')
+          PY
+
+      - name: Replay preservation lineage handoff and source identity together
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import subprocess, sys
+          from pathlib import Path
+          tools = [
+              'tools/janus_nexus_materializer.py',
+              'tools/janus_nexus_preservation_replay.py',
+              'tools/janus_source_pin_contract.py',
+              'tools/janus_nexus_variant_lineage.py',
+              'tools/janus_face_handoff_ledger.py',
+              'tools/janus_preservation_integration_evidence.py',
+              'tools/janus_source_identity_guard.py',
+          ]
+          for item in tools:
+              assert Path(item).is_file(), item
+          subprocess.run([sys.executable, '-m', 'py_compile', *tools], check=True)
+          patterns = [
+              'test_janus_nexus_materializer*.py',
+              'test_janus_nexus_preservation_replay_v1.py',
+              'test_janus_source_pin_contract_v1.py',
+              'test_janus_nexus_variant_lineage_v1.py',
+              'test_janus_face_handoff_ledger_v1.py',
+              'test_janus_preservation_integration_*.py',
+              'test_janus_source_identity_guard_v1.py',
+              'test_constellation_role_audit_v1.py',
+          ]
+          for pattern in patterns:
+              matches = list(Path('tests').glob(pattern))
+              assert matches, f'no tests matched {pattern}'
+              subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', pattern, '-v'], check=True)
+          print('PUBLIC_PRESERVATION_CURRENT_MAIN_COMPATIBILITY=PASS')
+          print('LINEAGE_FAILED_VARIANT_RETENTION=PASS')
+          print('HANDOFF_CONFLICT_RETENTION_HOLD_RECONCILE=PASS')
+          print('SOURCE_IDENTITY_GUARD=PASS')
+          PY
+
+      - name: Derive authority-nonexpanding typed federation 44-of-44 view
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          audit = json.loads(Path('protocol/JANUS_GENESIS_CONSTELLATION_ROLE_AUDIT-v1.0.json').read_text(encoding='utf-8'))
+          manifest = json.loads(Path('protocol/JANUS_GENESIS_ACTIVE_FACE_MANIFEST-v1.0.json').read_text(encoding='utf-8'))
+          public, private = audit['public'], audit['private']
+          assert len(public) == 41 and len(private) == 3 and len(public) + len(private) == 44
+          assert len({row['id'] for row in public + private}) == 44
+          active_audit = [row for row in public if row['state'] == 'ACTIVE_TYPED_FACE']
+          assert len(active_audit) == 2
+          manifest_active = [face for face in manifest['faces'] if str(face['activation']).startswith('ACTIVE')]
+          assert {face['id'] for face in manifest_active} == {row['id'] for row in active_audit}
+          for face in manifest['faces']:
+              assert face['can_mutate_source'] is False
+              assert face['external_effect'] is False
+          for row in public:
+              assert str(row.get('reason') or '').strip(), row['id']
+          for row in private:
+              assert set(row) == {'id', 'state'}
+              assert row['state'] == 'PRIVATE_OPAQUE_HOLD'
+          receipt = {
+              'schema': 'janus.p0.preservation_federation_current_main.v2',
+              'frozen_genesis_base': 'dd5e2a64758e7621650d8044917199693b862a54',
+              'current_swarm_main': '26a67a7c4b5243240100475619a0d6a3d0aeed66',
+              'swarm_fencing_pr': 18,
+              'swarm_fencing_head': '4bc1bc3fae746907293efb3980cfd0ac7eb06318',
+              'public_preservation_current_main_compatibility': 'PASS',
+              'lineage_failed_variant_retention': 'PASS',
+              'handoff_conflict_retention_hold_reconcile': 'PASS',
+              'typed_federation_44_of_44': 'PASS_2_ACTIVE_42_REFERENCE_ONLY',
+              'real_owner_44_source_replay': 'NOT_PROVEN',
+              'live_nas_hr1_hr10': 'NOT_PROVEN',
+              'full_issue_162_acceptance': False,
+              'safety': {
+                  'SOURCE_WRITEBACK_DEFAULT': 'DENY',
+                  'REMOTE_SOURCE_WRITEBACK': False,
+                  'HISTORY_REWRITE': False,
+                  'DESTRUCTIVE_ACTION': 'FORBIDDEN',
+                  'AUTHORITY_DELTA': 0,
+              },
+          }
+          payload = json.dumps(receipt, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False)
+          digest = hashlib.sha256(payload.encode('utf-8')).hexdigest()
+          Path('artifacts/JANUS-P0-PRESERVATION-FEDERATION-CURRENT-MAIN-v2.json').write_text(payload + '\n', encoding='utf-8')
+          Path('artifacts/JANUS-P0-PRESERVATION-FEDERATION-CURRENT-MAIN-v2.sha256').write_text(digest + '\n', encoding='ascii')
+          print('FEDERATION_FINAL_TYPED_44_OF_44=PASS')
+          print(f'COMPATIBILITY_RECEIPT_SHA256={digest}')
+          print('REAL_OWNER_44_SOURCE_REPLAY=NOT_PROVEN')
+          print('LIVE_NAS_HR1_HR10=NOT_PROVEN')
+          print('FULL_ISSUE_162_ACCEPTANCE=FALSE')
+          print('SOURCE_WRITEBACK_DEFAULT=DENY')
+          print('DESTRUCTIVE_ACTION=FORBIDDEN')
+          print('AUTHORITY_DELTA=0')
+          PY
+
+      - name: Upload privacy-safe compatibility receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-p0-preservation-federation-current-main-v2
+          path: artifacts/
+          if-no-files-found: error
