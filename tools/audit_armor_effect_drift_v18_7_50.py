@@ -47,6 +47,7 @@ SURFACE_CLASSIFICATIONS = (
     ("genesis_v18_7_ai.py", "LEGACY_DIRECT_PROVIDER_EGRESS"),
     ("genesis_v18_7_network.py", "LEGACY_DIRECT_NETWORK_ADAPTER"),
     ("genesis_v18_7_38_durable_network_outbox.py", "LEGACY_DURABLE_NETWORK_ADAPTER"),
+    ("genesis_v18_7_51_shabitat_aura_oracle.py", "ARMOR_GATED_LOCAL_ORACLE_SUBPROCESS"),
     ("janus_genesis.py", "LEGACY_ROOT_GEMINI_NARRATOR_EGRESS"),
     ("tools/janus_habitat_process_death_gauntlet_v1.py", "CONTROLLED_FRESH_PROCESS_DEATH_GAUNTLET"),
     (
