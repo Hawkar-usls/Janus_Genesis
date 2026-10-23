@@ -129,7 +129,7 @@ def _generation_failure_class(entry: object) -> str | None:
         return "HORDE_GENERATION_TEXT_OVERSIZE"
     if not answer or not any(c.isprintable() and not c.isspace() for c in answer):
         return "HORDE_GENERATION_TEXT_BLANK"
-    if any(ord(c) < 32 and c not in "\\n\\t\\r" for c in answer):
+    if any(ord(c) < 32 and c not in "\n\t\r" for c in answer):
         return "HORDE_GENERATION_TEXT_CONTROLS"
     if not isinstance(model, str) or not model.strip():
         return "HORDE_GENERATION_MODEL_MISSING"
