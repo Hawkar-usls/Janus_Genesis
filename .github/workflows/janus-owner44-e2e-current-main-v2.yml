@@ -1,0 +1,266 @@
+name: JANUS Owner44 E2E Current Main v2
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/janus-owner44-e2e-current-main-v2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  owner44-format-and-replay-compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact synthetic merge without write credentials
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Freeze exact current-main base and workflow-only committed delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED_BASE='dd5e2a64758e7621650d8044917199693b862a54'
+          WORKFLOW='.github/workflows/janus-owner44-e2e-current-main-v2.yml'
+          test '${{ github.event.pull_request.base.sha }}' = "$EXPECTED_BASE"
+          test "$(git rev-parse "$GITHUB_SHA^1")" = "$EXPECTED_BASE"
+          mapfile -t changed < <(git diff --name-only "$EXPECTED_BASE" "$GITHUB_SHA")
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$WORKFLOW"
+          echo "GENESIS_CURRENT_MAIN_BASE=$EXPECTED_BASE"
+          echo "SYNTHETIC_MERGE_SHA=$GITHUB_SHA"
+          echo 'COMMITTED_RUNTIME_DELTA=0'
+
+      - name: Re-verify exact producer heads and overlay fail-closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          CURRENT_BASE='dd5e2a64758e7621650d8044917199693b862a54'
+          fetch_pr() {
+            local pr="$1" expected="$2"
+            git fetch --no-tags https://github.com/Hawkar-usls/Janus_Genesis.git \
+              "+refs/pull/${pr}/head:refs/remotes/owner44/pr${pr}"
+            local observed
+            observed="$(git rev-parse "refs/remotes/owner44/pr${pr}")"
+            test "$observed" = "$expected"
+            echo "PR_${pr}_HEAD=$observed"
+          }
+          overlay_exact() {
+            local ref="$1"; shift
+            for path in "$@"; do
+              git cat-file -e "$ref:$path"
+              if git cat-file -e "$CURRENT_BASE:$path" 2>/dev/null; then
+                current_blob="$(git rev-parse "$CURRENT_BASE:$path")"
+                producer_blob="$(git rev-parse "$ref:$path")"
+                test "$current_blob" = "$producer_blob" || {
+                  echo "PRODUCER_PATH_COLLIDES_WITH_CURRENT_MAIN=$path" >&2
+                  exit 1
+                }
+              fi
+            done
+            git checkout "$ref" -- "$@"
+          }
+
+          fetch_pr 122 dc8e96ba1c0417afa5ce9785b10e60e68a043629
+          fetch_pr 125 046a59b868a5dcb1006cd4734a8dd6b5d2938ad5
+          fetch_pr 194 e0bf9a6a83bfe909f971eeceab2a12fb42b294d0
+
+          overlay_exact refs/remotes/owner44/pr194 \
+            tools/janus_source_pin_contract.py \
+            tools/janus_exact_source_manifest_freezer.py \
+            tools/janus_local_checkout_source_pin_collector.py \
+            tools/janus_exact_source_to_nexus_manifest.py \
+            protocol/JANUS_GENESIS_GIT_HABITAT_REPOSITORY_CONSTELLATION-v1.0.json \
+            protocol/JANUS_EXACT_SOURCE_TO_NEXUS_MANIFEST_ADAPTER-v1.0.json
+
+          overlay_exact refs/remotes/owner44/pr122 \
+            tools/janus_nexus_materializer.py \
+            protocol/JANUS_NEXUS_MANIFEST-v1.0.schema.json
+
+          overlay_exact refs/remotes/owner44/pr125 \
+            tools/janus_nexus_preservation_replay.py
+
+          echo 'EPHEMERAL_PRODUCER_OVERLAY_ONLY=TRUE'
+          echo 'REMOTE_SOURCE_WRITEBACK=FALSE'
+          echo 'HISTORY_REWRITE=FALSE'
+
+      - name: Compile exact E2E surface
+        run: |
+          python -m py_compile \
+            tools/janus_source_pin_contract.py \
+            tools/janus_exact_source_manifest_freezer.py \
+            tools/janus_local_checkout_source_pin_collector.py \
+            tools/janus_exact_source_to_nexus_manifest.py \
+            tools/janus_nexus_materializer.py \
+            tools/janus_nexus_preservation_replay.py
+
+      - name: Build 44 independent synthetic local Git repositories
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .owner44-ci/sources .owner44-ci/sensitive artifacts
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          constellation = json.loads(Path('protocol/JANUS_GENESIS_GIT_HABITAT_REPOSITORY_CONSTELLATION-v1.0.json').read_text(encoding='utf-8'))
+          ids = [row['id'] for row in constellation['public_repositories']] + [row['repository_id'] for row in constellation['private_repository_slots']]
+          assert len(ids) == 44 and len(set(ids)) == 44
+          root = Path('.owner44-ci/sources')
+          for idx, source_id in enumerate(ids):
+              repo = root / source_id
+              repo.mkdir()
+              subprocess.run(['git', 'init', '-q', str(repo)], check=True)
+              subprocess.run(['git', '-C', str(repo), 'config', 'user.name', 'JANUS CI'], check=True)
+              subprocess.run(['git', '-C', str(repo), 'config', 'user.email', 'janus-ci@example.invalid'], check=True)
+              (repo / 'payload.txt').write_text(f'synthetic-owner44-slot={idx}\nsource-id={source_id}\n', encoding='utf-8')
+              subprocess.run(['git', '-C', str(repo), 'add', '--', 'payload.txt'], check=True)
+              env = os.environ.copy()
+              env['GIT_AUTHOR_DATE'] = '2026-08-24T12:00:00+00:00'
+              env['GIT_COMMITTER_DATE'] = '2026-08-24T12:00:00+00:00'
+              subprocess.run(['git', '-C', str(repo), 'commit', '-q', '-m', 'synthetic owner44 fixture'], check=True, env=env)
+          print('SYNTHETIC_INDEPENDENT_GIT_REPOSITORIES=44')
+          PY
+
+      - name: Collect and freeze exact local pinset
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/janus_local_checkout_source_pin_collector.py \
+            --constellation protocol/JANUS_GENESIS_GIT_HABITAT_REPOSITORY_CONSTELLATION-v1.0.json \
+            --sources-root .owner44-ci/sources \
+            --pinset-id CI-SYNTHETIC-OWNER44-E2E-DD5E2A \
+            --output .owner44-ci/sensitive/source-pinset.json
+          test "$(stat -c '%a' .owner44-ci/sensitive/source-pinset.json)" = '600'
+          python tools/janus_exact_source_manifest_freezer.py freeze-local \
+            --pinset .owner44-ci/sensitive/source-pinset.json \
+            --constellation protocol/JANUS_GENESIS_GIT_HABITAT_REPOSITORY_CONSTELLATION-v1.0.json \
+            --output .owner44-ci/sensitive/exact-source-manifest.json
+          test "$(stat -c '%a' .owner44-ci/sensitive/exact-source-manifest.json)" = '600'
+          python tools/janus_exact_source_manifest_freezer.py verify-local \
+            --local .owner44-ci/sensitive/exact-source-manifest.json \
+            --constellation protocol/JANUS_GENESIS_GIT_HABITAT_REPOSITORY_CONSTELLATION-v1.0.json >/dev/null
+          python tools/janus_exact_source_manifest_freezer.py public-receipt \
+            --local .owner44-ci/sensitive/exact-source-manifest.json \
+            --constellation protocol/JANUS_GENESIS_GIT_HABITAT_REPOSITORY_CONSTELLATION-v1.0.json \
+            --output artifacts/JANUS-EXACT-SOURCE-PUBLIC-RECEIPT-SYNTHETIC.json >/dev/null
+
+      - name: Adapt to Nexus manifest and validate exact runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/janus_exact_source_to_nexus_manifest.py \
+            --local-exact-manifest .owner44-ci/sensitive/exact-source-manifest.json \
+            --constellation protocol/JANUS_GENESIS_GIT_HABITAT_REPOSITORY_CONSTELLATION-v1.0.json \
+            --artifact-id CI-SYNTHETIC-OWNER44-E2E-DD5E2A \
+            --output .owner44-ci/sensitive/nexus-manifest.json
+          test "$(stat -c '%a' .owner44-ci/sensitive/nexus-manifest.json)" = '600'
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path('tools').resolve()))
+          from janus_nexus_materializer import validate_manifest
+          manifest = json.loads(Path('.owner44-ci/sensitive/nexus-manifest.json').read_text(encoding='utf-8'))
+          validate_manifest(manifest)
+          private = [row for row in manifest['sources'] if row['visibility'] == 'private']
+          assert len(private) == 3
+          assert all(row['branch'] == 'PINNED_COMMIT_ONLY' for row in private)
+          assert all('repository' not in row for row in private)
+          print('NEXUS_V1_RUNTIME_VALIDATOR=PASS')
+          PY
+
+      - name: Materialize and verify two clean targets
+        shell: bash
+        run: |
+          set -euo pipefail
+          for target in nexus-a nexus-b; do
+            python tools/janus_nexus_materializer.py \
+              --manifest .owner44-ci/sensitive/nexus-manifest.json \
+              --sources-root .owner44-ci/sources \
+              --output-root ".owner44-ci/${target}" materialize >/dev/null
+            python tools/janus_nexus_materializer.py \
+              --manifest .owner44-ci/sensitive/nexus-manifest.json \
+              --sources-root .owner44-ci/sources \
+              --output-root ".owner44-ci/${target}" verify >/dev/null
+          done
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a = json.loads(Path('.owner44-ci/nexus-a/NEXUS_ID.json').read_text(encoding='utf-8'))
+          b = json.loads(Path('.owner44-ci/nexus-b/NEXUS_ID.json').read_text(encoding='utf-8'))
+          assert a == b
+          assert a['source_count'] == 44
+          assert a['source_write_back_performed'] is False
+          assert a['source_code_executed'] is False
+          assert a['destructive_action_performed'] is False
+          print('TWO_CLEAN_TARGET_REBUILDS_MATCH=TRUE')
+          PY
+
+      - name: Produce preservation receipts and enforce privacy boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          for target in a b; do
+            python tools/janus_nexus_preservation_replay.py \
+              --constellation protocol/JANUS_GENESIS_GIT_HABITAT_REPOSITORY_CONSTELLATION-v1.0.json \
+              --nexus-manifest .owner44-ci/sensitive/nexus-manifest.json \
+              --sources-root .owner44-ci/sources \
+              --nexus-root ".owner44-ci/nexus-${target}" \
+              --public-receipt "artifacts/JANUS-PRESERVATION-PUBLIC-RECEIPT-${target^^}-SYNTHETIC.json" >/dev/null
+          done
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          sensitive = json.loads(Path('.owner44-ci/sensitive/exact-source-manifest.json').read_text(encoding='utf-8'))
+          private_pins = {row['pin']['value'] for row in sensitive['sources'] if row['visibility'] == 'private'}
+          assert len(private_pins) == 3
+          freezer_public = json.loads(Path('artifacts/JANUS-EXACT-SOURCE-PUBLIC-RECEIPT-SYNTHETIC.json').read_text(encoding='utf-8'))
+          a = json.loads(Path('artifacts/JANUS-PRESERVATION-PUBLIC-RECEIPT-A-SYNTHETIC.json').read_text(encoding='utf-8'))
+          b = json.loads(Path('artifacts/JANUS-PRESERVATION-PUBLIC-RECEIPT-B-SYNTHETIC.json').read_text(encoding='utf-8'))
+          assert a == b
+          assert a['repository_count'] == 44
+          assert a['public_repository_count'] == 41
+          assert a['private_repository_count'] == 3
+          assert a['local_exact_replay_passed'] is True
+          assert a['source_writeback_performed'] is False
+          assert a['private_exact_pin_public_proof_claimed'] is False
+          assert freezer_public['private_exact_pins_published'] is False
+          safe_text = json.dumps([freezer_public, a], sort_keys=True)
+          for pin in private_pins:
+              assert pin not in safe_text
+          def digest(value):
+              payload = json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
+              return hashlib.sha256(payload).hexdigest()
+          receipt = {
+              'schema': 'janus.owner44.synthetic_e2e_current_main_compatibility.v2',
+              'frozen_genesis_base': 'dd5e2a64758e7621650d8044917199693b862a54',
+              'producer_heads': {
+                  'materializer_pr122': 'dc8e96ba1c0417afa5ce9785b10e60e68a043629',
+                  'preservation_pr125': '046a59b868a5dcb1006cd4734a8dd6b5d2938ad5',
+                  'collector_freezer_adapter_pr194': 'e0bf9a6a83bfe909f971eeceab2a12fb42b294d0'
+              },
+              'fixture': {'independent_local_git_repositories': 44, 'public_slots': 41, 'private_slots': 3, 'two_clean_target_rebuilds_match': True},
+              'contracts': {'exact_source_collection': 'PASS', 'exact_source_freeze': 'PASS', 'exact_source_to_nexus_adapter': 'PASS', 'nexus_v1_runtime_validation': 'PASS', 'materializer_two_clean_target_replay': 'PASS', 'privacy_safe_preservation_projection': 'PASS', 'private_exact_pin_public_leak': False},
+              'claim_ceiling': {'synthetic_owner44_e2e_software_chain': 'PASS', 'real_owner44_source_replay': 'NOT_PROVEN', 'authenticated_real_local_source_layout': 'NOT_PROVEN', 'full_issue_162_acceptance': False},
+              'safety': {'committed_runtime_delta': 0, 'ephemeral_producer_overlay_only': True, 'source_writeback_default': 'DENY', 'remote_source_writeback': False, 'source_history_rewrite': False, 'destructive_action': 'FORBIDDEN', 'authority_delta': 0},
+              'public_evidence_digests': {'freezer_public_receipt_sha256': digest(freezer_public), 'preservation_public_receipt_sha256': digest(a)}
+          }
+          payload = json.dumps(receipt, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False)
+          Path('artifacts/JANUS-OWNER44-SYNTHETIC-E2E-COMPATIBILITY-v2.json').write_text(payload + '\n', encoding='utf-8')
+          Path('artifacts/JANUS-OWNER44-SYNTHETIC-E2E-COMPATIBILITY-v2.sha256').write_text(hashlib.sha256(payload.encode('utf-8')).hexdigest() + '\n', encoding='ascii')
+          Path('artifacts/JANUS-PRESERVATION-PUBLIC-RECEIPT-B-SYNTHETIC.json').unlink()
+          print('SYNTHETIC_OWNER44_E2E_SOFTWARE_CHAIN=PASS')
+          print('PRIVATE_EXACT_PIN_PUBLIC_LEAK=FALSE')
+          print('REAL_OWNER44_SOURCE_REPLAY=NOT_PROVEN')
+          print('SOURCE_WRITEBACK_DEFAULT=DENY')
+          print('AUTHORITY_DELTA=0')
+          PY
+
+      - name: Upload only privacy-safe public evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-owner44-synthetic-e2e-current-main-v2
+          path: artifacts/
+          if-no-files-found: error
