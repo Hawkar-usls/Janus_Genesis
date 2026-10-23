@@ -1,0 +1,35 @@
+{
+  "schema": "janus.cosmos.fractalgpt.independent_replication_prereg.v1",
+  "replication_id": "HST_FRACTALGPT_INDEPENDENT_R1_2026_08_30",
+  "trigger_candidate": {
+    "source_run_id": 33325998022,
+    "source_status": "CANDIDATE_ONLY",
+    "source_p_empirical": 0.0038910505836575876,
+    "source_targets": ["M51", "ANTENNAE", "M87"]
+  },
+  "frozen_before_first_replication_probe": true,
+  "fresh_target_manifest": "experiments/janus_cosmos_fractalgpt/hst_replication_targets_r1.json",
+  "target_count": 3,
+  "algorithm_lock": {
+    "ingestion": "Use the merged HLA SIA + bounded fitscut fail-closed ingestion unchanged.",
+    "search": "Use experiments/janus_cosmos_fractalgpt/run_search.py unchanged from merged main.",
+    "nulls": 256,
+    "orientations_deg": [0, 30, 60, 90, 120, 150],
+    "windows": [8, 16, 32],
+    "semantic_analysis": false,
+    "candidate_rule": "Unchanged from run_search.py; no threshold edit after observing R1."
+  },
+  "transport_rules": {
+    "hla_no_coverage": "BLOCK_REPLICATION_TARGET; do not replace target adaptively",
+    "non_fits_payload": "FAIL_CLOSED",
+    "missing_2d_science_plane": "FAIL_CLOSED",
+    "full_product_download": "REWRITE_TO_BOUNDED_FITSCUT_WHEN_EXACT_DATASET_ID_IS_RETURNED"
+  },
+  "interpretation_rules": {
+    "candidate_only_if_gate_says_candidate": true,
+    "no_semantic_interpretation": true,
+    "no_template_or_pyramid_label": true,
+    "no_target_extension_after_result": true,
+    "no_claim_of_replication_from_ci_success_alone": true
+  }
+}
