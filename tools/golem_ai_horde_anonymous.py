@@ -13,9 +13,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
+import stat
 import time
 from typing import Callable
 from urllib import request, error
@@ -250,12 +252,42 @@ def preflight_native_checkout(repo: Path, head: str, checkpoint_sha256: str) -> 
             env=_safe_native_env()).stdout.strip()
     except (OSError, subprocess.SubprocessError) as exc:
         raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_GIT_FAILED") from exc
-    checkpoint = repo / "janus_model/checkpoints/promoted.pt"
-    if (actual_head != head or dirty or checkpoint.is_symlink()
-            or not checkpoint.is_file()
-            or checkpoint.stat().st_size > 100_000_000):
+    if actual_head != head or dirty:
         raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID")
-    if sha256(checkpoint.read_bytes()) != checkpoint_sha256:
+    if not all(hasattr(os, flag) for flag in
+               ("O_DIRECTORY", "O_NOFOLLOW", "O_NONBLOCK")):
+        raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_NOFOLLOW_UNSUPPORTED")
+
+    # Anchor all relative opens to descriptors and reject a symlink/FIFO swap
+    # after an earlier stat, including symlinked model/weights directories.
+    fds = []
+    try:
+        root = os.open(repo, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        fds.append(root)
+        parent = root
+        for segment in ("janus_model", "checkpoints"):
+            parent = os.open(segment,
+                             os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                             dir_fd=parent)
+            fds.append(parent)
+        leaf = os.open("promoted.pt",
+                       os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                       dir_fd=parent)
+        fds.append(leaf)
+        meta = os.fstat(leaf)
+        if (not stat.S_ISREG(meta.st_mode)
+                or meta.st_size > 100_000_000):
+            raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID")
+        with os.fdopen(leaf, "rb", closefd=False) as source:
+            weights = source.read(100_000_001)
+        if len(weights) > 100_000_000:
+            raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID")
+    except OSError as exc:
+        raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_CHECKPOINT_OPEN_UNSAFE") from exc
+    finally:
+        for fd in reversed(fds):
+            os.close(fd)
+    if sha256(weights) != checkpoint_sha256:
         raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_CHECKPOINT_MISMATCH")
 
 
