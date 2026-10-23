@@ -375,6 +375,9 @@ class TestHordeAnonymous(unittest.TestCase):
             {"native_review_status": "MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE"},
             {"native_review_sha256_local_only": "wrong"},
             {"aura_receipt_sha256_local_only": None},
+            {"aura_receipt_sha256_local_only": "forged"},
+            {"verified_context_sha256_local_only": "not-a-sha"},
+            {"model_reported_unverified": "reported-model\nFAKE_LOG"},
             {"response_sha256": "0" * 64},
         ):
             self.assertFalse(horde.native_end_to_end_observed({**report, **changed}))
