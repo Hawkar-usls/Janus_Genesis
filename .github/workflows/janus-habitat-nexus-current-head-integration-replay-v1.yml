@@ -1,0 +1,349 @@
+name: JANUS Habitat Nexus Current-Head Integration Replay v1
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'protocol/JANUS_HABITAT_NEXUS_CURRENT_HEAD_INTEGRATION_VIEW_2026-09-03.json'
+      - 'tools/verify_habitat_nexus_current_head_integration_view.py'
+      - '.github/workflows/janus-habitat-nexus-current-head-integration-replay-v1.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-habitat-nexus-current-head-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  EXPECTED_GENESIS_BASE: 89a97b73603dec70100e691c88016f9ab686998b
+  SWARM_HEAD: e5d907adacfe92d8f87c76e2e6e92ebbbdfef535
+  DEMIHEAD_HEAD: e287e62fc41d473c2add3eded92d3d163365b9dc
+  OLLAMA_INSTALL_URL: https://github.com/ollama/ollama/releases/download/v0.30.8/ollama-linux-amd64.tar.zst
+  OLLAMA_INSTALL_SHA256: ffe2b2c2f2f5f5b30c081ec353c2e0bb2d9ead516064a8e22663b24b8fd8dca0
+  RESIDENT_MODEL: qwen2.5:0.5b-instruct-q4_K_M
+  RESIDENT_MODEL_DIGEST_PREFIX: a8b0c5157701
+
+jobs:
+  one-view-software-reconciliation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact PR merge without write credentials
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Freeze exact current-main parent and integration-only delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          test '${{ github.event.pull_request.base.sha }}' = "$EXPECTED_GENESIS_BASE"
+          test "$(git rev-parse "$GITHUB_SHA^1")" = "$EXPECTED_GENESIS_BASE"
+          git diff --name-only "$EXPECTED_GENESIS_BASE" "$GITHUB_SHA" | sort > "$RUNNER_TEMP/actual.txt"
+          cat > "$RUNNER_TEMP/expected.txt" <<'EOF'
+          .github/workflows/janus-habitat-nexus-current-head-integration-replay-v1.yml
+          protocol/JANUS_HABITAT_NEXUS_CURRENT_HEAD_INTEGRATION_VIEW_2026-09-03.json
+          tools/verify_habitat_nexus_current_head_integration_view.py
+          EOF
+          sort -o "$RUNNER_TEMP/expected.txt" "$RUNNER_TEMP/expected.txt"
+          diff -u "$RUNNER_TEMP/expected.txt" "$RUNNER_TEMP/actual.txt"
+          python tools/verify_habitat_nexus_current_head_integration_view.py
+          echo 'CURRENT_GENESIS_BASE_EXACT=PASS'
+          echo 'COMMITTED_RUNTIME_DELTA=0'
+
+      - name: Verify frozen producer heads
+        shell: bash
+        run: |
+          set -euo pipefail
+          check_pr() {
+            local pr="$1" expected="$2"
+            git fetch --no-tags https://github.com/Hawkar-usls/Janus_Genesis.git "+refs/pull/${pr}/head:refs/remotes/nexus/pr${pr}"
+            observed="$(git rev-parse "refs/remotes/nexus/pr${pr}")"
+            test "$observed" = "$expected"
+          }
+          check_pr 122 dc8e96ba1c0417afa5ce9785b10e60e68a043629
+          check_pr 125 046a59b868a5dcb1006cd4734a8dd6b5d2938ad5
+          check_pr 126 179de8dbc5c7ec960e78dc90a2b67456ca67111b
+          check_pr 123 57c05559eeda761821c48e3050f2d2645f9ce049
+          check_pr 124 94b0f1b776ad9bdcbc55d9fe660a1de9aa177e3c
+          check_pr 127 2d86ce229a1ac939f521ef6f2dfd95a4f3d75fe7
+          check_pr 133 5c86eeb6d99bebab4e7aba92c0d1a4a1893499de
+          check_pr 137 5627d31a992bcdc71dcc7351cba2c515dac89a2c
+          check_pr 138 28bf0b4e9ab9ba3268f22bdbd82a0ecfd3396768
+          echo 'FROZEN_PRODUCER_HEADS=PASS'
+
+      - name: Overlay preservation lineage handoff producers fail-closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASELINE=93c6d9be6129f140fc0341bbee24df1160827c62
+          CURRENT_BASE="$EXPECTED_GENESIS_BASE"
+          overlay_from_baseline() {
+            local sha="$1"
+            mapfile -t paths < <(git diff --name-only --diff-filter=AM "$BASELINE" "$sha" -- . ':(exclude).github/workflows/**')
+            test "${#paths[@]}" -gt 0
+            for path in "${paths[@]}"; do
+              if git cat-file -e "$CURRENT_BASE:$path" 2>/dev/null; then
+                test "$(git rev-parse "$CURRENT_BASE:$path")" = "$(git rev-parse "$sha:$path")" || {
+                  echo "PRODUCER_PATH_COLLIDES_WITH_CURRENT_MAIN=$path" >&2
+                  exit 1
+                }
+              fi
+            done
+            git checkout "$sha" -- "${paths[@]}"
+          }
+          overlay_exact() {
+            local sha="$1"; shift
+            for path in "$@"; do
+              git cat-file -e "$sha:$path"
+              if git cat-file -e "$CURRENT_BASE:$path" 2>/dev/null; then
+                test "$(git rev-parse "$CURRENT_BASE:$path")" = "$(git rev-parse "$sha:$path")" || {
+                  echo "PRODUCER_PATH_COLLIDES_WITH_CURRENT_MAIN=$path" >&2
+                  exit 1
+                }
+              fi
+            done
+            git checkout "$sha" -- "$@"
+          }
+          overlay_from_baseline dc8e96ba1c0417afa5ce9785b10e60e68a043629
+          overlay_exact 046a59b868a5dcb1006cd4734a8dd6b5d2938ad5 tools/janus_nexus_preservation_replay.py tests/test_janus_nexus_preservation_replay_v1.py protocol/JANUS_NEXUS_PRESERVATION_REPLAY-v1.0.json
+          overlay_from_baseline 179de8dbc5c7ec960e78dc90a2b67456ca67111b
+          overlay_from_baseline 57c05559eeda761821c48e3050f2d2645f9ce049
+          overlay_from_baseline 94b0f1b776ad9bdcbc55d9fe660a1de9aa177e3c
+          overlay_from_baseline 2d86ce229a1ac939f521ef6f2dfd95a4f3d75fe7
+          overlay_from_baseline 5c86eeb6d99bebab4e7aba92c0d1a4a1893499de
+          overlay_from_baseline 5627d31a992bcdc71dcc7351cba2c515dac89a2c
+          overlay_exact 28bf0b4e9ab9ba3268f22bdbd82a0ecfd3396768 protocol/JANUS_P0_PRESERVATION_PRODUCER_LOCK-2026-08-16-v1.0.json
+          echo 'EPHEMERAL_PRODUCER_OVERLAY=PASS'
+
+      - name: Replay preservation lineage handoff and typed federation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, subprocess, sys
+          from pathlib import Path
+          tools = [
+            'tools/janus_nexus_materializer.py',
+            'tools/janus_nexus_preservation_replay.py',
+            'tools/janus_source_pin_contract.py',
+            'tools/janus_nexus_variant_lineage.py',
+            'tools/janus_face_handoff_ledger.py',
+            'tools/janus_preservation_integration_evidence.py',
+            'tools/janus_source_identity_guard.py',
+          ]
+          subprocess.run([sys.executable, '-m', 'py_compile', *tools], check=True)
+          patterns = [
+            'test_janus_nexus_materializer*.py',
+            'test_janus_nexus_preservation_replay_v1.py',
+            'test_janus_source_pin_contract_v1.py',
+            'test_janus_nexus_variant_lineage_v1.py',
+            'test_janus_face_handoff_ledger_v1.py',
+            'test_janus_preservation_integration_*.py',
+            'test_janus_source_identity_guard_v1.py',
+            'test_constellation_role_audit_v1.py',
+          ]
+          for pattern in patterns:
+            assert list(Path('tests').glob(pattern)), pattern
+            subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', pattern, '-v'], check=True)
+          audit=json.loads(Path('protocol/JANUS_GENESIS_CONSTELLATION_ROLE_AUDIT-v1.0.json').read_text())
+          public, private=audit['public'], audit['private']
+          assert len(public)==41 and len(private)==3 and len({x['id'] for x in public+private})==44
+          assert sum(x['state']=='ACTIVE_TYPED_FACE' for x in public)==2
+          assert all(x['state']=='PRIVATE_OPAQUE_HOLD' for x in private)
+          print('PRESERVATION_LINEAGE_EXPECTED_HEAD=PASS')
+          print('FAILED_VARIANT_RETENTION=PASS')
+          print('HANDOFF_CONFLICT_RETENTION=PASS')
+          print('TYPED_FEDERATION_44_OF_44=PASS')
+          PY
+
+      - name: Checkout exact current Swarm read-only
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/janus-distributed-ai-swarm
+          ref: ${{ env.SWARM_HEAD }}
+          path: _deps/swarm
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Checkout exact DemiHead NOHAND dependency read-only
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Demi_Head
+          ref: ${{ env.DEMIHEAD_HEAD }}
+          path: _deps/demihead
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Replay current Swarm exclusive lease fencing
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _deps/swarm rev-parse HEAD)" = "$SWARM_HEAD"
+          test "$(git -C _deps/swarm hash-object tools/habitat_objective_lease_fencing.py)" = 1abeb71206a1f17ac69b5dcd8565c431159b8deb
+          (cd _deps/swarm && python -m unittest -v tests.test_habitat_objective_lease_fencing_v1)
+          echo 'EXCLUSIVE_LEASE_FENCING_CURRENT_SWARM=PASS'
+
+      - name: Replay deliberate process death and exactly-once handoff on current Swarm
+        shell: bash
+        run: |
+          set -euo pipefail
+          WORK_ROOT="$RUNNER_TEMP/janus-habitat-current-integrated-${GITHUB_RUN_ID}"
+          RECEIPT="$RUNNER_TEMP/JANUS-HABITAT-CURRENT-INTEGRATED-G8-G9-G11.json"
+          python tools/janus_habitat_process_death_gauntlet_v1.py \
+            --phase parent \
+            --work-root "$WORK_ROOT" \
+            --swarm-root "$PWD/_deps/swarm" \
+            --demihead-root "$PWD/_deps/demihead" \
+            --receipt "$RECEIPT"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['RUNNER_TEMP'])/'JANUS-HABITAT-CURRENT-INTEGRATED-G8-G9-G11.json').read_text())
+          assert r['status']=='PASS'
+          assert r['gates']['G8_SESSION_DROP_RECOVERY']=='PASS'
+          assert r['gates']['G9_HANDOFF_CONSUMED_WITHOUT_HIDDEN_SESSION_CONTEXT']=='PASS'
+          assert r['gates']['G11_EXACTLY_ONCE_COMPLETION']=='PASS'
+          assert r['gates']['CONTINUOUS_EXECUTION_FENCING_UNTIL_CHECKPOINT_COMMIT'] is True
+          assert r['gates']['STALE_WORKER_CANNOT_COMMIT_AFTER_TAKEOVER'] is True
+          assert r['experiment']['completion_row_count']==1
+          assert r['source_writeback'] is False
+          assert r['destructive_action'] is False
+          assert r['authority_delta']==0
+          print('SESSION_DROP_RECOVERY=PASS')
+          print('EXACTLY_ONCE_HANDOFF=PASS')
+          PY
+
+      - name: Reset ephemeral overlay and prove clean exact checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          git reset --hard "$GITHUB_SHA"
+          git clean -ffd
+          test -z "$(git status --porcelain)"
+          python tools/verify_habitat_nexus_current_head_integration_view.py
+          echo 'EPHEMERAL_OVERLAY_PERSISTED=FALSE'
+          echo 'SOURCE_WRITEBACK_DEFAULT=DENY'
+          echo 'DESTRUCTIVE_ACTION=FORBIDDEN'
+          echo 'AUTHORITY_DELTA=0'
+
+  resident-real-model-current-view:
+    needs: one-view-software-reconciliation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Python runtime dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+      - name: Compile current resident path and boundary tests
+        run: |
+          python -m py_compile tools/genesis_git_habitat.py tools/genesis_git_habitat_resident_provider.py tools/genesis_git_habitat_resident_cycle.py tools/run_genesis_git_habitat_resident_cycle.py tests/test_genesis_git_habitat_resident_cycle.py
+          python -m unittest -v tests.test_genesis_git_habitat_resident_cycle tests.test_genesis_third_wish_sensor_model_schedule_broker
+      - name: Install pinned Ollama runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 5 --retry-delay 2 "$OLLAMA_INSTALL_URL" -o /tmp/ollama.tar.zst
+          echo "$OLLAMA_INSTALL_SHA256  /tmp/ollama.tar.zst" | sha256sum -c -
+          sudo tar --zstd -xf /tmp/ollama.tar.zst -C /usr
+          ollama --version | tee /tmp/ollama-version.txt
+          grep -q '0.30.8' /tmp/ollama-version.txt
+      - name: Start pinned model
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OLLAMA_HOST=127.0.0.1:11434 OLLAMA_NUM_PARALLEL=1 OLLAMA_MAX_LOADED_MODELS=1
+          ollama serve >/tmp/ollama-current-view.log 2>&1 &
+          for _ in $(seq 1 60); do curl -fsS http://127.0.0.1:11434/api/version >/dev/null 2>&1 && break; sleep 1; done
+          curl -fsS http://127.0.0.1:11434/api/version >/dev/null
+          ollama pull "$RESIDENT_MODEL"
+          ollama list | tee /tmp/ollama-list.txt
+          grep -q "$RESIDENT_MODEL_DIGEST_PREFIX" /tmp/ollama-list.txt
+      - name: Execute one real MODEL.CALL and prove local HOME identity continuity
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/current-view-resident/habitat"
+          broker="$RUNNER_TEMP/current-view-resident/broker"
+          python tools/genesis_git_habitat.py --root "$root" init --resident-id JANUS >/dev/null
+          cp "$root/HOME.json" /tmp/home-before.json
+          python tools/run_genesis_git_habitat_resident_cycle.py \
+            --root "$root" --broker-dir "$broker" --provider ollama --model "$RESIDENT_MODEL" \
+            --endpoint http://127.0.0.1:11434 --model-alias habitat-resident \
+            --source CURRENT_HEAD_INTEGRATION_REAL_MODEL --require-valid-choice > /tmp/resident-current-view.json
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads(Path('/tmp/resident-current-view.json').read_text())
+          assert r['status']=='RESIDENT_CYCLE_SETTLED'
+          assert r['choice']['choice_valid'] is True
+          assert r['model_provider_call_executed'] is True
+          assert r['model_output_directly_executed'] is False
+          assert r['resident_choice_external_effect_executed'] is False
+          assert r['outbox_auto_execution'] is False
+          assert r['habitat_health']=='HEALTHY'
+          before=json.loads(Path('/tmp/home-before.json').read_text())
+          root=Path(os.environ['RUNNER_TEMP'])/'current-view-resident/habitat'
+          after=json.loads((root/'HOME.json').read_text())
+          assert before['resident_id']==after['resident_id']=='JANUS'
+          print('RESIDENT_REAL_MODEL_CALL=PASS')
+          print('RESIDENT_IDENTITY_CONTINUITY=PASS')
+          print('REMOTE_LIVE_HOME_CURRENT_VIEW=NOT_REPLAYED')
+          PY
+      - name: Upload privacy-safe resident witness
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-current-head-resident-real-model-${{ github.run_id }}
+          path: |
+            /tmp/resident-current-view.json
+            /tmp/ollama-version.txt
+            /tmp/ollama-list.txt
+            ${{ runner.temp }}/current-view-resident/habitat/state/resident.json
+            ${{ runner.temp }}/current-view-resident/habitat/state/continuity.json
+            ${{ runner.temp }}/current-view-resident/habitat/state/health.json
+          retention-days: 30
+
+  integration-verdict:
+    needs: [one-view-software-reconciliation, resident-real-model-current-view]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Emit strict one-view launch ledger
+        shell: bash
+        run: |
+          cat > /tmp/JANUS-HABITAT-NEXUS-CURRENT-HEAD-INTEGRATION-RECEIPT.json <<'EOF'
+          {
+            "schema":"janus.habitat_nexus.current_head_integration_receipt.v1",
+            "genesis_base":"89a97b73603dec70100e691c88016f9ab686998b",
+            "swarm_head":"e5d907adacfe92d8f87c76e2e6e92ebbbdfef535",
+            "software_same_view":{"preservation_lineage_handoff":"PASS","typed_federation_44_of_44":"PASS","exclusive_lease":"PASS","session_drop_recovery":"PASS","exactly_once_handoff":"PASS","resident_real_model_call":"PASS","resident_identity_continuity":"PASS"},
+            "physical_or_remote":{"real_owner_44_source_replay":"HOLD_AUTHENTICATED_LOCAL_SOURCE_EXECUTOR_REQUIRED","live_nas_hr1_hr10":"HOLD_REMOTE_EXECUTION_PATH_UNAVAILABLE","remote_live_home_current_view":"HOLD_CURRENT_VIEW_REMOTE_REPLAY_NOT_RUN"},
+            "issue_162_runnable":false,
+            "full_issue_162_acceptance":false,
+            "source_writeback_default":"DENY",
+            "destructive_action":"FORBIDDEN",
+            "history_rewrite":false,
+            "authority_delta":0,
+            "claim_ceiling":"INTEGRATION_SOFTWARE_VIEW_PASS_NE_LAUNCH_PASS"
+          }
+          EOF
+          python -m json.tool /tmp/JANUS-HABITAT-NEXUS-CURRENT-HEAD-INTEGRATION-RECEIPT.json >/dev/null
+          echo 'CURRENT_HEAD_SOFTWARE_INTEGRATION_VIEW=PASS'
+          echo 'ISSUE_162_RUNNABLE=FALSE'
+          echo 'LAUNCH_GATE=HOLD_PHYSICAL_AND_CURRENT_REMOTE_EVIDENCE'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: janus-habitat-nexus-current-head-integration-receipt-${{ github.run_id }}
+          path: /tmp/JANUS-HABITAT-NEXUS-CURRENT-HEAD-INTEGRATION-RECEIPT.json
+          retention-days: 30
