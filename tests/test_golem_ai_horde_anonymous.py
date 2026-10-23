@@ -413,5 +413,61 @@ class TestHordeAnonymous(unittest.TestCase):
 
 
 
+    def test_invalid_provider_generation_reason_is_bounded_and_redacted(self):
+        cases = (
+            ({"text": None, "model": "ok"}, "HORDE_GENERATION_TEXT_MISSING"),
+            ({"text": "", "model": "ok"}, "HORDE_GENERATION_TEXT_BLANK"),
+            ({"text": "   \n", "model": "ok"}, "HORDE_GENERATION_TEXT_BLANK"),
+            ({"text": "X" * (horde.MAX_OUTPUT + 1), "model": "ok"},
+             "HORDE_GENERATION_TEXT_OVERSIZE"),
+            ({"text": "private\x00marker", "model": "ok"},
+             "HORDE_GENERATION_TEXT_CONTROLS"),
+            ({"text": "valid answer", "model": None},
+             "HORDE_GENERATION_MODEL_MISSING"),
+            ({"text": "valid answer", "model": "  "},
+             "HORDE_GENERATION_MODEL_MISSING"),
+            ({"text": "valid answer", "model": "x" * 161},
+             "HORDE_GENERATION_MODEL_OVERSIZE"),
+            ({"text": "valid answer", "model": "model\nPRIVATE_MARKER"},
+             "HORDE_GENERATION_MODEL_CONTROLS"),
+            (None, "HORDE_GENERATION_ENTRY_INVALID"),
+        )
+        for entry, reason in cases:
+            with self.subTest(reason=reason):
+                calls = []
+                def provider(method, path, body=None):
+                    calls.append(method)
+                    if method == "POST":
+                        return {"id": UUID}
+                    if method == "GET":
+                        return {"done": True, "generations": [entry]}
+                    return {"cancelled": True}
+
+                result = horde.query_public(execute=True, transport=provider,
+                                            sleeper=lambda *_: None)
+                self.assertEqual(result["status"], "INVALID_EXTERNAL_GENERATION")
+                self.assertEqual(result["failure_class"], reason)
+                self.assertFalse(result["network_model_response_observed"])
+                self.assertIsNone(result["response"])
+                self.assertIsNone(result["model_reported_unverified"])
+                self.assertEqual(calls.count("POST"), 1)
+                self.assertNotIn("PRIVATE_MARKER", json.dumps(result))
+
+    def test_legitimate_line_breaks_in_external_answer_are_not_rejected(self):
+        text = "Hypothesis A.\nCheck observation B."
+        self.assertIsNone(horde._generation_failure_class({
+            "text": text, "model": "clean-model"}))
+        def provider(method, path, body=None):
+            if method == "POST":
+                return {"id": UUID}
+            return {"done": True, "generations": [
+                {"text": text, "model": "clean-model"}]}
+        observed = horde.query_public(execute=True, transport=provider,
+                                      sleeper=lambda *_: None)
+        self.assertEqual(observed["status"], "MOCKED_HORDE_RESPONSE__NOT_REAL")
+        self.assertIsNone(observed["failure_class"])
+
+
+
 if __name__ == "__main__":
     unittest.main()
