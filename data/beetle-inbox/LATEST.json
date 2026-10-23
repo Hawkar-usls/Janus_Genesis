@@ -1,5 +1,5 @@
 {
-  "batch_id": "441e0f1615dbbf1b5115",
+  "batch_id": "0f8e5ec52574cf604e47",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
@@ -292,40 +292,6 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ab20e8093861484028080b84",
-      "context_id": "06c0d37eef28b503a420f6c6",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "world model"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "arxiv",
-      "source_context_sha256": "e7deefabba83fe62643ff3d693468dee0a98129208d0a998ff0be4477e38b2a9",
-      "source_published": "2026-10-21T08:59:02Z",
-      "source_updated": "2026-10-21T08:59:02Z",
-      "summary": "World models are increasingly used for planning, where a planner ranks candidate actions by returns imagined by the model. However, these models are judged mainly by how well they render frames, even though a visually faithful rollout can still assign the wrong return. To identify where this mismatch arises, we introduce a transition-level diagnostic that replaces imagined transitions with real ones and measures the reduction in return error against a budget-matched random control. Our analysis yields two findings. (1) Event transitions, the few steps where a reward is earned or an episode ends, are rendered as well as other steps (median pixel-error ratio 0.85), yet restoring them removes a median of 70% of the return error. In contrast, restoring transitions with the largest MSE, SSIM or LPIPS error removes less than a random choice. Across the 44 Atari-100k model--collection pairs that pass our reliability checks, including three released families, event patches outperform random patches in 39 (sign test p=1.4 x 10^{-7}), with a median gain of +44 percentage points. (2) The remaining error is structured: a complementary patch separates errors at true events from those elsewhere, while an eight-step timing tolerance recovers few events missed by our deterministic models. This structure also guides repair: a rule recorded before four repair outcomes were known predicts when a diffusion model repairs these failures. Event patches improve plan ranking, and the same concentration appears on control tasks with rare reward events.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Events, Not Pixels: Where World Models Get the Return Wrong",
-      "url": "https://arxiv.org/abs/2610.29435v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "8816e50aec38f8bba074efbc",
       "context_id": "01b4991e2a42305ea8962a56",
       "delivery_preview_only": true,
@@ -431,6 +397,42 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "MOSAIC: An Omni-Modal Benchmark for Long-Term Memory and Cross-Modal Reasoning in Conversational Agents",
       "url": "https://arxiv.org/abs/2610.29249v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "7c0d24d92f4d6b3c6cca2535",
+      "context_id": "e77bb3e31c55a5a63bfbe20f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "retrieval"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 2.9583,
+      "source": "arxiv",
+      "source_context_sha256": "8144ac8d1dc54d519ff279363f891a45bcf24dcd82451e5d9bffbc70566914ca",
+      "source_published": "2026-10-21T10:35:39Z",
+      "source_updated": "2026-10-21T10:35:39Z",
+      "summary": "Training modern AI models has become increasingly expensive, and updating deployed models can alter their internal feature representations, affecting applications built upon them. In retrieval systems, such updates often require complete gallery re-indexing, a computationally expensive process at scale. Existing backward-compatibility methods enable direct comparison of representations from updated and earlier models, avoiding re-indexing. However, they typically require compatibility-specific training, learned mapping functions, or architectural modifications, and often depend explicitly on the previous model. We propose hyperspherical simplex representations derived from softmax outputs and logits for backward-compatible retrieval across independently trained models. They leverage the simplex structure induced by softmax cross-entropy training with one-hot labels as a common geometric reference across model updates. Since this reference depends on the number of classes, adding new ones expands the simplex, misaligning existing class prototypes with their earlier counterparts. We therefore derive a deterministic linear transformation to restore their alignment. Our theoretical analysis of the formal backward-compatibility definition identifies two geometric conditions under which its inequalities hold in expectation, assuming von Mises--Fisher class distributions with increasing concentration across updates. Aligned regular-simplex representations satisfy these conditions, providing a theoretical basis for the proposed representations under the stated assumptions. Without using additional compatibility-specific losses, learned mappings, or architectural modifications, the proposed representations achieve competitive results on standard compatibility benchmarks, including expanded class sets, more expressive architectures, and independently trained models from public repositories.",
+      "tags": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Hyperspherical Simplex Representations for Backward-Compatible Retrieval",
+      "url": "https://arxiv.org/abs/2610.29550v1"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -558,6 +560,40 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "a3adabee0a0bbbf6db1a3bc8",
+      "context_id": "5a9222993f47d1e69b6a0735",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.5417,
+      "source": "zenodo",
+      "source_context_sha256": "4976c27eca4614dcc0d10ced110b3972261dc4544990662a588fd77ae58f5a36",
+      "source_published": "2026-10-22",
+      "source_updated": "",
+      "summary": "MICROROBOTIC NOISE SEPARATION ENGINEERING FOR QUANTUM BIOSENSING AT THE LIMIT Mechanical Vibration &times; Quantum Readout Noise &times; Causal Spectral Analysis STARLI Research Institute XXIX &mdash; Flagship Research Monograph 08 When a microrobotic biosensing instrument produces a cleaner waveform, what evidence distinguishes genuinely improved measurement from a signal-processing procedure that has silently removed the very event being investigated? This research monograph develops a nonclinical, hypothesis-forming framework for microrobotic noise separation, causal spectral attribution, and quantum-enabled biosensing. Its central scientific challenge is to distinguish physical specimen-surrogate fluctuations, mechanical vibration, photon-counting statistics, optical reference instability, and shared instrumental noise without incorrectly attributing unexplained residuals to quantum effects or biological activity. The proposed research architecture combines synchronized raw-waveform acquisition, controlled microrobotic actuation, independent reference measurements, complex cross-spectral estimation, uncertainty quantification, and prospective blinded signal-recovery experiments. The 772-page manuscript contains 82 research chapters, 410 independently paginated scientific investigations, 30 interconnected mathematical research plates, 200 Research Gates, and 33 Phoenix Answer Embryos. Major mathematical investigations address power spectral density decomposition, source cross-correlations, spectral coherence, transfer functions, photon shot noise, low-frequency flicker noise, spectral leakage, mechanical harmonics, lock-in detection, multichannel spectral matrices, identifiability, and uncertainty-aware release decisions. A central falsifiable proposition is that controlled alternating actuation combined with independent phase-locked references may improve the separation of movement artifacts from genuine time-localized signals compared with conventional frequency-only filtering. However, successful noise reduction must be demonstrated without sacrificing true-signal amplitude, timing, spectral content, or scientific traceability. Proposed experiments employ artificial pulse generators, controlled vibration platforms, quantum-enabled optical sensing modules, conventional photodetection systems, and independently calibrated references. Performance comparisons include passive vibration isolation, fixed bandpass filtering, stationary sensing, and longer conventional averaging under matched measurement time, bandwidth, energy, and resource constraints. The 200 Research Gates preserve falsifiable questions, competing explanations, proposed experiments, measurable outcomes, uncertainty conditions, and evidence-preserving stopping criteria. The 33 Phoenix Answer Embryos present provisional research architectures that future human and AI investigators may challenge, reconstruct, extend, or replace. Seventeen DOI-linked scientific publications and metrological references provide methodological foundations while maintaining a clear distinction between established research and the unverified integration proposed in this manuscript. Scientific Scope and Limitations This monograph presents a theoretical and experimental research blueprint rather than completed laboratory findings. It does not establish clinical biosensing effectiveness, verified autonomous nanoscale medical robotics, universal quantum sensing superiority, or demonstrated biological signal attribution. Initial validation is restricted to artificial pulses, controlled instrumentation, nonclinical phantoms, and appropriately authorized research environments. STARLI Research Philosophy A trustworthy scientific signal is not simply a signal that looks quieter. It is one whose physical meaning, original evidence, causal assumptions, measurement uncertainty, and rejected interpretations remain open to independent investigation. By preserving falsifiable questions, negative fin",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MICROROBOTIC NOISE SEPARATION ENGINEERING FOR QUANTUM BIOSENSING AT THE LIMIT Mechanical Vibration × Quantum Readout Noise × Causal Spectral Analysis STARLI Research Institute XXIX — Flagship Research Monograph 08 When a microrobotic biosensing instrument produces a cleaner waveform, what evidence d",
+      "url": "https://zenodo.org/records/23578718"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "0d5625043a4eb5b626b3185e",
       "context_id": "b5ad721fd4157c9f9a7dc8c0",
       "delivery_preview_only": true,
@@ -628,6 +664,46 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "RangeNav: Task-Aligned LiDAR Range-Image Pretraining for Robot Navigation",
       "url": "https://arxiv.org/abs/2610.29845v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "bd0bdc162aa15a9f26eede7f",
+      "context_id": "373ff5b090d62760ac2ec76b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.2083,
+      "source": "zenodo",
+      "source_context_sha256": "fbe7265f1139e77b8d439fb8128165962e954c3380015192903898472794024b",
+      "source_published": "2026-10-22",
+      "source_updated": "",
+      "summary": "Gratitude can concern a benefit received, a harm that did not occur, or the conditions that make one's own assumptions examinable. We develop the proposal that appreciating these conditions can orient practice toward realizing emptiness: examining how distinctions arise, relinquishing their assumed intrinsic necessity, and retaining their conditional usefulness. The argument distinguishes an observed absence, a missing observation, counterfactual valuation and non-reification, and places their differences in dialogue with explicitly situated philosophical and scriptural sources. We reconstruct Fisher, Sandved Smith and Hohwy's gratitude and gaze notebooks, then separate faithful reconstruction from corrected experiments and new mechanisms. GNN-declared paired recall experiments use 5120 independent agent-world units, matched environmental exposure and replay dose, normalized likelihoods, and independent predictive assessment. Pinned Realizing Emptiness interfaces supply structural admission and finite mathematical comparators. An enacted inquiry model separates appreciation, costly activity, access to alternatives and evidence-responsive retention or revision; explicit learning-to-gaze and joint scene/encoding experiments examine transfer and identifiability. Exact count enumeration, mathematical nulls, paired controls and joint bootstrap inference make the resulting software claims independently checkable. Selective positive recall reduces the declared optimism summary, while its predictive consequences depend on the world mixture and the specified transfer bridge. Counterfactual absence valuation preserves inference by construction. Accessible inquiry can revise a contradicted restriction and retain a useful one; activity without access instead incurs costs while preserving rigid forecasts. Exact analysis exposes rare adverse selections absent from seeded realizations. The original gaze code reproduces the pre-intervention occupancy but contains no implemented after intervention. Our active-scene extension finds a context-dependent access advantage without an additional inquiry-specific predictive advantage. Joint scene/encoding inquiry distinguishes learning an encoding from combining it with scene evidence: observationally equivalent labels remain unidentifiable, and excluded hypotheses cannot be recovered. Known-answer fixtures also retain skew-related undercoverage and unavailable rare-event estimates rather than treating replication size as a remedy for every inferential failure. The contribution is a reproducible account of enabling operations and their limits, together with a falsifiable human research program that separates inquiry value from patience, anticipated good news and instrumental information demand. Synthetic model results establish neither human gratitude nor contemplative realization or clinical benefit. Code, declared models and reproducibility materials are available at github.com/docxology/thanks_for_nothing .",
+      "tags": [
+        "gratitude",
+        "emptiness",
+        "active inference",
+        "model revisability",
+        "generalized notation notation",
+        "reproducible research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Thanks for Nothing: Gratitude, Model Revisability, and the Practice of Realizing Emptiness",
+      "url": "https://zenodo.org/records/23402517"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -810,80 +886,6 @@
       "url": "https://arxiv.org/abs/2610.29168v1"
     },
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "daf2a4a27f5dc5ab5f5791fe",
-      "context_id": "c798a415ed66842b9e25effd",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "inverse",
-        "representation"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 5.875,
-      "source": "arxiv",
-      "source_context_sha256": "d4a98001bdddd99fe5af3620f644293f60398b1a14f9b2e345503efc5dcea08e",
-      "source_published": "2026-10-21T16:11:31Z",
-      "source_updated": "2026-10-21T16:11:31Z",
-      "summary": "We study joint moments of characteristic polynomials and their second derivatives for Haar-distributed matrices from the unitary symplectic and orthogonal groups. We establish their large-$N$ asymptotics throughout the full admissible range of the moment parameters and identify the limiting coefficients probabilistically in terms of the first inverse power sum of the Bessel point process. This extends the corresponding results of Assiotis, Gunes, Keating, and Wei [Proc. Lond. Math. Soc., 132 (2026), e70136] to the full admissible parameter range. Throughout this full range, we also express these limits in terms of a distinguished solution of the $σ$-Painlevé III' equation. Our approach reduces the problem to singular inverse-power statistics of the Jacobi unitary ensemble and combines their finite-$N$ $σ$-Painlevé V representation with a refined Riemann-Hilbert analysis yielding precise small-$x$ asymptotics and uniform derivative estimates for the finite-$N$ correction term. A key ingredient in the probabilistic identification is a kernel-based proof that the rescaled first inverse power sum of the Jacobi ensemble converges in distribution to its Bessel point process counterpart.",
-      "tags": [
-        "math.PR",
-        "math-ph",
-        "math.NT",
-        "nlin.SI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Painlevé representations for joint moments of characteristic polynomials from the orthogonal and unitary symplectic groups",
-      "url": "https://arxiv.org/abs/2610.29947v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "009b2e06da9a64f397508881",
-      "context_id": "0b495bc741103b2a8e44d80d",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "recovery",
-        "world model"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 5.7917,
-      "source": "arxiv",
-      "source_context_sha256": "aee27757489c8880fdc8b3afac03de94d67d14f3687f1a047549e3b2e765bce1",
-      "source_published": "2026-10-20T18:12:07Z",
-      "source_updated": "2026-10-20T18:12:07Z",
-      "summary": "World models let agents compare imagined outcomes before acting, but an agent must still decide which alternatives to explore and when a proposed plan should replace its learned policy. We introduce SDI (Sibling Disagreement in Imagination), which connects these decisions through a shared actor-based reference. SDI compares action sequences imagined from the same model state, using repeated rollouts of the actor's own sequence to measure variation under fixed behavior. This reference scales both the spread across candidate returns, which provides an exploration signal, and a proposed plan's predicted advantage, which governs action acceptance. The agent executes a planned action when its advantage exceeds the reference variability by a fixed factor; otherwise, it follows the actor. SDI reuses the base agent's world model, actor, and critic without requiring an additional disagreement ensemble. Exploration and planning guide training data collection, while evaluation uses the learned actor alone. Across Meta-World, Adroit, and DM-Control, SDI achieves a higher observed task-average score than every compared baseline in each suite and matches or exceeds the strongest baseline's performance on 15 of 18 tasks. Component ablations and robustness analyses further examine the roles of exploration, planning exposure, and action acceptance. Paired evaluations from identical simulator states show that the gate improves both recovery from actor failures and preservation of successful behavior relative to ungated planning, while substantially reducing return degradation. Together, these results support comparing imagined alternatives against a shared actor reference as a unified approach to exploring and planning with world models.",
-      "tags": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Second Thoughts: Exploring and Planning through Comparative Imagination in World Models",
-      "url": "https://arxiv.org/abs/2610.28779v1"
-    },
-    {
       "base_direction_id": "registry_provenance",
       "candidate_id": "cdce76a4d6db1b5e0952ff6b",
       "context_id": "60a00c3de8c79b03a6ddeed0",
@@ -994,42 +996,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Introducing Web Lifeboat: Toward Preserving as Much of the Web as Possible During a Large-Scale PHP Outage",
       "url": "https://zenodo.org/records/23573228"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "30e7c6c3bd6908f2468851c2",
-      "context_id": "276c89753139ca0523944fe3",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure",
-        "limitation",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.3333,
-      "source": "arxiv",
-      "source_context_sha256": "6b8e11ae1ad9a23320c8f2c3330a9df1eef78147f0c86a1451a7917b07ed0ded",
-      "source_published": "2026-10-21T04:15:15Z",
-      "source_updated": "2026-10-21T04:15:15Z",
-      "summary": "Root cause analysis (RCA) and mitigation prediction are essential for incident management, enabling the identification of underlying causes of failures and ensuring the reliability of complex cloud-based systems. With rising incident volume and system complexity, incident reports have become a valuable resource for these tasks. Recent studies have shown promising results using Large Language Models (LLMs) to predict root causes and mitigation actions from textual descriptions in incident reports. Despite these advances, further progress is hindered by the lack of publicly available datasets; existing work relies on private data, which limits transparency, reproducibility, and generalization. To address this gap, we introduce CloudIR-Bench, the first publicly available benchmark providing a dataset and evaluation framework for incident report-based RCA and mitigation prediction. Curated from incident reports across five leading cloud-based systems, CloudIR-Bench captures a diverse range of real-world production scenarios representing authentic failures and engineers' reasoning. We also release an open-source evaluation framework that includes eight recent LLM-based approaches. Our comprehensive evaluation includes zero-shot and in-context learning experiments, along with a qualitative analysis to identify where and why LLMs fail. Benchmarking results reveal the capabilities and limitations of existing LLMs in this domain. The benchmark, including the dataset, framework and supplementary materials, is available at https://github.com/hoangtnm/CloudIR-Bench.",
-      "tags": [
-        "cs.SE"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CloudIR-Bench: A Benchmark for Root Cause Analysis and Mitigation of Cloud Incidents",
-      "url": "https://arxiv.org/abs/2610.29185v1"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1195,6 +1161,45 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "b3fce2473de9d76a97d3bc9b",
+      "context_id": "5104995fd27f215ac516f470",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "e69b7e7bfbbfba5d9199c0f36dac7426aadd34f0973ca193c297077c70fb6172",
+      "source_published": "2026-10-23",
+      "source_updated": "",
+      "summary": "EFGB MATLAB Simulator v1.0.0 Initial research software release | MATLAB R2024a This release provides the MATLAB implementation of Energy-Feasibility-Guaranteed Bidding (EFGB): for decentralized task allocation among heterogeneous UAVs under battery constraints and lossy communication. Associated manuscript: EFGB: Team-Independent Round-Trip Energy Admission for Decentralized Multi-UAV Rescue Allocation under Lossy Communication (submitted to Robotics and Autonomous Systems). Features Team-independent round-trip energy admission with capacity-bounded workload charges. Capacity-proportional workload sharing and reserve-aware mission admission. Gilbert–Elliott communication modeling with lossy awards and acknowledgments. Comparative policies including outbound-only admission, reactive safety override, SGA, the earlier conference auction, and CBBA. SGA + EFGB and CBBA + EFGB for separating allocation-protocol effects from the safety admission rule. Experiments covering ablations, docking-order validation, communication degradation, energy-model mismatch, deadlines, and robustness. Physics-based and flight-data-derived energy-error evaluation. Repository structure | Directory | Contents | | --- | --- | | harness/ | Main simulator, policies, campaign drivers, analysis functions | | figures/ | MATLAB figure-generation programs | | tests/ | Docking-order and CBBA verification programs | | examples/ | Reduced single-run demonstration | | data/ | Derived flight-energy data and summary | | docs/ | Reproducibility instructions, assumptions, and data provenance | Requirements MATLAB R2024a Statistics and Machine Learning Toolbox for selected analyses Parallel Computing Toolbox (optional) Quick start From the repository root in MATLAB R2024a: addpath(fullfile(pwd, 'harness')); addpath(fullfile(pwd, 'tests')); run(fullfile('examples', 'single_run.m')); Run the included checks: run(fullfile('tests', 'run_tests.m')); For complete experiment instructions, see README.md and docs/REPRODUCIBILITY.md . The demonstration uses reduced settings and is not a reproduction of the published tables. Scope and reproducibility The analytical reserve guarantee depends on the assumptions stated in the associated manuscript. The simulator charges on-scene service energy at arrival without imposing the entire corresponding elapsed service duration. Large Monte Carlo results are prepared separately for research-data archiving. Citation and license See CITATION.cff for citation metadata and LICENSE for the software license. Users of the research methods should also cite the associated article when available. Version v1.0.0 — Initial public source release. Full changelog: https://github.com/arefinsarker068/EFGB-MultiUAV-Rescue/commits/v1.0.0",
+      "tags": [
+        "multi-robot task allocation",
+        "energy-feasible admission",
+        "heterogeneous UAVs",
+        "decentralized coordination",
+        "lossy communication"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "EFGB: Team-Independent Round-Trip Energy Admission for Decentralized Multi-UAV Rescue Allocation under Lossy Communication — MATLAB Simulator",
+      "url": "https://zenodo.org/records/23581830"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "6f5e5996d5792b5be5d3e98b",
       "context_id": "1e1f71bfe7133f7116d2a24d",
       "delivery_preview_only": true,
@@ -1234,13 +1239,13 @@
       "url": "https://zenodo.org/records/23562705"
     },
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ab20e8093861484028080b84",
-      "context_id": "88d4dde37cb7519103b793da",
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "bd0bdc162aa15a9f26eede7f",
+      "context_id": "134f9a7f00bdba1bd837272a",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
-      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -1251,22 +1256,27 @@
       ],
       "keyword_hits": [
         "failure",
-        "world model"
+        "reproducibility"
       ],
       "mirror_lens": "COUNTEREVIDENCE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.75,
-      "source": "arxiv",
-      "source_context_sha256": "ba41dd7c0f025b0115dfd1040f29d938f91045f70f41100eab4c17cc1ccd691a",
-      "source_published": "2026-10-21T08:59:02Z",
-      "source_updated": "2026-10-21T08:59:02Z",
-      "summary": "World models are increasingly used for planning, where a planner ranks candidate actions by returns imagined by the model. However, these models are judged mainly by how well they render frames, even though a visually faithful rollout can still assign the wrong return. To identify where this mismatch arises, we introduce a transition-level diagnostic that replaces imagined transitions with real ones and measures the reduction in return error against a budget-matched random control. Our analysis yields two findings. (1) Event transitions, the few steps where a reward is earned or an episode ends, are rendered as well as other steps (median pixel-error ratio 0.85), yet restoring them removes a median of 70% of the return error. In contrast, restoring transitions with the largest MSE, SSIM or LPIPS error removes less than a random choice. Across the 44 Atari-100k model--collection pairs that pass our reliability checks, including three released families, event patches outperform random patches in 39 (sign test p=1.4 x 10^{-7}), with a median gain of +44 percentage points. (2) The remaining error is structured: a complementary patch separates errors at true events from those elsewhere, while an eight-step timing tolerance recovers few events missed by our deterministic models. This structure also guides repair: a rule recorded before four repair outcomes were known predicts when a diffusion model repairs these failures. Event patches improve plan ranking, and the same concentration appears on control tasks with rare reward events.",
+      "score": 8.9167,
+      "source": "zenodo",
+      "source_context_sha256": "cf139ad5c65684335df71bd747782331c4d17c0f259defd9d737b614caff8aaa",
+      "source_published": "2026-10-22",
+      "source_updated": "",
+      "summary": "Gratitude can concern a benefit received, a harm that did not occur, or the conditions that make one's own assumptions examinable. We develop the proposal that appreciating these conditions can orient practice toward realizing emptiness: examining how distinctions arise, relinquishing their assumed intrinsic necessity, and retaining their conditional usefulness. The argument distinguishes an observed absence, a missing observation, counterfactual valuation and non-reification, and places their differences in dialogue with explicitly situated philosophical and scriptural sources. We reconstruct Fisher, Sandved Smith and Hohwy's gratitude and gaze notebooks, then separate faithful reconstruction from corrected experiments and new mechanisms. GNN-declared paired recall experiments use 5120 independent agent-world units, matched environmental exposure and replay dose, normalized likelihoods, and independent predictive assessment. Pinned Realizing Emptiness interfaces supply structural admission and finite mathematical comparators. An enacted inquiry model separates appreciation, costly activity, access to alternatives and evidence-responsive retention or revision; explicit learning-to-gaze and joint scene/encoding experiments examine transfer and identifiability. Exact count enumeration, mathematical nulls, paired controls and joint bootstrap inference make the resulting software claims independently checkable. Selective positive recall reduces the declared optimism summary, while its predictive consequences depend on the world mixture and the specified transfer bridge. Counterfactual absence valuation preserves inference by construction. Accessible inquiry can revise a contradicted restriction and retain a useful one; activity without access instead incurs costs while preserving rigid forecasts. Exact analysis exposes rare adverse selections absent from seeded realizations. The original gaze code reproduces the pre-intervention occupancy but contains no implemented after intervention. Our active-scene extension finds a context-dependent access advantage without an additional inquiry-specific predictive advantage. Joint scene/encoding inquiry distinguishes learning an encoding from combining it with scene evidence: observationally equivalent labels remain unidentifiable, and excluded hypotheses cannot be recovered. Known-answer fixtures also retain skew-related undercoverage and unavailable rare-event estimates rather than treating replication size as a remedy for every inferential failure. The contribution is a reproducible account of enabling operations and their limits, together with a falsifiable human research program that separates inquiry value from patience, anticipated good news and instrumental information demand. Synthetic model results establish neither human gratitude nor contemplative realization or clinical benefit. Code, declared models and reproducibility materials are available at github.com/docxology/thanks_for_nothing .",
       "tags": [
-        "cs.AI"
+        "gratitude",
+        "emptiness",
+        "active inference",
+        "model revisability",
+        "generalized notation notation",
+        "reproducible research"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Events, Not Pixels: Where World Models Get the Return Wrong",
-      "url": "https://arxiv.org/abs/2610.29435v1"
+      "title": "Thanks for Nothing: Gratitude, Model Revisability, and the Practice of Realizing Emptiness",
+      "url": "https://zenodo.org/records/23402517"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1543,6 +1553,47 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "bd0bdc162aa15a9f26eede7f",
+      "context_id": "b021f39ee89df03041360bd8",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "control",
+        "replication",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.375,
+      "source": "zenodo",
+      "source_context_sha256": "e34dfb0aa820e36e5474fbd86da1dfa942f70f435f2eaa65a5c26043b2ddf424",
+      "source_published": "2026-10-22",
+      "source_updated": "",
+      "summary": "Gratitude can concern a benefit received, a harm that did not occur, or the conditions that make one's own assumptions examinable. We develop the proposal that appreciating these conditions can orient practice toward realizing emptiness: examining how distinctions arise, relinquishing their assumed intrinsic necessity, and retaining their conditional usefulness. The argument distinguishes an observed absence, a missing observation, counterfactual valuation and non-reification, and places their differences in dialogue with explicitly situated philosophical and scriptural sources. We reconstruct Fisher, Sandved Smith and Hohwy's gratitude and gaze notebooks, then separate faithful reconstruction from corrected experiments and new mechanisms. GNN-declared paired recall experiments use 5120 independent agent-world units, matched environmental exposure and replay dose, normalized likelihoods, and independent predictive assessment. Pinned Realizing Emptiness interfaces supply structural admission and finite mathematical comparators. An enacted inquiry model separates appreciation, costly activity, access to alternatives and evidence-responsive retention or revision; explicit learning-to-gaze and joint scene/encoding experiments examine transfer and identifiability. Exact count enumeration, mathematical nulls, paired controls and joint bootstrap inference make the resulting software claims independently checkable. Selective positive recall reduces the declared optimism summary, while its predictive consequences depend on the world mixture and the specified transfer bridge. Counterfactual absence valuation preserves inference by construction. Accessible inquiry can revise a contradicted restriction and retain a useful one; activity without access instead incurs costs while preserving rigid forecasts. Exact analysis exposes rare adverse selections absent from seeded realizations. The original gaze code reproduces the pre-intervention occupancy but contains no implemented after intervention. Our active-scene extension finds a context-dependent access advantage without an additional inquiry-specific predictive advantage. Joint scene/encoding inquiry distinguishes learning an encoding from combining it with scene evidence: observationally equivalent labels remain unidentifiable, and excluded hypotheses cannot be recovered. Known-answer fixtures also retain skew-related undercoverage and unavailable rare-event estimates rather than treating replication size as a remedy for every inferential failure. The contribution is a reproducible account of enabling operations and their limits, together with a falsifiable human research program that separates inquiry value from patience, anticipated good news and instrumental information demand. Synthetic model results establish neither human gratitude nor contemplative realization or clinical benefit. Code, declared models and reproducibility materials are available at github.com/docxology/thanks_for_nothing .",
+      "tags": [
+        "gratitude",
+        "emptiness",
+        "active inference",
+        "model revisability",
+        "generalized notation notation",
+        "reproducible research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Thanks for Nothing: Gratitude, Model Revisability, and the Practice of Realizing Emptiness",
+      "url": "https://zenodo.org/records/23402517"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "6f5e5996d5792b5be5d3e98b",
       "context_id": "dd6c4d133a4defa3f08af71c",
       "delivery_preview_only": true,
@@ -1657,78 +1708,6 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "d9f64d39575d65679e541224",
-      "context_id": "fd6e1d25dbeb14f58bf6f4b4",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "benchmark",
-        "control"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.0,
-      "source": "arxiv",
-      "source_context_sha256": "d25ac58728cd0f8b1030ecde0da9e50cb4c9f407ad89ba4c642ec5a396dfbb08",
-      "source_published": "2026-10-20T18:36:33Z",
-      "source_updated": "2026-10-20T18:36:33Z",
-      "summary": "Agentic harness evolution optimizes an agent's instructions, tools, and control flow by using its task execution experiences as evolving evidence. While more evolution tasks should intuitively improve performance, our preliminary study reveals a paradoxical failure mode: the performance of existing methods degrades as the task pool expands. Our further analysis demonstrates that this degradation stems from suboptimal evidence selection during optimization, as different evidence combinations lead to substantially different evolution outcomes. To address this issue, we propose Successive Scale Racing (SSR), a framework that adaptively searches for optimal evidence combinations in each evolution round. SSR constructs diverse evidence combinations based on the corresponding task quality and coverage, and efficiently races the resulting candidate harnesses under a small compute budget. Empirically, across three distinct benchmarks, SSR achieves state-of-the-art results in all six configurations. Notably, as the task pool grows from 40 to 200, SSR steadily improves the pass rate from 64.3% to 68.3%, while the baselines' performances all drop. Furthermore, its racing mechanism identifies near-optimal candidates while reducing validation executions by 60%.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Forging More Tasks into Better Harnesses: Agentic Harness Evolution via Successive Scale Racing",
-      "url": "https://arxiv.org/abs/2610.28815v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "d9f64d39575d65679e541224",
-      "context_id": "65cd841eaf570c5619cea1f7",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "benchmark",
-        "control"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.0,
-      "source": "arxiv",
-      "source_context_sha256": "741771f7e9ea1ef31627cf47a46936c365535c2a4de92e32a72d11a51b28c8f9",
-      "source_published": "2026-10-20T18:36:33Z",
-      "source_updated": "2026-10-20T18:36:33Z",
-      "summary": "Agentic harness evolution optimizes an agent's instructions, tools, and control flow by using its task execution experiences as evolving evidence. While more evolution tasks should intuitively improve performance, our preliminary study reveals a paradoxical failure mode: the performance of existing methods degrades as the task pool expands. Our further analysis demonstrates that this degradation stems from suboptimal evidence selection during optimization, as different evidence combinations lead to substantially different evolution outcomes. To address this issue, we propose Successive Scale Racing (SSR), a framework that adaptively searches for optimal evidence combinations in each evolution round. SSR constructs diverse evidence combinations based on the corresponding task quality and coverage, and efficiently races the resulting candidate harnesses under a small compute budget. Empirically, across three distinct benchmarks, SSR achieves state-of-the-art results in all six configurations. Notably, as the task pool grows from 40 to 200, SSR steadily improves the pass rate from 64.3% to 68.3%, while the baselines' performances all drop. Furthermore, its racing mechanism identifies near-optimal candidates while reducing validation executions by 60%.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Forging More Tasks into Better Harnesses: Agentic Harness Evolution via Successive Scale Racing",
-      "url": "https://arxiv.org/abs/2610.28815v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
       "candidate_id": "d031d59e17a038baa1ab6065",
       "context_id": "5e9d7a70cf6bfe9f601cb7b3",
       "delivery_preview_only": true,
@@ -1802,6 +1781,44 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "MOSAIC: An Omni-Modal Benchmark for Long-Term Memory and Cross-Modal Reasoning in Conversational Agents",
       "url": "https://arxiv.org/abs/2610.29249v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b4a938f7ac46c1a4e3288d76",
+      "context_id": "13aef26837c65eb4480c036e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.875,
+      "source": "arxiv",
+      "source_context_sha256": "389e7105f4de8c7a9d9f8cd42c6033cad25a7f1e46ebad5c644a1a553f1a3dee",
+      "source_published": "2026-10-21T07:01:25Z",
+      "source_updated": "2026-10-21T07:01:25Z",
+      "summary": "Dynamic scheduling requires dispatching online arrivals while anticipating future jobs, as poor decisions can compound downstream costs under nonlinear tardiness objectives. We show that a pretrained large language model (LLM) can serve as the exogenous component of a structured world model, forecasting uncertain future job arrivals. Specifically, we exploit an afterstate decomposition, which separates known deterministic shop transitions from uncertain exogenous job arrivals, enabling the LLM to forecast only the latter through a compact belief representation. Building on this, we develop Afterstate World-Model Planning (AWMP), which combines an evolved, belief-conditioned dispatching strategy with short scenario-based rollouts. A surprise-triggered refresh mechanism queries the LLM only when newly observed arrivals deviate sufficiently from previous forecast, and online residual self-calibration further conditions the LLM on its recent forecast errors to handle nonstationary arrivals. Across diverse arrival distributions, AWMP reduces weighted tardiness by 6-21% on dynamic job-shop and 22-46% on flexible job-shop benchmarks, relative to the best of eight classical priority-dispatching rules.",
+      "tags": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "LLM-Based Exogenous World Modeling for Dynamic Scheduling",
+      "url": "https://arxiv.org/abs/2610.29308v1"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
