@@ -5,7 +5,9 @@ import json
 import io
 from contextlib import redirect_stdout
 from pathlib import Path
+from types import SimpleNamespace
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -469,6 +471,51 @@ class TestHordeAnonymous(unittest.TestCase):
                                       sleeper=lambda *_: None)
         self.assertEqual(observed["status"], "MOCKED_HORDE_RESPONSE__NOT_REAL")
         self.assertIsNone(observed["failure_class"])
+
+
+
+    def test_native_preflight_bounded_descriptor_accepts_exact_weights(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            data = b"sealed native checkpoint only"
+            weights.write_bytes(data)
+            expected_head = "a" * 40
+            with patch.object(horde.subprocess, "run", side_effect=[
+                    SimpleNamespace(stdout=expected_head + "\n"),
+                    SimpleNamespace(stdout=""),
+            ]):
+                horde.preflight_native_checkout(
+                    repo, expected_head, horde.sha256(data))
+
+    def test_native_preflight_raced_symlink_is_rejected_before_egress(self):
+        if not hasattr(horde.os, "O_NOFOLLOW"):
+            self.skipTest("No no-follow support")
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            original = b"sealed native checkpoint only"
+            weights.write_bytes(original)
+            clone = Path(tmp) / "identical-weights"
+            clone.write_bytes(original)
+            actual_open = horde.os.open
+            def switched_open(path, flags, *args, **kwargs):
+                if path == "promoted.pt" and "dir_fd" in kwargs:
+                    weights.unlink()
+                    weights.symlink_to(clone)
+                return actual_open(path, flags, *args, **kwargs)
+            with patch.object(horde.subprocess, "run", side_effect=[
+                    SimpleNamespace(stdout="a" * 40 + "\n"),
+                    SimpleNamespace(stdout=""),
+            ]):
+                with patch.object(horde.os, "open",
+                                  side_effect=switched_open):
+                    with self.assertRaisesRegex(
+                            ConsumptionError, "CHECKPOINT_OPEN_UNSAFE"):
+                        horde.preflight_native_checkout(
+                            repo, "a" * 40, horde.sha256(original))
 
 
 
