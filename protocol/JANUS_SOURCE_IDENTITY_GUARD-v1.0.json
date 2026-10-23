@@ -1,0 +1,106 @@
+{
+  "schema": "janus.source_identity_guard.contract.v1",
+  "version": "1.0",
+  "roadmap": "Hawkar-usls/Janus_Genesis#121",
+  "gate": "P0_SOURCE_IDENTITY_GUARD_V1",
+  "status": "IMPLEMENTATION_PRIMITIVE",
+  "purpose": "Provide a read-only local witness for before/after endpoint source identity using exact Git HEAD commit, exact HEAD tree, and deterministic non-.git worktree bytes/surface/modes/symlink targets without publishing local source fingerprints.",
+  "input_contract": {
+    "source_checkout_layout": "<sources_root>/<opaque_numeric_repository_id>/",
+    "repository_id": "opaque_numeric_1_to_32_digits",
+    "visibility": [
+      "public",
+      "private"
+    ],
+    "source_checkout_symlink": "REJECT",
+    "source_checkout_escape_from_sources_root": "REJECT",
+    "special_worktree_entries": "REJECT"
+  },
+  "git_read_boundary": {
+    "allowed_queries": [
+      "git -C <repo> rev-parse --verify HEAD",
+      "git -C <repo> rev-parse --verify HEAD^{tree}"
+    ],
+    "head_and_tree_rechecked_after_worktree_capture": true,
+    "identity_change_during_capture": "FAIL_CLOSED",
+    "git_status": false,
+    "git_add": false,
+    "git_commit": false,
+    "git_checkout": false,
+    "git_reset": false,
+    "git_fetch": false,
+    "git_push": false,
+    "git_write_tree": false,
+    "git_update_index": false,
+    "repository_acquisition": false
+  },
+  "worktree_identity": {
+    "root_git_metadata_included": false,
+    "root_directory_mode_included": true,
+    "nested_directory_modes_included": true,
+    "regular_file_path_mode_byte_count_sha256_included": true,
+    "regular_file_hashing": "STREAMING_SHA256_O_NOFOLLOW",
+    "symlink_path_mode_target_included": true,
+    "symlink_target_followed": false,
+    "untracked_entries_included": true,
+    "file_stability_checked_during_capture": true,
+    "directory_stability_checked_during_capture": true,
+    "symlink_stability_checked_during_capture": true,
+    "timestamps_in_identity_digest": false,
+    "timestamps_used_only_for_capture_race_detection": true
+  },
+  "snapshot_contract": {
+    "per_source_fields": [
+      "repository_id",
+      "visibility",
+      "head_commit",
+      "head_tree",
+      "worktree_digest",
+      "worktree_entry_count"
+    ],
+    "snapshot_digest": "SHA256_CANONICAL_SOURCE_ROWS",
+    "source_order": "OPAQUE_REPOSITORY_ID_SORTED",
+    "source_mutation_performed": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "comparison_contract": {
+    "before_after_source_sets_must_match": true,
+    "unchanged_requires_equal_snapshot_digests": true,
+    "drift_requires_nonempty_normalized_drift_id_list": true,
+    "writeback_attribution_made": false,
+    "transient_write_and_restore_ruled_out": false,
+    "source_mutation_performed_by_guard": false
+  },
+  "privacy_boundary": {
+    "local_snapshot_contains_source_fingerprints": true,
+    "local_snapshot_is_publication_safe": false,
+    "public_projection_contains_before_snapshot_digest": false,
+    "public_projection_contains_after_snapshot_digest": false,
+    "public_projection_contains_head_commit_or_tree": false,
+    "public_projection_contains_worktree_digest": false,
+    "public_projection_contains_drifted_repository_ids": false,
+    "public_projection_reports_only_endpoint_stability_flags_and_count": true
+  },
+  "canonical_laws": [
+    "HEAD_UNCHANGED != WORKTREE_UNCHANGED",
+    "COMMIT_TREE_UNCHANGED != UNTRACKED_SURFACE_UNCHANGED",
+    "ENDPOINT_IDENTITY_UNCHANGED != PROOF_OF_NO_TRANSIENT_WRITE_AND_RESTORE",
+    "IDENTITY_DRIFT != WRITEBACK_CAUSALITY_ATTRIBUTION",
+    "READ_ONLY_WITNESS != SOURCE_AUTHORITY",
+    "LOCAL_SOURCE_FINGERPRINT != PUBLIC_RECEIPT",
+    "CI_GREEN != MERGE_PERMISSION"
+  ],
+  "effect_boundary": {
+    "source_writeback": false,
+    "source_delete": false,
+    "history_rewrite": false,
+    "worktree_mutation": false,
+    "index_mutation": false,
+    "network_transport": false,
+    "external_effect_authority": false,
+    "authority_delta": 0,
+    "mass_effect_budget_delta": 0
+  },
+  "claim_ceiling": "This guard can establish equality or drift between two endpoint snapshots of Git commit/tree identity and non-.git worktree surface under its capture-race checks. Equality does not prove the absence of a transient write-and-restore between snapshots and does not attribute causality. The public projection intentionally withholds local source fingerprints and drifted source identifiers."
+}
