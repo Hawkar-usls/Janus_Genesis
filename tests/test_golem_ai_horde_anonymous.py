@@ -353,5 +353,65 @@ class TestHordeAnonymous(unittest.TestCase):
         self.assertEqual(self.calls, [])
 
 
+    def test_native_end_to_end_gate_requires_digest_and_real_provenance(self):
+        answer = "Check a third-party witness."
+        report = {
+            "status": "REAL_ANONYMOUS_RESPONSE__UNVERIFIED",
+            "network_model_response_observed": True,
+            "source": "ACTUAL_ANONYMOUS_HTTP",
+            "prompt_sent": True, "attempts": 1,
+            "response": answer,
+            "response_sha256": horde.sha256(answer.encode()),
+            "model_reported_unverified": "volunteer-model",
+            "native_review_status": "REAL_PINNED_NATIVE_CPU_UNVERIFIED",
+            "native_review_sha256_local_only": "f" * 64,
+            "aura_receipt_sha256_local_only": "e" * 64,
+            "verified_context_sha256_local_only": "d" * 64,
+            "failure_class": None,
+        }
+        self.assertTrue(horde.native_end_to_end_observed(report))
+        for changed in (
+            {"native_review_status": "NATIVE_REVIEW_UNAVAILABLE"},
+            {"native_review_status": "MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE"},
+            {"native_review_sha256_local_only": "wrong"},
+            {"aura_receipt_sha256_local_only": None},
+            {"response_sha256": "0" * 64},
+        ):
+            self.assertFalse(horde.native_end_to_end_observed({**report, **changed}))
+
+        args = ["horde", "--execute-public-demo", "--home-root", "/isolated-home",
+                "--native-repo", "/pinned-native", "--native-head", "a" * 40,
+                "--require-native-review"]
+        with patch.object(horde, "query_attested_aura", return_value=report) as mocked:
+            with patch.object(sys, "argv", args):
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(horde.main(), 0)
+        self.assertEqual(mocked.call_count, 1)
+        kwargs = mocked.call_args.kwargs
+        self.assertEqual(kwargs["native_head"], "a" * 40)
+        self.assertEqual(kwargs["native_repo"], Path("/pinned-native"))
+
+        with patch.object(horde, "query_attested_aura", return_value={
+                **report, "native_review_status": "NATIVE_REVIEW_UNAVAILABLE"}):
+            with patch.object(sys, "argv", args):
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(horde.main(), 2)
+
+    def test_native_review_cli_cannot_run_without_earlier_gates(self):
+        for flags in (
+            ["--require-native-review"],
+            ["--execute-public-demo", "--require-native-review"],
+            ["--execute-public-demo", "--home-root", "/isolated-home",
+             "--native-repo", "/pinned-native"],
+        ):
+            with self.subTest(flags=flags):
+                with patch.object(sys, "argv", ["horde"] + flags):
+                    with patch("sys.stderr", new_callable=io.StringIO):
+                        with self.assertRaises(SystemExit) as cm:
+                            horde.main()
+                self.assertEqual(cm.exception.code, 2)
+
+
+
 if __name__ == "__main__":
     unittest.main()
