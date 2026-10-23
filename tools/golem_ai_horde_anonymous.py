@@ -365,7 +365,11 @@ def native_end_to_end_observed(report: dict) -> bool:
         and isinstance(native_hash, str)
         and re.fullmatch(r"[0-9a-f]{64}", native_hash) is not None
         and isinstance(report.get("aura_receipt_sha256_local_only"), str)
+        and re.fullmatch(r"[0-9a-f]{64}",
+                         report["aura_receipt_sha256_local_only"]) is not None
         and isinstance(report.get("verified_context_sha256_local_only"), str)
+        and re.fullmatch(r"[0-9a-f]{64}",
+                         report["verified_context_sha256_local_only"]) is not None
     )
 
 
