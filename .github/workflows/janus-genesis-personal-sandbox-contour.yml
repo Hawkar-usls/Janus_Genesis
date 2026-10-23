@@ -1,0 +1,215 @@
+name: JANUS Genesis Personal Sandbox Contour
+
+on:
+  push:
+    branches:
+      - main
+      - feature/janus-personal-sandbox-contour-v1
+    paths:
+      - '.github/workflows/janus-genesis-personal-sandbox-contour.yml'
+      - 'tools/verify_genesis_personal_sandbox.py'
+      - 'tests/test_genesis_personal_sandbox.py'
+  pull_request:
+    paths:
+      - '.github/workflows/janus-genesis-personal-sandbox-contour.yml'
+      - 'tools/verify_genesis_personal_sandbox.py'
+      - 'tests/test_genesis_personal_sandbox.py'
+  schedule:
+    - cron: '37 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: janus-genesis-personal-sandbox-contour
+  cancel-in-progress: false
+
+jobs:
+  sandbox-contour:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Genesis architecture
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Checkout JANUS Habitat as target-local sandbox
+        uses: actions/checkout@v4
+        with:
+          ref: janus/habitat
+          path: habitat-work
+          fetch-depth: 1
+
+      - name: Run fail-closed sandbox verifier kernel
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest tests.test_genesis_personal_sandbox -v
+          python tools/verify_genesis_personal_sandbox.py \
+            --contract habitat-work/habitat/protocol/JANUS_PERSONAL_SANDBOX_GRANT-v1.0.json \
+            --target-ref janus/habitat \
+            --path habitat/memory/contour/JANUS_LATEST_DECISION_SNAPSHOT.json
+          test "$(git -C habitat-work rev-parse --abbrev-ref HEAD)" = "janus/habitat"
+          echo 'GENESIS_SANDBOX_LOCAL_GATE=PASS'
+
+      - name: Pull current JANUS decision into personal sandbox
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TARGET='habitat/memory/contour/JANUS_LATEST_DECISION_SNAPSHOT.json'
+          RECEIPT='habitat/receipts/JANUS_GENESIS_CONTOUR_LATEST.json'
+          CONTRACT='habitat-work/habitat/protocol/JANUS_PERSONAL_SANDBOX_GRANT-v1.0.json'
+
+          python tools/verify_genesis_personal_sandbox.py --contract "$CONTRACT" --target-ref janus/habitat --path "$TARGET"
+          python tools/verify_genesis_personal_sandbox.py --contract "$CONTRACT" --target-ref janus/habitat --path "$RECEIPT"
+
+          MAIN_BEFORE="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          HABITAT_BEFORE="$(git -C habitat-work rev-parse HEAD)"
+          test -n "$MAIN_BEFORE"
+          test -n "$HABITAT_BEFORE"
+
+          curl --fail --silent --show-error --location --retry 3 \
+            'https://raw.githubusercontent.com/Hawkar-usls/Janus-Demiurge/main/janus_model/state/JANUS_LATEST_DECISION.json' \
+            --output /tmp/JANUS_LATEST_DECISION.json
+
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          src = Path('/tmp/JANUS_LATEST_DECISION.json')
+          raw = src.read_bytes()
+          decision = json.loads(raw)
+          if not isinstance(decision, dict):
+              raise SystemExit('JANUS_DECISION_NOT_OBJECT')
+
+          selected = decision.get('selected_action')
+          if isinstance(selected, dict):
+              selected_summary = {
+                  k: selected.get(k)
+                  for k in ('action_id', 'target_repository', 'verification_profile', 'risk')
+                  if selected.get(k) is not None
+              }
+          else:
+              selected_summary = selected
+
+          snapshot = {
+              'schema': 'janus.genesis.personal_sandbox.contour_snapshot.v1',
+              'status': 'BOUND_PUBLIC_CONTOUR_SNAPSHOT',
+              'resident_id': 'JANUS',
+              'source': {
+                  'repository': 'Hawkar-usls/Janus-Demiurge',
+                  'ref': 'main',
+                  'path': 'janus_model/state/JANUS_LATEST_DECISION.json',
+                  'sha256': hashlib.sha256(raw).hexdigest(),
+                  'source_schema': decision.get('schema'),
+              },
+              'decision': {
+                  'decision_id': decision.get('decision_id'),
+                  'checkpoint_sha256': decision.get('checkpoint_sha256'),
+                  'selected_action': selected_summary,
+                  'gate_reason': decision.get('gate_reason'),
+              },
+              'authority': {
+                  'source_decision_is_world_truth': False,
+                  'snapshot_grants_main_authority': False,
+                  'snapshot_grants_merge_authority': False,
+                  'snapshot_grants_secrets_access': False,
+                  'authority_delta': 0,
+              },
+              'firewalls': [
+                  'CONTOUR_SNAPSHOT != WORLD_TRUTH',
+                  'CONTOUR_SNAPSHOT != MAIN_AUTHORITY',
+                  'SANDBOX_WRITE != MERGE_AUTHORITY',
+                  'NEXUS_ACTIVITY != NATURAL_GIT_LIFE_WITNESS',
+              ],
+          }
+          out = Path('habitat-work/habitat/memory/contour/JANUS_LATEST_DECISION_SNAPSHOT.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          PY
+
+          git -C habitat-work config user.name 'janus-genesis-sandbox'
+          git -C habitat-work config user.email 'janus-genesis-sandbox@users.noreply.github.com'
+          git -C habitat-work add -- "$TARGET"
+          CHANGED="$(git -C habitat-work diff --cached --name-only)"
+          test "$CHANGED" = "$TARGET"
+
+          if git -C habitat-work diff --cached --quiet; then
+            echo 'GENESIS_SANDBOX_SNAPSHOT=UNCHANGED'
+            exit 0
+          fi
+
+          git -C habitat-work commit -m "JANUS habitat: absorb current contour decision snapshot"
+          PATCH_COMMIT="$(git -C habitat-work rev-parse HEAD)"
+          git -C habitat-work push origin HEAD:janus/habitat
+
+          MAIN_AFTER_PATCH="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          test "$MAIN_AFTER_PATCH" = "$MAIN_BEFORE"
+
+          export MAIN_BEFORE HABITAT_BEFORE PATCH_COMMIT GITHUB_RUN_ID GITHUB_RUN_ATTEMPT
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          target = Path('habitat-work/habitat/memory/contour/JANUS_LATEST_DECISION_SNAPSHOT.json')
+          receipt = {
+              'schema': 'janus.genesis.personal_sandbox.receipt.v1',
+              'status': 'VERIFY_PASS',
+              'resident_id': 'JANUS',
+              'target_repository': 'Hawkar-usls/Janus_Genesis',
+              'target_ref': 'janus/habitat',
+              'target_path': 'habitat/memory/contour/JANUS_LATEST_DECISION_SNAPSHOT.json',
+              'target_sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
+              'lineage': {
+                  'main_before': os.environ['MAIN_BEFORE'],
+                  'habitat_before': os.environ['HABITAT_BEFORE'],
+                  'patch_commit': os.environ['PATCH_COMMIT'],
+                  'workflow_run_id': int(os.environ['GITHUB_RUN_ID']),
+                  'workflow_run_attempt': int(os.environ['GITHUB_RUN_ATTEMPT']),
+              },
+              'verification': {
+                  'target_local_verifier': 'tools/verify_genesis_personal_sandbox.py',
+                  'exact_ref_verified': True,
+                  'allowlisted_path_verified': True,
+                  'main_unchanged_after_patch_push': True,
+              },
+              'authority': {
+                  'authority_delta': 0,
+                  'main_mutated': False,
+                  'autonomous_merge': False,
+                  'secrets_access': False,
+                  'world_truth': False,
+                  'natural_git_life_witness': False,
+              },
+              'firewalls': [
+                  'GENESIS_SANDBOX_ACCESS != MAIN_AUTHORITY',
+                  'SANDBOX_WRITE != MERGE_AUTHORITY',
+                  'NEXUS_ACTIVITY != NATURAL_GIT_LIFE_WITNESS',
+              ],
+          }
+          out = Path('habitat-work/habitat/receipts/JANUS_GENESIS_CONTOUR_LATEST.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          PY
+
+          git -C habitat-work add -- "$RECEIPT"
+          CHANGED_RECEIPT="$(git -C habitat-work diff --cached --name-only)"
+          test "$CHANGED_RECEIPT" = "$RECEIPT"
+          git -C habitat-work commit -m "JANUS habitat: seal contour sandbox receipt"
+          RECEIPT_COMMIT="$(git -C habitat-work rev-parse HEAD)"
+          git -C habitat-work push origin HEAD:janus/habitat
+
+          MAIN_AFTER_RECEIPT="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          test "$MAIN_AFTER_RECEIPT" = "$MAIN_BEFORE"
+          echo "GENESIS_SANDBOX_PATCH_COMMIT=$PATCH_COMMIT"
+          echo "GENESIS_SANDBOX_RECEIPT_COMMIT=$RECEIPT_COMMIT"
+          echo "GENESIS_MAIN_UNCHANGED=$MAIN_BEFORE"
+          echo 'JANUS_GENESIS_PERSONAL_SANDBOX_CONTOUR=PASS'
