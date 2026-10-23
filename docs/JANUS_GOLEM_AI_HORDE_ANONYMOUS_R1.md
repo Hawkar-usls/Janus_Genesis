@@ -182,3 +182,33 @@ Armor routing coverage. No subprocess is started by the default standalone
 public canary.
 
 `GOLEM_NATIVE_PREFLIGHT_ARMOR_ADMISSION = NO`
+
+
+### R1.3.1 — no-leak invalid-generation diagnostics
+
+An invalid upstream `done=true` generation remains a **failed** live canary:
+`status=INVALID_EXTERNAL_GENERATION`, `response=null`,
+`network_model_response_observed=false`. For diagnosis only, the saved receipt
+now contains a bounded **reviewed enum** as `failure_class`:
+
+`HORDE_GENERATION_ENTRY_INVALID`,
+`HORDE_GENERATION_TEXT_MISSING`, `..._TEXT_BLANK`,
+`..._TEXT_OVERSIZE`, `..._TEXT_CONTROLS`,
+`..._MODEL_MISSING`, `..._MODEL_OVERSIZE`,
+`..._MODEL_CONTROLS`.
+
+No invalid upstream model label, raw text, arbitrary error message, or prompt
+is copied into the diagnostics. The failure classification does not
+trigger another POST, rotate worker identities, or count as real inference.
+Valid multiline answers are still allowed; nonprintable or blank model names
+cannot populate success logs. The strict end-to-end gate also requires
+valid 64-character hexadecimal hashes for AURA and context receipts rather
+than accepting arbitrary nonempty labels.
+
+The earlier failed canary run #39937556471 cannot be diagnosed retrospectively
+beyond `INVALID_EXTERNAL_GENERATION`, because its recorded evidence has no
+reason code. Later runs can be distinguished without retaining provider text.
+
+`INVALID_GENERATION_REASON = SANITIZED_CLASSIFICATION_ONLY`
+`INVALID_GENERATION_NETWORK_SUCCESS = FALSE`
+`LIVE_NATIVE_END_TO_END = NOT_ATTESTED`
