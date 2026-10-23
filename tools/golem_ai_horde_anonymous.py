@@ -254,6 +254,29 @@ def query_attested_aura(home: Path, *, execute: bool = False,
     return result
 
 
+def real_answer_observed(report: dict) -> bool:
+    """Strict canary predicate: independently bind response bytes to receipt.
+
+    A green workflow is evidence of external inference only when the public
+    built-in HTTPS transport observed one well-formed, digest-bound answer.
+    """
+    if not isinstance(report, dict):
+        return False
+    answer = report.get("response")
+    model = report.get("model_reported_unverified")
+    return (
+        report.get("status") == "REAL_ANONYMOUS_RESPONSE__UNVERIFIED"
+        and report.get("network_model_response_observed") is True
+        and report.get("source") == "ACTUAL_ANONYMOUS_HTTP"
+        and report.get("prompt_sent") is True
+        and report.get("attempts") == 1
+        and isinstance(answer, str) and 0 < len(answer) <= MAX_OUTPUT
+        and any(c.isprintable() and not c.isspace() for c in answer)
+        and isinstance(model, str) and bool(model.strip()) and len(model) <= 160
+        and report.get("response_sha256") == sha256(answer.encode("utf-8"))
+    )
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--execute-public-demo", action="store_true")
@@ -277,13 +300,11 @@ def main() -> int:
         "source": report["source"],
         "model": report["model_reported_unverified"],
         "failure_class": report["failure_class"],
+        "response_sha256": report.get("response_sha256"),
         "sha256": sha256(body.encode("utf-8")),
     }, sort_keys=True))
     # An offline contract PASS is separate from a live-model response PASS.
-    if args.require_real_answer and (
-        report["status"] != "REAL_ANONYMOUS_RESPONSE__UNVERIFIED"
-        or report["network_model_response_observed"] is not True
-    ):
+    if args.require_real_answer and not real_answer_observed(report):
         return 2
     return 0
 
