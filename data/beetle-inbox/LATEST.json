@@ -1,5 +1,5 @@
 {
-  "batch_id": "f49962c07ac31a0b75a9",
+  "batch_id": "e5eded1f23ee68b427da",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
@@ -436,6 +436,50 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f48cfeac356874214173c262",
+      "context_id": "6fd600555de893bf7f0047b4",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inversion",
+        "reconstruction",
+        "recovery",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.5833,
+      "source": "zenodo",
+      "source_context_sha256": "191d493524944d8e3e370ebfe87a230e081df45de78e05d7eb5c0b30d4d7d597",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "Virtualization-based obfuscation and Mixed Boolean-Arithmetic (MBA) represent the modern standard for software intellectual property concealment and malware defense evasion, transforming native machine instructions into pseudo-random bytecodes executed by an embedded interpreter. Existing deobfuscation paradigms remain fundamentally brittle: dynamic execution tracing achieves incomplete path coverage while triggering anti-analysis defenses; classical Dynamic Symbolic Execution (DSE) suffers from catastrophic path explosion and prohibitive SMT solver latency over modular bit-vector arithmetic; and virtual stack mechanics leave hundreds of dead operations that overwhelm industry decompilers. In this paper, we present AETHER-64, a fully automated, static bytecode-driven devirtualization and algebraic simplification framework engineered specifically for 64-bit protected binaries. AETHER-64 introduces three foundational innovations: (1) Local-Context Handler Symbolic Slicing, which reconstructs complete Control-Flow Graphs (CFGs) through isolated basic block emulation without accumulating global path constraints; (2) a bit-parallel Algebraic Pre-Reduction (APR) filter grounded in Boolean conjunction lattice signatures and fast Moebius inversion over Z/2^64, resolving invariant dispatch conditions in O(1) time; and (3) syntax-directed I/O-guided non-linear MBA synthesis coupled with LLVM Static Single Assignment (SSA) virtual stack elimination. We evaluate AETHER-64 on the Quarkslab Diffing Obfuscation Dataset (104 ground-truth functions across MiniLua, Zlib, and SQLite comprising 56,883 bytecode instructions), 1,000 synthetic Tigress virtual machines, commercial protections (VMProtect 3.4/3.5, Themida 3.1), and 7-layer non-linear MBA expressions. AETHER-64 achieves 100% CFG recovery, resolves 93.91% of branch queries via APR filtering with an empirical 2,072.8x speedup over raw SMT resolution, eliminates 91.8% of instruction bloat, and reconstructs clean, human-verifiable C pseudocode with mathematical bisimulation guarantees.",
+      "tags": [
+        "Binary Devirtualization",
+        "Reverse Engineering",
+        "Mixed Boolean-Arithmetic",
+        "Symbolic Execution",
+        "LLVM IR",
+        "Control-Flow Reconstruction",
+        "Software Security",
+        "VMProtect"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AETHER-64: High-Throughput Binary Devirtualization via Bit-Parallel Algebraic Pre-Reduction and SSA Bytecode Promotion",
+      "url": "https://zenodo.org/records/23613341"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "63f620c6d48216f5739b5aca",
       "context_id": "dbb57981d061a941d12d971b",
       "delivery_preview_only": true,
@@ -476,8 +520,8 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "014d2c6b214767f4e989e2fd",
-      "context_id": "e633e299e34c5a0e602fd2f1",
+      "candidate_id": "b526e4d3a68b18c4f58d44b5",
+      "context_id": "70837781791947ea140bdd3b",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "cognition_memory_reverse::REVERSE",
@@ -492,24 +536,21 @@
       ],
       "keyword_hits": [
         "inverse",
-        "reconstruction",
-        "retrieval"
+        "representation",
+        "reverse"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.25,
-      "source": "arxiv",
-      "source_context_sha256": "a4ae0e4cfb94f0d4ec668fb3e1262937bd6945e204a03c6b6492b830e36b0715",
-      "source_published": "2026-10-22T17:26:34Z",
-      "source_updated": "2026-10-22T17:26:34Z",
-      "summary": "Diffusion models have become strong priors for solving inverse problems. However, nonlinear inverse problems such as phase retrieval remain challenging when multiple measurement-consistent solutions are distinguishable only by the prior; we call such measurements ambiguous. Existing diffusion-based samplers rely on local approximations during reconstruction. For an ambiguous measurement, these approximations can allow measurement guidance to favor a measurement-consistent mode that is close to a prior-supported mode but is itself not supported by the prior. Evaluation often masks this type of failure by reporting the best-of-$k$ runs, where the best is selected by comparison to the ground truth. We introduce Prior-Consistent DAPS (PC-DAPS), a variant of Decoupled Annealing Posterior Sampling (DAPS) designed to address this failure case by maintaining multiple candidate solutions within a single sampling run. As annealing noise decreases, PC-DAPS prunes and replaces weaker candidates according to their prior consistency, without any ground-truth access. PC-DAPS reduces the incidence of prior-inconsistent samples and improves sample quality on nonlinear inverse problems while preserving sample quality and diversity on linear inverse problems.",
-      "tags": [
-        "cs.CV",
-        "cs.LG"
-      ],
+      "score": 10.1667,
+      "source": "zenodo",
+      "source_context_sha256": "9000f8a7a33a97d2e2dd16e9286b3436f945d6764a15ef1649e73df642b6c3f0",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "From Reversible Bit-Rings to Quantitative Matter Readouts The Qu Relational Compiler, Three-Dimensional Steric Closure, and Symmetry-Reduced Polymer Mechanics &nbsp; Driven by Dean A. Kulik October, 2025 &nbsp; 1. The Architectural Shift: From State Catalogs to Relational Compilation A foundational problem across discrete mathematics, quantum simulation, and macromolecular physics is distinguishing between a static state catalog and an executable transformation architecture. Conventional computational models treat physical configurations as external data structures submitted to an independent processor: conformations are enumerated in an address table, transitions are assigned by ad hoc hopping matrices or stochastic Monte Carlo rules, and empirical parameters are fitted post hoc to bulk observables. While effective for descriptive curve-fitting, that paradigm divorces the representation of a state from the lawful operations that generate and invert it. Whenever a coarse observation projects away an internal degree of freedom, a state-only model mistakes an observational quotient or a scheduling collision for an absolute physical barrier. The research program consolidated in this report&mdash;spanning the native binary partner rings, the One Inverter twisted clock, the Way Between three-dimensional conformational compiler, and the tetrahedral diamond-lattice and polyethylene matter readers through &sect;167&mdash;establishes a rigorous alternative: compilation is the continuing resolution of local relational constraints, and physical observables are typed readouts of the resulting operator algebra. Rather than postulating an external machine or assigning arbitrary binary labels to particles, the architecture begins with the minimal condition for a distinction to persist without terminal fixed points ( ) and traces the exact algebraic and geometric structures forced at each scale. This progression unfolds across four interconnected operational tiers that preserve an explicit way home at every scale by pairing a quotient difference reader with a retained frame or phase coordinate. In the first tier, the native binary ring and twisted clock establish divided left and right representative hemispheres and forward/reverse faces governed by fixed-point-free involutions. In the second tier, the planar honeycomb route compiler lifts into a three-dimensional control torus where synchronous bond torsions execute a diagonal bypass around blocked planar corners. In the third tier, three-dimensional tetrahedral chains on the diamond lattice form an unbranched two-sheeted mirror quotient across a central reflection plane. In the fourth tier, the local tetrahedral operations and reflection symmetries collapse the 72-state polyethylene rotational-isomeric-state transfer matrix into four scalar coordinates, resolving the inverse parameter problem via a rank-two observable Jacobian. Across all four tiers, the compiler operates through two governing equations that separate the underlying accumulated transformation from the perspective of a particular observer: In the first equation, local reversible increments &mdash;whether bit shifts, modular carries, planar turns, or spatial &nbsp; bond torsions&mdash;accumulate relative to a held reference frame . Changing &nbsp; reorients the global description rigidly without altering any internal relation , while substituting a subword &nbsp; with an alternative sequence &nbsp; having the identical running product produces a strictly local transformation whose exterior remains undisturbed. In the second equation, the multiplicity structure &nbsp; belongs to the object's own relation complex, while a chosen reader &nbsp; exposes only the projection . An apparent zero in &nbsp; or a rank deficiency in a planar Jacobian does not imply the absence of a physical continuation; it diagnoses a specific mismatch between the active transformation and the reader's coordinate chart. Every result included in this synth",
+      "tags": [],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Beyond Best-of-$k$: Prior-Consistent DAPS for Ambiguous Nonlinear Inverse Problems",
-      "url": "https://arxiv.org/abs/2610.31592v1"
+      "title": "From Reversible Bit-Rings to Quantitative Matter Readouts",
+      "url": "https://zenodo.org/records/23613487"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -661,42 +702,6 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "e96345e24c1207edbb294c0f",
-      "context_id": "f8550d910998f3ad74841a38",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "bidirectional",
-        "inverse",
-        "representation"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.4167,
-      "source": "arxiv",
-      "source_context_sha256": "0f6de0a7b50a31173b28d777ee1c468652413770a0e33b170c4a024d9c50279d",
-      "source_published": "2026-10-22T12:59:42Z",
-      "source_updated": "2026-10-22T12:59:42Z",
-      "summary": "We envision a general-purpose protein foundation model as a unified, interactive model of sequence, structure, and function, capable of understanding, generation, and cross-modal translation while retaining the instruction-following and reasoning capabilities of modern LLMs. Toward this vision, we introduce Trion-1, the first native, unified, multimodal diffusion language model (dLLM) for proteins. Trion-1 is built on two key design choices: (1) a unified discrete token space that jointly represents sequence, structure, and natural language; (2) a dLLM backbone that replaces strict left-to-right factorization with bidirectional or semi-bidirectional token interactions, enabling global residue communication and long-range contact modeling that are naturally suited to structure modeling. This formulation unifies six core capabilities: folding, inverse folding, sequence understanding, structure understanding, sequence design, and structure design, while retaining the native language capabilities of general-purpose LLMs. On established benchmarks, Trion-1 achieves broadly competitive performance. In folding, Trion-1 achieves a TM-score above 0.8 with a single sample under strict homology control, matching or exceeding the existing tri-modal model using 200 samples. For sequence understanding, Trion-1 performs on par with top-tier LLMs such as Claude Opus 4.7 (62.37%). These results support well-aligned sequence-structure-language representations and strong cross-modal generative capabilities.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Trion-1: Unifying Language, Protein Sequence, and Structure with Diffusion Language Models",
-      "url": "https://arxiv.org/abs/2610.31215v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "e10467b220313c9681bf2378",
       "context_id": "beea1411bc9a875e3161508e",
       "delivery_preview_only": true,
@@ -770,46 +775,8 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "5052e787e4a7a4909b997cd0",
-      "context_id": "ffafd0f1ea44e18a25ed5df9",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "reconstruction",
-        "recovery"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.1667,
-      "source": "arxiv",
-      "source_context_sha256": "cd500230f92d5017a9235c8f6e799007e850323a055a91a84ea3a7e21da0955f",
-      "source_published": "2026-10-22T14:41:36Z",
-      "source_updated": "2026-10-22T14:41:36Z",
-      "summary": "Many LLM agents maintain external persistent memory and derive additional state from past interactions, such as summaries. Deleting an original memory record therefore need not remove information carried by its descendants. We introduce AfterDeleteBench, a controlled behavioral audit for this failure mode in fixed-weight LLM agents. For each synthetic secret, we compare an exposed-then-deleted agent with an otherwise matched agent that was never exposed to the secret, allowing post-deletion recovery to be attributed to the original exposure. In our primary setting, a single query recovers the deleted secret from Qwen2.5-7B-Instruct in roughly two thirds of cases, while matched never-exposed controls have zero recovery. Crucially, recovery does not require a surviving verbatim copy: when the complete secret string is absent and only separately stored components remain under a public composition rule, exact reconstruction succeeds in 62-99% of cases across Qwen, Mistral, and Phi-3. We also show that the response interface is part of the measurement system: target-bearing replies can be scored as failures when the requested format and parser are misaligned. Finally, we separate reconstruction from write-back and fresh-session recall. Provenance-aware closure eliminates observed recovery in the tested positive-baseline settings, whereas an exact-literal write filter blocks reinsertion but cannot erase information already present. Together, these results show that source deletion should be evaluated behaviorally at the level of the agent and its memory system, not only as a storage operation.",
-      "tags": [
-        "cs.CR",
-        "cs.CL",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "AfterDeleteBench: Auditing Post-Deletion Information Persistence in LLM Agents",
-      "url": "https://arxiv.org/abs/2610.31366v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "51dd0fe08e69231ded457d38",
-      "context_id": "b7cefff45f3802a0087a0b67",
+      "candidate_id": "be1fa654cf99a8360cbfc89a",
+      "context_id": "c7b71e75b39c77e3964446ef",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "cognition_memory_reverse::REVERSE",
@@ -824,23 +791,39 @@
       ],
       "keyword_hits": [
         "reconstruction",
-        "representation"
+        "source identification"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.1667,
-      "source": "arxiv",
-      "source_context_sha256": "b11df2d85e34d81d594cef8408f4cde39b577e95a203a3f9ec9b0ab2301176fd",
-      "source_published": "2026-10-22T14:26:52Z",
-      "source_updated": "2026-10-22T14:26:52Z",
-      "summary": "Generative AI is widely framed as democratizing skilled work by lowering the barrier to producing professional output. Drawing on 21 semi-structured interviews with 27 workers across 21 small and medium-sized businesses (SMBs) in Kenya and Nigeria (July to October 2023), we find that availability alone did not make participation workable. In participants' accounts, drafting was rarely the hard part. The consequential work was making AI-assisted drafts defensible enough to circulate to clients. We identify five intertwined practices through which participants made generative AI workable: using it as draft labour, steering outputs through iterative interaction, switching and comparing across tools, performing release work to make outputs accountable before circulation, and repairing context misfit when outputs failed local requirements. We make two central contributions. First, we specify release work as a distinct, boundary-facing form of accountability labour, evidenced through verification gates, traceability reconstruction when sources fail, and non-delegation boundaries that decide what can ship. Second, we show how localization and representational failures, which we call context misfit, operate in everyday work as a recurring breakdown-and-repair class, including failures of local language, institutional knowledge, and the credible representation of African people and places, and we document the repair repertoire they demanded. Reframing democratization as workable participation, we argue that reported gains were conditional on this accountability and repair labour, and we translate the findings into four design directions for workplace generative AI. We treat Kenya and Nigeria as two situated cases, not as a representative sample of SMBs or the Global South.",
+      "score": 6.4583,
+      "source": "zenodo",
+      "source_context_sha256": "d74ef54c940efc8a96eec529a7d6a223085792b402b79e3fd4a45a1806d162ea",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "This paper consolidates the Phase and Electromagnetic Coupling programme through twenty-one computational checkpoints, examining connections between phase organisation, electromagnetic response, gravitational sourcing, and optical receiver records within explicitly specified physical models. The analysis connects amplitude and relative phase to internal-state geometry, collective quantum electromagnetic responses, material currents, and the complete stress&ndash;energy tensor of a relativistic scalar field. It distinguishes the information contained in a joint source state from the information accessible through a particular coupling, including collective bright and dark responses that cannot be recovered from separate local states alone. In the gravitational calculations, two internal phase arrangements with matching initial local current, stress, and geometry subsequently produce different neutral-probe tidal responses. A specified optical construction carries a selected difference into receiver-clock intervals, radar distance, and interference signals. The response persists in an independently solved zero-charge family, demonstrating that an electromagnetic source field is not required for this particular modelled gravitational phase dependence. The paper also establishes a restricted mathematical connection between the programme&rsquo;s nested gravitational source proposal and conventional field stress. An amplitude-weighted cosine expression appears as the equal-amplitude, single-component limit of a squared transported field difference. Retaining amplitude variation, internal-state overlap, and directional and temporal information permits reconstruction of the complete source and its gravitational accounting. Foundational Phase remains nonspatial in the proposed interpretation; coordinates and dynamics belong to the represented coupling description. The results are conditional mathematical correspondences and numerical findings using supplied interactions, Maxwell equations, Einstein gravity, and ideal receiver laws. Physical source identification, dimensional calibration, and measured receiver response remain open. The quantum and classical calculations are separate models, with no quantum-to-classical derivation claimed. The accompanying reproducibility release contains the synthesis, branch master, twenty-one checkpoint reports, original computational packages, and a catalogue linking results to their verification procedures.",
       "tags": [
-        "cs.HC",
-        "cs.CY"
+        "Harmonic Physics",
+        "phase organisation",
+        "relative phase",
+        "electromagnetic coupling",
+        "light-matter interaction",
+        "geometric phase",
+        "quantum geometry",
+        "collective quantum response",
+        "guage invariance",
+        "stress-energy tensor",
+        "scalar ields",
+        "general relativity",
+        "gravititational tides",
+        "nested phase organisation",
+        "optical receiver records",
+        "radar distance",
+        "optical intererence",
+        "computational reproducibility"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Making Generative AI Workable at Work: Accountability, Localization, and Representation in Kenyan and Nigerian Small Businesses",
-      "url": "https://arxiv.org/abs/2610.31344v1"
+      "title": "Phase Organisation Electromagnetic Coupling and Gravitational Receiver Records",
+      "url": "https://zenodo.org/records/23612661"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -876,6 +859,54 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "AI Game Melding: Agent-Assisted Reconstruction, Player Co-Creation, and the Future of Programmable Play",
       "url": "https://zenodo.org/records/23585810"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "ae7d8fae379a8ae0701104b4",
+      "context_id": "30c66b66fe1489c73ea80bc2",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "representation"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.1667,
+      "source": "zenodo",
+      "source_context_sha256": "d0be17328f458e108c876d1e9f6e4ffff507b9ca614d4a07d656dca9ee87feea",
+      "source_published": "2026-10-23",
+      "source_updated": "",
+      "summary": "This paper develops the Phase Compatibility branch of Harmonic Physics: a framework for examining how physical participants enter constrained phase relations, produce collective outcomes, and form persistent higher-level organisations capable of further recursive participation. Building on established synchronization theory, phase locking, coupled-oscillator dynamics and phasor mathematics, the framework examines reinforcement, opposition, cancellation, reshaping and whole formation. It distinguishes mathematical admissibility, actual source occupancy, participant admission, active interaction, closure, continuing identity and observation. A compatibility basin is characterised through maintained relational organisation and persistence under declared conditions. Version 3.1 aligns the shared definitions with the current Foundations and Observer Theory papers, corrects the amplitude-weighted moment family, and clarifies the distinction between passive changes of representation and physical projection or coupling. It incorporates the completed mathematical nesting construction, which preserves a supplied quantum state&rsquo;s amplitude and relative-phase information, together with Born probabilities under corresponding joint measurements. Phase Theory Equations is identified as the consolidated reference for the current mathematical expressions. The observation account separates source organisation, information encoded into light, receiver coupling, registration, retention and calibrated reconstruction. Within the proposed optical terminology, light performs the observer role through source&ndash;receiver coupling, while the receiver registers and retains a physical response. Minimal relational consciousness and awareness retain separate definitions. The paper integrates controlled models, molecular spectral studies, a superconducting-qubit analogue, simulated liquid-water reorganisation, quantum-state encoding and specified receiver models, preserving the scope and limitations of each result. It sets out the state spaces, conservation requirements, comparison models and prospective failure conditions required for physical applications. Universal participant-admission and whole-formation laws remain open research questions; this revision introduces no new experimental validation.",
+      "tags": [
+        "phase compatibility framework",
+        "synchronization",
+        "coupled oscillators",
+        "phase locking",
+        "relative phase entrainment",
+        "kuramoto model",
+        "collective synchronization",
+        "phase stability",
+        "collective organization",
+        "order parameter",
+        "oscillator networks",
+        "registrability",
+        "non linear dynamics",
+        "scientific interpretation"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Phase Compatibility: Harmonic Combination, Selective Participation, Whole Formation, and Recursive Organisation",
+      "url": "https://zenodo.org/records/23597515"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -958,44 +989,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "The Value of Memory in Language Agents",
       "url": "https://arxiv.org/abs/2610.31303v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "5052e787e4a7a4909b997cd0",
-      "context_id": "b8d8c6d27d5363ababd78e2a",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure",
-        "failure mode",
-        "provenance"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.2083,
-      "source": "arxiv",
-      "source_context_sha256": "04a649708686d83ef2a0bf20dc41098e73d32b38c6149122a4ddaaaee1c5d7f4",
-      "source_published": "2026-10-22T14:41:36Z",
-      "source_updated": "2026-10-22T14:41:36Z",
-      "summary": "Many LLM agents maintain external persistent memory and derive additional state from past interactions, such as summaries. Deleting an original memory record therefore need not remove information carried by its descendants. We introduce AfterDeleteBench, a controlled behavioral audit for this failure mode in fixed-weight LLM agents. For each synthetic secret, we compare an exposed-then-deleted agent with an otherwise matched agent that was never exposed to the secret, allowing post-deletion recovery to be attributed to the original exposure. In our primary setting, a single query recovers the deleted secret from Qwen2.5-7B-Instruct in roughly two thirds of cases, while matched never-exposed controls have zero recovery. Crucially, recovery does not require a surviving verbatim copy: when the complete secret string is absent and only separately stored components remain under a public composition rule, exact reconstruction succeeds in 62-99% of cases across Qwen, Mistral, and Phi-3. We also show that the response interface is part of the measurement system: target-bearing replies can be scored as failures when the requested format and parser are misaligned. Finally, we separate reconstruction from write-back and fresh-session recall. Provenance-aware closure eliminates observed recovery in the tested positive-baseline settings, whereas an exact-literal write filter blocks reinsertion but cannot erase information already present. Together, these results show that source deletion should be evaluated behaviorally at the level of the agent and its memory system, not only as a storage operation.",
-      "tags": [
-        "cs.CR",
-        "cs.CL",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "AfterDeleteBench: Auditing Post-Deletion Information Persistence in LLM Agents",
-      "url": "https://arxiv.org/abs/2610.31366v1"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1318,6 +1311,41 @@
       "url": "https://arxiv.org/abs/2610.30221v1"
     },
     {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "aa5648a70ad713a8d67d1c6f",
+      "context_id": "df949a551946bcb9f4beba8d",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "world model"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.75,
+      "source": "arxiv",
+      "source_context_sha256": "df93180acd86b802cd971b7219288496e86ceeba414e5de79f4443365ae7861b",
+      "source_published": "2026-10-22T10:44:35Z",
+      "source_updated": "2026-10-22T10:44:35Z",
+      "summary": "World Models (WMs) can support Multimodal Agents (MAs) through simulated experience, while Agent trajectories can inform World Model refinement. Evaluating this interaction requires separate evidence about action selection and state evolution. We introduce Dual Exam, which tests Agents under fixed environment response mechanisms and World Models under fixed action interventions across physical, digital, social, and scientific domains. The Agent track compares 10 configurations on 1,088 items in 15 reporting categories. The World Model track contains 400 cases across eight scenarios; 15 configurations have full coverage and one covers six scenarios. GPT 6 Astra leads the case-weighted Agent Index at 31.3, and GPT-Image-2 leads the full-coverage WM Overall at 21.7. These scores use different tasks and metrics and are not directly comparable. A 150-case pilot of one coupled pairing records zero task successes and motivates component-level diagnosis. Results reveal uneven task performance and failures to preserve task-relevant state. Their value for predicting coupled success or sustained reciprocal learning remains to be established.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Dual Exam: Controlled Evaluation of Multimodal Agents and World Models",
+      "url": "https://arxiv.org/abs/2610.31066v1"
+    },
+    {
       "base_direction_id": "registry_provenance",
       "candidate_id": "de2225cffa180c5e7b576b78",
       "context_id": "6e54a6a806c24244ff8a65d0",
@@ -1613,44 +1641,6 @@
       "url": "https://zenodo.org/records/23609295"
     },
     {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "5052e787e4a7a4909b997cd0",
-      "context_id": "00ac723f12b00302d33bca45",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "control",
-        "provenance"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.0417,
-      "source": "arxiv",
-      "source_context_sha256": "2bf9de20c05cebceb27e874658cb4edf52ac80f13f04425ba2e4fa3da0bc41be",
-      "source_published": "2026-10-22T14:41:36Z",
-      "source_updated": "2026-10-22T14:41:36Z",
-      "summary": "Many LLM agents maintain external persistent memory and derive additional state from past interactions, such as summaries. Deleting an original memory record therefore need not remove information carried by its descendants. We introduce AfterDeleteBench, a controlled behavioral audit for this failure mode in fixed-weight LLM agents. For each synthetic secret, we compare an exposed-then-deleted agent with an otherwise matched agent that was never exposed to the secret, allowing post-deletion recovery to be attributed to the original exposure. In our primary setting, a single query recovers the deleted secret from Qwen2.5-7B-Instruct in roughly two thirds of cases, while matched never-exposed controls have zero recovery. Crucially, recovery does not require a surviving verbatim copy: when the complete secret string is absent and only separately stored components remain under a public composition rule, exact reconstruction succeeds in 62-99% of cases across Qwen, Mistral, and Phi-3. We also show that the response interface is part of the measurement system: target-bearing replies can be scored as failures when the requested format and parser are misaligned. Finally, we separate reconstruction from write-back and fresh-session recall. Provenance-aware closure eliminates observed recovery in the tested positive-baseline settings, whereas an exact-literal write filter blocks reinsertion but cannot erase information already present. Together, these results show that source deletion should be evaluated behaviorally at the level of the agent and its memory system, not only as a storage operation.",
-      "tags": [
-        "cs.CR",
-        "cs.CL",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "AfterDeleteBench: Auditing Post-Deletion Information Persistence in LLM Agents",
-      "url": "https://arxiv.org/abs/2610.31366v1"
-    },
-    {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "de2225cffa180c5e7b576b78",
       "context_id": "e1dc6a38a065cbf10606bfa4",
@@ -1755,6 +1745,43 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Federated Graph Retrieval-Augmented Generation",
       "url": "https://arxiv.org/abs/2610.30728v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "ac79c03c76eaead2c76df14b",
+      "context_id": "a0f9cafc345958fcdc03401c",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "benchmark",
+        "control",
+        "memory"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.25,
+      "source": "arxiv",
+      "source_context_sha256": "011278628cbab9c2c3c853f98a6324c40e368252e91ea00d39ff15d2763af78d",
+      "source_published": "2026-10-22T16:26:38Z",
+      "source_updated": "2026-10-22T16:26:38Z",
+      "summary": "Coordinating two players in a cooking task requires a vision-language agent to track changing scene states, sequence recipe steps, and allocate shared resources under a time budget. We introduce an Overcooked-inspired benchmark for evaluating these capabilities in Unreal Engine environments constructed using coding agents. A single vision-language model controls both players from top-down visual observations, selecting high-level actions while the engine executes navigation. The benchmark contains 20 maps in five categories. These categories support evaluation of centralized coordination under equipment contention, changing terrain, and handoff dependencies. A prop legend and pot ingredient-count indicators provide explicit visual cues, while grid-based destinations support spatial grounding. The evaluation compares four VLMs on all 20 maps, measuring task score, order completion, delivery precision, action acceptance rate, and model API expenditure. A memory ablation on the same 20 maps examines the effect of a shared, self-authored notebook while retaining six-response action history in both conditions. The strongest evaluated model, \\texttt{gpt-6-astra}, achieves 26.2\\% mean order completion. Notebook memory has mixed score effects across models, with positive mean differences for Claude and Qwen and negative differences for GPT and Gemini.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DuoCook: An Overcooked-Inspired Benchmark for Visual Planning and Coordination",
+      "url": "https://arxiv.org/abs/2610.31511v1"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
