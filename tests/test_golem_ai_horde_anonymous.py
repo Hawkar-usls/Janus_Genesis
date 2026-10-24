@@ -485,6 +485,7 @@ class TestHordeAnonymous(unittest.TestCase):
             with patch.object(horde.subprocess, "run", side_effect=[
                     SimpleNamespace(stdout=expected_head + "\n"),
                     SimpleNamespace(stdout=""),
+                    SimpleNamespace(stdout=""),
             ]):
                 horde.preflight_native_checkout(
                     repo, expected_head, horde.sha256(data))
@@ -506,7 +507,7 @@ class TestHordeAnonymous(unittest.TestCase):
             with patch.object(horde.subprocess, "run", side_effect=git_runner):
                 horde.preflight_native_checkout(
                     repo, "a" * 40, horde.sha256(raw))
-            self.assertEqual(len(git_calls), 2)
+            self.assertEqual(len(git_calls), 3)
             for argv, kw in git_calls:
                 self.assertEqual(argv[:2], ["git", "-c"])
                 self.assertIn("core.fsmonitor=false", argv)
@@ -522,6 +523,12 @@ class TestHordeAnonymous(unittest.TestCase):
             self.assertIn("--porcelain=v1", status_args)
             self.assertIn("--untracked-files=all", status_args)
             self.assertIn("--ignore-submodules=none", status_args)
+            ignored_args = git_calls[2][0]
+            self.assertIn("ls-files", ignored_args)
+            self.assertIn("--others", ignored_args)
+            self.assertIn("--ignored", ignored_args)
+            self.assertIn("--exclude-standard", ignored_args)
+            self.assertIn("-z", ignored_args)
 
     def test_native_preflight_rejects_untracked_file_before_egress(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -538,6 +545,41 @@ class TestHordeAnonymous(unittest.TestCase):
                         "HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID"):
                     horde.preflight_native_checkout(
                         repo, "a" * 40, horde.sha256(raw))
+
+    def test_native_preflight_rejects_ignored_executable_without_provider(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            raw = b"pinned benign test weights"
+            weights.write_bytes(raw)
+            for ignored in ("janus_model/hidden.py",
+                            "janus_model/__pycache__/module.cpython-312.pyc",
+                            "sitecustomize.py", "janus_model/plugin.so"):
+                with self.subTest(ignored=ignored):
+                    with patch.object(horde.subprocess, "run", side_effect=[
+                            SimpleNamespace(stdout="a" * 40 + "\n"),
+                            SimpleNamespace(stdout=""),
+                            SimpleNamespace(stdout=ignored + "\0")]):
+                        with self.assertRaisesRegex(
+                                ConsumptionError,
+                                "HORDE_NATIVE_PREFLIGHT_IGNORED_EXECUTABLE"):
+                            horde.preflight_native_checkout(
+                                repo, "a" * 40, horde.sha256(raw))
+
+    def test_native_preflight_allows_only_ignored_nonexecutables(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            raw = b"pinned benign test weights"
+            weights.write_bytes(raw)
+            with patch.object(horde.subprocess, "run", side_effect=[
+                    SimpleNamespace(stdout="a" * 40 + "\n"),
+                    SimpleNamespace(stdout=""),
+                    SimpleNamespace(stdout="janus_model/checkpoints/promoted.pt\0")]):
+                horde.preflight_native_checkout(repo, "a" * 40,
+                                                horde.sha256(raw))
 
     def test_native_preflight_raced_symlink_is_rejected_before_egress(self):
         if not hasattr(horde.os, "O_NOFOLLOW"):
@@ -558,6 +600,7 @@ class TestHordeAnonymous(unittest.TestCase):
                 return actual_open(path, flags, *args, **kwargs)
             with patch.object(horde.subprocess, "run", side_effect=[
                     SimpleNamespace(stdout="a" * 40 + "\n"),
+                    SimpleNamespace(stdout=""),
                     SimpleNamespace(stdout=""),
             ]):
                 with patch.object(horde.os, "open",
