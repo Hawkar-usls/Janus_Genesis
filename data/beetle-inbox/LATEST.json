@@ -1,5 +1,5 @@
 {
-  "batch_id": "594489afe17406b8f4a5",
+  "batch_id": "f49962c07ac31a0b75a9",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
@@ -550,6 +550,47 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "7b1832b9afb305a3d1b5792c",
+      "context_id": "a739dbce0542159707bc17a9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inversion",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.9583,
+      "source": "zenodo",
+      "source_context_sha256": "e6e955913880d1ce32135e58b8d7b07e8c10f3ef01ac14739a19a8304e5c2127",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "Reproducible Python/Colab pipeline that processes ECOSTRESS L2T LSTE v002 land surface temperature (70 m) to detect closed depressions acting as cold-air traps in the Central Middle Atlas (Morocco): local LST anomaly against a 5 km background, morphological reconstruction of closed depressions, D8 cold-air flow routing without depression filling, a harmonic model of nocturnal inversion development, statistical determinants, robustness and between-period stability.",
+      "tags": [
+        "cold-air pooling",
+        "ECOSTRESS",
+        "land surface temperature",
+        "closed depressions",
+        "topoclimate",
+        "Middle Atlas",
+        "Morocco"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "caps-ecostress-moyen-atlas: detection of cold-air pools from ECOSTRESS nocturnal land surface temperature and terrain morphology",
+      "url": "https://zenodo.org/records/23609163"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "b83987a2331d21bb5fae3727",
       "context_id": "953546a4199ba7a939361b41",
       "delivery_preview_only": true,
@@ -617,40 +658,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Inside-JEPA: From Prediction to Relational Grounding in Latent World Models",
       "url": "https://arxiv.org/abs/2610.31194v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "a3adabee0a0bbbf6db1a3bc8",
-      "context_id": "5a9222993f47d1e69b6a0735",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": true,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "identifiability",
-        "reconstruction",
-        "recovery"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.5417,
-      "source": "zenodo",
-      "source_context_sha256": "4976c27eca4614dcc0d10ced110b3972261dc4544990662a588fd77ae58f5a36",
-      "source_published": "2026-10-22",
-      "source_updated": "",
-      "summary": "MICROROBOTIC NOISE SEPARATION ENGINEERING FOR QUANTUM BIOSENSING AT THE LIMIT Mechanical Vibration &times; Quantum Readout Noise &times; Causal Spectral Analysis STARLI Research Institute XXIX &mdash; Flagship Research Monograph 08 When a microrobotic biosensing instrument produces a cleaner waveform, what evidence distinguishes genuinely improved measurement from a signal-processing procedure that has silently removed the very event being investigated? This research monograph develops a nonclinical, hypothesis-forming framework for microrobotic noise separation, causal spectral attribution, and quantum-enabled biosensing. Its central scientific challenge is to distinguish physical specimen-surrogate fluctuations, mechanical vibration, photon-counting statistics, optical reference instability, and shared instrumental noise without incorrectly attributing unexplained residuals to quantum effects or biological activity. The proposed research architecture combines synchronized raw-waveform acquisition, controlled microrobotic actuation, independent reference measurements, complex cross-spectral estimation, uncertainty quantification, and prospective blinded signal-recovery experiments. The 772-page manuscript contains 82 research chapters, 410 independently paginated scientific investigations, 30 interconnected mathematical research plates, 200 Research Gates, and 33 Phoenix Answer Embryos. Major mathematical investigations address power spectral density decomposition, source cross-correlations, spectral coherence, transfer functions, photon shot noise, low-frequency flicker noise, spectral leakage, mechanical harmonics, lock-in detection, multichannel spectral matrices, identifiability, and uncertainty-aware release decisions. A central falsifiable proposition is that controlled alternating actuation combined with independent phase-locked references may improve the separation of movement artifacts from genuine time-localized signals compared with conventional frequency-only filtering. However, successful noise reduction must be demonstrated without sacrificing true-signal amplitude, timing, spectral content, or scientific traceability. Proposed experiments employ artificial pulse generators, controlled vibration platforms, quantum-enabled optical sensing modules, conventional photodetection systems, and independently calibrated references. Performance comparisons include passive vibration isolation, fixed bandpass filtering, stationary sensing, and longer conventional averaging under matched measurement time, bandwidth, energy, and resource constraints. The 200 Research Gates preserve falsifiable questions, competing explanations, proposed experiments, measurable outcomes, uncertainty conditions, and evidence-preserving stopping criteria. The 33 Phoenix Answer Embryos present provisional research architectures that future human and AI investigators may challenge, reconstruct, extend, or replace. Seventeen DOI-linked scientific publications and metrological references provide methodological foundations while maintaining a clear distinction between established research and the unverified integration proposed in this manuscript. Scientific Scope and Limitations This monograph presents a theoretical and experimental research blueprint rather than completed laboratory findings. It does not establish clinical biosensing effectiveness, verified autonomous nanoscale medical robotics, universal quantum sensing superiority, or demonstrated biological signal attribution. Initial validation is restricted to artificial pulses, controlled instrumentation, nonclinical phantoms, and appropriately authorized research environments. STARLI Research Philosophy A trustworthy scientific signal is not simply a signal that looks quieter. It is one whose physical meaning, original evidence, causal assumptions, measurement uncertainty, and rejected interpretations remain open to independent investigation. By preserving falsifiable questions, negative fin",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "MICROROBOTIC NOISE SEPARATION ENGINEERING FOR QUANTUM BIOSENSING AT THE LIMIT Mechanical Vibration × Quantum Readout Noise × Causal Spectral Analysis STARLI Research Institute XXIX — Flagship Research Monograph 08 When a microrobotic biosensing instrument produces a cleaner waveform, what evidence d",
-      "url": "https://zenodo.org/records/23578718"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1025,132 +1032,6 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "6b5c38146dc1c865cf5c54e4",
-      "context_id": "ee6041605d30b2d3765dd978",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "d1400d659fc008f2fc8cd6388d4e32e0a8a51d1714330546cc0f78bc6d8b7c1f",
-      "source_published": "2026-10-23",
-      "source_updated": "",
-      "summary": "NovaFabric is self-hosted, open-source replay and evidence infrastructure for AI agents and agentic systems. It captures agent executions as portable, secret-scanned Run Capsules and provides replay, behavioral and structural diff, lineage, cryptographic provenance, assurance, and audit around those executions. The same capture layer can wrap general commands and runs entirely in the user's own infrastructure, from local environments through Kubernetes to SLURM/HPC, with no accounts and no telemetry. It is built around five primitives &mdash; Asset Registry, Run Capsule, Replay, Lineage, and Evidence Bundle &mdash; and five explicit replay modes (forensic, mocked, semantic, exact, and the experimental intervention mode). Run Capsules can be sealed with the user&rsquo;s own key; sealing is opt-in. Evidence bundles verify offline using only sha256sum and an ed25519 verifier, with no NovaFabric installation required. Interoperates with established specifications rather than inventing formats: OpenTelemetry GenAI semantic conventions, in-toto/DSSE, RFC 3161 timestamping, W3C PROV, OpenLineage, and CycloneDX.",
-      "tags": [
-        "reproducibility",
-        "provenance",
-        "AI agents",
-        "large language models",
-        "evidence",
-        "audit",
-        "lineage",
-        "replay",
-        "research software",
-        "high-performance computing",
-        "OpenTelemetry",
-        "in-toto",
-        "AI governance"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "NovaFabric: replayable, verifiable execution evidence for AI agents",
-      "url": "https://zenodo.org/records/23585286"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "7961f6c509a1c85dbeeaef34",
-      "context_id": "d18274f1de9327893c7ff059",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "7bebc33eb4a3180491a1a1b07c3441c9029a28c16e2e321d60e6a09f5d5c06b2",
-      "source_published": "2026-10-23",
-      "source_updated": "",
-      "summary": "Runtime citation and acknowledgement tracking for scientific Python workflows. Ackredit records which algorithms, datasets and dependencies a run actually reached, and turns that into a citation report with full provenance.",
-      "tags": [
-        "citation",
-        "acknowledgement",
-        "provenance",
-        "reproducibility",
-        "scientific Python",
-        "MolSysSuite"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Ackredit",
-      "url": "https://zenodo.org/records/23584792"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "b3fce2473de9d76a97d3bc9b",
-      "context_id": "5104995fd27f215ac516f470",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "e69b7e7bfbbfba5d9199c0f36dac7426aadd34f0973ca193c297077c70fb6172",
-      "source_published": "2026-10-23",
-      "source_updated": "",
-      "summary": "EFGB MATLAB Simulator v1.0.0 Initial research software release | MATLAB R2024a This release provides the MATLAB implementation of Energy-Feasibility-Guaranteed Bidding (EFGB): for decentralized task allocation among heterogeneous UAVs under battery constraints and lossy communication. Associated manuscript: EFGB: Team-Independent Round-Trip Energy Admission for Decentralized Multi-UAV Rescue Allocation under Lossy Communication (submitted to Robotics and Autonomous Systems). Features Team-independent round-trip energy admission with capacity-bounded workload charges. Capacity-proportional workload sharing and reserve-aware mission admission. Gilbert–Elliott communication modeling with lossy awards and acknowledgments. Comparative policies including outbound-only admission, reactive safety override, SGA, the earlier conference auction, and CBBA. SGA + EFGB and CBBA + EFGB for separating allocation-protocol effects from the safety admission rule. Experiments covering ablations, docking-order validation, communication degradation, energy-model mismatch, deadlines, and robustness. Physics-based and flight-data-derived energy-error evaluation. Repository structure | Directory | Contents | | --- | --- | | harness/ | Main simulator, policies, campaign drivers, analysis functions | | figures/ | MATLAB figure-generation programs | | tests/ | Docking-order and CBBA verification programs | | examples/ | Reduced single-run demonstration | | data/ | Derived flight-energy data and summary | | docs/ | Reproducibility instructions, assumptions, and data provenance | Requirements MATLAB R2024a Statistics and Machine Learning Toolbox for selected analyses Parallel Computing Toolbox (optional) Quick start From the repository root in MATLAB R2024a: addpath(fullfile(pwd, 'harness')); addpath(fullfile(pwd, 'tests')); run(fullfile('examples', 'single_run.m')); Run the included checks: run(fullfile('tests', 'run_tests.m')); For complete experiment instructions, see README.md and docs/REPRODUCIBILITY.md . The demonstration uses reduced settings and is not a reproduction of the published tables. Scope and reproducibility The analytical reserve guarantee depends on the assumptions stated in the associated manuscript. The simulator charges on-scene service energy at arrival without imposing the entire corresponding elapsed service duration. Large Monte Carlo results are prepared separately for research-data archiving. Citation and license See CITATION.cff for citation metadata and LICENSE for the software license. Users of the research methods should also cite the associated article when available. Version v1.0.0 — Initial public source release. Full changelog: https://github.com/arefinsarker068/EFGB-MultiUAV-Rescue/commits/v1.0.0",
-      "tags": [
-        "multi-robot task allocation",
-        "energy-feasible admission",
-        "heterogeneous UAVs",
-        "decentralized coordination",
-        "lossy communication"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "EFGB: Team-Independent Round-Trip Energy Admission for Decentralized Multi-UAV Rescue Allocation under Lossy Communication — MATLAB Simulator",
-      "url": "https://zenodo.org/records/23581830"
-    },
-    {
-      "base_direction_id": "registry_provenance",
       "candidate_id": "8049aaa0f93fcab69ab06ed6",
       "context_id": "4b7fa985ba22687ba5ae7351",
       "delivery_preview_only": true,
@@ -1181,6 +1062,39 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "CBIcall: a configuration-driven framework for variant calling in large sequencing cohorts",
       "url": "https://zenodo.org/records/23597279"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "de2225cffa180c5e7b576b78",
+      "context_id": "40e3462bba8f39014e92b1c6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "d7599b494d3438e0514e4e88b65f5f23686833f985f55f472a2c4be1473085d8",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "Complete saved-evidence artifact supporting manuscript commit 42170fdcdc7c4b68ae2639b319a4892d097532a0: 5,760 CM-0.1 cells (144 pilot reuse), 134,000 synthetic statistical studies with reuse provenance and 7,200 final endpoints, 72 budget-study cells, 18 urgency certificates, reviewed fixed-policy empty-start equivalence proof, code and analysis tools. Includes 384 TIME01 variable executions paired with reused baselines and 1,440 derived ABL01 controls (zero new simulations). Original raw provider traces and confidential reviewer materials are excluded. Synthetic timing is not hardware-calibrated. Reproduces saved-evidence analyses; no claim of turnkey fresh-provider-to-full-campaign reproduction or physical GPU validation. Release m3-v1.0.0, promoted without scientific changes from independently verified m3-v1.0.0-rc3. The canonical TAR contains 38,186 files, 3,898,019,840 bytes; SHA-256 dafaa0df527176a9c54e0c40f5e5e4d59cebbce052c034e4df4f0f5cd5278f89. Original provider traces are excluded. Frozen preparation-time metadata inside the immutable archive records its provenance and does not describe current public availability. Public companion records: curated source https://github.com/SoroushVahidi/llm-serving-scheduler-robustness-benchmark/releases/tag/m3-v1.0.0; authoritative result-table dataset https://huggingface.co/datasets/SoroushVahidi/llm-serving-common-contract-m3; Kaggle mirror https://www.kaggle.com/datasets/soroushvahidi/llm-serving-common-contract-m3. The table mirrors contain identical underlying result data and are not independent experiments. The separate older LSSP release is not overwritten.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Scheduler Equivalence and Performance Trade-offs under a Common LLM-Serving Contract — Complete Reproducibility Artifact — m3-v1.0.0",
+      "url": "https://zenodo.org/records/23608723"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1218,6 +1132,46 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Learning from Next-Frame Prediction: Towards Unified and Scalable Visual Representation Learning",
       "url": "https://arxiv.org/abs/2610.30724v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "399c9d7e3ac9ccddbc78bc50",
+      "context_id": "74bdd9bd6b015b1202c83584",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.9167,
+      "source": "zenodo",
+      "source_context_sha256": "dc18c6e1a72b8da27f54813b39a0ba7744e9cbe7fdac5384e2e914cc47bca792",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "Code, frozen configurations, input data, outputs and logs behind the Working sheet for MQG v0.3.8: chiral active Model H in three dimensions — computational validation addendum (MQG: magnetic quorum gravity). The archive contains the pre-registered canonical fit (v1.0), the frozen v1.1 analysis (angular torque test; joint fit with mixed noise), a reproduction on separate hardware, a second-algorithm check, and frozen acceptance tolerances for a future independent fitter. A SHA-256 manifest of every file is included. Interpretation level 1. All dispersion data are synthetic; the results verify software, uncertainty calibration and parameter identifiability, not the physics. The canonical fit v1.0 passes 15 of 16 pre-registered criteria and the v1.1 analysis passes 9 of 10; both failures stay on record. A pre-registered fit by an independent implementer is still open. Licences. Code ( *.py ): MIT licence. Data, outputs, figures and documents: CC BY 4.0. See LICENSE.md in the archive. Use of AI tools. Anthropic Claude, Microsoft Copilot and Google Gemini were used for code development, running the numerical workflow, drafting, editorial review, document organization, literature discovery and verification checks. The author independently reviewed the cited sources, equations, numerical procedures, computational results, scientific interpretations and final claims, and accepts full responsibility for the content. AI-assisted output was not treated as evidence, and computational verification was evaluated separately from physical evidence.",
+      "tags": [
+        "active matter",
+        "chiral active fluid",
+        "Brinkman screening",
+        "pre-registration",
+        "heteroscedastic regression",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Code, frozen configurations, input data, outputs and logs behind the MQG v0.3.8 working sheet",
+      "url": "https://zenodo.org/records/23609229"
     },
     {
       "base_direction_id": "large_data_methods",
@@ -1326,6 +1280,78 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "The Value of Memory in Language Agents",
       "url": "https://arxiv.org/abs/2610.31303v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "34a47aa2bdd255fbc23e04f5",
+      "context_id": "a61c7ffd9eaebd191ccb64eb",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "consensus",
+        "multi-agent"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.8333,
+      "source": "arxiv",
+      "source_context_sha256": "893b69ef8fa24fb3415fc894cb5f5e3b6584f311d523d93a89c4124a94ce467b",
+      "source_published": "2026-10-21T16:39:07Z",
+      "source_updated": "2026-10-21T16:39:07Z",
+      "summary": "Large organizations increasingly face what this book calls the cognitive complexity wall: at the scale of hundreds of interacting components, maintaining the dependency map and reacting at the pace of incidents exceeds what a human team can deliver. This conceptual volume proposes AAM/5C, in which five capabilities (Capture, Comprehend, Choose, Coordinate, Control) are instantiated across seven logical layers, L1 to L7. A single authorization rule, R-AUT, separates who proposes, who decides and who executes: a probabilistic planner (L4) proposes; a governance layer (L6) decides under signed policies and records its verdict in a signed evaluation proof; a security layer (L5) issues a short-lived act token bound to that proof; a policy enforcement point verifies both before the target layer materializes the act. Under an explicit guarantee contract, two analytical statements (H7a, H8a) hold by construction. The other statements of its ten hypotheses (H1 to H10), including log completeness (H7b) and non-bypass of the enforcement point (H8b), are refutable, and the protocol that could refute them is fixed before any measurement. The contribution of the book is a prescriptive reference model that articulates, under this single authorization rule, known mechanisms and adds three constructs, all to be validated: the Validation step of the Distributed Autonomy Loop, the ephemeral authority surface and the cognitive dependency plane. The book positions them against autonomic computing, multi-agent systems, enterprise architecture and agent protocols (MCP, A2A), gives an authorization policy in Rego and a partial TLA+ specification of peer consensus, and sets out a validation program with quantified milestones. It reports no empirical results. This English edition is a translation of the French original, produced with the assistance of AI tools and validated by the author.",
+      "tags": [
+        "cs.SE",
+        "cs.MA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Agentic Architecture of Information Systems. The AAM/5C Model: A Reference Model for Distributed Autonomy",
+      "url": "https://arxiv.org/abs/2610.30221v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "de2225cffa180c5e7b576b78",
+      "context_id": "6e54a6a806c24244ff8a65d0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 22.0417,
+      "source": "zenodo",
+      "source_context_sha256": "667861f80e4417da720b4f26a4706400036805157125ff4bdde74d5aeb0580e7",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "Complete saved-evidence artifact supporting manuscript commit 42170fdcdc7c4b68ae2639b319a4892d097532a0: 5,760 CM-0.1 cells (144 pilot reuse), 134,000 synthetic statistical studies with reuse provenance and 7,200 final endpoints, 72 budget-study cells, 18 urgency certificates, reviewed fixed-policy empty-start equivalence proof, code and analysis tools. Includes 384 TIME01 variable executions paired with reused baselines and 1,440 derived ABL01 controls (zero new simulations). Original raw provider traces and confidential reviewer materials are excluded. Synthetic timing is not hardware-calibrated. Reproduces saved-evidence analyses; no claim of turnkey fresh-provider-to-full-campaign reproduction or physical GPU validation. Release m3-v1.0.0, promoted without scientific changes from independently verified m3-v1.0.0-rc3. The canonical TAR contains 38,186 files, 3,898,019,840 bytes; SHA-256 dafaa0df527176a9c54e0c40f5e5e4d59cebbce052c034e4df4f0f5cd5278f89. Original provider traces are excluded. Frozen preparation-time metadata inside the immutable archive records its provenance and does not describe current public availability. Public companion records: curated source https://github.com/SoroushVahidi/llm-serving-scheduler-robustness-benchmark/releases/tag/m3-v1.0.0; authoritative result-table dataset https://huggingface.co/datasets/SoroushVahidi/llm-serving-common-contract-m3; Kaggle mirror https://www.kaggle.com/datasets/soroushvahidi/llm-serving-common-contract-m3. The table mirrors contain identical underlying result data and are not independent experiments. The separate older LSSP release is not overwritten.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Scheduler Equivalence and Performance Trade-offs under a Common LLM-Serving Contract — Complete Reproducibility Artifact — m3-v1.0.0",
+      "url": "https://zenodo.org/records/23608723"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1554,6 +1580,40 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "7443e731a64d10c9ba2ca314",
+      "context_id": "8b39727007a15dc4fa30d638",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "provenance"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0417,
+      "source": "zenodo",
+      "source_context_sha256": "8ef3fb41cd53ee364ebb32efa3148ac63065dbf6ab3a1eddbccca828bdf7e2f3",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "Release notes - v2.3 This release refreshes the analysis layer, the result archives and the auditing tooling. It contains code, result archives and provenance metadata only. Included Analysis scripts ( tools/ ) environment-variance decomposition with a seed-level bootstrap; per-layer coupling analysis for a second vision-language backbone; third-family robustness controls (small Idefics3-family model) with multi-seed runs; exact permutation tests for extreme-rank comparisons; allocation-baseline reproductions, including a name-adapter port of an official allocator; a content-audit script that cross-checks reported values against the JSON archives; local environment scripts for torch 2.4/CUDA 12.1 and torch 2.6/CUDA 12.4. Result archives ( outputs/analysis/ , paper3/scripts/outputs/experiments/ ) environment matrix archives for four software stacks; variance-decomposition, permutation-test and per-layer coupling archives; third-family multi-seed archives; updated final-verification and provenance-gate reports. Tooling and metadata provenance metadata extended for the newly added result entries; release-notes and packaging housekeeping; audit script that verifies archived values against their source JSON. Verification all repository gates pass: frozen-archive hashes, provenance gate, claim ledger, per-project audits and the final verification report. Excluded (by repository policy) Model weights and datasets.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MoYUYao666/gap-susceptibility: v2.3 - analysis layer update",
+      "url": "https://zenodo.org/records/23609295"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "5052e787e4a7a4909b997cd0",
       "context_id": "00ac723f12b00302d33bca45",
       "delivery_preview_only": true,
@@ -1589,6 +1649,40 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "AfterDeleteBench: Auditing Post-Deletion Information Persistence in LLM Agents",
       "url": "https://arxiv.org/abs/2610.31366v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "de2225cffa180c5e7b576b78",
+      "context_id": "e1dc6a38a065cbf10606bfa4",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0,
+      "source": "zenodo",
+      "source_context_sha256": "897f64cdf55a271cb076c742e66e08e4c36a5a4818526cb38661aaa670abafc6",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "Complete saved-evidence artifact supporting manuscript commit 42170fdcdc7c4b68ae2639b319a4892d097532a0: 5,760 CM-0.1 cells (144 pilot reuse), 134,000 synthetic statistical studies with reuse provenance and 7,200 final endpoints, 72 budget-study cells, 18 urgency certificates, reviewed fixed-policy empty-start equivalence proof, code and analysis tools. Includes 384 TIME01 variable executions paired with reused baselines and 1,440 derived ABL01 controls (zero new simulations). Original raw provider traces and confidential reviewer materials are excluded. Synthetic timing is not hardware-calibrated. Reproduces saved-evidence analyses; no claim of turnkey fresh-provider-to-full-campaign reproduction or physical GPU validation. Release m3-v1.0.0, promoted without scientific changes from independently verified m3-v1.0.0-rc3. The canonical TAR contains 38,186 files, 3,898,019,840 bytes; SHA-256 dafaa0df527176a9c54e0c40f5e5e4d59cebbce052c034e4df4f0f5cd5278f89. Original provider traces are excluded. Frozen preparation-time metadata inside the immutable archive records its provenance and does not describe current public availability. Public companion records: curated source https://github.com/SoroushVahidi/llm-serving-scheduler-robustness-benchmark/releases/tag/m3-v1.0.0; authoritative result-table dataset https://huggingface.co/datasets/SoroushVahidi/llm-serving-common-contract-m3; Kaggle mirror https://www.kaggle.com/datasets/soroushvahidi/llm-serving-common-contract-m3. The table mirrors contain identical underlying result data and are not independent experiments. The separate older LSSP release is not overwritten.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Scheduler Equivalence and Performance Trade-offs under a Common LLM-Serving Contract — Complete Reproducibility Artifact — m3-v1.0.0",
+      "url": "https://zenodo.org/records/23608723"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1661,117 +1755,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Federated Graph Retrieval-Augmented Generation",
       "url": "https://arxiv.org/abs/2610.30728v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ac79c03c76eaead2c76df14b",
-      "context_id": "a0f9cafc345958fcdc03401c",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
-        "benchmark",
-        "control",
-        "memory"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 11.25,
-      "source": "arxiv",
-      "source_context_sha256": "011278628cbab9c2c3c853f98a6324c40e368252e91ea00d39ff15d2763af78d",
-      "source_published": "2026-10-22T16:26:38Z",
-      "source_updated": "2026-10-22T16:26:38Z",
-      "summary": "Coordinating two players in a cooking task requires a vision-language agent to track changing scene states, sequence recipe steps, and allocate shared resources under a time budget. We introduce an Overcooked-inspired benchmark for evaluating these capabilities in Unreal Engine environments constructed using coding agents. A single vision-language model controls both players from top-down visual observations, selecting high-level actions while the engine executes navigation. The benchmark contains 20 maps in five categories. These categories support evaluation of centralized coordination under equipment contention, changing terrain, and handoff dependencies. A prop legend and pot ingredient-count indicators provide explicit visual cues, while grid-based destinations support spatial grounding. The evaluation compares four VLMs on all 20 maps, measuring task score, order completion, delivery precision, action acceptance rate, and model API expenditure. A memory ablation on the same 20 maps examines the effect of a shared, self-authored notebook while retaining six-response action history in both conditions. The strongest evaluated model, \\texttt{gpt-6-astra}, achieves 26.2\\% mean order completion. Notebook memory has mixed score effects across models, with positive mean differences for Claude and Qwen and negative differences for GPT and Gemini.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "DuoCook: An Overcooked-Inspired Benchmark for Visual Planning and Coordination",
-      "url": "https://arxiv.org/abs/2610.31511v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "dd9662fa00cf4b8376fc29a0",
-      "context_id": "8a0c3a0e1243208f13717cea",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "calibration",
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.5,
-      "source": "zenodo",
-      "source_context_sha256": "4612ae4aeb0bc57a2e5d3ae169c5e7385e470ba1cb550978a48d532a4ad3735d",
-      "source_published": "2026-10-23",
-      "source_updated": "",
-      "summary": "Many thanks to @elmbeech for the QoI extraction work in this release (#49, #50, #51). 🙏 pip install --upgrade uq_physicell ✨ Highlights ABC-SMC model selection : compare several candidate model structures in a single ABC run, from the API ( ModelSpec ) or the GUI. See the new example ex11_ABC_ModelSelection . More robust ABC calibration : a transition kernel that adapts to parameter scale, safeguards between generations, a population_size option, safe handling of failed simulations, and reliable resume after a crash. Reworked BO calibration database : stores provenance, convergence status, per-simulation seeds and model-selection results. Reproducibility : PhysiCell's random seed is now stored for every simulation, each replicate gets its own seed, and you can force a seed explicitly. PhysiCell Studio integration : Studio can now plot model-analysis databases that store raw output. Faster, leaner QoI extraction : much lower memory use, optional parallel processing ( n_jobs ), spatialdata / muspan domain inputs, and per-timestep results for mcds_ts time-series QoIs. 🧰 New tools get_sobol_convergence and plot_sobol_convergence : check whether your Sobol indices have stabilized as the sample size grows. chi2_distance : reduced chi-squared distance for calibration. qoi_func_relational_ph now works with 2D and 3D data. Database helpers: get_storage_mode , ABC detection in get_database_type , and load_output(load_data=False) for fast loading of IDs only. 🐛 Notable fixes BO: qLogExpectedImprovement was given the wrong tensor (noise variance instead of best_f ). PhysiCell was launched from the wrong working directory in some setups. migrate_to_zstd could silently drop rows. Crashes in load_output on partial databases, in ModelAnalysisContext when launched from the GUI, and in the model-selection tab. plot_global_sa_results now draws CI error bars correctly. ⚠️ Upgrade notes pcdl&gt;=4.1.9 is now required, and cloudpickle and zstandard are new dependencies. scikit-learn is added to the utils extra. Existing model-analysis and BO databases are migrated automatically when opened or resumed, and older databases still load. The template example files have been renamed to the ex9_* convention. 📚 Docs and examples New guide to the result databases ( doc/databases.md ) and expanded calibration docs covering model selection. New ex11 (ABC model selection), a new ex10 animation, and refreshed ex5–ex9 notebooks. Test coverage expanded substantially, and coverage is now reported on Codecov. Full changelog: https://github.com/heberlr/UQ_PhysiCell/compare/v1.2.10...v1.2.11",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "heberlr/UQ_PhysiCell: Version 1.2.11",
-      "url": "https://zenodo.org/records/23604855"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "b3fce2473de9d76a97d3bc9b",
-      "context_id": "5ab27870727260b02ac211db",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.375,
-      "source": "zenodo",
-      "source_context_sha256": "86e82f380f68b95abf20b46dcc9f642dbd71358c07918996549dc3c05ed76b3e",
-      "source_published": "2026-10-23",
-      "source_updated": "",
-      "summary": "EFGB MATLAB Simulator v1.0.0 Initial research software release | MATLAB R2024a This release provides the MATLAB implementation of Energy-Feasibility-Guaranteed Bidding (EFGB): for decentralized task allocation among heterogeneous UAVs under battery constraints and lossy communication. Associated manuscript: EFGB: Team-Independent Round-Trip Energy Admission for Decentralized Multi-UAV Rescue Allocation under Lossy Communication (submitted to Robotics and Autonomous Systems). Features Team-independent round-trip energy admission with capacity-bounded workload charges. Capacity-proportional workload sharing and reserve-aware mission admission. Gilbert–Elliott communication modeling with lossy awards and acknowledgments. Comparative policies including outbound-only admission, reactive safety override, SGA, the earlier conference auction, and CBBA. SGA + EFGB and CBBA + EFGB for separating allocation-protocol effects from the safety admission rule. Experiments covering ablations, docking-order validation, communication degradation, energy-model mismatch, deadlines, and robustness. Physics-based and flight-data-derived energy-error evaluation. Repository structure | Directory | Contents | | --- | --- | | harness/ | Main simulator, policies, campaign drivers, analysis functions | | figures/ | MATLAB figure-generation programs | | tests/ | Docking-order and CBBA verification programs | | examples/ | Reduced single-run demonstration | | data/ | Derived flight-energy data and summary | | docs/ | Reproducibility instructions, assumptions, and data provenance | Requirements MATLAB R2024a Statistics and Machine Learning Toolbox for selected analyses Parallel Computing Toolbox (optional) Quick start From the repository root in MATLAB R2024a: addpath(fullfile(pwd, 'harness')); addpath(fullfile(pwd, 'tests')); run(fullfile('examples', 'single_run.m')); Run the included checks: run(fullfile('tests', 'run_tests.m')); For complete experiment instructions, see README.md and docs/REPRODUCIBILITY.md . The demonstration uses reduced settings and is not a reproduction of the published tables. Scope and reproducibility The analytical reserve guarantee depends on the assumptions stated in the associated manuscript. The simulator charges on-scene service energy at arrival without imposing the entire corresponding elapsed service duration. Large Monte Carlo results are prepared separately for research-data archiving. Citation and license See CITATION.cff for citation metadata and LICENSE for the software license. Users of the research methods should also cite the associated article when available. Version v1.0.0 — Initial public source release. Full changelog: https://github.com/arefinsarker068/EFGB-MultiUAV-Rescue/commits/v1.0.0",
-      "tags": [
-        "multi-robot task allocation",
-        "energy-feasible admission",
-        "heterogeneous UAVs",
-        "decentralized coordination",
-        "lossy communication"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "EFGB: Team-Independent Round-Trip Energy Admission for Decentralized Multi-UAV Rescue Allocation under Lossy Communication — MATLAB Simulator",
-      "url": "https://zenodo.org/records/23581830"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
