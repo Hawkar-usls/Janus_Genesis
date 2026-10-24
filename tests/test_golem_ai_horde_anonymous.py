@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import json
 import io
+import shutil
+import subprocess
 from contextlib import redirect_stdout
 from pathlib import Path
 from types import SimpleNamespace
@@ -545,6 +547,42 @@ class TestHordeAnonymous(unittest.TestCase):
                         "HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID"):
                     horde.preflight_native_checkout(
                         repo, "a" * 40, horde.sha256(raw))
+
+    @unittest.skipUnless(shutil.which("git"), "Git CLI required for native preflight")
+    def test_native_preflight_real_git_ignored_module_regression(self):
+        """Check actual git flag interpretation instead of only mocked argv."""
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            repo.mkdir()
+            subprocess.run(["git", "init", "-q", str(repo)],
+                           check=True, capture_output=True, timeout=5)
+            ignore = repo / ".gitignore"
+            ignore.write_text(
+                "janus_model/checkpoints/promoted.pt\n"
+                "janus_model/private_plugin.py\n",
+                encoding="utf-8")
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            weights.write_bytes(b"verified fixture weights")
+            subprocess.run(["git", "-C", str(repo), "add", ".gitignore"],
+                           check=True, capture_output=True, timeout=5)
+            subprocess.run([
+                "git", "-C", str(repo),
+                "-c", "user.name=JANUS fixture",
+                "-c", "user.email=janus-fixture@example.invalid",
+                "commit", "-q", "-m", "pinned fixture"],
+                check=True, capture_output=True, timeout=5)
+            commit = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"],
+                check=True, capture_output=True, text=True, timeout=5
+            ).stdout.strip()
+            digest = horde.sha256(weights.read_bytes())
+            horde.preflight_native_checkout(repo, commit, digest)
+            plugin = repo / "janus_model" / "private_plugin.py"
+            plugin.write_text("print('not trusted')\n", encoding="utf-8")
+            with self.assertRaisesRegex(
+                    ConsumptionError, "HORDE_NATIVE_PREFLIGHT_IGNORED_EXECUTABLE"):
+                horde.preflight_native_checkout(repo, commit, digest)
 
     def test_native_preflight_rejects_ignored_executable_without_provider(self):
         with tempfile.TemporaryDirectory() as temp:
