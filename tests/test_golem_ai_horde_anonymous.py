@@ -489,6 +489,56 @@ class TestHordeAnonymous(unittest.TestCase):
                 horde.preflight_native_checkout(
                     repo, expected_head, horde.sha256(data))
 
+    def test_native_preflight_disables_git_config_process_effects(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            raw = b"pinned benign test weights"
+            weights.write_bytes(raw)
+            git_calls = []
+
+            def git_runner(args, **kwargs):
+                git_calls.append((args, kwargs))
+                return SimpleNamespace(stdout=("a" * 40 + "\n")
+                                       if "rev-parse" in args else "")
+
+            with patch.object(horde.subprocess, "run", side_effect=git_runner):
+                horde.preflight_native_checkout(
+                    repo, "a" * 40, horde.sha256(raw))
+            self.assertEqual(len(git_calls), 2)
+            for argv, kw in git_calls:
+                self.assertEqual(argv[:2], ["git", "-c"])
+                self.assertIn("core.fsmonitor=false", argv)
+                self.assertIn("core.hooksPath=" + horde.os.devnull, argv)
+                self.assertIn("status.showUntrackedFiles=all", argv)
+                self.assertEqual(kw["env"]["GIT_OPTIONAL_LOCKS"], "0")
+                self.assertEqual(kw["env"]["GIT_CONFIG_NOSYSTEM"], "1")
+                self.assertEqual(kw["env"]["GIT_CONFIG_GLOBAL"], horde.os.devnull)
+                self.assertEqual(kw["env"]["GIT_TERMINAL_PROMPT"], "0")
+                self.assertEqual(kw["env"]["GIT_NO_REPLACE_OBJECTS"], "1")
+                self.assertNotIn("GITHUB_TOKEN", kw["env"])
+            status_args = git_calls[1][0]
+            self.assertIn("--porcelain=v1", status_args)
+            self.assertIn("--untracked-files=all", status_args)
+            self.assertIn("--ignore-submodules=none", status_args)
+
+    def test_native_preflight_rejects_untracked_file_before_egress(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            raw = b"pinned benign test weights"
+            weights.write_bytes(raw)
+            with patch.object(horde.subprocess, "run", side_effect=[
+                    SimpleNamespace(stdout="a" * 40 + "\n"),
+                    SimpleNamespace(stdout="?? tools/private.py\n")]):
+                with self.assertRaisesRegex(
+                        ConsumptionError,
+                        "HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID"):
+                    horde.preflight_native_checkout(
+                        repo, "a" * 40, horde.sha256(raw))
+
     def test_native_preflight_raced_symlink_is_rejected_before_egress(self):
         if not hasattr(horde.os, "O_NOFOLLOW"):
             self.skipTest("No no-follow support")
