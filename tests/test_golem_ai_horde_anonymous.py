@@ -541,7 +541,8 @@ class TestHordeAnonymous(unittest.TestCase):
             weights.write_bytes(raw)
             with patch.object(horde.subprocess, "run", side_effect=[
                     SimpleNamespace(stdout="a" * 40 + "\n"),
-                    SimpleNamespace(stdout="?? tools/private.py\n")]):
+                    SimpleNamespace(stdout="?? tools/private.py\n"),
+                    SimpleNamespace(stdout="")]):
                 with self.assertRaisesRegex(
                         ConsumptionError,
                         "HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID"):
