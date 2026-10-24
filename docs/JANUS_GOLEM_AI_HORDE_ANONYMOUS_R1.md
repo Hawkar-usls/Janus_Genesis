@@ -234,3 +234,29 @@ no-HOME canary cannot prove this real native chain.
 `NATIVE_PRE_EGRESS_CHECKPOINT_DESCRIPTOR = HARDENED`
 
 `NATIVE_REVIEW_PROVEN_AT_RUNTIME = NOT_YET`
+
+
+### R1.3.3 — hostile checkout Git configuration hardening
+
+The optional real native preflight now runs read-only Git checks with
+`GIT_OPTIONAL_LOCKS=0`, disabled system/global Git configuration and terminal
+prompts, `core.fsmonitor=false`, `core.hooksPath=/dev/null`, and
+`status.showUntrackedFiles=all`. It explicitly requests
+`--porcelain=v1 --untracked-files=all --ignore-submodules=none` and rejects
+any dirty/unignored untracked checkout before external public-card egress.
+Offline adversarial tests assert the exact command and sanitized environment
+and reject a checkout with a newly introduced untracked Python file.
+
+**Boundary:** Git's ignored files are not enumerated by `status`. The
+promoted checkpoint is separately hashed and protected by descriptor-relative
+no-follow reads, but arbitrary ignored Python files are *not* automatically
+attested as absent by this check. Consequently the source-checkout preflight
+is not a sandbox, not a guarantee against hostile concurrent file changes,
+and not proof of actual native weight loading. A more restrictive execution
+environment or content manifest would be required for that stronger claim.
+
+`R1_3_3_GIT_CONFIG_AND_FS_MONITOR_GUARD = IMPLEMENTED`
+
+`IGNORED_EXECUTABLE_FILE_ABSENCE_PROVEN = FALSE`
+
+`FULL_REAL_NATIVE_E2E = NOT_ATTESTED`
