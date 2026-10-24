@@ -261,10 +261,27 @@ def preflight_native_checkout(repo: Path, head: str, checkpoint_sha256: str) -> 
                    "--ignore-submodules=none"],
             capture_output=True, text=True, timeout=5, check=True,
             env=git_env).stdout.strip()
+        # A clean status excludes ignored files. Those can still override
+        # Python imports or native modules if a caller added them locally.
+        # Git lists ignored paths NUL-delimited, so filename escaping and
+        # embedded newlines cannot conceal an executable file.
+        ignored = subprocess.run(
+            git + ["ls-files", "--others", "--ignored",
+                   "--exclude-standard", "-z"],
+            capture_output=True, text=True, timeout=5, check=True,
+            env=git_env).stdout
     except (OSError, subprocess.SubprocessError) as exc:
         raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_GIT_FAILED") from exc
     if actual_head != head or dirty:
         raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID")
+    if len(ignored) > 65536:
+        raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_IGNORED_INVENTORY_OVERSIZE")
+    executable_suffixes = (".py", ".pyc", ".pyo", ".so", ".pyd",
+                           ".pth", ".dll", ".dylib", ".egg-link")
+    for name in ignored.split("\0"):
+        if name and (name.lower().endswith(executable_suffixes)
+                     or name.rsplit("/", 1)[-1] == "pyvenv.cfg"):
+            raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_IGNORED_EXECUTABLE")
     if not all(hasattr(os, flag) for flag in
                ("O_DIRECTORY", "O_NOFOLLOW", "O_NONBLOCK")):
         raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_NOFOLLOW_UNSUPPORTED")
