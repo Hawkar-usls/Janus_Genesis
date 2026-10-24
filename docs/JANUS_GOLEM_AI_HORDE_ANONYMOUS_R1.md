@@ -247,16 +247,26 @@ any dirty/unignored untracked checkout before external public-card egress.
 Offline adversarial tests assert the exact command and sanitized environment
 and reject a checkout with a newly introduced untracked Python file.
 
-**Boundary:** Git's ignored files are not enumerated by `status`. The
-promoted checkpoint is separately hashed and protected by descriptor-relative
-no-follow reads, but arbitrary ignored Python files are *not* automatically
-attested as absent by this check. Consequently the source-checkout preflight
-is not a sandbox, not a guarantee against hostile concurrent file changes,
-and not proof of actual native weight loading. A more restrictive execution
-environment or content manifest would be required for that stronger claim.
+Git ignores may conceal executable source from normal `status`.
+The preflight now additionally enumerates ignored files with
+`git ls-files --others --ignored --exclude-standard -z` and rejects
+ignored Python/native loadable suffixes (`.py`, `.pyc`, `.so`, `.pyd`,
+`.pth`, and their platform equivalents) or an oversized inventory.
+The ignored promoted `.pt` checkpoint is allowed only if the separate
+no-follow descriptor hash equals the original trusted checkpoint SHA-256.
+The new code has adversarial cases for ignored Python modules and shared
+libraries, including filenames protected by NUL-delimited parsing.
+
+**Boundary:** This is an *inventory* of known executable suffixes, not a
+sandbox or proof that all executable loaders and dynamically evaluated files
+are absent. Concurrent mutations and unexpected loader mechanisms remain
+possible. A stronger isolation boundary or exact file manifest would be
+needed before making an end-to-end source/weight guarantee.
 
 `R1_3_3_GIT_CONFIG_AND_FS_MONITOR_GUARD = IMPLEMENTED`
 
-`IGNORED_EXECUTABLE_FILE_ABSENCE_PROVEN = FALSE`
+`IGNORED_EXECUTABLE_SUFFIX_INVENTORY = FAIL_CLOSED`
+
+`IGNORED_EXECUTABLE_FILE_ABSENCE_PROVEN = NOT_UNIVERSAL`
 
 `FULL_REAL_NATIVE_E2E = NOT_ATTESTED`
