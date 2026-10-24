@@ -241,15 +241,26 @@ def preflight_native_checkout(repo: Path, head: str, checkpoint_sha256: str) -> 
             or not CHECKPOINT_SHA.fullmatch(checkpoint_sha256)
             or repo.is_symlink() or not repo.is_dir()):
         raise ConsumptionError("HORDE_PINNED_NATIVE_CHECKOUT_INVALID")
+    # The native checkout is data, not an authority for process policy.
+    # Disable Git's optional lock writes, system/global configuration, hooks
+    # and fsmonitor commands; explicitly inspect all *unignored* untracked
+    # files, regardless of the checkout's status.showUntrackedFiles setting.
+    git_env = dict(_safe_native_env(), GIT_OPTIONAL_LOCKS="0",
+                   GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+                   GIT_TERMINAL_PROMPT="0", GIT_NO_REPLACE_OBJECTS="1")
+    git = ["git", "-c", "core.fsmonitor=false", "-c",
+           "core.hooksPath=" + os.devnull,
+           "-c", "status.showUntrackedFiles=all", "-C", str(repo)]
     try:
         actual_head = subprocess.run(
-            ["git", "-C", str(repo), "rev-parse", "HEAD"],
+            git + ["rev-parse", "--verify", "HEAD"],
             capture_output=True, text=True, timeout=5, check=True,
-            env=_safe_native_env()).stdout.strip()
+            env=git_env).stdout.strip()
         dirty = subprocess.run(
-            ["git", "-C", str(repo), "status", "--porcelain"],
+            git + ["status", "--porcelain=v1", "--untracked-files=all",
+                   "--ignore-submodules=none"],
             capture_output=True, text=True, timeout=5, check=True,
-            env=_safe_native_env()).stdout.strip()
+            env=git_env).stdout.strip()
     except (OSError, subprocess.SubprocessError) as exc:
         raise ConsumptionError("HORDE_NATIVE_PREFLIGHT_GIT_FAILED") from exc
     if actual_head != head or dirty:
