@@ -493,6 +493,47 @@ class TestHordeAnonymous(unittest.TestCase):
         self.assertNotIn("e" * 64, json.dumps(self.calls))
         self.assertNotIn("f" * 64, json.dumps(self.calls))
 
+    def test_private_native_receipt_has_exclusive_restricted_file_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            receipt = Path(tmp) / "research-evidence.json"
+            with patch.object(sys, "argv", [
+                    "horde", "--out", str(receipt)]):
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(horde.main(), 0)
+            self.assertTrue(receipt.is_file())
+            report = json.loads(receipt.read_text(encoding="utf-8"))
+            self.assertEqual(report["status"], "DRY_RUN_NO_NETWORK")
+            if sys.platform != "win32":
+                self.assertEqual(receipt.stat().st_mode & 0o777, 0o600)
+            with patch.object(sys, "argv", [
+                    "horde", "--execute-public-demo", "--out", str(receipt)]):
+                with patch.object(horde, "query_public",
+                                  side_effect=AssertionError("No extra POST")):
+                    with patch("sys.stderr", new_callable=io.StringIO):
+                        with self.assertRaises(SystemExit) as exc:
+                            horde.main()
+                self.assertEqual(exc.exception.code, 2)
+
+    def test_private_receipt_rejects_symlink_destination_before_network(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            original = Path(tmp) / "keep-private.txt"
+            original.write_text("no changes", encoding="utf-8")
+            link = Path(tmp) / "receipt-link.json"
+            try:
+                link.symlink_to(original)
+            except (NotImplementedError, OSError):
+                self.skipTest("Filesystem does not support symlinks")
+            with patch.object(sys, "argv", [
+                    "horde", "--execute-public-demo", "--out", str(link)]):
+                with patch.object(horde, "query_public",
+                                  side_effect=AssertionError("No egress")):
+                    with patch("sys.stderr", new_callable=io.StringIO):
+                        with self.assertRaises(SystemExit) as exc:
+                            horde.main()
+                self.assertEqual(exc.exception.code, 2)
+            self.assertEqual(original.read_text(encoding="utf-8"),
+                             "no changes")
+
     def test_native_review_cli_cannot_run_without_earlier_gates(self):
         for flags in (
             ["--require-native-review"],
