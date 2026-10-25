@@ -270,3 +270,42 @@ needed before making an end-to-end source/weight guarantee.
 `IGNORED_EXECUTABLE_FILE_ABSENCE_PROVEN = NOT_UNIVERSAL`
 
 `FULL_REAL_NATIVE_E2E = NOT_ATTESTED`
+
+
+### R1.4 — Native review causal replay and private receipt file
+
+The optional native three-stage research result now includes a local-only
+**allowlisted native review projection** and the locally pinned source commit,
+checkpoint SHA-256, AURA public card, AURA/context digests and context sequence.
+The strict `--require-native-review` gate recomputes the exact public prompt,
+the answer-to-native `JANUS:REVIEW_UNTRUSTED` prompt, the native review's
+prompt SHA-256 and schema, the original checkpoint binding and the full
+review SHA-256. Merely setting `native_review_status` and supplying a
+64-character digest cannot create a passing replay. Adversarial offline tests
+modify individual links of the causal chain and require fail-closed decisions.
+
+**Important:** A well-formed, self-consistent JSON receipt can still be
+forged by someone who controls the entire receipt. This replay detects
+alterations and accidental misbinding; it is **not independent CPU attestation,
+a cryptographic signature, a proof of inference, scientific validation or
+authority to change anything in JANUS**. A real pinned local native run must
+be separately observed. Injected native test runners always remain labelled
+`MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE`.
+
+The native review projection, including native-generated text, is for a
+**local research receipt only**. No native projection, context digest or
+checkout metadata is inserted into the anonymous AI Horde prompt or its
+public-only CI canary. The `--out` path must be a new file in a directory
+without symlink ancestors: the file is created with exclusive `O_EXCL`,
+`O_NOFOLLOW` where available, and restrictive permissions `0600`. Existing
+files or symlink paths are rejected *before* contacting the provider.
+The CLI console prints only sanitized outcome and hash metadata, not native
+or AURA text. The operator must not publish a native report artifact.
+
+`NATIVE_CAUSAL_REPLAY = IMPLEMENTED_SOFTWARE_CHECK`
+
+`PRIVATE_LOCAL_RECEIPT = EXCLUSIVE_0600`
+
+`ACTUAL_PINNED_NATIVE_CPU_E2E = NOT_ATTESTED`
+
+`SCIENTIFIC_AUTHORITY_DELTA = 0`
