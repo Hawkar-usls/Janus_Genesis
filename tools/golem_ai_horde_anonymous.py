@@ -372,7 +372,7 @@ def query_attested_aura(home: Path, *, execute: bool = False,
     result["verified_context_sha256_local_only"] = evidence["cursor"]["context_sha256"]
     result["native_review_status"] = "NOT_EXECUTED_OR_NO_MODEL_RESULT"
     result["aura_public_question_local_only"] = candidate
-    result["verified_context_sequence_local_only"] = evidence["cursor"]["last_sequence"]
+    result["verified_context_sequence_local_only"] = evidence["cursor"].get("last_sequence")
     result["native_source_commit_local_only"] = (
         native_original["source_commit"] if native_original is not None else None)
     result["native_checkpoint_sha256_local_only"] = (
@@ -460,6 +460,7 @@ def native_end_to_end_observed(report: dict) -> bool:
             or not isinstance(native_head, str)
             or re.fullmatch(r"[0-9a-f]{40}", native_head) is None
             or type(sequence) is not int or sequence < 1
+            or not isinstance(question, str)
             or question not in PUBLIC_AURA_QUESTIONS
             or report.get("prompt_source") != "FROZEN_PUBLIC_AURA_CARD"
             or report.get("prompt_sha256") != sha256(
