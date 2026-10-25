@@ -358,7 +358,23 @@ class TestHordeAnonymous(unittest.TestCase):
 
 
     def test_native_end_to_end_gate_requires_digest_and_real_provenance(self):
+        from janus_corpus_callosum import NATIVE_ID
+        from janus_corpus_callosum_v2 import _review_prompt
+
         answer = "Check a third-party witness."
+        question = horde.DEFAULT_PUBLIC_QUESTION
+        prompt = _review_prompt(answer, {"last_sequence": 7})
+        review = {
+            "hemisphere": "NATIVE",
+            "model": NATIVE_ID,
+            "source_repository": "Hawkar-usls/Janus-Demiurge",
+            "source_commit": "a" * 40,
+            "checkpoint_sha256": "c" * 64,
+            "prompt_sha256": horde.sha256(prompt.encode("utf-8")),
+            "generated_text": "Local native review, not a fact.",
+            "inference_attested_by": "PINNED_LOCAL_SUBPROCESS",
+            "external_llm": False,
+        }
         report = {
             "status": "REAL_ANONYMOUS_RESPONSE__UNVERIFIED",
             "network_model_response_observed": True,
@@ -367,24 +383,54 @@ class TestHordeAnonymous(unittest.TestCase):
             "response": answer,
             "response_sha256": horde.sha256(answer.encode()),
             "model_reported_unverified": "volunteer-model",
+            "prompt_source": "FROZEN_PUBLIC_AURA_CARD",
+            "prompt_sha256": horde.sha256(
+                horde._public_prompt(question).encode("utf-8")),
             "native_review_status": "REAL_PINNED_NATIVE_CPU_UNVERIFIED",
-            "native_review_sha256_local_only": "f" * 64,
+            "native_review_receipt_local_only": review,
+            "native_review_sha256_local_only": horde.sha256(horde.compact(review)),
+            "native_source_commit_local_only": "a" * 40,
+            "native_checkpoint_sha256_local_only": "c" * 64,
             "aura_receipt_sha256_local_only": "e" * 64,
             "verified_context_sha256_local_only": "d" * 64,
+            "verified_context_sequence_local_only": 7,
+            "aura_public_question_local_only": question,
             "failure_class": None,
         }
+        # This checks only *replay consistency* of a synthetic receipt,
+        # never independent proof that a physical native process ran.
         self.assertTrue(horde.native_end_to_end_observed(report))
-        for changed in (
+        mutations = (
             {"native_review_status": "NATIVE_REVIEW_UNAVAILABLE"},
             {"native_review_status": "MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE"},
             {"native_review_sha256_local_only": "wrong"},
+            {"native_review_sha256_local_only": "0" * 64},
+            {"native_review_receipt_local_only": None},
+            {"native_review_receipt_local_only": {
+                **review, "generated_text": "forged local answer"}},
+            {"native_review_receipt_local_only": {
+                **review, "checkpoint_sha256": "0" * 64}},
+            {"native_review_receipt_local_only": {
+                **review, "prompt_sha256": "0" * 64}},
+            {"native_source_commit_local_only": "f" * 40},
+            {"native_checkpoint_sha256_local_only": "f" * 64},
+            {"verified_context_sequence_local_only": 8},
+            {"verified_context_sequence_local_only": "7"},
+            {"aura_public_question_local_only": "private data question"},
+            {"aura_public_question_local_only": ["not hashable"]},
             {"aura_receipt_sha256_local_only": None},
             {"aura_receipt_sha256_local_only": "forged"},
             {"verified_context_sha256_local_only": "not-a-sha"},
             {"model_reported_unverified": "reported-model\nFAKE_LOG"},
+            {"prompt_sha256": "f" * 64},
+            {"prompt_source": "PRIVATE_CONTEXT"},
             {"response_sha256": "0" * 64},
-        ):
-            self.assertFalse(horde.native_end_to_end_observed({**report, **changed}))
+        )
+        for changed in mutations:
+            with self.subTest(changed=changed):
+                self.assertFalse(horde.native_end_to_end_observed({
+                    **report, **changed
+                }))
 
         args = ["horde", "--execute-public-demo", "--home-root", "/isolated-home",
                 "--native-repo", "/pinned-native", "--native-head", "a" * 40,
@@ -399,10 +445,53 @@ class TestHordeAnonymous(unittest.TestCase):
         self.assertEqual(kwargs["native_repo"], Path("/pinned-native"))
 
         with patch.object(horde, "query_attested_aura", return_value={
-                **report, "native_review_status": "NATIVE_REVIEW_UNAVAILABLE"}):
+                **report, "native_review_receipt_local_only": {
+                    **review, "generated_text": "tampered"}}):
             with patch.object(sys, "argv", args):
                 with redirect_stdout(io.StringIO()):
                     self.assertEqual(horde.main(), 2)
+
+    def test_mock_native_receipt_replays_but_never_claims_real_cpu(self):
+        from janus_corpus_callosum import NATIVE_ID
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura_receipt_sha256": "e" * 64,
+            "cursor": {"context_sha256": "f" * 64, "last_sequence": 7},
+            "aura": {"oracle_source_type": "MOCKED_AURA_TEST_ONLY",
+                     "oracle": {"questions": [horde.DEFAULT_PUBLIC_QUESTION]}},
+            "v2": {"native_initial": {
+                "source_commit": "a" * 40, "checkpoint_sha256": "b" * 64}},
+        }
+        def native_mock(_repo, head, prompt):
+            return {
+                "hemisphere": "NATIVE",
+                "model": NATIVE_ID,
+                "source_repository": "Hawkar-usls/Janus-Demiurge",
+                "source_commit": head,
+                "checkpoint_sha256": "b" * 64,
+                "prompt_sha256": horde.sha256(prompt.encode("utf-8")),
+                "generated_text": "Mock native only",
+                "inference_attested_by": "PINNED_LOCAL_SUBPROCESS",
+                "external_llm": False,
+            }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with patch.object(horde, "protected_snapshot",
+                              return_value="BASELINE"):
+                observed = horde.query_attested_aura(
+                    Path("/never-read"), execute=True,
+                    native_repo=Path("/mock-native"), native_head="a" * 40,
+                    transport=self.fake, sleeper=lambda *_: None,
+                    native_runner=native_mock)
+        self.assertEqual(observed["native_review_status"],
+                         "MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE")
+        self.assertIsInstance(observed["native_review_receipt_local_only"], dict)
+        self.assertEqual(observed["native_review_sha256_local_only"],
+                         horde.sha256(horde.compact(
+                             observed["native_review_receipt_local_only"])))
+        self.assertFalse(horde.native_end_to_end_observed(observed))
+        self.assertNotIn("e" * 64, json.dumps(self.calls))
+        self.assertNotIn("f" * 64, json.dumps(self.calls))
 
     def test_native_review_cli_cannot_run_without_earlier_gates(self):
         for flags in (
