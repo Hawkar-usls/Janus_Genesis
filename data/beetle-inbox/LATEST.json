@@ -1,5 +1,5 @@
 {
-  "batch_id": "fd69e62202ef57b61b27",
+  "batch_id": "6c598d7fd4c8288de720",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
@@ -384,8 +384,8 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "01a5d6c4c43f75dcafe857fa",
-      "context_id": "b04d6451a688f36df728cd1d",
+      "candidate_id": "c42bc716cedd9e1fe934410a",
+      "context_id": "a6c7b01b1b685b8155b0ff19",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "cognition_memory_reverse::FORWARD",
@@ -405,14 +405,19 @@
       "schema": "janus.beetle.repo_memory_item.v2",
       "score": 1.375,
       "source": "zenodo",
-      "source_context_sha256": "7a2736f22e3760f66ea756d40703b4de51b55f768c166f13fe11c5ddb78bc32d",
-      "source_published": "2026-10-23",
+      "source_context_sha256": "624e386e17a00333188978ac05efe26c8b403130dc9ebe199fd8ea5e3dd5e3f3",
+      "source_published": "2026-10-25",
       "source_updated": "",
-      "summary": "This package contains the literature-screening records, paper-level coding, and model-level observations supporting the study&nbsp; &ldquo;(Promises and) Perils in Mining Hugging Face&rdquo; . The study examines how researchers sample Hugging Face (HF) models, which features they analyze, and which threats can arise from their sampling and measurement decisions. The package documents the evidence used to address three research questions: RQ1: What sampling strategies are used in scientific research to analyze Hugging Face models? RQ2: What features are analyzed in studies of Hugging Face models, and how are these features measured? RQ3: What threats to validity and generalizability arise from sampling, measurement, and data-collection decisions when mining Hugging Face, and what practices can mitigate these threats? Contents Place this README alongside the three workbooks, retaining their original filenames: . ├── README.MD ├── ScopusRetrievedPaper.xlsx ├── RQ1_RQ2_Analysis.xlsx └── RQ3_ModelsAnalysis.xlsx File Contents Research questions ScopusRetrievedPaper.xlsx 1,267 retrieved bibliographic records and three screening worksheets, with 44 records marked Yes in total. Corpus selection for RQ1&ndash;RQ2 RQ1_RQ2_Analysis.xlsx Descriptive inspection of 26 papers, 78 structured analytical records, and summary statistics. RQ1&ndash;RQ2 RQ3_ModelsAnalysis.xlsx Manual observations for 300 HF model repositories. RQ3 Literature retrieval and screening ScopusRetrievedPaper.xlsx The full-list export label identifies March 3, 2026. The bibliographic columns are Rand_ID , Authors , Title , Year , Document Type , Source title , DOI , Link , and Abstract . The screening worksheets additionally contain Of_interest and Feature extracted . The final analyzed corpus comprises the 26 papers represented in RQ1_RQ2_Analysis.xlsx . Paper analysis for RQ1 and RQ2 Paper_Manual_Inspection This worksheet contains 61 descriptive records covering 26 distinct paper links and 19 feature labels. Column Contents Feature_extracted Feature examined in the paper. Methods_extraction_feature Description of how the feature was extracted or analyzed. Sources Artifacts or information sources used for the feature. Metric Recorded measurement or characterization. Link_Paper Link identifying the inspected publication. Sampling Descriptive indication of whether sampling was used. Extraction_method_Paper Narrative description of collection and sampling procedures. Claim Recorded findings or claims attributed to the inspected paper. Threats stated by authors (related to HF data) Recorded threats attributed to the original authors. Threats_introduced_by_extraction_method Assessment of possible threats associated with the extraction method. Missing / additional threats (related to HF data) Additional methodological concerns recorded during inspection. Possible Threat introduced Further notes about potential threats. Analytical_record This worksheet contains 78 records with unique Record_ID values, covering 26 Paper_ID values and 19 Feature_Code values. There are 59 distinct ( Paper_ID , Feature_Code ) pairs : the same pair can have multiple records describing different methodological choices. Column Contents or interpretation Paper_ID Paper identifier within this worksheet. Record_ID Unique analytical-record identifier. DOI , Paper_URL Bibliographic identifiers for tracing the original paper. Sampling_Used 1 for a sampled analysis; 0 for an analysis coded as using no sampling. Sampling_Strategy Recorded sampling strategy, including NO_SAMPLING . Sampling_Unit_Code Entity sampled or analyzed, such as MODEL , MODEL_CARD , DISCUSSION , or USER . Sample_Size_N Recorded sample size, where available. Sampling_Purpose_Code Purpose of the sampling or selection step. Feature_Code Feature associated with the analytical record. Population_Filter Population restriction, recorded separately from sampling. Analysis_Scope FULL_HF , FILTERED_HF , SAMPLED_SUBSET , or FULL_AND_SAMPLED . Coll",
-      "tags": [],
+      "summary": "Frozen reproduction artifact for the study Evaluating Context-Graph Construction for Analytical Agents: Hidden Confounders and Lessons from a Controlled Benchmark. Includes saved context-graph stage-local comparisons, paired planner scored records, source provenance, and offline result re-aggregation scripts. This release does not re-run model inference or original SQL execution.",
+      "tags": [
+        "context-graph analytics",
+        "agentic analytics",
+        "reproducibility",
+        "retrieval confounders"
+      ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Replication package of (Promises and) Perils in Mining Hugging Face",
-      "url": "https://zenodo.org/records/23591660"
+      "title": "Context-Graph Analytics: Frozen Reproduction Artifact",
+      "url": "https://zenodo.org/records/23628731"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1188,6 +1193,45 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "c42bc716cedd9e1fe934410a",
+      "context_id": "0c4d3a3ed61d16bda47f3fe2",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "confound",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.375,
+      "source": "zenodo",
+      "source_context_sha256": "dff75c6c97affe6e58d467eea38270dd66d811e640f1304d22b9e24c63d29b20",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "Frozen reproduction artifact for the study Evaluating Context-Graph Construction for Analytical Agents: Hidden Confounders and Lessons from a Controlled Benchmark. Includes saved context-graph stage-local comparisons, paired planner scored records, source provenance, and offline result re-aggregation scripts. This release does not re-run model inference or original SQL execution.",
+      "tags": [
+        "context-graph analytics",
+        "agentic analytics",
+        "reproducibility",
+        "retrieval confounders"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Context-Graph Analytics: Frozen Reproduction Artifact",
+      "url": "https://zenodo.org/records/23628731"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "6725d96fd3041bfeb9f857b3",
       "context_id": "7d3d6900454edfeaca6686b9",
       "delivery_preview_only": true,
@@ -1403,53 +1447,6 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "3e42c09d8b0de8f3832031ea",
-      "context_id": "3ea6bf43b189ba9ea21a7186",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "a3293a3fcad6efa93210134137feb4e814e8edb386248a302f9f34f3f48d14cb",
-      "source_published": "2026-10-24",
-      "source_updated": "",
-      "summary": "Supplementary methods, results, data tables and analysis code for the manuscript Inflammatory and NRF2-associated transcriptional responses in human intracerebral hemorrhage: paired myeloid evidence and gene-set sensitivity. The five resources contain supplementary methods, tables and figures, detailed data workbooks, reproducibility code and supporting audit documentation. Original code is licensed under MIT; original documentation and derived content are licensed under CC BY 4.0. Third-party materials retain their source terms; see LICENSES.md and source notices inside Online_Resource_3.zip. Manuscript abstract Public intracerebral hemorrhage (ICH) datasets cover different tissue compartments and measure different subsets of genes, complicating comparisons across studies. We compared four specified gene sets (inflammation, complement, microglial activation and nuclear factor erythroid 2-related factor 2 (NRF2)-associated oxidative stress) in public paired human brain, single-cell and hematoma-effluent/blood datasets, using patients rather than cells as inferential units. In two studies of paired brain tissue, inflammation, complement and NRF2-associated scores were higher in perihematomal than contralateral samples in all four patient blocks and five matched pairs. Patient-level single-cell comparisons found higher inflammatory and complement scores in microglia/monocyte groups than in comparator lineages. In 14 patients with same-hour paired CD14+ and neutrophil data, a five-gene score named for microglial activation showed a positive CD14+&ndash;neutrophil local-response interaction in all 14 (adjusted P=0.000488), but four-program heterogeneity was not established (Friedman P=0.0796). Restricting this score to three shared genes reversed its CD14+ local response; a jointly scaled three-gene interaction was near zero. Independent acute blood data showed positive case-control differences, whereas longitudinal changes were not significant after adjustment. Inflammatory and NRF2-associated expression differences recurred across these datasets. The CD14+ local response of the microglial-related score depended on its measured genes. Version 2026-10-24 changes This revision aligns the five supplementary resources with the current manuscript and adds the exact GSE163256 primary fractional-count-to-score reconstruction and fresh-score downstream verification. Earlier domain-score displays in Online Resource 2, worksheets 05 and 06, are replaced by the fixed-program paired-brain results already used in the manuscript. Superseded, undocumented competitive-null fields are removed from the current Puy13 summary display and export; the defined manufacturer-panel-matched analysis is retained. Scoring and provenance descriptions, archive entry points, fonts, table formatting and numerical display precision have also been corrected. The primary biological scores and current inferential statistics are unchanged. Earlier inputs and execution records are retained with their historical roles identified.",
-      "tags": [
-        "intracerebral hemorrhage",
-        "perihematomal brain",
-        "myeloid response",
-        "monocyte/macrophage",
-        "neutrophil",
-        "microglia",
-        "transcriptomics",
-        "reproducibility",
-        "Bioinformatics",
-        "Gene-set coverage",
-        "Myeloid cells",
-        "Single-cell RNA sequencing",
-        "Oxidative stress"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Reproducibility materials for Inflammatory and NRF2-associated transcriptional responses in human intracerebral hemorrhage: paired myeloid evidence and gene-set sensitivity",
-      "url": "https://zenodo.org/records/23621014"
-    },
-    {
-      "base_direction_id": "registry_provenance",
       "candidate_id": "de2225cffa180c5e7b576b78",
       "context_id": "6e54a6a806c24244ff8a65d0",
       "delivery_preview_only": true,
@@ -1560,6 +1557,46 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "CBIcall: a configuration-driven framework for variant calling in large sequencing cohorts",
       "url": "https://zenodo.org/records/23597279"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "c42bc716cedd9e1fe934410a",
+      "context_id": "6f9063f9da54d7ff3cb5eb19",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 17.7083,
+      "source": "zenodo",
+      "source_context_sha256": "861c56580e07e7e79225554e291ad184fb373499e2eaa3406a48bc9595da1165",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "Frozen reproduction artifact for the study Evaluating Context-Graph Construction for Analytical Agents: Hidden Confounders and Lessons from a Controlled Benchmark. Includes saved context-graph stage-local comparisons, paired planner scored records, source provenance, and offline result re-aggregation scripts. This release does not re-run model inference or original SQL execution.",
+      "tags": [
+        "context-graph analytics",
+        "agentic analytics",
+        "reproducibility",
+        "retrieval confounders"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Context-Graph Analytics: Frozen Reproduction Artifact",
+      "url": "https://zenodo.org/records/23628731"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1893,47 +1930,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "QPatLib v1.0 — Measurement-based quantum simulation Pauli string unitary pattern collections",
       "url": "https://zenodo.org/records/23620417"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "c27bd350f2332fb4517fdb4c",
-      "context_id": "5374eec8f85c8111ad8cd2b4",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.4167,
-      "source": "zenodo",
-      "source_context_sha256": "ae5569cf8b1caed8a7b810f11debea26e4f1d006069e3bb8c4fa21a85d52db9a",
-      "source_published": "2026-10-24",
-      "source_updated": "",
-      "summary": "Complete computational-reproduction artifact for Recovery Budgets for Persistent AI-Agent Memory: Bounding Revocation Liability. Version 2.1.0-review includes the original structural and recorded CLI studies, the prospectively frozen 120-question LongMemEval-derived study (two Claude API models, two repetitions, seven policies; 3,360 policy executions), and a separate exploratory 20-question sensitivity study (batch order, revoked-source position, three policies; 1,920 executions). Full public benchmark inputs, frozen protocols, original code, exact recorded requests and responses, usage and spending ledgers, durable SQLite traces, analyses and retention diagnostics are included. Offline reproduction uses recorded responses, disables networking for the reproduction process and requires no API credentials or model charges. Validation included 40 unit tests, the original CLI checks, 3,360 main-study and 1,920 follow-up policy replays, and reconstruction of 128 main-study plus 20 follow-up retrievals. The recorded checks found zero replay discrepancies and made zero new model calls. See verification/ for reports and platform limits. Download and extract recovery-budgets-reproducibility-final.zip, then follow README.txt. The archive contains 26,234 files; online ZIP preview may be unavailable. Correctly weighted live-and-pending quotas and reservations intentionally agree. Episodic memory remains competitive. The separate 20-question follow-up is exploratory and must not be pooled with the 120-question cohort. Scores use strict short-reference EM/F1 rather than official LongMemEval scoring. Replay is computational reproduction, not independent new model sampling. Adaptive-attack robustness, general superiority and production-scale recovery are not established. Anonymous creator attribution is used for review; third-party attribution is retained. MIT applies to original software, CC BY 4.0 to original results and documentation, and LongMemEval retains its MIT notice. Provider services and model weights are not relicensed. The unchanged archive records its preparation-time publication status; this Zenodo landing page and the accompanying release note identify the published release.",
-      "tags": [
-        "AI agent security",
-        "persistent memory",
-        "revocation",
-        "provenance",
-        "reproducibility",
-        "recovery budgets"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Recovery Budgets for Persistent AI-Agent Memory: Reproducibility Artifact",
-      "url": "https://zenodo.org/records/23626873"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
