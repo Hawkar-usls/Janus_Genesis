@@ -479,19 +479,42 @@ def native_end_to_end_observed(report: dict) -> bool:
     )
 
 def _save_private_receipt(path: Path, body: str) -> None:
-    """Single-create a local receipt, 0600, without overwriting or following links.
+    """Create one 0600 file beneath no-follow, descriptor-pinned directories.
 
-    Public CI creates its artifact in an already existing temp directory.
-    Native research results and source digests must not be world-readable.
+    The parent path might be swapped between CLI preflight and this write;
+    dir_fd-relative O_NOFOLLOW opens reject that race instead of following
+    a replaced directory to a public or attacker-controlled location.
     """
-    flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY
-    if hasattr(os, "O_NOFOLLOW"):
-        flags |= os.O_NOFOLLOW
-    if hasattr(os, "O_CLOEXEC"):
-        flags |= os.O_CLOEXEC
-    fd = os.open(path, flags, 0o600)
-    with os.fdopen(fd, "w", encoding="utf-8") as output:
-        output.write(body)
+    if not all(hasattr(os, flag) for flag in
+               ("O_DIRECTORY", "O_NOFOLLOW", "O_CLOEXEC")):
+        raise ConsumptionError("HORDE_PRIVATE_RECEIPT_NOFOLLOW_UNSUPPORTED")
+    parts = path.parts
+    start = path.anchor if path.is_absolute() else "."
+    components = parts[1:] if path.is_absolute() else parts
+    if not components or any(item in ("", ".", "..") for item in components):
+        raise ConsumptionError("HORDE_PRIVATE_RECEIPT_PATH_INVALID")
+    opened = []
+    try:
+        parent_fd = os.open(start, os.O_RDONLY | os.O_DIRECTORY
+                            | os.O_NOFOLLOW | os.O_CLOEXEC)
+        opened.append(parent_fd)
+        for component in components[:-1]:
+            parent_fd = os.open(component,
+                                os.O_RDONLY | os.O_DIRECTORY
+                                | os.O_NOFOLLOW | os.O_CLOEXEC,
+                                dir_fd=parent_fd)
+            opened.append(parent_fd)
+        leaf = os.open(components[-1],
+                       os.O_CREAT | os.O_EXCL | os.O_WRONLY
+                       | os.O_NOFOLLOW | os.O_CLOEXEC,
+                       0o600, dir_fd=parent_fd)
+        with os.fdopen(leaf, "w", encoding="utf-8") as output:
+            output.write(body)
+    except OSError as exc:
+        raise ConsumptionError("HORDE_PRIVATE_RECEIPT_PATH_OR_WRITE_UNSAFE") from exc
+    finally:
+        for fd in reversed(opened):
+            os.close(fd)
 
 
 def main() -> int:
