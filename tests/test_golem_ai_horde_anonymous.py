@@ -514,6 +514,33 @@ class TestHordeAnonymous(unittest.TestCase):
                             horde.main()
                 self.assertEqual(exc.exception.code, 2)
 
+    def test_private_receipt_raced_parent_symlink_cannot_redirect_file(self):
+        if not (hasattr(horde.os, "O_NOFOLLOW")
+                and hasattr(horde.os, "O_DIRECTORY")):
+            self.skipTest("No descriptor-relative no-follow support")
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            original = base / "private-parent"
+            original.mkdir()
+            stolen = base / "moved-parent"
+            attacker = base / "public"
+            attacker.mkdir()
+            requested = original / "research.json"
+            true_open = horde.os.open
+
+            def raced_open(path, flags, *args, **kwargs):
+                if path == "private-parent" and "dir_fd" in kwargs:
+                    original.rename(stolen)
+                    original.symlink_to(attacker, target_is_directory=True)
+                return true_open(path, flags, *args, **kwargs)
+
+            with patch.object(horde.os, "open", side_effect=raced_open):
+                with self.assertRaisesRegex(
+                        ConsumptionError, "HORDE_PRIVATE_RECEIPT_PATH_OR_WRITE_UNSAFE"):
+                    horde._save_private_receipt(requested, '{"private": true}')
+            self.assertFalse((attacker / "research.json").exists())
+            self.assertFalse((stolen / "research.json").exists())
+
     def test_private_receipt_rejects_symlink_destination_before_network(self):
         with tempfile.TemporaryDirectory() as tmp:
             original = Path(tmp) / "keep-private.txt"
