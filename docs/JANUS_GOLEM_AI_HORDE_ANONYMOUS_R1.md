@@ -296,9 +296,13 @@ The native review projection, including native-generated text, is for a
 **local research receipt only**. No native projection, context digest or
 checkout metadata is inserted into the anonymous AI Horde prompt or its
 public-only CI canary. The `--out` path must be a new file in a directory
-without symlink ancestors: the file is created with exclusive `O_EXCL`,
-`O_NOFOLLOW` where available, and restrictive permissions `0600`. Existing
-files or symlink paths are rejected *before* contacting the provider.
+without symlink ancestors: its entire parent directory chain is opened
+with descriptor-relative `O_DIRECTORY | O_NOFOLLOW` and the final file is
+created via `dir_fd`, exclusive `O_EXCL | O_NOFOLLOW`, with restrictive
+permissions `0600`. Unsupported descriptor-safe platforms fail closed.
+Existing files or symlink paths are rejected *before* contacting the
+provider; another symlink substitution immediately before the final open
+is independently rejected.
 The CLI console prints only sanitized outcome and hash metadata, not native
 or AURA text. The operator must not publish a native report artifact.
 
