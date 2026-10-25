@@ -478,6 +478,22 @@ def native_end_to_end_observed(report: dict) -> bool:
         and sha256(compact(review)) == review_hash
     )
 
+def _save_private_receipt(path: Path, body: str) -> None:
+    """Single-create a local receipt, 0600, without overwriting or following links.
+
+    Public CI creates its artifact in an already existing temp directory.
+    Native research results and source digests must not be world-readable.
+    """
+    flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    if hasattr(os, "O_CLOEXEC"):
+        flags |= os.O_CLOEXEC
+    fd = os.open(path, flags, 0o600)
+    with os.fdopen(fd, "w", encoding="utf-8") as output:
+        output.write(body)
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--execute-public-demo", action="store_true")
@@ -501,6 +517,10 @@ def main() -> int:
             (args.home_root is None or not args.execute_public_demo
              or args.native_repo is None or args.native_head is None)):
         p.error("--require-native-review requires real execution, HOME and pinned native")
+    if args.out is not None and (
+            args.out.exists() or args.out.is_symlink()
+            or any(parent.is_symlink() for parent in args.out.parents)):
+        p.error("--out must be a new file in a non-symlink directory")
     if args.home_root is not None:
         report = query_attested_aura(
             args.home_root, execute=args.execute_public_demo,
@@ -509,7 +529,7 @@ def main() -> int:
         report = query_public(execute=args.execute_public_demo)
     body = json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
     if args.out is not None:
-        args.out.write_text(body, encoding="utf-8")
+        _save_private_receipt(args.out, body)
     print(json.dumps({
         "status": report["status"],
         "network_model_response_observed": report["network_model_response_observed"],
