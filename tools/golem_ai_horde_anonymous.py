@@ -371,6 +371,13 @@ def query_attested_aura(home: Path, *, execute: bool = False,
     result["aura_receipt_sha256_local_only"] = evidence["aura_receipt_sha256"]
     result["verified_context_sha256_local_only"] = evidence["cursor"]["context_sha256"]
     result["native_review_status"] = "NOT_EXECUTED_OR_NO_MODEL_RESULT"
+    result["aura_public_question_local_only"] = candidate
+    result["verified_context_sequence_local_only"] = evidence["cursor"]["last_sequence"]
+    result["native_source_commit_local_only"] = (
+        native_original["source_commit"] if native_original is not None else None)
+    result["native_checkpoint_sha256_local_only"] = (
+        native_original["checkpoint_sha256"] if native_original is not None else None)
+    result["native_review_receipt_local_only"] = None
     if result["response"] is not None and native_repo is not None:
         prompt = _review_prompt(result["response"], evidence["cursor"])
         try:
@@ -383,6 +390,10 @@ def query_attested_aura(home: Path, *, execute: bool = False,
                     runner is run_demiurge_native
                     and result["network_model_response_observed"]
                 ) else "MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE")
+            # Keep the validated, allowlisted native review locally so a
+            # verifier can recompute the prompt, checkpoint and whole digest;
+            # never transmit any of these fields to volunteer workers.
+            result["native_review_receipt_local_only"] = review
             result["native_review_sha256_local_only"] = sha256(compact(review))
         except (ConsumptionError, OSError, ValueError, KeyError, TypeError):
             result["native_review_status"] = "NATIVE_REVIEW_UNAVAILABLE"
@@ -417,21 +428,54 @@ def real_answer_observed(report: dict) -> bool:
 
 
 def native_end_to_end_observed(report: dict) -> bool:
-    """Strict real-external + pinned-native status, not a science verdict."""
-    native_hash = report.get("native_review_sha256_local_only")
-    return (
-        real_answer_observed(report)
-        and report.get("native_review_status") == "REAL_PINNED_NATIVE_CPU_UNVERIFIED"
-        and isinstance(native_hash, str)
-        and re.fullmatch(r"[0-9a-f]{64}", native_hash) is not None
-        and isinstance(report.get("aura_receipt_sha256_local_only"), str)
-        and re.fullmatch(r"[0-9a-f]{64}",
-                         report["aura_receipt_sha256_local_only"]) is not None
-        and isinstance(report.get("verified_context_sha256_local_only"), str)
-        and re.fullmatch(r"[0-9a-f]{64}",
-                         report["verified_context_sha256_local_only"]) is not None
-    )
+    """Check native receipt replay consistency, NOT independent model truth.
 
+    A self-consistent JSON object is never cryptographic proof of CPU
+    execution. The real subprocess identity is established by the caller
+    choosing run_demiurge_native; this predicate validates its recorded
+    allowlisted review against the public answer and pinned metadata.
+    """
+    if not isinstance(report, dict) or not real_answer_observed(report):
+        return False
+    if report.get("native_review_status") != "REAL_PINNED_NATIVE_CPU_UNVERIFIED":
+        return False
+    from janus_corpus_callosum import _valid_native
+    from janus_corpus_callosum_v2 import _review_prompt
+
+    def digest(value: object) -> bool:
+        return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
+
+    aura_hash = report.get("aura_receipt_sha256_local_only")
+    context_hash = report.get("verified_context_sha256_local_only")
+    expected_checkpoint = report.get("native_checkpoint_sha256_local_only")
+    native_head = report.get("native_source_commit_local_only")
+    sequence = report.get("verified_context_sequence_local_only")
+    question = report.get("aura_public_question_local_only")
+    review = report.get("native_review_receipt_local_only")
+    review_hash = report.get("native_review_sha256_local_only")
+    answer = report.get("response")
+
+    if (not all(digest(x) for x in (aura_hash, context_hash,
+                                    expected_checkpoint, review_hash))
+            or not isinstance(native_head, str)
+            or re.fullmatch(r"[0-9a-f]{40}", native_head) is None
+            or type(sequence) is not int or sequence < 1
+            or question not in PUBLIC_AURA_QUESTIONS
+            or report.get("prompt_source") != "FROZEN_PUBLIC_AURA_CARD"
+            or report.get("prompt_sha256") != sha256(
+                _public_prompt(question).encode("utf-8"))
+            or not isinstance(review, dict)):
+        return False
+    prompt = _review_prompt(answer, {"last_sequence": sequence})
+    try:
+        replay = _valid_native(review, native_head, prompt)
+    except (ConsumptionError, OSError, ValueError, KeyError, TypeError):
+        return False
+    return (
+        replay == review
+        and review["checkpoint_sha256"] == expected_checkpoint
+        and sha256(compact(review)) == review_hash
+    )
 
 def main() -> int:
     p = argparse.ArgumentParser()
