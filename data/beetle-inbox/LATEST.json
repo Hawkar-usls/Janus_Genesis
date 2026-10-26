@@ -1,17 +1,17 @@
 {
-  "batch_id": "c9f6481839f2c89624e9",
+  "batch_id": "e35a5cc261a17bebc1a4",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
   "items": [
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "47066924e9fb2289530843c7",
-      "context_id": "c8ef98a9e95ad732498fb282",
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "ae1ae1b3894c484a2663bf22",
+      "context_id": "e605e289fc92ebd048aa4aa4",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -21,136 +21,69 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "representation",
-        "world model"
+        "provenance",
+        "reproducibility"
       ],
       "mirror_lens": "FORWARD",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.0417,
-      "source": "arxiv",
-      "source_context_sha256": "53fc04a4f924c6e40074bdbf1ee8dcf0f0602a9219d43e5476c235afcab4f4de",
-      "source_published": "2026-10-23T14:04:18Z",
-      "source_updated": "2026-10-23T14:04:18Z",
-      "summary": "Decision Transformer (DT) has demonstrated strong performance in various offline reinforcement learning (RL) tasks by conditioning action generation on expected future returns and historical trajectories. However, treating expected future returns as the condition provides an incomplete description of the future, as trajectories with different state transitions and behaviors may share similar returns. Moreover, expected future returns inherently depend on task-specific reward functions, which makes policy learning reliant on reward-labeled datasets and restricts its scalability to tasks with similar but unseen rewards. Recently, Joint Embedding Predictive Architectures (JEPA) have emerged as a promising paradigm of self-supervised learning-based world models, which learn predictive representations of future dynamics in latent space rather than reconstructing future states in the original space. Inspired by JEPA, we propose DT-JEPA, an offline pretraining and online fine-tuning framework that learns general knowledge from reward-free offline trajectories and achieves excellent adaptation to unseen tasks. Instead of predicting a single deterministic future embedding, we design a novel probabilistic predictor to model the conditional distribution of future representations in the latent space, thereby capturing both predictive information and uncertainty about future dynamics. Theoretically, we show that 1) the JEPA objective seeks to maximize a variational lower bound on the mutual information between historical representations and future trajectories; and 2) predictive future-conditioned policy learning admits a finite-sample performance bound with an O(N-1/4) estimation term. Experiments on D4RL benchmarks demonstrate that DT-JEPA achieves efficient adaptation across varying offline RL tasks, outperforming traditional DT-based and other offline RL methods.",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "DT-JEPA: Learning to Predict Future Representations for Decision-Making",
-      "url": "https://arxiv.org/abs/2610.32657v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "5f7d78651726896a45d553f5",
-      "context_id": "3cb0365eeb01af2aeb7a9d9b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "representation",
-        "world model"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.0417,
-      "source": "arxiv",
-      "source_context_sha256": "4d6ef4569b733b8ec4a5441d47ddf29c28cd74c3547e6c69b5837ebbfe14feec",
-      "source_published": "2026-10-22T04:46:49Z",
-      "source_updated": "2026-10-23T03:33:22Z",
-      "summary": "Video provides a natural source of supervision: what happens next serves as a learning signal for visual world modeling. Yet masked video pretraining focuses on recovering missing content from surrounding context rather than predicting the future from the past. Autoregressive methods instead predict forward one token at a time, but have yet to match joint-embedding methods in representation quality. This gap motivates us to revisit the granularity and space of future prediction. In this work, we introduce VANE, a self-supervised visual pretraining framework built on next-frame prediction in embedding space. A causal encoder summarizes past observations for a state predictor that infers the representation of the entire next frame, making temporal evolution the primary learning signal. This prediction is carried out in a fixed embedding space provided by a frozen semantic tokenizer, emphasizing scene content and structure. To retain fine-grained spatial detail alongside semantic content, a lightweight auxiliary generative decoder reconstructs future-frame patches conditioned on the predicted representations. To unify visual modeling across images and videos, we construct a local-to-global crop sequence for still images, allowing the same encoder to predict newly revealed regions from earlier crops under the same objective. Experiments show that VANE improves with model and data scaling, achieving SOTA on most anticipation, recognition, and dense perception benchmarks among unified encoders. Especially on EPIC-KITCHENS-100 action anticipation, it surpasses V-JEPA 2.1 by 7.1 points in mean-class recall@5. These results demonstrate that next-frame prediction in embedding space is effective and scalable for visual world modeling.",
-      "tags": [
-        "cs.CV",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Learning from Next-Frame Prediction: Towards Unified and Scalable Visual World Modeling",
-      "url": "https://arxiv.org/abs/2610.30724v2"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "a6cc435ecc98f550d238e328",
-      "context_id": "ac3f3032f578ce31d32e346c",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "representation",
-        "representation learning"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.5833,
+      "score": 9.0417,
       "source": "zenodo",
-      "source_context_sha256": "2f077bd9b1c2bb3c6172dbed87d5c51c8420596d3e7c43af26d5bb18971f436b",
+      "source_context_sha256": "cca97207315df812c1e937377d2b2cbee91a3802d4d351ae14c29ab0bb6bcf70",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "Associated manuscript: Bounded residual plasticity reduces negative transfer in adaptive motor-imagery EEG decoding. This release archives the numerical analyses, configuration records and figures used to evaluate bounded residual adaptation in motor-imagery EEG decoding. The architecture retains the source encoder and classifier and confines participant-specific adaptation to a rank-2 latent residual with a 2% source-probe displacement bound. The cohort-stratified combined analysis included 109 PhysioNet participants evaluated on held-out tasks and nine BCI Competition IV-2a participants evaluated cross-dataset. Negative transfer exceeding one percentage point in at least one subsequent evaluation session occurred in 5/118 participants under bounded residual adaptation, compared with 33/118 under unconstrained encoder adaptation and 25/118 under hard-KL adaptation. Mean bounded residual utility was −0.042 percentage points. An additional EEGNet-style raw-EEG robustness analysis involving 109 PhysioNet participants found 5/109 negative-transfer events for bounded adaptation and 22/109 for unconstrained adaptation. Included records: Cohort-stratified statistical summaries, paired contingency tables, raw-EEG participant-by-method results, configuration and provenance records, parameter-update summaries, figures and a Python numerical verification script. The numerical verification can be run using: python scripts/verify_results.py Reproducibility scope: This archive supports verification of the recorded statistical comparisons and recomputation of the supplementary raw-EEG event counts. The original EEG preprocessing and training pipelines, primary participant-level results and model checkpoints are not included. Complete end-to-end model retraining requires those original project assets. The PhysioNet EEG Motor Movement/Imagery Database and BCI Competition IV-2a recordings remain available from their respective providers and are not redistributed. Provenance: Assembled from the audited pre-submission package dated 25 October 2026. SHA-256 checksums are provided with the repository.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "squareshorts/eeg-bounded-plasticity: v1.0.1 — Bounded residual plasticity: numerical results and verification archive",
+      "url": "https://zenodo.org/records/23650820"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "71032fbe2cf8c3da170fbb71",
+      "context_id": "dd0128c69bec2c8cd3da5f41",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "e941c67ec392e4aadd8861804b7c26dbc58bf0f5ccb019d7e419078c476d8ba5",
       "source_published": "2026-10-26",
       "source_updated": "",
-      "summary": "ProPaST v1.0.0 This is the first official release of ProPaST, a graph representation learning framework for spatial transcriptomics data integration and analysis. ProPaST integrates gene expression and spatial information through graph representation learning, combining expression reconstruction, spot-neighborhood contrastive learning, and niche-level prototype contrastive learning to support spatial domain identification and multi-slice integration.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "QinlinMa/ProPaST: ProPaST v1.0.0",
-      "url": "https://zenodo.org/records/23656301"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "c0daca5405e6a46f47143efb",
-      "context_id": "5b1ec5b466814599e02eea2e",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "world model"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "arxiv",
-      "source_context_sha256": "5d68bca78549a1a3e7aa06c37a316a7db8b27ef8fc43569feca21c0f783197ce",
-      "source_published": "2026-10-23T14:54:36Z",
-      "source_updated": "2026-10-23T14:54:36Z",
-      "summary": "Unrecognized anomalies in critical infrastructure can rapidly cascade into catastrophic physical or operational failures. Current anomaly detection approaches often rely on direct access to the monitored system by utilizing onboard sensors, such as motor encoders, to detect anomalous states. However, legacy hardware often lacks these sensors, or strict security protocols may prohibit access altogether. We therefore present AWARE, a world model framework that is capable of anomaly detection using only external camera monitoring via system dynamics estimation and state prediction. Evaluated across 240 real-world robotic crane trajectories, including payload collisions and motor degradations, AWARE demonstrates a 26% improvement in anomaly classification over our strongest baseline under noisy, camera-only state estimation. Furthermore, the inferred dynamics parameter can be decoded to identify the source of faults, localizing the degrading motor with 88% accuracy.",
+      "summary": "PGA-G v1.0.0 — Research Software and Experimental Evidence This release provides the original research implementation and reproducibility resources for PGA-G: Selective Adaptation and Conformal Calibration for Speech Deepfake Detection . PGA-G introduces a selective adaptation framework that determines when a frozen speech deepfake detector should be adapted using unlabelled deployment data and a genuine-speech reference. The proposed methodology integrates prevalence-based adaptation gating, consistency screening, and conformal calibration to support reliable operating decisions under changing deployment conditions. Research Contributions Selective adaptation: A prevalence-based gate determines whether the deployment data provide sufficient evidence to consider adaptation. Consistency screening: A guard evaluates the adapted scoring branch to reduce reference-dependent shortcuts. Conformal calibration: A genuine-reference calibration procedure establishes operating points under the specified calibration assumptions. Cross-detector evaluation: Experiments examine SSL-AASIST, XLSR-Mamba, and AASIST on ASVspoof 2021 DF and ASVspoof 5. Release Contents The repository includes the research implementation, pre-registered experimental protocols, per-repetition evaluation records, machine-readable numerical results, provenance information, automated tests, and reproducibility documentation. Reproducibility and Verification The included verification framework supports independent examination of the archived experimental evidence, including: 160/160 confirmatory numerical comparisons. 20/20 additional numerical consistency checks. Byte-identical regeneration of the source-grouped numerical summary. Automated file-integrity validation and regression testing. Reconstruction of condition-level experimental evidence from archived results. These checks run without requiring GPU access, pretrained model checkpoints, or original speech recordings. Full detector inference and complete experimental repetition require separately obtained upstream resources and additional environment-specific setup, as documented in the repository. Research Artifact Scope This release serves as a companion research software and experimental evidence archive. It does not distribute the journal manuscript, publication figures, original speech recordings, or third-party pretrained model weights. The repository provides an independently inspectable foundation for evaluating the PGA-G methodology and its reported experimental findings.",
       "tags": [
-        "cs.RO",
-        "cs.AI"
+        "speech deepfake detection",
+        "selective adaptation",
+        "positive-unlabelled learning",
+        "conformal calibration",
+        "reproducibility"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Adaptive World-Models for Anomaly Recognition (AWARE): A Framework for Robot Dynamics Prediction and Introspection",
-      "url": "https://arxiv.org/abs/2610.32742v1"
+      "title": "PGA-G: Selective Adaptation and Conformal Calibration for Speech Deepfake Detection",
+      "url": "https://zenodo.org/records/23652611"
     },
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "28555473691a6f744666ae76",
-      "context_id": "3d817ea159159fcdaba324a3",
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "20944f9e38d32827190dd0cb",
+      "context_id": "d50dfcc57b7ccdcad5597679",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -160,272 +93,419 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "continual learning",
-        "memory"
+        "provenance",
+        "reproducibility"
       ],
       "mirror_lens": "FORWARD",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 3.0,
-      "source": "arxiv",
-      "source_context_sha256": "0043166329b8898bb4411dabf40fb00329e9cf6426f81be392526f935740873c",
-      "source_published": "2026-10-23T15:39:40Z",
-      "source_updated": "2026-10-23T15:39:40Z",
-      "summary": "Replay-based Continual Learning mitigates catastrophic forgetting by keeping a buffer of past samples, making buffer composition critical under a fixed memory budget. Recent coreset-based replay methods improve buffer quality using model-derived gradients, losses, or auxiliary optimization, but incur substantial computational overhead as memory is repeatedly updated. We propose CARES, a continual model-optimization-free approach for buffer construction that instead exploits the geometry of a frozen pretrained feature space using class-aware, density-weighted coverage. We evaluate CARES across balanced, imbalanced, and label-noisy streams under online class- and task-incremental settings. On Tiny-ImageNet, CARES is 2.3 to 8.8 times faster than existing coreset-based selectors. Although CARES achieves this speedup using no training signal from the continual learner, it ranks among the state of the art across balanced, imbalanced, and label-noisy streams under online class- and task-incremental settings, outperforming the strongest baseline by up to 7.58 percentage points under class imbalance while also attaining higher average accuracy on Tiny-ImageNet. Code will be released upon publication",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CARES: Coverage-Aware Replay Exemplar Selection for Continual Learning",
-      "url": "https://arxiv.org/abs/2610.32799v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "69727d8908bcf7fa032e7f1e",
-      "context_id": "9e4ee8bdd6fba309d8bfa421",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "representation",
-        "retrieval"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.9583,
-      "source": "arxiv",
-      "source_context_sha256": "a121305f1cb1b35018cd7bf2946c59db330182ed14fcd96782dcfb0d09261187",
-      "source_published": "2026-10-23T16:09:57Z",
-      "source_updated": "2026-10-23T16:09:57Z",
-      "summary": "Modern vision encoders are widely used as semantic representations, but the relationship between embedding similarity and human-visible semantics can become unclear far from the natural-image manifold. We probe this regime in a black-box setting by applying sparse pixel edits to blank canvases with a simple pixel-level hill-climbing procedure. Across ImageNet and Flickr30k, we evaluate whether these edited blank canvases can retrieve chosen targets in multimodal contrastive encoders and self-supervised visual encoders. On OpenCLIP, inputs optimized toward class prompts achieve strong top-1 and top-5 targeted retrieval performance; on DINOv3, inputs optimized toward class prototypes achieve high target alignment and near-top prototype ranks. These results show that sparse edits on otherwise blank, visually non-semantic inputs can enter target semantic basins in both language-aligned and self-supervised visual representation spaces. Our findings identify a shared off-manifold failure mode of modern vision encoders and suggest sparse blank-canvas optimization as a simple probe of representation geometry.",
-      "tags": [
-        "cs.CV",
-        "cs.CL",
-        "cs.HC"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "SPOOK: Sparse Pixel Optimization for Off-Manifold Knowledge in Vision Encoders",
-      "url": "https://arxiv.org/abs/2610.32835v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "a15d5c8e4baa585bc8f6f115",
-      "context_id": "95eb57b6592475045506000a",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.8333,
-      "source": "arxiv",
-      "source_context_sha256": "1986278c8abf534e89610d1071c6d87de8835d72e7e997d2472e97c889461959",
-      "source_published": "2026-10-23T11:11:45Z",
-      "source_updated": "2026-10-23T11:11:45Z",
-      "summary": "People differ in how they perceive music, what associations they make with it, what they like about it, and how they respond to it. Computational models intended to simulate people in environments that include music should account for these differences. Although LLMs have been shown to reproduce aspects of human behavior, whether audio-language models (ALMs) can reproduce a specific person's responses to textual and musical stimuli remains underexplored. We introduce MusicTwins, a framework that combines persona summaries, personal memory, and post-training to generate person-specific responses. We construct persona representations from human writings, capturing background, views, personality, writing style, and a musical profile, and post-train Audio Flamingo Next through supervised fine-tuning and reinforcement learning. Evaluation on ten held-out personas shows notable improvements for Audio Flamingo Next in persona fidelity, including personality, writing style, and responses to music, supporting MusicTwins as a foundation for training audio-language models to listen like their persona.",
-      "tags": [
-        "cs.SD",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "MusicTwins: Training Audio-Language Models to Listen like Their Persona",
-      "url": "https://arxiv.org/abs/2610.32495v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "3c330c6fe57d67e3f2ff19e4",
-      "context_id": "4ec1915c0beda7a1048e9b82",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.8333,
-      "source": "arxiv",
-      "source_context_sha256": "4341d335cbb1a17f2d261f0f03a2c9755052b91a942bb2bae0c4424fe9d274f8",
-      "source_published": "2026-10-23T14:05:37Z",
-      "source_updated": "2026-10-23T14:05:37Z",
-      "summary": "Continual Wi-Fi sensing must balance plasticity, learning new rooms or users, against stability, keeping earlier ones, yet nodes often cannot retain channel state information (CSI) for privacy and storage reasons. We propose WiMoT (Wi-Fi Moment Transport), which stores the per-class feature mean and covariance of every earlier domain instead of samples. When the representation changes, stored statistics become stale. WiMoT restricts the change to an affine map on a frozen feature basis and applies the same map to the statistics, so they stay valid without old samples. Supervised contrastive learning learns the new domain, a closed-form loss on the stored statistics keeps earlier classes separable, and a Gaussian discriminant classifier, refitted from the transported statistics with equal weight per domain, predicts without domain identity. On 3DO, WiMANS, and Widar3.0, WiMoT's average final accuracies are 94.02%, 89.61%, and 95.16% with at most 0.58 percentage points (pp) of forgetting. On 3DO and Widar3.0, it also has the highest balance of new- and earlier-domain accuracy and is 3.77 and 13.11 pp ahead of the strongest of 21 baselines, which uses replay, staying ahead across domain orders and label budgets. On WiMANS, it matches the strongest replay baseline in accuracy (+0.41 pp) while reducing forgetting from 2.78 to 0.00 pp, and has the highest six-order average accuracy. Because full covariances dominate the memory, storing them as rank-32 factors shrinks the moment memory to 6.4%, losing at most 0.49 pp of accuracy, within edge-node storage budgets.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "WiMoT: Replay-Free Continual Wi-Fi Sensing via Moment Transport",
-      "url": "https://arxiv.org/abs/2610.32660v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "f9bca82888c94ab3d188e37c",
-      "context_id": "16657878853980041a24f175",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.8333,
-      "source": "arxiv",
-      "source_context_sha256": "6dfb232c04e7017afaa3838d90ea21088ad951854c50f2aaede16b96fc6b96c9",
-      "source_published": "2026-10-23T00:16:36Z",
-      "source_updated": "2026-10-23T00:16:36Z",
-      "summary": "Mixture-of-Experts (MoE) models reduce computation through sparse activation, but storing their expert parameters remains a major memory bottleneck. We introduce GS-MoE, a training-free compression framework that addresses redundancy across and within experts through two compression axes: shared-subspace rank and expert intermediate width. Groupwise low-rank representations capture shared structure across experts while retaining expert-specific projections, and Nyström-based neuron compression reduces intermediate width within each expert. For fixed shared subspaces, we derive per-expert reconstruction-error reductions from the reconstruction objective and use them to guide expert grouping. Budgets are allocated hierarchically using a gradient-free layer-importance score to guide the allocation of rank and width budgets across layers, which eigenvalues and leverage then distribute as non-uniform ranks across groups and intermediate widths across experts. Experiments demonstrate the complementary benefits of compression along both axes, particularly at high compression rates on fine-grained MoE models. On DeepSeek-MoE-16B-Base, at a 60% reduction in total model parameters, GS-MoE retains approximately 90% of the uncompressed model's average reasoning performance, compared with 73% for D$^2$-MoE, while achieving 20% lower out-of-domain perplexity. We provide a code implementation at: https://github.com/cbacary/GS-MoE",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "GS-MoE: Training-Free MoE Compression via Groupwise Subspace Sharing and Pruning",
-      "url": "https://arxiv.org/abs/2610.32009v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "b9e2b64ccd17b104e9807a0f",
-      "context_id": "daaeec59c3bfff682a5a120d",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "retrieval"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.625,
-      "source": "arxiv",
-      "source_context_sha256": "8e8d8c52a4a2e8d76200a30cc9cf2db94e938cf3d263f6e2bbfbc0880f9d1704",
-      "source_published": "2026-10-23T08:28:29Z",
-      "source_updated": "2026-10-23T08:28:29Z",
-      "summary": "Humans efficiently process multimodal streams spanning hours to years, building persistent, fine-grained spatiotemporal memories that support reasoning about and predicting long-horizon events. In contrast, existing benchmarks focus on short- and medium-context tasks, and most foundation models struggle to preserve fine-grained information over long horizons. To evaluate and improve long-horizon spatiotemporal reasoning, we introduce the LongVideo dataset and the 4DMemoryBench. LongVideo comprises about 900 hours of video and over 5,000 manually reviewed questions covering visual, textual, and spatiotemporal reasoning across diverse context lengths. We further develop the 4DMemory Harness, which integrates four complementary skills, 22+ specialized tool models, and a model-specific retrieval-augmented generation system. Evaluating 13 leading models, we find that standalone foundation models struggle with long-horizon tasks, while the 4DMemory Harness improves all of them by over 50\\%. Compared to previous benchmark, the same models exhibit a performance drop of more than 10\\% on 4DMemoryBench. We hope 4DMemory will facilitate the development of spatiotemporal agents capable of addressing complex, long-horizon tasks.",
-      "tags": [
-        "cs.CV",
-        "cs.AI",
-        "cs.CL",
-        "cs.MM"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "4DMemory: Benchmarking Long-Horizon Spatiotemporal Memory with Harness-Augmented Agents",
-      "url": "https://arxiv.org/abs/2610.32332v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "8f7d826892c2831f0e9699fb",
-      "context_id": "a5eb5571f387a1693408dcac",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "retrieval"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.625,
-      "source": "arxiv",
-      "source_context_sha256": "8d3f02824baf31d03b10b3446c49b072a8d5cdc3cf4521052efd35060084c1ea",
-      "source_published": "2026-10-23T07:53:18Z",
-      "source_updated": "2026-10-23T07:53:18Z",
-      "summary": "Lifelong LLM agents must learn from an expanding history of interactions while making each decision within a bounded context window. Memory makes past experience available, but the agent may still need to infer how to solve each new task from the retrieved records. Skills provide reusable procedures, yet may omit the task-specific facts needed to apply them. Because retrieved memory and skills shape the agent's behavior, they also influence the experience available for future learning. We introduce MemCryst, a framework for lifelong context adaptation through bidirectional learning of memory and skills with a frozen language model. Recurring episodes stored in memory support skill creation and revision, and the interactions guided by those skills supply new memory for subsequent learning. Facts retrieved from memory and learned skills jointly form the agent's context, while task outcomes adjust the future retrieval influence of the records actually served without rewriting their content. Across ten settings spanning embodied control, long-document reading, conversation, mathematics, and code, MemCryst leads seven reported comparisons. On ALFWorld, joint serving achieves 63.17% success, compared with 59.83% for memory-only and 50.50% for skill-only serving. Code is available at https://github.com/tianyi0216/Memcryst.git",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Lifelong Context Adaptation through Bidirectional Memory-Skill Learning",
-      "url": "https://arxiv.org/abs/2610.32295v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "4369f592edff222ac419856b",
-      "context_id": "3403884cb63be8147e7f7ad4",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::FORWARD",
-      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "retrieval"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 2.625,
+      "score": 9.0417,
       "source": "zenodo",
-      "source_context_sha256": "a12aab52aa740d39394a6cab3bc3427e13ed432227d49fb0eacd3d974b0c6dce",
-      "source_published": "2026-10-21",
+      "source_context_sha256": "d70766a97b69b404230f498b31bf04ce871413820e98bc9e2cacd20bb395060d",
+      "source_published": "2026-10-26",
       "source_updated": "",
-      "summary": "Nine years after its introduction, the transformer remains the default sequence model. The usual explanations are real: parallel matrix multiplication on accelerators, predictable returns to scale, a co-evolved ecosystem and exact recall from an uncompressed context. But they do not explain why most modifications barely move accuracy, which properties are essential, why the changes practice adopted took the forms they did, or where the design can still move. This paper is the entry point to a collection of papers that treat a token-mixing layer as an averaging operator rebuilt from its own input and iterated through depth. Such a layer faces six failure modes (collapse to consensus, contamination of content by routing, runaway feedback, the inability to abstain, dilution as context grows, and the inability to represent direction). Each has a protection, proved within a declared class, and a signature measured at small scale when that protection is removed; for gain control, which protects against runaway feedback, that signature is synthetic. We read softmax attention in a pre-normalized residual block as the one known point where all six protections are cheap at once under the prices of parallel hardware and gradient descent; this is an interpretation, not a measured optimum. Two mechanisms, measured at small scale, help explain why its neighbourhood is flat: trained networks compensate local deficits through spare capacity, and, in ten scored tests, making a protection explicit did not beat a block that already supplies it. The anchor, the residual or input path that protects against collapse to consensus, is the one protection whose loss compensation provably cannot repair: under strict mixing, where repeated averaging contracts token differences toward zero, no extra capacity of bounded gain (bounded sensitivity) brings back what is lost without it, and in small-model ablations nothing else in the block made up for it. This is a proved bound; a trained test that adds capacity is pending. Many changes adopted in the mixing layer and its block since 2017, among them pre-normalization, QK-norm, sinks and output gates, read as re-supplies of the same protections; the account is silent on others, such as changes to the MLP. The room that remains for the design to move is where a protection is patched (met only by a fix that works over a limited range, such as the trained length) or paid at a price that another design could avoid. It includes abstention and retrieval at long context, governed by a two-sided log-N law in the context length (with bounded scores, no fixed rule for abstaining keeps both as the context grows), and bounded memory, whose price for exact recall is a per-head capacity. It also includes decisions that sum over all competitors where reading the largest would do, and the writer of new features (in a transformer, the MLP and the output map), for which the collection has no theory yet of what a good writer computes. Along the way the collection establishes results that stand on their own: attention has an arrow that default statistics of a single operator cannot see; depth is a distribution over path lengths; converged adaptive averaging can amplify changes in its input and overturn correct predictions; and softmax obeys length laws that decisions on maxima escape while the competing scores stay below the decision's threshold. We state what is proved, what is measured, what is interpretation, and what is still pending. This is a working draft, not a final version. It is unpolished in places, incomplete in others, and keeps exploratory material a polished paper would leave out, because that material helps decide what comes next and shows the programme's big picture more fully. Please read it with that in mind: the work will be refined further, and later versions will appear under this record. It belongs to a collection released together on Zenodo: the entry paper The Transformer Abides, the monograph A Spectra",
+      "summary": "NovaFabric is self-hosted, open-source replay and evidence infrastructure for AI agents and agentic systems. It captures agent executions as portable, secret-scanned Run Capsules and provides replay, behavioral and structural diff, lineage, cryptographic provenance, assurance, and audit around those executions. The same capture layer can wrap general commands and runs entirely in the user's own infrastructure, from local environments through Kubernetes to SLURM/HPC, with no accounts and no telemetry. It is built around five primitives &mdash; Asset Registry, Run Capsule, Replay, Lineage, and Evidence Bundle &mdash; and five explicit replay modes (forensic, mocked, semantic, exact, and the experimental intervention mode). Run Capsules can be sealed with the user&rsquo;s own key; sealing is opt-in. Evidence bundles verify offline using only sha256sum and an ed25519 verifier, with no NovaFabric installation required. Interoperates with established specifications rather than inventing formats: OpenTelemetry GenAI semantic conventions, in-toto/DSSE, RFC 3161 timestamping, W3C PROV, OpenLineage, and CycloneDX.",
+      "tags": [
+        "reproducibility",
+        "provenance",
+        "AI agents",
+        "large language models",
+        "evidence",
+        "audit",
+        "lineage",
+        "replay",
+        "research software",
+        "high-performance computing",
+        "OpenTelemetry",
+        "in-toto",
+        "AI governance"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "NovaFabric: replayable, verifiable execution evidence for AI agents",
+      "url": "https://zenodo.org/records/23652607"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "563e390054d8a9f3ebdae0de",
+      "context_id": "c1c3e14793f7d5991c80ec41",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "ee7b68417f93fbbebe08af624621e72cbb075076a122f4639f2255ce9f7cfeec",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "Implementation and reproducibility package for static and fixed-ion time-dependent Berry-phase electric fields in SIESTA, by Javier Junquera. This is a new version of the reproducibility record supporting the invited Philosophical Transactions A manuscript \"Insulating solids in finite electric fields: implementation and validation in SIESTA\" (RSTA-2026-0113). The package supplies the exact source revision and pinned dependency sources, the 61-page technical report and editable LaTeX with figures, complete 53-routine Doxygen HTML and printable API, the User Guide, three progressive tutorials, documented calculation inputs and outputs, raw accepted and failed validation campaigns, source/executable/input hashes, CPU/wall/RSS measurements, and portable reproduction and plotting instructions. Validation covers serial, MPI, OpenMP and hybrid execution, static forces/stress, collinear and NC/SOC spin including the documented U/J path, fixed-ion real-time propagation, empty-owner and unsupported-input checks, and matched disabled-feature overhead. Four fresh exact-input SIESTA fields replay the earlier reference calculations; independent ABINIT results are reanalysed from preserved raw outputs, not newly calculated. The evidence is single-host and configuration-specific; unsupported, untested and unavailable combinations and convergence/scaling limits are documented. Read the technical report (PDF) . Start with README.md for extraction, checksums, build/test commands and scientific reproduction. Each archive has a per-file SHA-256 inventory. The six prepared implementation commits were pushed through 3365997ba; MR 570 metadata remains held for the owner final check. New scientific data, documentation, original figures and code are GNU GPL version 3 only (GPL-3.0-only), matching the official SIESTA licence . The earlier reference subset retains its CC BY 4.0 data/documentation and GPLv3-or-later script terms. SIESTA dependencies, documentation assets and PSML pseudopotentials retain their individual notices and provenance; see LICENSES.md and COPYING. Dated licence-hold statements in the immutable evidence predate the owner instruction of 26 October 2026. The preceding complete 84-case archive remains available as DOI 10.5281/zenodo.23315274 ; it is not duplicated here. The included exact subset supports the documented independent replay. This work is part of Grant PID2022-139776NB-C63, funded by MICIU/AEI/10.13039/501100011033 and by ERDF/EU.",
       "tags": [],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "The Transformer Abides: What Attention Needs, and Why It Endures",
-      "url": "https://zenodo.org/records/23541767"
+      "title": "Finite electric fields in SIESTA: implementation and compliance validation",
+      "url": "https://zenodo.org/records/23661736"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "1c8df32af20d6241efd29782",
+      "context_id": "aaf2ed44948051569f04cfa3",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "02605f7c686e2359a820e89b334c72b6ecfdb6f606bbbd4f8eaf10dd815b7ec2",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "This repository provides the companion dataset and reproducibility materials for the systematic review Resilience-Trajectory Geometry in Infrastructure Systems: A Systematic Review, Taxonomy, and Metric-Compatibility Analysis . The review examines how the geometric properties of infrastructure resilience trajectories are represented, quantified, and reduced to resilience metrics across 226 disruption-related studies. The materials support transparent analysis of trajectory morphology, phase structure, event topology, evidence provenance, metric compatibility, and information loss. The repository includes: Study-level data: An author-approved bibliographic register of 226 included studies, a complete 226 &times; 17 categorical R5 dataset, a frozen 98-category dictionary, and complementary geometry and evidence-compatibility data. Reproducible analyses: Derived frequency tables, 193 event&ndash;service&ndash;observation&ndash;task validation cells, service aggregation and interdependency classifications, and supporting validation outputs. Search documentation: The exact search strategies executed on 6 September 2026 across Scopus, Web of Science Core Collection, IEEE Xplore, ScienceDirect, and Springer Nature Link, together with documented search counts. Computational materials: Six Python scripts for reproducing the released aggregate analyses and computational figures, editable TikZ sources for conceptual diagrams, and eight vector PDF figures. Research documentation: A proposed 20-item trajectory reporting checklist, a public coding guide, methodological provenance records, and SHA-256 checksums. The materials enable independent reproduction of the published categorical summaries and computational visualizations from the released data. They do not constitute a complete replayable archive of bibliographic screening or source-level adjudication. Third-party article full texts, proprietary bibliographic database exports, and access-controlled source-verification and adjudication records are excluded. Original author-generated data, figures, and documentation are distributed under Creative Commons Attribution 4.0 International (CC BY 4.0). Python scripts and associated software are licensed under the MIT License.",
+      "tags": [
+        "infrastructure resilience",
+        "resilience trajectories",
+        "trajectory geometry",
+        "resilience curves",
+        "systematic review",
+        "resilience metrics",
+        "metric compatibility",
+        "reproducibility",
+        "coding framework"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Resilience-Trajectory Geometry in Infrastructure Systems: Companion Data and Reproducibility Materials",
+      "url": "https://zenodo.org/records/23642595"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "0981f009dfbc259dd6b0ad82",
+      "context_id": "8c2974e60518c172dfcc7eec",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "0dfae49f6583360a4c629c289b6bfc1ea76098ff5901123ea6dfb5ae3ed8cdcd",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "Replication materials accompanying the manuscript &ldquo;Failure-log ranking and selective dismissal across projects&rdquo;. The release contains saved validation/test predictions, project-disjoint split identifiers, thresholds, decision tables, analysis and figure code, source manifests, and supporting provenance. It covers the primary matched analysis, three alternative project partitions, and the prior-shift, class-conditional score-tail and pointwise-binomial diagnostics in Supplement S9. The package supports verification of saved-output analyses. It does not provide a verified one-command end-to-end training rerun. Retraining requires separate access to the original dataset and reconstruction of documented features and dependencies. Raw third-party archives and fitted model binaries are not included. Source data: Alshammari, Ammann, Hilton and Bell (2024), version v1, https://doi.org/10.5281/zenodo.10531160 (CC BY 4.0). All scientific CSV tables and compressed data are retained unchanged from the review package. Internal operational records and a full third-party webpage snapshot are excluded; private home-directory roots in textual provenance are replaced with a neutral marker. Public changes and hashes are documented. No model scores, thresholds or reported results are altered. Author-created code is MIT-licensed. Original summary results, figures and documentation are CC BY 4.0. Third-party tokenization code retains BSD-3-Clause terms, and an unmodified figure-audit helper retains Apache-2.0. Source-derived records retain source attribution. See LICENSE_SCOPE.md and THIRD_PARTY_NOTICES.md. This deposit does not assert journal acceptance or cross-project deployment safety.",
+      "tags": [
+        "selective classification",
+        "project shift",
+        "risk-coverage",
+        "flaky tests",
+        "reproducibility",
+        "failure logs"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Replication materials for Failure-log ranking and selective dismissal across projects",
+      "url": "https://zenodo.org/records/23645351"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "da62015a04f10a9df410a5c5",
+      "context_id": "7110e507b1532106e24f472b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "33e966a0bdc108943bff7e824f9b8ae61939062e44c8d6efe78069db3898ea18",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "This repository contains supporting materials for the revision of Frontiers in Digital Health manuscript 1986016, examining prior-window home bioimpedance variability and subsequent affected-to-unaffected arm ECW/TBW ratio excursions. The package includes aggregate statistical outputs from the revised analyses, portable Python analysis scripts, a fully synthetic example dataset, variable definitions, analysis provenance, and validation documentation. The supporting materials cover within- and between-participant analyses, observation-weight diagnostics, nonlinear analyses, calendar-time sensitivity analyses, and model convergence assessments. Version 3 update: This version adds materials prepared in response to the subsequent minor-revision review. The new materials include the corrected unaffected-arm comparator using working-independence logistic generalized estimating equations with participant-cluster robust sandwich covariance, the exact-timestamp deduplication and acquisition-time ordering audit, and additional numerical-stability and convergence documentation. Actual participant-level longitudinal measurements, clinical records, identifiers, and ultrasound images are not included because of privacy and ethical restrictions. The synthetic dataset demonstrates the analysis workflow; it does not represent study participants or reproduce the observed study estimates. Exact recomputation of the observed analyses requires authorized access to the restricted source data. These materials supplement the parent-study materials available at https://doi.org/10.5281/zenodo.22934011 . The manuscript is currently under revision and has not been accepted or published.",
+      "tags": [
+        "Breast cancer-related lymphedema",
+        "Bioimpedance",
+        "Remote monitoring",
+        "ECW/TBW",
+        "Landmark analysis",
+        "Reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Revision analysis code, aggregate results and synthetic example for prior-window home bioimpedance variability and subsequent interlimb ratio excursions",
+      "url": "https://zenodo.org/records/23641174"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "7072c16c9cab71f7a39f350d",
+      "context_id": "67d22f67720b6b84d273406f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "5e7fb4f69dc578d8c0898863a700b6378d39210be8ed4d595d2dd2d25bd923ff",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "We conduct a version-pinned, reproducible forensic audit of the public Einstein Elevator data package (Zenodo: 10.5281/zenodo.15167723) to determine whether it supports validation of quantum sensor certificates. Through an exhaustive cross-file sliding-window correlation search over 44,207,922 comparisons and exact six-decimal rounding checks, we find that all 31 exported sensor channels have a unique best match within the enumerated raw traces under the stated protocol. Residual numerical differences are highly consistent with text-based absolute quantization; the correlation-loss approximation 1 - r &asymp; &delta;&sup2; / (24&sigma;x&sup2;) is diagnostic for this dataset, not a universal proof. We inspect the MATLAB-derived 318-point population series and reconcile it with a 2022 workbook entry only at the level of counts. An archive-wide search of 181 file objects and 1,654 MATLAB metadata fields finds no documented join key linking the 2022 run-indexed population series to the 2017 timestamped traces under the enumerated search protocol. Using Fr&eacute;chet-Hoeffding bounds and a Charnes-Cooper linearization, we establish that the public archive does not supply the joint observations needed to identify the EKF false-safe risk without additional coupling assumptions; the formal program is illustrative and is not populated with empirical failure/acceptance coefficients because the required linked observations are absent. We frame this as a bounded data-contract limitation for downstream statistical validation, not as a failure of the original experiment.",
+      "tags": [
+        "Atom Interferometry",
+        "Data Provenance",
+        "Partial Identification",
+        "Reproducibility",
+        "Sensor Synchronization",
+        "Q-SCOPE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "A Reproducible Provenance Audit of the Public Einstein Elevator Data Package: Trace Correspondence, Metadata Linkage, and the Non-Identifiability of Sensor-Certificate Risk from the Public Archive",
+      "url": "https://zenodo.org/records/23655382"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "b0e0f062c2ff95d70297f6ba",
+      "context_id": "621bc82c5b724871006a28b7",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "f381665817e35a12d886e55dec2c3d069baa3027f5cf12bb3a85159b04f02935",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "We conduct a version-pinned, reproducible forensic audit of the public Einstein Elevator data package (Zenodo: 10.5281/zenodo.15167723) to determine whether it supports validation of quantum sensor certificates. Through an exhaustive cross-file sliding-window correlation search over 44,207,922 comparisons and exact six-decimal rounding checks, we find that all 31 exported sensor channels have a unique best match within the enumerated raw traces under the stated protocol. Residual numerical differences are highly consistent with text-based absolute quantization; the correlation-loss approximation 1 - r &asymp; &delta;&sup2; / (24&sigma;x&sup2;) is diagnostic for this dataset, not a universal proof. We inspect the MATLAB-derived 318-point population series and reconcile it with a 2022 workbook entry only at the level of counts. An archive-wide search of 181 file objects and 1,654 MATLAB metadata fields finds no documented join key linking the 2022 run-indexed population series to the 2017 timestamped traces under the enumerated search protocol. Using Fr&eacute;chet-Hoeffding bounds and a Charnes-Cooper linearization, we establish that the public archive does not supply the joint observations needed to identify the EKF false-safe risk without additional coupling assumptions; the formal program is illustrative and is not populated with empirical failure/acceptance coefficients because the required linked observations are absent. We frame this as a bounded data-contract limitation for downstream statistical validation, not as a failure of the original experiment.",
+      "tags": [
+        "Atom Interferometry",
+        "Data Provenance",
+        "Partial Identification",
+        "Reproducibility",
+        "Sensor Synchronization",
+        "Q-SCOPE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "A Reproducible Provenance Audit of the Public Einstein Elevator Data Package: Trace Correspondence, Metadata Linkage, and the Non-Identifiability of Sensor-Certificate Risk from the Public Archive",
+      "url": "https://zenodo.org/records/23647325"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "48c9b16a8a26d61d141a4ce5",
+      "context_id": "155837737ff537dbab88bc65",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "4c0a7c5a938f688a4e8c447bc777bc2e5984032ed797e33572b3aeb6462f5a05",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "AGENT 2027 Reproducibility Artifact — v1.1.0 This release updates the artifact to match the revised AGENT 2027 manuscript, Execute, Clarify, or Reject? An Empirical Study of LLM Decisions on Governed Metric Requests . Changes since v1.0.0 Added reproduction of the current six-route comparison: Direct, Review, Rules, Direct+Rules, MIA, and Direct+MIA. Added the offline generator and frozen input report for manuscript Tables I and II. Included generated tables and provenance metadata. Preserved the original model outputs, benchmark evidence, audits, and archive checksums. Updated the README, citation metadata, and release documentation. Removed obsolete draft material and references to unavailable private files. Reproduction From the repository root: python scripts/agent_2027_routing_evidence.py --check python scripts/agent_2027_paper_tables.py --check PYTHONPATH=src python scripts/agent_2027_label_error_audit.py --check All checks are offline and require no LLM API calls. Scientific scope Results describe controlled synthetic governed-metric decision tasks. Rules-based comparisons use benchmark-defined rules and are not equivalent to independently deployed authorization systems. The artifact supports reproduction of reported analyses, not a guarantee of production safety. Authors: Fangyu Lo, Avinash Tripathi, and Shiqi Huang. Version-specific archival DOI: to be assigned by Zenodo.",
+      "tags": [
+        "agentic analytics",
+        "governed metrics",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Governed Metric Decisions: Reproducibility Artifact",
+      "url": "https://zenodo.org/records/23652173"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "34c541fb8bac04efb1999882",
+      "context_id": "0ebb1e1f7ddfed5ce70dba24",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "99ab14e0a0ac145b2a6f0af948ff74aec0ee592c2bbb03115b30386ec16ba7f3",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "HBB2OBB converts horizontal (axis-aligned) bounding boxes (HBBs) into oriented (rotated) bounding boxes (OBBs) by using existing HBB annotations as prompts for segmentation models from the SAM (Segment Anything Model) family. It targets object detection tasks where objects appear at arbitrary orientations, such as aerial imagery, satellite data, and traffic monitoring, producing oriented boxes that tightly encapsulate non-upright objects without any re-annotation. Beyond conversion, it provides horizontal box detection, evaluation, hyperparameter optimization, an interactive annotation viewer, and annotation format-conversion tools, exposed through both a command-line interface and a Python API. 📖 Documentation: rfonod.github.io/hbb2obb , with a quick start on the bundled sample data, a guide per command, pages on how the conversion works, the confidence score, the metrics and provenance, and a CLI and API reference generated from the code. Why HBB2OBB 🎯 Accurate OBBs from HBBs : prompts SAM-family segmentation models with existing horizontal boxes to fit tight oriented boxes around non-upright objects, with no re-annotation required. 🚗 No HBBs? Detect them : the hbb2obb-detect command runs an Ultralytics detector over the images and writes the horizontal boxes the conversion consumes, confidence column included. 🧩 Model ensemble : combines masks from multiple SAM variants through majority voting for more robust, accurate results. 🛡️ Spatially constrained and safe : region-specific masking and contour refinement keep segmentation inside the object, a mask split by an occluder is fitted back together, and a fallback retains the original HBB when no valid mask is found, counted and reported rather than left to be discovered afterwards. 🔎 Confidence-scored output : every OBB receives a heuristic quality score in [0, 1] that flags silent fallbacks and low-confidence conversions, so you know which boxes to trust; the scores go in the label files or in a side-car directory that keeps them strictly standard, and the detector's own confidence can be carried through instead of, or on top of, that score. 📐 Flexible scaling : positive or negative scale factors, optionally different for the short and long sides, recover cropped object parts or tighten overly conservative annotations. 📊 Evaluate and optimize : evaluation against ground truth on IoU, orientation error, and the share of boxes above a high IoU bar, plus the hbb2obb-optimize command, a hyperparameter search over SAM inference resolution, scale factors, and morphological opening kernel, driven by a configuration file so that a whole benchmark of model ensembles is a single reproducible command. 🔬 Where the score comes from : the hbb2obb-analyze command breaks one evaluation down by the ground truth's orientation, size, frame edge, difficulty and class, and scores the conversion against emitting the horizontal prompt unchanged. 🔄 Five annotation formats : read and write YOLO, DOTA, Pascal VOC, COCO, and LabelMe, for horizontal and oriented boxes alike, with a check that proves every format encodes the same boxes. 🔍 Interactive viewer : the hbb2obb-view command pans and zooms over the annotations, in any format, coloring boxes by confidence and overlaying predictions against ground truth. Where a set ships the same boxes several ways, it names the format on screen and switches between them on a keypress. Features HBB to OBB conversion of YOLO-format annotations using SAM-based segmentation, written in absolute pixels or, with --normalize , relative to [0, 1], the convention Ultralytics reads. HBB detection : produce the horizontal boxes in the first place with any Ultralytics detector, a local file, a link, the Ultralytics catalogue, or Hugging Face, passing any other predictor argument straight through. Multiple model support : SAM, SAM2, SAM2.1, SAM3, Mobile SAM, and FastSAM families. Model ensemble via majority voting for enhanced accuracy. Confidence scoring : a per-OBB quali",
+      "tags": [
+        "Object Detection",
+        "Oriented Bounding Boxes",
+        "Rotated Bounding Boxes",
+        "Axis-aligned Bounding Boxes",
+        "Bounding Boxes",
+        "Image Segmentation",
+        "Instance Segmentation",
+        "Segment Anything",
+        "SAM Model",
+        "Aerial Imagery",
+        "Annotation Tool",
+        "Annotation Conversion",
+        "Label Conversion",
+        "Annotation Improvement",
+        "Label Improvement",
+        "IoU",
+        "YOLO Format",
+        "COCO Format",
+        "VOC XML Format",
+        "LabelMe JSON Format",
+        "DOTA Format",
+        "Object Detection Models",
+        "Annotation Viewer",
+        "Hyperparameter Optimization",
+        "Reproducibility",
+        "Provenance",
+        "Computer Vision",
+        "Python"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "HBB2OBB: Horizontal to Oriented Bounding Box Conversion and Evaluation Tool",
+      "url": "https://zenodo.org/records/23647804"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "af8a5777a8be4e32862ec96a",
+      "context_id": "cdea8cecb150318892b048a0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "audit trail",
+        "provenance"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.875,
+      "source": "zenodo",
+      "source_context_sha256": "40b737e024ff9dfca5f18f81b31b3997172b045e7b19ca672eb47fa7e6c0a842",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "This record contains version 11 of the replication materials for &ldquo;When a Digital Audit Trail Becomes Audit Evidence: Source Selection and Identification under Ambiguous Reconciliation,&rdquo; accompanying the manuscript and proposed online appendix. The deposited file is 187_Replication_Materials_v11.zip. The archive supplies data, code, source-linked results and finite checks while distinguishing historical evidence from constructed mathematical examples. It includes source-conditioned reconciliation cases and finite query design; the one-query identification characterization and bounded-answer-error checks; source-bundled certificates, exact fault-budget thresholds and witness checks; named-absence query games, the fraction-of-deficit expected-cost derivation and randomized switching checks; and the bounded-unavailability proof, reconstruction comparison and finite validations. The expected-query-cost result assumes complete local candidate graphs, exact always-available unit-cost pair answers, free computation, and zero-error worst-input expected cost; it does not extend to arbitrary source-constrained graphs. The unavailability result gives a sharp feasibility boundary, not an optimal positive-unavailability query rate. Historical materials include the 254-report classifier panel, generated known-truth benchmark results, corrected record-read bookkeeping for 72,000 rows, and restricted-matching and complete-log-union checks. The 85.91 percent and 92.91 percent results describe different procedures and must not be interchanged. Original-source assessments of 57 historically clean-labelled reports identify 18 explicit exceptions, five assurance uncertainties and 34 without a comparable current-year adverse qualification located. These assessments do not validate or relabel the entire panel. The classifier is not validated as a prevalence measure, and historical visibility labels are assigned model conditions rather than field outcomes. Reproduction: extract the ZIP and use Python 3.11 or newer. The portable finite-check runner requires NumPy and SciPy. Run python run_checks.py --out-dir /absolute/path/to/new-results, choosing a new output directory outside the extracted package. The runner checks MANIFEST.json, preserves inputs and writes per-script logs and CHECK_RESULTS.json. Wider frozen analyses and figure generation can also require pandas, matplotlib, pypdf, python-docx and lxml; see the README and supplied requirements. Finite replay corroborates implementations but does not replace proofs, re-extract copyrighted reports or estimate field detection performance. Rights and access: derived public-source data, documentation and generated benchmark outputs are licensed under CC BY 4.0; original code is licensed under MIT. Copyrighted papers and annual-report PDFs and licensed WRDS, Compustat, Audit Analytics and CRSP rows are excluded and are not sublicensed. Source URLs, identifiers, page references and hashes support permitted reacquisition subject to the original access conditions. No participants were recruited and no new human-subject data were collected. Funding: none. Financial conflicts of interest: none. Nonfinancial conflicts of interest: none. Archive SHA-256: 7d2fec9f006d15602ffd7b1165692414848452e8f05e77f26a10aa917e18d684.",
+      "tags": [
+        "audit evidence",
+        "audit trail",
+        "audit data analytics",
+        "completeness",
+        "integrity",
+        "provenance",
+        "immutable ledger",
+        "continuous auditing",
+        "Rule 11(g)",
+        "ISA 500",
+        "reproducible research",
+        "JEL M42",
+        "source selection",
+        "ambiguous reconciliation",
+        "query complexity"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Replication materials for When a Digital Audit Trail Becomes Audit Evidence: Source Selection and Identification under Ambiguous Reconciliation",
+      "url": "https://zenodo.org/records/22996151"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -897,8 +977,8 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "48c9b16a8a26d61d141a4ce5",
-      "context_id": "05719a78c5c24baf23143629",
+      "candidate_id": "563e390054d8a9f3ebdae0de",
+      "context_id": "073e7a91cf1c553cfd8881f6",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "registry_provenance::REVERSE",
@@ -919,18 +999,14 @@
       "schema": "janus.beetle.repo_memory_item.v2",
       "score": 9.0417,
       "source": "zenodo",
-      "source_context_sha256": "af5b80d1018db94be22c350ee66fbc391478ca5856d9ce356a7025c520255a81",
+      "source_context_sha256": "7358e1c34f283f214312d96fb58f3f5614276510bce11c9dc2d6b83c0a9a3c83",
       "source_published": "2026-10-26",
       "source_updated": "",
-      "summary": "AGENT 2027 Reproducibility Artifact — v1.1.0 This release updates the artifact to match the revised AGENT 2027 manuscript, Execute, Clarify, or Reject? An Empirical Study of LLM Decisions on Governed Metric Requests . Changes since v1.0.0 Added reproduction of the current six-route comparison: Direct, Review, Rules, Direct+Rules, MIA, and Direct+MIA. Added the offline generator and frozen input report for manuscript Tables I and II. Included generated tables and provenance metadata. Preserved the original model outputs, benchmark evidence, audits, and archive checksums. Updated the README, citation metadata, and release documentation. Removed obsolete draft material and references to unavailable private files. Reproduction From the repository root: python scripts/agent_2027_routing_evidence.py --check python scripts/agent_2027_paper_tables.py --check PYTHONPATH=src python scripts/agent_2027_label_error_audit.py --check All checks are offline and require no LLM API calls. Scientific scope Results describe controlled synthetic governed-metric decision tasks. Rules-based comparisons use benchmark-defined rules and are not equivalent to independently deployed authorization systems. The artifact supports reproduction of reported analyses, not a guarantee of production safety. Authors: Fangyu Lo, Avinash Tripathi, and Shiqi Huang. Version-specific archival DOI: to be assigned by Zenodo.",
-      "tags": [
-        "agentic analytics",
-        "governed metrics",
-        "reproducibility"
-      ],
+      "summary": "Implementation and reproducibility package for static and fixed-ion time-dependent Berry-phase electric fields in SIESTA, by Javier Junquera. This is a new version of the reproducibility record supporting the invited Philosophical Transactions A manuscript \"Insulating solids in finite electric fields: implementation and validation in SIESTA\" (RSTA-2026-0113). The package supplies the exact source revision and pinned dependency sources, the 61-page technical report and editable LaTeX with figures, complete 53-routine Doxygen HTML and printable API, the User Guide, three progressive tutorials, documented calculation inputs and outputs, raw accepted and failed validation campaigns, source/executable/input hashes, CPU/wall/RSS measurements, and portable reproduction and plotting instructions. Validation covers serial, MPI, OpenMP and hybrid execution, static forces/stress, collinear and NC/SOC spin including the documented U/J path, fixed-ion real-time propagation, empty-owner and unsupported-input checks, and matched disabled-feature overhead. Four fresh exact-input SIESTA fields replay the earlier reference calculations; independent ABINIT results are reanalysed from preserved raw outputs, not newly calculated. The evidence is single-host and configuration-specific; unsupported, untested and unavailable combinations and convergence/scaling limits are documented. Read the technical report (PDF) . Start with README.md for extraction, checksums, build/test commands and scientific reproduction. Each archive has a per-file SHA-256 inventory. The six prepared implementation commits were pushed through 3365997ba; MR 570 metadata remains held for the owner final check. New scientific data, documentation, original figures and code are GNU GPL version 3 only (GPL-3.0-only), matching the official SIESTA licence . The earlier reference subset retains its CC BY 4.0 data/documentation and GPLv3-or-later script terms. SIESTA dependencies, documentation assets and PSML pseudopotentials retain their individual notices and provenance; see LICENSES.md and COPYING. Dated licence-hold statements in the immutable evidence predate the owner instruction of 26 October 2026. The preceding complete 84-case archive remains available as DOI 10.5281/zenodo.23315274 ; it is not duplicated here. The included exact subset supports the documented independent replay. This work is part of Grant PID2022-139776NB-C63, funded by MICIU/AEI/10.13039/501100011033 and by ERDF/EU.",
+      "tags": [],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Governed Metric Decisions: Reproducibility Artifact",
-      "url": "https://zenodo.org/records/23652173"
+      "title": "Finite electric fields in SIESTA: implementation and compliance validation",
+      "url": "https://zenodo.org/records/23661736"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1339,6 +1415,39 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "563e390054d8a9f3ebdae0de",
+      "context_id": "4fcb27f5c8c46194a6bfcc21",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "0540b1c8a181e4723521aee1d04c2ef38ba49d2373c097e3e19b105c13d6d410",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "Implementation and reproducibility package for static and fixed-ion time-dependent Berry-phase electric fields in SIESTA, by Javier Junquera. This is a new version of the reproducibility record supporting the invited Philosophical Transactions A manuscript \"Insulating solids in finite electric fields: implementation and validation in SIESTA\" (RSTA-2026-0113). The package supplies the exact source revision and pinned dependency sources, the 61-page technical report and editable LaTeX with figures, complete 53-routine Doxygen HTML and printable API, the User Guide, three progressive tutorials, documented calculation inputs and outputs, raw accepted and failed validation campaigns, source/executable/input hashes, CPU/wall/RSS measurements, and portable reproduction and plotting instructions. Validation covers serial, MPI, OpenMP and hybrid execution, static forces/stress, collinear and NC/SOC spin including the documented U/J path, fixed-ion real-time propagation, empty-owner and unsupported-input checks, and matched disabled-feature overhead. Four fresh exact-input SIESTA fields replay the earlier reference calculations; independent ABINIT results are reanalysed from preserved raw outputs, not newly calculated. The evidence is single-host and configuration-specific; unsupported, untested and unavailable combinations and convergence/scaling limits are documented. Read the technical report (PDF) . Start with README.md for extraction, checksums, build/test commands and scientific reproduction. Each archive has a per-file SHA-256 inventory. The six prepared implementation commits were pushed through 3365997ba; MR 570 metadata remains held for the owner final check. New scientific data, documentation, original figures and code are GNU GPL version 3 only (GPL-3.0-only), matching the official SIESTA licence . The earlier reference subset retains its CC BY 4.0 data/documentation and GPLv3-or-later script terms. SIESTA dependencies, documentation assets and PSML pseudopotentials retain their individual notices and provenance; see LICENSES.md and COPYING. Dated licence-hold statements in the immutable evidence predate the owner instruction of 26 October 2026. The preceding complete 84-case archive remains available as DOI 10.5281/zenodo.23315274 ; it is not duplicated here. The included exact subset supports the documented independent replay. This work is part of Grant PID2022-139776NB-C63, funded by MICIU/AEI/10.13039/501100011033 and by ERDF/EU.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Finite electric fields in SIESTA: implementation and compliance validation",
+      "url": "https://zenodo.org/records/23661736"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "34c541fb8bac04efb1999882",
       "context_id": "39b05b0d69801a270239c57a",
       "delivery_preview_only": true,
@@ -1398,46 +1507,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "HBB2OBB: Horizontal to Oriented Bounding Box Conversion and Evaluation Tool",
       "url": "https://zenodo.org/records/23647804"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "da62015a04f10a9df410a5c5",
-      "context_id": "2c49fdaccddbb79f887b3d46",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "eac184a83c19fb91e2caaf5599be4ed1e27634236170bb563091d3ed9ca046b2",
-      "source_published": "2026-10-25",
-      "source_updated": "",
-      "summary": "This repository contains supporting materials for the revision of Frontiers in Digital Health manuscript 1986016, examining prior-window home bioimpedance variability and subsequent affected-to-unaffected arm ECW/TBW ratio excursions. The package includes aggregate statistical outputs from the revised analyses, portable Python analysis scripts, a fully synthetic example dataset, variable definitions, analysis provenance, and validation documentation. The supporting materials cover within- and between-participant analyses, observation-weight diagnostics, nonlinear analyses, calendar-time sensitivity analyses, and model convergence assessments. Version 3 update: This version adds materials prepared in response to the subsequent minor-revision review. The new materials include the corrected unaffected-arm comparator using working-independence logistic generalized estimating equations with participant-cluster robust sandwich covariance, the exact-timestamp deduplication and acquisition-time ordering audit, and additional numerical-stability and convergence documentation. Actual participant-level longitudinal measurements, clinical records, identifiers, and ultrasound images are not included because of privacy and ethical restrictions. The synthetic dataset demonstrates the analysis workflow; it does not represent study participants or reproduce the observed study estimates. Exact recomputation of the observed analyses requires authorized access to the restricted source data. These materials supplement the parent-study materials available at https://doi.org/10.5281/zenodo.22934011 . The manuscript is currently under revision and has not been accepted or published.",
-      "tags": [
-        "Breast cancer-related lymphedema",
-        "Bioimpedance",
-        "Remote monitoring",
-        "ECW/TBW",
-        "Landmark analysis",
-        "Reproducibility"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Revision analysis code, aggregate results and synthetic example for prior-window home bioimpedance variability and subsequent interlimb ratio excursions",
-      "url": "https://zenodo.org/records/23641174"
     },
     {
       "base_direction_id": "registry_provenance",
