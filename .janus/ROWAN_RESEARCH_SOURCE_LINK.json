@@ -1,0 +1,39 @@
+{
+  "schema": "janus.genesis.rowan_evidence_source_link.v1",
+  "mode": "READ_ONLY_CANONICAL_META_REGISTRY_SOURCE",
+  "links": {
+    "canonical": "https://raw.githubusercontent.com/Hawkar-usls/janus-meta-registry/main/data/rowan/CANONICAL_STATE.json",
+    "health": "https://raw.githubusercontent.com/Hawkar-usls/janus-meta-registry/main/data/rowan/health/PIPELINE_STATE.json",
+    "councilPointer": "https://raw.githubusercontent.com/Hawkar-usls/janus-meta-registry/main/data/rowan/coordination/LATEST_COORDINATION_STATE.json",
+    "sourceOwner": "Hawkar-usls/Janus",
+    "topaVerifiedArchive": "Hawkar-usls/janus-meta-registry/data/rowan/topa/",
+    "auraHypotheses": "https://raw.githubusercontent.com/Hawkar-usls/aura-oracle-tg/main/research/rowan/LATEST_HYPOTHESES.json",
+    "demiurgeCouncil": "https://raw.githubusercontent.com/Hawkar-usls/Janus-Demiurge/main/research/rowan/LATEST_COUNCIL.json",
+    "beetleDirection": "https://raw.githubusercontent.com/Hawkar-usls/janus-lapis/main/data/beetle/directions.json",
+    "tranceptionProtocol": "https://github.com/Hawkar-usls/Janus/tree/main/integrations/tranception_rowan"
+  },
+  "observation": {
+    "currentVerifiedCompletedMutants": 8,
+    "runAtContractCreation": 40520611650,
+    "interpretation": "READ_LIVE_SOURCE_ALWAYS_NEVER_TRUST_STALE_CREATION_SNAPSHOT",
+    "coordinationCheck": "Require canonical/latest completed run equals pointer/receipt and source hashes all match",
+    "epistemicLabels": [
+      "PROVIDER_MODEL_PREDICTION",
+      "TOPA_NUMERICAL_REPLAY",
+      "AURA_HYPOTHESIS",
+      "DEMIURGE_RESEARCH_PROPOSAL",
+      "INDEPENDENT_EXTERNAL_EXPERIMENT"
+    ]
+  },
+  "authority": {
+    "sendRowanJobs": false,
+    "spendRowanCredits": false,
+    "modifyTopaModelWeights": false,
+    "changeGenesisWorldState": false,
+    "promoteScientificClaim": false,
+    "writeHrainOrInaihrGraph": false,
+    "autoResolveAURAForecasts": false,
+    "publishPrivateAssayOrGraph": false
+  },
+  "status": "REFERENCE_AVAILABLE_NOT_EXECUTABLE_AGENT_OR_AUTONOMY_PERMIT"
+}
