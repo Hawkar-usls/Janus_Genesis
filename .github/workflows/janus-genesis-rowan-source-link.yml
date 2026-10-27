@@ -1,0 +1,25 @@
+name: JANUS Genesis Rowan Read-Only Source Contract
+on:
+  pull_request:
+    paths:
+      - '.janus/ROWAN_RESEARCH_SOURCE_LINK.json'
+      - 'tests/test_rowan_source_link.py'
+      - '.github/workflows/janus-genesis-rowan-source-link.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.janus/ROWAN_RESEARCH_SOURCE_LINK.json'
+      - 'tests/test_rowan_source_link.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-fail-closed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -v -s tests -p test_rowan_source_link.py
