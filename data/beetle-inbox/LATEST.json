@@ -1,9 +1,435 @@
 {
-  "batch_id": "31374c8d564bedec28a7",
+  "batch_id": "25f36ed1d6ad07cbd7f0",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
   "items": [
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "563e390054d8a9f3ebdae0de",
+      "context_id": "c1c3e14793f7d5991c80ec41",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "ee7b68417f93fbbebe08af624621e72cbb075076a122f4639f2255ce9f7cfeec",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "Implementation and reproducibility package for static and fixed-ion time-dependent Berry-phase electric fields in SIESTA, by Javier Junquera. This is a new version of the reproducibility record supporting the invited Philosophical Transactions A manuscript \"Insulating solids in finite electric fields: implementation and validation in SIESTA\" (RSTA-2026-0113). The package supplies the exact source revision and pinned dependency sources, the 61-page technical report and editable LaTeX with figures, complete 53-routine Doxygen HTML and printable API, the User Guide, three progressive tutorials, documented calculation inputs and outputs, raw accepted and failed validation campaigns, source/executable/input hashes, CPU/wall/RSS measurements, and portable reproduction and plotting instructions. Validation covers serial, MPI, OpenMP and hybrid execution, static forces/stress, collinear and NC/SOC spin including the documented U/J path, fixed-ion real-time propagation, empty-owner and unsupported-input checks, and matched disabled-feature overhead. Four fresh exact-input SIESTA fields replay the earlier reference calculations; independent ABINIT results are reanalysed from preserved raw outputs, not newly calculated. The evidence is single-host and configuration-specific; unsupported, untested and unavailable combinations and convergence/scaling limits are documented. Read the technical report (PDF) . Start with README.md for extraction, checksums, build/test commands and scientific reproduction. Each archive has a per-file SHA-256 inventory. The six prepared implementation commits were pushed through 3365997ba; MR 570 metadata remains held for the owner final check. New scientific data, documentation, original figures and code are GNU GPL version 3 only (GPL-3.0-only), matching the official SIESTA licence . The earlier reference subset retains its CC BY 4.0 data/documentation and GPLv3-or-later script terms. SIESTA dependencies, documentation assets and PSML pseudopotentials retain their individual notices and provenance; see LICENSES.md and COPYING. Dated licence-hold statements in the immutable evidence predate the owner instruction of 26 October 2026. The preceding complete 84-case archive remains available as DOI 10.5281/zenodo.23315274 ; it is not duplicated here. The included exact subset supports the documented independent replay. This work is part of Grant PID2022-139776NB-C63, funded by MICIU/AEI/10.13039/501100011033 and by ERDF/EU.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Finite electric fields in SIESTA: implementation and compliance validation",
+      "url": "https://zenodo.org/records/23661736"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f7bd885e1abb9452d766b96b",
+      "context_id": "afab5dd7eccb762362f6d2a0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "representation learning",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "arxiv",
+      "source_context_sha256": "37ce0af09092b0f7cba7758bb4ccfe02da4fbb2aef2b0a54a3ac5f696d5c21b4",
+      "source_published": "2026-10-26T00:50:03Z",
+      "source_updated": "2026-10-26T00:50:03Z",
+      "summary": "Video world models trained on large-scale robot data promise a safe and scalable approach for learning and evaluating policies that act in the physical world. However, they still struggle with long-horizon rollouts and out-of-distribution generalization, and they remain computationally demanding at inference time. Typically, video world models make predictions in the latent space of a reconstruction-trained autoencoder, which however is not directly optimized for dynamics modeling. On the other hand, world models designed for latent planning usually optimize latents to be predictable, but they forgo accurate prediction of observations in pixel space. In this paper, we show that it is possible to achieve the best of both worlds: a latent geometry optimized to make future prediction as simple as possible without sacrificing accurate prediction of future observations. More precisely, we find that temporal objectives for representation learning, paired with a past-conditioned decoder architecture, lead to consistent improvements in generative video world models at the same training budget. The gains include up to 5x cheaper inference, over 7x faster training, and 15-24% lower pixel and perceptual errors out of distribution and over long horizons. Our world models also agree more closely with real-world policy evaluation when using a vision-language model to judge task success from their pixel-space predictions. Overall, our study indicates that temporal predictability is an important design criterion for the latent space of video world models, and provides concrete guidance on how to incorporate it into the training of autoencoders.",
+      "tags": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Video World Models Need Predictable Latents",
+      "url": "https://arxiv.org/abs/2610.34663v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "3ea5d54aeb8fa03f249cc248",
+      "context_id": "2c054ea6b07c6feba8a35eb5",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "db3316308a6181c38ade03936a6b0397556b4a4489d49da50db2c48c46fb1876",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "Record a computational experiment once, then let anyone check the evidence: file hashes, opt-in re-execution with numeric tolerances, claims, signatures and policies. Local-first, no runtime dependencies.",
+      "tags": [
+        "reproducibility",
+        "provenance",
+        "research software",
+        "verification"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "SciProof",
+      "url": "https://zenodo.org/records/23676138"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "42d226a0ac96170f29c14f71",
+      "context_id": "9956f9920a03a931392f2417",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "d20c0880b14501a4f7e387f28195b66991bc2e222b57d10767f362f166d047fa",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Frozen archive of code, processed data, and generated figures for the manuscript: \"Data-driven identifiability and first-passage risk in stochastic epidemic models: from noise structure to early-warning thresholds\". The repository contains: - Stochastic SEIAR epidemic model with three noise structures (white, Ornstein&ndash;Uhlenbeck, L&eacute;vy jump) - Fisher information matrix (FIM) spectral identifiability analysis on six real COVID-19 waves (China, South Korea, UK, Japan, 2022&ndash;2023) - First-passage-time escalation risk metrics and scaling laws - Early-warning threshold rules and intervention sensitivity analysis - Cross-disease validation on WHO FluNet influenza surveillance data Dependencies: Python 3.9+, numpy, scipy, pandas, matplotlib. All random seeds are explicitly set in scripts for full reproducibility.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Data-driven identifiability and first-passage risk in stochastic epidemic models: code and data",
+      "url": "https://zenodo.org/records/23683064"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "3cc34d3734241b87024815c0",
+      "context_id": "83c0c0fa2472f454e61b72ce",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "61167f0119c0d44fa96ae820826e6b0a653d4c378ab485fb631cd6b7b9b9518a",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "SimilCode Benchmark is a curated dataset of 120 short source-code snippets in C# and Java, organised into 60 test-case pairs per language across four ground-truth similarity categories (identical, functional, structural, and different) with fifteen reference groups per language. Every pair was independently classified by two raters blind to the original labels, with near-perfect inter-rater agreement (Cohen's &kappa; = 0.989). All code was authored specifically for this study or drawn from the public domain; no student-submitted code is included. The dataset was used to benchmark four contemporary commercial large language models as similarity analysts &mdash; claude-opus-5 , gpt-5.5-2026-04-23 , gemini-3.1-pro-preview and deepseek-v4-pro &mdash; with three independent replicates per case&ndash;model combination, yielding 1,440 evaluations. The same 120 pairs were also processed with three established classical detectors drawn from three distinct algorithmic families: Moss (winnowing fingerprints), JPlag v6.3.0 (token-string matching) and Dolos v2.9.3 (tree-sitter syntax trees). The record further includes a separate corpus for validating algorithmic-complexity (Big O) estimation: 40 canonical algorithms and 8 adversarial cases designed to defeat surface cues such as misleading identifiers, unreachable code and memoisation. Raw model responses, classical-detector outputs, the standardised prompt with its SHA-256 checksum, the ground-truth tables and the analysis scripts are published together for reproducibility.",
+      "tags": [
+        "source-code similarity",
+        "academic integrity",
+        "programming education",
+        "large language models",
+        "benchmark dataset",
+        "C sharp",
+        "Java",
+        "AI-based plagiarism detection",
+        "Claude",
+        "GPT-5",
+        "Gemini",
+        "DeepSeek"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "SimilCode Benchmark: A Dual-Language Source-Code Similarity Dataset for the Evaluation of AI-Based Detectors",
+      "url": "https://zenodo.org/records/23679778"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f751f2b14f606e077b3040ed",
+      "context_id": "6d3e8f5786aae7cd181f05c9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "3d0ba5231383df5b25aa54ed0a6fb7a783a2e8b0965073e8890c88a2bde2f7d1",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmental exchange and measurement bias. The governing three-coupling is infrared thermal imaging x physiological regulation x heat-transfer models. The research treats &ldquo;external qi&rdquo; as a cultural and experimental task label, not an established physical energy carrier. The scientific core separates raw infrared radiance from inferred skin temperature and estimated heat flux. It develops emissivity and reflected-wall correction, blackbody calibration, spectral detector response, conduction and perfusion bioheat models, convection, evaporation, respiration-related temperature patterns, posture and muscular activity. The original candidate bulk heat equation is explicitly refined by separating volumetric tissue transport from surface heat-transfer boundary conditions. The principal proposed test uses concealed task assignments, matched breathing/movement/clothing, phantom references, negative-control regions and conventional physics-first rivals. Thirty physically distinct mathematical plates document governing relationships, units, assumptions, identifiability, masked falsifiers and chapter links. Eighty-two independent research chapters contain 410 single-page investigations. The true center of the monograph is its 200 one-page Research Gates, each posing a falsifiable question in bold deep-navy typography and asking what an independent successor must measure, challenge, disprove or preserve. Thirty-three differentiated Phoenix Answer Embryos propose future instruments, error-correction artifacts, negative-result protocols and reproducibility tools. The DOI registry separates three STARLI author mother volumes from eleven externally published methodological or conventional-science references on infrared thermography, emissivity, classical bioheat and research design. Bibliographic sources constrain methods; they do not validate extraordinary qigong mechanisms. Every integrated experiment is prospective. The book presents no completed human intervention, clinically established effect, new physical particle or evidence of treatment efficacy. Ethical authorization and independent scientific review would be required before future human-observation research. Author: 33 | STARLI White Rainbow Epoch Series: STARLI Research Institute XXXIII | Flagship 38 of 90",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmen",
+      "url": "https://zenodo.org/records/23679099"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "c514eea4bba9150cecb31541",
+      "context_id": "5ede698b831afd14736e189d",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "905f4d50dc2eda3204abf765532d4865de068a5ed46126cddcdae14749b0a407",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "The geometric characterization of masonry structures with incomplete or degraded surfaces remains a critical challenge in building rehabilitation, structural assessment, and BIM-based documentation. This study presents an automated computational framework for reconstructing the original geometry of partially collapsed masonry walls from Terrestrial Laser Scanning (TLS) data, providing quantitatively defined uncertainty bounds to support informed decision-making in heritage conservation and the built environment. The proposed methodology integrates three complementary analytical components: i) automated wall thickness extraction based on PCA-driven point cloud segmentation combined with robust percentile statistics; ii) wall trajectory reconstruction through the identification of polygonal configurations and structural discontinuities between segments; and iii) slope profile detection using local gradient analysis to characterize wall batter angles. The entire workflow is implemented in Python within Jupyter Notebooks, ensuring transparency, reproducibility, and compliance with FAIR principles. Material characterization, informed by archaeological evidence and geotechnical parameters, enables the estimation of structural height through a limit equilibrium approach. A key contribution of this research is the Best-Fit Model Profile (BFMP) methodology for uncertainty quantification, which derives internal geometric references directly from the point cloud data. This approach allows for a systematic evaluation of preservation states and construction variability without reliance on external ground-truth measurements. Structural height estimation incorporates geotechnical and material parameters, whose influence is assessed through a sensitivity analysis, while the reported height interval propagates the thickness variability . Validation on a prehistoric masonry structure demonstrates the framework&rsquo;s ability to transform ambiguous survey data into parametric, BIM-ready outputs with explicit uncertainty limits. Compared to traditional CAD-based reconstruction workflows, the proposed approach significantly reduces subjective interpretation while enhancing geometric reliability and analytical transparency",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Automated geometric reconstruction of degraded prehistoric masonry from TLS data: reproducible workflow and synthetic benchmark (Valencina de la Concepción)",
+      "url": "https://zenodo.org/records/23688431"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "d1901cbd9883c49e2f81a24c",
+      "context_id": "3476292531ccfe940ab9c8b4",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "073322239334c80d9c4e60772b08e2476eee4abf26c9744433cc49f84952751d",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Reproducibility package supporting the manuscript \"Interference-Aware Selection of FBMC-OQAM Prototype Filters\". It contains Python source code, analytical and sampled prototype-filter moments, finite-bank residuals, deterministic simulation settings and seeds, per-frame desired/interference energies, figure-generation scripts, and verification checks. The package covers the nominal 24-condition comparison, independent replication, uniform and Gaussian channel profiles, and symbol-duration analysis. Consult README.md for instructions and statistical scope.",
+      "tags": [
+        "FBMC-OQAM; prototype filters; time-frequency localization; interference; reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Interference-Aware Selection of FBMC-OQAM Prototype Filters: Code and Data",
+      "url": "https://zenodo.org/records/23679436"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "8048a35fd99e1efd363f73d3",
+      "context_id": "551a17b62923656bb4e19f78",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "representation learning"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.5833,
+      "source": "zenodo",
+      "source_context_sha256": "54b63638a4299f6d2393694860f35b8f0fd8b6bc1611dabd6557f31b4f9752e4",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "What image information remains recoverable from a probabilistic model pretrained through non-contrastive self-supervision without pixel reconstruction? Our experiments show that decoding its frozen representations recovers visual information, although pixel fidelity remains below that of conventional variational autoencoders (VAEs). We subsequently compare fine-tuning a VAE encoder initialized from this self-supervised model with training a separate VAE whose prior is the same model's frozen image-conditioned distribution over latent codes (posterior distillation). Fine-tuning improves pixel fidelity over frozen decoding and conventional VAEs but reduces class separability relative to the frozen self-supervised model. Across CIFAR-10, CIFAR-100, and Tiny ImageNet, posterior distillation improves perceptual similarity, raises peak signal-to-noise ratio by 0.31&ndash;0.66 dB, and increases linear classification accuracy over conventional VAEs. Cross-dataset experiments show that the reconstruction benefit extends beyond the pretraining dataset.",
+      "tags": [
+        "self-supervised learning",
+        "variational autoencoders",
+        "image reconstruction",
+        "representation learning"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Can Self-Supervised Probabilistic Representations Improve Image Reconstruction?",
+      "url": "https://zenodo.org/records/23682065"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "27d4d175f2519ebdd1fcaa29",
+      "context_id": "b38a6318ae4ab874a6c11120",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "249700f4078d7c1c71b55eace10ed097212fdaaaad035062017c8b5332d4560d",
+      "source_published": "2026-10-24T09:33:52Z",
+      "source_updated": "2026-10-24T09:33:52Z",
+      "summary": "Robot policy evaluation informs deployment decisions and policy improvement, but physical testing and simulator preparation require substantial effort. World models offer a complementary route through closed-loop interaction in generated environments. Recent benchmarks have demonstrated their potential as policy evaluators through outcome-based evaluation (i.e., assessing task success or failure). However, such evaluation does not establish whether world models faithfully simulate how policies fail. Misrepresenting failures can lead to incorrect diagnoses of policy weaknesses and make policies appear ready for deployment even when small scene changes cause them to fail. We therefore ask: do world models faithfully simulate how and at which stages policies fail, and under what conditions they transition from success to failure? To answer this question, we introduce WorldFailBench with three evaluation tasks. Failure reason tests whether models reproduce the observable errors policies make. Failure stage assesses whether failures concentrate at the same stages of full-task execution. Failure boundary examines whether models reproduce the conditions under which policies transition from success to failure under controlled scene changes in simulation. The benchmark covers manipulation tasks in the LIBERO and RoboTwin simulation environments and real-world manipulation tasks performed by the G1 humanoid robot. Experiments across seven world models reveal substantial gaps in their understanding of policy failures, providing guidance for developing more reliable world models for policy evaluation.",
+      "tags": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "WorldFailBench: Do World Models Understand Policy Failures?",
+      "url": "https://arxiv.org/abs/2610.33565v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "59da8bb418860f7336ef78b5",
+      "context_id": "7f7498276f7ab2d173f8f5a7",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "zenodo",
+      "source_context_sha256": "1ab3702838ddc83522cc7dc40b9ba6102786844a7318a3492013c8d858411773",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "Replication package for a bibliometric mapping of governance coverage across five AI capability stages (generative, agentic, world models, embodied, autonomous science) in Scopus, searched on 26 October 2026. Contains the analysis script with coding dictionaries, the search strategy with record counts, aggregated result tables and figures. Raw Scopus exports are not redistributed under the database licence.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Replication package for \"The Sequencing Gap: Capability Stages Beyond Generative Artificial Intelligence and the Institutional Capacity They Demand\"",
+      "url": "https://zenodo.org/records/23676546"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "36f9c6b23b455c1fb9cc82b7",
+      "context_id": "056784754130c249a7b66aee",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "d31fd68d9bfbb77b8fb09a23eda20e6f8cf17d62207326958447b3ce98902d5f",
+      "source_published": "2026-10-26T15:46:17Z",
+      "source_updated": "2026-10-26T15:46:17Z",
+      "summary": "Latent world models are typically pre-trained offline and kept frozen at test time, so planning with them can degrade under distribution shift. Test-time adaptation (TTA) can mitigate this degradation by updating the model during deployment. Unlike pre-training on fixed data, TTA for planning is closed-loop: the planner uses model rollouts to select actions, and the resulting transitions drive the next update. This raises the question: which objective should guide TTA for planning? Under a prediction-only objective, the model is fit only to the outcomes of its own actions, so it can remain wrong about the actions that would reach the goal, and low prediction error need not translate into better planning. Inspired by reward-biased maximum likelihood from adaptive control, we introduce Optimistic Test-Time Adaptation (OpTTA). Its objective has two terms, the prediction loss on observed transitions and the planner's goal-reaching cost on its candidate rollouts, both minimized over the model parameters. The planning term biases adaptation toward models that are optimistic about reaching the goal, without any additional environment interaction. Across visual and environment shifts on manipulation, reaching and navigation tasks, OpTTA raises final planning success over the frozen model by 13.5 percentage points on average, compared with 6.9 for the prediction-only objective (AdaJEPA), when only the predictor is adapted. When the encoder is adapted as well, the gains are 13.5 and 7.5 points. These experiments span three JEPA world models with different encoders and training objectives and, for temporal straightening, both CEM and gradient-based planners. Our results suggest that test-time adaptation of world models for planning benefits from an optimistic, task-aware term in addition to the prediction loss.",
+      "tags": [
+        "cs.LG",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Adapt for Planning, Not just Prediction: Optimistic Test-Time World Model Adaptation",
+      "url": "https://arxiv.org/abs/2610.35636v1"
+    },
     {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "f7bd885e1abb9452d766b96b",
@@ -88,6 +514,39 @@
       "url": "https://zenodo.org/records/23676108"
     },
     {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "c514eea4bba9150cecb31541",
+      "context_id": "87a2c503091bdc2ecc274eaf",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.2083,
+      "source": "zenodo",
+      "source_context_sha256": "926c05f3afd998383790c7ab8812bc3bebc0f411bd71ef79e842e5149da7b975",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "The geometric characterization of masonry structures with incomplete or degraded surfaces remains a critical challenge in building rehabilitation, structural assessment, and BIM-based documentation. This study presents an automated computational framework for reconstructing the original geometry of partially collapsed masonry walls from Terrestrial Laser Scanning (TLS) data, providing quantitatively defined uncertainty bounds to support informed decision-making in heritage conservation and the built environment. The proposed methodology integrates three complementary analytical components: i) automated wall thickness extraction based on PCA-driven point cloud segmentation combined with robust percentile statistics; ii) wall trajectory reconstruction through the identification of polygonal configurations and structural discontinuities between segments; and iii) slope profile detection using local gradient analysis to characterize wall batter angles. The entire workflow is implemented in Python within Jupyter Notebooks, ensuring transparency, reproducibility, and compliance with FAIR principles. Material characterization, informed by archaeological evidence and geotechnical parameters, enables the estimation of structural height through a limit equilibrium approach. A key contribution of this research is the Best-Fit Model Profile (BFMP) methodology for uncertainty quantification, which derives internal geometric references directly from the point cloud data. This approach allows for a systematic evaluation of preservation states and construction variability without reliance on external ground-truth measurements. Structural height estimation incorporates geotechnical and material parameters, whose influence is assessed through a sensitivity analysis, while the reported height interval propagates the thickness variability . Validation on a prehistoric masonry structure demonstrates the framework&rsquo;s ability to transform ambiguous survey data into parametric, BIM-ready outputs with explicit uncertainty limits. Compared to traditional CAD-based reconstruction workflows, the proposed approach significantly reduces subjective interpretation while enhancing geometric reliability and analytical transparency",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Automated geometric reconstruction of degraded prehistoric masonry from TLS data: reproducible workflow and synthetic benchmark (Valencina de la Concepción)",
+      "url": "https://zenodo.org/records/23688431"
+    },
+    {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "8048a35fd99e1efd363f73d3",
       "context_id": "db3f2fdab0c37b4d1a1dc4c1",
@@ -125,40 +584,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Can Self-Supervised Probabilistic Representations Improve Image Reconstruction?",
       "url": "https://zenodo.org/records/23682065"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "a6cc435ecc98f550d238e328",
-      "context_id": "d892a9eb97150aaed29340f9",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "reconstruction",
-        "representation",
-        "representation learning"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.1667,
-      "source": "zenodo",
-      "source_context_sha256": "b8b25215a4adff749ef252b6a8d45df8ef6ed81c40cfcfe1ef6d1f9d360eb15f",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "ProPaST v1.0.0 This is the first official release of ProPaST, a graph representation learning framework for spatial transcriptomics data integration and analysis. ProPaST integrates gene expression and spatial information through graph representation learning, combining expression reconstruction, spot-neighborhood contrastive learning, and niche-level prototype contrastive learning to support spatial domain identification and multi-slice integration.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "QinlinMa/ProPaST: ProPaST v1.0.0",
-      "url": "https://zenodo.org/records/23656301"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -639,8 +1064,8 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "3f35eaee2e97eaa2af937b3a",
-      "context_id": "2503a3f8ef18c14ce174985c",
+      "candidate_id": "12adee5f6c5d2d4ffd4728a1",
+      "context_id": "7ea23d34a24bf73cd44c5552",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "registry_provenance::COUNTEREVIDENCE",
@@ -654,21 +1079,30 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "failure",
-        "reproducibility"
+        "counterexample",
+        "provenance"
       ],
       "mirror_lens": "COUNTEREVIDENCE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.9167,
+      "score": 9.0,
       "source": "zenodo",
-      "source_context_sha256": "2b1075f418d73fe187cb8b95278ba7aab0dbf835a94c0df1639d742ce4b14bca",
-      "source_published": "2026-10-26",
+      "source_context_sha256": "fd8a3e5ab3578fcbf1d34ff44c5674493f17f854f5dd0bf96ebd1b3a42dfb410",
+      "source_published": "2026-10-27",
       "source_updated": "",
-      "summary": "This collection provides the code, data, and verification evidence supporting the study &ldquo;Payment Menu Design for Safe Identification and Recoverable Coverage Deployment&rdquo; by Jiaming Hu and Cuixia Miao. The study examines payment-menu design for providers with unknown local update rules, jointly requiring safe identification, recovery to ordinary operation, and preservation of the informed benchmarks. The collection contains two complementary archives: &bull; S3_EJOR_Code_Data_v1.0.zip: versioned source code, frozen synthetic inputs and modeled coverage instances derived from public SNDlib topologies, original result ledgers, environment specifications, a data dictionary, mappings between manuscript results and source data, and scripts for rebuilding tables and figures and running verification tests. &bull; S3_EJOR_Full_Evidence_v1.0.zip: retained certificates, verification receipts, execution logs, and failure and timeout records, stored with hash-based deduplication and mappings for restoring their original relative paths. Extract both archives into the same parent directory and follow the README in the Code_Data archive. The public-network instances are modeled coverage and payment scenarios, not observations of real network operations. The external PaGE comparison uses a source-mapped adaptation rather than a successfully built native Storm implementation. All eight extended ten-site tasks passed full V1 verification; seven additional independent audits passed and one timed out. Failed, timed-out, and gated runs are retained and distinguished from completed results. Corresponding author: Jiaming Hu (14438120260091@sdmu.edu.cn).",
-      "tags": [],
+      "summary": "Research artifact for the journal article Fresh on Paper, Reused in Code: Static Detection of Hidden Key Reuse in Cancelable Biometric Systems (submitted to the Journal of Information Security and Applications). The archive contains a non-executing Python static analyzer that traces record-dependent key provenance to reviewed BioHash, IoM-GRP and PolyProtect protection calls and reports reuse , conditional_fresh or unknown ; the internally authored source-case benchmarks with expected labels and Bandit outputs; analyzer development and confirmation results (v1-v3, intraprocedural baseline, branch counterexample and regression); experiment protocols and configurations; and aggregate results of the matched key-policy remediation and utility studies. Unit tests and benchmark commands are documented in README.md . Not included: MOBIO, FEI or SCface images, face embeddings, identity-level scores, keys, protected templates or trained model weights. These datasets must be obtained from their custodians under their terms of use.",
+      "tags": [
+        "cancelable biometrics",
+        "biometric template protection",
+        "static analysis",
+        "key reuse",
+        "abstract interpretation",
+        "Python",
+        "JISA",
+        "artifact"
+      ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Reproducibility materials for Payment Menu Design for Safe Identification and Recoverable Coverage Deployment",
-      "url": "https://zenodo.org/records/23659465"
+      "title": "Fresh on Paper, Reused in Code: Static Detection of Hidden Key Reuse in Cancelable Biometric Systems (JISA Artifact)",
+      "url": "https://zenodo.org/records/23690022"
     },
     {
       "base_direction_id": "swarm_distributed_systems",
@@ -780,41 +1214,6 @@
     },
     {
       "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "c4dfdd4564df4d43bdcbdf64",
-      "context_id": "9b970e567fe44aa3bf03669c",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
-      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure",
-        "multi-agent"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.75,
-      "source": "arxiv",
-      "source_context_sha256": "42216f1830133de4a16b9bd5af33f6fc42ea012f76dd8690da82198f48ffc739",
-      "source_published": "2026-10-22T17:24:23Z",
-      "source_updated": "2026-10-22T17:24:23Z",
-      "summary": "Large language model (LLM)-based multi-agent systems (MAS) rely on role-specific prompts and execution models to solve complex tasks collaboratively. However, prompt optimization typically keeps model assignments fixed, leaving differences in role requirements and their associated inference costs outside the search. We present UniMASO, a Unified framework for heterogeneous Multi-Agent System Optimization through the joint adaptation of prompts and model assignments. UniMASO evaluates candidate updates through local, downstream, and global feedback, using cost-aware Pareto search to retain useful quality-cost trade-offs. Topology-aware co-evolution then coordinates these updates according to agent roles and dependencies. Cross-level trajectory memory further supplies historical successes and failures to guide subsequent optimization. Experiments on five benchmarks and five execution topologies show that UniMASO achieves competitive task performance at substantially lower deployment cost than the strongest homogeneous configurations. Under centralized execution, it improves the average score from 69.79 to 70.40 while reducing token-weighted deployment cost by 85.2% relative to DeepSeek-V4-Pro with MASPO. These results support joint prompt-model adaptation as an effective approach to efficient multi-agent collaboration. The code is available at https://github.com/Achilles008/UniMASO_main.",
-      "tags": [
-        "cs.MA"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Not Every Agent Needs the Strongest Model: Unified Prompt-Model Optimization for Heterogeneous LLM-based Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.31743v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
       "candidate_id": "a3d1abb297f1d820dd2e55b9",
       "context_id": "68c3e856e2d7180c6b554d49",
       "delivery_preview_only": true,
@@ -884,6 +1283,86 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "SoK: Timestamps Are Not a Time Model: Rethinking Temporal Reasoning in Host-Based Intrusion Detection",
       "url": "https://arxiv.org/abs/2610.35151v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "19a68706964d8433329cf306",
+      "context_id": "e6f5d2d275118fb9d9793669",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "failure mode",
+        "memory",
+        "retrieval"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.4167,
+      "source": "arxiv",
+      "source_context_sha256": "743bfaefb17795ec994147c4cd47e1617387ac88376556764f9b993bc1f172c1",
+      "source_published": "2026-10-26T07:50:16Z",
+      "source_updated": "2026-10-26T07:50:16Z",
+      "summary": "Long-horizon agents continually accumulate experience, yet retaining a memory does not guarantee access when it is needed. Existing systems can adapt both memory content and access; we isolate persistent access updates as a separately controlled adaptation layer. We formulate this target as Memory Index Evolution and instantiate it with Adaptive Memory Index Evolution (AMIE), a lightweight plug-in layer that evolves per-memory access state from deployment retrievals without modifying stored content or retraining the host memory system. AMIE distils a semantic teacher's keep/suppress judgments into a retrieval-conditioned policy and accumulates its selective actions into bounded state that reweights subsequent host retrievals. Surprisingly, even a zero-call policy that simply accumulates retrieval frequency can match or outperform semantic policies in several settings, revealing retrieval traffic itself as a strong signal for access adaptation, while learned selectivity improves robustness when frequently retrieved memories remain useful. Across five retrieval-based hosts and three benchmarks, trained AMIE improves downstream F1 or accuracy in all 15 comparisons, by 0.70--3.37 percentage points (up to 25% relative), and improves retrieval in all 10 comparisons. Controlled analyses show that persistent competitor suppression can expose previously unseen evidence, while suppressing repeatedly useful memories creates the complementary failure mode. Together, these results establish persistent memory access as a practical adaptation layer, distinct from the content it serves, in retrieval-based agent memory systems.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Adaptive Memory Index Evolution for Agents",
+      "url": "https://arxiv.org/abs/2610.34977v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "12adee5f6c5d2d4ffd4728a1",
+      "context_id": "b0ac3cafb198107c99c4558c",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "provenance"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.125,
+      "source": "zenodo",
+      "source_context_sha256": "53331de7dbf2d16e190bb0835f7f2e74d3de57cacf52e16131c5428bed866f58",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Research artifact for the journal article Fresh on Paper, Reused in Code: Static Detection of Hidden Key Reuse in Cancelable Biometric Systems (submitted to the Journal of Information Security and Applications). The archive contains a non-executing Python static analyzer that traces record-dependent key provenance to reviewed BioHash, IoM-GRP and PolyProtect protection calls and reports reuse , conditional_fresh or unknown ; the internally authored source-case benchmarks with expected labels and Bandit outputs; analyzer development and confirmation results (v1-v3, intraprocedural baseline, branch counterexample and regression); experiment protocols and configurations; and aggregate results of the matched key-policy remediation and utility studies. Unit tests and benchmark commands are documented in README.md . Not included: MOBIO, FEI or SCface images, face embeddings, identity-level scores, keys, protected templates or trained model weights. These datasets must be obtained from their custodians under their terms of use.",
+      "tags": [
+        "cancelable biometrics",
+        "biometric template protection",
+        "static analysis",
+        "key reuse",
+        "abstract interpretation",
+        "Python",
+        "JISA",
+        "artifact"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Fresh on Paper, Reused in Code: Static Detection of Hidden Key Reuse in Cancelable Biometric Systems (JISA Artifact)",
+      "url": "https://zenodo.org/records/23690022"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1070,43 +1549,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "The Right Fact, the Wrong Decision: SciValidityBench for Scientific Agent Memory",
       "url": "https://arxiv.org/abs/2610.34767v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "5f7d78651726896a45d553f5",
-      "context_id": "7a0b21ac5a488339cf8c32f7",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "representation",
-        "world model"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.4167,
-      "source": "arxiv",
-      "source_context_sha256": "40d5024b9ee0f9c4381c50b9fa86c637c93a7e2513b8cc365704de2e33b0f6cc",
-      "source_published": "2026-10-22T04:46:49Z",
-      "source_updated": "2026-10-23T03:33:22Z",
-      "summary": "Video provides a natural source of supervision: what happens next serves as a learning signal for visual world modeling. Yet masked video pretraining focuses on recovering missing content from surrounding context rather than predicting the future from the past. Autoregressive methods instead predict forward one token at a time, but have yet to match joint-embedding methods in representation quality. This gap motivates us to revisit the granularity and space of future prediction. In this work, we introduce VANE, a self-supervised visual pretraining framework built on next-frame prediction in embedding space. A causal encoder summarizes past observations for a state predictor that infers the representation of the entire next frame, making temporal evolution the primary learning signal. This prediction is carried out in a fixed embedding space provided by a frozen semantic tokenizer, emphasizing scene content and structure. To retain fine-grained spatial detail alongside semantic content, a lightweight auxiliary generative decoder reconstructs future-frame patches conditioned on the predicted representations. To unify visual modeling across images and videos, we construct a local-to-global crop sequence for still images, allowing the same encoder to predict newly revealed regions from earlier crops under the same objective. Experiments show that VANE improves with model and data scaling, achieving SOTA on most anticipation, recognition, and dense perception benchmarks among unified encoders. Especially on EPIC-KITCHENS-100 action anticipation, it surpasses V-JEPA 2.1 by 7.1 points in mean-class recall@5. These results demonstrate that next-frame prediction in embedding space is effective and scalable for visual world modeling.",
-      "tags": [
-        "cs.CV",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Learning from Next-Frame Prediction: Towards Unified and Scalable Visual World Modeling",
-      "url": "https://arxiv.org/abs/2610.30724v2"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1326,466 +1768,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "CoPE-CGL: Community-aware Prototype Extraction for Replay-Free Continual Graph Learning",
       "url": "https://arxiv.org/abs/2610.35313v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "d1901cbd9883c49e2f81a24c",
-      "context_id": "fe2ed600ab228b962a86ce24",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "replication",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0833,
-      "source": "zenodo",
-      "source_context_sha256": "0c3e07d1a32f77251c0a84c56d2da408b5d117c422553225b7f4fbfd4164bb49",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "Reproducibility package supporting the manuscript \"Interference-Aware Selection of FBMC-OQAM Prototype Filters\". It contains Python source code, analytical and sampled prototype-filter moments, finite-bank residuals, deterministic simulation settings and seeds, per-frame desired/interference energies, figure-generation scripts, and verification checks. The package covers the nominal 24-condition comparison, independent replication, uniform and Gaussian channel profiles, and symbol-duration analysis. Consult README.md for instructions and statistical scope.",
-      "tags": [
-        "FBMC-OQAM; prototype filters; time-frequency localization; interference; reproducibility"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Interference-Aware Selection of FBMC-OQAM Prototype Filters: Code and Data",
-      "url": "https://zenodo.org/records/23679436"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "563e390054d8a9f3ebdae0de",
-      "context_id": "f00d3923e9fa594d9e25537e",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "64df91eadc8b59155783e7e4554d23c63a444b98f77e72ed5b300c7be2c21eb9",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Implementation and reproducibility package for static and fixed-ion time-dependent Berry-phase electric fields in SIESTA, by Javier Junquera. This is a new version of the reproducibility record supporting the invited Philosophical Transactions A manuscript \"Insulating solids in finite electric fields: implementation and validation in SIESTA\" (RSTA-2026-0113). The package supplies the exact source revision and pinned dependency sources, the 61-page technical report and editable LaTeX with figures, complete 53-routine Doxygen HTML and printable API, the User Guide, three progressive tutorials, documented calculation inputs and outputs, raw accepted and failed validation campaigns, source/executable/input hashes, CPU/wall/RSS measurements, and portable reproduction and plotting instructions. Validation covers serial, MPI, OpenMP and hybrid execution, static forces/stress, collinear and NC/SOC spin including the documented U/J path, fixed-ion real-time propagation, empty-owner and unsupported-input checks, and matched disabled-feature overhead. Four fresh exact-input SIESTA fields replay the earlier reference calculations; independent ABINIT results are reanalysed from preserved raw outputs, not newly calculated. The evidence is single-host and configuration-specific; unsupported, untested and unavailable combinations and convergence/scaling limits are documented. Read the technical report (PDF) . Start with README.md for extraction, checksums, build/test commands and scientific reproduction. Each archive has a per-file SHA-256 inventory. The six prepared implementation commits were pushed through 3365997ba; MR 570 metadata remains held for the owner final check. New scientific data, documentation, original figures and code are GNU GPL version 3 only (GPL-3.0-only), matching the official SIESTA licence . The earlier reference subset retains its CC BY 4.0 data/documentation and GPLv3-or-later script terms. SIESTA dependencies, documentation assets and PSML pseudopotentials retain their individual notices and provenance; see LICENSES.md and COPYING. Dated licence-hold statements in the immutable evidence predate the owner instruction of 26 October 2026. The preceding complete 84-case archive remains available as DOI 10.5281/zenodo.23315274 ; it is not duplicated here. The included exact subset supports the documented independent replay. This work is part of Grant PID2022-139776NB-C63, funded by MICIU/AEI/10.13039/501100011033 and by ERDF/EU.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Finite electric fields in SIESTA: implementation and compliance validation",
-      "url": "https://zenodo.org/records/23661736"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "3ea5d54aeb8fa03f249cc248",
-      "context_id": "e0d2a52fc907525db24c4ce1",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "zenodo",
-      "source_context_sha256": "ba2ddacd892644fdd3566f00760c0162469ee27247a63704ffa0c94b2c0c8eb9",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Record a computational experiment once, then let anyone check the evidence: file hashes, opt-in re-execution with numeric tolerances, claims, signatures and policies. Local-first, no runtime dependencies.",
-      "tags": [
-        "reproducibility",
-        "provenance",
-        "research software",
-        "verification"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "SciProof",
-      "url": "https://zenodo.org/records/23676138"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "f7bd885e1abb9452d766b96b",
-      "context_id": "7e9209fece36332b3c741049",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "representation",
-        "representation learning",
-        "world model"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
-      "source": "arxiv",
-      "source_context_sha256": "123c432f9af819b2dd4db47292caa4696ca99e8b5feb52b3bd75d36c79417b4e",
-      "source_published": "2026-10-26T00:50:03Z",
-      "source_updated": "2026-10-26T00:50:03Z",
-      "summary": "Video world models trained on large-scale robot data promise a safe and scalable approach for learning and evaluating policies that act in the physical world. However, they still struggle with long-horizon rollouts and out-of-distribution generalization, and they remain computationally demanding at inference time. Typically, video world models make predictions in the latent space of a reconstruction-trained autoencoder, which however is not directly optimized for dynamics modeling. On the other hand, world models designed for latent planning usually optimize latents to be predictable, but they forgo accurate prediction of observations in pixel space. In this paper, we show that it is possible to achieve the best of both worlds: a latent geometry optimized to make future prediction as simple as possible without sacrificing accurate prediction of future observations. More precisely, we find that temporal objectives for representation learning, paired with a past-conditioned decoder architecture, lead to consistent improvements in generative video world models at the same training budget. The gains include up to 5x cheaper inference, over 7x faster training, and 15-24% lower pixel and perceptual errors out of distribution and over long horizons. Our world models also agree more closely with real-world policy evaluation when using a vision-language model to judge task success from their pixel-space predictions. Overall, our study indicates that temporal predictability is an important design criterion for the latent space of video world models, and provides concrete guidance on how to incorporate it into the training of autoencoders.",
-      "tags": [
-        "cs.LG",
-        "cs.AI",
-        "cs.CV",
-        "cs.RO"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Video World Models Need Predictable Latents",
-      "url": "https://arxiv.org/abs/2610.34663v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "3f35eaee2e97eaa2af937b3a",
-      "context_id": "57d301a6b089d0ad811460eb",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0,
-      "source": "zenodo",
-      "source_context_sha256": "e28370aaa909f0d853b87b2220427be8efb1e591422fc35d57e72836b02751e1",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "This collection provides the code, data, and verification evidence supporting the study &ldquo;Payment Menu Design for Safe Identification and Recoverable Coverage Deployment&rdquo; by Jiaming Hu and Cuixia Miao. The study examines payment-menu design for providers with unknown local update rules, jointly requiring safe identification, recovery to ordinary operation, and preservation of the informed benchmarks. The collection contains two complementary archives: &bull; S3_EJOR_Code_Data_v1.0.zip: versioned source code, frozen synthetic inputs and modeled coverage instances derived from public SNDlib topologies, original result ledgers, environment specifications, a data dictionary, mappings between manuscript results and source data, and scripts for rebuilding tables and figures and running verification tests. &bull; S3_EJOR_Full_Evidence_v1.0.zip: retained certificates, verification receipts, execution logs, and failure and timeout records, stored with hash-based deduplication and mappings for restoring their original relative paths. Extract both archives into the same parent directory and follow the README in the Code_Data archive. The public-network instances are modeled coverage and payment scenarios, not observations of real network operations. The external PaGE comparison uses a source-mapped adaptation rather than a successfully built native Storm implementation. All eight extended ten-site tasks passed full V1 verification; seven additional independent audits passed and one timed out. Failed, timed-out, and gated runs are retained and distinguished from completed results. Corresponding author: Jiaming Hu (14438120260091@sdmu.edu.cn).",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Reproducibility materials for Payment Menu Design for Safe Identification and Recoverable Coverage Deployment",
-      "url": "https://zenodo.org/records/23659465"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "3cc34d3734241b87024815c0",
-      "context_id": "18a88c60d769443f46af5661",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0,
-      "source": "zenodo",
-      "source_context_sha256": "a96d671c5fd9f82a91ba5f730b6fd65279595aee0c398bcadaff7569ae391582",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "SimilCode Benchmark is a curated dataset of 120 short source-code snippets in C# and Java, organised into 60 test-case pairs per language across four ground-truth similarity categories (identical, functional, structural, and different) with fifteen reference groups per language. Every pair was independently classified by two raters blind to the original labels, with near-perfect inter-rater agreement (Cohen's &kappa; = 0.989). All code was authored specifically for this study or drawn from the public domain; no student-submitted code is included. The dataset was used to benchmark four contemporary commercial large language models as similarity analysts &mdash; claude-opus-5 , gpt-5.5-2026-04-23 , gemini-3.1-pro-preview and deepseek-v4-pro &mdash; with three independent replicates per case&ndash;model combination, yielding 1,440 evaluations. The same 120 pairs were also processed with three established classical detectors drawn from three distinct algorithmic families: Moss (winnowing fingerprints), JPlag v6.3.0 (token-string matching) and Dolos v2.9.3 (tree-sitter syntax trees). The record further includes a separate corpus for validating algorithmic-complexity (Big O) estimation: 40 canonical algorithms and 8 adversarial cases designed to defeat surface cues such as misleading identifiers, unreachable code and memoisation. Raw model responses, classical-detector outputs, the standardised prompt with its SHA-256 checksum, the ground-truth tables and the analysis scripts are published together for reproducibility.",
-      "tags": [
-        "source-code similarity",
-        "academic integrity",
-        "programming education",
-        "large language models",
-        "benchmark dataset",
-        "C sharp",
-        "Java",
-        "AI-based plagiarism detection",
-        "Claude",
-        "GPT-5",
-        "Gemini",
-        "DeepSeek"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "SimilCode Benchmark: A Dual-Language Source-Code Similarity Dataset for the Evaluation of AI-Based Detectors",
-      "url": "https://zenodo.org/records/23679778"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "59da8bb418860f7336ef78b5",
-      "context_id": "5fbb968750b69e805772feeb",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "replication",
-        "world model"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.9167,
-      "source": "zenodo",
-      "source_context_sha256": "439386c829eb1ae6b72db7dcbd7f6040975acae7c25a96cc79c934004596f736",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Replication package for a bibliometric mapping of governance coverage across five AI capability stages (generative, agentic, world models, embodied, autonomous science) in Scopus, searched on 26 October 2026. Contains the analysis script with coding dictionaries, the search strategy with record counts, aggregated result tables and figures. Raw Scopus exports are not redistributed under the database licence.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Replication package for \"The Sequencing Gap: Capability Stages Beyond Generative Artificial Intelligence and the Institutional Capacity They Demand\"",
-      "url": "https://zenodo.org/records/23676546"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "6f2e4ff1216d9a57dcdfcd04",
-      "context_id": "d66f9492d7c07627045a3079",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "zenodo",
-      "source_context_sha256": "ea098f74204e78cc834113b85ea9417cb491ca9e5f77831a9f40006ac14429bd",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-OV (Ovarian Serous Cystadenocarcinoma. encode_chromatin added 2026-09-03 (expanded-covariate-sources task, Objective A.3): DNase-seq substituted for the missing TCGA ATAC-seq coverage (Corces et al. 2018 didn't profile ovarian cancer) -- adult primary ovary tissue DNase-seq exists natively on ENCODE (9 released adult experiments; one used here), unrelated to the ATAC gap since ATAC and DNase are separate assay catalogs.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 1080 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact OV --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-OV",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-OV",
-      "url": "https://zenodo.org/records/23671597"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "c24042bd35eda2cdc3cdc8d5",
-      "context_id": "b03e5c6740e00c5473d12a74",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "zenodo",
-      "source_context_sha256": "55dfd217d9dbfbbd2ad825884eb073ed0e990ffba823ce07be153ebef95185ff",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-LUSC (Lung squamous cell carcinoma. GTEx maps to Lung (representative gtex_lung). TCGA ATAC-seq covered (Corces et al. 2018; the tarball's bigWigs are named LUSC_..., read from its first member). Roadmap uses E096 (adult lung, 6/7 marks -- H3K9ac 404s, as for LUAD) plus E127 (NHEK epidermal keratinocytes, 7/7, life stage unrecorded), the squamous-epithelium proxy for the airway basal cells LUSC arises from after squamous metaplasia (Roadmap has no bronchial or airway epithelial epigenome; E128 lung fibroblasts are stromal). All 14 (EID, mark) pairs live-checked 2026-10-03. encode_chromatin: LUAD's ENTEx adult lung donor (ENCDO451RUA, 54y male, upper lobe of left lung; six histone marks plus DNase -- a different donor and assembly from Roadmap's E096), plus primary bronchial epithelial cells (ENCODE/UW donor ENCDO106AAA, life stage unrecorded): DNase, H3K4me3, H3K27me3 and H3K36me3, the only marks that cell type has; a retinoic-acid-treated bronchial epithelial DNase was rejected. Cell lines: none -- ENCODE has no lung squamous carcinoma line (NCI-H520, SK-MES-1, Calu-1, HCC95, LK-2, EBC-1 and others all absent); NCI-H226, historically labelled lung squamous, is annotated by Cellosaurus (CVCL_1544) as pleural epithelioid mesothelioma and was rejected; adenocarcinoma (A549, PC-9), large-cell (NCI-H460) and small-cell lines rejected. repliseq: keratinocyte (ENCODE UW 6-fraction Repli-seq, hg19), the squamous cell-of-origin match HNSC uses; A549 (Gilbert wavelet) is the organ match but an adenocarcinoma and was not used. Assemblies: Roadmap and repliseq hg19, encode_chromatin and ATAC GRCh38.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 1158 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact LUSC --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-LUSC",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-LUSC",
-      "url": "https://zenodo.org/records/23671524"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "a3dfcaa7c3c524daee0f25bf",
-      "context_id": "ad47f5da5beefdcdcea7c02e",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "zenodo",
-      "source_context_sha256": "148adc66a99ae19bc7cd339ef8cfa642cce4ec4acaba4b25375361b5399c5bbe",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-MESO (Malignant mesothelioma, overwhelmingly pleural in TCGA (51 of 87 cases pleura NOS, 11 thorax NOS, 5 abdominal/peritoneal; 52 epithelioid, 21 biphasic). GTEx has no mesothelium or pleura tissue, so MESO had no GTEx mapping: the proposed mapping key MESO takes Lung (the organ the visceral pleura covers, representative column) and Adipose_Visceral_Omentum (the peritoneal surface tissue GTEx samples), both organ-level proxies in which mesothelial cells are a minor fraction -- read the GTEx block as tissue context, not cell of origin. Expression is tumor-only: all 87 TCGA-MESO RNA-seq files are primary tumors, no normals. TCGA ATAC-seq covered (Corces et al. 2018; the tarball's bigWigs are named MESO_..., read from its first member). roadmap null: Roadmap's 127 epigenomes include no mesothelial, pleural or peritoneal sample (adipose E025/E063 and lung E096 are the wrong cell). encode_chromatin: DNase-seq of NCI-H226, the only mesothelioma line in ENCODE (Cellosaurus CVCL_1544: pleural epithelioid mesothelioma, originally described as lung squamous carcinoma; ENCODE health status 'squamous cell carcinoma; mesothelioma'), no histone ChIP exists for it; 2025 pipeline replicate-1 file. NCI-H2052, NCI-H28, NCI-H2452, MSTO-211H, Met-5A and LP-9 return no ENCODE experiments. Rejected: ENCODE's 'mesothelial cell of epicardium' (in vitro differentiated, embryonic) and adult omental fat pad DNase (mostly adipose, not mesothelium); ENCODE has no adult pleura or peritoneum chromatin. repliseq null: no adult or tumor mesothelial replication-timing source exists; hESC-derived 'mesothelial cell' Repli-chip (ENCSR401KWO, ENCSR326SZT; wavelet, hg19, embryonic) is noted as an unmeasured candidate only. With so little tissue-matched chromatin, MESO is the cohort that stands to gain most from the complete GENERIC. Assemblies: encode_chromatin and ATAC GRCh38.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 925 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact MESO --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-MESO",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-MESO",
-      "url": "https://zenodo.org/records/23671561"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "61eece246668eb224cc2ff43",
-      "context_id": "54d9bf20a3f70fbfab56edf8",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "zenodo",
-      "source_context_sha256": "19c919f3ce64ac9275e14b284bca23f5b9b63e4e9a255890dbef03b58ccbcd6b",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-PCPG (Pheochromocytoma and paraganglioma: tumors of neural-crest-derived chromaffin cells, in the adrenal medulla (pheochromocytoma) or extra-adrenal paraganglia. GTEx maps to Adrenal_Gland and Nerve_Tibial; representative column gtex_adrenal_gland. TCGA ATAC-seq covered (Corces et al. 2018; the tarball's bigWigs are named PCPG_..., read from its first member). Expression: TCGA-PCPG tumor and normal (3 normal samples, so the default Tumor+Normal pair stays). Roadmap null: its only adrenal epigenome is E080 (fetal adrenal gland), rejected as non-adult, as for ACC; no adult chromaffin, sympathetic or paraganglion epigenome exists. encode_chromatin: adult adrenal gland tissue from one ENCODE donor (ENCDO575WHY, 41y; ACC's donor) -- H3K27ac, H3K27me3, H3K36me3, H3K4me1, H3K4me3, H3K9me3 and DNase. Caveat: whole adrenal gland is mostly cortex (the medulla is about a tenth of it), so this is an organ-level source that mainly carries adrenocortical chromatin, the wrong compartment for chromaffin tumors. No pheochromocytoma or paraganglioma line exists in ENCODE (pheochromocytoma, paraganglioma, hPheo1, PC12 and chromaffin all return zero experiments). As the closest available lineage -- sympathoadrenal neural crest, the common progenitor of chromaffin cells and sympathetic neuroblasts -- the row adds neuroblastoma lines: SK-N-SH (untreated, one lab, all 7 default marks plus DNase) and DNase from BE2C and SK-N-DZ (untreated). They are a different, pediatric embryonal disease, so this is a lineage proxy supplying the medullary chromatin the adrenal tissue lacks, not a disease match; retinoic-acid- and DMSO-treated experiments rejected. repliseq: SK-N-SH UW 6-fraction Repli-seq (hg19), the only sympathoadrenal-lineage source in the replication-timing catalog, registered on the same lineage argument and to be measured (rt_block_scoping.py) and dropped if it moves nothing; the hESC-derived neural crest Repli-chip profiles are rejected as embryonic. Assemblies: repliseq hg19; encode_chromatin and ATAC GRCh38.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 976 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact PCPG --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-PCPG",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-PCPG",
-      "url": "https://zenodo.org/records/23671640"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "0611aa36032d39f8e8f3e340",
-      "context_id": "3ba7df2e8f6ae46ff193f405",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "zenodo",
-      "source_context_sha256": "64e93700dfff9053789b29870220711e5a001d53510bfc73a21d4b609e96e201",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "Replication package for the paper \"Risk, not sunshine: financing costs drive the price of reliable solar-plus-storage electricity in the Middle East and North Africa\" (Younas Khan and &Scaron;tefan Bojnec). WHAT THIS IS Code, input data, result tables, figures and a supplementary data workbook for an hourly solar-plus-battery cost comparison of 19 Middle East and North African countries (24 sites: the 19 capitals plus five interior desert sites). The study decomposes the cross-country cost gap into cost of capital, regional equipment price and solar yield, and tests the result against finance shocks, 24 weather years, CMIP6 climate change and Monte Carlo uncertainty. The manuscript itself is not part of this deposit. CONTENTS - code/: all analysis scripts (photovoltaic model, hourly dispatch and design search, climate factors, 24-weather-year test, build-out link, decomposition, bootstrap, Monte Carlo, figures, supplementary tables) and run_all.sh, which reproduces everything in about 6 minutes on one core. - data/inputs/: the input data the scripts read (NASA POWER weather, CMIP6 point extracts, IRENA and SIPRI data, demand and footprint indicators). - results/: result tables (CSV) and results.json, which holds every number quoted in the paper. - outputs/Supplementary_Data.xlsx: a workbook with one sheet for each supplementary table (S1&ndash;S26). - outputs/figures/: the figures generated by the code (PNG and PDF). - README.md: step-by-step instructions, a map from each figure and table to its script, and the provenance and terms of each input file. HOW TO REUSE Install the packages in requirements.txt (Python 3.13), then run ./run_all.sh. All random draws use fixed seeds, so a rerun with the default 2,000 Monte Carlo draws reproduces results.json. LICENCE AND THIRD-PARTY DATA The code is released under the MIT licence and the derived results and workbook under CC BY 4.0. Input files from NASA POWER, IRENA, SIPRI, Ember and the Copernicus Climate Data Store keep the terms of their providers and must be cited to the original sources (see README.md). KNOWN LIMITS Costs of capital for Algeria, Libya, Palestine, Syria and Yemen and all hydrogen-chain costs are placeholders; hourly load is assumed, not measured; each country is represented by one reference site. These are documented in Supplementary Tables S20&ndash;S22. VERSIONS Version 1.1.0 contains the files listed above. Further datasets will be added as new versions of this record or as separate records linked to it.",
-      "tags": [
-        "solar photovoltaics; battery storage; cost of capital; levelised cost of electricity; Middle East an"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Risk, not sunshine: financing costs drive the price of reliable solar-plus-storage electricity in the Middle East and North Africa",
-      "url": "https://zenodo.org/records/23679276"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
