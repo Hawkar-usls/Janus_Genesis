@@ -1,9 +1,452 @@
 {
-  "batch_id": "c90c0310c7b190dd4d68",
+  "batch_id": "e1057af2a49f25059213",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
   "items": [
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f7bd885e1abb9452d766b96b",
+      "context_id": "afab5dd7eccb762362f6d2a0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "representation learning",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "arxiv",
+      "source_context_sha256": "37ce0af09092b0f7cba7758bb4ccfe02da4fbb2aef2b0a54a3ac5f696d5c21b4",
+      "source_published": "2026-10-26T00:50:03Z",
+      "source_updated": "2026-10-26T00:50:03Z",
+      "summary": "Video world models trained on large-scale robot data promise a safe and scalable approach for learning and evaluating policies that act in the physical world. However, they still struggle with long-horizon rollouts and out-of-distribution generalization, and they remain computationally demanding at inference time. Typically, video world models make predictions in the latent space of a reconstruction-trained autoencoder, which however is not directly optimized for dynamics modeling. On the other hand, world models designed for latent planning usually optimize latents to be predictable, but they forgo accurate prediction of observations in pixel space. In this paper, we show that it is possible to achieve the best of both worlds: a latent geometry optimized to make future prediction as simple as possible without sacrificing accurate prediction of future observations. More precisely, we find that temporal objectives for representation learning, paired with a past-conditioned decoder architecture, lead to consistent improvements in generative video world models at the same training budget. The gains include up to 5x cheaper inference, over 7x faster training, and 15-24% lower pixel and perceptual errors out of distribution and over long horizons. Our world models also agree more closely with real-world policy evaluation when using a vision-language model to judge task success from their pixel-space predictions. Overall, our study indicates that temporal predictability is an important design criterion for the latent space of video world models, and provides concrete guidance on how to incorporate it into the training of autoencoders.",
+      "tags": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Video World Models Need Predictable Latents",
+      "url": "https://arxiv.org/abs/2610.34663v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "11098d08c5da13a4877368a2",
+      "context_id": "3fa5e3f395b9dd53e6685fe1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "41dca6ed58ec3c19f77afce1797eec8323f7ffbb92d26d298a1e649deeac3385",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "This repository provides the source code, simulation datasets, computational benchmarks, numerical results, and reproducibility materials supporting Paper I of the Principle of Representation Integration for Stable Models (PRISM-M), prepared for the Journal of Computational Neuroscience . PRISM-M V4 is a minimal recurrent computational framework organized around five functional operations: Extraction, Compression, Integration, Stabilization, and Prediction/Action (ECISP). The implementation uses a single independently evolving recurrent state, with finite-precision quantization and explicitly defined information-processing transformations. The framework is intended to examine the functional organization of information processing, contextual integration, and memory stabilization within established recurrent and state-space dynamics. The repository includes the frozen V4 implementation, mathematical definitions, parameter configurations, experimental protocols, random seeds, simulation trajectories, statistical analyses, and comparative benchmarks involving autoregressive models (ARX), Kalman filtering, and recurrent neural networks. The deposited materials document the original parameter-landscape and stability analyses, targeted perturbation experiments, memory-retention studies (M1&ndash;M5), and additional computational experiments (V1&ndash;V5) evaluating noise robustness, adaptability, recovery, interference resistance, and information recoverability. Additional validation materials include information-matched representation controls, intrinsic-noise sensitivity analyses, and mathematical verification of contraction and perturbation equivalence. These retrospective analyses are distinguished from the original experimental protocols. The repository also contains the numerical datasets, figure files, supplementary materials, execution instructions, software dependencies, provenance records, and SHA-256 integrity checks associated with Figures 1&ndash;6 and Supplementary Figures S1&ndash;S4. Computational reproduction and numerical verification have been performed for the principal analyses. Complete automated regeneration of all final publication artwork and independent cross-platform verification remain outside the scope of the completed checks. The purpose of this deposit is to facilitate independent evaluation, computational reproduction, and further investigation of the PRISM-M V4 framework. The model is a theoretical computational implementation and does not constitute direct biological validation or demonstrate a new class of recurrent dynamics.",
+      "tags": [
+        "PRISM-M",
+        "Computational neuroscience",
+        "Recurrent neural networks;",
+        "Information processing",
+        "Memory stabilization",
+        "State-space models",
+        "Dynamical systems",
+        "Computational modeling",
+        "neuroscience"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PRISM-M V4: Source Code, Simulation Data, Computational Benchmarks, and Reproducibility Materials for Paper I",
+      "url": "https://zenodo.org/records/23713014"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "1adeffe0c0b8898f1770477d",
+      "context_id": "3ccd5bc1527ae9a478024326",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "github_repository_search",
+      "source_context_sha256": "2a9c18fccf87215af7b70a14d81f71e7ab77b7b0315dca6f661295a5bd697afb",
+      "source_published": "",
+      "source_updated": "2026-10-28T01:21:26Z",
+      "summary": "An open coordination layer for AI research, experimentation and reproducibility. Connecting existing tools through bounded agent tasks, provenance, evaluation receipts and verifiable workflows, with an initial focus on open-model research.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DerekWiner/alvearium-commons",
+      "url": "https://github.com/DerekWiner/alvearium-commons"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "d616add2f10a488060b07a68",
+      "context_id": "2f47b2dc9d4e9febf43fc9e9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "0f5ba5a614fd5346d0c698e9698d747751b8a2f30b631ec59b0cf86fa3c1cbd4",
+      "source_published": "2026-10-23",
+      "source_updated": "",
+      "summary": "Supplementary data for \"OpenScientist: evaluating an open agentic AI co-scientist to accelerate biomedical discovery.\" This dataset contains research logs, knowledge states, provenance files, and generated figures for seven case studies spanning neurodegenerative disease transcriptomics, multiple myeloma genomics, survival proteomics, drug side effect analysis, and more. Each case study includes the full agent iteration log, configuration, and final report. Input datasets are included for three case studies where data sharing is permitted: case study 3 (neurofibrillary tangle transcriptomics), case study 4 (multiple myeloma RNA-seq), and case study 7 (drug side effect frequencies from clinical trials).&nbsp; Version 2 (August 2026) adds supplementary material for case study 3 (neurofibrillary tangle transcriptomics): 60 additional independent runs of the same question and dataset, comparing three agent/model configurations &mdash; Claude Code with Claude Opus 4.8, and the omp harness with Kimi K3 and GLM 5.2 &mdash; each run 10 times online and 10 times in a fully air-gapped configuration with no network access and literature served from a local 40-million-article MEDLINE mirror. Files: ..._supplemental_online_30runs_data.tar.gz and ..._supplemental_airgapped_30runs_data.tar.gz each contain 30 runs with reports (Markdown, PDF, HTML), all generated figures, per-iteration transcripts, the exact prompt, and full version/commit provenance. ..._supplemental_60runs_metrics.csv gives per-run runtime, tool-call counts, literature searches, findings recorded and token usage for all 60 runs. Version 3 (September 2026) adds two further supplementary sets for case study 3 (neurofibrillary tangle transcriptomics). ..._supplemental_reproducibility_10runs_data.tar.gz contains 10 independent runs of the same question on Claude Opus 4.6, all run on 2026-03-08 with byte-identical inputs (the research question and the input .h5ad were SHA-256 verified identical across all 10) and a 10-iteration budget. Each run includes the report (Markdown, PDF, HTML), knowledge_state.json with structured findings and literature list, per-iteration transcripts, and the job UUID. These runs quantify run-to-run variability under fixed inputs. ..._supplemental_genomic_skill_comparison_data.tar.gz contains 30 runs &mdash; 15 using the original genomics Agent Skill and 15 using a revised version &mdash; with the two skill definitions included alongside the jobs. The revised skill adds explicit guidance on donor-level pseudobulk aggregation and mixed-effect modelling; the paired arms allow the effect of that guidance on the analysis the agent chooses to be assessed directly. Each run includes reports (Markdown, PDF, HTML), per-iteration provenance transcripts, and container logs. Version 4 (October 2026) adds the run sets generated for the second revision of the manuscript, renumbers the case-study files to match the revised manuscript (the suvorexant proteomics analysis is now Case Study 5; neurofibromatosis is Case Study 6, drug side effects Case Study 7, and the CSF A&beta;42/40 prediction model Case Study 8), and adds RUNS_MANIFEST.csv , which maps every job in this record to its experiment, supplementary table and row label. Run IDs quoted in the supplementary tables are the first 8 hexadecimal characters of the job ID. New archives, all for Case Study 3 (neurofibrillary tangle transcriptomics; same research question and input file as the existing archives, OpenScientist commit fac6971, Claude Opus 4.6, run 2026-10-18 with a 10-iteration budget): ..._supplemental_iteration_controls_10runs_data.tar.gz (10 replicate runs on unmodified code; Experiment 4 and the control arm of the two ablations), ..._supplemental_knowledge_state_ablation_10runs_data.tar.gz (10 runs in which the knowledge-state summary and outline were withheld from the agent; Experiment 5; the patched orchestrator file is included as ..._knowledge_state_ablation_iteration.py.patched ), and ..._supp",
+      "tags": [
+        "AI",
+        "autonomous agents",
+        "scientific discovery",
+        "bioinformatics",
+        "open science",
+        "air-gapped",
+        "open-weight models",
+        "reproducibility",
+        "large language models"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "OpenScientist: Supplementary Case Study Data",
+      "url": "https://zenodo.org/records/23602910"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "5d1b9a619f0cd8a14bb6ddad",
+      "context_id": "0ead8164583f3ca186d67d78",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "3dd23f5aaefad2b995ed57c6729cea9e6d35dafea924ef74ad112b247f190d8d",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Reproducible finite-sample analysis of append-only copying in conformal calibration. The project contains five public regression benchmarks, three fixed model families, 30 random splits, six copying mechanisms, three coverage targets, independent score simulations, and exhaustive rank checks. It compares rowwise, source-ID, copy-budget, and effective-sample-size calibration, and quantifies coverage-width trade-offs under incomplete provenance.",
+      "tags": [
+        "conformal prediction",
+        "data duplication",
+        "prediction intervals",
+        "uncertainty quantification",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "How Copies Break Conformal Prediction",
+      "url": "https://zenodo.org/records/23717113"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "d3ddd2cd896642f5506812cb",
+      "context_id": "e94687653978f4fcda212fc6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0417,
+      "source": "arxiv",
+      "source_context_sha256": "3fe32147b706b166e307c930d5413ace3e0aa9f47746dc787346f39a0f8b29dd",
+      "source_published": "2026-10-27T09:51:08Z",
+      "source_updated": "2026-10-27T09:51:08Z",
+      "summary": "Learning from experience is essential for building the next generation of agents that continually expand their capabilities. Pretrained vision-language models (VLMs) already internalize rich world knowledge, yet this knowledge is rarely leveraged to drive policy improvement through online interaction. Realizing this potential efficiently remains challenging, as policy updates shift the agent's interaction distribution, requiring the world model to adapt accordingly, while continually updating large pretrained models is computationally expensive. To address this challenge, we introduce Dwell, a model-based reinforcement learning (RL) framework that reframes a VLM as a recurrent latent transition operator, endowing it with the ability to predict, adjust, and act in latent space. Leveraging the VLM's own representations and its dual role as both world model and policy, the agent continually learns from real interactions to anticipate and evaluate action outcomes, and from latent imagination to improve its behavior. Across five interactive visual environments, Dwell achieves the strongest overall performance among trainable methods while substantially reducing the compute required for imagination, showing that effective world models for VLM agents need not reconstruct the future; they need to predict futures that are useful for action. Our code is publicly available at https://github.com/Tom111-lhx/Dwell",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Vision-Language Agents Can Learn in Their Own Latent Worlds",
+      "url": "https://arxiv.org/abs/2610.36925v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "4a16067d4e590f78098dca3e",
+      "context_id": "a8bcdbfb61d75f193eca2804",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation",
+        "representation learning"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.8333,
+      "source": "arxiv",
+      "source_context_sha256": "573fb2ae41257016c990751c3565c509bc3e543b781f7b63a0ae7005981a2cae",
+      "source_published": "2026-10-26T23:18:47Z",
+      "source_updated": "2026-10-26T23:18:47Z",
+      "summary": "Modeling multi-scale dynamics in urban road networks is essential for intelligent transportation systems but is often hindered by the computational cost of long-range historical context and the challenge of fusing heterogeneous modalities. Existing spatio-temporal frameworks face a trade-off between sequence length and memory overhead, while frequently neglecting the transient effects of exogenous factors such as road incidents and weather. To address these limitations, we propose SpecLST, a frequency-enhanced long-short-term spatio-temporal multimodal framework. SpecLST leverages a fast Fourier transform-based frequency-domain representation module to efficiently encode multi-week historical dependencies, bypassing the memory bottlenecks of standard attention mechanisms over raw long sequences. Heterogeneous context is integrated through attention-based fusion, followed by a sparse Mixture-of-Experts backbone with graph augmentation for spatio-temporal representation learning. Additionally, a frequency-enhanced residual head isolates high-frequency transients, improving sensitivity to abrupt traffic anomalies. At the 60-minute horizon, SpecLST achieves mean relative error reductions of 14.10% in MAE, 10.35% in RMSE, and 15.78% in MAPE across eight neural forecasting baselines and four datasets, with the dataset- and metric-specific average reductions ranging from 5.63% to 22.21%.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "SpecLST: Spectral-Enhanced Long-Short Term Spatio-Temporal Multimodal Modeling for Traffic Forecasting",
+      "url": "https://arxiv.org/abs/2610.36393v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "7406b78ee7c499fcaea77762",
+      "context_id": "a74171242c218b4a00b9b8b8",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "a825dca3035be898140399d7c8e39c794aaf8445ce7b6ee1d6d2c16f3d91bb79",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Training code, step-size calibration (Algorithm 2), the decoupled batch normalization of Appendix C (Algorithm 3), a demonstration of the grad_outputs=ones pitfall, tests, and the raw results behind every table of the paper Derivative Computation in Physics-Informed Neural Networks: Automatic Differentiation, Finite Differences and Beyond (arXiv:2608.11020). Four benchmark PDEs (Poisson 2D with holes, Burgers 1D, Heat2D-CG, a 4th-order plate), four derivative methods (AD, FD, eFD, sFD). See README.md for what reproduces what. Code: MIT. Data: CC BY 4.0, except the PINNacle reference solutions in data/reference, which keep their origin's license.",
+      "tags": [
+        "physics-informed neural networks",
+        "finite differences",
+        "automatic differentiation",
+        "PyTorch",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "finite-pinn-repro: code and data of 'Derivative Computation in Physics-Informed Neural Networks: Automatic Differentiation, Finite Differences and Beyond'",
+      "url": "https://zenodo.org/records/23709829"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "42d226a0ac96170f29c14f71",
+      "context_id": "9956f9920a03a931392f2417",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "d20c0880b14501a4f7e387f28195b66991bc2e222b57d10767f362f166d047fa",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Frozen archive of code, processed data, and generated figures for the manuscript: \"Data-driven identifiability and first-passage risk in stochastic epidemic models: from noise structure to early-warning thresholds\". The repository contains: - Stochastic SEIAR epidemic model with three noise structures (white, Ornstein&ndash;Uhlenbeck, L&eacute;vy jump) - Fisher information matrix (FIM) spectral identifiability analysis on six real COVID-19 waves (China, South Korea, UK, Japan, 2022&ndash;2023) - First-passage-time escalation risk metrics and scaling laws - Early-warning threshold rules and intervention sensitivity analysis - Cross-disease validation on WHO FluNet influenza surveillance data Dependencies: Python 3.9+, numpy, scipy, pandas, matplotlib. All random seeds are explicitly set in scripts for full reproducibility.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Data-driven identifiability and first-passage risk in stochastic epidemic models: code and data",
+      "url": "https://zenodo.org/records/23683064"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "2167c3a0e360bb2fa4bcf6c9",
+      "context_id": "7e39e5067f6fa911cc14374e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "arxiv",
+      "source_context_sha256": "7a3c4a540869626fecdbb3c0619ceead1a313c7c563d3de334a590bea976d321",
+      "source_published": "2026-10-27T09:53:21Z",
+      "source_updated": "2026-10-27T09:53:21Z",
+      "summary": "Multimodal transformer models have driven unprecedented performance breakthroughs in modern document understanding. However, the inherent black-box nature of these models remains a major obstacle to their safe deployment in high-stakes sectors. Despite significant progress in explainability for vision and language tasks, explainable AI (XAI) research tailored to multimodal document understanding has received little attention. To address this gap, we present \\ourframework{}, the first comprehensive explainability framework that adapts existing XAI methods and evaluation metrics to the multimodal (text, layout, and image) document understanding context, while introducing efficient multi-target adaptations of both methods and metrics for domain-specific tasks such as semantic entity recognition. Using \\ourframework{}, we systematically evaluate 13 XAI methods across 3 document understanding tasks, 8 datasets, 4 models, and 17 evaluation metrics, and find that only a few methods perform consistently across all evaluation criteria, with Occlusion emerging as the most faithful and interpretable method overall. Through a dedicated meta-evaluation, we observe moderate to strong agreement among several faithfulness and complexity metrics while identifying certain ones that produce unreliable results. Finally, through multiple dataset-wide diagnostic analyses, we uncover key insights into model behavior, including the contribution of individual modalities across tasks and labels, spatial attribution patterns around target entities, and potential dataset biases. Overall, this work serves as both a benchmark and a practical guide for future XAI research in multimodal document understanding. To support reproducibility, we publicly release our code at https://github.com/saifullah3396/docxeval/.",
+      "tags": [
+        "cs.CL",
+        "cs.CV"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DocXEval: A Systematic Evaluation of Explainability in Multimodal Document Understanding",
+      "url": "https://arxiv.org/abs/2610.36929v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "c514eea4bba9150cecb31541",
+      "context_id": "5ede698b831afd14736e189d",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::FORWARD",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reproducibility"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.625,
+      "source": "zenodo",
+      "source_context_sha256": "905f4d50dc2eda3204abf765532d4865de068a5ed46126cddcdae14749b0a407",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "The geometric characterization of masonry structures with incomplete or degraded surfaces remains a critical challenge in building rehabilitation, structural assessment, and BIM-based documentation. This study presents an automated computational framework for reconstructing the original geometry of partially collapsed masonry walls from Terrestrial Laser Scanning (TLS) data, providing quantitatively defined uncertainty bounds to support informed decision-making in heritage conservation and the built environment. The proposed methodology integrates three complementary analytical components: i) automated wall thickness extraction based on PCA-driven point cloud segmentation combined with robust percentile statistics; ii) wall trajectory reconstruction through the identification of polygonal configurations and structural discontinuities between segments; and iii) slope profile detection using local gradient analysis to characterize wall batter angles. The entire workflow is implemented in Python within Jupyter Notebooks, ensuring transparency, reproducibility, and compliance with FAIR principles. Material characterization, informed by archaeological evidence and geotechnical parameters, enables the estimation of structural height through a limit equilibrium approach. A key contribution of this research is the Best-Fit Model Profile (BFMP) methodology for uncertainty quantification, which derives internal geometric references directly from the point cloud data. This approach allows for a systematic evaluation of preservation states and construction variability without reliance on external ground-truth measurements. Structural height estimation incorporates geotechnical and material parameters, whose influence is assessed through a sensitivity analysis, while the reported height interval propagates the thickness variability . Validation on a prehistoric masonry structure demonstrates the framework&rsquo;s ability to transform ambiguous survey data into parametric, BIM-ready outputs with explicit uncertainty limits. Compared to traditional CAD-based reconstruction workflows, the proposed approach significantly reduces subjective interpretation while enhancing geometric reliability and analytical transparency",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Automated geometric reconstruction of degraded prehistoric masonry from TLS data: reproducible workflow and synthetic benchmark (Valencina de la Concepción)",
+      "url": "https://zenodo.org/records/23688431"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "8048a35fd99e1efd363f73d3",
+      "context_id": "551a17b62923656bb4e19f78",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "representation learning"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.5833,
+      "source": "zenodo",
+      "source_context_sha256": "54b63638a4299f6d2393694860f35b8f0fd8b6bc1611dabd6557f31b4f9752e4",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "What image information remains recoverable from a probabilistic model pretrained through non-contrastive self-supervision without pixel reconstruction? Our experiments show that decoding its frozen representations recovers visual information, although pixel fidelity remains below that of conventional variational autoencoders (VAEs). We subsequently compare fine-tuning a VAE encoder initialized from this self-supervised model with training a separate VAE whose prior is the same model's frozen image-conditioned distribution over latent codes (posterior distillation). Fine-tuning improves pixel fidelity over frozen decoding and conventional VAEs but reduces class separability relative to the frozen self-supervised model. Across CIFAR-10, CIFAR-100, and Tiny ImageNet, posterior distillation improves perceptual similarity, raises peak signal-to-noise ratio by 0.31&ndash;0.66 dB, and increases linear classification accuracy over conventional VAEs. Cross-dataset experiments show that the reconstruction benefit extends beyond the pretraining dataset.",
+      "tags": [
+        "self-supervised learning",
+        "variational autoencoders",
+        "image reconstruction",
+        "representation learning"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Can Self-Supervised Probabilistic Representations Improve Image Reconstruction?",
+      "url": "https://zenodo.org/records/23682065"
+    },
     {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "f7bd885e1abb9452d766b96b",
@@ -43,6 +486,124 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Video World Models Need Predictable Latents",
       "url": "https://arxiv.org/abs/2610.34663v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "11098d08c5da13a4877368a2",
+      "context_id": "7883850e246ba6516ef8fed4",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "recovery",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.375,
+      "source": "zenodo",
+      "source_context_sha256": "2720778ce1164b31875110324a8dd260a0386500e909fb3dbb3ed20253fa8d6a",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "This repository provides the source code, simulation datasets, computational benchmarks, numerical results, and reproducibility materials supporting Paper I of the Principle of Representation Integration for Stable Models (PRISM-M), prepared for the Journal of Computational Neuroscience . PRISM-M V4 is a minimal recurrent computational framework organized around five functional operations: Extraction, Compression, Integration, Stabilization, and Prediction/Action (ECISP). The implementation uses a single independently evolving recurrent state, with finite-precision quantization and explicitly defined information-processing transformations. The framework is intended to examine the functional organization of information processing, contextual integration, and memory stabilization within established recurrent and state-space dynamics. The repository includes the frozen V4 implementation, mathematical definitions, parameter configurations, experimental protocols, random seeds, simulation trajectories, statistical analyses, and comparative benchmarks involving autoregressive models (ARX), Kalman filtering, and recurrent neural networks. The deposited materials document the original parameter-landscape and stability analyses, targeted perturbation experiments, memory-retention studies (M1&ndash;M5), and additional computational experiments (V1&ndash;V5) evaluating noise robustness, adaptability, recovery, interference resistance, and information recoverability. Additional validation materials include information-matched representation controls, intrinsic-noise sensitivity analyses, and mathematical verification of contraction and perturbation equivalence. These retrospective analyses are distinguished from the original experimental protocols. The repository also contains the numerical datasets, figure files, supplementary materials, execution instructions, software dependencies, provenance records, and SHA-256 integrity checks associated with Figures 1&ndash;6 and Supplementary Figures S1&ndash;S4. Computational reproduction and numerical verification have been performed for the principal analyses. Complete automated regeneration of all final publication artwork and independent cross-platform verification remain outside the scope of the completed checks. The purpose of this deposit is to facilitate independent evaluation, computational reproduction, and further investigation of the PRISM-M V4 framework. The model is a theoretical computational implementation and does not constitute direct biological validation or demonstrate a new class of recurrent dynamics.",
+      "tags": [
+        "PRISM-M",
+        "Computational neuroscience",
+        "Recurrent neural networks;",
+        "Information processing",
+        "Memory stabilization",
+        "State-space models",
+        "Dynamical systems",
+        "Computational modeling",
+        "neuroscience"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PRISM-M V4: Source Code, Simulation Data, Computational Benchmarks, and Reproducibility Materials for Paper I",
+      "url": "https://zenodo.org/records/23713014"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "5f26fbcf97a5dfb801dbfa60",
+      "context_id": "bd1fbfec8f8d7b65e834f72f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "arxiv",
+      "source_context_sha256": "c1e22f8748fb8acf97fa8d28c38f08f11cae59793bc768520491f5ce7a402a38",
+      "source_published": "2026-10-27T08:28:25Z",
+      "source_updated": "2026-10-27T08:28:25Z",
+      "summary": "This paper is concerned with the simultaneous recovery of the trajectory and intensity of an unknown moving point source in an inhomogeneous acoustic medium. We prove that the whole-boundary measurements over a finite time interval uniquely determine the moving source. Furthermore, under suitable propagation and rank assumptions, Lipschitz stability of determining both the trajectory and intensity is derived using waveforms measured at four fixed receivers outside the source region. A novel Volterra--Euler reconstruction scheme is developed for solving the inverse problem, and the error estimate is derived for the proposed scheme. Numerical experiments are presented to demonstrate the effectiveness of the proposed numerical method.",
+      "tags": [
+        "math.AP",
+        "math.NA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "An inverse moving point source problem in inhomogeneous acoustic media: uniqueness, stability and reconstruction",
+      "url": "https://arxiv.org/abs/2610.36830v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "5f26fbcf97a5dfb801dbfa60",
+      "context_id": "6c5fbffc003b5e2430ca0a71",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "arxiv",
+      "source_context_sha256": "c4cdbcb53a686e246fd4fabfbbae6dd22f429b1f6a7e7515bcc02903f9f16b85",
+      "source_published": "2026-10-27T08:28:25Z",
+      "source_updated": "2026-10-27T08:28:25Z",
+      "summary": "This paper is concerned with the simultaneous recovery of the trajectory and intensity of an unknown moving point source in an inhomogeneous acoustic medium. We prove that the whole-boundary measurements over a finite time interval uniquely determine the moving source. Furthermore, under suitable propagation and rank assumptions, Lipschitz stability of determining both the trajectory and intensity is derived using waveforms measured at four fixed receivers outside the source region. A novel Volterra--Euler reconstruction scheme is developed for solving the inverse problem, and the error estimate is derived for the proposed scheme. Numerical experiments are presented to demonstrate the effectiveness of the proposed numerical method.",
+      "tags": [
+        "math.AP",
+        "math.NA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "An inverse moving point source problem in inhomogeneous acoustic media: uniqueness, stability and reconstruction",
+      "url": "https://arxiv.org/abs/2610.36830v1"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -115,6 +676,78 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Can Self-Supervised Probabilistic Representations Improve Image Reconstruction?",
       "url": "https://zenodo.org/records/23682065"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "1adeffe0c0b8898f1770477d",
+      "context_id": "da58e09283983eeee80afdfc",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "github_repository_search",
+      "source_context_sha256": "1b93cbf842ca37d2d795765cd2b0f6a17010c3075a239eeec9446382763f5540",
+      "source_published": "",
+      "source_updated": "2026-10-28T01:21:26Z",
+      "summary": "An open coordination layer for AI research, experimentation and reproducibility. Connecting existing tools through bounded agent tasks, provenance, evaluation receipts and verifiable workflows, with an initial focus on open-model research.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DerekWiner/alvearium-commons",
+      "url": "https://github.com/DerekWiner/alvearium-commons"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "5d1b9a619f0cd8a14bb6ddad",
+      "context_id": "c0ac51a0c87181b4ef4ae8b5",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "36ebe55c3993d355011f8fec16bf0c264576bdb749fc8b4b0a9fa00f4cc83914",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Reproducible finite-sample analysis of append-only copying in conformal calibration. The project contains five public regression benchmarks, three fixed model families, 30 random splits, six copying mechanisms, three coverage targets, independent score simulations, and exhaustive rank checks. It compares rowwise, source-ID, copy-budget, and effective-sample-size calibration, and quantifies coverage-width trade-offs under incomplete provenance.",
+      "tags": [
+        "conformal prediction",
+        "data duplication",
+        "prediction intervals",
+        "uncertainty quantification",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "How Copies Break Conformal Prediction",
+      "url": "https://zenodo.org/records/23717113"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -199,194 +832,12 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ce6edefda18c90888a45a5c8",
-      "context_id": "fa6ed5434bfaf1d9e70b2607",
+      "candidate_id": "1e81cad7bcce782dcc91c7a7",
+      "context_id": "cd729db26f0859ecd489e19a",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "cognition_memory_reverse::REVERSE",
       "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "reconstruction",
-        "representation",
-        "retrieval"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.5417,
-      "source": "arxiv",
-      "source_context_sha256": "de97fd1fca08011fca347128b821088f4dfb4fb1b8fcc01474010afe6b8d33a5",
-      "source_published": "2026-10-26T15:29:24Z",
-      "source_updated": "2026-10-26T15:29:24Z",
-      "summary": "Historical maps contain dense morphological and semantic information about past urban environments, but many digitization workflows focus primarily on extracting geometry, and do not capture cartographic semantics such as building use and construction materials. This study introduces ArchiveLens, a generative spatial knowledge framework that operationalizes historical maps as entity-centric, machine-queryable geospatial databases. The pipeline decouples morphological and semantic reconstruction through three stages: tiled YOLOv11-seg instance segmentation for building footprint extraction; deterministic material classification via hue, saturation, and value (HSV)-based color thresholds; and localized attribute parsing using a quantized vision-language model constrained by domain-specific prompts. Extracted entities are integrated into a hybrid Spatial-Temporal Retrieval-Augmented Generation (ST-RAG) architecture that combines dense semantic retrieval with symbolic spatio-temporal filtering and mandatory provenance grounding. Applied to 445 georeferenced Sanborn map sheets of Chicago (1918-1950), the framework achieves high geometric and semantic accuracy. Beyond performance, ArchiveLens advances GIScience by formalizing historical cartography as structured spatial knowledge representation, allowing researchers to query building attributes and compare spatial patterns across map sheets and years.",
-      "tags": [
-        "cs.AI",
-        "cs.CY",
-        "cs.LG",
-        "cs.SI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "ArchiveLens: A Generative Spatial Knowledge Framework for Semantic Reconstruction of Historical Maps",
-      "url": "https://arxiv.org/abs/2610.35606v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "4acb7a72fa986e3f42dc4709",
-      "context_id": "b1a40da69aa3232a25458b64",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "reconstruction",
-        "representation"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.4167,
-      "source": "arxiv",
-      "source_context_sha256": "a6e1c6087f2316c942f7e907ec150cd9cb2f4aeb22fa63f80de6e958663876de",
-      "source_published": "2026-10-26T16:45:23Z",
-      "source_updated": "2026-10-26T16:45:23Z",
-      "summary": "Web-connected sensing applications continuously generate multivariate time series with evolving behavioral categories, making Time Series Class-Incremental Learning (TSCIL) essential for adapting to new classes without forgetting previously acquired knowledge. However, preserving diverse and evolving class distributions under strict privacy and memory constraints remains a fundamental challenge. Existing approaches often face a trade-off between retaining sufficient historical knowledge for accurate recognition and minimizing the memory required for continual adaptation. To address these limitations, we propose TRACE, a memory-efficient, replay-free framework that preserves class-specific knowledge through generative modeling rather than sample rehearsal. TRACE employs a compact, frozen temporal-spectral representation and lightweight class-specific autoencoders to capture complex intra-class variations. By independently preserving each class model, TRACE avoids recursive generation and catastrophic forgetting, while enabling direct classification through reconstruction-based scoring without retaining historical samples or large statistical matrices. Extensive experiments across five TSCIL benchmarks demonstrate that TRACE achieves competitive classification accuracy while reducing mean retained memory by approximately 98.26% compared with TS-ACL, the strongest evaluated analytical baseline, and achieving an approximately 33.43% relative improvement in accuracy on GrabMyo.",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "TRACE: Memory-Efficient Time Series Class-Incremental Learning via Temporal-Spectral Reconstruction",
-      "url": "https://arxiv.org/abs/2610.35727v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "b6e9b57304b088d6ef59dbbb",
-      "context_id": "7df633e36b29e4dd9c86cf8b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "reconstruction",
-        "representation"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.4167,
-      "source": "zenodo",
-      "source_context_sha256": "a3303eabd1c1c630d997961801b8516459a3f16f120135338aaabf85c97c011e",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "Human observers can encounter representations of the same relational contribution history yet form different beliefs about its significance and trustworthiness. This third paper in a coordinated research programme investigates cognitive processes between the structural availability of evidence and an observer&rsquo;s assessment of a person, claim, or contribution. Its proposed analytic objects are selective attention, evidence encoding, reconstructive memory, attribution, interpretive schemas, belief revision, epistemic vigilance, and behavioral reliance. The inquiry distinguishes evidentiary accessibility from cognitive encounter, subjective confidence from justified assessment, and expressed trust from risk-bearing cooperation. Prior work in attention, working memory, judgment under uncertainty, epistemic vigilance, and trust in automation motivates a provisional sequential-kernel architecture; that architecture remains a research proposal rather than a validated general cognitive model. AI-mediated information environments supply a historically relevant application, without defining the paper&rsquo;s full scope. This working draft contains all ten planned sections, covering cognitive interfaces, selective attention, memory-based trajectory reconstruction, contribution attribution, proposition-specific belief revision, testimony evaluation, behavioral reliance, empirical designs with explicit identification boundaries, and a synthesis of conditional theoretical findings. It reports no original empirical results.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Cognitive Mediation of Relational Evidence: An Investigation of Epistemic Judgment and Reliance",
-      "url": "https://zenodo.org/records/23678874"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "69182d0d19fcf12f0ae1e3a1",
-      "context_id": "8de61887830eeb9c40887444",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "reconstruction",
-        "recovery"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.1667,
-      "source": "arxiv",
-      "source_context_sha256": "b6e42361742bc1729c0e40ec3eb8966402fd1e469d365e4d64a2aae5c2df00bd",
-      "source_published": "2026-10-26T17:02:10Z",
-      "source_updated": "2026-10-26T17:02:10Z",
-      "summary": "Multivariate time series produced by industrial installations and server clusters are under continuous monitoring, and anomaly detection is the first line of defense before a local fault escalates into a system-wide failure. In the absence of labels, the dominant paradigm trains a reconstruction model on normal data and scores the residual to reach a verdict. Recent work has steadily enriched the expressiveness of the recovery map through Transformers, diffusion models, and cross-scale associations. A residual, however, only certifies that an observation can be recovered; it does not certify that the variables still explain one another as they do under normal operation. A coordinated yet unfamiliar operating transition inflates the residual without breaking any relationship, whereas a sensor drifting away from its peers may leave the residual silent. Methods that fold inter-variable dependencies into the reconstruction objective inherit this ambiguity, because their relational evidence is ultimately supervised by the same recovery loss. We therefore propose CLOSURE, which evaluates recoverability and cross-channel consistency as two normal-data prediction tasks learned in separation. The recoverability task is solved by a diffusion reconstructor conditioned on a discrete memory of normal temporal bases. The consistency task is solved by a relation-closure operator that predicts every channel exclusively from the others, where the target's own trajectory is withheld and sparse signed gates decide which peers are actually used. The two scores are reconciled only through calibration on normal data. Extensive experiments show that CLOSURE consistently outperforms recent reconstruction-, frequency-, and topology-based detectors on public benchmark streams, confirming the value of examining consistency alongside recoverability.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CLOSURE: Cross-Channel Closure for Multivariate Time Series Anomaly Detection",
-      "url": "https://arxiv.org/abs/2610.35753v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "aafeb18bdb17c841b0276b20",
-      "context_id": "0d07ce2ed6ba21a401a140eb",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "reconstruction",
-        "recovery"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.1667,
-      "source": "arxiv",
-      "source_context_sha256": "bdf03e1b35b2ce604b2c5407ad2c6199164bc2f9bf92b0c77e05e5168bded12f",
-      "source_published": "2026-10-25T08:20:30Z",
-      "source_updated": "2026-10-25T08:20:30Z",
-      "summary": "On million-node graphs, the memory wall arrives before the compute wall: a GNN that never fits in VRAM cannot deliver the all-node inference its accuracy promises. The standard remedy, pruning, has always been an accuracy tax - paid once and never refunded. DPR refuses this framing. Its central insight is that the mask that shrinks training can also scaffold recovery: one compact node set bounds both computations of graph learning, serving as the encoder's training graph and, at inference, as the anchor from which a sparse structure-aware decoder rebuilds every pruned node (double-layer sparsification). The order is inverted - prune for efficiency, then reconstruct for accuracy - and the tax is repaid: the deployed 30%-budget model trains in 1,450 MiB of peak memory on one 6 GB GPU and recovers 96.9% of its dense-reconstruction reference, beating a same-GPU rerun of the edge-sparsification baseline DSpar by +1.36 pp at 50.1% lower peak training memory; against the same-protocol full-batch no-prune encoder the deployed point pays a measured 2.64 pp accuracy tax for a 2.8x smaller training footprint. Pruning without reconstruction leaves the encoder at 0.378 within the same 40-epoch window (Fig. 4), and all-node serving runs 46x faster than sampling-based GraphSAGE, giving up approx. 5.4 pp of test accuracy. The framework scales to a 2.45M-node production graph at 6,285 MiB of peak training memory; extended variants (long-range context, external text features, a CAN-bus application) are reported as extensions and do not compete with the deployed method, and the 41.8%-budget M4 point, scored on a coarsened super-node graph with its own split, is reported separately rather than compared with the original-node baselines. DPR thus turns aggressive node pruning from an accuracy tax into a safe training accelerator for VRAM-limited all-node inference.",
-      "tags": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Decoupled Prune-and-Reconstruct: Training on a Compact Core with Double-Layer Sparsification",
-      "url": "https://arxiv.org/abs/2610.34140v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "42d226a0ac96170f29c14f71",
-      "context_id": "f1c99490e5b796df4a73e978",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::REVERSE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -397,62 +848,34 @@
       ],
       "keyword_hits": [
         "identifiability",
-        "reproducibility"
+        "reconstruction",
+        "representation"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.25,
-      "source": "zenodo",
-      "source_context_sha256": "0da5fba10aca7feb37657a066624900150c8537bf558682aab4c8dd61fa25a8d",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "Frozen archive of code, processed data, and generated figures for the manuscript: \"Data-driven identifiability and first-passage risk in stochastic epidemic models: from noise structure to early-warning thresholds\". The repository contains: - Stochastic SEIAR epidemic model with three noise structures (white, Ornstein&ndash;Uhlenbeck, L&eacute;vy jump) - Fisher information matrix (FIM) spectral identifiability analysis on six real COVID-19 waves (China, South Korea, UK, Japan, 2022&ndash;2023) - First-passage-time escalation risk metrics and scaling laws - Early-warning threshold rules and intervention sensitivity analysis - Cross-disease validation on WHO FluNet influenza surveillance data Dependencies: Python 3.9+, numpy, scipy, pandas, matplotlib. All random seeds are explicitly set in scripts for full reproducibility.",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Data-driven identifiability and first-passage risk in stochastic epidemic models: code and data",
-      "url": "https://zenodo.org/records/23683064"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "f751f2b14f606e077b3040ed",
-      "context_id": "c071e817834b8a1a31d5ae02",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": true,
-      "direction_id": "registry_provenance::REVERSE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      "score": 7.7917,
+      "source": "arxiv",
+      "source_context_sha256": "9867b8dec9797495dbe452a29b0e1b0db2b0e5a071f0a227e3e2f717a830f95c",
+      "source_published": "2026-10-27T04:38:17Z",
+      "source_updated": "2026-10-27T04:38:17Z",
+      "summary": "System identification, namely the inference of mathematical representations of dynamical systems from measured data, is fundamental to engineering diagnostics, prognostics, and decision-making. Bayesian filtering offers a principled framework for probabilistic state estimation but traditionally relies on prescribed transition and observation models. Recent advances in deep Bayesian filtering address this limitation by embedding learnable representations within probabilistic state-space formulations, enabling data-driven identification of unknown dynamics while retaining physical structure and uncertainty-aware inference. This tutorial provides a systematic introduction to deep Bayesian filtering for nonlinear structural system identification, focusing on the interplay between learned dynamics, physical inductive biases, and posterior inference. The Deep Markov Model serves as a data-driven reference, while the Physics-guided Deep Markov Model (PgDMM) and Neural Extended Kalman Filter (Neural EKF) illustrate complementary approaches based on amortized variational inference and differentiable Kalman filtering, respectively. Their capabilities are examined through dynamic state estimation and joint dynamic state and parameter estimation on a three-dimensional shear-frame benchmark with hysteretic Bouc-Wen connections and sparse acceleration measurements. The results highlight important distinctions between measurement-conditioned reconstruction and open-loop forecasting, demonstrate how physical structure can improve latent-state interpretability without necessarily ensuring predictive fidelity, and reveal differences in the robustness of response and parameter estimation. Practical guidelines for model construction, training, evaluation, and deployment are provided, together with an outlook on remaining challenges in uncertainty calibration, identifiability, and real-world validation.",
+      "tags": [
+        "cs.LG",
+        "cs.CE",
+        "stat.ML"
       ],
-      "keyword_hits": [
-        "identifiability",
-        "reproducibility"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.25,
-      "source": "zenodo",
-      "source_context_sha256": "e9bf05a3d862d3056a26dc61cc7d36b940c8faa9d3592de203cb7032c08fec2d",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmental exchange and measurement bias. The governing three-coupling is infrared thermal imaging x physiological regulation x heat-transfer models. The research treats &ldquo;external qi&rdquo; as a cultural and experimental task label, not an established physical energy carrier. The scientific core separates raw infrared radiance from inferred skin temperature and estimated heat flux. It develops emissivity and reflected-wall correction, blackbody calibration, spectral detector response, conduction and perfusion bioheat models, convection, evaporation, respiration-related temperature patterns, posture and muscular activity. The original candidate bulk heat equation is explicitly refined by separating volumetric tissue transport from surface heat-transfer boundary conditions. The principal proposed test uses concealed task assignments, matched breathing/movement/clothing, phantom references, negative-control regions and conventional physics-first rivals. Thirty physically distinct mathematical plates document governing relationships, units, assumptions, identifiability, masked falsifiers and chapter links. Eighty-two independent research chapters contain 410 single-page investigations. The true center of the monograph is its 200 one-page Research Gates, each posing a falsifiable question in bold deep-navy typography and asking what an independent successor must measure, challenge, disprove or preserve. Thirty-three differentiated Phoenix Answer Embryos propose future instruments, error-correction artifacts, negative-result protocols and reproducibility tools. The DOI registry separates three STARLI author mother volumes from eleven externally published methodological or conventional-science references on infrared thermography, emissivity, classical bioheat and research design. Bibliographic sources constrain methods; they do not validate extraordinary qigong mechanisms. Every integrated experiment is prospective. The book presents no completed human intervention, clinically established effect, new physical particle or evidence of treatment efficacy. Ethical authorization and independent scientific review would be required before future human-observation research. Author: 33 | STARLI White Rainbow Epoch Series: STARLI Research Institute XXXIII | Flagship 38 of 90",
-      "tags": [],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmen",
-      "url": "https://zenodo.org/records/23679099"
+      "title": "Deep Bayesian Approaches for Interpretable Nonlinear Structural System Identification",
+      "url": "https://arxiv.org/abs/2610.36633v1"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ffec935a1449285d5d03ef2e",
-      "context_id": "6d67ddd1586d9d4285aeb8ef",
+      "candidate_id": "aadb7297140a788f247770d4",
+      "context_id": "658adadd62d81ca4a2a6b45a",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
-      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -462,26 +885,24 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "counterexample",
-        "failure",
-        "memory",
-        "retrieval"
+        "bidirectional",
+        "reconstruction",
+        "representation"
       ],
-      "mirror_lens": "COUNTEREVIDENCE",
+      "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 11.5,
+      "score": 7.7083,
       "source": "arxiv",
-      "source_context_sha256": "449b583dacc96b9628af39ad0042af1259890eb4d810c9e9b844506de861dfe1",
-      "source_published": "2026-10-22T14:01:31Z",
-      "source_updated": "2026-10-26T04:46:32Z",
-      "summary": "Memory enables language agents to carry useful distinctions from past experience into future decisions. Its value depends on which distinctions survive, whether a bounded agent can use them, and what can be recovered or revised as demands evolve. We develop a decision-theoretic framework that follows this value from raw history through persistent state, operational use, and costly recovery and revision. Original and retained value are expressed in units of avoided task loss; risk-cost frontiers describe attainable recovery and preservation across uses. Unknown demand yields value profiles, while interactive feedback changes the distribution of future work. A cost-aware simulation condition and five minimal counterexamples expose the roles of information timing, retrieval access, component interaction, feedback and demand uncertainty. In particular, a pointer with zero mutual information about the answer can still reduce the cost of exact recovery. Diagnostics on LoCoMo, a two-project update task and longitudinal cases exhibit failures of preservation, use and measurement. At fixed retrieved evidence, a saved ledger changes subsequent answers; at fixed agent outputs, an evaluator revision changes scores. The framework connects these distinctions to operational risk bounds and testable principles for allocating memory, preserving recovery options and revising evidence dependencies.",
+      "source_context_sha256": "cc9fa5c50e85ceb10187609000a2079f423d4d6c608f587318ecded48aa86aa0",
+      "source_published": "2026-10-27T07:07:54Z",
+      "source_updated": "2026-10-27T07:07:54Z",
+      "summary": "Spectral-temporal unmixing of MODIS time series is essential for applications such as abundance mapping and spectral library construction, yet it remains challenging due to (i) spectral-temporal information coupling in MODIS data, (ii) intra-class endmember spectral variability and inter-class signature ambiguity, and (iii) the instability of naively fusing multiple expert representations. This paper presents the Multi- task Disentangling Fusion Mamba (MDF-Mamba) to address these limitations. To resolve spectral-temporal coupling, we design a disentangling architecture that pairs per-channel spectral experts with a dedicated bidirectional state-space (Mamba) temporal branch. Convolutional modules each process a single spectral channel, while the Mamba branch encodes the cross-channel seasonal trajectory, forming a multi-branch expert ensemble with soft inter-expert reweighting based on squeeze-and-excitation. For the integration of these spectral and temporal expert outputs, we introduce mHCFusion, adapting the manifold-constrained hyper-connection framework to merge the outputs in a stable and interpretable manner. Endmember variability is addressed by extending the linear mixing model with pixel-wise learnable spectral variability weights that capture intra-class endmember variation. Finally, we design a multi-task training objective that combines supervised abundance estimation with self-supervised spectral reconstruction and endmember regularization terms on the same training data, yielding a highly efficient framework for spectral-temporal unmixing. Experiments on MODIS time series covering the Alberta and Saskatchewan provinces show that MDF-Mamba achieves the best performance on 12 of 14 evaluation metrics across both datasets (7 of 7 on Alberta; 5 of 7 on Saskatchewan), ranking second on the remaining two.",
       "tags": [
-        "cs.AI",
-        "cs.CL"
+        "cs.CV"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "The Value of Memory in Language Agents",
-      "url": "https://arxiv.org/abs/2610.31303v2"
+      "title": "Multi-task Disentangling Fusion Mamba-CNN for MODIS Spectral-Temporal Unmixing with Endmember Variability Modeling",
+      "url": "https://arxiv.org/abs/2610.36750v1"
     },
     {
       "base_direction_id": "swarm_distributed_systems",
@@ -604,6 +1025,121 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "AutoSwarm: Automating Agent Swarms",
       "url": "https://arxiv.org/abs/2610.33048v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "1adeffe0c0b8898f1770477d",
+      "context_id": "d7e35dda00bb70bd4770e471",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "github_repository_search",
+      "source_context_sha256": "673bb188d95779842c8eebfbf9ee93903975586b772498b546a2938c4ef4207e",
+      "source_published": "",
+      "source_updated": "2026-10-28T01:21:26Z",
+      "summary": "An open coordination layer for AI research, experimentation and reproducibility. Connecting existing tools through bounded agent tasks, provenance, evaluation receipts and verifiable workflows, with an initial focus on open-model research.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DerekWiner/alvearium-commons",
+      "url": "https://github.com/DerekWiner/alvearium-commons"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "11098d08c5da13a4877368a2",
+      "context_id": "93a35b7b4d33570af4a82d91",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "6f4633b0bd8a18d9daf8d866e3b8432fcbbc392fcb731bbce95f4f92d37bdb7e",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "This repository provides the source code, simulation datasets, computational benchmarks, numerical results, and reproducibility materials supporting Paper I of the Principle of Representation Integration for Stable Models (PRISM-M), prepared for the Journal of Computational Neuroscience . PRISM-M V4 is a minimal recurrent computational framework organized around five functional operations: Extraction, Compression, Integration, Stabilization, and Prediction/Action (ECISP). The implementation uses a single independently evolving recurrent state, with finite-precision quantization and explicitly defined information-processing transformations. The framework is intended to examine the functional organization of information processing, contextual integration, and memory stabilization within established recurrent and state-space dynamics. The repository includes the frozen V4 implementation, mathematical definitions, parameter configurations, experimental protocols, random seeds, simulation trajectories, statistical analyses, and comparative benchmarks involving autoregressive models (ARX), Kalman filtering, and recurrent neural networks. The deposited materials document the original parameter-landscape and stability analyses, targeted perturbation experiments, memory-retention studies (M1&ndash;M5), and additional computational experiments (V1&ndash;V5) evaluating noise robustness, adaptability, recovery, interference resistance, and information recoverability. Additional validation materials include information-matched representation controls, intrinsic-noise sensitivity analyses, and mathematical verification of contraction and perturbation equivalence. These retrospective analyses are distinguished from the original experimental protocols. The repository also contains the numerical datasets, figure files, supplementary materials, execution instructions, software dependencies, provenance records, and SHA-256 integrity checks associated with Figures 1&ndash;6 and Supplementary Figures S1&ndash;S4. Computational reproduction and numerical verification have been performed for the principal analyses. Complete automated regeneration of all final publication artwork and independent cross-platform verification remain outside the scope of the completed checks. The purpose of this deposit is to facilitate independent evaluation, computational reproduction, and further investigation of the PRISM-M V4 framework. The model is a theoretical computational implementation and does not constitute direct biological validation or demonstrate a new class of recurrent dynamics.",
+      "tags": [
+        "PRISM-M",
+        "Computational neuroscience",
+        "Recurrent neural networks;",
+        "Information processing",
+        "Memory stabilization",
+        "State-space models",
+        "Dynamical systems",
+        "Computational modeling",
+        "neuroscience"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PRISM-M V4: Source Code, Simulation Data, Computational Benchmarks, and Reproducibility Materials for Paper I",
+      "url": "https://zenodo.org/records/23713014"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "5d1b9a619f0cd8a14bb6ddad",
+      "context_id": "6e985940abccb07fb04c9532",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "15d58174fbc2b1f7850432753a8b843448108d93f610b7906bb70a3cb8dcf80c",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Reproducible finite-sample analysis of append-only copying in conformal calibration. The project contains five public regression benchmarks, three fixed model families, 30 random splits, six copying mechanisms, three coverage targets, independent score simulations, and exhaustive rank checks. It compares rowwise, source-ID, copy-budget, and effective-sample-size calibration, and quantifies coverage-width trade-offs under incomplete provenance.",
+      "tags": [
+        "conformal prediction",
+        "data duplication",
+        "prediction intervals",
+        "uncertainty quantification",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "How Copies Break Conformal Prediction",
+      "url": "https://zenodo.org/records/23717113"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -731,78 +1267,6 @@
     },
     {
       "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "ffec935a1449285d5d03ef2e",
-      "context_id": "55c26274226a0fd125d93845",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
-      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "counterexample",
-        "failure"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "arxiv",
-      "source_context_sha256": "a4d2eeb9ee6e81f0e7f9e927cbcec6765e13c768079934bc4c05a08f4879a858",
-      "source_published": "2026-10-22T14:01:31Z",
-      "source_updated": "2026-10-26T04:46:32Z",
-      "summary": "Memory enables language agents to carry useful distinctions from past experience into future decisions. Its value depends on which distinctions survive, whether a bounded agent can use them, and what can be recovered or revised as demands evolve. We develop a decision-theoretic framework that follows this value from raw history through persistent state, operational use, and costly recovery and revision. Original and retained value are expressed in units of avoided task loss; risk-cost frontiers describe attainable recovery and preservation across uses. Unknown demand yields value profiles, while interactive feedback changes the distribution of future work. A cost-aware simulation condition and five minimal counterexamples expose the roles of information timing, retrieval access, component interaction, feedback and demand uncertainty. In particular, a pointer with zero mutual information about the answer can still reduce the cost of exact recovery. Diagnostics on LoCoMo, a two-project update task and longitudinal cases exhibit failures of preservation, use and measurement. At fixed retrieved evidence, a saved ledger changes subsequent answers; at fixed agent outputs, an evaluator revision changes scores. The framework connects these distinctions to operational risk bounds and testable principles for allocating memory, preserving recovery options and revising evidence dependencies.",
-      "tags": [
-        "cs.AI",
-        "cs.CL"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "The Value of Memory in Language Agents",
-      "url": "https://arxiv.org/abs/2610.31303v2"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "ffec935a1449285d5d03ef2e",
-      "context_id": "0d5cc7d6c929124b791a5782",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "counterexample",
-        "failure"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "arxiv",
-      "source_context_sha256": "68ff04f7f92325767867b1264499e2b3c64428808fe05ffecbd98d55038359ec",
-      "source_published": "2026-10-22T14:01:31Z",
-      "source_updated": "2026-10-26T04:46:32Z",
-      "summary": "Memory enables language agents to carry useful distinctions from past experience into future decisions. Its value depends on which distinctions survive, whether a bounded agent can use them, and what can be recovered or revised as demands evolve. We develop a decision-theoretic framework that follows this value from raw history through persistent state, operational use, and costly recovery and revision. Original and retained value are expressed in units of avoided task loss; risk-cost frontiers describe attainable recovery and preservation across uses. Unknown demand yields value profiles, while interactive feedback changes the distribution of future work. A cost-aware simulation condition and five minimal counterexamples expose the roles of information timing, retrieval access, component interaction, feedback and demand uncertainty. In particular, a pointer with zero mutual information about the answer can still reduce the cost of exact recovery. Diagnostics on LoCoMo, a two-project update task and longitudinal cases exhibit failures of preservation, use and measurement. At fixed retrieved evidence, a saved ledger changes subsequent answers; at fixed agent outputs, an evaluator revision changes scores. The framework connects these distinctions to operational risk bounds and testable principles for allocating memory, preserving recovery options and revising evidence dependencies.",
-      "tags": [
-        "cs.AI",
-        "cs.CL"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "The Value of Memory in Language Agents",
-      "url": "https://arxiv.org/abs/2610.31303v2"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
       "candidate_id": "e48793e4554331ea101b81c2",
       "context_id": "7d085ed19a2a9936de3270d8",
       "delivery_preview_only": true,
@@ -839,13 +1303,13 @@
       "url": "https://arxiv.org/abs/2610.33862v1"
     },
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "27d4d175f2519ebdd1fcaa29",
-      "context_id": "df124bd8b7ee809099828c34",
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "08068a6fe935c6e97ea6ef3a",
+      "context_id": "72ed5a30a6ac40e271f8d2cd",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
-      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -856,23 +1320,23 @@
       ],
       "keyword_hits": [
         "failure",
-        "world model"
+        "multi-agent"
       ],
       "mirror_lens": "COUNTEREVIDENCE",
       "schema": "janus.beetle.repo_memory_item.v2",
       "score": 8.75,
       "source": "arxiv",
-      "source_context_sha256": "1390794c7f2ed1fc39b3d3a50c0cc26858321ce0a325a224012edd5399591bf3",
-      "source_published": "2026-10-24T09:33:52Z",
-      "source_updated": "2026-10-24T09:33:52Z",
-      "summary": "Robot policy evaluation informs deployment decisions and policy improvement, but physical testing and simulator preparation require substantial effort. World models offer a complementary route through closed-loop interaction in generated environments. Recent benchmarks have demonstrated their potential as policy evaluators through outcome-based evaluation (i.e., assessing task success or failure). However, such evaluation does not establish whether world models faithfully simulate how policies fail. Misrepresenting failures can lead to incorrect diagnoses of policy weaknesses and make policies appear ready for deployment even when small scene changes cause them to fail. We therefore ask: do world models faithfully simulate how and at which stages policies fail, and under what conditions they transition from success to failure? To answer this question, we introduce WorldFailBench with three evaluation tasks. Failure reason tests whether models reproduce the observable errors policies make. Failure stage assesses whether failures concentrate at the same stages of full-task execution. Failure boundary examines whether models reproduce the conditions under which policies transition from success to failure under controlled scene changes in simulation. The benchmark covers manipulation tasks in the LIBERO and RoboTwin simulation environments and real-world manipulation tasks performed by the G1 humanoid robot. Experiments across seven world models reveal substantial gaps in their understanding of policy failures, providing guidance for developing more reliable world models for policy evaluation.",
+      "source_context_sha256": "a7a757e33294b376030c74b9ba46a1c7b90ffe09418d1831e15b97691137f2b0",
+      "source_published": "2026-10-25T18:00:11Z",
+      "source_updated": "2026-10-25T18:00:11Z",
+      "summary": "Deploying LLM agents in specialized domains often require fine-grained task-specific procedures and knowledge a general model lacks, yet parameter training is costly and non-interpretable, and hand-engineered agent systems shift the cost to expert labor. Episodic memory updates at context level, but single agent adaptation struggles to alleviate cross-task interference, especially with complex tasks such as multi-application navigation or data pool analysis. Although multi-agent evolution alleviates this problem, existing methods lack clear definitions on update rules and rely on the backbone model to decide where and how much the system changes. This ill-scoped evolution makes learning follow the backbone's structural preferences rather than the observed failures: one backbone accumulates skills while another spawns agents. We present EMMA (structured Episodic Memory for Multi-Agent workflow synthesis), which treats the configuration of a multi-agent system (controller routing memory, specialists inheriting a generalist prompt, and per-step procedural skills) as episodic memory. EMMA makes the ownership and admissibility of updates explicit: a reflector assigns each diagnosed failure to the scope owning its correction and proposes one edit within it, and backbone-independent guards keep every accepted edit scoped, incremental and bounded. Across KramaBench, AppWorld and BBEH with five backbones and four baselines (ACE, GEPA, EvoMAS and ADAS), EMMA attains the best overall performance on every benchmark, up to 32.5% over the strongest baseline, maintains consistent improvements across backbones, and uses 17-38% fewer training executions than the most efficient baseline.",
       "tags": [
-        "cs.RO",
+        "cs.MA",
         "cs.AI"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "WorldFailBench: Do World Models Understand Policy Failures?",
-      "url": "https://arxiv.org/abs/2610.33565v1"
+      "title": "EMMA: Structured Episodic Memory for Multi-Agent Workflow Synthesis",
+      "url": "https://arxiv.org/abs/2610.35966v1"
     },
     {
       "base_direction_id": "swarm_distributed_systems",
@@ -908,6 +1372,92 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Not Every Agent Needs the Strongest Model: Unified Prompt-Model Optimization for Heterogeneous LLM-based Multi-Agent Systems",
       "url": "https://arxiv.org/abs/2610.31743v2"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "11098d08c5da13a4877368a2",
+      "context_id": "a68a042792269894549e1e13",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 17.7083,
+      "source": "zenodo",
+      "source_context_sha256": "6e5aaaa54e40719854c15c3dcc81a0833661f9a3479a087b2e4a64d3746da742",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "This repository provides the source code, simulation datasets, computational benchmarks, numerical results, and reproducibility materials supporting Paper I of the Principle of Representation Integration for Stable Models (PRISM-M), prepared for the Journal of Computational Neuroscience . PRISM-M V4 is a minimal recurrent computational framework organized around five functional operations: Extraction, Compression, Integration, Stabilization, and Prediction/Action (ECISP). The implementation uses a single independently evolving recurrent state, with finite-precision quantization and explicitly defined information-processing transformations. The framework is intended to examine the functional organization of information processing, contextual integration, and memory stabilization within established recurrent and state-space dynamics. The repository includes the frozen V4 implementation, mathematical definitions, parameter configurations, experimental protocols, random seeds, simulation trajectories, statistical analyses, and comparative benchmarks involving autoregressive models (ARX), Kalman filtering, and recurrent neural networks. The deposited materials document the original parameter-landscape and stability analyses, targeted perturbation experiments, memory-retention studies (M1&ndash;M5), and additional computational experiments (V1&ndash;V5) evaluating noise robustness, adaptability, recovery, interference resistance, and information recoverability. Additional validation materials include information-matched representation controls, intrinsic-noise sensitivity analyses, and mathematical verification of contraction and perturbation equivalence. These retrospective analyses are distinguished from the original experimental protocols. The repository also contains the numerical datasets, figure files, supplementary materials, execution instructions, software dependencies, provenance records, and SHA-256 integrity checks associated with Figures 1&ndash;6 and Supplementary Figures S1&ndash;S4. Computational reproduction and numerical verification have been performed for the principal analyses. Complete automated regeneration of all final publication artwork and independent cross-platform verification remain outside the scope of the completed checks. The purpose of this deposit is to facilitate independent evaluation, computational reproduction, and further investigation of the PRISM-M V4 framework. The model is a theoretical computational implementation and does not constitute direct biological validation or demonstrate a new class of recurrent dynamics.",
+      "tags": [
+        "PRISM-M",
+        "Computational neuroscience",
+        "Recurrent neural networks;",
+        "Information processing",
+        "Memory stabilization",
+        "State-space models",
+        "Dynamical systems",
+        "Computational modeling",
+        "neuroscience"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PRISM-M V4: Source Code, Simulation Data, Computational Benchmarks, and Reproducibility Materials for Paper I",
+      "url": "https://zenodo.org/records/23713014"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "5d1b9a619f0cd8a14bb6ddad",
+      "context_id": "913da9a7b3e8ffa7763982f6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.875,
+      "source": "zenodo",
+      "source_context_sha256": "c5b8b6520b473994d3926ccba7a7a1bb8c3a2c4d97bdb490201ab8313c12b802",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Reproducible finite-sample analysis of append-only copying in conformal calibration. The project contains five public regression benchmarks, three fixed model families, 30 random splits, six copying mechanisms, three coverage targets, independent score simulations, and exhaustive rank checks. It compares rowwise, source-ID, copy-budget, and effective-sample-size calibration, and quantifies coverage-width trade-offs under incomplete provenance.",
+      "tags": [
+        "conformal prediction",
+        "data duplication",
+        "prediction intervals",
+        "uncertainty quantification",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "How Copies Break Conformal Prediction",
+      "url": "https://zenodo.org/records/23717113"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -955,6 +1505,130 @@
       "url": "https://zenodo.org/records/23602910"
     },
     {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "e6432d1995e35abf0ca98792",
+      "context_id": "cbb7c55bd71819e630584c88",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "holdout"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.2917,
+      "source": "zenodo",
+      "source_context_sha256": "f5dccdcdac0afee6e64f0b60d742a95a309af1d8e09be3b69726b60614aa1810",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Enterprise email security protects employees behind a corporate mail gateway. The people most exposed to employment and support-impersonation scams - students and early-career job seekers - are contacted inside consumer platforms, where no gateway sees the message. We present a dependency-free, explainable detector that works at the level of the individual message and its sender, and a public benchmark for comparing such detectors under cheap adversarial transformation. The detector has four layers: (1) deterministic lookalike checks built on Unicode UTS #39 confusable skeletons, mixed-script detection, bounded edit distance, and brand-agnostic detection of a domain hidden inside a link host; (2) a logistic-regression sender scorer over 23 named features trained on a synthetic generator spanning eight brands (holdout F1 0.987); (3) a message-intent classifier, with a rule baseline and a prompt-injection-hardened LLM wrapper, that receives structured sender facts from the first two layers and whose impersonation verdicts are discounted deterministically only when the sender is verified or unremarkable, nothing sensitive is asked, links stay under the sender's control, and the body does not claim the platform's authority; and (4) a 76-message, brand-parametric benchmark with ten label-preserving adversarial variants and three model-paraphrased corpora, scored on per-layer recall, false-positive rate, injection hijack rate, and latency. On a paraphrased corpus frozen before a single evaluation, all three Layer 3 backends reach recall 1.00 in the fused pipeline, at FPR 0.03 for the rule baseline and Gemma 3 27B and 0.10 for Llama 3.1 8B, against 0.83/0.03, 1.00/0.07 and 1.00/0.47 for the same backends unfused: the sender layers are worth 17 points of recall to the rules and 37 points of FPR to the small model. The 8B model obeyed an appended injection on 6 of 46 attacks, each caught only by a deterministic overrule; the 27B model obeyed none. Three findings fall out: UTS #39 skeletons do not fold Cyrillic U+0442 or Greek U+03BA to ASCII, so skeleton equality alone misses a mixed-script brand lookalike; regex intent cues lose 33 points of recall to a single confusable glyph unless text is confusable-folded first; and negation must be handled at clause level with an exception for conditionals. Code, weights, corpora, and per-message verdict dumps are released under the MIT license.",
+      "tags": [
+        "phishing",
+        "impersonation",
+        "Unicode confusables",
+        "IDNA",
+        "prompt injection",
+        "consumer platforms",
+        "employment scams"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Message-Level Detection of Support-Team and Recruiter Impersonation on Consumer Platforms: A Layered Detector and Adversarial Benchmark",
+      "url": "https://zenodo.org/records/23716571"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "e6432d1995e35abf0ca98792",
+      "context_id": "827c51dbbbef1d86fee7e012",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "holdout"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.2917,
+      "source": "zenodo",
+      "source_context_sha256": "ce33b990da1df559df1f563fb775c424a6ccde290b94c849efc200532a840efd",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Enterprise email security protects employees behind a corporate mail gateway. The people most exposed to employment and support-impersonation scams - students and early-career job seekers - are contacted inside consumer platforms, where no gateway sees the message. We present a dependency-free, explainable detector that works at the level of the individual message and its sender, and a public benchmark for comparing such detectors under cheap adversarial transformation. The detector has four layers: (1) deterministic lookalike checks built on Unicode UTS #39 confusable skeletons, mixed-script detection, bounded edit distance, and brand-agnostic detection of a domain hidden inside a link host; (2) a logistic-regression sender scorer over 23 named features trained on a synthetic generator spanning eight brands (holdout F1 0.987); (3) a message-intent classifier, with a rule baseline and a prompt-injection-hardened LLM wrapper, that receives structured sender facts from the first two layers and whose impersonation verdicts are discounted deterministically only when the sender is verified or unremarkable, nothing sensitive is asked, links stay under the sender's control, and the body does not claim the platform's authority; and (4) a 76-message, brand-parametric benchmark with ten label-preserving adversarial variants and three model-paraphrased corpora, scored on per-layer recall, false-positive rate, injection hijack rate, and latency. On a paraphrased corpus frozen before a single evaluation, all three Layer 3 backends reach recall 1.00 in the fused pipeline, at FPR 0.03 for the rule baseline and Gemma 3 27B and 0.10 for Llama 3.1 8B, against 0.83/0.03, 1.00/0.07 and 1.00/0.47 for the same backends unfused: the sender layers are worth 17 points of recall to the rules and 37 points of FPR to the small model. The 8B model obeyed an appended injection on 6 of 46 attacks, each caught only by a deterministic overrule; the 27B model obeyed none. Three findings fall out: UTS #39 skeletons do not fold Cyrillic U+0442 or Greek U+03BA to ASCII, so skeleton equality alone misses a mixed-script brand lookalike; regex intent cues lose 33 points of recall to a single confusable glyph unless text is confusable-folded first; and negation must be handled at clause level with an exception for conditionals. Code, weights, corpora, and per-message verdict dumps are released under the MIT license.",
+      "tags": [
+        "phishing",
+        "impersonation",
+        "Unicode confusables",
+        "IDNA",
+        "prompt injection",
+        "consumer platforms",
+        "employment scams"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Message-Level Detection of Support-Team and Recruiter Impersonation on Consumer Platforms: A Layered Detector and Adversarial Benchmark",
+      "url": "https://zenodo.org/records/23716571"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "08068a6fe935c6e97ea6ef3a",
+      "context_id": "84bd6972f82215a7c821f5fb",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "memory"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.25,
+      "source": "arxiv",
+      "source_context_sha256": "98dbf46ea88f9150d74402d551f22fd2caa4c9c9d1dd81d61b5bcc90c183c40c",
+      "source_published": "2026-10-25T18:00:11Z",
+      "source_updated": "2026-10-25T18:00:11Z",
+      "summary": "Deploying LLM agents in specialized domains often require fine-grained task-specific procedures and knowledge a general model lacks, yet parameter training is costly and non-interpretable, and hand-engineered agent systems shift the cost to expert labor. Episodic memory updates at context level, but single agent adaptation struggles to alleviate cross-task interference, especially with complex tasks such as multi-application navigation or data pool analysis. Although multi-agent evolution alleviates this problem, existing methods lack clear definitions on update rules and rely on the backbone model to decide where and how much the system changes. This ill-scoped evolution makes learning follow the backbone's structural preferences rather than the observed failures: one backbone accumulates skills while another spawns agents. We present EMMA (structured Episodic Memory for Multi-Agent workflow synthesis), which treats the configuration of a multi-agent system (controller routing memory, specialists inheriting a generalist prompt, and per-step procedural skills) as episodic memory. EMMA makes the ownership and admissibility of updates explicit: a reflector assigns each diagnosed failure to the scope owning its correction and proposes one edit within it, and backbone-independent guards keep every accepted edit scoped, incremental and bounded. Across KramaBench, AppWorld and BBEH with five backbones and four baselines (ACE, GEPA, EvoMAS and ADAS), EMMA attains the best overall performance on every benchmark, up to 32.5% over the strongest baseline, maintains consistent improvements across backbones, and uses 17-38% fewer training executions than the most efficient baseline.",
+      "tags": [
+        "cs.MA",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "EMMA: Structured Episodic Memory for Multi-Agent Workflow Synthesis",
+      "url": "https://arxiv.org/abs/2610.35966v1"
+    },
+    {
       "base_direction_id": "registry_provenance",
       "candidate_id": "12adee5f6c5d2d4ffd4728a1",
       "context_id": "b0ac3cafb198107c99c4558c",
@@ -998,46 +1672,9 @@
       "url": "https://zenodo.org/records/23690022"
     },
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "27d4d175f2519ebdd1fcaa29",
-      "context_id": "4504b891e3a8db6beefe6f74",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "control",
-        "world model"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.125,
-      "source": "arxiv",
-      "source_context_sha256": "ffc560254fe9cc47ec7822723e1a7eb0a23e3aa53e924d3aad70d87c1d95eb23",
-      "source_published": "2026-10-24T09:33:52Z",
-      "source_updated": "2026-10-24T09:33:52Z",
-      "summary": "Robot policy evaluation informs deployment decisions and policy improvement, but physical testing and simulator preparation require substantial effort. World models offer a complementary route through closed-loop interaction in generated environments. Recent benchmarks have demonstrated their potential as policy evaluators through outcome-based evaluation (i.e., assessing task success or failure). However, such evaluation does not establish whether world models faithfully simulate how policies fail. Misrepresenting failures can lead to incorrect diagnoses of policy weaknesses and make policies appear ready for deployment even when small scene changes cause them to fail. We therefore ask: do world models faithfully simulate how and at which stages policies fail, and under what conditions they transition from success to failure? To answer this question, we introduce WorldFailBench with three evaluation tasks. Failure reason tests whether models reproduce the observable errors policies make. Failure stage assesses whether failures concentrate at the same stages of full-task execution. Failure boundary examines whether models reproduce the conditions under which policies transition from success to failure under controlled scene changes in simulation. The benchmark covers manipulation tasks in the LIBERO and RoboTwin simulation environments and real-world manipulation tasks performed by the G1 humanoid robot. Experiments across seven world models reveal substantial gaps in their understanding of policy failures, providing guidance for developing more reliable world models for policy evaluation.",
-      "tags": [
-        "cs.RO",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "WorldFailBench: Do World Models Understand Policy Failures?",
-      "url": "https://arxiv.org/abs/2610.33565v1"
-    },
-    {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "408c2de4b76aba5edb2cc3b2",
-      "context_id": "9b38e8846a891575f0470e8f",
+      "candidate_id": "08068a6fe935c6e97ea6ef3a",
+      "context_id": "ab8aeda05fe8e22552742a06",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "registry_provenance::CONTROL",
@@ -1051,518 +1688,34 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "benchmark",
-        "control",
-        "provenance"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.0833,
-      "source": "arxiv",
-      "source_context_sha256": "c73f60b1396f3b31cd4f93ff8fa90a11f53d2b43baf0f60aad27ad5bd464a9d0",
-      "source_published": "2026-10-26T15:19:07Z",
-      "source_updated": "2026-10-26T15:19:07Z",
-      "summary": "Edge-centric IoT systems are increasingly evaluated through sensor values or platform features, yet the telemetry pipeline itself, the sequence of sensing, serialization, message mediation, ingestion, and persistence, is rarely released as a measurable object. This limits reproducible benchmarking of timeliness, provenance, and operational cost, especially in early-stage IoT design where real deployments and high-quality open data are often unavailable. I present a measurement-first edge IoT testbed and dataset that elevate timeliness, provenance, and energy to first-class telemetry dimensions. The testbed operationalizes a role-based event-driven architecture with explicit Source-Broker-Aggregator responsibilities and a schema-governed TelemetryMessage envelope (Avro) that embeds correlation identifiers and a uniform, cross-role vocabulary of stage-level timestamps. To trace mediation effects, I extend an MQTT broker (Eclipse Mosquitto) with a plugin that annotates messages with high-precision ingress/egress timestamps. I release the dataset in a dual representation: (i) replayable raw events as compressed Avro streams and (ii) analysis-ready long-format Parquet tables partitioned for efficient query and benchmarking, generated by a deterministic raw-to-tabular transformation pipeline. The contribution is an integrated engineering artifact and dataset built from established components. The demonstration describes one deployment through latency summaries, measurement-context distributions, and energy aggregates; it does not establish a new attribution method or a controlled performance benchmark. By co-releasing heterogeneous telemetry with pipeline timing and energy signals in both replayable and queryable forms, the artifact provides a basis for reproducible exploratory analysis and subsequent benchmarking studies.",
-      "tags": [
-        "cs.DC",
-        "cs.NI",
-        "cs.SE"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Making the Telemetry Pipeline Measurable: An Edge IoT Testbed and Dataset for End-to-End Latency, Provenance, and Energy-Aware Benchmarking",
-      "url": "https://arxiv.org/abs/2610.35591v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "4acb7a72fa986e3f42dc4709",
-      "context_id": "12f3827b0b42dacf0defc687",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
         "baseline",
-        "benchmark",
-        "memory",
-        "representation"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 11.5417,
-      "source": "arxiv",
-      "source_context_sha256": "a43e502520ff31746f6707ad2e82d0e906d894086de2fe4e34f1049d5bf6bc62",
-      "source_published": "2026-10-26T16:45:23Z",
-      "source_updated": "2026-10-26T16:45:23Z",
-      "summary": "Web-connected sensing applications continuously generate multivariate time series with evolving behavioral categories, making Time Series Class-Incremental Learning (TSCIL) essential for adapting to new classes without forgetting previously acquired knowledge. However, preserving diverse and evolving class distributions under strict privacy and memory constraints remains a fundamental challenge. Existing approaches often face a trade-off between retaining sufficient historical knowledge for accurate recognition and minimizing the memory required for continual adaptation. To address these limitations, we propose TRACE, a memory-efficient, replay-free framework that preserves class-specific knowledge through generative modeling rather than sample rehearsal. TRACE employs a compact, frozen temporal-spectral representation and lightweight class-specific autoencoders to capture complex intra-class variations. By independently preserving each class model, TRACE avoids recursive generation and catastrophic forgetting, while enabling direct classification through reconstruction-based scoring without retaining historical samples or large statistical matrices. Extensive experiments across five TSCIL benchmarks demonstrate that TRACE achieves competitive classification accuracy while reducing mean retained memory by approximately 98.26% compared with TS-ACL, the strongest evaluated analytical baseline, and achieving an approximately 33.43% relative improvement in accuracy on GrabMyo.",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "TRACE: Memory-Efficient Time Series Class-Incremental Learning via Temporal-Spectral Reconstruction",
-      "url": "https://arxiv.org/abs/2610.35727v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "6de3635d449a94c7c2a8e878",
-      "context_id": "e7d0ca2a10900bf2a13fe290",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
-        "baseline",
-        "benchmark",
-        "memory"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 11.2917,
-      "source": "arxiv",
-      "source_context_sha256": "b70ee5c1949d58eaa739476e38de0dca2b26cb8e02d3331ba5fa97c0cd36ce38",
-      "source_published": "2026-10-24T08:35:39Z",
-      "source_updated": "2026-10-24T08:35:39Z",
-      "summary": "Large language model (LLM)-based multi-agent systems have demonstrated remarkable capabilities across diverse tasks. Yet their memory and collaboration architectures often remain static, constraining continued adaptation and improvement over time. Recent work addresses this limitation by evolving memory or collaboration based on interaction experience. However, updates to these interdependent components are not necessarily aligned: an evolved workflow may require experience that memory does not provide, while evolved memory may encode guidance that the workflow cannot use. To address this problem, we propose CoEvolve, a skill-centered framework for aligned memory--collaboration evolution. CoEvolve represents reusable local collaboration patterns as skills that link evolving collaboration decisions to their supporting memories. It further compares original and counterfactual trajectories to identify local evolution signals, which coordinate updates to the skill library, skill memory, and executor memories across rounds. Experiments on the ALFWorld and WebShop benchmarks confirm that CoEvolve achieves the best overall performance among the evaluated baselines, while ablation studies further validate the effectiveness of aligned co-evolution and counterfactual-guided evolution.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CoEvolve: Counterfactual-Guided Co-Evolution of Memory and Collaboration in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.33539v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "19a68706964d8433329cf306",
-      "context_id": "8d7e3f6913d788d77992336f",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "control",
-        "memory",
-        "retrieval"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 11.2917,
-      "source": "arxiv",
-      "source_context_sha256": "3e5594d9fccff9afc0a333843e30463f582e21a2d7d37dd6f5efc74244f3d567",
-      "source_published": "2026-10-26T07:50:16Z",
-      "source_updated": "2026-10-26T07:50:16Z",
-      "summary": "Long-horizon agents continually accumulate experience, yet retaining a memory does not guarantee access when it is needed. Existing systems can adapt both memory content and access; we isolate persistent access updates as a separately controlled adaptation layer. We formulate this target as Memory Index Evolution and instantiate it with Adaptive Memory Index Evolution (AMIE), a lightweight plug-in layer that evolves per-memory access state from deployment retrievals without modifying stored content or retraining the host memory system. AMIE distils a semantic teacher's keep/suppress judgments into a retrieval-conditioned policy and accumulates its selective actions into bounded state that reweights subsequent host retrievals. Surprisingly, even a zero-call policy that simply accumulates retrieval frequency can match or outperform semantic policies in several settings, revealing retrieval traffic itself as a strong signal for access adaptation, while learned selectivity improves robustness when frequently retrieved memories remain useful. Across five retrieval-based hosts and three benchmarks, trained AMIE improves downstream F1 or accuracy in all 15 comparisons, by 0.70--3.37 percentage points (up to 25% relative), and improves retrieval in all 10 comparisons. Controlled analyses show that persistent competitor suppression can expose previously unseen evidence, while suppressing repeatedly useful memories creates the complementary failure mode. Together, these results establish persistent memory access as a practical adaptation layer, distinct from the content it serves, in retrieval-based agent memory systems.",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Adaptive Memory Index Evolution for Agents",
-      "url": "https://arxiv.org/abs/2610.34977v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "52e69a16a553265969a9bffc",
-      "context_id": "83ab8ff302dd6bd605828848",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "control",
-        "memory",
-        "retrieval"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 11.2917,
-      "source": "arxiv",
-      "source_context_sha256": "a1019d7b68117a177bba03a69ed1d2e17ea25bceec8b4030349ab660d2558f0c",
-      "source_published": "2026-10-26T03:12:57Z",
-      "source_updated": "2026-10-26T03:12:57Z",
-      "summary": "Most agent-memory benchmarks frame long-term memory as retrieval: can an agent recover the relevant record from a long and evolving history? Scientific agents face a stricter problem: a correctly remembered fact may still be invalid to use. The same reported test result can support confirmation when the outcome and stopping rule were fixed in advance, yet only exploration when the outcome was selected from twenty inspected results. We call this scientific use validity: whether remembered evidence is eligible to influence a decision under the state governing its interpretation. We introduce SciValidityBench, an executable benchmark factory with 64 TaskSpecs spanning five validity modules and six scientific domains. TaskSpecs couple generated experimental histories with scientific-state definitions, programmatic decision oracles, controlled interventions, and automatic scoring. The SciStateForge compiler-reader framework turns distributed histories into explicit decision-governing state. Counterfactual pairs and targeted corruption-repair controls then test whether models use those dependencies and localize failures. Across four model families, compiled scientific state improves valid decision-making by 9.2-18.8 percentage points over a generic Event Graph. Retrieval alone does not reproduce this cross-family gain, while content-identical flat and typed views show that the improvement comes from exposing governing state rather than a particular graph serialization. SciValidityBench thus shifts memory evaluation from finding the right fact to deciding whether that fact should control the decision.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "The Right Fact, the Wrong Decision: SciValidityBench for Scientific Agent Memory",
-      "url": "https://arxiv.org/abs/2610.34767v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "7406b78ee7c499fcaea77762",
-      "context_id": "ccc00ffcf96a45c9d31c4519",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "calibration",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.4583,
-      "source": "zenodo",
-      "source_context_sha256": "06cb0e079b7822b9913bbb3e6164fef41c0382ef52c4f8fed26fc2a099a852a8",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "Training code, step-size calibration (Algorithm 2), the decoupled batch normalization of Appendix C (Algorithm 3), a demonstration of the grad_outputs=ones pitfall, tests, and the raw results behind every table of the paper Derivative Computation in Physics-Informed Neural Networks: Automatic Differentiation, Finite Differences and Beyond (arXiv:2608.11020). Four benchmark PDEs (Poisson 2D with holes, Burgers 1D, Heat2D-CG, a 4th-order plate), four derivative methods (AD, FD, eFD, sFD). See README.md for what reproduces what. Code: MIT. Data: CC BY 4.0, except the PINNacle reference solutions in data/reference, which keep their origin's license.",
-      "tags": [
-        "physics-informed neural networks",
-        "finite differences",
-        "automatic differentiation",
-        "PyTorch",
-        "reproducibility"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "finite-pinn-repro: code and data of 'Derivative Computation in Physics-Informed Neural Networks: Automatic Differentiation, Finite Differences and Beyond'",
-      "url": "https://zenodo.org/records/23709829"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "f751f2b14f606e077b3040ed",
-      "context_id": "3787cca044025cc146279120",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": true,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "calibration",
-        "control",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.375,
-      "source": "zenodo",
-      "source_context_sha256": "7daf9bc31a5abf125eb0fc20ea00ee9674b6c4b1d562600874b95ab82ede0f36",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmental exchange and measurement bias. The governing three-coupling is infrared thermal imaging x physiological regulation x heat-transfer models. The research treats &ldquo;external qi&rdquo; as a cultural and experimental task label, not an established physical energy carrier. The scientific core separates raw infrared radiance from inferred skin temperature and estimated heat flux. It develops emissivity and reflected-wall correction, blackbody calibration, spectral detector response, conduction and perfusion bioheat models, convection, evaporation, respiration-related temperature patterns, posture and muscular activity. The original candidate bulk heat equation is explicitly refined by separating volumetric tissue transport from surface heat-transfer boundary conditions. The principal proposed test uses concealed task assignments, matched breathing/movement/clothing, phantom references, negative-control regions and conventional physics-first rivals. Thirty physically distinct mathematical plates document governing relationships, units, assumptions, identifiability, masked falsifiers and chapter links. Eighty-two independent research chapters contain 410 single-page investigations. The true center of the monograph is its 200 one-page Research Gates, each posing a falsifiable question in bold deep-navy typography and asking what an independent successor must measure, challenge, disprove or preserve. Thirty-three differentiated Phoenix Answer Embryos propose future instruments, error-correction artifacts, negative-result protocols and reproducibility tools. The DOI registry separates three STARLI author mother volumes from eleven externally published methodological or conventional-science references on infrared thermography, emissivity, classical bioheat and research design. Bibliographic sources constrain methods; they do not validate extraordinary qigong mechanisms. Every integrated experiment is prospective. The book presents no completed human intervention, clinically established effect, new physical particle or evidence of treatment efficacy. Ethical authorization and independent scientific review would be required before future human-observation research. Author: 33 | STARLI White Rainbow Epoch Series: STARLI Research Institute XXXIII | Flagship 38 of 90",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmen",
-      "url": "https://zenodo.org/records/23679099"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "1462e8c4c714406f0ea39772",
-      "context_id": "3e8178d87edfeefeaee15427",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "control",
-        "replication",
-        "representation"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.3333,
-      "source": "zenodo",
-      "source_context_sha256": "1f84cbb5009c01c37f9376dfd036ca2623572e7014cfca4ea082400e3438e9c7",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "Supplementary material for the paper \"Business-Rule Admissibility in Process-Based Business Simulation\" (Yan Fang, University of Southern California). It holds what is needed to check and reproduce the paper's results without the simulation framework: the study firm's handbook and the model's prose; the rule sets R (104 rules) and R0 (82 rules), each rule with the passage it formalises and its SQL query; the specification of every re-injected defect; the protocols of the pre-registered replication, the control rule set, the further mutants and the robust indicator score, with the hashes they froze; the instructions given to each agent and path-level records of each agent's file access; the scripts that apply the rules and compute the indicators, event-log distances and tables; and the databases and change histories of all 430 simulation runs. The simulation framework (NAILU) and the model's intermediate representation are proprietary to Aurite AI and are not included. Files: README.md (contents, and how to reproduce the tables), SHA256SUMS (the hash of every file), materials.zip, and three archives of runs (exploratory seeds 1&ndash;10; confirmatory seeds 11&ndash;30; further mutants, seeds 11&ndash;30). Unzip all archives into one folder next to README.md and SHA256SUMS; sha256sum -c SHA256SUMS then verifies the package.",
-      "tags": [
-        "business-rule admissibility",
-        "synthetic data evaluation",
-        "business process simulation",
-        "business rules",
-        "simulation verification and validation",
-        "mutation analysis"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Supplementary material: Business-Rule Admissibility in Process-Based Business Simulation",
-      "url": "https://zenodo.org/records/23707024"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "408c2de4b76aba5edb2cc3b2",
-      "context_id": "9c4c1f61dcfbeb042625f2b6",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "control",
-        "representation"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.25,
-      "source": "arxiv",
-      "source_context_sha256": "e96e22be9b2b97b9a670a875b00731ee55168a4f77e18415f040ca612ee4a252",
-      "source_published": "2026-10-26T15:19:07Z",
-      "source_updated": "2026-10-26T15:19:07Z",
-      "summary": "Edge-centric IoT systems are increasingly evaluated through sensor values or platform features, yet the telemetry pipeline itself, the sequence of sensing, serialization, message mediation, ingestion, and persistence, is rarely released as a measurable object. This limits reproducible benchmarking of timeliness, provenance, and operational cost, especially in early-stage IoT design where real deployments and high-quality open data are often unavailable. I present a measurement-first edge IoT testbed and dataset that elevate timeliness, provenance, and energy to first-class telemetry dimensions. The testbed operationalizes a role-based event-driven architecture with explicit Source-Broker-Aggregator responsibilities and a schema-governed TelemetryMessage envelope (Avro) that embeds correlation identifiers and a uniform, cross-role vocabulary of stage-level timestamps. To trace mediation effects, I extend an MQTT broker (Eclipse Mosquitto) with a plugin that annotates messages with high-precision ingress/egress timestamps. I release the dataset in a dual representation: (i) replayable raw events as compressed Avro streams and (ii) analysis-ready long-format Parquet tables partitioned for efficient query and benchmarking, generated by a deterministic raw-to-tabular transformation pipeline. The contribution is an integrated engineering artifact and dataset built from established components. The demonstration describes one deployment through latency summaries, measurement-context distributions, and energy aggregates; it does not establish a new attribution method or a controlled performance benchmark. By co-releasing heterogeneous telemetry with pipeline timing and energy signals in both replayable and queryable forms, the artifact provides a basis for reproducible exploratory analysis and subsequent benchmarking studies.",
-      "tags": [
-        "cs.DC",
-        "cs.NI",
-        "cs.SE"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Making the Telemetry Pipeline Measurable: An Edge IoT Testbed and Dataset for End-to-End Latency, Provenance, and Energy-Aware Benchmarking",
-      "url": "https://arxiv.org/abs/2610.35591v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "46a2fd08b45b6a241f29f0b7",
-      "context_id": "012f7156b4d5c950e2684487",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "benchmark",
-        "retrieval"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.0833,
-      "source": "arxiv",
-      "source_context_sha256": "57090aff2a524e8734816a12394ffe394a26be64fe83ebfd355e5c3d36f93c18",
-      "source_published": "2026-10-25T17:38:55Z",
-      "source_updated": "2026-10-25T17:38:55Z",
-      "summary": "Multi-agent systems often rely on predefined collaboration structures, limiting their ability to adapt to diverse task requirements. We introduce DynaFlow, a framework that integrates free-form executable workflow synthesis into the action space of the main agent. The agent decides when collaboration is needed and generates task-specific programs that coordinate sub-agents through sequential or parallel execution, structured information exchange, and verification. Execution results and traces inform subsequent actions, enabling the agent to adapt collaboration as reasoning progresses. We train only the main agent through supervised fine-tuning on distilled trajectories, followed by refinement on examples filtered for unsupported premises, biased verification, and information-flow defects. All sub-agents remain fixed, separating orchestration learning from executor capability improvement. Across six benchmarks spanning mathematical reasoning, scientific question answering, and multi-hop retrieval, DynaFlow achieves 88.08% overall accuracy in Forced mode, outperforming the strongest evaluated baseline by 10.90 percentage points with the same Qwen3.5-27B backbone. Workflow analysis finds more explicit use, verification, and refinement of upstream outputs after training, highlighting cross-stage information flow as a key dimension of multi-agent orchestration.",
-      "tags": [
-        "cs.MA"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "DynaFlow: Learning Free-Form Multi-Agent Orchestration",
-      "url": "https://arxiv.org/abs/2610.34467v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "1103c12387f37e0a40462514",
-      "context_id": "cb679562851ce424821e4da0",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
-        "baseline",
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.0417,
-      "source": "arxiv",
-      "source_context_sha256": "6b52e7576622059b046aa15a1c22facc3597985cdc756e801f83170ef4c55b50",
-      "source_published": "2026-10-25T04:11:33Z",
-      "source_updated": "2026-10-25T04:11:33Z",
-      "summary": "Autonomous agents are increasingly deployed across sequences of related tasks, yet they often fail to retain and improve their knowledge over time. Existing approaches convert interaction trajectories into memories or reusable skills, but experience is not automatically reliable knowledge. Automatically collected skills and memories can propagate errors, mislead, and corrupt useful knowledge. To address this gap, we introduce Knowledge Evolution from Expertise and Lessons (KEEL), an agent-agnostic framework that uses verifier evidence to transform successful behavior into reusable skills and failures into corrective lessons. As new evidence accumulates, individual skill claims can be supported, contradicted, replaced, or retired. On SkillFlow benchmark, KEEL improves task success by 4.2 to 21.7 percentage points over the no-knowledge baseline, compared with gains of 2.4 to 9.6 points from SkillFlow's default method. Ablations show that skills and lessons are complementary. These results show that reliable continual agent learning depends not simply on accumulating experience, but on continually validating and evolving the knowledge derived from it. Our code is available at: https://github.com/microsoft/KEEL-TTCL26.",
-      "tags": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Holding a Steady Course: Knowledge Evolution from Expertise and Lessons for Continual Agent Learning",
-      "url": "https://arxiv.org/abs/2610.34043v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "1103c12387f37e0a40462514",
-      "context_id": "9450554e09b2835102a02194",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
-        "baseline",
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.0417,
-      "source": "arxiv",
-      "source_context_sha256": "28765a06a1229d508e6818062f226600a9df2baa476d1c14b8d45d344ae4823d",
-      "source_published": "2026-10-25T04:11:33Z",
-      "source_updated": "2026-10-25T04:11:33Z",
-      "summary": "Autonomous agents are increasingly deployed across sequences of related tasks, yet they often fail to retain and improve their knowledge over time. Existing approaches convert interaction trajectories into memories or reusable skills, but experience is not automatically reliable knowledge. Automatically collected skills and memories can propagate errors, mislead, and corrupt useful knowledge. To address this gap, we introduce Knowledge Evolution from Expertise and Lessons (KEEL), an agent-agnostic framework that uses verifier evidence to transform successful behavior into reusable skills and failures into corrective lessons. As new evidence accumulates, individual skill claims can be supported, contradicted, replaced, or retired. On SkillFlow benchmark, KEEL improves task success by 4.2 to 21.7 percentage points over the no-knowledge baseline, compared with gains of 2.4 to 9.6 points from SkillFlow's default method. Ablations show that skills and lessons are complementary. These results show that reliable continual agent learning depends not simply on accumulating experience, but on continually validating and evolving the knowledge derived from it. Our code is available at: https://github.com/microsoft/KEEL-TTCL26.",
-      "tags": [
-        "cs.LG",
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Holding a Steady Course: Knowledge Evolution from Expertise and Lessons for Continual Agent Learning",
-      "url": "https://arxiv.org/abs/2610.34043v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "6de3635d449a94c7c2a8e878",
-      "context_id": "599ee7e243fd59642d756ae3",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
-        "baseline",
-        "benchmark"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.0417,
-      "source": "arxiv",
-      "source_context_sha256": "b867a7aea716fd559fa02f84103589bb7695f8076086baa204cb68833dd97a39",
-      "source_published": "2026-10-24T08:35:39Z",
-      "source_updated": "2026-10-24T08:35:39Z",
-      "summary": "Large language model (LLM)-based multi-agent systems have demonstrated remarkable capabilities across diverse tasks. Yet their memory and collaboration architectures often remain static, constraining continued adaptation and improvement over time. Recent work addresses this limitation by evolving memory or collaboration based on interaction experience. However, updates to these interdependent components are not necessarily aligned: an evolved workflow may require experience that memory does not provide, while evolved memory may encode guidance that the workflow cannot use. To address this problem, we propose CoEvolve, a skill-centered framework for aligned memory--collaboration evolution. CoEvolve represents reusable local collaboration patterns as skills that link evolving collaboration decisions to their supporting memories. It further compares original and counterfactual trajectories to identify local evolution signals, which coordinate updates to the skill library, skill memory, and executor memories across rounds. Experiments on the ALFWorld and WebShop benchmarks confirm that CoEvolve achieves the best overall performance among the evaluated baselines, while ablation studies further validate the effectiveness of aligned co-evolution and counterfactual-guided evolution.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CoEvolve: Counterfactual-Guided Co-Evolution of Memory and Collaboration in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.33539v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "41a32c86ef159071f72dfee1",
-      "context_id": "cb07ae39db98eed5383f6d2a",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
         "benchmark",
         "control"
       ],
       "mirror_lens": "CONTROL",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.0,
+      "score": 13.0,
       "source": "arxiv",
-      "source_context_sha256": "619f04f94aed75ec481aca82f5ce02ff082a9210fb7c5b2e201b1f8ba084e306",
-      "source_published": "2026-10-26T02:19:53Z",
-      "source_updated": "2026-10-26T02:19:53Z",
-      "summary": "Multi-agent systems (MAS) require both effective coordination and specialized task execution. Existing prompt optimization approaches typically couple these functions within agent-specific prompts. We introduce Coordinator-Executor Prompt Optimization (CEPO), a general framework for improving prompt optimization in MAS. CEPO separates system-level coordination from agent-level execution through a shared coordinator prompt and agent-specific executor prompts, and guides their updates according to their respective roles. This structure allows shared coordination rules to be refined consistently across agents while keeping execution instructions separately adjustable. CEPO provides the prompt structure and optimization guidance, while existing prompt optimizers perform the underlying search. Extensive experiments spanning 11 benchmarks across four domains demonstrate that applying CEPO to four existing prompt optimizers consistently improves their performance. Ablations and qualitative analyses support the proposed design, while controlled studies on a document-understanding MAS further demonstrate improved optimization budget efficiency and performance scaling with the number of agents.",
+      "source_context_sha256": "6124976537a9453748c2a7fc283fcbfb61df1a1716beaa593e5ec964b7200ef5",
+      "source_published": "2026-10-25T18:00:11Z",
+      "source_updated": "2026-10-25T18:00:11Z",
+      "summary": "Deploying LLM agents in specialized domains often require fine-grained task-specific procedures and knowledge a general model lacks, yet parameter training is costly and non-interpretable, and hand-engineered agent systems shift the cost to expert labor. Episodic memory updates at context level, but single agent adaptation struggles to alleviate cross-task interference, especially with complex tasks such as multi-application navigation or data pool analysis. Although multi-agent evolution alleviates this problem, existing methods lack clear definitions on update rules and rely on the backbone model to decide where and how much the system changes. This ill-scoped evolution makes learning follow the backbone's structural preferences rather than the observed failures: one backbone accumulates skills while another spawns agents. We present EMMA (structured Episodic Memory for Multi-Agent workflow synthesis), which treats the configuration of a multi-agent system (controller routing memory, specialists inheriting a generalist prompt, and per-step procedural skills) as episodic memory. EMMA makes the ownership and admissibility of updates explicit: a reflector assigns each diagnosed failure to the scope owning its correction and proposes one edit within it, and backbone-independent guards keep every accepted edit scoped, incremental and bounded. Across KramaBench, AppWorld and BBEH with five backbones and four baselines (ACE, GEPA, EvoMAS and ADAS), EMMA attains the best overall performance on every benchmark, up to 32.5% over the strongest baseline, maintains consistent improvements across backbones, and uses 17-38% fewer training executions than the most efficient baseline.",
       "tags": [
+        "cs.MA",
         "cs.AI"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CEPO: A General Framework for Improving Prompt Optimization in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.34722v1"
+      "title": "EMMA: Structured Episodic Memory for Multi-Agent Workflow Synthesis",
+      "url": "https://arxiv.org/abs/2610.35966v1"
     },
     {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "41a32c86ef159071f72dfee1",
-      "context_id": "09e7d12a9f254d4f1b6ff589",
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f2df1a8992c0baea596e81c8",
+      "context_id": "3022d0de7f3970e87eacc5ab",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -1572,33 +1725,34 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "ablation",
+        "baseline",
         "benchmark",
         "control"
       ],
       "mirror_lens": "CONTROL",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.0,
+      "score": 13.0,
       "source": "arxiv",
-      "source_context_sha256": "6a5b319b8021f90cbdd14be400ff22aa62c1c5ecd391297aea6770945d205975",
-      "source_published": "2026-10-26T02:19:53Z",
-      "source_updated": "2026-10-26T02:19:53Z",
-      "summary": "Multi-agent systems (MAS) require both effective coordination and specialized task execution. Existing prompt optimization approaches typically couple these functions within agent-specific prompts. We introduce Coordinator-Executor Prompt Optimization (CEPO), a general framework for improving prompt optimization in MAS. CEPO separates system-level coordination from agent-level execution through a shared coordinator prompt and agent-specific executor prompts, and guides their updates according to their respective roles. This structure allows shared coordination rules to be refined consistently across agents while keeping execution instructions separately adjustable. CEPO provides the prompt structure and optimization guidance, while existing prompt optimizers perform the underlying search. Extensive experiments spanning 11 benchmarks across four domains demonstrate that applying CEPO to four existing prompt optimizers consistently improves their performance. Ablations and qualitative analyses support the proposed design, while controlled studies on a document-understanding MAS further demonstrate improved optimization budget efficiency and performance scaling with the number of agents.",
+      "source_context_sha256": "edf9af9a7646c5de60d4ae7d3f0f40f08d604f1b8ad015e16bf40e840eb44700",
+      "source_published": "2026-10-27T06:09:50Z",
+      "source_updated": "2026-10-27T06:09:50Z",
+      "summary": "Security pipelines often fuse several data sources and protect a downstream model with a cross-source anomaly detector. Such detectors are usually judged by their clean false-positive rate and by how well they catch random corruption. Neither metric captures an adversary who controls some sources and targets a specific downstream decision. We propose a threat-quantification score, the \\emph{task-conditioned visibility margin}, defined as the least detector evidence a manipulation must reveal per unit of harm to the downstream task. The margin has a closed form, takes about $85\\,μ$s per certificate, yields a minimum-evidence attack, and identifies task-relevant directions the detector cannot see. On a 17-channel industrial telemetry benchmark, a detector that flags 82.8\\% of random single-channel corruptions is first-order blind on 64.7\\% of task/subset pairs in an audit of one- to four-channel subsets. Task-conditioned manipulations cause more than twice as many falsely reassuring errors as generic stealthy ones, and more of them evade the alarm on four of five splits, mainly at small budgets. Used to prioritize audits on held-out subsets, the margin finds a median of four verified failures in ten checks, compared with none for random order and two for alarm-based ranking, and performs comparably to the task-gradient baseline. It also ranks vulnerable configurations of the learned GDN and TranAD detectors and of a five-source crop-yield panel.",
       "tags": [
-        "cs.AI"
+        "cs.CR",
+        "cs.LG"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CEPO: A General Framework for Improving Prompt Optimization in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.34722v1"
+      "title": "Quantifying and Prioritizing Stealthy Source-Manipulation Threats Against Multi-Source Anomaly Detectors",
+      "url": "https://arxiv.org/abs/2610.36693v1"
     },
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "454b4a2582a1187dbadc9cd4",
-      "context_id": "bdf4f2449e381c52dc4d2592",
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f2df1a8992c0baea596e81c8",
+      "context_id": "2a6855532582671e0c54bab7",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -1610,27 +1764,28 @@
       "keyword_hits": [
         "baseline",
         "benchmark",
-        "memory"
+        "control"
       ],
       "mirror_lens": "CONTROL",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.9583,
+      "score": 13.0,
       "source": "arxiv",
-      "source_context_sha256": "8337bf68760e70a3fd779748f1a579b1acc1fdd96aba8dd1af0028b52b442c75",
-      "source_published": "2026-10-24T14:13:06Z",
-      "source_updated": "2026-10-24T14:13:06Z",
-      "summary": "Many mathematical research agents focus on solving problems with fixed statements. However, conjecture research, especially in applied mathematics, may require revising candidate questions or conclusions as investigation proceeds, coupling problem formulation with proof development. We present PACE, a research-proof agent that supports this process through a structured research loop that selects mathematical objectives and develops or challenges candidate mechanisms. The whole prover constructs proofs from these mechanisms, and an independent verifier checks them against the original target. Evidence-tracking memory stores assumptions and dependencies arising during research and marks evidence for revalidation when a candidate or condition changes. This memory supports task-specific context composition that keeps checked premises, exploratory material and unresolved obligations distinct. To evaluate proof construction and conjecture research, we introduce ResearchProofBench, an applied-mathematics benchmark focused on optimization, comprising 51 known-proof tasks with 331 hidden checkpoints under historical abstract access and six open-problem cases. The known-proof tasks assess reconstruction of published results, while the open-problem cases assess mathematical investigation and proof development. On the 51 known-proof tasks, PACE achieves an aggregate Proof Score of 75.16 and completes 20 proofs. In conjecture research, PACE develops conditional results, with its submissions receiving higher review scores than the compared baselines.",
+      "source_context_sha256": "463196d8c05b1da94b118e03525a1a90268c94780e6a781882b0f80317179c4d",
+      "source_published": "2026-10-27T06:09:50Z",
+      "source_updated": "2026-10-27T06:09:50Z",
+      "summary": "Security pipelines often fuse several data sources and protect a downstream model with a cross-source anomaly detector. Such detectors are usually judged by their clean false-positive rate and by how well they catch random corruption. Neither metric captures an adversary who controls some sources and targets a specific downstream decision. We propose a threat-quantification score, the \\emph{task-conditioned visibility margin}, defined as the least detector evidence a manipulation must reveal per unit of harm to the downstream task. The margin has a closed form, takes about $85\\,μ$s per certificate, yields a minimum-evidence attack, and identifies task-relevant directions the detector cannot see. On a 17-channel industrial telemetry benchmark, a detector that flags 82.8\\% of random single-channel corruptions is first-order blind on 64.7\\% of task/subset pairs in an audit of one- to four-channel subsets. Task-conditioned manipulations cause more than twice as many falsely reassuring errors as generic stealthy ones, and more of them evade the alarm on four of five splits, mainly at small budgets. Used to prioritize audits on held-out subsets, the margin finds a median of four verified failures in ten checks, compared with none for random order and two for alarm-based ranking, and performs comparably to the task-gradient baseline. It also ranks vulnerable configurations of the learned GDN and TranAD detectors and of a five-source crop-yield panel.",
       "tags": [
-        "cs.AI"
+        "cs.CR",
+        "cs.LG"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "PACE: Research Proving Agent for Adaptive Conjecture Exploration",
-      "url": "https://arxiv.org/abs/2610.33690v1"
+      "title": "Quantifying and Prioritizing Stealthy Source-Manipulation Threats Against Multi-Source Anomaly Detectors",
+      "url": "https://arxiv.org/abs/2610.36693v1"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "a95d4ce7701130937afd6874",
-      "context_id": "6bb737ee1090738a338ea275",
+      "candidate_id": "11098d08c5da13a4877368a2",
+      "context_id": "73a7f41f63dfa6080a8cbd12",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "cognition_memory_reverse::CONTROL",
@@ -1644,30 +1799,38 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "baseline",
         "benchmark",
-        "memory"
+        "control",
+        "memory",
+        "representation"
       ],
       "mirror_lens": "CONTROL",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.9583,
-      "source": "arxiv",
-      "source_context_sha256": "cdf7e4b577fb5d0322bfdbdb459f137b3ca921f2728ae35caa6fce13bf702458",
-      "source_published": "2026-10-26T12:14:44Z",
-      "source_updated": "2026-10-26T12:14:44Z",
-      "summary": "Continual graph learning (CGL) maintains models as graphs evolve without retraining from scratch, while mitigating catastrophic forgetting. Existing methods typically target either transductive or inductive settings and often store past subgraphs or require task identifiers at inference. We propose Community-aware Prototype Extraction for Continual Graph Learning (CoPE-CGL), a replay-free framework that uses a parameter-free structural prior, precomputed by multi-hop Laplacian smoothing, to anchor learning, memory, and inference. CoPE-CGL combines topology-infused bottleneck adaptation, community-level prototypes, and dynamic routing by majority vote over node-to-prototype matches. The default protocol assumes each test graph comes from one learned task; a node-level variant handles mixed-task graphs. Each task adds at most a constant amount of storage, with no past graph data retained. At equal storage and without task identifiers, CoPE-CGL matches the strongest replay baseline even when it receives true task identifiers: average performance (AP) is 95.17% and 95.72% versus 94.28% and 95.82% on Arxiv and CoraFull, respectively, with 5.9-14.0 times faster runtime and zero forgetting. Across four transductive and three inductive benchmarks and mixed streams, CoPE-CGL exceeds the second-best of up to eleven baselines by up to 1.41, 6.32, and 9.33 AP percentage points, respectively. It runs 1.3-7.9 times faster end-to-end than the most accurate competitor on each benchmark and scales to the largest benchmark graph. On graphs mixing two tasks, its node-level variant achieves the best AP among CGL methods. The design targets homophilic graphs with community structure.",
+      "score": 11.5,
+      "source": "zenodo",
+      "source_context_sha256": "76a2d4b7a08f43719755f12f3dade0acc042a2eed6e1460af3e2edb1176795b8",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "This repository provides the source code, simulation datasets, computational benchmarks, numerical results, and reproducibility materials supporting Paper I of the Principle of Representation Integration for Stable Models (PRISM-M), prepared for the Journal of Computational Neuroscience . PRISM-M V4 is a minimal recurrent computational framework organized around five functional operations: Extraction, Compression, Integration, Stabilization, and Prediction/Action (ECISP). The implementation uses a single independently evolving recurrent state, with finite-precision quantization and explicitly defined information-processing transformations. The framework is intended to examine the functional organization of information processing, contextual integration, and memory stabilization within established recurrent and state-space dynamics. The repository includes the frozen V4 implementation, mathematical definitions, parameter configurations, experimental protocols, random seeds, simulation trajectories, statistical analyses, and comparative benchmarks involving autoregressive models (ARX), Kalman filtering, and recurrent neural networks. The deposited materials document the original parameter-landscape and stability analyses, targeted perturbation experiments, memory-retention studies (M1&ndash;M5), and additional computational experiments (V1&ndash;V5) evaluating noise robustness, adaptability, recovery, interference resistance, and information recoverability. Additional validation materials include information-matched representation controls, intrinsic-noise sensitivity analyses, and mathematical verification of contraction and perturbation equivalence. These retrospective analyses are distinguished from the original experimental protocols. The repository also contains the numerical datasets, figure files, supplementary materials, execution instructions, software dependencies, provenance records, and SHA-256 integrity checks associated with Figures 1&ndash;6 and Supplementary Figures S1&ndash;S4. Computational reproduction and numerical verification have been performed for the principal analyses. Complete automated regeneration of all final publication artwork and independent cross-platform verification remain outside the scope of the completed checks. The purpose of this deposit is to facilitate independent evaluation, computational reproduction, and further investigation of the PRISM-M V4 framework. The model is a theoretical computational implementation and does not constitute direct biological validation or demonstrate a new class of recurrent dynamics.",
       "tags": [
-        "cs.LG",
-        "cs.DB"
+        "PRISM-M",
+        "Computational neuroscience",
+        "Recurrent neural networks;",
+        "Information processing",
+        "Memory stabilization",
+        "State-space models",
+        "Dynamical systems",
+        "Computational modeling",
+        "neuroscience"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CoPE-CGL: Community-aware Prototype Extraction for Replay-Free Continual Graph Learning",
-      "url": "https://arxiv.org/abs/2610.35313v1"
+      "title": "PRISM-M V4: Source Code, Simulation Data, Computational Benchmarks, and Reproducibility Materials for Paper I",
+      "url": "https://zenodo.org/records/23713014"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "f7bd885e1abb9452d766b96b",
-      "context_id": "7e9209fece36332b3c741049",
+      "candidate_id": "1bc8c4d0cb05b9d2b817e2e3",
+      "context_id": "1e1af7ed20b0003d7ee8c54d",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "cognition_memory_reverse::CONTROL",
@@ -1681,148 +1844,27 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "representation",
-        "representation learning",
-        "world model"
+        "benchmark",
+        "control",
+        "memory",
+        "representation"
       ],
       "mirror_lens": "CONTROL",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0417,
+      "score": 11.5,
       "source": "arxiv",
-      "source_context_sha256": "123c432f9af819b2dd4db47292caa4696ca99e8b5feb52b3bd75d36c79417b4e",
-      "source_published": "2026-10-26T00:50:03Z",
-      "source_updated": "2026-10-26T00:50:03Z",
-      "summary": "Video world models trained on large-scale robot data promise a safe and scalable approach for learning and evaluating policies that act in the physical world. However, they still struggle with long-horizon rollouts and out-of-distribution generalization, and they remain computationally demanding at inference time. Typically, video world models make predictions in the latent space of a reconstruction-trained autoencoder, which however is not directly optimized for dynamics modeling. On the other hand, world models designed for latent planning usually optimize latents to be predictable, but they forgo accurate prediction of observations in pixel space. In this paper, we show that it is possible to achieve the best of both worlds: a latent geometry optimized to make future prediction as simple as possible without sacrificing accurate prediction of future observations. More precisely, we find that temporal objectives for representation learning, paired with a past-conditioned decoder architecture, lead to consistent improvements in generative video world models at the same training budget. The gains include up to 5x cheaper inference, over 7x faster training, and 15-24% lower pixel and perceptual errors out of distribution and over long horizons. Our world models also agree more closely with real-world policy evaluation when using a vision-language model to judge task success from their pixel-space predictions. Overall, our study indicates that temporal predictability is an important design criterion for the latent space of video world models, and provides concrete guidance on how to incorporate it into the training of autoencoders.",
+      "source_context_sha256": "4330f8a98f4e99ecf455938033d2b4e7fac5a1b63430c62a48560cf9ea8a3175",
+      "source_published": "2026-10-27T03:05:32Z",
+      "source_updated": "2026-10-27T03:05:32Z",
+      "summary": "Stationary tail computation for high-dimensional reflected Brownian motions (RBMs) remains computationally challenging. Building on NN4MGF's shared-coordinate basic-adjoint-relationship (BAR) framework, we develop Holomorphic Cauchy Networks (HCNs). Native complex-valued rational Cauchy subnetworks enforce holomorphicity on pole-free domains, removing sampled Cauchy-Riemann penalties and their input-derivative graphs. Exact origin anchoring and boundary-coordinate exclusion enforce structural identities, while anchored interactions represent dependent transforms. Under holomorphic-log assumptions, we establish simultaneous value and first-derivative approximation for the constrained architectures and a mixed-derivative lower bound for coordinate-only representations under nonzero cross-covariance. Closed-form real-axis derivatives and sequential backpropagation further control memory. On the same NVIDIA H100 NVL, the tested 30D HCN configuration uses approximately tenfold less peak allocated memory and has 9.7-fold lower mean update time than NN4MGF; extrapolation to the respective scheduled update counts gives a projected full-schedule update-time ratio of 58.2. With 64 million sampled base inputs per high-dimensional run, HCN reaches 50 dimensions on a laptop GPU with 6.367% mean relative error over thresholds 1 through 8. Degree-matched comparisons yield lower reported mean relative errors over the primary evaluation ranges, including 1.422% versus 6.684% on the 2D Harrison non-product benchmark. An exploratory 10D correlated example illustrates the interaction extension.",
       "tags": [
         "cs.LG",
-        "cs.AI",
-        "cs.CV",
-        "cs.RO"
+        "math.NA",
+        "math.PR"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Video World Models Need Predictable Latents",
-      "url": "https://arxiv.org/abs/2610.34663v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "c514eea4bba9150cecb31541",
-      "context_id": "7e2cdef2361cbdea953df340",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "reproducibility"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0,
-      "source": "zenodo",
-      "source_context_sha256": "e7d4271a7aa2c35366f52d547b987df27660a86a177b59064c92901fcc8f0126",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "The geometric characterization of masonry structures with incomplete or degraded surfaces remains a critical challenge in building rehabilitation, structural assessment, and BIM-based documentation. This study presents an automated computational framework for reconstructing the original geometry of partially collapsed masonry walls from Terrestrial Laser Scanning (TLS) data, providing quantitatively defined uncertainty bounds to support informed decision-making in heritage conservation and the built environment. The proposed methodology integrates three complementary analytical components: i) automated wall thickness extraction based on PCA-driven point cloud segmentation combined with robust percentile statistics; ii) wall trajectory reconstruction through the identification of polygonal configurations and structural discontinuities between segments; and iii) slope profile detection using local gradient analysis to characterize wall batter angles. The entire workflow is implemented in Python within Jupyter Notebooks, ensuring transparency, reproducibility, and compliance with FAIR principles. Material characterization, informed by archaeological evidence and geotechnical parameters, enables the estimation of structural height through a limit equilibrium approach. A key contribution of this research is the Best-Fit Model Profile (BFMP) methodology for uncertainty quantification, which derives internal geometric references directly from the point cloud data. This approach allows for a systematic evaluation of preservation states and construction variability without reliance on external ground-truth measurements. Structural height estimation incorporates geotechnical and material parameters, whose influence is assessed through a sensitivity analysis, while the reported height interval propagates the thickness variability . Validation on a prehistoric masonry structure demonstrates the framework&rsquo;s ability to transform ambiguous survey data into parametric, BIM-ready outputs with explicit uncertainty limits. Compared to traditional CAD-based reconstruction workflows, the proposed approach significantly reduces subjective interpretation while enhancing geometric reliability and analytical transparency",
-      "tags": [],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Automated geometric reconstruction of degraded prehistoric masonry from TLS data: reproducible workflow and synthetic benchmark (Valencina de la Concepción)",
-      "url": "https://zenodo.org/records/23688431"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "03f6e4bd5d2c68c06e119bf8",
-      "context_id": "c51d6fa3920efc22d325f8d7",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "provenance",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.875,
-      "source": "zenodo",
-      "source_context_sha256": "3cc1f75822d18ef7cfc0ef841118d66a6d44a18db8d3fc5e4831d561da7a0144",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "This replication package accompanies the manuscript&nbsp; &ldquo;How much coverage is enough? Spatially balanced partial-coverage thermal drone surveys for estimating ungulate density in forested landscapes.&rdquo; The archive contains the R and Python code, georeferenced full-survey detections, observed partial-survey data, retrospective transect-intersection inputs, survey geometries, terrain inputs, compact simulation outputs and verification results needed to reproduce the drone-survey analyses. It includes workflows for reconstructing the reported full- and partial-coverage density estimates, statistical comparisons, perturbation analyses and post-processing simulation experiments. The original bootstrap analysis used 999 resamples without a recorded random seed. The archived workflow fixes the seed at 42; consequently, some bootstrap confidence limits and downstream test statistics differ slightly through Monte Carlo variation, while the reported conclusions remain unchanged. These differences are documented explicitly in the package. Raw survey videos, MOT annotation archives, raw camera-trap images and event-level camera-trap data are not redistributed. The archive instead contains the derived georeferenced detections and available transect-level inputs used by the reported drone analyses, which are actually required for replicating the results. The camera-trap comparison is represented by the area-level summary values used in the manuscript. Additional exclusions and their justification are documented in&nbsp; docs/EXCLUSIONS.md . Reproduction instructions, a data dictionary, provenance information, validation results, software-environment details and a file-level checksum manifest are included.",
-      "tags": [
-        "thermal drone survey",
-        "spatially balanced sampling",
-        "partial-coverage survey",
-        "ungulate density estimation",
-        "roe deer",
-        "Capreolus capreolus",
-        "Random Encounter Model",
-        "simulation study"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Replication Package: How much coverage is enough? Spatially balanced partial-coverage thermal drone surveys for estimating ungulate density in forested landscapes",
-      "url": "https://zenodo.org/records/23686410"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "f584d5f30113c2e3dfca64dc",
-      "context_id": "e88e2f338f55e3e79b00aa4e",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.8333,
-      "source": "zenodo",
-      "source_context_sha256": "6803ded27ce3b45e8eb02b428d2dbbc5055e107f7e4d2538763d9a59d813cc78",
-      "source_published": "2026-10-27",
-      "source_updated": "",
-      "summary": "Two follow-up papers built on this study's blind multi-model collection were accepted (poster) at NeurIPS 2026 workshops: Verification Theater: Measured Failure Modes of AI Verifier Panels (Who Verifies the Agents?) and Weakly Discriminative, Not Repaired by Profile Injection, and Manipulable: Self-Confidence in LLM Evaluation (TAE). Version of record: SSRN 7191261 , DOI 10.2139/ssrn.7191261 . Cite that version. The same text is also at https://vadymchernets.netlify.app/architectural-trust.html and https://github.com/vadimchernets/papers/tree/main/architectural-trust . Agentic commerce turns AI from an advisor into a transacting party, collapsing search, comparison, cart, and payment into a single delegated act and removing the review points where humans once caught errors. It arrives at an awkward moment: sixty percent of UK consumers surveyed say they would abandon an AI shopping agent after a single mistake, and most would trust no organization at all to run one on their behalf. This paper introduces architectural trust. As consumers delegate consequential decisions to AI agents, I argue, warranted trust migrates from the properties of the AI model to the verifiable architecture of the service above it. The constructs already available attach trust to organizations, to a single automated system, or to algorithmic advice, and none of them makes the decision-producing process verifiable by the truster under autonomous delegation. Architectural trust fills that gap with three checkable properties: diversity (independent models whose agreement calibrates confidence and whose divergence is surfaced), evidence (tamper-evident, replayable decision records), and neutrality (auditable independence from any vendor, merchant, or outcome). The mechanism was measured on the machine side first. Across a pre-registered sixteen-model benchmark and an August 2026 flagship-tier wave spanning eleven frontier laboratories, cross-model agreement priced correctness where a model's own confidence could not. Answers reproduced by another, blindly queried model were 1.9–3.2 times as likely to be correct. On a frozen SimpleQA subsample (Wei et al., 2024), 46.6% of the flagship answers offered at stated confidence ≥ 80 were wrong (a rate specific to this roster, not a universal constant), while a fixed three-model disagreement gate removed 82.1% of those confident failures (95% CI 79.9–84.1) at 30.5% coverage. In a post hoc analysis of the August 2026 snapshot, two flagships answering blindly (gpt-5.6-sol and claude-fable-5) agreed on 69.6% of the 1,459 pooled questions, and their agreed answer was correct 98.1% of the time, against 95.3% for the stronger one alone on the same pool. The signal reproduces on 267 Wikidata-verified commerce product facts. A larger reasoning budget bought 3.1 points of stated confidence and no measurable accuracy: more compute buys confidence, not correctness. A unanimously confident panel can still be wrong, and there agreement certifies the shared error. I then carry the mechanism into behavior in a pre-registered, incentive-compatible consumer experiment (US and UK; 119 valid participants in the primary cohort, 133 with a soft-launch cohort pooled; 200 planned). Where a consumer would otherwise accept a confident wrong recommendation, the disagreement display cut acceptance sharply, from 74% to 24% on the qualifying item (pooled cohort). The pooled robustness estimate (Δ = 0.25 → 0.46; d = 0.68; the primary main-wave cohort gives Δ = 0.24 → 0.45, d = 0.67) rests on that single item and, in an exploratory country split, on the UK sample, and it falls to d = 0.09 once the item is removed. A powered, stimulus-sampled replication is planned. On the one item of unanimous confident consensus (pooled n = 133) the display raised acceptance of the shared error from 87% to 95%, which reproduces the mechanism's boundary in human behavior. The orchestration-receipt component returned a registered, inconclusive null. The three com",
-      "tags": [
-        "agentic commerce",
-        "consumer trust",
-        "AI agents",
-        "trust in AI",
-        "appropriate reliance",
-        "overreliance",
-        "large language models",
-        "cross-model agreement",
-        "selective prediction",
-        "overconfidence",
-        "delegation",
-        "architectural trust"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Architectural Trust: Why Consumer Trust in Agentic Commerce Migrates from AI Models to Verifiable Architecture",
-      "url": "https://zenodo.org/records/23709937"
+      "title": "Holomorphic Cauchy Networks for Efficient Stationary Tail Computation in High-Dimensional Reflected Brownian Motions",
+      "url": "https://arxiv.org/abs/2610.36558v1"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
