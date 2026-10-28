@@ -1,0 +1,1854 @@
+{
+  "batch_id": "80bf2182c6fcaf269af5",
+  "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
+  "fragment_count": 1,
+  "fragment_index": 1,
+  "items": [
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "fc9a111efa982c302061c9e9",
+      "context_id": "ffd6bdc05c6501721f95d21e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "multi-agent"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "d755a8d94323760e155fd8c684766604493fb45e738d11cdb013eb21aa64513c",
+      "source_published": "2026-10-27T10:36:36Z",
+      "source_updated": "2026-10-27T10:36:36Z",
+      "summary": "AI agents no longer act alone: they cooperate, coordinate and compete within and between groups, increasingly alongside humans who are in, on or out of ``the loop''. Whether such mixed groups can govern themselves is an open question about machine behaviour and human-computer interaction that needs a testbed for hybrid institutions. We present Megabike, a multi-agent simulator and serious game with interdependent arenas for common-pool resource management, cooperative survival and constitutional choice. Riders sharing a megabike must agree their arrangements for steering, pedalling and distributing resources, and their political regime, while negotiating with rival bikes and avoiding an existential threat. Every rule is enforced by the simulator, every action is logged, and any seat can be taken by a human or a machine, so governance can be studied under well-defined metrics. We demonstrate Megabike with forty sessions in which language-model riders with cooperative, lazy, subversive or opposing dispositions chose regimes, elected leaders and expelled one another. The results show that different combinations of agent archetypes could produce unexpected and counterproductive outcomes. We conclude with extensions for systematic experiments mixing human and computational agents.",
+      "tags": [
+        "cs.MA",
+        "cs.HC"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "A Serious-Game Testbed for Self-Governing Human-Machine Institutions",
+      "url": "https://arxiv.org/abs/2610.36989v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "08068a6fe935c6e97ea6ef3a",
+      "context_id": "e907d5470be97bc740da108b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "multi-agent"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "aee332d4fd4cff8db8fd0a37c080e854a618b7892530a4c57792940d8abe2041",
+      "source_published": "2026-10-25T18:00:11Z",
+      "source_updated": "2026-10-25T18:00:11Z",
+      "summary": "Deploying LLM agents in specialized domains often require fine-grained task-specific procedures and knowledge a general model lacks, yet parameter training is costly and non-interpretable, and hand-engineered agent systems shift the cost to expert labor. Episodic memory updates at context level, but single agent adaptation struggles to alleviate cross-task interference, especially with complex tasks such as multi-application navigation or data pool analysis. Although multi-agent evolution alleviates this problem, existing methods lack clear definitions on update rules and rely on the backbone model to decide where and how much the system changes. This ill-scoped evolution makes learning follow the backbone's structural preferences rather than the observed failures: one backbone accumulates skills while another spawns agents. We present EMMA (structured Episodic Memory for Multi-Agent workflow synthesis), which treats the configuration of a multi-agent system (controller routing memory, specialists inheriting a generalist prompt, and per-step procedural skills) as episodic memory. EMMA makes the ownership and admissibility of updates explicit: a reflector assigns each diagnosed failure to the scope owning its correction and proposes one edit within it, and backbone-independent guards keep every accepted edit scoped, incremental and bounded. Across KramaBench, AppWorld and BBEH with five backbones and four baselines (ACE, GEPA, EvoMAS and ADAS), EMMA attains the best overall performance on every benchmark, up to 32.5% over the strongest baseline, maintains consistent improvements across backbones, and uses 17-38% fewer training executions than the most efficient baseline.",
+      "tags": [
+        "cs.MA",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "EMMA: Structured Episodic Memory for Multi-Agent Workflow Synthesis",
+      "url": "https://arxiv.org/abs/2610.35966v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "22645ab8790fa10bfac3f63d",
+      "context_id": "caf6a811d90caa538fbc806d",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "multi-agent"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "d37dbdb622471a278fde56c8c73de28061322f18574c6e5abb4ab2ce94cfca0e",
+      "source_published": "2026-10-27T00:20:21Z",
+      "source_updated": "2026-10-27T00:20:21Z",
+      "summary": "Electric vehicle (EV) charging stations integrating photovoltaic (PV) generation, battery storage, and bidirectional grid exchange must coordinate access to limited chargers with energy supply while considering both energy cost and carbon emissions. This paper proposes a solver-free greedy heuristic (SFGH) for dynamic vehicle scheduling (VS) and a twin delayed deep deterministic policy gradient (TD3) controller for carbon-aware energy dispatch (ED). SFGH assigns EVs according to reductions in service delays, and TD3 controls battery operation to balance energy costs and carbon emissions while meeting the resulting charging demand. The model allows both PV and battery exports, accounting for export revenue and carbon credits. Simulations on year-long case studies show that SFGH--TD3 achieves the lowest accumulated service delay, energy cost, and carbon emissions among the evaluated heuristic and multi-agent deep reinforcement learning (DRL) configurations.",
+      "tags": [
+        "eess.SY"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Electric Vehicle Scheduling and Carbon-Aware Energy Dispatch for Charging Stations",
+      "url": "https://arxiv.org/abs/2610.36426v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "6d99f8c313d1f2c97faa06eb",
+      "context_id": "bf6fa77d02c021da4c11721d",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "multi-agent"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "b5171c495d3317361a5a2d84dfca72d1e7e649f7fcca6c8bba0375d01d267e76",
+      "source_published": "2026-10-27T16:04:10Z",
+      "source_updated": "2026-10-27T16:04:10Z",
+      "summary": "Fine-grained visual perception remains a bottleneck during post-training of multimodal large language models (MLLMs), as perceptual errors can constrain gains from reasoning-focused optimization. Although image-caption pre-training improves perception, its influence can weaken as subsequent stages change data mixtures and objectives. Continuing caption supervision during post-training is challenging because subjective, information-dense descriptions complicate verifiable reward design. We present PerceptRL, which strengthens perception at two complementary levels. Perception RL uses a multi-agent pipeline to extract verified errors from dense image captions and convert the corresponding visual facts into QA pairs with fixed answer labels and rule-based rewards. Chain QA links correlated errors, while multiple-choice QA combines unrelated errors. A specialized route targets high-error domains with tailored verification, and a domain-agnostic general route covers errors beyond these domains. Perception Agentic RL addresses fine-grained and dense cases unresolved by single-turn Perception RL through multi-turn inspection with visual tools. We observe coordinate drift even in models trained to use tools, where incorrect crops or annotations distort evidence and propagate errors. Coordinate Injection corrects spatial operations in cold-start trajectories, while a grounding-aware process reward supervises intermediate spatial fidelity alongside final-answer correctness. Training proceeds through shared cold-start SFT, single-turn Perception RL, and multi-turn Perception Agentic RL. Across seven benchmarks under a shared tool-use protocol, PerceptRL achieves 71.6% average accuracy, surpassing the base model with the same tools and the strongest evaluated frontier VLM by 15.7 and 5.2 percentage points, respectively.",
+      "tags": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PerceptRL: Making Visual Perception Rewardable in MLLMs from Answers to Interactions",
+      "url": "https://arxiv.org/abs/2610.37471v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "f4bf12388025dadd40a3a83a",
+      "context_id": "87f271d10f953ffe79c23e59",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "multi-agent"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "525d2db75be47d74311ee17f519f0ab0db087218ba2d7d58e2186da7b3eb2619",
+      "source_published": "2026-10-27T00:29:20Z",
+      "source_updated": "2026-10-27T00:29:20Z",
+      "summary": "Construction safety management still struggles to produce daily safety bulletins (DSBs), structured daily communications that identify site-specific hazards, convey safety protocols, and set preventive measures for workers. Manual DSB creation takes 2-3 hours daily and yields inconsistent quality, with 25% of crews never conducting pretask planning (Olson et al., 2016), diverting safety personnel from field supervision. This study proposes the Lightweight Multi-Agent DSB System (LM-DSB), which integrates retrieval-augmented generation (RAG) with a locally deployable Large Language Model (LLM) to automate DSB generation on consumer-grade personal computers. LM-DSB coordinates specialized planner, researcher, and writer agents in a hierarchical architecture, enhanced by domain-specific fine-tuning on construction safety documentation and RAG grounding in 37 health, safety, and environment (HSE) documents. A two-phase validation assessed feasibility. Phase 1 comparative evaluation showed the multi-agent RAG system (Llama 3-8B) outperformed all alternative configurations, with strong lexical alignment and coherence (TF-IDF: 0.70, BLEU: 0.39, ROUGE-1: 0.66) and near-complete document generation (length ratio: 1.01 vs. 0.39 for single-agent RAG). Phase 2 expert evaluation (N=40) confirmed practical acceptability (mean scores 3.50-4.20 on a 5-point scale), particularly in regulatory compliance (4.20) and factual accuracy (4.10). The findings show that architectural design enables lightweight models to handle safety-critical documentation on consumer-grade hardware, advancing technology democratization in construction safety management. Limitations include knowledge base scope, language constraints, and lack of field deployment validation; future work should address multimodal integration and workflow adoption.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "LM-DSB: A Lightweight Multi-agent System for Automated Daily Safety Bulletin Generation in Construction",
+      "url": "https://arxiv.org/abs/2610.36433v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "8383903df80d00dc86e24c76",
+      "context_id": "4f67310a76cac784ae51b0bf",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "multi-agent"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "678c7d2a2d7bae1dd820816c6dea89ebb46dc7a90397ee20e6bfcdff2a21d2a6",
+      "source_published": "2026-10-26T23:14:07Z",
+      "source_updated": "2026-10-26T23:14:07Z",
+      "summary": "Evaluating natural language explanations in recommender systems is essential for fostering user trust, transparency, and engagement. However, existing evaluation approaches like human evaluations, while accurate, are resource-intensive and impractical at the scale required by modern recommendation platforms. Also, automated methods using single-agent LLMs suffer from prompt sensitivity and inconsistent outputs. To address these challenges, we propose MAREval, a structured multi-agent framework for evaluating recommendation explanations using large language models. MAREval orchestrates (i) a planner agent that uses a novel Chain of Debate (CoD) prompting strategy to coordinate agent roles and enforce logically consistent evaluation plans; (ii) a moderator agent that regulates discussions by mitigating prompt drift; and (iii) an arbitrator agent that aggregates outputs from multiple evaluation rounds and (iv) a Monte Carlo sampling method, improving robustness and alignment with human judgment. We conduct comprehensive evaluations on both public (TopicalChat) and proprietary recommendation datasets, demonstrating that MAREval outperforms state-of-the-art baselines. Comprehensive experiments on a public benchmark and a proprietary e-commerce dataset show that MAREval improves alignment with human judgments over strong singleand multi-agent baselines. Stability analyses indicate substantially lower variability across repeated trials. In a large human-annotation gate, MAREval meets production quality thresholds where prior evaluators fall short, and online A/B testing demonstrates statistically significant improvements in engagement and revenue metrics. These results establish MAREval as a scalable and reliable solution for human-aligned evaluation of recommendation explanations in real-world systems",
+      "tags": [
+        "cs.AI",
+        "cs.IR"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MAREval: A Multi-Agent Framework for Evaluating Natural Language Recommendation Explanations",
+      "url": "https://arxiv.org/abs/2610.36389v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "3f158f175f9b0aa624e9e76e",
+      "context_id": "4017dd0ae711cc4c73989ace",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "multi-agent"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "42ecbd94e489ee2281f962f50f5603d3871e9ee0859836d4d27c114941d2cb29",
+      "source_published": "2026-10-26T20:39:20Z",
+      "source_updated": "2026-10-26T20:39:20Z",
+      "summary": "Language-model agents increasingly coordinate in large groups, and current agent protocols focus on delivering messages. For these agents, however, the scarce resource is not delivery but reading: every message costs tokens, and the context is finite. Current infrastructure works by push: the sender decides when a message enters the recipient's context, so the recipient reads in arrival order and drops the oldest messages once its context is full. We study the alternative, pull, in which messages wait in an inbox outside the context and the recipient's own rules decide what it reads and keeps. We argue that the inbox is a coordination primitive: each agent sets its rules privately, and those rules decide whether other agents' requests reach it. In simulated societies of up to 16,000 agents, with every decision an LLM judgment, we report three findings. First, push fails as an agent takes part in more coordination at once: an agent leading 20 negotiations with a full memory proposes options already rejected 97% of the time, because it has dropped the oldest replies. Second, an inbox is necessary under heavy, noisy traffic. Where first come, first read misses every request, an inbox that first reads messages carrying a refundable deposit still finds about 60% of the agents a request needs, at every size from 1,000 to 16,000. On a real email network, losses compound: when half the agents adopt such an inbox, forwarded search recovers only 5% of full adoption, against 42% for one-hop search. Third, an inbox comprises four decisions (what to read, what to keep, what a sender pays, and what a reply may say), and the best rule for each depends on the traffic and the agent's role. Multi-agent coordination under load requires an inbox layer designed for the traffic each agent receives.",
+      "tags": [
+        "cs.MA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "The Inbox as a Coordination Primitive for LLM Agent Societies",
+      "url": "https://arxiv.org/abs/2610.36264v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "7807f7b599b6a15df659c187",
+      "context_id": "0d621ebafc946702cf18f8b9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "multi-agent"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "22e96161667835a703b576061244281845367879c70cfe67bf3c5f9bf45a45ae",
+      "source_published": "2026-10-27T05:12:46Z",
+      "source_updated": "2026-10-27T05:12:46Z",
+      "summary": "Memory helps LLM-based multi-agent systems reuse experience, but stored advice can be flawed or applied in the wrong situation. Team-level success or failure alone cannot reliably show whether a memory needs correction or should not have been used. We propose DiscernMem, a training-free framework that improves both memory quality and memory use. To improve quality, Defect-Aware Memory Refinement (DMR) compares team executions with a single memory and with no memory, diagnoses rule defects, and tests repairs on current and earlier tasks to guard against losing previously useful behavior. To guide appropriate use, Boundary-Learning Meta-Memory (BLM) records each memory's past uses and effects, learning when its owner role should apply or avoid it based on task context and incoming messages. Together, these components help teams correct flawed experience while retaining useful rules that were applied incorrectly. Experiments with Qwen3-4B-Instruct-2507 on four benchmarks show that DiscernMem achieves the highest average score on AutoGen, CAMEL, and MacNet, exceeding the strongest reported baselines by 0.51-4.32 points. It leads on code generation and symbolic planning across all three systems, including a PDDL score of 37.71 versus 28.48 on CAMEL.",
+      "tags": [
+        "cs.AI",
+        "cs.MA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Remembering Is Not Enough: Refining Memories and Learning When to Use Them in Multi-Agent Systems",
+      "url": "https://arxiv.org/abs/2610.36652v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "60dcfa0c5e7f3cf45e565ef7",
+      "context_id": "0658feda829343fee170890c",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "multi-agent"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "ab7340cbda0cf1c5ad0f3162f99d654d89c62990991d2606dc7a50d0dc0d42c4",
+      "source_published": "2026-10-26T21:14:03Z",
+      "source_updated": "2026-10-26T21:14:03Z",
+      "summary": "Independently developed autonomous agents, such as autonomous vehicles, must guarantee joint compatibility, such as safety and task-completion requirements, when they operate in a shared environment. Existing methods require a centrally designed specification, or interaction mechanism before any agent is deployed. However, such centralized design is unrealistic when agent designs are confidential to their developers, and it is not flexible enough to accommodate future agent designs. We study a bi-level structure in which a regulator coordinates developers by publishing seed agents, and each developer independently tests its agent to ensure that it is compatible with every seed-compatible agent, a property we call future-proofness. Under this structure, joint compatibility is guaranteed for any agents that are designed and tested independently, without any coordination with each other. In this work, we first formulate compatibility for general multi-agent systems and show why it is not trivially implied by seed-compatibility. We then characterize the future-proof agents as the closure of the seed and show that this closure is monotone in the seed. Finally, we study a class of executable tests that involve interaction with the seed alone, and we ask to what extent such tests can distinguish the future-proof agents.",
+      "tags": [
+        "cs.MA",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Compatibility and future-proof testing for multi-agent systems",
+      "url": "https://arxiv.org/abs/2610.36289v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "7af155f0fa16fc71f7b2e908",
+      "context_id": "9a57717af39f1e89a6f204a8",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "consensus"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.375,
+      "source": "zenodo",
+      "source_context_sha256": "5efcd19f2e1c5a42e75fde973bed5f4e9d72285625351a740d1625ea001f65b9",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "This record provides the research data and supporting documentation for the revised systematic review &ldquo;Tactile and Physical Interaction Problems in In-Vehicle Infotainment Systems: A Systematic Literature Review&rdquo;. The current corpus comprises 342 eligible reports assessed using 34 operational codes across seven categories, yielding 11,628 report&ndash;code decisions: 3,635 positive, 7,677 negative and 316 unresolved. The materials are organised into eight editable Word volumes, each with a linked table of contents: Methods and Figures: supplementary sections S1&ndash;S12, review methods, operational codebook, PRISMA crosswalk, Figures 1&ndash;2 and a source-to-volume index. Corpus and Eligibility: the complete bibliography, bibliographic provenance, retrieval records and eligibility decisions. Characterisation and Appraisal: report characteristics and MMAT domain-level appraisals. Coding Evidence: all 11,628 coding decisions, source-page locators and supporting rationales. Synthesis and Decision Changes: synthesis matrices, coverage and overlap bounds, sensitivity analyses, historical-to-current decision comparisons and Figures 3&ndash;5. Historical Citation Screening: historical citation metadata and title-and-abstract screening decisions. Historical Full-Text Eligibility: historical reviewer assessments, eligibility decisions and consensus records. Historical Coding and Reproducibility: historical calibration, independent coding, adjudication and reliability records, together with package documentation and verification-script texts. The current 342-report evidence base is distinguished from the earlier 228-report archive. Historical-to-current linkage covers 5,916 decision pairs for 174 retained reports. Historical independent ratings and consensus decisions remain separate from the authors&rsquo; joint source verification conducted from 13 to 23 October 2026. Tables are presented as editable Word content. Repeated wording is retained through linked value keys, and verification scripts are reproduced as editable text in Volume 8. Five updated figures are embedded in the relevant volumes. Copyrighted primary publications and extended verbatim source quotations are not redistributed. Bibliographic identifiers, source-page locators and paraphrased rationales support traceability. Computational consistency checks do not, by themselves, establish scientific validity.",
+      "tags": [
+        "in-vehicle infotainment systems",
+        "IVIS",
+        "human–computer interaction",
+        "tactile interaction",
+        "physical controls",
+        "touchscreen",
+        "haptic feedback",
+        "systematic literature review",
+        "PRISMA 2020"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Research Data and Reproducibility Materials for \"Tactile and Physical Interaction Problems in In-Vehicle Infotainment Systems: A Systematic Literature Review\"",
+      "url": "https://zenodo.org/records/23728566"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "f584d5f30113c2e3dfca64dc",
+      "context_id": "8b9c8129d8011e85aecc3a21",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "consensus"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.375,
+      "source": "zenodo",
+      "source_context_sha256": "0d78c04fb2491a4bfecf0d0b4c56b921548099ee74f7360503621938a76611f3",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Two follow-up papers built on this study's blind multi-model collection were accepted (poster) at NeurIPS 2026 workshops: Verification Theater: Measured Failure Modes of AI Verifier Panels (Who Verifies the Agents?) and Weakly Discriminative, Not Repaired by Profile Injection, and Manipulable: Self-Confidence in LLM Evaluation (TAE). Version of record: SSRN 7191261 , DOI 10.2139/ssrn.7191261 . Cite that version. The same text is also at https://vadymchernets.netlify.app/architectural-trust.html and https://github.com/vadimchernets/papers/tree/main/architectural-trust . Agentic commerce turns AI from an advisor into a transacting party, collapsing search, comparison, cart, and payment into a single delegated act and removing the review points where humans once caught errors. It arrives at an awkward moment: sixty percent of UK consumers surveyed say they would abandon an AI shopping agent after a single mistake, and most would trust no organization at all to run one on their behalf. This paper introduces architectural trust. As consumers delegate consequential decisions to AI agents, I argue, warranted trust migrates from the properties of the AI model to the verifiable architecture of the service above it. The constructs already available attach trust to organizations, to a single automated system, or to algorithmic advice, and none of them makes the decision-producing process verifiable by the truster under autonomous delegation. Architectural trust fills that gap with three checkable properties: diversity (independent models whose agreement calibrates confidence and whose divergence is surfaced), evidence (tamper-evident, replayable decision records), and neutrality (auditable independence from any vendor, merchant, or outcome). The mechanism was measured on the machine side first. Across a pre-registered sixteen-model benchmark and an August 2026 flagship-tier wave spanning eleven frontier laboratories, cross-model agreement priced correctness where a model's own confidence could not. Answers reproduced by another, blindly queried model were 1.9–3.2 times as likely to be correct. On a frozen SimpleQA subsample (Wei et al., 2024), 46.6% of the flagship answers offered at stated confidence ≥ 80 were wrong (a rate specific to this roster, not a universal constant), while a fixed three-model disagreement gate removed 82.1% of those confident failures (95% CI 79.9–84.1) at 30.5% coverage. In a post hoc analysis of the August 2026 snapshot, two flagships answering blindly (gpt-5.6-sol and claude-fable-5) agreed on 69.6% of the 1,459 pooled questions, and their agreed answer was correct 98.1% of the time, against 95.3% for the stronger one alone on the same pool. The signal reproduces on 267 Wikidata-verified commerce product facts. A larger reasoning budget bought 3.1 points of stated confidence and no measurable accuracy: more compute buys confidence, not correctness. A unanimously confident panel can still be wrong, and there agreement certifies the shared error. I then carry the mechanism into behavior in a pre-registered, incentive-compatible consumer experiment (US and UK; 119 valid participants in the primary cohort, 133 with a soft-launch cohort pooled; 200 planned). Where a consumer would otherwise accept a confident wrong recommendation, the disagreement display cut acceptance sharply, from 74% to 24% on the qualifying item (pooled cohort). The pooled robustness estimate (Δ = 0.25 → 0.46; d = 0.68; the primary main-wave cohort gives Δ = 0.24 → 0.45, d = 0.67) rests on that single item and, in an exploratory country split, on the UK sample, and it falls to d = 0.09 once the item is removed. A powered, stimulus-sampled replication is planned. On the one item of unanimous confident consensus (pooled n = 133) the display raised acceptance of the shared error from 87% to 95%, which reproduces the mechanism's boundary in human behavior. The orchestration-receipt component returned a registered, inconclusive null. The three com",
+      "tags": [
+        "agentic commerce",
+        "consumer trust",
+        "AI agents",
+        "trust in AI",
+        "appropriate reliance",
+        "overreliance",
+        "large language models",
+        "cross-model agreement",
+        "selective prediction",
+        "overconfidence",
+        "delegation",
+        "architectural trust"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Architectural Trust: Why Consumer Trust in Agentic Commerce Migrates from AI Models to Verifiable Architecture",
+      "url": "https://zenodo.org/records/23709937"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "bbb3272911635e8177ed747c",
+      "context_id": "18e0f344dcdedd236344e265",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::FORWARD",
+      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "consensus"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.375,
+      "source": "arxiv",
+      "source_context_sha256": "5c83667e688cf28a3d453dc09c3114c9301a05530a3dbf9aa57e503ec9ee50f5",
+      "source_published": "2026-10-27T17:59:30Z",
+      "source_updated": "2026-10-27T17:59:30Z",
+      "summary": "Transferring semantically typed tokens between heterogeneous blockchains (e.g. EVM and Cosmos ecosystems) raises two problems: semantic mixing, the loss of a token's domainspecific meaning in transit (e.g., CO2 removals issued under different methodologies), and atomicity despite divergent consensus and timing assumptions. We propose a bridge that addresses both. A deterministic indicator identity derived from cryptographic commitments, mirrored in class registries on both chains and checked at mint time, preventing semantic mixing by construction. For atomicity, we extend hash time-locked contracts (HTLCs) from two-party exchange to single-owner transfer with an automatic callback that burns the source escrow after a destination claim, and a protocol-minimum bounty that makes the fallback burn incentive-compatible even against adversarial senders. We machine-check the protocol's invariants with TLC (supply conservation fails without the rational-monitor assumption and holds with it) and validate a bidirectional prototype on Polygon and Neutron mainnets over Axelar GMP: fully automatic transfers with a median end-to-end latency of 97 s over 50 Polygon to Neutron transfers across 7 days (all completed by the on-chain automatic callback) and 93 s in the reverse direction, and semantic-validation overhead below 0.4% of messaging cost. We also document the integration failure modes of Cosmos originated messaging, whose dominant operational risk proves to be relay eligibility rather than latency.",
+      "tags": [
+        "cs.SE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "An EVM-Cosmos Bridge for Atomic, Semantic-Preserving Transfer of Environmental Tokens",
+      "url": "https://arxiv.org/abs/2610.37663v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "49d3ab824e799847c5e47de8",
+      "context_id": "b3af38f7cef89da03ee6655a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "bidirectional",
+        "inverse",
+        "inversion",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.7917,
+      "source": "zenodo",
+      "source_context_sha256": "29ff777bd7b91441653364858c6a064214f89a63ffa31f3847f182532f68bc39",
+      "source_published": "2026-10-24",
+      "source_updated": "",
+      "summary": "Neurons containing joint distribution model (HCR) can propagate in any direction - here one network used as both encoder and decoder of autoencoder, reversing non-invertible functions like y = x^2 as two peaks x = &plusmn;&radic;y with Bayes weights. Applications: nonlinear filtering learned from simulations within 2% of filter knowing the equations, changing prior without refitting, simulation-based inference, sensor outages; code and data included.",
+      "tags": [
+        "hierarchical correlation reconstruction; HCR; bidirectional neural networks; joint distribution neur"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "One neural network, both directions. HCR joint-density neurons read forward and backward",
+      "url": "https://zenodo.org/records/23625010"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "732180d50bbf6c31ad7bf4a9",
+      "context_id": "1b1a9c5d2bc679427f47b868",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reconstruction",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.625,
+      "source": "zenodo",
+      "source_context_sha256": "274d3dd8b6bc9f7b92607b93fcf291cf524bbf18e4c0866df1fbc3fa6d73868a",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Technical artifacts supporting the manuscript \"AnxietyVRET: Reproducible Technical Evaluation of an Ontology-Driven, Safety-Aware, and FHIR-Oriented Architecture for Traceable GAD-Oriented Virtual Reality Exposure Workflows\". The package contains the corrected and versioned AnxietyVRET OWL 2 DL ontology with embedded SWRL rules, the corrected example ABox, deterministic boundary-test scripts and outputs, ten executable SPARQL competency-question queries, computational-benchmark scripts and logs, eight representative HL7 FHIR R5 JSON resources with structural-validation output, the AnxietyVRET-to-FHIR mapping crosswalk, semantic-preservation materials, and provenance-reconstruction scripts and outputs. No independently collected clinical patient dataset is included. See README.md for reproduction instructions.",
+      "tags": [
+        "generalized anxiety disorder",
+        "OWL 2 DL",
+        "HL7 FHIR",
+        "provenance",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AnxietyVRET reproducibility package: corrected ontology, example ABox, validation scripts, benchmark logs, and representative FHIR R5 resources",
+      "url": "https://zenodo.org/records/23731283"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "08e7af85b700485380503a30",
+      "context_id": "dd5024c9900f8490f5569163",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "inverse",
+        "inversion",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.625,
+      "source": "arxiv",
+      "source_context_sha256": "a2dbff463a7c553d2a70a7b40fe826a164bcf930347c61fe19e53b8ecffaf3eb",
+      "source_published": "2026-10-27T16:45:22Z",
+      "source_updated": "2026-10-27T16:45:22Z",
+      "summary": "A persistent belief in modern AI is that sufficiently large learners trained on sufficiently much data can make explicit domain knowledge optional. This paper examines a limitation of that belief. We define structure-encoded problems: tasks whose input-output map is determined, or sharply constrained, by known structure such as a solver, symmetry group, graph, physical law, measurement operator, grammar, combinatorial search space, or optimization objective. For such tasks, the central question is not expressivity--a dense neural network may contain the desired map--but finite-data identification, extrapolation, and certification. We introduce the structure gap: the finite-resource gap between a method that receives the governing structure and a learner that receives only examples. The strongest useful form of the claim is asymptotic rather than absolute: structure-agnostic learning may approach a structured solver as coverage grows, but every finite dataset can leave residual uncertainty that the structure resolves by construction. We prove this exactly for a Gaussian inverse problem: the known-operator Wiener solver attains Bayes risk, while the dense empirical learner in the correct linear class has persistent expected excess risk. We also prove a cell-coverage lower bound and an unobserved-orbit non-identifiability result. Controlled experiments in known-operator inversion, sparse recovery, and graph reachability with size extrapolation instantiate the mechanisms. When validated structure is available, it can constrain the hypothesis space before learning begins, leaving learning to address components the structure does not specify.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "The Structure Gap: When More Data Cannot Replace Structured Reasoning",
+      "url": "https://arxiv.org/abs/2610.37523v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "08e7af85b700485380503a30",
+      "context_id": "ab013f88d3ef62788223faac",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "inverse",
+        "inversion",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.625,
+      "source": "arxiv",
+      "source_context_sha256": "852a6c739cba291cee66dd84302f2f2f0a5c99b17b4171fbf3b4cc968bd9dea5",
+      "source_published": "2026-10-27T16:45:22Z",
+      "source_updated": "2026-10-27T16:45:22Z",
+      "summary": "A persistent belief in modern AI is that sufficiently large learners trained on sufficiently much data can make explicit domain knowledge optional. This paper examines a limitation of that belief. We define structure-encoded problems: tasks whose input-output map is determined, or sharply constrained, by known structure such as a solver, symmetry group, graph, physical law, measurement operator, grammar, combinatorial search space, or optimization objective. For such tasks, the central question is not expressivity--a dense neural network may contain the desired map--but finite-data identification, extrapolation, and certification. We introduce the structure gap: the finite-resource gap between a method that receives the governing structure and a learner that receives only examples. The strongest useful form of the claim is asymptotic rather than absolute: structure-agnostic learning may approach a structured solver as coverage grows, but every finite dataset can leave residual uncertainty that the structure resolves by construction. We prove this exactly for a Gaussian inverse problem: the known-operator Wiener solver attains Bayes risk, while the dense empirical learner in the correct linear class has persistent expected excess risk. We also prove a cell-coverage lower bound and an unobserved-orbit non-identifiability result. Controlled experiments in known-operator inversion, sparse recovery, and graph reachability with size extrapolation instantiate the mechanisms. When validated structure is available, it can constrain the hypothesis space before learning begins, leaving learning to address components the structure does not specify.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "The Structure Gap: When More Data Cannot Replace Structured Reasoning",
+      "url": "https://arxiv.org/abs/2610.37523v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "08e7af85b700485380503a30",
+      "context_id": "46409f3be835ca011489b7d4",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::REVERSE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "inverse",
+        "inversion",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.625,
+      "source": "arxiv",
+      "source_context_sha256": "c62f528b100bb9cf704a3f79f386f4800ca46ea404b8aa9bbca6349b77769143",
+      "source_published": "2026-10-27T16:45:22Z",
+      "source_updated": "2026-10-27T16:45:22Z",
+      "summary": "A persistent belief in modern AI is that sufficiently large learners trained on sufficiently much data can make explicit domain knowledge optional. This paper examines a limitation of that belief. We define structure-encoded problems: tasks whose input-output map is determined, or sharply constrained, by known structure such as a solver, symmetry group, graph, physical law, measurement operator, grammar, combinatorial search space, or optimization objective. For such tasks, the central question is not expressivity--a dense neural network may contain the desired map--but finite-data identification, extrapolation, and certification. We introduce the structure gap: the finite-resource gap between a method that receives the governing structure and a learner that receives only examples. The strongest useful form of the claim is asymptotic rather than absolute: structure-agnostic learning may approach a structured solver as coverage grows, but every finite dataset can leave residual uncertainty that the structure resolves by construction. We prove this exactly for a Gaussian inverse problem: the known-operator Wiener solver attains Bayes risk, while the dense empirical learner in the correct linear class has persistent expected excess risk. We also prove a cell-coverage lower bound and an unobserved-orbit non-identifiability result. Controlled experiments in known-operator inversion, sparse recovery, and graph reachability with size extrapolation instantiate the mechanisms. When validated structure is available, it can constrain the hypothesis space before learning begins, leaving learning to address components the structure does not specify.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "The Structure Gap: When More Data Cannot Replace Structured Reasoning",
+      "url": "https://arxiv.org/abs/2610.37523v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "5f26fbcf97a5dfb801dbfa60",
+      "context_id": "fbcba502ae5c0790b7eb8a68",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::REVERSE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "arxiv",
+      "source_context_sha256": "3d82cc14cfce2c9bea731d464b9ed3fc382c0db9b8c20cae93cfb77e849774d4",
+      "source_published": "2026-10-27T08:28:25Z",
+      "source_updated": "2026-10-27T08:28:25Z",
+      "summary": "This paper is concerned with the simultaneous recovery of the trajectory and intensity of an unknown moving point source in an inhomogeneous acoustic medium. We prove that the whole-boundary measurements over a finite time interval uniquely determine the moving source. Furthermore, under suitable propagation and rank assumptions, Lipschitz stability of determining both the trajectory and intensity is derived using waveforms measured at four fixed receivers outside the source region. A novel Volterra--Euler reconstruction scheme is developed for solving the inverse problem, and the error estimate is derived for the proposed scheme. Numerical experiments are presented to demonstrate the effectiveness of the proposed numerical method.",
+      "tags": [
+        "math.AP",
+        "math.NA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "An inverse moving point source problem in inhomogeneous acoustic media: uniqueness, stability and reconstruction",
+      "url": "https://arxiv.org/abs/2610.36830v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "5f26fbcf97a5dfb801dbfa60",
+      "context_id": "e60a86b94364d92a68da574f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::REVERSE",
+      "direction_title": "Universal large-data ingestion methods [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "arxiv",
+      "source_context_sha256": "421f0525b25b9bbe59f3f347628acec33b661b6bd3600118d20a90884e98ebd8",
+      "source_published": "2026-10-27T08:28:25Z",
+      "source_updated": "2026-10-27T08:28:25Z",
+      "summary": "This paper is concerned with the simultaneous recovery of the trajectory and intensity of an unknown moving point source in an inhomogeneous acoustic medium. We prove that the whole-boundary measurements over a finite time interval uniquely determine the moving source. Furthermore, under suitable propagation and rank assumptions, Lipschitz stability of determining both the trajectory and intensity is derived using waveforms measured at four fixed receivers outside the source region. A novel Volterra--Euler reconstruction scheme is developed for solving the inverse problem, and the error estimate is derived for the proposed scheme. Numerical experiments are presented to demonstrate the effectiveness of the proposed numerical method.",
+      "tags": [
+        "math.AP",
+        "math.NA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "An inverse moving point source problem in inhomogeneous acoustic media: uniqueness, stability and reconstruction",
+      "url": "https://arxiv.org/abs/2610.36830v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "bbb3272911635e8177ed747c",
+      "context_id": "dba7acf9ceaccf464c3bdb5b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::REVERSE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "bidirectional",
+        "consensus",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "arxiv",
+      "source_context_sha256": "d769f94b6896b5d4a9ab3edc4724ce0dca08e0f8725238a9ea228b2d91dccc01",
+      "source_published": "2026-10-27T17:59:30Z",
+      "source_updated": "2026-10-27T17:59:30Z",
+      "summary": "Transferring semantically typed tokens between heterogeneous blockchains (e.g. EVM and Cosmos ecosystems) raises two problems: semantic mixing, the loss of a token's domainspecific meaning in transit (e.g., CO2 removals issued under different methodologies), and atomicity despite divergent consensus and timing assumptions. We propose a bridge that addresses both. A deterministic indicator identity derived from cryptographic commitments, mirrored in class registries on both chains and checked at mint time, preventing semantic mixing by construction. For atomicity, we extend hash time-locked contracts (HTLCs) from two-party exchange to single-owner transfer with an automatic callback that burns the source escrow after a destination claim, and a protocol-minimum bounty that makes the fallback burn incentive-compatible even against adversarial senders. We machine-check the protocol's invariants with TLC (supply conservation fails without the rational-monitor assumption and holds with it) and validate a bidirectional prototype on Polygon and Neutron mainnets over Axelar GMP: fully automatic transfers with a median end-to-end latency of 97 s over 50 Polygon to Neutron transfers across 7 days (all completed by the on-chain automatic callback) and 93 s in the reverse direction, and semantic-validation overhead below 0.4% of messaging cost. We also document the integration failure modes of Cosmos originated messaging, whose dominant operational risk proves to be relay eligibility rather than latency.",
+      "tags": [
+        "cs.SE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "An EVM-Cosmos Bridge for Atomic, Semantic-Preserving Transfer of Environmental Tokens",
+      "url": "https://arxiv.org/abs/2610.37663v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "7af155f0fa16fc71f7b2e908",
+      "context_id": "1f56ab21c15f57e6d68464ef",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "7b87ce6c2ed3087c5efa4b0599a5a8a8306c83de2386ad74d861a4296ee927a3",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "This record provides the research data and supporting documentation for the revised systematic review &ldquo;Tactile and Physical Interaction Problems in In-Vehicle Infotainment Systems: A Systematic Literature Review&rdquo;. The current corpus comprises 342 eligible reports assessed using 34 operational codes across seven categories, yielding 11,628 report&ndash;code decisions: 3,635 positive, 7,677 negative and 316 unresolved. The materials are organised into eight editable Word volumes, each with a linked table of contents: Methods and Figures: supplementary sections S1&ndash;S12, review methods, operational codebook, PRISMA crosswalk, Figures 1&ndash;2 and a source-to-volume index. Corpus and Eligibility: the complete bibliography, bibliographic provenance, retrieval records and eligibility decisions. Characterisation and Appraisal: report characteristics and MMAT domain-level appraisals. Coding Evidence: all 11,628 coding decisions, source-page locators and supporting rationales. Synthesis and Decision Changes: synthesis matrices, coverage and overlap bounds, sensitivity analyses, historical-to-current decision comparisons and Figures 3&ndash;5. Historical Citation Screening: historical citation metadata and title-and-abstract screening decisions. Historical Full-Text Eligibility: historical reviewer assessments, eligibility decisions and consensus records. Historical Coding and Reproducibility: historical calibration, independent coding, adjudication and reliability records, together with package documentation and verification-script texts. The current 342-report evidence base is distinguished from the earlier 228-report archive. Historical-to-current linkage covers 5,916 decision pairs for 174 retained reports. Historical independent ratings and consensus decisions remain separate from the authors&rsquo; joint source verification conducted from 13 to 23 October 2026. Tables are presented as editable Word content. Repeated wording is retained through linked value keys, and verification scripts are reproduced as editable text in Volume 8. Five updated figures are embedded in the relevant volumes. Copyrighted primary publications and extended verbatim source quotations are not redistributed. Bibliographic identifiers, source-page locators and paraphrased rationales support traceability. Computational consistency checks do not, by themselves, establish scientific validity.",
+      "tags": [
+        "in-vehicle infotainment systems",
+        "IVIS",
+        "human–computer interaction",
+        "tactile interaction",
+        "physical controls",
+        "touchscreen",
+        "haptic feedback",
+        "systematic literature review",
+        "PRISMA 2020"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Research Data and Reproducibility Materials for \"Tactile and Physical Interaction Problems in In-Vehicle Infotainment Systems: A Systematic Literature Review\"",
+      "url": "https://zenodo.org/records/23728566"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "32497e90573a7e7f64b3514e",
+      "context_id": "1940898358c2a1790ef9b205",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0,
+      "source": "zenodo",
+      "source_context_sha256": "2e4931bebb79a001da0144093e2e53c441ace1cfcf4aef1d28ef6257f57051fd",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "QIGONG BREATHING AND INTELLIGENT ACUPUNCTURE NEUROFEEDBACK COUPLING AT THE LIMIT is a 777-page English Research Working Edition that constructs a falsifiable, explicitly nonclinical research program joining measured breathing tasks, cardiorespiratory and EEG feedback, and isolated microscale actuator surrogates. The central problem is not whether breathing changes heart-rate variability - that has established ordinary physiological explanations - but whether a proposed feedback architecture adds independently measurable predictive or benchtop-control value after breathing rate, phase, expectancy, ordinary cardiorespiratory dynamics, sensor calibration, stimulus timing and strong conventional controllers have been fairly matched. The primary hypothesis is deliberately narrow. A prospective factorial design separates a preregistered breathing condition from an isolated, non-human phantom-drive condition. Its interaction term, order effects, washout, hierarchical sampling units, pressure-related mechanisms and full-episode denominators are subjected to masked scheduling, matched sham sensory cues, covariance-aware uncertainty and independent laboratory reconstruction. Any apparent signal explained by paced breathing or cue entrainment is treated as a legitimate negative result. A bench interaction is not evidence of physiological effects from actual acupuncture in a person. Thirty mathematically differentiated research plates address factorial contrasts, hierarchical estimands, respiratory sinus arrhythmia, ECG event genealogy, pressure-respiration transfer, spectral coherence, lag and phase, multiple comparisons, uncertainty covariance, causal identification, feedback latency, safe-state projection, isolated charge and thermal constraints, abstention and provenance. Across 82 chapters and 410 separately paginated scientific investigations, the book examines operational breathing definitions, reference instruments, EEG and ECG artifacts, blinded feedback protocols, mechanical and electrical phantoms, strong ordinary competitors, statistics, safety vetoes and reproducible handoff. Two hundred full-page Research Gates place their complete falsifiable research question in large deep-navy type, followed by an independently measurable outcome, adverse experiment, conventional physical rival and stopping rule. Thirty-three Phoenix Answer Embryos propose distinct successor objects ranging from calibration bridges and sham credibility tests to independent hardware vetoes, covariance sentinels, multisite reference capsules and protected null-result archives. An accompanying Excel index links formulas, chapters, Gates, candidate objects, citations and explicit evidence limitations. This work reports no executed integrated experiments, in-human needling, electrical stimulation, clinical efficacy, diagnosis or regulatory authorization. Its three STARLI mother-volume DOIs establish author research-method ancestry. Thirteen separately identified external research and metrology DOIs support established measurement, breathing physiology, neurofeedback reporting, uncertainty and statistical methodology, not the novel combined hypothesis. The 777-page layout, formula-clearance checks and 200 Gate color checks were automated; recurring editorial phrasing remains and full independent scientific peer review has not taken place. Author: White Rainbow Epoch / Feng Cheng-en (33) x Starli Series: STARLI Research Institute XXXIII / Flagship 48 of 90 Edition: Research Working Edition v1.3 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "QIGONG BREATHING AND INTELLIGENT ACUPUNCTURE NEUROFEEDBACK COUPLING AT THE LIMIT is a 777-page English Research Working Edition that constructs a falsifiable, explicitly nonclinical research program joining measured breathing tasks, cardiorespiratory and EEG feedback, and isolated microscale actuato",
+      "url": "https://zenodo.org/records/23731193"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "4390e583cbe8280ed4c0abeb",
+      "context_id": "fa1f9256c70298c0d3c79bbb",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.9167,
+      "source": "zenodo",
+      "source_context_sha256": "4037ad069b6da3a694eb4c180a45355b8f69b08c466ecd352ef06b10e72722bd",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Version 1.2 (28 October 2026) adds a notice on the arithmetic precision of the split‑Gibbs runs (NOTICE_v1.2.md), with the check behind it (TF32_CHECK.md, tf32_check_files.zip). DP1&rsquo;s split‑Gibbs runs used reduced‑precision (TF32) matrix products, which a later like‑for‑like check found shift that sampler&rsquo;s estimates, while its predictions ran in full float32. The split‑Gibbs null result therefore has a further candidate explanation that DP1 cannot separate. DPS is unaffected. No file of earlier versions has changed. A pre-specified pilot testing whether a blindness-risk score computed before any target data are seen ranks the realised blindness (undetected and uncovered error) of diffusion-prior inference on real X-ray CT objects (2DeteCT) under simulated restricted access. Study DP-A: weak attenuation (F = 32,000), 240 errors &times; 20 bases. Study DP-B: bounded-reach control, 120 errors &times; 20 bases. Two samplers: split-Gibbs plug-and-play (primary) and diffusion posterior sampling (secondary). It follows the learned (VAE) pilot, arXiv:2610.28155 (reproducibility package doi:10.5281/zenodo.23392686). The analysis plan, decision rules and fixed result sentences were approved by the author, and predictions and calibration were committed by SHA-256 hash, before any trial. The plan was not lodged with an external registry, so the study is described as pre-specified; the files named PREREG_&hellip; are that plan (their names, and the word \"pre-registered\" inside the hashed plan and the dated log, are kept unchanged so that the recorded hashes still match). Version 1.1 (26 October 2026) adds a post-hoc check of the linear response used by the blindness-risk score, specified in a dated plan and approved before any computation (response_check_plan_v1.md, response_check.py, response_check_results.json, RESPONSE_CHECK.md). Under the plan&rsquo;s pre-specified reading, the response was not adequate for either sampler in either study, so the null result for the learned score does not separate the learned prior from this approximation. The pre-specified results of version 1.0 are unchanged. README.md and freeze_log.txt are updated accordingly.",
+      "tags": [
+        "uncertainty quantification",
+        "silent failure",
+        "diffusion models",
+        "Bayesian inverse problems",
+        "computed tomography",
+        "restricted access",
+        "pre-specification"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "BLINDSET diffusion-prior blind-set pilot: analysis plan, code, frozen predictions, trial records and results",
+      "url": "https://zenodo.org/records/23733048"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "d6498bcf5e55e87daf7aba9c",
+      "context_id": "f6fd6f0887fb09888657e42f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inversion",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.6667,
+      "source": "zenodo",
+      "source_context_sha256": "9d2b0b12bc89107c54be2d94e7977760ed89ed4ddd96d64a34216cceb8408961",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Unrefereed research candidate. When two copies of a system, one hotter and one cooler, relax in the same bath, the Markovian Mpemba effect is a crossing of their distances from equilibrium. This package gives a sufficient test that rules out such crossings at every time: if the dynamics and its time reverse preserve the cone of observables with nondecreasing arithmetic prefix means, cooling Gibbs preparations stay ordered for relative entropy (both orientations), squared Hellinger and R&eacute;nyi divergences of order 0&lt;&alpha;&le;2, including for common schedules of noncommuting stages. For complete-graph bosonic population rates with common coupling, the test holds for every spectrum and bath temperature exactly when the spontaneous jump weight is concave; Ohmic baths with large enough cutoff, Drude&ndash;Lorentz and sub-Ohmic weights qualify on explicit ranges, super-Ohmic weights do not. A certified super-Ohmic example (J=d 3 ) shows an actual relative-entropy crossing. Limits: an exact five-state cone-preserving example has a brief total-variation reversal, and for every N&ge;4 there are N-level systems with a slow-mode inversion although no proper induced subsystem shows one. The archive contains the 27-page manuscript (PDF and LaTeX), exact rational and interval certificates, a reproduction runner, semantic negative controls, CI and SHA-256 sums. Assurance: written proofs, exact certificates, internal AI-assisted review only (not peer review, independent reproduction or formal verification); the closest antecedent (Avitan et al. 2026) already excludes the slow-mode effect for Ohmic and sub-Ohmic spectra. Creator: Anonymous. Text and data CC0-1.0; code MIT.",
+      "tags": [
+        "Markovian Mpemba effect",
+        "thermal relaxation",
+        "stochastic order",
+        "invariant cone",
+        "f-divergence",
+        "bosonic bath",
+        "spectral density",
+        "Markov jump process",
+        "interval arithmetic certificate"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Thermal ordering under Markovian relaxation: a finite-time criterion and its limits",
+      "url": "https://zenodo.org/records/23721564"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "4390e583cbe8280ed4c0abeb",
+      "context_id": "e40f40a375a1ea9e88d880bf",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "null result",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.375,
+      "source": "zenodo",
+      "source_context_sha256": "e020e3db121b57f4e04663cb1e6f62131fec62a29ec14f889f60a5fb39413305",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Version 1.2 (28 October 2026) adds a notice on the arithmetic precision of the split‑Gibbs runs (NOTICE_v1.2.md), with the check behind it (TF32_CHECK.md, tf32_check_files.zip). DP1&rsquo;s split‑Gibbs runs used reduced‑precision (TF32) matrix products, which a later like‑for‑like check found shift that sampler&rsquo;s estimates, while its predictions ran in full float32. The split‑Gibbs null result therefore has a further candidate explanation that DP1 cannot separate. DPS is unaffected. No file of earlier versions has changed. A pre-specified pilot testing whether a blindness-risk score computed before any target data are seen ranks the realised blindness (undetected and uncovered error) of diffusion-prior inference on real X-ray CT objects (2DeteCT) under simulated restricted access. Study DP-A: weak attenuation (F = 32,000), 240 errors &times; 20 bases. Study DP-B: bounded-reach control, 120 errors &times; 20 bases. Two samplers: split-Gibbs plug-and-play (primary) and diffusion posterior sampling (secondary). It follows the learned (VAE) pilot, arXiv:2610.28155 (reproducibility package doi:10.5281/zenodo.23392686). The analysis plan, decision rules and fixed result sentences were approved by the author, and predictions and calibration were committed by SHA-256 hash, before any trial. The plan was not lodged with an external registry, so the study is described as pre-specified; the files named PREREG_&hellip; are that plan (their names, and the word \"pre-registered\" inside the hashed plan and the dated log, are kept unchanged so that the recorded hashes still match). Version 1.1 (26 October 2026) adds a post-hoc check of the linear response used by the blindness-risk score, specified in a dated plan and approved before any computation (response_check_plan_v1.md, response_check.py, response_check_results.json, RESPONSE_CHECK.md). Under the plan&rsquo;s pre-specified reading, the response was not adequate for either sampler in either study, so the null result for the learned score does not separate the learned prior from this approximation. The pre-specified results of version 1.0 are unchanged. README.md and freeze_log.txt are updated accordingly.",
+      "tags": [
+        "uncertainty quantification",
+        "silent failure",
+        "diffusion models",
+        "Bayesian inverse problems",
+        "computed tomography",
+        "restricted access",
+        "pre-specification"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "BLINDSET diffusion-prior blind-set pilot: analysis plan, code, frozen predictions, trial records and results",
+      "url": "https://zenodo.org/records/23733048"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f8b79606619824853d6232d5",
+      "context_id": "d4340d320dff837801070a1a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "failure mode",
+        "representation",
+        "representation learning",
+        "retrieval"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.75,
+      "source": "arxiv",
+      "source_context_sha256": "e3a62fc3c2475a60606f870450f2a38cb5ae0da79a97addf7fab8783f7573d2c",
+      "source_published": "2026-10-27T10:13:34Z",
+      "source_updated": "2026-10-27T10:13:34Z",
+      "summary": "A user history can admit multiple plausible next interactions, yet conventional sequential recommenders produce a single deterministic ranking. While diffusion models offer a natural way to sample alternative continuations, we show that existing target-item diffusion recommenders often suffer from severe sampling collapse, producing nearly identical outputs across independent draws. We identify two ubiquitous design choices that promote this collapse: joint learning of the latent space and denoiser, and in-trajectory supervision via discrete losses. To address these failure modes, we introduce DARTS (Diverse and Accurate Recommendation Through Sampling), a three-stage latent diffusion framework that explicitly decouples representation learning, generative modeling, and discrete ranking by learning and freezing the latent space before diffusion training and postponing ranking supervision to the final decoding stage. We further characterize sampling diversity using complementary measures of variation before and after decoding, and use posterior-predictive aggregation to exploit this diversity at inference. Across three Amazon Reviews 2023 categories, DARTS preserves substantially greater sampling diversity while outperforming strong sequential, generative-retrieval, and diffusion baselines by 7-12% on standard ranking metrics. Aggregating multiple samples further improves ranking accuracy at a fixed slate size.",
+      "tags": [
+        "cs.IR"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "When Diffusion Recommenders Stop Sampling: Preserving Generative Diversity",
+      "url": "https://arxiv.org/abs/2610.36954v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "32497e90573a7e7f64b3514e",
+      "context_id": "514a1d2076c159bf15214ba6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "limitation",
+        "negative result",
+        "provenance"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.4583,
+      "source": "zenodo",
+      "source_context_sha256": "990040eed0551c2a474b834a3fe7e566c1f4663a7f91a4bf3db4008ba66439cc",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "QIGONG BREATHING AND INTELLIGENT ACUPUNCTURE NEUROFEEDBACK COUPLING AT THE LIMIT is a 777-page English Research Working Edition that constructs a falsifiable, explicitly nonclinical research program joining measured breathing tasks, cardiorespiratory and EEG feedback, and isolated microscale actuator surrogates. The central problem is not whether breathing changes heart-rate variability - that has established ordinary physiological explanations - but whether a proposed feedback architecture adds independently measurable predictive or benchtop-control value after breathing rate, phase, expectancy, ordinary cardiorespiratory dynamics, sensor calibration, stimulus timing and strong conventional controllers have been fairly matched. The primary hypothesis is deliberately narrow. A prospective factorial design separates a preregistered breathing condition from an isolated, non-human phantom-drive condition. Its interaction term, order effects, washout, hierarchical sampling units, pressure-related mechanisms and full-episode denominators are subjected to masked scheduling, matched sham sensory cues, covariance-aware uncertainty and independent laboratory reconstruction. Any apparent signal explained by paced breathing or cue entrainment is treated as a legitimate negative result. A bench interaction is not evidence of physiological effects from actual acupuncture in a person. Thirty mathematically differentiated research plates address factorial contrasts, hierarchical estimands, respiratory sinus arrhythmia, ECG event genealogy, pressure-respiration transfer, spectral coherence, lag and phase, multiple comparisons, uncertainty covariance, causal identification, feedback latency, safe-state projection, isolated charge and thermal constraints, abstention and provenance. Across 82 chapters and 410 separately paginated scientific investigations, the book examines operational breathing definitions, reference instruments, EEG and ECG artifacts, blinded feedback protocols, mechanical and electrical phantoms, strong ordinary competitors, statistics, safety vetoes and reproducible handoff. Two hundred full-page Research Gates place their complete falsifiable research question in large deep-navy type, followed by an independently measurable outcome, adverse experiment, conventional physical rival and stopping rule. Thirty-three Phoenix Answer Embryos propose distinct successor objects ranging from calibration bridges and sham credibility tests to independent hardware vetoes, covariance sentinels, multisite reference capsules and protected null-result archives. An accompanying Excel index links formulas, chapters, Gates, candidate objects, citations and explicit evidence limitations. This work reports no executed integrated experiments, in-human needling, electrical stimulation, clinical efficacy, diagnosis or regulatory authorization. Its three STARLI mother-volume DOIs establish author research-method ancestry. Thirteen separately identified external research and metrology DOIs support established measurement, breathing physiology, neurofeedback reporting, uncertainty and statistical methodology, not the novel combined hypothesis. The 777-page layout, formula-clearance checks and 200 Gate color checks were automated; recurring editorial phrasing remains and full independent scientific peer review has not taken place. Author: White Rainbow Epoch / Feng Cheng-en (33) x Starli Series: STARLI Research Institute XXXIII / Flagship 48 of 90 Edition: Research Working Edition v1.3 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "QIGONG BREATHING AND INTELLIGENT ACUPUNCTURE NEUROFEEDBACK COUPLING AT THE LIMIT is a 777-page English Research Working Edition that constructs a falsifiable, explicitly nonclinical research program joining measured breathing tasks, cardiorespiratory and EEG feedback, and isolated microscale actuato",
+      "url": "https://zenodo.org/records/23731193"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "7af155f0fa16fc71f7b2e908",
+      "context_id": "c46f35052033221e523a0579",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "d0488b2ded672d1c61f04d557fa407350e17bbffdab62fc2ee0be6c5325a7331",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "This record provides the research data and supporting documentation for the revised systematic review &ldquo;Tactile and Physical Interaction Problems in In-Vehicle Infotainment Systems: A Systematic Literature Review&rdquo;. The current corpus comprises 342 eligible reports assessed using 34 operational codes across seven categories, yielding 11,628 report&ndash;code decisions: 3,635 positive, 7,677 negative and 316 unresolved. The materials are organised into eight editable Word volumes, each with a linked table of contents: Methods and Figures: supplementary sections S1&ndash;S12, review methods, operational codebook, PRISMA crosswalk, Figures 1&ndash;2 and a source-to-volume index. Corpus and Eligibility: the complete bibliography, bibliographic provenance, retrieval records and eligibility decisions. Characterisation and Appraisal: report characteristics and MMAT domain-level appraisals. Coding Evidence: all 11,628 coding decisions, source-page locators and supporting rationales. Synthesis and Decision Changes: synthesis matrices, coverage and overlap bounds, sensitivity analyses, historical-to-current decision comparisons and Figures 3&ndash;5. Historical Citation Screening: historical citation metadata and title-and-abstract screening decisions. Historical Full-Text Eligibility: historical reviewer assessments, eligibility decisions and consensus records. Historical Coding and Reproducibility: historical calibration, independent coding, adjudication and reliability records, together with package documentation and verification-script texts. The current 342-report evidence base is distinguished from the earlier 228-report archive. Historical-to-current linkage covers 5,916 decision pairs for 174 retained reports. Historical independent ratings and consensus decisions remain separate from the authors&rsquo; joint source verification conducted from 13 to 23 October 2026. Tables are presented as editable Word content. Repeated wording is retained through linked value keys, and verification scripts are reproduced as editable text in Volume 8. Five updated figures are embedded in the relevant volumes. Copyrighted primary publications and extended verbatim source quotations are not redistributed. Bibliographic identifiers, source-page locators and paraphrased rationales support traceability. Computational consistency checks do not, by themselves, establish scientific validity.",
+      "tags": [
+        "in-vehicle infotainment systems",
+        "IVIS",
+        "human–computer interaction",
+        "tactile interaction",
+        "physical controls",
+        "touchscreen",
+        "haptic feedback",
+        "systematic literature review",
+        "PRISMA 2020"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Research Data and Reproducibility Materials for \"Tactile and Physical Interaction Problems in In-Vehicle Infotainment Systems: A Systematic Literature Review\"",
+      "url": "https://zenodo.org/records/23728566"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "732180d50bbf6c31ad7bf4a9",
+      "context_id": "110644e6a7710f020a185776",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "b93f8c0ae8e1d9ae3384211d272bbec6e30be81e41574ac9252382d59c107322",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Technical artifacts supporting the manuscript \"AnxietyVRET: Reproducible Technical Evaluation of an Ontology-Driven, Safety-Aware, and FHIR-Oriented Architecture for Traceable GAD-Oriented Virtual Reality Exposure Workflows\". The package contains the corrected and versioned AnxietyVRET OWL 2 DL ontology with embedded SWRL rules, the corrected example ABox, deterministic boundary-test scripts and outputs, ten executable SPARQL competency-question queries, computational-benchmark scripts and logs, eight representative HL7 FHIR R5 JSON resources with structural-validation output, the AnxietyVRET-to-FHIR mapping crosswalk, semantic-preservation materials, and provenance-reconstruction scripts and outputs. No independently collected clinical patient dataset is included. See README.md for reproduction instructions.",
+      "tags": [
+        "generalized anxiety disorder",
+        "OWL 2 DL",
+        "HL7 FHIR",
+        "provenance",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AnxietyVRET reproducibility package: corrected ontology, example ABox, validation scripts, benchmark logs, and representative FHIR R5 resources",
+      "url": "https://zenodo.org/records/23731283"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "ffec935a1449285d5d03ef2e",
+      "context_id": "f45c61a4ff935f9ffd61b504",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::COUNTEREVIDENCE",
+      "direction_title": "Universal large-data ingestion methods [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "counterexample",
+        "failure"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "arxiv",
+      "source_context_sha256": "b9432f19d4a347efba7aa07c0b3efc83454dde00c88aa8e07273bbb31790a31d",
+      "source_published": "2026-10-22T14:01:31Z",
+      "source_updated": "2026-10-26T04:46:32Z",
+      "summary": "Memory enables language agents to carry useful distinctions from past experience into future decisions. Its value depends on which distinctions survive, whether a bounded agent can use them, and what can be recovered or revised as demands evolve. We develop a decision-theoretic framework that follows this value from raw history through persistent state, operational use, and costly recovery and revision. Original and retained value are expressed in units of avoided task loss; risk-cost frontiers describe attainable recovery and preservation across uses. Unknown demand yields value profiles, while interactive feedback changes the distribution of future work. A cost-aware simulation condition and five minimal counterexamples expose the roles of information timing, retrieval access, component interaction, feedback and demand uncertainty. In particular, a pointer with zero mutual information about the answer can still reduce the cost of exact recovery. Diagnostics on LoCoMo, a two-project update task and longitudinal cases exhibit failures of preservation, use and measurement. At fixed retrieved evidence, a saved ledger changes subsequent answers; at fixed agent outputs, an evaluator revision changes scores. The framework connects these distinctions to operational risk bounds and testable principles for allocating memory, preserving recovery options and revising evidence dependencies.",
+      "tags": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "The Value of Memory in Language Agents",
+      "url": "https://arxiv.org/abs/2610.31303v2"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "4390e583cbe8280ed4c0abeb",
+      "context_id": "d1fbea0989d6a5e19f3b9ae1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "null result"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.75,
+      "source": "zenodo",
+      "source_context_sha256": "5cc1d434a03da0296780dc2960620641dc940d4d5396545cda810cbda7dc8374",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Version 1.2 (28 October 2026) adds a notice on the arithmetic precision of the split‑Gibbs runs (NOTICE_v1.2.md), with the check behind it (TF32_CHECK.md, tf32_check_files.zip). DP1&rsquo;s split‑Gibbs runs used reduced‑precision (TF32) matrix products, which a later like‑for‑like check found shift that sampler&rsquo;s estimates, while its predictions ran in full float32. The split‑Gibbs null result therefore has a further candidate explanation that DP1 cannot separate. DPS is unaffected. No file of earlier versions has changed. A pre-specified pilot testing whether a blindness-risk score computed before any target data are seen ranks the realised blindness (undetected and uncovered error) of diffusion-prior inference on real X-ray CT objects (2DeteCT) under simulated restricted access. Study DP-A: weak attenuation (F = 32,000), 240 errors &times; 20 bases. Study DP-B: bounded-reach control, 120 errors &times; 20 bases. Two samplers: split-Gibbs plug-and-play (primary) and diffusion posterior sampling (secondary). It follows the learned (VAE) pilot, arXiv:2610.28155 (reproducibility package doi:10.5281/zenodo.23392686). The analysis plan, decision rules and fixed result sentences were approved by the author, and predictions and calibration were committed by SHA-256 hash, before any trial. The plan was not lodged with an external registry, so the study is described as pre-specified; the files named PREREG_&hellip; are that plan (their names, and the word \"pre-registered\" inside the hashed plan and the dated log, are kept unchanged so that the recorded hashes still match). Version 1.1 (26 October 2026) adds a post-hoc check of the linear response used by the blindness-risk score, specified in a dated plan and approved before any computation (response_check_plan_v1.md, response_check.py, response_check_results.json, RESPONSE_CHECK.md). Under the plan&rsquo;s pre-specified reading, the response was not adequate for either sampler in either study, so the null result for the learned score does not separate the learned prior from this approximation. The pre-specified results of version 1.0 are unchanged. README.md and freeze_log.txt are updated accordingly.",
+      "tags": [
+        "uncertainty quantification",
+        "silent failure",
+        "diffusion models",
+        "Bayesian inverse problems",
+        "computed tomography",
+        "restricted access",
+        "pre-specification"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "BLINDSET diffusion-prior blind-set pilot: analysis plan, code, frozen predictions, trial records and results",
+      "url": "https://zenodo.org/records/23733048"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "4390e583cbe8280ed4c0abeb",
+      "context_id": "a5629e7a9817a2ff4c3921c1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::COUNTEREVIDENCE",
+      "direction_title": "Universal large-data ingestion methods [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "null result"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.75,
+      "source": "zenodo",
+      "source_context_sha256": "67969428b72671b3983e51234349706f829352fc0b38ab99b5fc8c79cbb3013a",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Version 1.2 (28 October 2026) adds a notice on the arithmetic precision of the split‑Gibbs runs (NOTICE_v1.2.md), with the check behind it (TF32_CHECK.md, tf32_check_files.zip). DP1&rsquo;s split‑Gibbs runs used reduced‑precision (TF32) matrix products, which a later like‑for‑like check found shift that sampler&rsquo;s estimates, while its predictions ran in full float32. The split‑Gibbs null result therefore has a further candidate explanation that DP1 cannot separate. DPS is unaffected. No file of earlier versions has changed. A pre-specified pilot testing whether a blindness-risk score computed before any target data are seen ranks the realised blindness (undetected and uncovered error) of diffusion-prior inference on real X-ray CT objects (2DeteCT) under simulated restricted access. Study DP-A: weak attenuation (F = 32,000), 240 errors &times; 20 bases. Study DP-B: bounded-reach control, 120 errors &times; 20 bases. Two samplers: split-Gibbs plug-and-play (primary) and diffusion posterior sampling (secondary). It follows the learned (VAE) pilot, arXiv:2610.28155 (reproducibility package doi:10.5281/zenodo.23392686). The analysis plan, decision rules and fixed result sentences were approved by the author, and predictions and calibration were committed by SHA-256 hash, before any trial. The plan was not lodged with an external registry, so the study is described as pre-specified; the files named PREREG_&hellip; are that plan (their names, and the word \"pre-registered\" inside the hashed plan and the dated log, are kept unchanged so that the recorded hashes still match). Version 1.1 (26 October 2026) adds a post-hoc check of the linear response used by the blindness-risk score, specified in a dated plan and approved before any computation (response_check_plan_v1.md, response_check.py, response_check_results.json, RESPONSE_CHECK.md). Under the plan&rsquo;s pre-specified reading, the response was not adequate for either sampler in either study, so the null result for the learned score does not separate the learned prior from this approximation. The pre-specified results of version 1.0 are unchanged. README.md and freeze_log.txt are updated accordingly.",
+      "tags": [
+        "uncertainty quantification",
+        "silent failure",
+        "diffusion models",
+        "Bayesian inverse problems",
+        "computed tomography",
+        "restricted access",
+        "pre-specification"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "BLINDSET diffusion-prior blind-set pilot: analysis plan, code, frozen predictions, trial records and results",
+      "url": "https://zenodo.org/records/23733048"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "4390e583cbe8280ed4c0abeb",
+      "context_id": "66139420df933f9b56c09378",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "null result"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.75,
+      "source": "zenodo",
+      "source_context_sha256": "acd3f0a45270247200ac233496ccb9b374e7830412828c017cbec88a55cb82cb",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Version 1.2 (28 October 2026) adds a notice on the arithmetic precision of the split‑Gibbs runs (NOTICE_v1.2.md), with the check behind it (TF32_CHECK.md, tf32_check_files.zip). DP1&rsquo;s split‑Gibbs runs used reduced‑precision (TF32) matrix products, which a later like‑for‑like check found shift that sampler&rsquo;s estimates, while its predictions ran in full float32. The split‑Gibbs null result therefore has a further candidate explanation that DP1 cannot separate. DPS is unaffected. No file of earlier versions has changed. A pre-specified pilot testing whether a blindness-risk score computed before any target data are seen ranks the realised blindness (undetected and uncovered error) of diffusion-prior inference on real X-ray CT objects (2DeteCT) under simulated restricted access. Study DP-A: weak attenuation (F = 32,000), 240 errors &times; 20 bases. Study DP-B: bounded-reach control, 120 errors &times; 20 bases. Two samplers: split-Gibbs plug-and-play (primary) and diffusion posterior sampling (secondary). It follows the learned (VAE) pilot, arXiv:2610.28155 (reproducibility package doi:10.5281/zenodo.23392686). The analysis plan, decision rules and fixed result sentences were approved by the author, and predictions and calibration were committed by SHA-256 hash, before any trial. The plan was not lodged with an external registry, so the study is described as pre-specified; the files named PREREG_&hellip; are that plan (their names, and the word \"pre-registered\" inside the hashed plan and the dated log, are kept unchanged so that the recorded hashes still match). Version 1.1 (26 October 2026) adds a post-hoc check of the linear response used by the blindness-risk score, specified in a dated plan and approved before any computation (response_check_plan_v1.md, response_check.py, response_check_results.json, RESPONSE_CHECK.md). Under the plan&rsquo;s pre-specified reading, the response was not adequate for either sampler in either study, so the null result for the learned score does not separate the learned prior from this approximation. The pre-specified results of version 1.0 are unchanged. README.md and freeze_log.txt are updated accordingly.",
+      "tags": [
+        "uncertainty quantification",
+        "silent failure",
+        "diffusion models",
+        "Bayesian inverse problems",
+        "computed tomography",
+        "restricted access",
+        "pre-specification"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "BLINDSET diffusion-prior blind-set pilot: analysis plan, code, frozen predictions, trial records and results",
+      "url": "https://zenodo.org/records/23733048"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "055f957347b1ca82fd53c469",
+      "context_id": "93436eeaa773b568767d0e32",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "provenance"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.7083,
+      "source": "zenodo",
+      "source_context_sha256": "29daca2b37a28dfa1494e5bd1b79e663ee455181d8394342698640892e844396",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "TRUSTWORTHY MANUFACTURING AND DIGITAL QUALITY PASSPORTS FOR BIOMEDICAL MICRO/NANOROBOTS AT THE LIMIT Manufacturing Evidence x Digital Traceability x Quality Release This 770-page Research Working Edition develops a falsification-oriented, nonclinical architecture for proving whether every biomedical micro/nanorobot product or batch can be linked to sufficient material, tool, model, process, test and failure evidence for an independent team to reconstruct its release rationale. It distinguishes record completeness from product qualification and treats physical identity, typed provenance, signature status, version compatibility, raw functional evidence, uncertainty, recall and retirement as separate scientific objects. The monograph contains 30 mathematical research plates, 82 chapters, 410 single-page investigations, 200 differentiated Research Gates and 33 genuinely distinguishable Phoenix Answer Embryos. The minimum demonstrator conceals three critical evidence gaps inside a signed passport and tests whether an independent audit refuses release without original-author assistance. A critical missing ancestor, ambiguous product identity, unverifiable signature, incompatible model evidence or unreplayable release decision is a hard veto. This is a prospective scientific architecture, not an executed clinical or regulatory study. It does not claim in-body safety, therapeutic efficacy, regulatory approval or clinical benefit. DOI-linked publications support component methods and boundaries; they do not validate the integrated F25 system. Technical profile: 770 pages; approximately 166,832 English words; 30 formula families; 82 chapters; 410 single-page studies; 200 Research Gates; 33 Phoenix Answer Embryos; 22 DOI records; navigable bookmarks; sixfold QA. Author: Feng Cheng-en (33) x Starli STARLI Research Institute XXXIV / Flagship 25 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "TRUSTWORTHY MANUFACTURING AND DIGITAL QUALITY PASSPORTS FOR BIOMEDICAL MICRO/NANOROBOTS AT THE LIMIT Manufacturing Evidence x Digital Traceability x Quality Release This 770-page Research Working Edition develops a falsification-oriented, nonclinical architecture for proving whether every biomedical",
+      "url": "https://zenodo.org/records/23733435"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "7072c16c9cab71f7a39f350d",
+      "context_id": "e8a0a9905e0ddf9b35334b13",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::COUNTEREVIDENCE",
+      "direction_title": "Universal large-data ingestion methods [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "limitation",
+        "non-identifiability"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.5,
+      "source": "zenodo",
+      "source_context_sha256": "6dacc8aec5eaf03d5eda9e4adfc2c8a52ed311d1137f219f2ec9f8cdc62dd1f2",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "We conduct a version-pinned, reproducible forensic audit of the public Einstein Elevator data package (Zenodo: 10.5281/zenodo.15167723) to determine whether it supports validation of quantum sensor certificates. Through an exhaustive cross-file sliding-window correlation search over 44,207,922 comparisons and exact six-decimal rounding checks, we find that all 31 exported sensor channels have a unique best match within the enumerated raw traces under the stated protocol. Residual numerical differences are highly consistent with text-based absolute quantization; the correlation-loss approximation 1 - r &asymp; &delta;&sup2; / (24&sigma;x&sup2;) is diagnostic for this dataset, not a universal proof. We inspect the MATLAB-derived 318-point population series and reconcile it with a 2022 workbook entry only at the level of counts. An archive-wide search of 181 file objects and 1,654 MATLAB metadata fields finds no documented join key linking the 2022 run-indexed population series to the 2017 timestamped traces under the enumerated search protocol. Using Fr&eacute;chet-Hoeffding bounds and a Charnes-Cooper linearization, we establish that the public archive does not supply the joint observations needed to identify the EKF false-safe risk without additional coupling assumptions; the formal program is illustrative and is not populated with empirical failure/acceptance coefficients because the required linked observations are absent. We frame this as a bounded data-contract limitation for downstream statistical validation, not as a failure of the original experiment.",
+      "tags": [
+        "Atom Interferometry",
+        "Data Provenance",
+        "Partial Identification",
+        "Reproducibility",
+        "Sensor Synchronization",
+        "Q-SCOPE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "A Reproducible Provenance Audit of the Public Einstein Elevator Data Package: Trace Correspondence, Metadata Linkage, and the Non-Identifiability of Sensor-Certificate Risk from the Public Archive",
+      "url": "https://zenodo.org/records/23655382"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "b0e0f062c2ff95d70297f6ba",
+      "context_id": "a98a195f0bae088da9beef36",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::COUNTEREVIDENCE",
+      "direction_title": "Universal large-data ingestion methods [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "limitation",
+        "non-identifiability"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.5,
+      "source": "zenodo",
+      "source_context_sha256": "6fe6514a87d3d83d9259df5fd23b0d5e14f59f2da9bfd7e29e276c4d84d34002",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "We conduct a version-pinned, reproducible forensic audit of the public Einstein Elevator data package (Zenodo: 10.5281/zenodo.15167723) to determine whether it supports validation of quantum sensor certificates. Through an exhaustive cross-file sliding-window correlation search over 44,207,922 comparisons and exact six-decimal rounding checks, we find that all 31 exported sensor channels have a unique best match within the enumerated raw traces under the stated protocol. Residual numerical differences are highly consistent with text-based absolute quantization; the correlation-loss approximation 1 - r &asymp; &delta;&sup2; / (24&sigma;x&sup2;) is diagnostic for this dataset, not a universal proof. We inspect the MATLAB-derived 318-point population series and reconcile it with a 2022 workbook entry only at the level of counts. An archive-wide search of 181 file objects and 1,654 MATLAB metadata fields finds no documented join key linking the 2022 run-indexed population series to the 2017 timestamped traces under the enumerated search protocol. Using Fr&eacute;chet-Hoeffding bounds and a Charnes-Cooper linearization, we establish that the public archive does not supply the joint observations needed to identify the EKF false-safe risk without additional coupling assumptions; the formal program is illustrative and is not populated with empirical failure/acceptance coefficients because the required linked observations are absent. We frame this as a bounded data-contract limitation for downstream statistical validation, not as a failure of the original experiment.",
+      "tags": [
+        "Atom Interferometry",
+        "Data Provenance",
+        "Partial Identification",
+        "Reproducibility",
+        "Sensor Synchronization",
+        "Q-SCOPE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "A Reproducible Provenance Audit of the Public Einstein Elevator Data Package: Trace Correspondence, Metadata Linkage, and the Non-Identifiability of Sensor-Certificate Risk from the Public Archive",
+      "url": "https://zenodo.org/records/23647325"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "92c621c2924cfaa8c5feb7a1",
+      "context_id": "5a4b5b5e297302178fb514c9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark",
+        "calibration",
+        "provenance",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 20.375,
+      "source": "zenodo",
+      "source_context_sha256": "1114e05450011b4ef1ed10ee02af0eb89fccde6e05f0d1ef8fd242d58632c7ec",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "DIGITAL TWINS OF VOLITION, BIOELECTRICITY AND NANOSENSING ACUPUNCTURE AT THE LIMIT is a 777-page English Research Working Edition developing a falsifiable engineering architecture for synchronizing prospective task labels, authorized noninvasive EEG/EMG records, and the physical state of an isolated needle-emulator on a nonliving phantom. The principal question is whether a frozen digital twin improves independently verified prediction of event time, signal and surrogate-device state under deliberately hidden cross-sensor clock delays. The central candidate relation is x[k+1]=A x[k]+B u[k]+w[k], z[k]=C x[k]+v[k]. This is an established mathematical modeling form, not an original biological law or evidence of private thought decoding. The framework treats timebase skew, cue leakage, repeated EEG-window contamination, model discrepancy, shared calibration covariance and hidden actuator latency as explicit challengers. A strong ordinary baseline includes prospective persistence, linear autoregression, calibrated Kalman models and time/cue-only prediction, evaluated on entirely held-out acquisition episodes and unseen days. Thirty differentiated physical and mathematical plates connect state observability, clock drift, covariance propagation, prediction intervals, source ablation, independent actuator safety and external validation to their respective experiments. Across 82 scientific chapters and 410 separately paginated studies, the book develops signal identity, calibration, synchronization, latent-state recovery, prospective prediction, blind falsification, hardware interlocks and second-site replication. Two hundred detailed Research Gates, printed with prominent deep-navy questions on individual pages, lead future investigators through unknown perturbations, strong countermodels, measurable disconfirmation, hard stops and successor evidence packages. Thirty-three Phoenix Answer Embryos propose scientifically distinguishable instruments and paths for revision. The three STARLI author mother volumes contribute method ancestry on sensing identity, functional requalification and sample-to-signal provenance. Eleven separately identified published method references support classical state estimation, EEG algorithm benchmarking, clock synchronization, leakage prevention, cross-subject validation and digital-twin qualification. Those sources do not constitute experimental evidence for the new architecture. All proposed experiments remain unperformed: the volume does not establish clinical acupuncture, autonomous microneedle treatment, volition-to-actuation efficacy or regulatory authorization. Safe early validation is restricted to consent-scoped archived or noninvasive data, inert bench devices and independently calibrated reference instruments. Author: White Rainbow Epoch &Acirc;&middot; 33 x Starli Original Series: STARLI Research Institute XXXIII / Flagship 49 of 90 Edition: Nonclinical Research Working Edition v1.0 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DIGITAL TWINS OF VOLITION, BIOELECTRICITY AND NANOSENSING ACUPUNCTURE AT THE LIMIT is a 777-page English Research Working Edition developing a falsifiable engineering architecture for synchronizing prospective task labels, authorized noninvasive EEG/EMG records, and the physical state of an isolated",
+      "url": "https://zenodo.org/records/23731275"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "08068a6fe935c6e97ea6ef3a",
+      "context_id": "8557f1a24e928b43398fe762",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "multi-agent"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 17.4583,
+      "source": "arxiv",
+      "source_context_sha256": "2628f960f789bb3bd3cff6ef65bb7d92d9f7216390d9bbb03374ad5aa04d442a",
+      "source_published": "2026-10-25T18:00:11Z",
+      "source_updated": "2026-10-25T18:00:11Z",
+      "summary": "Deploying LLM agents in specialized domains often require fine-grained task-specific procedures and knowledge a general model lacks, yet parameter training is costly and non-interpretable, and hand-engineered agent systems shift the cost to expert labor. Episodic memory updates at context level, but single agent adaptation struggles to alleviate cross-task interference, especially with complex tasks such as multi-application navigation or data pool analysis. Although multi-agent evolution alleviates this problem, existing methods lack clear definitions on update rules and rely on the backbone model to decide where and how much the system changes. This ill-scoped evolution makes learning follow the backbone's structural preferences rather than the observed failures: one backbone accumulates skills while another spawns agents. We present EMMA (structured Episodic Memory for Multi-Agent workflow synthesis), which treats the configuration of a multi-agent system (controller routing memory, specialists inheriting a generalist prompt, and per-step procedural skills) as episodic memory. EMMA makes the ownership and admissibility of updates explicit: a reflector assigns each diagnosed failure to the scope owning its correction and proposes one edit within it, and backbone-independent guards keep every accepted edit scoped, incremental and bounded. Across KramaBench, AppWorld and BBEH with five backbones and four baselines (ACE, GEPA, EvoMAS and ADAS), EMMA attains the best overall performance on every benchmark, up to 32.5% over the strongest baseline, maintains consistent improvements across backbones, and uses 17-38% fewer training executions than the most efficient baseline.",
+      "tags": [
+        "cs.MA",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "EMMA: Structured Episodic Memory for Multi-Agent Workflow Synthesis",
+      "url": "https://arxiv.org/abs/2610.35966v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b9ddbe2f6533c62194f1699c",
+      "context_id": "879ef8c443156fab24b39df6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "benchmark",
+        "control",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 16.0417,
+      "source": "arxiv",
+      "source_context_sha256": "e1bb02a082d41e1273eda2e8a6a4ba47d0dd45d56d3328ddc51467a532fd224a",
+      "source_published": "2026-10-27T15:09:10Z",
+      "source_updated": "2026-10-27T15:09:10Z",
+      "summary": "Vision--Language--Action (VLA) models generate robot actions from visual observations and language instructions, but their understanding of physical dynamics remains limited. Video world models can capture scene dynamics, yet generating future videos introduces high latency into the control loop. We introduce PDRVLA, whose lightweight Physical Dynamics Module extracts physical tokens from vision--language features to condition action generation without online video generation. The module learns through direct prediction of future RGB, depth, and optical-flow features, with auxiliary supervision through a frozen pretrained video world model. Training relies entirely on publicly available data, expanded through human-to-robot synthesis, subtask annotation, and embodied chain-of-thought (ECoT) annotation. Across four simulation benchmarks, PDRVLA achieves success rates of 99.3% on LIBERO, 89.9% on LIBERO-Plus, 93.6% on RoboTwin~2.0, and 81.5% on SimplerEnv. Ablations show improved future prediction with world-model supervision and evaluate how subtask conditioning, future object-pose supervision, and ECoT training affect action success.",
+      "tags": [
+        "cs.RO",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PDRVLA: A Vision-Language-Action Model with Physical Dynamics Representations",
+      "url": "https://arxiv.org/abs/2610.37381v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "92c621c2924cfaa8c5feb7a1",
+      "context_id": "f3b44e238210314700626b86",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark",
+        "calibration",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 15.9583,
+      "source": "zenodo",
+      "source_context_sha256": "aae0b8b0a966bba9eea49b6666d3d08e3fc0758527808a926f7ca65538d7e055",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "DIGITAL TWINS OF VOLITION, BIOELECTRICITY AND NANOSENSING ACUPUNCTURE AT THE LIMIT is a 777-page English Research Working Edition developing a falsifiable engineering architecture for synchronizing prospective task labels, authorized noninvasive EEG/EMG records, and the physical state of an isolated needle-emulator on a nonliving phantom. The principal question is whether a frozen digital twin improves independently verified prediction of event time, signal and surrogate-device state under deliberately hidden cross-sensor clock delays. The central candidate relation is x[k+1]=A x[k]+B u[k]+w[k], z[k]=C x[k]+v[k]. This is an established mathematical modeling form, not an original biological law or evidence of private thought decoding. The framework treats timebase skew, cue leakage, repeated EEG-window contamination, model discrepancy, shared calibration covariance and hidden actuator latency as explicit challengers. A strong ordinary baseline includes prospective persistence, linear autoregression, calibrated Kalman models and time/cue-only prediction, evaluated on entirely held-out acquisition episodes and unseen days. Thirty differentiated physical and mathematical plates connect state observability, clock drift, covariance propagation, prediction intervals, source ablation, independent actuator safety and external validation to their respective experiments. Across 82 scientific chapters and 410 separately paginated studies, the book develops signal identity, calibration, synchronization, latent-state recovery, prospective prediction, blind falsification, hardware interlocks and second-site replication. Two hundred detailed Research Gates, printed with prominent deep-navy questions on individual pages, lead future investigators through unknown perturbations, strong countermodels, measurable disconfirmation, hard stops and successor evidence packages. Thirty-three Phoenix Answer Embryos propose scientifically distinguishable instruments and paths for revision. The three STARLI author mother volumes contribute method ancestry on sensing identity, functional requalification and sample-to-signal provenance. Eleven separately identified published method references support classical state estimation, EEG algorithm benchmarking, clock synchronization, leakage prevention, cross-subject validation and digital-twin qualification. Those sources do not constitute experimental evidence for the new architecture. All proposed experiments remain unperformed: the volume does not establish clinical acupuncture, autonomous microneedle treatment, volition-to-actuation efficacy or regulatory authorization. Safe early validation is restricted to consent-scoped archived or noninvasive data, inert bench devices and independently calibrated reference instruments. Author: White Rainbow Epoch &Acirc;&middot; 33 x Starli Original Series: STARLI Research Institute XXXIII / Flagship 49 of 90 Edition: Nonclinical Research Working Edition v1.0 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DIGITAL TWINS OF VOLITION, BIOELECTRICITY AND NANOSENSING ACUPUNCTURE AT THE LIMIT is a 777-page English Research Working Edition developing a falsifiable engineering architecture for synchronizing prospective task labels, authorized noninvasive EEG/EMG records, and the physical state of an isolated",
+      "url": "https://zenodo.org/records/23731275"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "92c621c2924cfaa8c5feb7a1",
+      "context_id": "c2f6e4432124725281ef4810",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark",
+        "calibration",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 15.9583,
+      "source": "zenodo",
+      "source_context_sha256": "492ab269d589d111aac985b64e81afec7af497856b92c7c22adc701559155b90",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "DIGITAL TWINS OF VOLITION, BIOELECTRICITY AND NANOSENSING ACUPUNCTURE AT THE LIMIT is a 777-page English Research Working Edition developing a falsifiable engineering architecture for synchronizing prospective task labels, authorized noninvasive EEG/EMG records, and the physical state of an isolated needle-emulator on a nonliving phantom. The principal question is whether a frozen digital twin improves independently verified prediction of event time, signal and surrogate-device state under deliberately hidden cross-sensor clock delays. The central candidate relation is x[k+1]=A x[k]+B u[k]+w[k], z[k]=C x[k]+v[k]. This is an established mathematical modeling form, not an original biological law or evidence of private thought decoding. The framework treats timebase skew, cue leakage, repeated EEG-window contamination, model discrepancy, shared calibration covariance and hidden actuator latency as explicit challengers. A strong ordinary baseline includes prospective persistence, linear autoregression, calibrated Kalman models and time/cue-only prediction, evaluated on entirely held-out acquisition episodes and unseen days. Thirty differentiated physical and mathematical plates connect state observability, clock drift, covariance propagation, prediction intervals, source ablation, independent actuator safety and external validation to their respective experiments. Across 82 scientific chapters and 410 separately paginated studies, the book develops signal identity, calibration, synchronization, latent-state recovery, prospective prediction, blind falsification, hardware interlocks and second-site replication. Two hundred detailed Research Gates, printed with prominent deep-navy questions on individual pages, lead future investigators through unknown perturbations, strong countermodels, measurable disconfirmation, hard stops and successor evidence packages. Thirty-three Phoenix Answer Embryos propose scientifically distinguishable instruments and paths for revision. The three STARLI author mother volumes contribute method ancestry on sensing identity, functional requalification and sample-to-signal provenance. Eleven separately identified published method references support classical state estimation, EEG algorithm benchmarking, clock synchronization, leakage prevention, cross-subject validation and digital-twin qualification. Those sources do not constitute experimental evidence for the new architecture. All proposed experiments remain unperformed: the volume does not establish clinical acupuncture, autonomous microneedle treatment, volition-to-actuation efficacy or regulatory authorization. Safe early validation is restricted to consent-scoped archived or noninvasive data, inert bench devices and independently calibrated reference instruments. Author: White Rainbow Epoch &Acirc;&middot; 33 x Starli Original Series: STARLI Research Institute XXXIII / Flagship 49 of 90 Edition: Nonclinical Research Working Edition v1.0 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DIGITAL TWINS OF VOLITION, BIOELECTRICITY AND NANOSENSING ACUPUNCTURE AT THE LIMIT is a 777-page English Research Working Edition developing a falsifiable engineering architecture for synchronizing prospective task labels, authorized noninvasive EEG/EMG records, and the physical state of an isolated",
+      "url": "https://zenodo.org/records/23731275"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "92c621c2924cfaa8c5feb7a1",
+      "context_id": "a9acd6430e91e1742e74aeb4",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark",
+        "calibration",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 15.9583,
+      "source": "zenodo",
+      "source_context_sha256": "7e4d0ef9869c6a8f581ab3bc8645ab6c4194c514186dafb14335c1d95ee844d8",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "DIGITAL TWINS OF VOLITION, BIOELECTRICITY AND NANOSENSING ACUPUNCTURE AT THE LIMIT is a 777-page English Research Working Edition developing a falsifiable engineering architecture for synchronizing prospective task labels, authorized noninvasive EEG/EMG records, and the physical state of an isolated needle-emulator on a nonliving phantom. The principal question is whether a frozen digital twin improves independently verified prediction of event time, signal and surrogate-device state under deliberately hidden cross-sensor clock delays. The central candidate relation is x[k+1]=A x[k]+B u[k]+w[k], z[k]=C x[k]+v[k]. This is an established mathematical modeling form, not an original biological law or evidence of private thought decoding. The framework treats timebase skew, cue leakage, repeated EEG-window contamination, model discrepancy, shared calibration covariance and hidden actuator latency as explicit challengers. A strong ordinary baseline includes prospective persistence, linear autoregression, calibrated Kalman models and time/cue-only prediction, evaluated on entirely held-out acquisition episodes and unseen days. Thirty differentiated physical and mathematical plates connect state observability, clock drift, covariance propagation, prediction intervals, source ablation, independent actuator safety and external validation to their respective experiments. Across 82 scientific chapters and 410 separately paginated studies, the book develops signal identity, calibration, synchronization, latent-state recovery, prospective prediction, blind falsification, hardware interlocks and second-site replication. Two hundred detailed Research Gates, printed with prominent deep-navy questions on individual pages, lead future investigators through unknown perturbations, strong countermodels, measurable disconfirmation, hard stops and successor evidence packages. Thirty-three Phoenix Answer Embryos propose scientifically distinguishable instruments and paths for revision. The three STARLI author mother volumes contribute method ancestry on sensing identity, functional requalification and sample-to-signal provenance. Eleven separately identified published method references support classical state estimation, EEG algorithm benchmarking, clock synchronization, leakage prevention, cross-subject validation and digital-twin qualification. Those sources do not constitute experimental evidence for the new architecture. All proposed experiments remain unperformed: the volume does not establish clinical acupuncture, autonomous microneedle treatment, volition-to-actuation efficacy or regulatory authorization. Safe early validation is restricted to consent-scoped archived or noninvasive data, inert bench devices and independently calibrated reference instruments. Author: White Rainbow Epoch &Acirc;&middot; 33 x Starli Original Series: STARLI Research Institute XXXIII / Flagship 49 of 90 Edition: Nonclinical Research Working Edition v1.0 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DIGITAL TWINS OF VOLITION, BIOELECTRICITY AND NANOSENSING ACUPUNCTURE AT THE LIMIT is a 777-page English Research Working Edition developing a falsifiable engineering architecture for synchronizing prospective task labels, authorized noninvasive EEG/EMG records, and the physical state of an isolated",
+      "url": "https://zenodo.org/records/23731275"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "7af155f0fa16fc71f7b2e908",
+      "context_id": "79a9ccf0f53d4189f63b82c9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.7917,
+      "source": "zenodo",
+      "source_context_sha256": "3bec276ee147707c566811a8d82f40f69795c0c7ca977045c884f4feb8cf2c35",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "This record provides the research data and supporting documentation for the revised systematic review &ldquo;Tactile and Physical Interaction Problems in In-Vehicle Infotainment Systems: A Systematic Literature Review&rdquo;. The current corpus comprises 342 eligible reports assessed using 34 operational codes across seven categories, yielding 11,628 report&ndash;code decisions: 3,635 positive, 7,677 negative and 316 unresolved. The materials are organised into eight editable Word volumes, each with a linked table of contents: Methods and Figures: supplementary sections S1&ndash;S12, review methods, operational codebook, PRISMA crosswalk, Figures 1&ndash;2 and a source-to-volume index. Corpus and Eligibility: the complete bibliography, bibliographic provenance, retrieval records and eligibility decisions. Characterisation and Appraisal: report characteristics and MMAT domain-level appraisals. Coding Evidence: all 11,628 coding decisions, source-page locators and supporting rationales. Synthesis and Decision Changes: synthesis matrices, coverage and overlap bounds, sensitivity analyses, historical-to-current decision comparisons and Figures 3&ndash;5. Historical Citation Screening: historical citation metadata and title-and-abstract screening decisions. Historical Full-Text Eligibility: historical reviewer assessments, eligibility decisions and consensus records. Historical Coding and Reproducibility: historical calibration, independent coding, adjudication and reliability records, together with package documentation and verification-script texts. The current 342-report evidence base is distinguished from the earlier 228-report archive. Historical-to-current linkage covers 5,916 decision pairs for 174 retained reports. Historical independent ratings and consensus decisions remain separate from the authors&rsquo; joint source verification conducted from 13 to 23 October 2026. Tables are presented as editable Word content. Repeated wording is retained through linked value keys, and verification scripts are reproduced as editable text in Volume 8. Five updated figures are embedded in the relevant volumes. Copyrighted primary publications and extended verbatim source quotations are not redistributed. Bibliographic identifiers, source-page locators and paraphrased rationales support traceability. Computational consistency checks do not, by themselves, establish scientific validity.",
+      "tags": [
+        "in-vehicle infotainment systems",
+        "IVIS",
+        "human–computer interaction",
+        "tactile interaction",
+        "physical controls",
+        "touchscreen",
+        "haptic feedback",
+        "systematic literature review",
+        "PRISMA 2020"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Research Data and Reproducibility Materials for \"Tactile and Physical Interaction Problems in In-Vehicle Infotainment Systems: A Systematic Literature Review\"",
+      "url": "https://zenodo.org/records/23728566"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "577288cb7e0341e36f7af2de",
+      "context_id": "3426b43c826510af7a784ca4",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.7083,
+      "source": "arxiv",
+      "source_context_sha256": "33ac1a724dc9b9c8fa22a3be9be93784bba424e895073de385cc6b82295a93d2",
+      "source_published": "2026-10-27T15:48:09Z",
+      "source_updated": "2026-10-27T15:48:09Z",
+      "summary": "Visual world models increasingly support spatial reasoning by generating RGB views of unobserved states. However, RGB has become the default interface largely because it is well suited for visual generation, rather than necessarily being the most effective representation for downstream reasoning. Different spatial questions may benefit from different representations of the same imagined state: top-down geometry can facilitate global distance comparisons, while panoramic views provide broader context for reasoning about open space. To isolate the role of representation in spatial imagination, we introduce ImagiRep, a simulator-grounded benchmark of 922 questions spanning seven question types across two settings, Viewpoint Imagination and Cross-view Integration, providing oracle RGB and six alternative representations (e.g., depth, panoramic views, and top-down geometry) of the same unobserved state. This controlled comparison reveals that even accurate imagined RGB does not guarantee accurate spatial reasoning, and different questions benefit from different representations. Similar trends hold for representations derived from world-model-estimated states. Notably, estimated RGB alone can mislead spatial reasoning, while alternative representations retain complementary benefits. Building on these findings, we introduce GEARS, a lightweight test-time strategy for adaptive representation selection, outperforming existing spatial imagination methods and showing that reasoning about unseen states requires more than generating RGB views.",
+      "tags": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Representing the Unseen: Rethinking Visual Imagination for Spatial Reasoning",
+      "url": "https://arxiv.org/abs/2610.37437v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "5aed8dc89042e6f72f91abde",
+      "context_id": "a09e3ed0a141b5eb3d17ad79",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.4583,
+      "source": "zenodo",
+      "source_context_sha256": "5d54fdae04ce174a25c41bdcb29d9c1785639f3b4a53a4e6aa67d5b687e63371",
+      "source_published": "2026-10-25",
+      "source_updated": "",
+      "summary": "Bounded Agentic Distribution Experiments (v0.7.0): A Reproducible Framework for Comparing Agentic Intervention Discovery with Non-Agentic Search This software implements the computational framework and pre-pilot experimental protocol associated with the research manuscript Evaluating the Incremental Value of Agentic Intervention Discovery over Non-Agentic Search in Multi-Actor Distribution Networks . The framework evaluates whether a generative AI agent can identify economically beneficial operational interventions beyond those discovered by budget-matched non-agentic search. Agentic and non-agentic methods operate within the same typed intervention space, access the same simulator information, and are subject to common evaluation budgets. Candidate interventions undergo deterministic verification of encoded structural constraints and, where applicable, stochastic qualification against economic, service, route, and actor-participation criteria. The reference environment represents a stylized print-media distribution network with 420 retailers, 18 baseline delivery vehicles, uncertain demand, allocation decisions, reverse logistics, route constraints, temporary fleet capacity, discontinuous staffing requirements, and sales-contingent remuneration. Its parameters combine industry-informed inputs, documented benchmarks, modeling assumptions, and calibration targets. The environment is intended for controlled computational evaluation rather than empirical representation of the Italian distribution industry. Experimental design Version 0.7.0 implements two frozen intervention-complexity regimes: Low-complexity regime (RL): allocation reweighting only, with a maximum intervention length of one action. Multi-domain coupled regime (RC): allocation, route transfer, temporary fleet, and forecasting interventions, with a maximum intervention length of three actions. Both regimes use a candidate-evaluation budget of 40 simulator calls. The primary comparison uses ten independent generative-agent realizations and ten independent simulated-annealing realizations per regime. The software separates proposal-mechanism randomness from simulation-scenario randomness and supports common random numbers for comparative evaluation. The statistical implementation includes regime-specific pilot sizing, independent within-method repetition resampling, shared scenario resampling, and a two-dimensional bootstrap for confirmatory inference. Final-test selection follows a frozen rule combining precision requirements from both regimes with the minimum-detectable-effect requirement for the multi-domain superiority hypothesis. Software contents The archive includes the Python simulator and experimental orchestration code, command-line interface, frozen configuration files, typed intervention specifications, agent prompt and structured-output schemas, statistical analysis procedures, automated tests, freeze manifest, calibration documentation, and four Jupyter notebooks covering protocol execution, pilot sizing, repeated experiments, and economic calibration. Validation and research status The implementation passes 31 automated software and protocol-consistency tests. These tests examine computational correctness, reproducibility, regime restrictions, seed handling, bootstrap procedures, and experimental locking. They do not establish empirical agent performance. This release corresponds to the frozen pre-pilot protocol BAD-420-v0.7-2026-09-11 . The final-test set remains locked until a valid pilot mechanically determines its size. No live API-based agent-performance experiment or confirmatory comparison is included in this release. Consequently, the software does not establish that agentic intervention discovery outperforms, matches, or underperforms non-agentic search. The purpose of this release is to make the computational model, methodological assumptions, experimental controls, and pre-result evaluation protocol available for independent inspection, repl",
+      "tags": [
+        "Agentic AI",
+        "Agent-Based Modeling",
+        "Multi-Agent Systems",
+        "Simulation Optimization",
+        "Supply Chain Management",
+        "Stochastic Simulation",
+        "Decision Support",
+        "Reverse Logistics"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Agentic_distribution_experiments_v0.7_pre_pilot_with_notebooks",
+      "url": "https://zenodo.org/records/23647549"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "e6432d1995e35abf0ca98792",
+      "context_id": "3e7385c86b8976dbc919a3a8",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "holdout"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.2917,
+      "source": "zenodo",
+      "source_context_sha256": "15c3832c77b502c958386cc21a7ebddd0227069e642c840ee7e1368ed4efeb3a",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Enterprise email security protects employees behind a corporate mail gateway. The people most exposed to employment and support-impersonation scams - students and early-career job seekers - are contacted inside consumer platforms, where no gateway sees the message. We present a dependency-free, explainable detector that works at the level of the individual message and its sender, and a public benchmark for comparing such detectors under cheap adversarial transformation. The detector has four layers: (1) deterministic lookalike checks built on Unicode UTS #39 confusable skeletons, mixed-script detection, bounded edit distance, and brand-agnostic detection of a domain hidden inside a link host; (2) a logistic-regression sender scorer over 23 named features trained on a synthetic generator spanning eight brands (holdout F1 0.987); (3) a message-intent classifier, with a rule baseline and a prompt-injection-hardened LLM wrapper, that receives structured sender facts from the first two layers and whose impersonation verdicts are discounted deterministically only when the sender is verified or unremarkable, nothing sensitive is asked, links stay under the sender's control, and the body does not claim the platform's authority; and (4) a 76-message, brand-parametric benchmark with ten label-preserving adversarial variants and three model-paraphrased corpora, scored on per-layer recall, false-positive rate, injection hijack rate, and latency. On a paraphrased corpus frozen before a single evaluation, all three Layer 3 backends reach recall 1.00 in the fused pipeline, at FPR 0.03 for the rule baseline and Gemma 3 27B and 0.10 for Llama 3.1 8B, against 0.83/0.03, 1.00/0.07 and 1.00/0.47 for the same backends unfused: the sender layers are worth 17 points of recall to the rules and 37 points of FPR to the small model. The 8B model obeyed an appended injection on 6 of 46 attacks, each caught only by a deterministic overrule; the 27B model obeyed none. Three findings fall out: UTS #39 skeletons do not fold Cyrillic U+0442 or Greek U+03BA to ASCII, so skeleton equality alone misses a mixed-script brand lookalike; regex intent cues lose 33 points of recall to a single confusable glyph unless text is confusable-folded first; and negation must be handled at clause level with an exception for conditionals. Code, weights, corpora, and per-message verdict dumps are released under the MIT license.",
+      "tags": [
+        "phishing",
+        "impersonation",
+        "Unicode confusables",
+        "IDNA",
+        "prompt injection",
+        "consumer platforms",
+        "employment scams"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Message-Level Detection of Support-Team and Recruiter Impersonation on Consumer Platforms: A Layered Detector and Adversarial Benchmark",
+      "url": "https://zenodo.org/records/23716571"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "e6432d1995e35abf0ca98792",
+      "context_id": "066b209ecfcea7dabef96812",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "holdout"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.2917,
+      "source": "zenodo",
+      "source_context_sha256": "d4b7e557f741e773f749d888606f640771ec17bc650adecbfb67b6c10d0fe65d",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Enterprise email security protects employees behind a corporate mail gateway. The people most exposed to employment and support-impersonation scams - students and early-career job seekers - are contacted inside consumer platforms, where no gateway sees the message. We present a dependency-free, explainable detector that works at the level of the individual message and its sender, and a public benchmark for comparing such detectors under cheap adversarial transformation. The detector has four layers: (1) deterministic lookalike checks built on Unicode UTS #39 confusable skeletons, mixed-script detection, bounded edit distance, and brand-agnostic detection of a domain hidden inside a link host; (2) a logistic-regression sender scorer over 23 named features trained on a synthetic generator spanning eight brands (holdout F1 0.987); (3) a message-intent classifier, with a rule baseline and a prompt-injection-hardened LLM wrapper, that receives structured sender facts from the first two layers and whose impersonation verdicts are discounted deterministically only when the sender is verified or unremarkable, nothing sensitive is asked, links stay under the sender's control, and the body does not claim the platform's authority; and (4) a 76-message, brand-parametric benchmark with ten label-preserving adversarial variants and three model-paraphrased corpora, scored on per-layer recall, false-positive rate, injection hijack rate, and latency. On a paraphrased corpus frozen before a single evaluation, all three Layer 3 backends reach recall 1.00 in the fused pipeline, at FPR 0.03 for the rule baseline and Gemma 3 27B and 0.10 for Llama 3.1 8B, against 0.83/0.03, 1.00/0.07 and 1.00/0.47 for the same backends unfused: the sender layers are worth 17 points of recall to the rules and 37 points of FPR to the small model. The 8B model obeyed an appended injection on 6 of 46 attacks, each caught only by a deterministic overrule; the 27B model obeyed none. Three findings fall out: UTS #39 skeletons do not fold Cyrillic U+0442 or Greek U+03BA to ASCII, so skeleton equality alone misses a mixed-script brand lookalike; regex intent cues lose 33 points of recall to a single confusable glyph unless text is confusable-folded first; and negation must be handled at clause level with an exception for conditionals. Code, weights, corpora, and per-message verdict dumps are released under the MIT license.",
+      "tags": [
+        "phishing",
+        "impersonation",
+        "Unicode confusables",
+        "IDNA",
+        "prompt injection",
+        "consumer platforms",
+        "employment scams"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Message-Level Detection of Support-Team and Recruiter Impersonation on Consumer Platforms: A Layered Detector and Adversarial Benchmark",
+      "url": "https://zenodo.org/records/23716571"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "732180d50bbf6c31ad7bf4a9",
+      "context_id": "994e701f6e2b4d761ca47323",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.4167,
+      "source": "zenodo",
+      "source_context_sha256": "87ea2cec784e92c70f59e8ba20218cf5957e2b2c4eb71394eaedf7166267f244",
+      "source_published": "2026-10-28",
+      "source_updated": "",
+      "summary": "Technical artifacts supporting the manuscript \"AnxietyVRET: Reproducible Technical Evaluation of an Ontology-Driven, Safety-Aware, and FHIR-Oriented Architecture for Traceable GAD-Oriented Virtual Reality Exposure Workflows\". The package contains the corrected and versioned AnxietyVRET OWL 2 DL ontology with embedded SWRL rules, the corrected example ABox, deterministic boundary-test scripts and outputs, ten executable SPARQL competency-question queries, computational-benchmark scripts and logs, eight representative HL7 FHIR R5 JSON resources with structural-validation output, the AnxietyVRET-to-FHIR mapping crosswalk, semantic-preservation materials, and provenance-reconstruction scripts and outputs. No independently collected clinical patient dataset is included. See README.md for reproduction instructions.",
+      "tags": [
+        "generalized anxiety disorder",
+        "OWL 2 DL",
+        "HL7 FHIR",
+        "provenance",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AnxietyVRET reproducibility package: corrected ontology, example ABox, validation scripts, benchmark logs, and representative FHIR R5 resources",
+      "url": "https://zenodo.org/records/23731283"
+    }
+  ],
+  "schema": "janus.beetle.repo_memory_batch.v1",
+  "selection": "BALANCED_LENS_ROLLING_TOP",
+  "snapshot_cap": 48,
+  "snapshot_items_total": 48,
+  "target_repository": "Hawkar-usls/Janus_Genesis"
+}
