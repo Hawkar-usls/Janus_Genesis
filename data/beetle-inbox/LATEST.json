@@ -1,435 +1,9 @@
 {
-  "batch_id": "9652a8d0ad18dc2fc132",
+  "batch_id": "c90c0310c7b190dd4d68",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
   "items": [
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "e48793e4554331ea101b81c2",
-      "context_id": "30df0adcd1db3374da42485a",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "consensus",
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.8333,
-      "source": "arxiv",
-      "source_context_sha256": "2c06dd2775c5a88618df816d4afd3fff4a9644b984b5e2704c7e4bbc829f248b",
-      "source_published": "2026-10-24T19:06:19Z",
-      "source_updated": "2026-10-24T19:06:19Z",
-      "summary": "Distributed Cyber-Physical Systems (CPS) and Edge AI networks increasingly depend on public-key authentication and key-establishment mechanisms that are vulnerable to cryptographically relevant Quantum Computers (QC). Shor's algorithm threatens widely deployed asymmetric primitives, while Grover's algorithm reduces the effective security margins of symmetric and hash-based mechanisms. Although Post-Quantum Cryptography (PQC) provides a migration path, its larger public keys, ciphertexts, and signatures introduce additional computation, memory, communication, storage, and packet-fragmentation costs that can constrain dynamic multi-agent systems. In this article, we introduce rotational secrecy, an architectural objective that limits temporal key exposure through authenticated transitions between cryptographic epochs. We present Private Authentication for Rotational Secrecy (PARS), a reference mechanism that coordinates policy-triggered key establishment, rotation, and reconciliation among authorized Physical AI agents. For deployments that need distributed agreement on security state, we further develop the PARS-Enabled Edge Security Ledger (PARS-ESL), an optional permissioned architecture maintained by authorized validators or capable edge gateways. PARS-ESL does not store high-volume operational transactions. Instead, it records authenticated state for key epochs, group membership, revocation, algorithm-suite policies, challenge validation, and recovery checkpoints. As a result, resource-constrained agents can take part as lightweight clients, and low-latency operational traffic stays outside the ledger consensus path, protected by the currently active symmetric epoch keys. Our results show that ledger-assisted post-quantum key-epoch management is feasible for selected Edge AI and CPS security-control workloads under the stated trust, compromise, connectivity, and resource assumptions.",
-      "tags": [
-        "cs.CR",
-        "cs.ET",
-        "cs.RO"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Securing Edge & Physical AI: Post-Quantum IoT Blockchain for Mission-Critical Cyber-Physical Agents",
-      "url": "https://arxiv.org/abs/2610.33862v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "46a2fd08b45b6a241f29f0b7",
-      "context_id": "3d3f22fdfd9a5a2a0074cd6d",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "agent orchestration",
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.25,
-      "source": "arxiv",
-      "source_context_sha256": "bf69771633828bb6074e2361844a1e421f7f5f881e18a783a949489a6ab0250c",
-      "source_published": "2026-10-25T17:38:55Z",
-      "source_updated": "2026-10-25T17:38:55Z",
-      "summary": "Multi-agent systems often rely on predefined collaboration structures, limiting their ability to adapt to diverse task requirements. We introduce DynaFlow, a framework that integrates free-form executable workflow synthesis into the action space of the main agent. The agent decides when collaboration is needed and generates task-specific programs that coordinate sub-agents through sequential or parallel execution, structured information exchange, and verification. Execution results and traces inform subsequent actions, enabling the agent to adapt collaboration as reasoning progresses. We train only the main agent through supervised fine-tuning on distilled trajectories, followed by refinement on examples filtered for unsupported premises, biased verification, and information-flow defects. All sub-agents remain fixed, separating orchestration learning from executor capability improvement. Across six benchmarks spanning mathematical reasoning, scientific question answering, and multi-hop retrieval, DynaFlow achieves 88.08% overall accuracy in Forced mode, outperforming the strongest evaluated baseline by 10.90 percentage points with the same Qwen3.5-27B backbone. Workflow analysis finds more explicit use, verification, and refinement of upstream outputs after training, highlighting cross-stage information flow as a key dimension of multi-agent orchestration.",
-      "tags": [
-        "cs.MA"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "DynaFlow: Learning Free-Form Multi-Agent Orchestration",
-      "url": "https://arxiv.org/abs/2610.34467v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "2da87da447268a98f3658eb2",
-      "context_id": "dc606bcf0b341b23237a22a5",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "decentralized",
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.0,
-      "source": "arxiv",
-      "source_context_sha256": "10ea22987af370440043fa6bea42e2b60d81b96541b138291b7c2b7bd8e92f44",
-      "source_published": "2026-10-26T03:41:48Z",
-      "source_updated": "2026-10-26T03:41:48Z",
-      "summary": "Centralized training with decentralized execution (CTDE) has become the dominant paradigm in multi-agent reinforcement learning (MARL), motivating extensive study of what privileged information should be made available to the critic during training. While prior work has examined the role of global state in fully cooperative settings, the design of centralized critics for N-agent ad hoc teamwork - in which dynamically varying set of learning agents must coordinate with an arbitrary set of uncontrolled teammates drawn from an unknown distribution - remains poorly understood. We study this question by comparing two natural classes of advantage estimators: controlled history estimators, which condition only on the observation and action histories of the learner's own agents, and joint history estimators, which additionally condition on the histories of the uncontrolled teammates. We prove that both estimators are unbiased and characterize the conditions under which the joint history estimate attains strictly lower variance than its controlled counterpart. Empirically, joint history critics match or outperform controlled history critics across a range of NAHT tasks, yielding improved sample efficiency and final returns. Together, these results provide both a theoretical justification and an empirical recommendation for incorporating uncontrolled agent histories into centralized critics for N-agent ad hoc teamwork.",
-      "tags": [
-        "cs.AI",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Centralized Critics for N-Agent Ad Hoc Teamwork",
-      "url": "https://arxiv.org/abs/2610.34799v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "f09793f4bae409744a894163",
-      "context_id": "b72c330928fc7a1f0c0934e1",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "decentralized",
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.0,
-      "source": "arxiv",
-      "source_context_sha256": "7d6d5cd44fc350027629b4ab6e640969d830ff678d314084c82b8f4884f31e13",
-      "source_published": "2026-10-25T07:39:23Z",
-      "source_updated": "2026-10-25T07:39:23Z",
-      "summary": "Multi-agent reinforcement learning supports cooperative decision-making in Internet of Things systems, but strategic deviations can disrupt coordination and undermine confidence in the training process. This paper proposes Blockchain-Enabled Centralized Training and Decentralized Execution (BE-CTDE), which uses blockchain as an active training-management layer. A behavioral verifier compares executed trajectories with shared-policy recommendations; its flags drive a token mechanism combining slashing, burning, rewards, and compensation. Retained balances determine each agent's contribution to the global policy update, connecting auditable behavior to learning influence. We derive a one-round incentive condition that accounts for action-dependent compensation and the payoff from deviation, and a finite expected exclusion-time bound under explicit conditional detection and accounting assumptions, showing perfect detection is unnecessary. An exact finite-population capacity bound characterizes the limits of the population-relative detector. In multi-agent path finding experiments, BE-CTDE outperforms a state-of-the-art learning-based path planner with substantially higher success rates under attack, even when adversaries form the majority. It also outperforms partially defended baselines in all configurations, with collision rates up to 35% lower than under detection without economic consequences and up to 43% lower than under conventional stake slashing. Together, these results characterize how behavioral verification and token feedback can support accountable cooperative learning.",
-      "tags": [
-        "cs.MA",
-        "cs.CR",
-        "cs.LG",
-        "cs.NI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "BE-CTDE: Blockchain-Enabled Multi-Agent Reinforcement Learning with Anomaly Detection and Token Economics",
-      "url": "https://arxiv.org/abs/2610.34121v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "fa8f865e7c5f090b6a90dd33",
-      "context_id": "55f2f5945ba5376ff3de3a02",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "decentralized",
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.0,
-      "source": "arxiv",
-      "source_context_sha256": "8186d0040255f049469b05f0990115822839f58ae8cf6ae9fe8ff68f50cf6483",
-      "source_published": "2026-10-08T01:38:24Z",
-      "source_updated": "2026-10-08T01:38:24Z",
-      "summary": "While recent advances in autonomous agents enable them to coordinate on increasingly complex tasks, prior work shows that this growing capacity for coordination can create safety risks, including collusion, in which agents jointly pursue misaligned actions while concealing the true basis of those actions from oversight. We study this risk in a simulated insider-trading environment, comparing single agents with sequential and decentralized teams across seven language models from three families. By varying agents' system-level objectives and pressure conditions, we examine when coordinated agents act on material nonpublic information, conceal the basis of a misaligned trade in a report, and maintain that deception under follow-up questioning. Compared to single-agent decision-making, multi-agent interaction raises misaligned-action rates from 35.4% to 68.2% and persistent-deception rates from 31.0% to 62.2%, both measured over all runs. These effects are largest under existential pressure, where teams sustain deception through follow-up questioning in 87% of all runs. Qualitative analysis reveals shared cover stories and coordinated rationales, suggesting group-level strategic deception rather than isolated reporting errors. To mitigate this behavior, we introduce PACT, a weak-to-strong on-policy distillation framework for mitigating collusive deception. Using generic honesty prompts, PACT trains a stronger student on its own sampled continuations, matching its next-token distribution to that of a smaller, frozen honesty-aligned teacher via reverse-KL supervision. Under existential pressure with ethical instructions, PACT reduces multi-agent persistent deception from 80% to 3%. Our results show that multi-agent coordination amplifies strategic deception and that on-policy honesty alignment can substantially mitigate these failures.",
-      "tags": [
-        "cs.MA",
-        "cs.AI",
-        "cs.CL",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "When Agents Collude: Weak-to-Strong On-Policy Distillation for Mitigating Strategic Deception in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.33011v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "7dd8adadd01f5c38d45cdc4a",
-      "context_id": "097f9bf0ef5c3b468448f30d",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "decentralized",
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 6.0,
-      "source": "arxiv",
-      "source_context_sha256": "f0695625da3ea003e6511a85375fab4af330fb656fbc167ec0d566d670216216",
-      "source_published": "2026-10-24T10:24:37Z",
-      "source_updated": "2026-10-24T10:24:37Z",
-      "summary": "Cooperative transport with heterogeneous legged robots requires coordinating different motion capabilities while supporting an unfixed shared payload. We present HA-DiPO (Heterogeneous-Agent Diffusion Policy Optimization), a hierarchical multi-agent reinforcement learning framework under centralized training with decentralized execution (CTDE). The framework decouples team-level coordination from embodiment-specific motion control: at the high level, a centralized critic uses team-value estimates to jointly train independent coordination policies, aligning robot-specific action responses with a shared transport objective; at the low level, embodiment-specific robust motion policies track the coordination commands. The high-level diffusion policies offer more flexible action distributions than single-Gaussian parameterizations, allowing potentially multimodal coordination responses to be represented. The coordination policies learn from scratch through reward-driven simulator interaction without demonstrations. At execution, each robot generates coordination commands using only local robot and payload observations, without partner-state inputs or inter-robot messages. Simulation comparisons show that HA-DiPO achieves higher final mean returns and velocity-tracking success rates, as well as lower velocity errors, than the evaluated baselines. Real-world experiments further demonstrate quadrupedal-wheeled-legged and human-robot cooperative transport.",
-      "tags": [
-        "cs.RO"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "HA-DiPO: Diffusion Policy Optimization for Heterogeneous Cooperative Transport",
-      "url": "https://arxiv.org/abs/2610.33584v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "171bd974efb3c09ae5671e9b",
-      "context_id": "46ea946639fad0e2bc83487e",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "multi-agent",
-        "swarm"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 5.6667,
-      "source": "arxiv",
-      "source_context_sha256": "a7cbe4f937e97b70d7f2769fed15ff25fa5d7bd387bc6e00d3e5d6248e78d135",
-      "source_published": "2026-10-17T08:45:11Z",
-      "source_updated": "2026-10-17T08:45:11Z",
-      "summary": "Large language model (LLM) agents increasingly automate complex tasks, with multi-agent systems seeking further performance gains through specialization and collaboration. However, distributing work across agents does not automatically yield complementary contributions, and inter-agent dependencies can turn local errors into task failure. To address these challenges, we propose AutoSwarm, a multi-agent framework for collaborative problem solving. Collaboration formation jointly defines responsibility boundaries and conditions for acceptance and downstream use, grounding capability allocation in contributions that other agents can assess and integrate toward a shared objective. Execution coordination couples agents' local progress through a shared state, using dependencies and supervisory relationships to govern agent activation, result handoffs, and integration while adapting subsequent actions to review feedback and emerging blockers. Experiments spanning long-horizon programming, interactive planning, and professional financial analysis demonstrate AutoSwarm's advantages over single-agent baselines and existing multi-agent frameworks. Source code is available at https://github.com/HKUDS/AutoSwarm.",
-      "tags": [
-        "cs.MA"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "AutoSwarm: Automating Agent Swarms",
-      "url": "https://arxiv.org/abs/2610.33048v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "6de3635d449a94c7c2a8e878",
-      "context_id": "e6d08ecfd794785b4b27a152",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "arxiv",
-      "source_context_sha256": "9eeeeb71b85603eac3bf78c23ebf6881213d905cbe1b4797404b5dda41af3f61",
-      "source_published": "2026-10-24T08:35:39Z",
-      "source_updated": "2026-10-24T08:35:39Z",
-      "summary": "Large language model (LLM)-based multi-agent systems have demonstrated remarkable capabilities across diverse tasks. Yet their memory and collaboration architectures often remain static, constraining continued adaptation and improvement over time. Recent work addresses this limitation by evolving memory or collaboration based on interaction experience. However, updates to these interdependent components are not necessarily aligned: an evolved workflow may require experience that memory does not provide, while evolved memory may encode guidance that the workflow cannot use. To address this problem, we propose CoEvolve, a skill-centered framework for aligned memory--collaboration evolution. CoEvolve represents reusable local collaboration patterns as skills that link evolving collaboration decisions to their supporting memories. It further compares original and counterfactual trajectories to identify local evolution signals, which coordinate updates to the skill library, skill memory, and executor memories across rounds. Experiments on the ALFWorld and WebShop benchmarks confirm that CoEvolve achieves the best overall performance among the evaluated baselines, while ablation studies further validate the effectiveness of aligned co-evolution and counterfactual-guided evolution.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CoEvolve: Counterfactual-Guided Co-Evolution of Memory and Collaboration in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.33539v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "41a32c86ef159071f72dfee1",
-      "context_id": "ced0a1f97bac1fab4a2d6d6a",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "arxiv",
-      "source_context_sha256": "7cc59a26f882ca1b626c034add39236b75aaaa7ce98a65231ddaf4726ae7f599",
-      "source_published": "2026-10-26T02:19:53Z",
-      "source_updated": "2026-10-26T02:19:53Z",
-      "summary": "Multi-agent systems (MAS) require both effective coordination and specialized task execution. Existing prompt optimization approaches typically couple these functions within agent-specific prompts. We introduce Coordinator-Executor Prompt Optimization (CEPO), a general framework for improving prompt optimization in MAS. CEPO separates system-level coordination from agent-level execution through a shared coordinator prompt and agent-specific executor prompts, and guides their updates according to their respective roles. This structure allows shared coordination rules to be refined consistently across agents while keeping execution instructions separately adjustable. CEPO provides the prompt structure and optimization guidance, while existing prompt optimizers perform the underlying search. Extensive experiments spanning 11 benchmarks across four domains demonstrate that applying CEPO to four existing prompt optimizers consistently improves their performance. Ablations and qualitative analyses support the proposed design, while controlled studies on a document-understanding MAS further demonstrate improved optimization budget efficiency and performance scaling with the number of agents.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CEPO: A General Framework for Improving Prompt Optimization in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.34722v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "de03bbe618de8751a0662b5b",
-      "context_id": "c7d5b452b8a76f4460a1c577",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "arxiv",
-      "source_context_sha256": "51ea6256bdcbf287059ff0219c3c0e72460dffa3e84cfeb43bac3f1d4a0ba3a6",
-      "source_published": "2026-10-25T17:38:49Z",
-      "source_updated": "2026-10-25T17:38:49Z",
-      "summary": "Achieving safety in autonomous driving through Multi-Agent Reinforcement Learning (MARL) is a critical yet challenging task due to non-stationarity, partial observability, and the need for effective coordination among agents. Although earlier cooperative MARL methods have aimed to improve coordination by sharing encoded state observations, we find these strategies are insufficient in safety-critical scenarios. To address this gap, we present IntNet, a novel MARL framework that enhances safety by incorporating the transmission of vehicle intent and adaptive communication scheduling into a unified end-to-end learning paradigm, jointly optimising all components for safe coordination. Central to our approach is an observation prediction module that enables agents to forecast subsequent policy outputs, which they can then share across a vehicle-to-vehicle network. Our model-free architecture employs a Graph Attention Network to process incoming messages and a scheduler component to dynamically optimise the communication graph for bandwidth efficiency. We compare IntNet against state-of-the-art communicative MARL methods in complex urban environments with both autonomous and human-operated vehicles, achieving improved coordination, lower collision rates, and reducing communication efforts by up to 60\\%. Through extensive experiments, we assess the framework's learning efficiency, scalability, and the balance between information sharing and bandwidth usage for collision-free trajectories.",
-      "tags": [
-        "cs.RO",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "IntNet: A Communication-Driven Multi-Agent Reinforcement Learning Framework for Cooperative Autonomous Driving",
-      "url": "https://arxiv.org/abs/2610.34466v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "a3d1abb297f1d820dd2e55b9",
-      "context_id": "70653d67736ff11ed3b3de04",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "arxiv",
-      "source_context_sha256": "b81c1c381891346eb60a8ee33967dfb271a2bac39dc8ed3edc2679a37560dc40",
-      "source_published": "2026-10-22T17:24:23Z",
-      "source_updated": "2026-10-26T09:38:33Z",
-      "summary": "Large language model (LLM)-based multi-agent systems (MAS) rely on role-specific prompts and execution models to solve complex tasks collaboratively. However, prompt optimization typically keeps model assignments fixed, leaving differences in role requirements and their associated inference costs outside the search. We present UniMASO, a Unified framework for heterogeneous Multi-Agent System Optimization through the joint adaptation of prompts and model assignments. UniMASO evaluates candidate updates through local, downstream, and global feedback, using cost-aware Pareto search to retain useful quality-cost trade-offs. Topology-aware co-evolution then coordinates these updates according to agent roles and dependencies. Cross-level trajectory memory further supplies historical successes and failures to guide subsequent optimization. Experiments on five benchmarks and five execution topologies show that UniMASO achieves competitive task performance at substantially lower deployment cost than the strongest homogeneous configurations. Under centralized execution, it improves the average score from 69.79 to 70.40 while reducing token-weighted deployment cost by 85.2% relative to DeepSeek-V4-Pro with MASPO. These results support joint prompt-model adaptation as an effective approach to efficient multi-agent collaboration. The code is available at https://github.com/Achilles008/UniMASO_main.",
-      "tags": [
-        "cs.MA"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Not Every Agent Needs the Strongest Model: Unified Prompt-Model Optimization for Heterogeneous LLM-based Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.31743v2"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "bc5576a4ab11cf8366541f48",
-      "context_id": "6045182ca409ad30932b599f",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::FORWARD",
-      "direction_title": "Distributed agents / swarm / resilient coordination [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "multi-agent"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 4.4583,
-      "source": "arxiv",
-      "source_context_sha256": "03d9151c7db5110b51b35a1e41e22152b7b605b2b765ce31dabbf85bf35922fc",
-      "source_published": "2026-10-26T05:50:57Z",
-      "source_updated": "2026-10-26T05:50:57Z",
-      "summary": "Disease diagnosis is a key application of large language model (LLM) agents in healthcare. However, existing medical agents are primarily trained and evaluated with static question-answering data, providing limited opportunities to learn active information acquisition, examination decision-making, and dynamic clinical interaction. To address this limitation, we present ClinVerse, an interactive, real-data-grounded multi-agent environment designed for training and evaluating medical diagnostic agents. Built on ClinPatient, a scalable dataset comprising 150k diagnostic cases derived from real-world electronic health records, ClinVerse supports coordinated interactions among six specialized clinical roles. Specifically, a doctor agent starts from an initial patient complaint, progressively gathers clinical evidence through patient interviews and examination requests, and ultimately produces a diagnosis. For each interaction trajectory, a rule-based scoring framework quantifies information acquisition, examination ordering, and diagnostic accuracy. These trajectory-level scores serve as reward signals for agent training while also enabling scalable evaluation. In experiments, we evaluate various general-purpose and medical-domain models and show that nine self-evolution methods across three categories consistently improve agents' diagnostic capabilities within ClinVerse. We further analyze the interplay among model capability, environment feedback, and self-evolution methods.",
-      "tags": [
-        "cs.AI",
-        "cs.MA"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "ClinVerse: A Realistic Multi-Agent Diagnostic Environment for Training and Evaluating Medical Agents",
-      "url": "https://arxiv.org/abs/2610.34878v1"
-    },
     {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "f7bd885e1abb9452d766b96b",
@@ -469,126 +43,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Video World Models Need Predictable Latents",
       "url": "https://arxiv.org/abs/2610.34663v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "fa8f865e7c5f090b6a90dd33",
-      "context_id": "6d5bc286f63da03294d4671b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::REVERSE",
-      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "decentralized",
-        "multi-agent",
-        "reverse"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.2917,
-      "source": "arxiv",
-      "source_context_sha256": "d1805e6c7181b08dab8c036e8577a73d8aac5470a70626dde8b4167706e2199b",
-      "source_published": "2026-10-08T01:38:24Z",
-      "source_updated": "2026-10-08T01:38:24Z",
-      "summary": "While recent advances in autonomous agents enable them to coordinate on increasingly complex tasks, prior work shows that this growing capacity for coordination can create safety risks, including collusion, in which agents jointly pursue misaligned actions while concealing the true basis of those actions from oversight. We study this risk in a simulated insider-trading environment, comparing single agents with sequential and decentralized teams across seven language models from three families. By varying agents' system-level objectives and pressure conditions, we examine when coordinated agents act on material nonpublic information, conceal the basis of a misaligned trade in a report, and maintain that deception under follow-up questioning. Compared to single-agent decision-making, multi-agent interaction raises misaligned-action rates from 35.4% to 68.2% and persistent-deception rates from 31.0% to 62.2%, both measured over all runs. These effects are largest under existential pressure, where teams sustain deception through follow-up questioning in 87% of all runs. Qualitative analysis reveals shared cover stories and coordinated rationales, suggesting group-level strategic deception rather than isolated reporting errors. To mitigate this behavior, we introduce PACT, a weak-to-strong on-policy distillation framework for mitigating collusive deception. Using generic honesty prompts, PACT trains a stronger student on its own sampled continuations, matching its next-token distribution to that of a smaller, frozen honesty-aligned teacher via reverse-KL supervision. Under existential pressure with ethical instructions, PACT reduces multi-agent persistent deception from 80% to 3%. Our results show that multi-agent coordination amplifies strategic deception and that on-policy honesty alignment can substantially mitigate these failures.",
-      "tags": [
-        "cs.MA",
-        "cs.AI",
-        "cs.CL",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "When Agents Collude: Weak-to-Strong On-Policy Distillation for Mitigating Strategic Deception in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.33011v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "e48793e4554331ea101b81c2",
-      "context_id": "08ff022adb861529094473b9",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::REVERSE",
-      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "consensus",
-        "multi-agent",
-        "recovery"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 10.1667,
-      "source": "arxiv",
-      "source_context_sha256": "c625e7d140ce21e5c7b3591484e69f480157eb574bd4ec7adc039c5ab53c8c06",
-      "source_published": "2026-10-24T19:06:19Z",
-      "source_updated": "2026-10-24T19:06:19Z",
-      "summary": "Distributed Cyber-Physical Systems (CPS) and Edge AI networks increasingly depend on public-key authentication and key-establishment mechanisms that are vulnerable to cryptographically relevant Quantum Computers (QC). Shor's algorithm threatens widely deployed asymmetric primitives, while Grover's algorithm reduces the effective security margins of symmetric and hash-based mechanisms. Although Post-Quantum Cryptography (PQC) provides a migration path, its larger public keys, ciphertexts, and signatures introduce additional computation, memory, communication, storage, and packet-fragmentation costs that can constrain dynamic multi-agent systems. In this article, we introduce rotational secrecy, an architectural objective that limits temporal key exposure through authenticated transitions between cryptographic epochs. We present Private Authentication for Rotational Secrecy (PARS), a reference mechanism that coordinates policy-triggered key establishment, rotation, and reconciliation among authorized Physical AI agents. For deployments that need distributed agreement on security state, we further develop the PARS-Enabled Edge Security Ledger (PARS-ESL), an optional permissioned architecture maintained by authorized validators or capable edge gateways. PARS-ESL does not store high-volume operational transactions. Instead, it records authenticated state for key epochs, group membership, revocation, algorithm-suite policies, challenge validation, and recovery checkpoints. As a result, resource-constrained agents can take part as lightweight clients, and low-latency operational traffic stays outside the ledger consensus path, protected by the currently active symmetric epoch keys. Our results show that ledger-assisted post-quantum key-epoch management is feasible for selected Edge AI and CPS security-control workloads under the stated trust, compromise, connectivity, and resource assumptions.",
-      "tags": [
-        "cs.CR",
-        "cs.ET",
-        "cs.RO"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Securing Edge & Physical AI: Post-Quantum IoT Blockchain for Mission-Critical Cyber-Physical Agents",
-      "url": "https://arxiv.org/abs/2610.33862v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "092adbb79c2c601621de15bb",
-      "context_id": "142a6fe1f8a521fd4cbee689",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "inversion",
-        "memory",
-        "reverse"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.9167,
-      "source": "zenodo",
-      "source_context_sha256": "e8d5644ad39dbdad4efaaf3a40c9bb608028c809d37676a691f2190e2e478fbb",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Deepwave provides wave propagation modules for PyTorch, for applications such as seismic imaging and inversion. It performs forward modelling and backpropagation, so it can simulate wave propagation to generate synthetic data, or invert for the scattering potential (reverse-time migration, RTM, or its least-squares counterpart, LSRTM), other model parameters (full-waveform inversion, FWI), initial wavefields, or source wavelets. It can also be used inside a larger chain of operations, with forward and backpropagation flowing through the whole chain end to end. You can use your own objective functions, or functions that generate the propagator's inputs, and PyTorch's automatic differentiation calculates how to backpropagate through them. New to seismic/wave-equation terminology? The glossary defines the terms (PML, CFL, Born, FWI, and more) used throughout this README and the rest of the documentation. Deepwave requires Python 3.9 or later and PyTorch 2.4 or later. First install PyTorch for your CPU or CUDA device using the instructions on the PyTorch website . Then install Deepwave: pip install deepwave &nbsp; macOS wheels support Apple Silicon. Intel Mac wheels are no longer provided: PyTorch 2.4 and newer do not publish wheels for that platform. Prebuilt x86 wheels require AVX2. Older CPUs need a source build; see installation troubleshooting . PyTorch is Deepwave's only dependency. The example scripts under docs/ additionally import matplotlib (to draw their figures) and, in some cases, numpy , scipy (smoothing and filter design), torchaudio (applying those filters), torchvision and geomloss , but those are needed only to run the examples, never by Deepwave itself. To install all of them: pip install 'deepwave[examples]' &nbsp; The documentation contains examples and instructions on how to install and use Deepwave. You might also like to watch a video summary of Deepwave . Not every propagator supports every option (dimensionality, backend, boundary faces, batching, second-order differentiation, callbacks, ...). See the capability matrix (declared in the code and checked by conformance tests) before assuming a combination works. Why Deepwave Computationally efficient. Deepwave's compiled kernels use a hand-derived adjoint for better performance and lower memory requirements than pure PyTorch implementations. See what Deepwave calculates . Second derivatives are supported, not just first. The scalar, acoustic, and elastic propagators can compute Hessian-vector products (derivatives of gradients); see the Hessian example . Born (linearised) modelling. Model scattered waves from perturbations to a background medium for linearised inversion and imaging. See the torch.func example . Deepwave fits into an ordinary PyTorch workflow. Because propagation is a normal PyTorch autograd Function , it works directly with PyTorch optimisers, DistributedDataParallel over shots, torch.func transforms, and any PyTorch loss function or neural-network model of the input parameters. See the capability matrix for exactly what each propagator supports. Deepwave does not try to be a general symbolic PDE solver, a multi-node HPC code, or a non-differentiable simulation toolkit &mdash; see Devito , SPECFEM , and k-Wave respectively for those needs. If you are choosing between wave-propagation packages, see the comparison guide . (Note: the DeepWave-KAUST GitHub organisation, home of the SWEEP package, is unrelated to this project.) Features Supports the 1D, 2D, and 3D constant density acoustic / scalar wave equation (regular and Born modelling), variable density acoustic, elastic, viscoacoustic (single-mechanism SLS attenuation), elastic VTI (anisotropic), and pseudo-acoustic VTI ( deepwave.acoustic_vti , the Duveneck et al. 2008 V_S=0 reduction) wave equations Runs on CPUs and appropriate GPUs The gradient of all outputs (final wavefields and receiver data) can be calculated with respect to the model parameters (wavespeed, scattering potential, etc",
-      "tags": [
-        "seismic",
-        "wave propagation",
-        "full waveform inversion",
-        "fwi",
-        "least squares reverse time migration",
-        "lsrtm",
-        "pytorch",
-        "geophysics"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Deepwave",
-      "url": "https://zenodo.org/records/23676108"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -664,6 +118,49 @@
     },
     {
       "base_direction_id": "registry_provenance",
+      "candidate_id": "d616add2f10a488060b07a68",
+      "context_id": "928e5c00a3ca4fd914095a74",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "64f827bc6619dca72d0c2981cd30c76642725cdf1f7b7b171b423cd36ae2ca8a",
+      "source_published": "2026-10-23",
+      "source_updated": "",
+      "summary": "Supplementary data for \"OpenScientist: evaluating an open agentic AI co-scientist to accelerate biomedical discovery.\" This dataset contains research logs, knowledge states, provenance files, and generated figures for seven case studies spanning neurodegenerative disease transcriptomics, multiple myeloma genomics, survival proteomics, drug side effect analysis, and more. Each case study includes the full agent iteration log, configuration, and final report. Input datasets are included for three case studies where data sharing is permitted: case study 3 (neurofibrillary tangle transcriptomics), case study 4 (multiple myeloma RNA-seq), and case study 7 (drug side effect frequencies from clinical trials).&nbsp; Version 2 (August 2026) adds supplementary material for case study 3 (neurofibrillary tangle transcriptomics): 60 additional independent runs of the same question and dataset, comparing three agent/model configurations &mdash; Claude Code with Claude Opus 4.8, and the omp harness with Kimi K3 and GLM 5.2 &mdash; each run 10 times online and 10 times in a fully air-gapped configuration with no network access and literature served from a local 40-million-article MEDLINE mirror. Files: ..._supplemental_online_30runs_data.tar.gz and ..._supplemental_airgapped_30runs_data.tar.gz each contain 30 runs with reports (Markdown, PDF, HTML), all generated figures, per-iteration transcripts, the exact prompt, and full version/commit provenance. ..._supplemental_60runs_metrics.csv gives per-run runtime, tool-call counts, literature searches, findings recorded and token usage for all 60 runs. Version 3 (September 2026) adds two further supplementary sets for case study 3 (neurofibrillary tangle transcriptomics). ..._supplemental_reproducibility_10runs_data.tar.gz contains 10 independent runs of the same question on Claude Opus 4.6, all run on 2026-03-08 with byte-identical inputs (the research question and the input .h5ad were SHA-256 verified identical across all 10) and a 10-iteration budget. Each run includes the report (Markdown, PDF, HTML), knowledge_state.json with structured findings and literature list, per-iteration transcripts, and the job UUID. These runs quantify run-to-run variability under fixed inputs. ..._supplemental_genomic_skill_comparison_data.tar.gz contains 30 runs &mdash; 15 using the original genomics Agent Skill and 15 using a revised version &mdash; with the two skill definitions included alongside the jobs. The revised skill adds explicit guidance on donor-level pseudobulk aggregation and mixed-effect modelling; the paired arms allow the effect of that guidance on the analysis the agent chooses to be assessed directly. Each run includes reports (Markdown, PDF, HTML), per-iteration provenance transcripts, and container logs. Version 4 (October 2026) adds the run sets generated for the second revision of the manuscript, renumbers the case-study files to match the revised manuscript (the suvorexant proteomics analysis is now Case Study 5; neurofibromatosis is Case Study 6, drug side effects Case Study 7, and the CSF A&beta;42/40 prediction model Case Study 8), and adds RUNS_MANIFEST.csv , which maps every job in this record to its experiment, supplementary table and row label. Run IDs quoted in the supplementary tables are the first 8 hexadecimal characters of the job ID. New archives, all for Case Study 3 (neurofibrillary tangle transcriptomics; same research question and input file as the existing archives, OpenScientist commit fac6971, Claude Opus 4.6, run 2026-10-18 with a 10-iteration budget): ..._supplemental_iteration_controls_10runs_data.tar.gz (10 replicate runs on unmodified code; Experiment 4 and the control arm of the two ablations), ..._supplemental_knowledge_state_ablation_10runs_data.tar.gz (10 runs in which the knowledge-state summary and outline were withheld from the agent; Experiment 5; the patched orchestrator file is included as ..._knowledge_state_ablation_iteration.py.patched ), and ..._supp",
+      "tags": [
+        "AI",
+        "autonomous agents",
+        "scientific discovery",
+        "bioinformatics",
+        "open science",
+        "air-gapped",
+        "open-weight models",
+        "reproducibility",
+        "large language models"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "OpenScientist: Supplementary Case Study Data",
+      "url": "https://zenodo.org/records/23602910"
+    },
+    {
+      "base_direction_id": "registry_provenance",
       "candidate_id": "ce6edefda18c90888a45a5c8",
       "context_id": "5313bcbc41a52ec2025aca1d",
       "delivery_preview_only": true,
@@ -701,13 +198,13 @@
       "url": "https://arxiv.org/abs/2610.35606v1"
     },
     {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "c51f62961bfabcc0cbd2ff1d",
-      "context_id": "2de9e2cc7d66827017b3c260",
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "ce6edefda18c90888a45a5c8",
+      "context_id": "fa6ed5434bfaf1d9e70b2607",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::REVERSE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -717,30 +214,36 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "provenance",
-        "reconstruction"
+        "reconstruction",
+        "representation",
+        "retrieval"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 9.0,
-      "source": "zenodo",
-      "source_context_sha256": "44ef781bbb3999f2249bf44fd371130120ff2c17f9650baf9fb00b1fa755270f",
-      "source_published": "2026-10-22",
-      "source_updated": "",
-      "summary": "This record preserves the v0.2.0 trained-model weight bundle for takotsubo_ami_ai_ecg. It contains selected ViT, ConvNeXtV2 and MLP-Mixer inference tensors in safetensors format, ViT configuration files, a manifest, and the applicable license texts and notices. These research models classify prepared ECG images as takotsubo syndrome or acute anterior ST-elevation myocardial infarction (STEMI). The file takotsubo_ami_ai_ecg_weights_v0.2.0.zip is the unchanged GitHub release asset: 958,701,120 bytes, SHA-256 cba7d135b1e2f5491f1c0ccab93aef8e3b65570586f8052029540b94e7fbf510. It contains 11 files, including three model.safetensors files. Patient images, training datasets, prediction tables, participant records, optimizer state and original training-machine paths are excluded. The selected source states are ViT checkpoint-6900/model.safetensors and the ordinary model states from ckpt_0011.pth for ConvNeXtV2 and MLP-Mixer. The ConvNeXtV2 SWA checkpoint and SWA state are not used for the default inference path. Training and validation loss curves were reviewed, and the checkpoint with the lowest validation loss among epochs without apparent signs of overfitting was selected. This describes the reported selection procedure and does not prove that overfitting was absent. Use the companion software release v0.3.0 for command-line or Colab inference and optional ViT/ConvNeXtV2 Grad-CAM output. The default input is a prepared 480 x 480 image, and the class order is tako, AMI. Paper-default TTA uses ViT 24 views/magnitude 1, ConvNeXtV2 one unchanged view, and MLP-Mixer 32 views/magnitude 3. Each model's view logits are averaged; the ensemble averages the three models' raw logits with equal weights before applying softmax. The selected inference tensors were checked against their original source tensors, and the published bundle and its member-file hashes were verified. Software checks include the documented ten-image no-TTA comparison and synthetic-image paper-TTA execution. These checks do not establish clinical accuracy, historical stochastic-TTA equivalence, complete training reproduction, or equivalence to historical reader-study visualizations. See the dated validation scope (https://github.com/ekagawa007/takotsubo_ami_ai_ecg/blob/f8553b994cc8f3ac99c5e7e3ed44cea312dde512/docs/implementation_status.md). License terms apply to particular assets, not as interchangeable license choices: ViT weights and accompanying configuration: the author's contributions are licensed under CC BY-NC 4.0. Retain the original MAE noncommercial notice and the Hugging Face distribution's Apache-2.0 notice. Commercially unrestricted use of the ViT assets is not granted. ConvNeXtV2 and MLP-Mixer weights: the author's contributions are licensed under MIT, subject to the documented upstream notices. The complete bundle includes the ViT assets and must respect their noncommercial terms. The separate MIT terms for the other author-owned contributions remain unchanged. Retain WEIGHTS_LICENSE.md, THIRD_PARTY_NOTICES.md and all accompanying license texts. The saved checkpoint configuration does not identify an immutable upstream model revision; the provenance is not a complete reconstruction of every training step. These materials are intended for research. Clinical accuracy, reliability and fitness for clinical use are not warranted. Warranty exclusions and liability limitations, including consequences of diagnostic or treatment use, follow the applicable licenses. Original weight release: v0.2.0 (https://github.com/ekagawa007/takotsubo_ami_ai_ecg/releases/tag/v0.2.0). Companion source release: v0.3.0 (https://github.com/ekagawa007/takotsubo_ami_ai_ecg/releases/tag/v0.3.0).",
-      "tags": [],
+      "score": 7.5417,
+      "source": "arxiv",
+      "source_context_sha256": "de97fd1fca08011fca347128b821088f4dfb4fb1b8fcc01474010afe6b8d33a5",
+      "source_published": "2026-10-26T15:29:24Z",
+      "source_updated": "2026-10-26T15:29:24Z",
+      "summary": "Historical maps contain dense morphological and semantic information about past urban environments, but many digitization workflows focus primarily on extracting geometry, and do not capture cartographic semantics such as building use and construction materials. This study introduces ArchiveLens, a generative spatial knowledge framework that operationalizes historical maps as entity-centric, machine-queryable geospatial databases. The pipeline decouples morphological and semantic reconstruction through three stages: tiled YOLOv11-seg instance segmentation for building footprint extraction; deterministic material classification via hue, saturation, and value (HSV)-based color thresholds; and localized attribute parsing using a quantized vision-language model constrained by domain-specific prompts. Extracted entities are integrated into a hybrid Spatial-Temporal Retrieval-Augmented Generation (ST-RAG) architecture that combines dense semantic retrieval with symbolic spatio-temporal filtering and mandatory provenance grounding. Applied to 445 georeferenced Sanborn map sheets of Chicago (1918-1950), the framework achieves high geometric and semantic accuracy. Beyond performance, ArchiveLens advances GIScience by formalizing historical cartography as structured spatial knowledge representation, allowing researchers to query building attributes and compare spatial patterns across map sheets and years.",
+      "tags": [
+        "cs.AI",
+        "cs.CY",
+        "cs.LG",
+        "cs.SI"
+      ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "takotsubo_ami_ai_ecg: trained ViT, ConvNeXtV2 and MLP-Mixer inference weights (v0.2.0)",
-      "url": "https://zenodo.org/records/23666262"
+      "title": "ArchiveLens: A Generative Spatial Knowledge Framework for Semantic Reconstruction of Historical Maps",
+      "url": "https://arxiv.org/abs/2610.35606v1"
     },
     {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "79448b651f7cbaf4c56b9ecc",
-      "context_id": "7f7051bf5fae15ae5aef48e4",
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "4acb7a72fa986e3f42dc4709",
+      "context_id": "b1a40da69aa3232a25458b64",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::REVERSE",
-      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -750,33 +253,103 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "inverse",
-        "multi-agent"
+        "memory",
+        "reconstruction",
+        "representation"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.75,
+      "score": 7.4167,
       "source": "arxiv",
-      "source_context_sha256": "372674d82c81f2952646f3db473a58692160c117a869a6d411d55085e91e5c9f",
-      "source_published": "2026-10-24T15:18:31Z",
-      "source_updated": "2026-10-24T15:18:31Z",
-      "summary": "In large language model (LLM)-based multi-agent systems, reported confidence increasingly determines the allocation of scarce downstream attention, computation, and decision influence. This makes reporting strategic: an agent may overstate the relevance of its contribution even when its underlying belief is well calibrated. Existing calibration methods largely assume passive reporting and therefore do not address strategic incentives created when confidence determines downstream allocation. We formulate strategic calibration as a reporting-layer incentive problem and propose the Audited Pivot Scoring Mechanism (APSM). APSM offsets platform-controlled allocation benefits, uses inverse-propensity-weighted sparse audits, charges the Clarke pivot externality, and applies a strictly proper score. Under the stated model assumptions, truthful reporting is the unique expected-utility best response. We also characterize approximate execution and the audit-variance trade-off. Calculator-free experiments show that LLM agents inflate confidence under Top-$K$ incentives. With a shared agent-local utility interface, LLM agents reduce distortion under both Compensated Proper Scoring (CPS) and APSM. CPS achieves higher exact allocation match, whereas APSM yields lower Brier loss and numerically fewer cutoff crossings. Experiments further show that APSM enlarges the utility margin against allocation-changing deviations by $1.93\\times$ and improves robustness under approximate execution. These results support incentive-aware elicitation as a distinct layer for reliable multi-agent coordination.",
+      "source_context_sha256": "a6e1c6087f2316c942f7e907ec150cd9cb2f4aeb22fa63f80de6e958663876de",
+      "source_published": "2026-10-26T16:45:23Z",
+      "source_updated": "2026-10-26T16:45:23Z",
+      "summary": "Web-connected sensing applications continuously generate multivariate time series with evolving behavioral categories, making Time Series Class-Incremental Learning (TSCIL) essential for adapting to new classes without forgetting previously acquired knowledge. However, preserving diverse and evolving class distributions under strict privacy and memory constraints remains a fundamental challenge. Existing approaches often face a trade-off between retaining sufficient historical knowledge for accurate recognition and minimizing the memory required for continual adaptation. To address these limitations, we propose TRACE, a memory-efficient, replay-free framework that preserves class-specific knowledge through generative modeling rather than sample rehearsal. TRACE employs a compact, frozen temporal-spectral representation and lightweight class-specific autoencoders to capture complex intra-class variations. By independently preserving each class model, TRACE avoids recursive generation and catastrophic forgetting, while enabling direct classification through reconstruction-based scoring without retaining historical samples or large statistical matrices. Extensive experiments across five TSCIL benchmarks demonstrate that TRACE achieves competitive classification accuracy while reducing mean retained memory by approximately 98.26% compared with TS-ACL, the strongest evaluated analytical baseline, and achieving an approximately 33.43% relative improvement in accuracy on GrabMyo.",
       "tags": [
-        "cs.GT",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "TRACE: Memory-Efficient Time Series Class-Incremental Learning via Temporal-Spectral Reconstruction",
+      "url": "https://arxiv.org/abs/2610.35727v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b6e9b57304b088d6ef59dbbb",
+      "context_id": "7df633e36b29e4dd9c86cf8b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "reconstruction",
+        "representation"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.4167,
+      "source": "zenodo",
+      "source_context_sha256": "a3303eabd1c1c630d997961801b8516459a3f16f120135338aaabf85c97c011e",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Human observers can encounter representations of the same relational contribution history yet form different beliefs about its significance and trustworthiness. This third paper in a coordinated research programme investigates cognitive processes between the structural availability of evidence and an observer&rsquo;s assessment of a person, claim, or contribution. Its proposed analytic objects are selective attention, evidence encoding, reconstructive memory, attribution, interpretive schemas, belief revision, epistemic vigilance, and behavioral reliance. The inquiry distinguishes evidentiary accessibility from cognitive encounter, subjective confidence from justified assessment, and expressed trust from risk-bearing cooperation. Prior work in attention, working memory, judgment under uncertainty, epistemic vigilance, and trust in automation motivates a provisional sequential-kernel architecture; that architecture remains a research proposal rather than a validated general cognitive model. AI-mediated information environments supply a historically relevant application, without defining the paper&rsquo;s full scope. This working draft contains all ten planned sections, covering cognitive interfaces, selective attention, memory-based trajectory reconstruction, contribution attribution, proposition-specific belief revision, testimony evaluation, behavioral reliance, empirical designs with explicit identification boundaries, and a synthesis of conditional theoretical findings. It reports no original empirical results.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Cognitive Mediation of Relational Evidence: An Investigation of Epistemic Judgment and Reliance",
+      "url": "https://zenodo.org/records/23678874"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "69182d0d19fcf12f0ae1e3a1",
+      "context_id": "8de61887830eeb9c40887444",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.1667,
+      "source": "arxiv",
+      "source_context_sha256": "b6e42361742bc1729c0e40ec3eb8966402fd1e469d365e4d64a2aae5c2df00bd",
+      "source_published": "2026-10-26T17:02:10Z",
+      "source_updated": "2026-10-26T17:02:10Z",
+      "summary": "Multivariate time series produced by industrial installations and server clusters are under continuous monitoring, and anomaly detection is the first line of defense before a local fault escalates into a system-wide failure. In the absence of labels, the dominant paradigm trains a reconstruction model on normal data and scores the residual to reach a verdict. Recent work has steadily enriched the expressiveness of the recovery map through Transformers, diffusion models, and cross-scale associations. A residual, however, only certifies that an observation can be recovered; it does not certify that the variables still explain one another as they do under normal operation. A coordinated yet unfamiliar operating transition inflates the residual without breaking any relationship, whereas a sensor drifting away from its peers may leave the residual silent. Methods that fold inter-variable dependencies into the reconstruction objective inherit this ambiguity, because their relational evidence is ultimately supervised by the same recovery loss. We therefore propose CLOSURE, which evaluates recoverability and cross-channel consistency as two normal-data prediction tasks learned in separation. The recoverability task is solved by a diffusion reconstructor conditioned on a discrete memory of normal temporal bases. The consistency task is solved by a relation-closure operator that predicts every channel exclusively from the others, where the target's own trajectory is withheld and sparse signed gates decide which peers are actually used. The two scores are reconciled only through calibration on normal data. Extensive experiments show that CLOSURE consistently outperforms recent reconstruction-, frequency-, and topology-based detectors on public benchmark streams, confirming the value of examining consistency alongside recoverability.",
+      "tags": [
         "cs.AI"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Strategic Calibration in LLM Multi-Agent Systems: Audited Pivot Scoring for Truthful Elicitation",
-      "url": "https://arxiv.org/abs/2610.33728v1"
+      "title": "CLOSURE: Cross-Channel Closure for Multivariate Time Series Anomaly Detection",
+      "url": "https://arxiv.org/abs/2610.35753v1"
     },
     {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "bc5576a4ab11cf8366541f48",
-      "context_id": "20fea241d331fcbdc8592083",
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "aafeb18bdb17c841b0276b20",
+      "context_id": "0d07ce2ed6ba21a401a140eb",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::REVERSE",
-      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -786,71 +359,30 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "inverse",
-        "multi-agent"
+        "memory",
+        "reconstruction",
+        "recovery"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.75,
+      "score": 7.1667,
       "source": "arxiv",
-      "source_context_sha256": "156cac44801389864671e8489520cd31fc36196c13e75370b670f4362c67cc9a",
-      "source_published": "2026-10-26T05:50:57Z",
-      "source_updated": "2026-10-26T05:50:57Z",
-      "summary": "Disease diagnosis is a key application of large language model (LLM) agents in healthcare. However, existing medical agents are primarily trained and evaluated with static question-answering data, providing limited opportunities to learn active information acquisition, examination decision-making, and dynamic clinical interaction. To address this limitation, we present ClinVerse, an interactive, real-data-grounded multi-agent environment designed for training and evaluating medical diagnostic agents. Built on ClinPatient, a scalable dataset comprising 150k diagnostic cases derived from real-world electronic health records, ClinVerse supports coordinated interactions among six specialized clinical roles. Specifically, a doctor agent starts from an initial patient complaint, progressively gathers clinical evidence through patient interviews and examination requests, and ultimately produces a diagnosis. For each interaction trajectory, a rule-based scoring framework quantifies information acquisition, examination ordering, and diagnostic accuracy. These trajectory-level scores serve as reward signals for agent training while also enabling scalable evaluation. In experiments, we evaluate various general-purpose and medical-domain models and show that nine self-evolution methods across three categories consistently improve agents' diagnostic capabilities within ClinVerse. We further analyze the interplay among model capability, environment feedback, and self-evolution methods.",
+      "source_context_sha256": "bdf03e1b35b2ce604b2c5407ad2c6199164bc2f9bf92b0c77e05e5168bded12f",
+      "source_published": "2026-10-25T08:20:30Z",
+      "source_updated": "2026-10-25T08:20:30Z",
+      "summary": "On million-node graphs, the memory wall arrives before the compute wall: a GNN that never fits in VRAM cannot deliver the all-node inference its accuracy promises. The standard remedy, pruning, has always been an accuracy tax - paid once and never refunded. DPR refuses this framing. Its central insight is that the mask that shrinks training can also scaffold recovery: one compact node set bounds both computations of graph learning, serving as the encoder's training graph and, at inference, as the anchor from which a sparse structure-aware decoder rebuilds every pruned node (double-layer sparsification). The order is inverted - prune for efficiency, then reconstruct for accuracy - and the tax is repaid: the deployed 30%-budget model trains in 1,450 MiB of peak memory on one 6 GB GPU and recovers 96.9% of its dense-reconstruction reference, beating a same-GPU rerun of the edge-sparsification baseline DSpar by +1.36 pp at 50.1% lower peak training memory; against the same-protocol full-batch no-prune encoder the deployed point pays a measured 2.64 pp accuracy tax for a 2.8x smaller training footprint. Pruning without reconstruction leaves the encoder at 0.378 within the same 40-epoch window (Fig. 4), and all-node serving runs 46x faster than sampling-based GraphSAGE, giving up approx. 5.4 pp of test accuracy. The framework scales to a 2.45M-node production graph at 6,285 MiB of peak training memory; extended variants (long-range context, external text features, a CAN-bus application) are reported as extensions and do not compete with the deployed method, and the 41.8%-budget M4 point, scored on a coarsened super-node graph with its own split, is reported separately rather than compared with the original-node baselines. DPR thus turns aggressive node pruning from an accuracy tax into a safe training accelerator for VRAM-limited all-node inference.",
       "tags": [
-        "cs.AI",
-        "cs.MA"
+        "cs.LG",
+        "cs.AI"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "ClinVerse: A Realistic Multi-Agent Diagnostic Environment for Training and Evaluating Medical Agents",
-      "url": "https://arxiv.org/abs/2610.34878v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "092adbb79c2c601621de15bb",
-      "context_id": "61c29e91a3e9fc603b52c926",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::REVERSE",
-      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "inversion",
-        "reverse"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.6667,
-      "source": "zenodo",
-      "source_context_sha256": "c3607d9b5c1e69f69f8bcb3b58e4b1df7d31ee3af586ee9724ed03424adb5b63",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Deepwave provides wave propagation modules for PyTorch, for applications such as seismic imaging and inversion. It performs forward modelling and backpropagation, so it can simulate wave propagation to generate synthetic data, or invert for the scattering potential (reverse-time migration, RTM, or its least-squares counterpart, LSRTM), other model parameters (full-waveform inversion, FWI), initial wavefields, or source wavelets. It can also be used inside a larger chain of operations, with forward and backpropagation flowing through the whole chain end to end. You can use your own objective functions, or functions that generate the propagator's inputs, and PyTorch's automatic differentiation calculates how to backpropagate through them. New to seismic/wave-equation terminology? The glossary defines the terms (PML, CFL, Born, FWI, and more) used throughout this README and the rest of the documentation. Deepwave requires Python 3.9 or later and PyTorch 2.4 or later. First install PyTorch for your CPU or CUDA device using the instructions on the PyTorch website . Then install Deepwave: pip install deepwave &nbsp; macOS wheels support Apple Silicon. Intel Mac wheels are no longer provided: PyTorch 2.4 and newer do not publish wheels for that platform. Prebuilt x86 wheels require AVX2. Older CPUs need a source build; see installation troubleshooting . PyTorch is Deepwave's only dependency. The example scripts under docs/ additionally import matplotlib (to draw their figures) and, in some cases, numpy , scipy (smoothing and filter design), torchaudio (applying those filters), torchvision and geomloss , but those are needed only to run the examples, never by Deepwave itself. To install all of them: pip install 'deepwave[examples]' &nbsp; The documentation contains examples and instructions on how to install and use Deepwave. You might also like to watch a video summary of Deepwave . Not every propagator supports every option (dimensionality, backend, boundary faces, batching, second-order differentiation, callbacks, ...). See the capability matrix (declared in the code and checked by conformance tests) before assuming a combination works. Why Deepwave Computationally efficient. Deepwave's compiled kernels use a hand-derived adjoint for better performance and lower memory requirements than pure PyTorch implementations. See what Deepwave calculates . Second derivatives are supported, not just first. The scalar, acoustic, and elastic propagators can compute Hessian-vector products (derivatives of gradients); see the Hessian example . Born (linearised) modelling. Model scattered waves from perturbations to a background medium for linearised inversion and imaging. See the torch.func example . Deepwave fits into an ordinary PyTorch workflow. Because propagation is a normal PyTorch autograd Function , it works directly with PyTorch optimisers, DistributedDataParallel over shots, torch.func transforms, and any PyTorch loss function or neural-network model of the input parameters. See the capability matrix for exactly what each propagator supports. Deepwave does not try to be a general symbolic PDE solver, a multi-node HPC code, or a non-differentiable simulation toolkit &mdash; see Devito , SPECFEM , and k-Wave respectively for those needs. If you are choosing between wave-propagation packages, see the comparison guide . (Note: the DeepWave-KAUST GitHub organisation, home of the SWEEP package, is unrelated to this project.) Features Supports the 1D, 2D, and 3D constant density acoustic / scalar wave equation (regular and Born modelling), variable density acoustic, elastic, viscoacoustic (single-mechanism SLS attenuation), elastic VTI (anisotropic), and pseudo-acoustic VTI ( deepwave.acoustic_vti , the Duveneck et al. 2008 V_S=0 reduction) wave equations Runs on CPUs and appropriate GPUs The gradient of all outputs (final wavefields and receiver data) can be calculated with respect to the model parameters (wavespeed, scattering potential, etc",
-      "tags": [
-        "seismic",
-        "wave propagation",
-        "full waveform inversion",
-        "fwi",
-        "least squares reverse time migration",
-        "lsrtm",
-        "pytorch",
-        "geophysics"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Deepwave",
-      "url": "https://zenodo.org/records/23676108"
+      "title": "Decoupled Prune-and-Reconstruct: Training on a Compact Core with Double-Layer Sparsification",
+      "url": "https://arxiv.org/abs/2610.34140v1"
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "092adbb79c2c601621de15bb",
-      "context_id": "1f48dabc99dfc017412ca46c",
+      "candidate_id": "42d226a0ac96170f29c14f71",
+      "context_id": "f1c99490e5b796df4a73e978",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
       "direction_id": "registry_provenance::REVERSE",
@@ -864,30 +396,54 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "inversion",
-        "reverse"
+        "identifiability",
+        "reproducibility"
       ],
       "mirror_lens": "REVERSE",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.6667,
+      "score": 6.25,
       "source": "zenodo",
-      "source_context_sha256": "6a6cb37abac2c6058098c247652dbf65ec3dda593dfbd5305f5d48401f734326",
-      "source_published": "2026-10-26",
+      "source_context_sha256": "0da5fba10aca7feb37657a066624900150c8537bf558682aab4c8dd61fa25a8d",
+      "source_published": "2026-10-27",
       "source_updated": "",
-      "summary": "Deepwave provides wave propagation modules for PyTorch, for applications such as seismic imaging and inversion. It performs forward modelling and backpropagation, so it can simulate wave propagation to generate synthetic data, or invert for the scattering potential (reverse-time migration, RTM, or its least-squares counterpart, LSRTM), other model parameters (full-waveform inversion, FWI), initial wavefields, or source wavelets. It can also be used inside a larger chain of operations, with forward and backpropagation flowing through the whole chain end to end. You can use your own objective functions, or functions that generate the propagator's inputs, and PyTorch's automatic differentiation calculates how to backpropagate through them. New to seismic/wave-equation terminology? The glossary defines the terms (PML, CFL, Born, FWI, and more) used throughout this README and the rest of the documentation. Deepwave requires Python 3.9 or later and PyTorch 2.4 or later. First install PyTorch for your CPU or CUDA device using the instructions on the PyTorch website . Then install Deepwave: pip install deepwave &nbsp; macOS wheels support Apple Silicon. Intel Mac wheels are no longer provided: PyTorch 2.4 and newer do not publish wheels for that platform. Prebuilt x86 wheels require AVX2. Older CPUs need a source build; see installation troubleshooting . PyTorch is Deepwave's only dependency. The example scripts under docs/ additionally import matplotlib (to draw their figures) and, in some cases, numpy , scipy (smoothing and filter design), torchaudio (applying those filters), torchvision and geomloss , but those are needed only to run the examples, never by Deepwave itself. To install all of them: pip install 'deepwave[examples]' &nbsp; The documentation contains examples and instructions on how to install and use Deepwave. You might also like to watch a video summary of Deepwave . Not every propagator supports every option (dimensionality, backend, boundary faces, batching, second-order differentiation, callbacks, ...). See the capability matrix (declared in the code and checked by conformance tests) before assuming a combination works. Why Deepwave Computationally efficient. Deepwave's compiled kernels use a hand-derived adjoint for better performance and lower memory requirements than pure PyTorch implementations. See what Deepwave calculates . Second derivatives are supported, not just first. The scalar, acoustic, and elastic propagators can compute Hessian-vector products (derivatives of gradients); see the Hessian example . Born (linearised) modelling. Model scattered waves from perturbations to a background medium for linearised inversion and imaging. See the torch.func example . Deepwave fits into an ordinary PyTorch workflow. Because propagation is a normal PyTorch autograd Function , it works directly with PyTorch optimisers, DistributedDataParallel over shots, torch.func transforms, and any PyTorch loss function or neural-network model of the input parameters. See the capability matrix for exactly what each propagator supports. Deepwave does not try to be a general symbolic PDE solver, a multi-node HPC code, or a non-differentiable simulation toolkit &mdash; see Devito , SPECFEM , and k-Wave respectively for those needs. If you are choosing between wave-propagation packages, see the comparison guide . (Note: the DeepWave-KAUST GitHub organisation, home of the SWEEP package, is unrelated to this project.) Features Supports the 1D, 2D, and 3D constant density acoustic / scalar wave equation (regular and Born modelling), variable density acoustic, elastic, viscoacoustic (single-mechanism SLS attenuation), elastic VTI (anisotropic), and pseudo-acoustic VTI ( deepwave.acoustic_vti , the Duveneck et al. 2008 V_S=0 reduction) wave equations Runs on CPUs and appropriate GPUs The gradient of all outputs (final wavefields and receiver data) can be calculated with respect to the model parameters (wavespeed, scattering potential, etc",
-      "tags": [
-        "seismic",
-        "wave propagation",
-        "full waveform inversion",
-        "fwi",
-        "least squares reverse time migration",
-        "lsrtm",
-        "pytorch",
-        "geophysics"
-      ],
+      "summary": "Frozen archive of code, processed data, and generated figures for the manuscript: \"Data-driven identifiability and first-passage risk in stochastic epidemic models: from noise structure to early-warning thresholds\". The repository contains: - Stochastic SEIAR epidemic model with three noise structures (white, Ornstein&ndash;Uhlenbeck, L&eacute;vy jump) - Fisher information matrix (FIM) spectral identifiability analysis on six real COVID-19 waves (China, South Korea, UK, Japan, 2022&ndash;2023) - First-passage-time escalation risk metrics and scaling laws - Early-warning threshold rules and intervention sensitivity analysis - Cross-disease validation on WHO FluNet influenza surveillance data Dependencies: Python 3.9+, numpy, scipy, pandas, matplotlib. All random seeds are explicitly set in scripts for full reproducibility.",
+      "tags": [],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Deepwave",
-      "url": "https://zenodo.org/records/23676108"
+      "title": "Data-driven identifiability and first-passage risk in stochastic epidemic models: code and data",
+      "url": "https://zenodo.org/records/23683064"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f751f2b14f606e077b3040ed",
+      "context_id": "c071e817834b8a1a31d5ae02",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "identifiability",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.25,
+      "source": "zenodo",
+      "source_context_sha256": "e9bf05a3d862d3056a26dc61cc7d36b940c8faa9d3592de203cb7032c08fec2d",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmental exchange and measurement bias. The governing three-coupling is infrared thermal imaging x physiological regulation x heat-transfer models. The research treats &ldquo;external qi&rdquo; as a cultural and experimental task label, not an established physical energy carrier. The scientific core separates raw infrared radiance from inferred skin temperature and estimated heat flux. It develops emissivity and reflected-wall correction, blackbody calibration, spectral detector response, conduction and perfusion bioheat models, convection, evaporation, respiration-related temperature patterns, posture and muscular activity. The original candidate bulk heat equation is explicitly refined by separating volumetric tissue transport from surface heat-transfer boundary conditions. The principal proposed test uses concealed task assignments, matched breathing/movement/clothing, phantom references, negative-control regions and conventional physics-first rivals. Thirty physically distinct mathematical plates document governing relationships, units, assumptions, identifiability, masked falsifiers and chapter links. Eighty-two independent research chapters contain 410 single-page investigations. The true center of the monograph is its 200 one-page Research Gates, each posing a falsifiable question in bold deep-navy typography and asking what an independent successor must measure, challenge, disprove or preserve. Thirty-three differentiated Phoenix Answer Embryos propose future instruments, error-correction artifacts, negative-result protocols and reproducibility tools. The DOI registry separates three STARLI author mother volumes from eleven externally published methodological or conventional-science references on infrared thermography, emissivity, classical bioheat and research design. Bibliographic sources constrain methods; they do not validate extraordinary qigong mechanisms. Every integrated experiment is prospective. The book presents no completed human intervention, clinically established effect, new physical particle or evidence of treatment efficacy. Ethical authorization and independent scientific review would be required before future human-observation research. Author: 33 | STARLI White Rainbow Epoch Series: STARLI Research Institute XXXIII | Flagship 38 of 90",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmen",
+      "url": "https://zenodo.org/records/23679099"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -968,6 +524,53 @@
     },
     {
       "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "f584d5f30113c2e3dfca64dc",
+      "context_id": "51f832e98453ce094c9605f2",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "consensus",
+        "failure",
+        "failure mode"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.1667,
+      "source": "zenodo",
+      "source_context_sha256": "fff12c4af728ecdbaeff9eb6b6b6e21ff193e06178f3cb8f66015000e5047318",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Two follow-up papers built on this study's blind multi-model collection were accepted (poster) at NeurIPS 2026 workshops: Verification Theater: Measured Failure Modes of AI Verifier Panels (Who Verifies the Agents?) and Weakly Discriminative, Not Repaired by Profile Injection, and Manipulable: Self-Confidence in LLM Evaluation (TAE). Version of record: SSRN 7191261 , DOI 10.2139/ssrn.7191261 . Cite that version. The same text is also at https://vadymchernets.netlify.app/architectural-trust.html and https://github.com/vadimchernets/papers/tree/main/architectural-trust . Agentic commerce turns AI from an advisor into a transacting party, collapsing search, comparison, cart, and payment into a single delegated act and removing the review points where humans once caught errors. It arrives at an awkward moment: sixty percent of UK consumers surveyed say they would abandon an AI shopping agent after a single mistake, and most would trust no organization at all to run one on their behalf. This paper introduces architectural trust. As consumers delegate consequential decisions to AI agents, I argue, warranted trust migrates from the properties of the AI model to the verifiable architecture of the service above it. The constructs already available attach trust to organizations, to a single automated system, or to algorithmic advice, and none of them makes the decision-producing process verifiable by the truster under autonomous delegation. Architectural trust fills that gap with three checkable properties: diversity (independent models whose agreement calibrates confidence and whose divergence is surfaced), evidence (tamper-evident, replayable decision records), and neutrality (auditable independence from any vendor, merchant, or outcome). The mechanism was measured on the machine side first. Across a pre-registered sixteen-model benchmark and an August 2026 flagship-tier wave spanning eleven frontier laboratories, cross-model agreement priced correctness where a model's own confidence could not. Answers reproduced by another, blindly queried model were 1.9–3.2 times as likely to be correct. On a frozen SimpleQA subsample (Wei et al., 2024), 46.6% of the flagship answers offered at stated confidence ≥ 80 were wrong (a rate specific to this roster, not a universal constant), while a fixed three-model disagreement gate removed 82.1% of those confident failures (95% CI 79.9–84.1) at 30.5% coverage. In a post hoc analysis of the August 2026 snapshot, two flagships answering blindly (gpt-5.6-sol and claude-fable-5) agreed on 69.6% of the 1,459 pooled questions, and their agreed answer was correct 98.1% of the time, against 95.3% for the stronger one alone on the same pool. The signal reproduces on 267 Wikidata-verified commerce product facts. A larger reasoning budget bought 3.1 points of stated confidence and no measurable accuracy: more compute buys confidence, not correctness. A unanimously confident panel can still be wrong, and there agreement certifies the shared error. I then carry the mechanism into behavior in a pre-registered, incentive-compatible consumer experiment (US and UK; 119 valid participants in the primary cohort, 133 with a soft-launch cohort pooled; 200 planned). Where a consumer would otherwise accept a confident wrong recommendation, the disagreement display cut acceptance sharply, from 74% to 24% on the qualifying item (pooled cohort). The pooled robustness estimate (Δ = 0.25 → 0.46; d = 0.68; the primary main-wave cohort gives Δ = 0.24 → 0.45, d = 0.67) rests on that single item and, in an exploratory country split, on the UK sample, and it falls to d = 0.09 once the item is removed. A powered, stimulus-sampled replication is planned. On the one item of unanimous confident consensus (pooled n = 133) the display raised acceptance of the shared error from 87% to 95%, which reproduces the mechanism's boundary in human behavior. The orchestration-receipt component returned a registered, inconclusive null. The three com",
+      "tags": [
+        "agentic commerce",
+        "consumer trust",
+        "AI agents",
+        "trust in AI",
+        "appropriate reliance",
+        "overreliance",
+        "large language models",
+        "cross-model agreement",
+        "selective prediction",
+        "overconfidence",
+        "delegation",
+        "architectural trust"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Architectural Trust: Why Consumer Trust in Agentic Commerce Migrates from AI Models to Verifiable Architecture",
+      "url": "https://zenodo.org/records/23709937"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
       "candidate_id": "171bd974efb3c09ae5671e9b",
       "context_id": "bb86e03ce4c6b749d7dfd695",
       "delivery_preview_only": true,
@@ -1001,6 +604,49 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "AutoSwarm: Automating Agent Swarms",
       "url": "https://arxiv.org/abs/2610.33048v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "d616add2f10a488060b07a68",
+      "context_id": "5643b230dcf2ca38e78af8a1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "ebee96791bf746bf61c6330caec618ccf549d6cc640a33e102db54418db50d30",
+      "source_published": "2026-10-23",
+      "source_updated": "",
+      "summary": "Supplementary data for \"OpenScientist: evaluating an open agentic AI co-scientist to accelerate biomedical discovery.\" This dataset contains research logs, knowledge states, provenance files, and generated figures for seven case studies spanning neurodegenerative disease transcriptomics, multiple myeloma genomics, survival proteomics, drug side effect analysis, and more. Each case study includes the full agent iteration log, configuration, and final report. Input datasets are included for three case studies where data sharing is permitted: case study 3 (neurofibrillary tangle transcriptomics), case study 4 (multiple myeloma RNA-seq), and case study 7 (drug side effect frequencies from clinical trials).&nbsp; Version 2 (August 2026) adds supplementary material for case study 3 (neurofibrillary tangle transcriptomics): 60 additional independent runs of the same question and dataset, comparing three agent/model configurations &mdash; Claude Code with Claude Opus 4.8, and the omp harness with Kimi K3 and GLM 5.2 &mdash; each run 10 times online and 10 times in a fully air-gapped configuration with no network access and literature served from a local 40-million-article MEDLINE mirror. Files: ..._supplemental_online_30runs_data.tar.gz and ..._supplemental_airgapped_30runs_data.tar.gz each contain 30 runs with reports (Markdown, PDF, HTML), all generated figures, per-iteration transcripts, the exact prompt, and full version/commit provenance. ..._supplemental_60runs_metrics.csv gives per-run runtime, tool-call counts, literature searches, findings recorded and token usage for all 60 runs. Version 3 (September 2026) adds two further supplementary sets for case study 3 (neurofibrillary tangle transcriptomics). ..._supplemental_reproducibility_10runs_data.tar.gz contains 10 independent runs of the same question on Claude Opus 4.6, all run on 2026-03-08 with byte-identical inputs (the research question and the input .h5ad were SHA-256 verified identical across all 10) and a 10-iteration budget. Each run includes the report (Markdown, PDF, HTML), knowledge_state.json with structured findings and literature list, per-iteration transcripts, and the job UUID. These runs quantify run-to-run variability under fixed inputs. ..._supplemental_genomic_skill_comparison_data.tar.gz contains 30 runs &mdash; 15 using the original genomics Agent Skill and 15 using a revised version &mdash; with the two skill definitions included alongside the jobs. The revised skill adds explicit guidance on donor-level pseudobulk aggregation and mixed-effect modelling; the paired arms allow the effect of that guidance on the analysis the agent chooses to be assessed directly. Each run includes reports (Markdown, PDF, HTML), per-iteration provenance transcripts, and container logs. Version 4 (October 2026) adds the run sets generated for the second revision of the manuscript, renumbers the case-study files to match the revised manuscript (the suvorexant proteomics analysis is now Case Study 5; neurofibromatosis is Case Study 6, drug side effects Case Study 7, and the CSF A&beta;42/40 prediction model Case Study 8), and adds RUNS_MANIFEST.csv , which maps every job in this record to its experiment, supplementary table and row label. Run IDs quoted in the supplementary tables are the first 8 hexadecimal characters of the job ID. New archives, all for Case Study 3 (neurofibrillary tangle transcriptomics; same research question and input file as the existing archives, OpenScientist commit fac6971, Claude Opus 4.6, run 2026-10-18 with a 10-iteration budget): ..._supplemental_iteration_controls_10runs_data.tar.gz (10 replicate runs on unmodified code; Experiment 4 and the control arm of the two ablations), ..._supplemental_knowledge_state_ablation_10runs_data.tar.gz (10 runs in which the knowledge-state summary and outline were withheld from the agent; Experiment 5; the patched orchestrator file is included as ..._knowledge_state_ablation_iteration.py.patched ), and ..._supp",
+      "tags": [
+        "AI",
+        "autonomous agents",
+        "scientific discovery",
+        "bioinformatics",
+        "open science",
+        "air-gapped",
+        "open-weight models",
+        "reproducibility",
+        "large language models"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "OpenScientist: Supplementary Case Study Data",
+      "url": "https://zenodo.org/records/23602910"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1265,160 +911,12 @@
     },
     {
       "base_direction_id": "registry_provenance",
-      "candidate_id": "a730e359c6dd0411d65ada68",
-      "context_id": "80ca4ec51cc111ccfe62dab2",
+      "candidate_id": "d616add2f10a488060b07a68",
+      "context_id": "44d596aa048516513c624b5e",
       "delivery_preview_only": true,
       "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure",
-        "provenance"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.7083,
-      "source": "arxiv",
-      "source_context_sha256": "90cab0b285743cb71efd016706841c9806cf2334aa80c661630e39a68b43c2d0",
-      "source_published": "2026-10-26T10:16:56Z",
-      "source_updated": "2026-10-26T10:16:56Z",
-      "summary": "Host-based intrusion detectors order events, window audit streams and sequence attack stages by their timestamps. Every conclusion they draw therefore rests on assumptions about clocks, delivery, entity identity and the integrity of the evidence, and most of these assumptions go unstated. This Systematization of Knowledge (SoK) makes them explicit. Drawing on temporal databases, stream processing and runtime verification, we distill five components of a time model, together with a checklist of evidence assumptions and four levels of guarantee, and walk through a running campaign with them. A documented search yields fifteen families of detection and investigation. For papers selected by screening role and period, plus named systems and landmarks, we check the stated assumptions in the full texts, and we assess eleven temporal knowledge representation and reasoning (KRR) formalisms and a learned baseline on nine attack patterns. Some early alert correlators stated clock and delivery assumptions, and forensics measures clock error. Current provenance-based detectors state no clock bound. Four audited papers describe input-ordering conditions or conventions, but none specifies conditions for conclusion validity across a stated class of delivery failures. In the selected provenance-based systems, campaign composition uses system-specific procedures or objectives, learned state, causal graph queries or language models, and beyond CEP-based query systems, we found no temporal rule language or stream reasoner from KRR applied to host audit data. In 28 of 38 audited provenance-era detector papers, capture or stored evidence is trusted or its manipulation is placed out of scope, and none says which conclusions survive deleted, delayed or forged records. Five open challenges follow from these gaps.",
-      "tags": [
-        "cs.CR",
-        "cs.AI",
-        "cs.LO"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "SoK: Timestamps Are Not a Time Model: Rethinking Temporal Reasoning in Host-Based Intrusion Detection",
-      "url": "https://arxiv.org/abs/2610.35151v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "19a68706964d8433329cf306",
-      "context_id": "e6f5d2d275118fb9d9793669",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
-      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure",
-        "failure mode",
-        "memory",
-        "retrieval"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.4167,
-      "source": "arxiv",
-      "source_context_sha256": "743bfaefb17795ec994147c4cd47e1617387ac88376556764f9b993bc1f172c1",
-      "source_published": "2026-10-26T07:50:16Z",
-      "source_updated": "2026-10-26T07:50:16Z",
-      "summary": "Long-horizon agents continually accumulate experience, yet retaining a memory does not guarantee access when it is needed. Existing systems can adapt both memory content and access; we isolate persistent access updates as a separately controlled adaptation layer. We formulate this target as Memory Index Evolution and instantiate it with Adaptive Memory Index Evolution (AMIE), a lightweight plug-in layer that evolves per-memory access state from deployment retrievals without modifying stored content or retraining the host memory system. AMIE distils a semantic teacher's keep/suppress judgments into a retrieval-conditioned policy and accumulates its selective actions into bounded state that reweights subsequent host retrievals. Surprisingly, even a zero-call policy that simply accumulates retrieval frequency can match or outperform semantic policies in several settings, revealing retrieval traffic itself as a strong signal for access adaptation, while learned selectivity improves robustness when frequently retrieved memories remain useful. Across five retrieval-based hosts and three benchmarks, trained AMIE improves downstream F1 or accuracy in all 15 comparisons, by 0.70--3.37 percentage points (up to 25% relative), and improves retrieval in all 10 comparisons. Controlled analyses show that persistent competitor suppression can expose previously unseen evidence, while suppressing repeatedly useful memories creates the complementary failure mode. Together, these results establish persistent memory access as a practical adaptation layer, distinct from the content it serves, in retrieval-based agent memory systems.",
-      "tags": [
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Adaptive Memory Index Evolution for Agents",
-      "url": "https://arxiv.org/abs/2610.34977v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "46a2fd08b45b6a241f29f0b7",
-      "context_id": "4e313117beb70d854899288b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::CONTROL",
-      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "agent orchestration",
-        "baseline",
-        "benchmark",
-        "multi-agent"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 14.9583,
-      "source": "arxiv",
-      "source_context_sha256": "ce7566da44c5bb808fd7df438d7eea98127be1368372e2e3523d71c0e8b6ecc0",
-      "source_published": "2026-10-25T17:38:55Z",
-      "source_updated": "2026-10-25T17:38:55Z",
-      "summary": "Multi-agent systems often rely on predefined collaboration structures, limiting their ability to adapt to diverse task requirements. We introduce DynaFlow, a framework that integrates free-form executable workflow synthesis into the action space of the main agent. The agent decides when collaboration is needed and generates task-specific programs that coordinate sub-agents through sequential or parallel execution, structured information exchange, and verification. Execution results and traces inform subsequent actions, enabling the agent to adapt collaboration as reasoning progresses. We train only the main agent through supervised fine-tuning on distilled trajectories, followed by refinement on examples filtered for unsupported premises, biased verification, and information-flow defects. All sub-agents remain fixed, separating orchestration learning from executor capability improvement. Across six benchmarks spanning mathematical reasoning, scientific question answering, and multi-hop retrieval, DynaFlow achieves 88.08% overall accuracy in Forced mode, outperforming the strongest evaluated baseline by 10.90 percentage points with the same Qwen3.5-27B backbone. Workflow analysis finds more explicit use, verification, and refinement of upstream outputs after training, highlighting cross-stage information flow as a key dimension of multi-agent orchestration.",
-      "tags": [
-        "cs.MA"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "DynaFlow: Learning Free-Form Multi-Agent Orchestration",
-      "url": "https://arxiv.org/abs/2610.34467v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "7dd8adadd01f5c38d45cdc4a",
-      "context_id": "7e16988df27535d538162c74",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::CONTROL",
-      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "baseline",
-        "control",
-        "decentralized",
-        "multi-agent"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 14.625,
-      "source": "arxiv",
-      "source_context_sha256": "437d3ad5f1662e90c5ccf9e0b88891f371a043737bda58e511706ab6e8fec8a9",
-      "source_published": "2026-10-24T10:24:37Z",
-      "source_updated": "2026-10-24T10:24:37Z",
-      "summary": "Cooperative transport with heterogeneous legged robots requires coordinating different motion capabilities while supporting an unfixed shared payload. We present HA-DiPO (Heterogeneous-Agent Diffusion Policy Optimization), a hierarchical multi-agent reinforcement learning framework under centralized training with decentralized execution (CTDE). The framework decouples team-level coordination from embodiment-specific motion control: at the high level, a centralized critic uses team-value estimates to jointly train independent coordination policies, aligning robot-specific action responses with a shared transport objective; at the low level, embodiment-specific robust motion policies track the coordination commands. The high-level diffusion policies offer more flexible action distributions than single-Gaussian parameterizations, allowing potentially multimodal coordination responses to be represented. The coordination policies learn from scratch through reward-driven simulator interaction without demonstrations. At execution, each robot generates coordination commands using only local robot and payload observations, without partner-state inputs or inter-robot messages. Simulation comparisons show that HA-DiPO achieves higher final mean returns and velocity-tracking success rates, as well as lower velocity errors, than the evaluated baselines. Real-world experiments further demonstrate quadrupedal-wheeled-legged and human-robot cooperative transport.",
-      "tags": [
-        "cs.RO"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "HA-DiPO: Diffusion Policy Optimization for Heterogeneous Cooperative Transport",
-      "url": "https://arxiv.org/abs/2610.33584v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "6de3635d449a94c7c2a8e878",
-      "context_id": "1d059f9d4eca29ae9762abdf",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::CONTROL",
-      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -1429,61 +927,32 @@
       ],
       "keyword_hits": [
         "ablation",
-        "baseline",
-        "benchmark",
-        "multi-agent"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 14.5,
-      "source": "arxiv",
-      "source_context_sha256": "5daf11e29a56a8907127aa8933f6bf1eaa68a214145de080af7e647c7c126497",
-      "source_published": "2026-10-24T08:35:39Z",
-      "source_updated": "2026-10-24T08:35:39Z",
-      "summary": "Large language model (LLM)-based multi-agent systems have demonstrated remarkable capabilities across diverse tasks. Yet their memory and collaboration architectures often remain static, constraining continued adaptation and improvement over time. Recent work addresses this limitation by evolving memory or collaboration based on interaction experience. However, updates to these interdependent components are not necessarily aligned: an evolved workflow may require experience that memory does not provide, while evolved memory may encode guidance that the workflow cannot use. To address this problem, we propose CoEvolve, a skill-centered framework for aligned memory--collaboration evolution. CoEvolve represents reusable local collaboration patterns as skills that link evolving collaboration decisions to their supporting memories. It further compares original and counterfactual trajectories to identify local evolution signals, which coordinate updates to the skill library, skill memory, and executor memories across rounds. Experiments on the ALFWorld and WebShop benchmarks confirm that CoEvolve achieves the best overall performance among the evaluated baselines, while ablation studies further validate the effectiveness of aligned co-evolution and counterfactual-guided evolution.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CoEvolve: Counterfactual-Guided Co-Evolution of Memory and Collaboration in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.33539v1"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "41a32c86ef159071f72dfee1",
-      "context_id": "2709da72de78a653813e0233",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::CONTROL",
-      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "ablation",
-        "benchmark",
         "control",
-        "multi-agent"
+        "provenance",
+        "reproducibility"
       ],
       "mirror_lens": "CONTROL",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 14.4583,
-      "source": "arxiv",
-      "source_context_sha256": "05bdddfe5e2d468b450dbc5b38eb3f686b18a1664071b056826ffacace960a80",
-      "source_published": "2026-10-26T02:19:53Z",
-      "source_updated": "2026-10-26T02:19:53Z",
-      "summary": "Multi-agent systems (MAS) require both effective coordination and specialized task execution. Existing prompt optimization approaches typically couple these functions within agent-specific prompts. We introduce Coordinator-Executor Prompt Optimization (CEPO), a general framework for improving prompt optimization in MAS. CEPO separates system-level coordination from agent-level execution through a shared coordinator prompt and agent-specific executor prompts, and guides their updates according to their respective roles. This structure allows shared coordination rules to be refined consistently across agents while keeping execution instructions separately adjustable. CEPO provides the prompt structure and optimization guidance, while existing prompt optimizers perform the underlying search. Extensive experiments spanning 11 benchmarks across four domains demonstrate that applying CEPO to four existing prompt optimizers consistently improves their performance. Ablations and qualitative analyses support the proposed design, while controlled studies on a document-understanding MAS further demonstrate improved optimization budget efficiency and performance scaling with the number of agents.",
+      "score": 14.6667,
+      "source": "zenodo",
+      "source_context_sha256": "b7137c1aba0ec0067032e8d77403e8add48a698e7ba81f08d38491743fe2d919",
+      "source_published": "2026-10-23",
+      "source_updated": "",
+      "summary": "Supplementary data for \"OpenScientist: evaluating an open agentic AI co-scientist to accelerate biomedical discovery.\" This dataset contains research logs, knowledge states, provenance files, and generated figures for seven case studies spanning neurodegenerative disease transcriptomics, multiple myeloma genomics, survival proteomics, drug side effect analysis, and more. Each case study includes the full agent iteration log, configuration, and final report. Input datasets are included for three case studies where data sharing is permitted: case study 3 (neurofibrillary tangle transcriptomics), case study 4 (multiple myeloma RNA-seq), and case study 7 (drug side effect frequencies from clinical trials).&nbsp; Version 2 (August 2026) adds supplementary material for case study 3 (neurofibrillary tangle transcriptomics): 60 additional independent runs of the same question and dataset, comparing three agent/model configurations &mdash; Claude Code with Claude Opus 4.8, and the omp harness with Kimi K3 and GLM 5.2 &mdash; each run 10 times online and 10 times in a fully air-gapped configuration with no network access and literature served from a local 40-million-article MEDLINE mirror. Files: ..._supplemental_online_30runs_data.tar.gz and ..._supplemental_airgapped_30runs_data.tar.gz each contain 30 runs with reports (Markdown, PDF, HTML), all generated figures, per-iteration transcripts, the exact prompt, and full version/commit provenance. ..._supplemental_60runs_metrics.csv gives per-run runtime, tool-call counts, literature searches, findings recorded and token usage for all 60 runs. Version 3 (September 2026) adds two further supplementary sets for case study 3 (neurofibrillary tangle transcriptomics). ..._supplemental_reproducibility_10runs_data.tar.gz contains 10 independent runs of the same question on Claude Opus 4.6, all run on 2026-03-08 with byte-identical inputs (the research question and the input .h5ad were SHA-256 verified identical across all 10) and a 10-iteration budget. Each run includes the report (Markdown, PDF, HTML), knowledge_state.json with structured findings and literature list, per-iteration transcripts, and the job UUID. These runs quantify run-to-run variability under fixed inputs. ..._supplemental_genomic_skill_comparison_data.tar.gz contains 30 runs &mdash; 15 using the original genomics Agent Skill and 15 using a revised version &mdash; with the two skill definitions included alongside the jobs. The revised skill adds explicit guidance on donor-level pseudobulk aggregation and mixed-effect modelling; the paired arms allow the effect of that guidance on the analysis the agent chooses to be assessed directly. Each run includes reports (Markdown, PDF, HTML), per-iteration provenance transcripts, and container logs. Version 4 (October 2026) adds the run sets generated for the second revision of the manuscript, renumbers the case-study files to match the revised manuscript (the suvorexant proteomics analysis is now Case Study 5; neurofibromatosis is Case Study 6, drug side effects Case Study 7, and the CSF A&beta;42/40 prediction model Case Study 8), and adds RUNS_MANIFEST.csv , which maps every job in this record to its experiment, supplementary table and row label. Run IDs quoted in the supplementary tables are the first 8 hexadecimal characters of the job ID. New archives, all for Case Study 3 (neurofibrillary tangle transcriptomics; same research question and input file as the existing archives, OpenScientist commit fac6971, Claude Opus 4.6, run 2026-10-18 with a 10-iteration budget): ..._supplemental_iteration_controls_10runs_data.tar.gz (10 replicate runs on unmodified code; Experiment 4 and the control arm of the two ablations), ..._supplemental_knowledge_state_ablation_10runs_data.tar.gz (10 runs in which the knowledge-state summary and outline were withheld from the agent; Experiment 5; the patched orchestrator file is included as ..._knowledge_state_ablation_iteration.py.patched ), and ..._supp",
       "tags": [
-        "cs.AI"
+        "AI",
+        "autonomous agents",
+        "scientific discovery",
+        "bioinformatics",
+        "open science",
+        "air-gapped",
+        "open-weight models",
+        "reproducibility",
+        "large language models"
       ],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CEPO: A General Framework for Improving Prompt Optimization in Multi-Agent Systems",
-      "url": "https://arxiv.org/abs/2610.34722v1"
+      "title": "OpenScientist: Supplementary Case Study Data",
+      "url": "https://zenodo.org/records/23602910"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1527,44 +996,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Fresh on Paper, Reused in Code: Static Detection of Hidden Key Reuse in Cancelable Biometric Systems (JISA Artifact)",
       "url": "https://zenodo.org/records/23690022"
-    },
-    {
-      "base_direction_id": "swarm_distributed_systems",
-      "candidate_id": "e48793e4554331ea101b81c2",
-      "context_id": "4d4786dd6e451519ff8daa4b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "swarm_distributed_systems::CONTROL",
-      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "consensus",
-        "control",
-        "multi-agent"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.125,
-      "source": "arxiv",
-      "source_context_sha256": "1d04a68c632da326f52ea03f270e4151b65c2e25a005dac3e64c981325a6d3ea",
-      "source_published": "2026-10-24T19:06:19Z",
-      "source_updated": "2026-10-24T19:06:19Z",
-      "summary": "Distributed Cyber-Physical Systems (CPS) and Edge AI networks increasingly depend on public-key authentication and key-establishment mechanisms that are vulnerable to cryptographically relevant Quantum Computers (QC). Shor's algorithm threatens widely deployed asymmetric primitives, while Grover's algorithm reduces the effective security margins of symmetric and hash-based mechanisms. Although Post-Quantum Cryptography (PQC) provides a migration path, its larger public keys, ciphertexts, and signatures introduce additional computation, memory, communication, storage, and packet-fragmentation costs that can constrain dynamic multi-agent systems. In this article, we introduce rotational secrecy, an architectural objective that limits temporal key exposure through authenticated transitions between cryptographic epochs. We present Private Authentication for Rotational Secrecy (PARS), a reference mechanism that coordinates policy-triggered key establishment, rotation, and reconciliation among authorized Physical AI agents. For deployments that need distributed agreement on security state, we further develop the PARS-Enabled Edge Security Ledger (PARS-ESL), an optional permissioned architecture maintained by authorized validators or capable edge gateways. PARS-ESL does not store high-volume operational transactions. Instead, it records authenticated state for key epochs, group membership, revocation, algorithm-suite policies, challenge validation, and recovery checkpoints. As a result, resource-constrained agents can take part as lightweight clients, and low-latency operational traffic stays outside the ledger consensus path, protected by the currently active symmetric epoch keys. Our results show that ledger-assisted post-quantum key-epoch management is feasible for selected Edge AI and CPS security-control workloads under the stated trust, compromise, connectivity, and resource assumptions.",
-      "tags": [
-        "cs.CR",
-        "cs.ET",
-        "cs.RO"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Securing Edge & Physical AI: Post-Quantum IoT Blockchain for Mission-Critical Cyber-Physical Agents",
-      "url": "https://arxiv.org/abs/2610.33862v1"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1788,6 +1219,610 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "The Right Fact, the Wrong Decision: SciValidityBench for Scientific Agent Memory",
       "url": "https://arxiv.org/abs/2610.34767v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "7406b78ee7c499fcaea77762",
+      "context_id": "ccc00ffcf96a45c9d31c4519",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.4583,
+      "source": "zenodo",
+      "source_context_sha256": "06cb0e079b7822b9913bbb3e6164fef41c0382ef52c4f8fed26fc2a099a852a8",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Training code, step-size calibration (Algorithm 2), the decoupled batch normalization of Appendix C (Algorithm 3), a demonstration of the grad_outputs=ones pitfall, tests, and the raw results behind every table of the paper Derivative Computation in Physics-Informed Neural Networks: Automatic Differentiation, Finite Differences and Beyond (arXiv:2608.11020). Four benchmark PDEs (Poisson 2D with holes, Burgers 1D, Heat2D-CG, a 4th-order plate), four derivative methods (AD, FD, eFD, sFD). See README.md for what reproduces what. Code: MIT. Data: CC BY 4.0, except the PINNacle reference solutions in data/reference, which keep their origin's license.",
+      "tags": [
+        "physics-informed neural networks",
+        "finite differences",
+        "automatic differentiation",
+        "PyTorch",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "finite-pinn-repro: code and data of 'Derivative Computation in Physics-Informed Neural Networks: Automatic Differentiation, Finite Differences and Beyond'",
+      "url": "https://zenodo.org/records/23709829"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f751f2b14f606e077b3040ed",
+      "context_id": "3787cca044025cc146279120",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.375,
+      "source": "zenodo",
+      "source_context_sha256": "7daf9bc31a5abf125eb0fc20ea00ee9674b6c4b1d562600874b95ab82ede0f36",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmental exchange and measurement bias. The governing three-coupling is infrared thermal imaging x physiological regulation x heat-transfer models. The research treats &ldquo;external qi&rdquo; as a cultural and experimental task label, not an established physical energy carrier. The scientific core separates raw infrared radiance from inferred skin temperature and estimated heat flux. It develops emissivity and reflected-wall correction, blackbody calibration, spectral detector response, conduction and perfusion bioheat models, convection, evaporation, respiration-related temperature patterns, posture and muscular activity. The original candidate bulk heat equation is explicitly refined by separating volumetric tissue transport from surface heat-transfer boundary conditions. The principal proposed test uses concealed task assignments, matched breathing/movement/clothing, phantom references, negative-control regions and conventional physics-first rivals. Thirty physically distinct mathematical plates document governing relationships, units, assumptions, identifiability, masked falsifiers and chapter links. Eighty-two independent research chapters contain 410 single-page investigations. The true center of the monograph is its 200 one-page Research Gates, each posing a falsifiable question in bold deep-navy typography and asking what an independent successor must measure, challenge, disprove or preserve. Thirty-three differentiated Phoenix Answer Embryos propose future instruments, error-correction artifacts, negative-result protocols and reproducibility tools. The DOI registry separates three STARLI author mother volumes from eleven externally published methodological or conventional-science references on infrared thermography, emissivity, classical bioheat and research design. Bibliographic sources constrain methods; they do not validate extraordinary qigong mechanisms. Every integrated experiment is prospective. The book presents no completed human intervention, clinically established effect, new physical particle or evidence of treatment efficacy. Ethical authorization and independent scientific review would be required before future human-observation research. Author: 33 | STARLI White Rainbow Epoch Series: STARLI Research Institute XXXIII | Flagship 38 of 90",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "EXTERNAL QIGONG AND HUMAN THERMAL RADIATION PATTERNS AT THE LIMIT is a 777-page English research working monograph investigating whether thermographic differences observed during culturally defined qigong and matched neutral tasks can be distinguished from ordinary human thermoregulation, environmen",
+      "url": "https://zenodo.org/records/23679099"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "1462e8c4c714406f0ea39772",
+      "context_id": "3e8178d87edfeefeaee15427",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "control",
+        "replication",
+        "representation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.3333,
+      "source": "zenodo",
+      "source_context_sha256": "1f84cbb5009c01c37f9376dfd036ca2623572e7014cfca4ea082400e3438e9c7",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Supplementary material for the paper \"Business-Rule Admissibility in Process-Based Business Simulation\" (Yan Fang, University of Southern California). It holds what is needed to check and reproduce the paper's results without the simulation framework: the study firm's handbook and the model's prose; the rule sets R (104 rules) and R0 (82 rules), each rule with the passage it formalises and its SQL query; the specification of every re-injected defect; the protocols of the pre-registered replication, the control rule set, the further mutants and the robust indicator score, with the hashes they froze; the instructions given to each agent and path-level records of each agent's file access; the scripts that apply the rules and compute the indicators, event-log distances and tables; and the databases and change histories of all 430 simulation runs. The simulation framework (NAILU) and the model's intermediate representation are proprietary to Aurite AI and are not included. Files: README.md (contents, and how to reproduce the tables), SHA256SUMS (the hash of every file), materials.zip, and three archives of runs (exploratory seeds 1&ndash;10; confirmatory seeds 11&ndash;30; further mutants, seeds 11&ndash;30). Unzip all archives into one folder next to README.md and SHA256SUMS; sha256sum -c SHA256SUMS then verifies the package.",
+      "tags": [
+        "business-rule admissibility",
+        "synthetic data evaluation",
+        "business process simulation",
+        "business rules",
+        "simulation verification and validation",
+        "mutation analysis"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Supplementary material: Business-Rule Admissibility in Process-Based Business Simulation",
+      "url": "https://zenodo.org/records/23707024"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "408c2de4b76aba5edb2cc3b2",
+      "context_id": "9c4c1f61dcfbeb042625f2b6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "representation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.25,
+      "source": "arxiv",
+      "source_context_sha256": "e96e22be9b2b97b9a670a875b00731ee55168a4f77e18415f040ca612ee4a252",
+      "source_published": "2026-10-26T15:19:07Z",
+      "source_updated": "2026-10-26T15:19:07Z",
+      "summary": "Edge-centric IoT systems are increasingly evaluated through sensor values or platform features, yet the telemetry pipeline itself, the sequence of sensing, serialization, message mediation, ingestion, and persistence, is rarely released as a measurable object. This limits reproducible benchmarking of timeliness, provenance, and operational cost, especially in early-stage IoT design where real deployments and high-quality open data are often unavailable. I present a measurement-first edge IoT testbed and dataset that elevate timeliness, provenance, and energy to first-class telemetry dimensions. The testbed operationalizes a role-based event-driven architecture with explicit Source-Broker-Aggregator responsibilities and a schema-governed TelemetryMessage envelope (Avro) that embeds correlation identifiers and a uniform, cross-role vocabulary of stage-level timestamps. To trace mediation effects, I extend an MQTT broker (Eclipse Mosquitto) with a plugin that annotates messages with high-precision ingress/egress timestamps. I release the dataset in a dual representation: (i) replayable raw events as compressed Avro streams and (ii) analysis-ready long-format Parquet tables partitioned for efficient query and benchmarking, generated by a deterministic raw-to-tabular transformation pipeline. The contribution is an integrated engineering artifact and dataset built from established components. The demonstration describes one deployment through latency summaries, measurement-context distributions, and energy aggregates; it does not establish a new attribution method or a controlled performance benchmark. By co-releasing heterogeneous telemetry with pipeline timing and energy signals in both replayable and queryable forms, the artifact provides a basis for reproducible exploratory analysis and subsequent benchmarking studies.",
+      "tags": [
+        "cs.DC",
+        "cs.NI",
+        "cs.SE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Making the Telemetry Pipeline Measurable: An Edge IoT Testbed and Dataset for End-to-End Latency, Provenance, and Energy-Aware Benchmarking",
+      "url": "https://arxiv.org/abs/2610.35591v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "46a2fd08b45b6a241f29f0b7",
+      "context_id": "012f7156b4d5c950e2684487",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "retrieval"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0833,
+      "source": "arxiv",
+      "source_context_sha256": "57090aff2a524e8734816a12394ffe394a26be64fe83ebfd355e5c3d36f93c18",
+      "source_published": "2026-10-25T17:38:55Z",
+      "source_updated": "2026-10-25T17:38:55Z",
+      "summary": "Multi-agent systems often rely on predefined collaboration structures, limiting their ability to adapt to diverse task requirements. We introduce DynaFlow, a framework that integrates free-form executable workflow synthesis into the action space of the main agent. The agent decides when collaboration is needed and generates task-specific programs that coordinate sub-agents through sequential or parallel execution, structured information exchange, and verification. Execution results and traces inform subsequent actions, enabling the agent to adapt collaboration as reasoning progresses. We train only the main agent through supervised fine-tuning on distilled trajectories, followed by refinement on examples filtered for unsupported premises, biased verification, and information-flow defects. All sub-agents remain fixed, separating orchestration learning from executor capability improvement. Across six benchmarks spanning mathematical reasoning, scientific question answering, and multi-hop retrieval, DynaFlow achieves 88.08% overall accuracy in Forced mode, outperforming the strongest evaluated baseline by 10.90 percentage points with the same Qwen3.5-27B backbone. Workflow analysis finds more explicit use, verification, and refinement of upstream outputs after training, highlighting cross-stage information flow as a key dimension of multi-agent orchestration.",
+      "tags": [
+        "cs.MA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DynaFlow: Learning Free-Form Multi-Agent Orchestration",
+      "url": "https://arxiv.org/abs/2610.34467v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "1103c12387f37e0a40462514",
+      "context_id": "cb679562851ce424821e4da0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0417,
+      "source": "arxiv",
+      "source_context_sha256": "6b52e7576622059b046aa15a1c22facc3597985cdc756e801f83170ef4c55b50",
+      "source_published": "2026-10-25T04:11:33Z",
+      "source_updated": "2026-10-25T04:11:33Z",
+      "summary": "Autonomous agents are increasingly deployed across sequences of related tasks, yet they often fail to retain and improve their knowledge over time. Existing approaches convert interaction trajectories into memories or reusable skills, but experience is not automatically reliable knowledge. Automatically collected skills and memories can propagate errors, mislead, and corrupt useful knowledge. To address this gap, we introduce Knowledge Evolution from Expertise and Lessons (KEEL), an agent-agnostic framework that uses verifier evidence to transform successful behavior into reusable skills and failures into corrective lessons. As new evidence accumulates, individual skill claims can be supported, contradicted, replaced, or retired. On SkillFlow benchmark, KEEL improves task success by 4.2 to 21.7 percentage points over the no-knowledge baseline, compared with gains of 2.4 to 9.6 points from SkillFlow's default method. Ablations show that skills and lessons are complementary. These results show that reliable continual agent learning depends not simply on accumulating experience, but on continually validating and evolving the knowledge derived from it. Our code is available at: https://github.com/microsoft/KEEL-TTCL26.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Holding a Steady Course: Knowledge Evolution from Expertise and Lessons for Continual Agent Learning",
+      "url": "https://arxiv.org/abs/2610.34043v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "1103c12387f37e0a40462514",
+      "context_id": "9450554e09b2835102a02194",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0417,
+      "source": "arxiv",
+      "source_context_sha256": "28765a06a1229d508e6818062f226600a9df2baa476d1c14b8d45d344ae4823d",
+      "source_published": "2026-10-25T04:11:33Z",
+      "source_updated": "2026-10-25T04:11:33Z",
+      "summary": "Autonomous agents are increasingly deployed across sequences of related tasks, yet they often fail to retain and improve their knowledge over time. Existing approaches convert interaction trajectories into memories or reusable skills, but experience is not automatically reliable knowledge. Automatically collected skills and memories can propagate errors, mislead, and corrupt useful knowledge. To address this gap, we introduce Knowledge Evolution from Expertise and Lessons (KEEL), an agent-agnostic framework that uses verifier evidence to transform successful behavior into reusable skills and failures into corrective lessons. As new evidence accumulates, individual skill claims can be supported, contradicted, replaced, or retired. On SkillFlow benchmark, KEEL improves task success by 4.2 to 21.7 percentage points over the no-knowledge baseline, compared with gains of 2.4 to 9.6 points from SkillFlow's default method. Ablations show that skills and lessons are complementary. These results show that reliable continual agent learning depends not simply on accumulating experience, but on continually validating and evolving the knowledge derived from it. Our code is available at: https://github.com/microsoft/KEEL-TTCL26.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Holding a Steady Course: Knowledge Evolution from Expertise and Lessons for Continual Agent Learning",
+      "url": "https://arxiv.org/abs/2610.34043v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "6de3635d449a94c7c2a8e878",
+      "context_id": "599ee7e243fd59642d756ae3",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0417,
+      "source": "arxiv",
+      "source_context_sha256": "b867a7aea716fd559fa02f84103589bb7695f8076086baa204cb68833dd97a39",
+      "source_published": "2026-10-24T08:35:39Z",
+      "source_updated": "2026-10-24T08:35:39Z",
+      "summary": "Large language model (LLM)-based multi-agent systems have demonstrated remarkable capabilities across diverse tasks. Yet their memory and collaboration architectures often remain static, constraining continued adaptation and improvement over time. Recent work addresses this limitation by evolving memory or collaboration based on interaction experience. However, updates to these interdependent components are not necessarily aligned: an evolved workflow may require experience that memory does not provide, while evolved memory may encode guidance that the workflow cannot use. To address this problem, we propose CoEvolve, a skill-centered framework for aligned memory--collaboration evolution. CoEvolve represents reusable local collaboration patterns as skills that link evolving collaboration decisions to their supporting memories. It further compares original and counterfactual trajectories to identify local evolution signals, which coordinate updates to the skill library, skill memory, and executor memories across rounds. Experiments on the ALFWorld and WebShop benchmarks confirm that CoEvolve achieves the best overall performance among the evaluated baselines, while ablation studies further validate the effectiveness of aligned co-evolution and counterfactual-guided evolution.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "CoEvolve: Counterfactual-Guided Co-Evolution of Memory and Collaboration in Multi-Agent Systems",
+      "url": "https://arxiv.org/abs/2610.33539v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "41a32c86ef159071f72dfee1",
+      "context_id": "cb07ae39db98eed5383f6d2a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0,
+      "source": "arxiv",
+      "source_context_sha256": "619f04f94aed75ec481aca82f5ce02ff082a9210fb7c5b2e201b1f8ba084e306",
+      "source_published": "2026-10-26T02:19:53Z",
+      "source_updated": "2026-10-26T02:19:53Z",
+      "summary": "Multi-agent systems (MAS) require both effective coordination and specialized task execution. Existing prompt optimization approaches typically couple these functions within agent-specific prompts. We introduce Coordinator-Executor Prompt Optimization (CEPO), a general framework for improving prompt optimization in MAS. CEPO separates system-level coordination from agent-level execution through a shared coordinator prompt and agent-specific executor prompts, and guides their updates according to their respective roles. This structure allows shared coordination rules to be refined consistently across agents while keeping execution instructions separately adjustable. CEPO provides the prompt structure and optimization guidance, while existing prompt optimizers perform the underlying search. Extensive experiments spanning 11 benchmarks across four domains demonstrate that applying CEPO to four existing prompt optimizers consistently improves their performance. Ablations and qualitative analyses support the proposed design, while controlled studies on a document-understanding MAS further demonstrate improved optimization budget efficiency and performance scaling with the number of agents.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "CEPO: A General Framework for Improving Prompt Optimization in Multi-Agent Systems",
+      "url": "https://arxiv.org/abs/2610.34722v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "41a32c86ef159071f72dfee1",
+      "context_id": "09e7d12a9f254d4f1b6ff589",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0,
+      "source": "arxiv",
+      "source_context_sha256": "6a5b319b8021f90cbdd14be400ff22aa62c1c5ecd391297aea6770945d205975",
+      "source_published": "2026-10-26T02:19:53Z",
+      "source_updated": "2026-10-26T02:19:53Z",
+      "summary": "Multi-agent systems (MAS) require both effective coordination and specialized task execution. Existing prompt optimization approaches typically couple these functions within agent-specific prompts. We introduce Coordinator-Executor Prompt Optimization (CEPO), a general framework for improving prompt optimization in MAS. CEPO separates system-level coordination from agent-level execution through a shared coordinator prompt and agent-specific executor prompts, and guides their updates according to their respective roles. This structure allows shared coordination rules to be refined consistently across agents while keeping execution instructions separately adjustable. CEPO provides the prompt structure and optimization guidance, while existing prompt optimizers perform the underlying search. Extensive experiments spanning 11 benchmarks across four domains demonstrate that applying CEPO to four existing prompt optimizers consistently improves their performance. Ablations and qualitative analyses support the proposed design, while controlled studies on a document-understanding MAS further demonstrate improved optimization budget efficiency and performance scaling with the number of agents.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "CEPO: A General Framework for Improving Prompt Optimization in Multi-Agent Systems",
+      "url": "https://arxiv.org/abs/2610.34722v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "454b4a2582a1187dbadc9cd4",
+      "context_id": "bdf4f2449e381c52dc4d2592",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "memory"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9583,
+      "source": "arxiv",
+      "source_context_sha256": "8337bf68760e70a3fd779748f1a579b1acc1fdd96aba8dd1af0028b52b442c75",
+      "source_published": "2026-10-24T14:13:06Z",
+      "source_updated": "2026-10-24T14:13:06Z",
+      "summary": "Many mathematical research agents focus on solving problems with fixed statements. However, conjecture research, especially in applied mathematics, may require revising candidate questions or conclusions as investigation proceeds, coupling problem formulation with proof development. We present PACE, a research-proof agent that supports this process through a structured research loop that selects mathematical objectives and develops or challenges candidate mechanisms. The whole prover constructs proofs from these mechanisms, and an independent verifier checks them against the original target. Evidence-tracking memory stores assumptions and dependencies arising during research and marks evidence for revalidation when a candidate or condition changes. This memory supports task-specific context composition that keeps checked premises, exploratory material and unresolved obligations distinct. To evaluate proof construction and conjecture research, we introduce ResearchProofBench, an applied-mathematics benchmark focused on optimization, comprising 51 known-proof tasks with 331 hidden checkpoints under historical abstract access and six open-problem cases. The known-proof tasks assess reconstruction of published results, while the open-problem cases assess mathematical investigation and proof development. On the 51 known-proof tasks, PACE achieves an aggregate Proof Score of 75.16 and completes 20 proofs. In conjecture research, PACE develops conditional results, with its submissions receiving higher review scores than the compared baselines.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PACE: Research Proving Agent for Adaptive Conjecture Exploration",
+      "url": "https://arxiv.org/abs/2610.33690v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "a95d4ce7701130937afd6874",
+      "context_id": "6bb737ee1090738a338ea275",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "memory"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9583,
+      "source": "arxiv",
+      "source_context_sha256": "cdf7e4b577fb5d0322bfdbdb459f137b3ca921f2728ae35caa6fce13bf702458",
+      "source_published": "2026-10-26T12:14:44Z",
+      "source_updated": "2026-10-26T12:14:44Z",
+      "summary": "Continual graph learning (CGL) maintains models as graphs evolve without retraining from scratch, while mitigating catastrophic forgetting. Existing methods typically target either transductive or inductive settings and often store past subgraphs or require task identifiers at inference. We propose Community-aware Prototype Extraction for Continual Graph Learning (CoPE-CGL), a replay-free framework that uses a parameter-free structural prior, precomputed by multi-hop Laplacian smoothing, to anchor learning, memory, and inference. CoPE-CGL combines topology-infused bottleneck adaptation, community-level prototypes, and dynamic routing by majority vote over node-to-prototype matches. The default protocol assumes each test graph comes from one learned task; a node-level variant handles mixed-task graphs. Each task adds at most a constant amount of storage, with no past graph data retained. At equal storage and without task identifiers, CoPE-CGL matches the strongest replay baseline even when it receives true task identifiers: average performance (AP) is 95.17% and 95.72% versus 94.28% and 95.82% on Arxiv and CoraFull, respectively, with 5.9-14.0 times faster runtime and zero forgetting. Across four transductive and three inductive benchmarks and mixed streams, CoPE-CGL exceeds the second-best of up to eleven baselines by up to 1.41, 6.32, and 9.33 AP percentage points, respectively. It runs 1.3-7.9 times faster end-to-end than the most accurate competitor on each benchmark and scales to the largest benchmark graph. On graphs mixing two tasks, its node-level variant achieves the best AP among CGL methods. The design targets homophilic graphs with community structure.",
+      "tags": [
+        "cs.LG",
+        "cs.DB"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "CoPE-CGL: Community-aware Prototype Extraction for Replay-Free Continual Graph Learning",
+      "url": "https://arxiv.org/abs/2610.35313v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f7bd885e1abb9452d766b96b",
+      "context_id": "7e9209fece36332b3c741049",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "representation learning",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "arxiv",
+      "source_context_sha256": "123c432f9af819b2dd4db47292caa4696ca99e8b5feb52b3bd75d36c79417b4e",
+      "source_published": "2026-10-26T00:50:03Z",
+      "source_updated": "2026-10-26T00:50:03Z",
+      "summary": "Video world models trained on large-scale robot data promise a safe and scalable approach for learning and evaluating policies that act in the physical world. However, they still struggle with long-horizon rollouts and out-of-distribution generalization, and they remain computationally demanding at inference time. Typically, video world models make predictions in the latent space of a reconstruction-trained autoencoder, which however is not directly optimized for dynamics modeling. On the other hand, world models designed for latent planning usually optimize latents to be predictable, but they forgo accurate prediction of observations in pixel space. In this paper, we show that it is possible to achieve the best of both worlds: a latent geometry optimized to make future prediction as simple as possible without sacrificing accurate prediction of future observations. More precisely, we find that temporal objectives for representation learning, paired with a past-conditioned decoder architecture, lead to consistent improvements in generative video world models at the same training budget. The gains include up to 5x cheaper inference, over 7x faster training, and 15-24% lower pixel and perceptual errors out of distribution and over long horizons. Our world models also agree more closely with real-world policy evaluation when using a vision-language model to judge task success from their pixel-space predictions. Overall, our study indicates that temporal predictability is an important design criterion for the latent space of video world models, and provides concrete guidance on how to incorporate it into the training of autoencoders.",
+      "tags": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Video World Models Need Predictable Latents",
+      "url": "https://arxiv.org/abs/2610.34663v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "c514eea4bba9150cecb31541",
+      "context_id": "7e2cdef2361cbdea953df340",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0,
+      "source": "zenodo",
+      "source_context_sha256": "e7d4271a7aa2c35366f52d547b987df27660a86a177b59064c92901fcc8f0126",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "The geometric characterization of masonry structures with incomplete or degraded surfaces remains a critical challenge in building rehabilitation, structural assessment, and BIM-based documentation. This study presents an automated computational framework for reconstructing the original geometry of partially collapsed masonry walls from Terrestrial Laser Scanning (TLS) data, providing quantitatively defined uncertainty bounds to support informed decision-making in heritage conservation and the built environment. The proposed methodology integrates three complementary analytical components: i) automated wall thickness extraction based on PCA-driven point cloud segmentation combined with robust percentile statistics; ii) wall trajectory reconstruction through the identification of polygonal configurations and structural discontinuities between segments; and iii) slope profile detection using local gradient analysis to characterize wall batter angles. The entire workflow is implemented in Python within Jupyter Notebooks, ensuring transparency, reproducibility, and compliance with FAIR principles. Material characterization, informed by archaeological evidence and geotechnical parameters, enables the estimation of structural height through a limit equilibrium approach. A key contribution of this research is the Best-Fit Model Profile (BFMP) methodology for uncertainty quantification, which derives internal geometric references directly from the point cloud data. This approach allows for a systematic evaluation of preservation states and construction variability without reliance on external ground-truth measurements. Structural height estimation incorporates geotechnical and material parameters, whose influence is assessed through a sensitivity analysis, while the reported height interval propagates the thickness variability . Validation on a prehistoric masonry structure demonstrates the framework&rsquo;s ability to transform ambiguous survey data into parametric, BIM-ready outputs with explicit uncertainty limits. Compared to traditional CAD-based reconstruction workflows, the proposed approach significantly reduces subjective interpretation while enhancing geometric reliability and analytical transparency",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Automated geometric reconstruction of degraded prehistoric masonry from TLS data: reproducible workflow and synthetic benchmark (Valencina de la Concepción)",
+      "url": "https://zenodo.org/records/23688431"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "03f6e4bd5d2c68c06e119bf8",
+      "context_id": "c51d6fa3920efc22d325f8d7",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "zenodo",
+      "source_context_sha256": "3cc1f75822d18ef7cfc0ef841118d66a6d44a18db8d3fc5e4831d561da7a0144",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "This replication package accompanies the manuscript&nbsp; &ldquo;How much coverage is enough? Spatially balanced partial-coverage thermal drone surveys for estimating ungulate density in forested landscapes.&rdquo; The archive contains the R and Python code, georeferenced full-survey detections, observed partial-survey data, retrospective transect-intersection inputs, survey geometries, terrain inputs, compact simulation outputs and verification results needed to reproduce the drone-survey analyses. It includes workflows for reconstructing the reported full- and partial-coverage density estimates, statistical comparisons, perturbation analyses and post-processing simulation experiments. The original bootstrap analysis used 999 resamples without a recorded random seed. The archived workflow fixes the seed at 42; consequently, some bootstrap confidence limits and downstream test statistics differ slightly through Monte Carlo variation, while the reported conclusions remain unchanged. These differences are documented explicitly in the package. Raw survey videos, MOT annotation archives, raw camera-trap images and event-level camera-trap data are not redistributed. The archive instead contains the derived georeferenced detections and available transect-level inputs used by the reported drone analyses, which are actually required for replicating the results. The camera-trap comparison is represented by the area-level summary values used in the manuscript. Additional exclusions and their justification are documented in&nbsp; docs/EXCLUSIONS.md . Reproduction instructions, a data dictionary, provenance information, validation results, software-environment details and a file-level checksum manifest are included.",
+      "tags": [
+        "thermal drone survey",
+        "spatially balanced sampling",
+        "partial-coverage survey",
+        "ungulate density estimation",
+        "roe deer",
+        "Capreolus capreolus",
+        "Random Encounter Model",
+        "simulation study"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Replication Package: How much coverage is enough? Spatially balanced partial-coverage thermal drone surveys for estimating ungulate density in forested landscapes",
+      "url": "https://zenodo.org/records/23686410"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f584d5f30113c2e3dfca64dc",
+      "context_id": "e88e2f338f55e3e79b00aa4e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.8333,
+      "source": "zenodo",
+      "source_context_sha256": "6803ded27ce3b45e8eb02b428d2dbbc5055e107f7e4d2538763d9a59d813cc78",
+      "source_published": "2026-10-27",
+      "source_updated": "",
+      "summary": "Two follow-up papers built on this study's blind multi-model collection were accepted (poster) at NeurIPS 2026 workshops: Verification Theater: Measured Failure Modes of AI Verifier Panels (Who Verifies the Agents?) and Weakly Discriminative, Not Repaired by Profile Injection, and Manipulable: Self-Confidence in LLM Evaluation (TAE). Version of record: SSRN 7191261 , DOI 10.2139/ssrn.7191261 . Cite that version. The same text is also at https://vadymchernets.netlify.app/architectural-trust.html and https://github.com/vadimchernets/papers/tree/main/architectural-trust . Agentic commerce turns AI from an advisor into a transacting party, collapsing search, comparison, cart, and payment into a single delegated act and removing the review points where humans once caught errors. It arrives at an awkward moment: sixty percent of UK consumers surveyed say they would abandon an AI shopping agent after a single mistake, and most would trust no organization at all to run one on their behalf. This paper introduces architectural trust. As consumers delegate consequential decisions to AI agents, I argue, warranted trust migrates from the properties of the AI model to the verifiable architecture of the service above it. The constructs already available attach trust to organizations, to a single automated system, or to algorithmic advice, and none of them makes the decision-producing process verifiable by the truster under autonomous delegation. Architectural trust fills that gap with three checkable properties: diversity (independent models whose agreement calibrates confidence and whose divergence is surfaced), evidence (tamper-evident, replayable decision records), and neutrality (auditable independence from any vendor, merchant, or outcome). The mechanism was measured on the machine side first. Across a pre-registered sixteen-model benchmark and an August 2026 flagship-tier wave spanning eleven frontier laboratories, cross-model agreement priced correctness where a model's own confidence could not. Answers reproduced by another, blindly queried model were 1.9–3.2 times as likely to be correct. On a frozen SimpleQA subsample (Wei et al., 2024), 46.6% of the flagship answers offered at stated confidence ≥ 80 were wrong (a rate specific to this roster, not a universal constant), while a fixed three-model disagreement gate removed 82.1% of those confident failures (95% CI 79.9–84.1) at 30.5% coverage. In a post hoc analysis of the August 2026 snapshot, two flagships answering blindly (gpt-5.6-sol and claude-fable-5) agreed on 69.6% of the 1,459 pooled questions, and their agreed answer was correct 98.1% of the time, against 95.3% for the stronger one alone on the same pool. The signal reproduces on 267 Wikidata-verified commerce product facts. A larger reasoning budget bought 3.1 points of stated confidence and no measurable accuracy: more compute buys confidence, not correctness. A unanimously confident panel can still be wrong, and there agreement certifies the shared error. I then carry the mechanism into behavior in a pre-registered, incentive-compatible consumer experiment (US and UK; 119 valid participants in the primary cohort, 133 with a soft-launch cohort pooled; 200 planned). Where a consumer would otherwise accept a confident wrong recommendation, the disagreement display cut acceptance sharply, from 74% to 24% on the qualifying item (pooled cohort). The pooled robustness estimate (Δ = 0.25 → 0.46; d = 0.68; the primary main-wave cohort gives Δ = 0.24 → 0.45, d = 0.67) rests on that single item and, in an exploratory country split, on the UK sample, and it falls to d = 0.09 once the item is removed. A powered, stimulus-sampled replication is planned. On the one item of unanimous confident consensus (pooled n = 133) the display raised acceptance of the shared error from 87% to 95%, which reproduces the mechanism's boundary in human behavior. The orchestration-receipt component returned a registered, inconclusive null. The three com",
+      "tags": [
+        "agentic commerce",
+        "consumer trust",
+        "AI agents",
+        "trust in AI",
+        "appropriate reliance",
+        "overreliance",
+        "large language models",
+        "cross-model agreement",
+        "selective prediction",
+        "overconfidence",
+        "delegation",
+        "architectural trust"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Architectural Trust: Why Consumer Trust in Agentic Commerce Migrates from AI Models to Verifiable Architecture",
+      "url": "https://zenodo.org/records/23709937"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
