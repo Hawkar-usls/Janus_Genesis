@@ -3,9 +3,13 @@ from __future__ import annotations
 
 import json
 import io
+import shutil
+import subprocess
 from contextlib import redirect_stdout
 from pathlib import Path
+from types import SimpleNamespace
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -118,10 +122,12 @@ class TestHordeAnonymous(unittest.TestCase):
                 "What single observation would most reduce uncertainty?"
             ]}},
         }
+        evidence["home_baseline"] = "BASELINE"
         with patch("janus_corpus_aura_golem_live.load_aura_evidence",
                    return_value=evidence):
-            result = horde.query_attested_aura(Path("/never-read"),
-                             execute=True, transport=self.fake, sleeper=lambda *_: None)
+            with patch.object(horde, "protected_snapshot", return_value="BASELINE"):
+                result = horde.query_attested_aura(Path("/never-read"),
+                                 execute=True, transport=self.fake, sleeper=lambda *_: None)
         self.assertEqual(result["status"], "MOCKED_HORDE_RESPONSE__NOT_REAL")
         self.assertEqual(result["verified_context_sha256_local_only"], "f" * 64)
         self.assertNotIn("f" * 64, json.dumps(self.calls))
@@ -195,11 +201,15 @@ class TestHordeAnonymous(unittest.TestCase):
         self.assertIn('"failure_class": "HORDE_HTTP_403"', output.getvalue())
 
     def test_strict_live_cli_passes_only_real_observed_text(self):
+        answer = "One independently testable hypothesis."
         received = {
             "status": "REAL_ANONYMOUS_RESPONSE__UNVERIFIED",
             "network_model_response_observed": True,
             "source": "ACTUAL_ANONYMOUS_HTTP",
+            "prompt_sent": True, "attempts": 1,
             "model_reported_unverified": "reported-model",
+            "response": answer,
+            "response_sha256": horde.sha256(answer.encode("utf-8")),
             "failure_class": None,
         }
         with patch.object(horde, "query_public", return_value=received):
@@ -236,6 +246,565 @@ class TestHordeAnonymous(unittest.TestCase):
             self.assertEqual(result["status"], "INVALID_EXTERNAL_GENERATION")
             self.assertFalse(result["network_model_response_observed"])
             self.assertIsNone(result["response"])
+
+
+
+    def test_strict_real_canary_rejects_forged_model_response_or_digest(self):
+        answer = "A small independent test is needed."
+        good = {
+            "status": "REAL_ANONYMOUS_RESPONSE__UNVERIFIED",
+            "network_model_response_observed": True,
+            "source": "ACTUAL_ANONYMOUS_HTTP",
+            "prompt_sent": True, "attempts": 1,
+            "response": answer,
+            "response_sha256": horde.sha256(answer.encode()),
+            "model_reported_unverified": "observed-model",
+        }
+        self.assertTrue(horde.real_answer_observed(good))
+        for patch_value in (
+            {"response_sha256": "0" * 64},
+            {"response": "   \n"},
+            {"prompt_sent": None},
+            {"attempts": 2},
+            {"source": "INJECTED_FIXTURE_NOT_REAL_AI"},
+            {"model_reported_unverified": ""},
+            {"network_model_response_observed": False},
+        ):
+            with self.subTest(patch_value=patch_value):
+                self.assertFalse(horde.real_answer_observed({**good, **patch_value}))
+
+    def test_native_head_mismatch_rejected_before_external_post(self):
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura_receipt_sha256": "e" * 64,
+            "cursor": {"context_sha256": "f" * 64},
+            "aura": {"oracle_source_type": "PINNED_LOCAL_AURA_CLI",
+                     "oracle": {"questions": [
+                         "What single observation would most reduce uncertainty?"
+                     ]}},
+            "v2": {"native_initial": {
+                "source_commit": "a" * 40, "checkpoint_sha256": "b" * 64}},
+        }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with self.assertRaisesRegex(ConsumptionError, "HORDE_NATIVE_COMMIT"):
+                horde.query_attested_aura(Path("/never-read"),
+                    execute=True, transport=self.fake, sleeper=lambda *_: None,
+                    native_repo=Path("/missing"), native_head="c" * 40)
+        self.assertEqual(self.calls, [])
+
+    def test_pinned_checkout_preflight_failure_before_external_post(self):
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura_receipt_sha256": "e" * 64,
+            "cursor": {"context_sha256": "f" * 64},
+            "aura": {"oracle_source_type": "PINNED_LOCAL_AURA_CLI",
+                     "oracle": {"questions": [
+                         "What single observation would most reduce uncertainty?"
+                     ]}},
+            "v2": {"native_initial": {
+                "source_commit": "a" * 40, "checkpoint_sha256": "b" * 64}},
+        }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with patch.object(horde, "preflight_native_checkout",
+                              side_effect=ConsumptionError("PREFLIGHT_STOP")):
+                with self.assertRaisesRegex(ConsumptionError, "PREFLIGHT_STOP"):
+                    horde.query_attested_aura(Path("/never-read"),
+                        execute=True, transport=self.fake,
+                        native_repo=Path("/missing"), native_head="a" * 40)
+        self.assertEqual(self.calls, [])
+
+    def test_private_home_drift_rejected_before_and_after_external(self):
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura_receipt_sha256": "e" * 64,
+            "cursor": {"context_sha256": "f" * 64},
+            "aura": {"oracle_source_type": "PINNED_LOCAL_AURA_CLI",
+                     "oracle": {"questions": [
+                         "What single observation would most reduce uncertainty?"
+                     ]}},
+        }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with patch.object(horde, "protected_snapshot", return_value="DRIFT"):
+                with self.assertRaisesRegex(ConsumptionError, "BEFORE_EGRESS"):
+                    horde.query_attested_aura(Path("/never-read"),
+                        execute=True, transport=self.fake)
+            self.assertEqual(self.calls, [])
+            with patch.object(horde, "protected_snapshot",
+                              side_effect=["BASELINE", "DRIFT"]):
+                with self.assertRaisesRegex(ConsumptionError, "AFTER_EGRESS"):
+                    horde.query_attested_aura(Path("/never-read"),
+                        execute=True, transport=self.fake, sleeper=lambda *_: None)
+        self.assertEqual(sum(c[0] == "POST" for c in self.calls), 1)
+
+    def test_mock_aura_cannot_be_used_for_live_public_external_egress(self):
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura": {"oracle_source_type": "MOCKED_AURA_TEST_ONLY",
+                     "oracle": {"questions": [
+                         "What single observation would most reduce uncertainty?"
+                     ]}},
+        }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with patch.object(horde, "query_public",
+                              side_effect=AssertionError("No real external egress")):
+                with self.assertRaisesRegex(ConsumptionError,
+                                            "REAL_EGRESS_REQUIRES_REAL_PINNED_AURA"):
+                    horde.query_attested_aura(Path("/never-read"), execute=True)
+        self.assertEqual(self.calls, [])
+
+
+    def test_native_end_to_end_gate_requires_digest_and_real_provenance(self):
+        from janus_corpus_callosum import NATIVE_ID
+        from janus_corpus_callosum_v2 import _review_prompt
+
+        answer = "Check a third-party witness."
+        question = horde.DEFAULT_PUBLIC_QUESTION
+        prompt = _review_prompt(answer, {"last_sequence": 7})
+        review = {
+            "hemisphere": "NATIVE",
+            "model": NATIVE_ID,
+            "source_repository": "Hawkar-usls/Janus-Demiurge",
+            "source_commit": "a" * 40,
+            "checkpoint_sha256": "c" * 64,
+            "prompt_sha256": horde.sha256(prompt.encode("utf-8")),
+            "generated_text": "Local native review, not a fact.",
+            "inference_attested_by": "PINNED_LOCAL_SUBPROCESS",
+            "external_llm": False,
+        }
+        report = {
+            "status": "REAL_ANONYMOUS_RESPONSE__UNVERIFIED",
+            "network_model_response_observed": True,
+            "source": "ACTUAL_ANONYMOUS_HTTP",
+            "prompt_sent": True, "attempts": 1,
+            "response": answer,
+            "response_sha256": horde.sha256(answer.encode()),
+            "model_reported_unverified": "volunteer-model",
+            "prompt_source": "FROZEN_PUBLIC_AURA_CARD",
+            "prompt_sha256": horde.sha256(
+                horde._public_prompt(question).encode("utf-8")),
+            "native_review_status": "REAL_PINNED_NATIVE_CPU_UNVERIFIED",
+            "native_review_receipt_local_only": review,
+            "native_review_sha256_local_only": horde.sha256(horde.compact(review)),
+            "native_source_commit_local_only": "a" * 40,
+            "native_checkpoint_sha256_local_only": "c" * 64,
+            "aura_receipt_sha256_local_only": "e" * 64,
+            "verified_context_sha256_local_only": "d" * 64,
+            "verified_context_sequence_local_only": 7,
+            "aura_public_question_local_only": question,
+            "failure_class": None,
+        }
+        # This checks only *replay consistency* of a synthetic receipt,
+        # never independent proof that a physical native process ran.
+        self.assertTrue(horde.native_end_to_end_observed(report))
+        mutations = (
+            {"native_review_status": "NATIVE_REVIEW_UNAVAILABLE"},
+            {"native_review_status": "MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE"},
+            {"native_review_sha256_local_only": "wrong"},
+            {"native_review_sha256_local_only": "0" * 64},
+            {"native_review_receipt_local_only": None},
+            {"native_review_receipt_local_only": {
+                **review, "generated_text": "forged local answer"}},
+            {"native_review_receipt_local_only": {
+                **review, "checkpoint_sha256": "0" * 64}},
+            {"native_review_receipt_local_only": {
+                **review, "prompt_sha256": "0" * 64}},
+            {"native_source_commit_local_only": "f" * 40},
+            {"native_checkpoint_sha256_local_only": "f" * 64},
+            {"verified_context_sequence_local_only": 8},
+            {"verified_context_sequence_local_only": "7"},
+            {"aura_public_question_local_only": "private data question"},
+            {"aura_public_question_local_only": ["not hashable"]},
+            {"aura_receipt_sha256_local_only": None},
+            {"aura_receipt_sha256_local_only": "forged"},
+            {"verified_context_sha256_local_only": "not-a-sha"},
+            {"model_reported_unverified": "reported-model\nFAKE_LOG"},
+            {"prompt_sha256": "f" * 64},
+            {"prompt_source": "PRIVATE_CONTEXT"},
+            {"response_sha256": "0" * 64},
+        )
+        for changed in mutations:
+            with self.subTest(changed=changed):
+                self.assertFalse(horde.native_end_to_end_observed({
+                    **report, **changed
+                }))
+
+        args = ["horde", "--execute-public-demo", "--home-root", "/isolated-home",
+                "--native-repo", "/pinned-native", "--native-head", "a" * 40,
+                "--require-native-review"]
+        with patch.object(horde, "query_attested_aura", return_value=report) as mocked:
+            with patch.object(sys, "argv", args):
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(horde.main(), 0)
+        self.assertEqual(mocked.call_count, 1)
+        kwargs = mocked.call_args.kwargs
+        self.assertEqual(kwargs["native_head"], "a" * 40)
+        self.assertEqual(kwargs["native_repo"], Path("/pinned-native"))
+
+        with patch.object(horde, "query_attested_aura", return_value={
+                **report, "native_review_receipt_local_only": {
+                    **review, "generated_text": "tampered"}}):
+            with patch.object(sys, "argv", args):
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(horde.main(), 2)
+
+    def test_mock_native_receipt_replays_but_never_claims_real_cpu(self):
+        from janus_corpus_callosum import NATIVE_ID
+        evidence = {
+            "home_baseline": "BASELINE",
+            "aura_receipt_sha256": "e" * 64,
+            "cursor": {"context_sha256": "f" * 64, "last_sequence": 7},
+            "aura": {"oracle_source_type": "MOCKED_AURA_TEST_ONLY",
+                     "oracle": {"questions": [horde.DEFAULT_PUBLIC_QUESTION]}},
+            "v2": {"native_initial": {
+                "source_commit": "a" * 40, "checkpoint_sha256": "b" * 64}},
+        }
+        def native_mock(_repo, head, prompt):
+            return {
+                "hemisphere": "NATIVE",
+                "model": NATIVE_ID,
+                "source_repository": "Hawkar-usls/Janus-Demiurge",
+                "source_commit": head,
+                "checkpoint_sha256": "b" * 64,
+                "prompt_sha256": horde.sha256(prompt.encode("utf-8")),
+                "generated_text": "Mock native only",
+                "inference_attested_by": "PINNED_LOCAL_SUBPROCESS",
+                "external_llm": False,
+            }
+        with patch("janus_corpus_aura_golem_live.load_aura_evidence",
+                   return_value=evidence):
+            with patch.object(horde, "protected_snapshot",
+                              return_value="BASELINE"):
+                observed = horde.query_attested_aura(
+                    Path("/never-read"), execute=True,
+                    native_repo=Path("/mock-native"), native_head="a" * 40,
+                    transport=self.fake, sleeper=lambda *_: None,
+                    native_runner=native_mock)
+        self.assertEqual(observed["native_review_status"],
+                         "MOCK_OR_PARTIAL_REVIEW_NOT_SCIENTIFIC_EVIDENCE")
+        self.assertIsInstance(observed["native_review_receipt_local_only"], dict)
+        self.assertEqual(observed["native_review_sha256_local_only"],
+                         horde.sha256(horde.compact(
+                             observed["native_review_receipt_local_only"])))
+        self.assertFalse(horde.native_end_to_end_observed(observed))
+        self.assertNotIn("e" * 64, json.dumps(self.calls))
+        self.assertNotIn("f" * 64, json.dumps(self.calls))
+
+    def test_private_native_receipt_has_exclusive_restricted_file_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            receipt = Path(tmp) / "research-evidence.json"
+            with patch.object(sys, "argv", [
+                    "horde", "--out", str(receipt)]):
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(horde.main(), 0)
+            self.assertTrue(receipt.is_file())
+            report = json.loads(receipt.read_text(encoding="utf-8"))
+            self.assertEqual(report["status"], "DRY_RUN_NO_NETWORK")
+            if sys.platform != "win32":
+                self.assertEqual(receipt.stat().st_mode & 0o777, 0o600)
+            with patch.object(sys, "argv", [
+                    "horde", "--execute-public-demo", "--out", str(receipt)]):
+                with patch.object(horde, "query_public",
+                                  side_effect=AssertionError("No extra POST")):
+                    with patch("sys.stderr", new_callable=io.StringIO):
+                        with self.assertRaises(SystemExit) as exc:
+                            horde.main()
+                self.assertEqual(exc.exception.code, 2)
+
+    def test_private_receipt_raced_parent_symlink_cannot_redirect_file(self):
+        if not (hasattr(horde.os, "O_NOFOLLOW")
+                and hasattr(horde.os, "O_DIRECTORY")):
+            self.skipTest("No descriptor-relative no-follow support")
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            original = base / "private-parent"
+            original.mkdir()
+            stolen = base / "moved-parent"
+            attacker = base / "public"
+            attacker.mkdir()
+            requested = original / "research.json"
+            true_open = horde.os.open
+
+            def raced_open(path, flags, *args, **kwargs):
+                if path == "private-parent" and "dir_fd" in kwargs:
+                    original.rename(stolen)
+                    original.symlink_to(attacker, target_is_directory=True)
+                return true_open(path, flags, *args, **kwargs)
+
+            with patch.object(horde.os, "open", side_effect=raced_open):
+                with self.assertRaisesRegex(
+                        ConsumptionError, "HORDE_PRIVATE_RECEIPT_PATH_OR_WRITE_UNSAFE"):
+                    horde._save_private_receipt(requested, '{"private": true}')
+            self.assertFalse((attacker / "research.json").exists())
+            self.assertFalse((stolen / "research.json").exists())
+
+    def test_private_receipt_rejects_symlink_destination_before_network(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            original = Path(tmp) / "keep-private.txt"
+            original.write_text("no changes", encoding="utf-8")
+            link = Path(tmp) / "receipt-link.json"
+            try:
+                link.symlink_to(original)
+            except (NotImplementedError, OSError):
+                self.skipTest("Filesystem does not support symlinks")
+            with patch.object(sys, "argv", [
+                    "horde", "--execute-public-demo", "--out", str(link)]):
+                with patch.object(horde, "query_public",
+                                  side_effect=AssertionError("No egress")):
+                    with patch("sys.stderr", new_callable=io.StringIO):
+                        with self.assertRaises(SystemExit) as exc:
+                            horde.main()
+                self.assertEqual(exc.exception.code, 2)
+            self.assertEqual(original.read_text(encoding="utf-8"),
+                             "no changes")
+
+    def test_native_review_cli_cannot_run_without_earlier_gates(self):
+        for flags in (
+            ["--require-native-review"],
+            ["--execute-public-demo", "--require-native-review"],
+            ["--execute-public-demo", "--home-root", "/isolated-home",
+             "--native-repo", "/pinned-native"],
+        ):
+            with self.subTest(flags=flags):
+                with patch.object(sys, "argv", ["horde"] + flags):
+                    with patch("sys.stderr", new_callable=io.StringIO):
+                        with self.assertRaises(SystemExit) as cm:
+                            horde.main()
+                self.assertEqual(cm.exception.code, 2)
+
+
+
+    def test_invalid_provider_generation_reason_is_bounded_and_redacted(self):
+        cases = (
+            ({"text": None, "model": "ok"}, "HORDE_GENERATION_TEXT_MISSING"),
+            ({"text": "", "model": "ok"}, "HORDE_GENERATION_TEXT_BLANK"),
+            ({"text": "   \n", "model": "ok"}, "HORDE_GENERATION_TEXT_BLANK"),
+            ({"text": "X" * (horde.MAX_OUTPUT + 1), "model": "ok"},
+             "HORDE_GENERATION_TEXT_OVERSIZE"),
+            ({"text": "private\x00marker", "model": "ok"},
+             "HORDE_GENERATION_TEXT_CONTROLS"),
+            ({"text": "valid answer", "model": None},
+             "HORDE_GENERATION_MODEL_MISSING"),
+            ({"text": "valid answer", "model": "  "},
+             "HORDE_GENERATION_MODEL_MISSING"),
+            ({"text": "valid answer", "model": "x" * 161},
+             "HORDE_GENERATION_MODEL_OVERSIZE"),
+            ({"text": "valid answer", "model": "model\nPRIVATE_MARKER"},
+             "HORDE_GENERATION_MODEL_CONTROLS"),
+            (None, "HORDE_GENERATION_ENTRY_INVALID"),
+        )
+        for entry, reason in cases:
+            with self.subTest(reason=reason):
+                calls = []
+                def provider(method, path, body=None):
+                    calls.append(method)
+                    if method == "POST":
+                        return {"id": UUID}
+                    if method == "GET":
+                        return {"done": True, "generations": [entry]}
+                    return {"cancelled": True}
+
+                result = horde.query_public(execute=True, transport=provider,
+                                            sleeper=lambda *_: None)
+                self.assertEqual(result["status"], "INVALID_EXTERNAL_GENERATION")
+                self.assertEqual(result["failure_class"], reason)
+                self.assertFalse(result["network_model_response_observed"])
+                self.assertIsNone(result["response"])
+                self.assertIsNone(result["model_reported_unverified"])
+                self.assertEqual(calls.count("POST"), 1)
+                self.assertNotIn("PRIVATE_MARKER", json.dumps(result))
+
+    def test_legitimate_line_breaks_in_external_answer_are_not_rejected(self):
+        text = "Hypothesis A.\nCheck observation B."
+        self.assertIsNone(horde._generation_failure_class({
+            "text": text, "model": "clean-model"}))
+        def provider(method, path, body=None):
+            if method == "POST":
+                return {"id": UUID}
+            return {"done": True, "generations": [
+                {"text": text, "model": "clean-model"}]}
+        observed = horde.query_public(execute=True, transport=provider,
+                                      sleeper=lambda *_: None)
+        self.assertEqual(observed["status"], "MOCKED_HORDE_RESPONSE__NOT_REAL")
+        self.assertIsNone(observed["failure_class"])
+
+
+
+    def test_native_preflight_bounded_descriptor_accepts_exact_weights(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            data = b"sealed native checkpoint only"
+            weights.write_bytes(data)
+            expected_head = "a" * 40
+            with patch.object(horde.subprocess, "run", side_effect=[
+                    SimpleNamespace(stdout=expected_head + "\n"),
+                    SimpleNamespace(stdout=""),
+                    SimpleNamespace(stdout=""),
+            ]):
+                horde.preflight_native_checkout(
+                    repo, expected_head, horde.sha256(data))
+
+    def test_native_preflight_disables_git_config_process_effects(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            raw = b"pinned benign test weights"
+            weights.write_bytes(raw)
+            git_calls = []
+
+            def git_runner(args, **kwargs):
+                git_calls.append((args, kwargs))
+                return SimpleNamespace(stdout=("a" * 40 + "\n")
+                                       if "rev-parse" in args else "")
+
+            with patch.object(horde.subprocess, "run", side_effect=git_runner):
+                horde.preflight_native_checkout(
+                    repo, "a" * 40, horde.sha256(raw))
+            self.assertEqual(len(git_calls), 3)
+            for argv, kw in git_calls:
+                self.assertEqual(argv[:2], ["git", "-c"])
+                self.assertIn("core.fsmonitor=false", argv)
+                self.assertIn("core.hooksPath=" + horde.os.devnull, argv)
+                self.assertIn("status.showUntrackedFiles=all", argv)
+                self.assertEqual(kw["env"]["GIT_OPTIONAL_LOCKS"], "0")
+                self.assertEqual(kw["env"]["GIT_CONFIG_NOSYSTEM"], "1")
+                self.assertEqual(kw["env"]["GIT_CONFIG_GLOBAL"], horde.os.devnull)
+                self.assertEqual(kw["env"]["GIT_TERMINAL_PROMPT"], "0")
+                self.assertEqual(kw["env"]["GIT_NO_REPLACE_OBJECTS"], "1")
+                self.assertNotIn("GITHUB_TOKEN", kw["env"])
+            status_args = git_calls[1][0]
+            self.assertIn("--porcelain=v1", status_args)
+            self.assertIn("--untracked-files=all", status_args)
+            self.assertIn("--ignore-submodules=none", status_args)
+            ignored_args = git_calls[2][0]
+            self.assertIn("ls-files", ignored_args)
+            self.assertIn("--others", ignored_args)
+            self.assertIn("--ignored", ignored_args)
+            self.assertIn("--exclude-standard", ignored_args)
+            self.assertIn("-z", ignored_args)
+
+    def test_native_preflight_rejects_untracked_file_before_egress(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            raw = b"pinned benign test weights"
+            weights.write_bytes(raw)
+            with patch.object(horde.subprocess, "run", side_effect=[
+                    SimpleNamespace(stdout="a" * 40 + "\n"),
+                    SimpleNamespace(stdout="?? tools/private.py\n"),
+                    SimpleNamespace(stdout="")]):
+                with self.assertRaisesRegex(
+                        ConsumptionError,
+                        "HORDE_NATIVE_PREFLIGHT_TREE_OR_WEIGHTS_INVALID"):
+                    horde.preflight_native_checkout(
+                        repo, "a" * 40, horde.sha256(raw))
+
+    @unittest.skipUnless(shutil.which("git"), "Git CLI required for native preflight")
+    def test_native_preflight_real_git_ignored_module_regression(self):
+        """Check actual git flag interpretation instead of only mocked argv."""
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            repo.mkdir()
+            subprocess.run(["git", "init", "-q", str(repo)],
+                           check=True, capture_output=True, timeout=5)
+            ignore = repo / ".gitignore"
+            ignore.write_text(
+                "janus_model/checkpoints/promoted.pt\n"
+                "janus_model/private_plugin.py\n",
+                encoding="utf-8")
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            weights.write_bytes(b"verified fixture weights")
+            subprocess.run(["git", "-C", str(repo), "add", ".gitignore"],
+                           check=True, capture_output=True, timeout=5)
+            subprocess.run([
+                "git", "-C", str(repo),
+                "-c", "user.name=JANUS fixture",
+                "-c", "user.email=janus-fixture@example.invalid",
+                "commit", "-q", "-m", "pinned fixture"],
+                check=True, capture_output=True, timeout=5)
+            commit = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"],
+                check=True, capture_output=True, text=True, timeout=5
+            ).stdout.strip()
+            digest = horde.sha256(weights.read_bytes())
+            horde.preflight_native_checkout(repo, commit, digest)
+            plugin = repo / "janus_model" / "private_plugin.py"
+            plugin.write_text("print('not trusted')\n", encoding="utf-8")
+            with self.assertRaisesRegex(
+                    ConsumptionError, "HORDE_NATIVE_PREFLIGHT_IGNORED_EXECUTABLE"):
+                horde.preflight_native_checkout(repo, commit, digest)
+
+    def test_native_preflight_rejects_ignored_executable_without_provider(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            raw = b"pinned benign test weights"
+            weights.write_bytes(raw)
+            for ignored in ("janus_model/hidden.py",
+                            "janus_model/__pycache__/module.cpython-312.pyc",
+                            "sitecustomize.py", "janus_model/plugin.so"):
+                with self.subTest(ignored=ignored):
+                    with patch.object(horde.subprocess, "run", side_effect=[
+                            SimpleNamespace(stdout="a" * 40 + "\n"),
+                            SimpleNamespace(stdout=""),
+                            SimpleNamespace(stdout=ignored + "\0")]):
+                        with self.assertRaisesRegex(
+                                ConsumptionError,
+                                "HORDE_NATIVE_PREFLIGHT_IGNORED_EXECUTABLE"):
+                            horde.preflight_native_checkout(
+                                repo, "a" * 40, horde.sha256(raw))
+
+    def test_native_preflight_allows_only_ignored_nonexecutables(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            raw = b"pinned benign test weights"
+            weights.write_bytes(raw)
+            with patch.object(horde.subprocess, "run", side_effect=[
+                    SimpleNamespace(stdout="a" * 40 + "\n"),
+                    SimpleNamespace(stdout=""),
+                    SimpleNamespace(stdout="janus_model/checkpoints/promoted.pt\0")]):
+                horde.preflight_native_checkout(repo, "a" * 40,
+                                                horde.sha256(raw))
+
+    def test_native_preflight_raced_symlink_is_rejected_before_egress(self):
+        if not hasattr(horde.os, "O_NOFOLLOW"):
+            self.skipTest("No no-follow support")
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp) / "native"
+            weights = repo / "janus_model" / "checkpoints" / "promoted.pt"
+            weights.parent.mkdir(parents=True)
+            original = b"sealed native checkpoint only"
+            weights.write_bytes(original)
+            clone = Path(tmp) / "identical-weights"
+            clone.write_bytes(original)
+            actual_open = horde.os.open
+            def switched_open(path, flags, *args, **kwargs):
+                if path == "promoted.pt" and "dir_fd" in kwargs:
+                    weights.unlink()
+                    weights.symlink_to(clone)
+                return actual_open(path, flags, *args, **kwargs)
+            with patch.object(horde.subprocess, "run", side_effect=[
+                    SimpleNamespace(stdout="a" * 40 + "\n"),
+                    SimpleNamespace(stdout=""),
+                    SimpleNamespace(stdout=""),
+            ]):
+                with patch.object(horde.os, "open",
+                                  side_effect=switched_open):
+                    with self.assertRaisesRegex(
+                            ConsumptionError, "CHECKPOINT_OPEN_UNSAFE"):
+                        horde.preflight_native_checkout(
+                            repo, "a" * 40, horde.sha256(original))
 
 
 
