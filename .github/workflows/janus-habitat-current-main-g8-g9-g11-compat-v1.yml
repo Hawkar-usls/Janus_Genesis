@@ -14,6 +14,21 @@ on:
       - 'tools/audit_armor_effect_drift_v18_7_51.py'
       - 'protocol/JANUS_HABITAT_PROCESS_DEATH_GAUNTLET-v1.0.json'
       - '.github/workflows/janus-habitat-current-main-g8-g9-g11-compat-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_demiurge_boot_controller.py'
+      - 'tools/janus_demiurge_boot_controller_v1_1.py'
+      - 'tools/janus_demiurge_supervisor_checkpoint_journal.py'
+      - 'tools/janus_hippocampus_hdd_buffer.py'
+      - 'tools/janus_habitat_process_death_gauntlet_v1.py'
+      - 'tools/audit_armor_effect_drift_v18_7_50.py'
+      - 'tools/audit_armor_effect_drift_v18_7_51.py'
+      - 'protocol/JANUS_HABITAT_PROCESS_DEATH_GAUNTLET-v1.0.json'
+      - '.github/workflows/janus-habitat-current-main-g8-g9-g11-compat-v1.yml'
+  # Bounded weekly cloud process-death replay; no secrets, no source writeback.
+  schedule:
+    - cron: '37 4 * * 3'
   workflow_dispatch:
 
 permissions:
