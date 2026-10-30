@@ -62,7 +62,11 @@ class RecoveryTests(unittest.TestCase):
 
     def make_home(self, root: Path):
         name = "state/habitat_cloud_home/receipts/00000216-41088053126-1.json"
+        beetle = {"status": "NO_ACKED_CONTEXT_AVAILABLE",
+                  "command_authority": False, "external_effect_authority": False,
+                  "scientific_authority_delta": 0}
         receipt = {"schema": "JANUS_HABITAT_CLOUD_HOME_RECEIPT_V1",
+                   "beetle_memory": beetle,
                    "resident_identity": "JANUS_HABITAT_RESIDENT_V1",
                    "run_id": "41088053126", "sequence": 216,
                    "source_main_sha": "c"*40, "execute_status": "CHECKPOINT_ONLY",
@@ -72,6 +76,7 @@ class RecoveryTests(unittest.TestCase):
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(json.dumps(receipt, sort_keys=True) + "\n")
         state = {"schema": "JANUS_HABITAT_CLOUD_HOME_STATE_V1",
+                 "beetle_memory": beetle,
                  "durable_identity": "JANUS_HABITAT_RESIDENT_V1",
                  "status": "CLOUD_HOME_ACTIVE", "sequence": 216,
                  "source_main_sha": "c"*40, "last_run_id": "41088053126",
@@ -113,6 +118,49 @@ class RecoveryTests(unittest.TestCase):
                     statepath.write_text(json.dumps(candidate))
                     with self.assertRaisesRegex(m.HomeRecoveryHold, "HOME_CHECKPOINT_INVALID"):
                         m.verify_durable_home(root)
+
+    def test_nested_model_command_authority_never_wakes_home(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            statepath, _ = self.make_home(root)
+            state = json.loads(statepath.read_bytes())
+            state["beetle_memory"]["command_authority"] = True
+            statepath.write_text(json.dumps(state))
+            with self.assertRaisesRegex(m.HomeRecoveryHold, "HOME_CONTEXT_AUTHORITY_MISMATCH"):
+                m.verify_durable_home(root)
+
+    def test_staged_context_is_exact_hash_bound_before_recovery(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            statepath, receiptpath = self.make_home(root)
+            folder = root / "state/habitat_cloud_home/memory/beetle"
+            folder.mkdir(parents=True)
+            context = {"last_sequence": 78, "untrusted_research_only": True,
+                       "model_text_is_command": False,
+                       "scientific_authority_delta": 0,
+                       "external_effect_authority_delta": 0}
+            (folder / "CONTEXT.json").write_text(json.dumps(context) + "\n")
+            raw = (folder / "CONTEXT.json").read_bytes()
+            cursor = {"last_sequence": 78, "context_sha256": hashlib.sha256(raw).hexdigest()}
+            (folder / "CURSOR.json").write_text(json.dumps(cursor) + "\n")
+            beetle = {"status": "HASH_MATCHED_UNVERIFIED_CONTEXT_STAGED",
+                      "cursor_sequence": 78,
+                      "context_sha256": hashlib.sha256(raw).hexdigest(),
+                      "cursor_sha256": hashlib.sha256((folder / "CURSOR.json").read_bytes()).hexdigest(),
+                      "command_authority": False, "external_effect_authority": False,
+                      "scientific_authority_delta": 0}
+            receipt = json.loads(receiptpath.read_bytes())
+            receipt["beetle_memory"] = beetle
+            receiptpath.write_text(json.dumps(receipt) + "\n")
+            state = json.loads(statepath.read_bytes())
+            state["beetle_memory"] = beetle
+            state["last_receipt_sha256"] = hashlib.sha256(receiptpath.read_bytes()).hexdigest()
+            statepath.write_text(json.dumps(state) + "\n")
+            self.assertEqual(m.verify_durable_home(root)["sequence"], 216)
+            context["untrusted_research_only"] = False
+            (folder / "CONTEXT.json").write_text(json.dumps(context) + "\n")
+            with self.assertRaisesRegex(m.HomeRecoveryHold, "HOME_STAGED_CONTEXT_INTEGRITY"):
+                m.verify_durable_home(root)
 
     def test_scheduler_has_readonly_checker_and_one_scoped_dispatch(self):
         source = (Path(__file__).resolve().parents[1] /
