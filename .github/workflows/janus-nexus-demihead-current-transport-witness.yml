@@ -1,0 +1,112 @@
+name: JANUS Nexus DemiHead exact-head transport replay
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/janus-nexus-demihead-current-transport-witness.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/janus-nexus-demihead-current-transport-witness.yml'
+  schedule:
+    - cron: '11 5 * * 3'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-nexus-demihead-transport-witness
+  cancel-in-progress: false
+
+jobs:
+  bounded-readonly:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      DEMIHEAD_PIN: 'b1a6b294cc010d4d70566bb5a3586ca28a0b9c9e'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout current Genesis read only
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Checkout audited DemiHead pin read only
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Demi_Head
+          ref: b1a6b294cc010d4d70566bb5a3586ca28a0b9c9e
+          path: _deps/demihead
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Require audited external pin to be live main before code execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _deps/demihead rev-parse HEAD)" = "$DEMIHEAD_PIN"
+          LIVE="$(git ls-remote --exit-code https://github.com/Hawkar-usls/Demi_Head.git refs/heads/main | cut -f1)"
+          test "$LIVE" = "$DEMIHEAD_PIN"
+          echo "DEMIHEAD_CURRENT_MAIN_PIN=PASS"
+
+      - name: Exercise live-pin transport, ACK/replay, destination, phase crash and process death
+        shell: bash
+        working-directory: _deps/demihead
+        run: |
+          set -euo pipefail
+          for name in \
+            test_nexus_local_transport.py \
+            test_nexus_destination_acceptance.py \
+            test_nexus_replay_ledger.py \
+            test_nexus_phase_boundary_recovery.py \
+            test_nexus_real_subprocess_termination.py; do
+            python -m unittest discover -v -s tests -p "$name"
+          done
+          echo "CURRENT_DEMIHEAD_BOUNDED_TRANSPORT_TESTS=PASS"
+
+      - name: Record scoped source-attested proof without execution authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          LIVE="$(git ls-remote --exit-code https://github.com/Hawkar-usls/Demi_Head.git refs/heads/main | cut -f1)"
+          test "$LIVE" = "$DEMIHEAD_PIN"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          payload = {
+            "schema": "janus.nexus.demihead_current_transport_witness.v1",
+            "status": "PASS_SOURCE_PINNED_TESTS_ONLY",
+            "genesis_commit": os.environ["GITHUB_SHA"],
+            "demihead_commit": os.environ["DEMIHEAD_PIN"],
+            "run_id": int(os.environ["GITHUB_RUN_ID"]),
+            "test_families": [
+              "local_transport", "destination_acceptance",
+              "durable_replay_ledger", "phase_boundary_recovery",
+              "real_subprocess_termination"
+            ],
+            "live_inter_repo_delivery_attested": False,
+            "all_44_materialized": False,
+            "full_issue_162_closed_loop": False,
+            "source_writeback": False,
+            "external_model_invoked": False,
+            "rowan_credits_spent": 0,
+            "authority_delta": 0
+          }
+          Path(os.environ["RUNNER_TEMP"], "nexus-current-demihead-proof.json").write_text(
+              json.dumps(payload, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+          PY
+          echo 'NEXUS_CURRENT_DEMIHEAD_TRANSPORT_PROOF=SCOPED_PASS'
+
+      - name: Archive source-bound non-authoritative proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-nexus-current-demihead-transport-proof
+          path: ${{ runner.temp }}/nexus-current-demihead-proof.json
+          if-no-files-found: warn
+          retention-days: 30
