@@ -95,6 +95,7 @@ class TestCloudAcquirerV2Security(unittest.TestCase):
         for worker in (a, b):
             self.assertIn("github.event_name == 'workflow_dispatch'", worker)
             self.assertIn("github.event_name == 'schedule'", worker)
+            self.assertIn("github.event_name == 'push'", worker)
             self.assertIn("github.ref == 'refs/heads/main'", worker)
             self.assertIn("github.repository == 'Hawkar-usls/Janus_Genesis'", worker)
         self.assertIn("if: always()", jobs.split("  verdict:\n", 1)[1])
@@ -106,6 +107,7 @@ class TestCloudAcquirerV2Security(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/janus-real44-cloud-materialization-v2.yml").read_text()
         self.assertIn("  pull_request:", workflow)
         self.assertIn("    - cron: '19 3 * * 1'", workflow)
+        self.assertIn("    branches: [main]", workflow)
         offline = workflow.split("  offline-contract:", 1)[1].split("  worker-a:", 1)[0]
         self.assertNotIn("secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN", offline)
         self.assertIn("github.ref == 'refs/heads/main'", workflow.split("  worker-a:",1)[1])
