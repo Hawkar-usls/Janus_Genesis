@@ -85,7 +85,7 @@ class TestCloudAcquirerV2Security(unittest.TestCase):
         self.assertEqual(str(error.exception), "PRIVATE_CLONE_FAILED")
         self.assertNotIn("org/opaque", str(error.exception))
 
-    def test_workflow_requires_trusted_dispatch_for_private_workers(self):
+    def test_workflow_requires_trusted_main_for_private_workers(self):
         workflow = (ROOT / ".github/workflows/janus-real44-cloud-materialization-v2.yml").read_text()
         head, jobs = workflow.split("\njobs:\n", 1)
         self.assertNotIn("secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN", head)
@@ -94,12 +94,22 @@ class TestCloudAcquirerV2Security(unittest.TestCase):
         b = jobs.split("  worker-b:\n", 1)[1].split("  verdict:\n", 1)[0]
         for worker in (a, b):
             self.assertIn("github.event_name == 'workflow_dispatch'", worker)
+            self.assertIn("github.event_name == 'schedule'", worker)
             self.assertIn("github.ref == 'refs/heads/main'", worker)
             self.assertIn("github.repository == 'Hawkar-usls/Janus_Genesis'", worker)
         self.assertIn("if: always()", jobs.split("  verdict:\n", 1)[1])
         self.assertNotIn("secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN", jobs.split("  offline-contract:\n", 1)[1].split("  worker-a:\n", 1)[0])
         self.assertIn("persist-credentials: false", a)
         self.assertIn("persist-credentials: false", b)
+
+    def test_weekly_proof_does_not_expose_private_credentials_on_pr(self):
+        workflow = (ROOT / ".github/workflows/janus-real44-cloud-materialization-v2.yml").read_text()
+        self.assertIn("  pull_request:", workflow)
+        self.assertIn("    - cron: '19 3 * * 1'", workflow)
+        offline = workflow.split("  offline-contract:", 1)[1].split("  worker-a:", 1)[0]
+        self.assertNotIn("secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN", offline)
+        self.assertIn("github.ref == 'refs/heads/main'", workflow.split("  worker-a:",1)[1])
+        self.assertIn("github.ref == 'refs/heads/main'", workflow.split("  worker-b:",1)[1])
 
     def test_no_credential_fails_closed_before_network(self):
         with patch.dict(os.environ, {"JANUS_NEXUS_PRIVATE_READ_TOKEN": ""}):
