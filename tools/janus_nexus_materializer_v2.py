@@ -195,7 +195,7 @@ def _inert_entry_bytes(checkout: Path, object_sha: str, git_mode: str) -> bytes:
     if git_mode == INERT_GITLINK_MODE:
         if not FULL_SHA.fullmatch(object_sha):
             raise NexusMaterializerError("NEXUS_GITLINK_COMMIT_SHA_INVALID")
-        return b"JANUS_INERT_GITLINK_V1\\n" + object_sha.encode("ascii") + b"\\n"
+        return b"JANUS_INERT_GITLINK_V1\n" + object_sha.encode("ascii") + b"\n"
     if git_mode not in REGULAR_BLOB_MODES and git_mode != INERT_SYMLINK_MODE:
         raise NexusMaterializerError("NEXUS_UNSUPPORTED_GIT_OBJECT_MODE")
     return _git(checkout, "cat-file", "blob", object_sha)
