@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'tools/janus_nexus_cloud_acquire_v2.py'
+      - 'tools/janus_nexus_frozen_snapshot_v1.py'
+      - 'tests/test_janus_nexus_frozen_snapshot_v1.py'
       - 'tools/janus_nexus_materializer_v2.py'
       - 'tests/test_janus_nexus_materializer_v2.py'
       - 'protocol/JANUS_REAL44_CLOUD_MATERIALIZATION-v2.0.json'
@@ -16,6 +18,8 @@ on:
     branches: [main]
     paths:
       - 'tools/janus_nexus_cloud_acquire_v2.py'
+      - 'tools/janus_nexus_frozen_snapshot_v1.py'
+      - 'tests/test_janus_nexus_frozen_snapshot_v1.py'
       - 'tools/janus_nexus_materializer_v2.py'
       - 'tests/test_janus_nexus_materializer_v2.py'
       - 'protocol/JANUS_REAL44_CLOUD_MATERIALIZATION-v2.0.json'
@@ -51,7 +55,9 @@ jobs:
           PYTHONDONTWRITEBYTECODE: '1'
         run: |
           set -euo pipefail
-          python -m py_compile tools/janus_nexus_cloud_acquire_v2.py tools/janus_nexus_materializer_v2.py
+          python -m pip install --disable-pip-version-check cryptography==43.0.3
+          python -m py_compile tools/janus_nexus_cloud_acquire_v2.py tools/janus_nexus_materializer_v2.py tools/janus_nexus_frozen_snapshot_v1.py
+          python -m unittest -v tests.test_janus_nexus_frozen_snapshot_v1
           python -m unittest -v tests.test_janus_nexus_cloud_acquire_v2
           python -m unittest -v tests.test_janus_nexus_materializer_v2
           python tools/audit_armor_effect_drift_v18_7_50.py > "$RUNNER_TEMP/armor-inventory-50.json"
@@ -94,6 +100,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Install pinned authenticated snapshot cipher
+        run: python -m pip install --disable-pip-version-check cryptography==43.0.3
 
       - name: Verify no-PC contract and credential presence
         id: gate
@@ -229,6 +238,24 @@ jobs:
             fi
           fi
 
+          # Transfer only an authenticated encrypted one-run snapshot. The
+          # plain Git pins and private repository IDs never enter artifacts.
+          if [ "$materialized" = true ]; then
+            rc=0
+            python tools/janus_nexus_frozen_snapshot_v1.py seal \
+              --manifest "$manifest" \
+              --encrypted "$RUNNER_TEMP/real44-a-frozen.aead.json" \
+              --run-id "$GITHUB_RUN_ID" \
+              >/dev/null 2>"$RUNNER_TEMP/seal-a.err" || rc=$?
+            if [ "$rc" -ne 0 ]; then
+              hold='WORKER_A_FROZEN_SNAPSHOT_SEAL_HOLD'
+              materialized='false'
+              nonce=''
+              commitment=''
+              rm -f "$RUNNER_TEMP/real44-a-frozen.aead.json"
+            fi
+          fi
+
           python - "$public" "$materialized" "$hold" <<'PY'
           import json,sys
           from pathlib import Path
@@ -265,7 +292,7 @@ jobs:
           echo "commitment_nonce=$nonce" >> "$GITHUB_OUTPUT"
           echo "nexus_commitment=$commitment" >> "$GITHUB_OUTPUT"
           echo "hold_class=$hold" >> "$GITHUB_OUTPUT"
-          rm -rf "$sources" "$nexus" "$manifest" "$RUNNER_TEMP/role-audit.json" "$RUNNER_TEMP/janus_nexus_materializer.py" "$RUNNER_TEMP/acquire-a.err" "$RUNNER_TEMP/materialize-a.err" "$RUNNER_TEMP/verify-a.err"
+          rm -rf "$sources" "$nexus" "$manifest" "$RUNNER_TEMP/role-audit.json" "$RUNNER_TEMP/janus_nexus_materializer.py" "$RUNNER_TEMP/acquire-a.err" "$RUNNER_TEMP/materialize-a.err" "$RUNNER_TEMP/verify-a.err" "$RUNNER_TEMP/seal-a.err"
           if [ "$materialized" = true ]; then
             echo 'REAL44_WORKER_A_MATERIALIZATION=PASS'
           else
@@ -289,6 +316,15 @@ jobs:
             "authority_delta":0
           }
           EOF
+
+      - name: Transfer only authenticated encrypted A-frozen source pins
+        if: steps.materialize.outputs.materialized == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-real44-a-frozen-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/real44-a-frozen.aead.json
+          if-no-files-found: error
+          retention-days: 1
 
       - name: Upload privacy-safe worker A receipt
         if: always()
@@ -316,6 +352,14 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install pinned authenticated snapshot cipher
+        run: python -m pip install --disable-pip-version-check cryptography==43.0.3
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: janus-real44-a-frozen-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}
+
       - name: Prepare exact producer primitives independently
         shell: bash
         run: |
@@ -342,14 +386,25 @@ jobs:
           hold='NONE'
           match='false'
 
+          # The ciphertext belongs to this exact Actions run. A and B
+          # independently clone the very same pinned Git objects, never HEAD.
           rc=0
-          python tools/janus_nexus_cloud_acquire_v2.py fresh \
-            --audit "$RUNNER_TEMP/role-audit.json" \
+          python tools/janus_nexus_frozen_snapshot_v1.py open \
             --manifest "$manifest" \
-            --sources-root "$sources" \
-            >/dev/null 2>"$RUNNER_TEMP/acquire-b.err" || rc=$?
+            --encrypted "$RUNNER_TEMP/real44-a-frozen.aead.json" \
+            --run-id "$GITHUB_RUN_ID" \
+            >/dev/null 2>"$RUNNER_TEMP/open-b.err" || rc=$?
+          if [ "$rc" -eq 0 ]; then
+            python tools/janus_nexus_cloud_acquire_v2.py frozen \
+              --manifest "$manifest" --sources-root "$sources" \
+              >/dev/null 2>"$RUNNER_TEMP/acquire-b.err" || rc=$?
+          else
+            hold='WORKER_B_FROZEN_SNAPSHOT_AUTHENTICATION_HOLD'
+          fi
           if [ "$rc" -ne 0 ]; then
-            hold='WORKER_B_SOURCE_ACQUISITION_HOLD'
+            if [ "$hold" = 'NONE' ]; then
+              hold='WORKER_B_SOURCE_ACQUISITION_HOLD'
+            fi
             # Classify only static error codes. No raw logs, token, source ID,
             # private name or repository metadata enter public receipts.
             safe_code="$(grep -Eo 'ACQUISITION_HOLD:[A-Z_]+' "$RUNNER_TEMP/acquire-b.err" | head -n 1 || true)"
@@ -443,7 +498,7 @@ jobs:
           PY
           echo "match=$match" >> "$GITHUB_OUTPUT"
           echo "hold_class=$hold" >> "$GITHUB_OUTPUT"
-          rm -rf "$sources" "$nexus" "$manifest" "$RUNNER_TEMP/role-audit.json" "$RUNNER_TEMP/janus_nexus_materializer.py" "$RUNNER_TEMP/acquire-b.err" "$RUNNER_TEMP/materialize-b.err" "$RUNNER_TEMP/verify-b.err"
+          rm -rf "$sources" "$nexus" "$manifest" "$RUNNER_TEMP/real44-a-frozen.aead.json" "$RUNNER_TEMP/open-b.err" "$RUNNER_TEMP/role-audit.json" "$RUNNER_TEMP/janus_nexus_materializer.py" "$RUNNER_TEMP/acquire-b.err" "$RUNNER_TEMP/materialize-b.err" "$RUNNER_TEMP/verify-b.err"
           if [ "$match" = true ]; then
             echo 'REAL44_TWO_CLEAN_CLOUD_REBUILDS_MATCH=PASS'
           else
