@@ -145,7 +145,7 @@ if __name__ == "__main__":
         self.assertIn("ACQUISITION_HOLD:[A-Z_]+", workflow)
         # A failed command in the compound OR branch is still observable
         # even under the -e/pipefail flags used by GitHub Actions.
-        script = "set -euo pipefail; rc=0; false || rc=$?; test \\"$rc\\" -eq 1; echo HOLD"
+        script = 'set -euo pipefail; rc=0; false || rc=$?; test "$rc" -eq 1; echo HOLD'
         result = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
                                 text=True, capture_output=True, check=True)
         self.assertEqual(result.stdout.strip(), "HOLD")
