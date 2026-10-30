@@ -51,12 +51,22 @@
   },
   "replay": {
     "worker_a": "FRESH_FREEZE_PLUS_MATERIALIZE_VERIFY",
-    "worker_b": "INDEPENDENT_FRESH_REACQUISITION_AND_NEXUS_DIGEST_COMMITMENT_COMPARISON",
-    "encrypted_interworker_payload": "NOT_IMPLEMENTED__WORKER_B_REACQUIRES_FRESH_SOURCES",
-    "encryption_key_source": "NOT_APPLICABLE_NO_INTERWORKER_MANIFEST_TRANSFER",
+    "worker_b": "INDEPENDENT_CLONE_OF_WORKER_A_FROZEN_GIT_PINS_AUTHENTICATED_VIA_AES256_GCM_AND_PER_RUN_HKDF",
+    "encrypted_interworker_payload": "AES_256_GCM_AUTHENTICATED_ONE_RUN_ENCRYPTED_MANIFEST_ONLY__NO_PLAINTEXT_ARTIFACT",
+    "encryption_key_source": "HKDF_SHA256_OF_EXISTING_SCOPED_PRIVATE_READ_TOKEN_WITH_RANDOM_SALT_AND_RUN_ID__NOT_PERSISTED",
     "clear_private_manifest_artifact": false,
     "two_rebuilds_must_match": true,
-    "source_head_drift": "HOLD_SOURCE_HEAD_DRIFT"
+    "source_head_drift": "HOLD_SOURCE_HEAD_DRIFT",
+    "cipher_dependency": "cryptography==43.0.3_GITHUB_RUNNER",
+    "encrypted_artifact_retention_days": 1,
+    "reuses_b_clones_of_frozen_git_sha": true,
+    "frozen_pin_unavailable": "HOLD_FROZEN_COMMIT_UNAVAILABLE_NOT_FALLBACK_TO_MOVED_HEAD",
+    "no_plain_private_source_ids_or_sha_in_public_outputs": true,
+    "private_manifest_not_stored_as_plaintext_artifact": true,
+    "no_key_rotation_between_workers": true,
+    "key_not_in_actions_outputs": true,
+    "a_and_b_replay_same_frozen_head": true,
+    "code_execution_authority": false
   },
   "public_projection": {
     "private_repository_names": false,
