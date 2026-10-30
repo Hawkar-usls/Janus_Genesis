@@ -24,7 +24,16 @@
     "credential_material_logged": false,
     "pc_fallback": false,
     "private_read_secret_exposed_to_pull_request": false,
-    "secret_scope": "TRUSTED_MAIN_PUSH_OR_WEEKLY_SCHEDULE_OR_WORKFLOW_DISPATCH__ACQUISITION_STEPS_ONLY"
+    "secret_scope": "TRUSTED_MAIN_PUSH_OR_WEEKLY_SCHEDULE_OR_WORKFLOW_DISPATCH__ACQUISITION_STEPS_ONLY",
+    "post_provisioning_gate": {
+      "status": "OPERATOR_REPORTS_SECRET_INSTALLED__TRUSTED_MAIN_PROOF_REQUIRED",
+      "observed_secret_value": false,
+      "required_evidence": "WORKER_A_AND_B_REAL_CLOUD_SOURCE_MATERIALIZATION_PLUS_PRIVACY_SAFE_VERDICT",
+      "no_secret_value_stored": true,
+      "fail_closed_on_missing_or_invalid_read_access": true,
+      "source_authority_delta": 0,
+      "rowan_credit_authority_delta": 0
+    }
   },
   "acquisition": {
     "public_sources": "SHALLOW_FULL_TREE_GIT_CLONE_NO_PARTIAL_FILTER",
