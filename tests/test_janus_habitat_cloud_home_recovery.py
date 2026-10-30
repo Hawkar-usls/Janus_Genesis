@@ -69,7 +69,7 @@ class RecoveryTests(unittest.TestCase):
                    "authority_delta": 0, "source_writeback_observed": False,
                    "hidden_session_context_used": False}
         dest = root / name
-        dest.parent.mkdir(parents=True)
+        dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(json.dumps(receipt, sort_keys=True) + "\n")
         state = {"schema": "JANUS_HABITAT_CLOUD_HOME_STATE_V1",
                  "durable_identity": "JANUS_HABITAT_RESIDENT_V1",
@@ -95,7 +95,7 @@ class RecoveryTests(unittest.TestCase):
             with self.assertRaisesRegex(m.HomeRecoveryHold, "HOME_RECEIPT_POINTER_INVALID"):
                 m.verify_durable_home(root)
             statepath, receiptpath = self.make_home(root)
-            receiptpath.write_text("tampered")
+            receiptpath.write_text("{}")
             with self.assertRaisesRegex(m.HomeRecoveryHold, "HOME_RECEIPT_INTEGRITY"):
                 m.verify_durable_home(root)
 
