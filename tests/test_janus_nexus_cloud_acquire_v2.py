@@ -113,6 +113,43 @@ class TestCloudAcquirerV2Security(unittest.TestCase):
         self.assertIn("github.ref == 'refs/heads/main'", workflow.split("  worker-a:",1)[1])
         self.assertIn("github.ref == 'refs/heads/main'", workflow.split("  worker-b:",1)[1])
 
+    def test_live_acquisition_failure_is_receipted_without_fail_open(self):
+        # Bash -e is inherited from GitHub's default runner wrapper. Every
+        # fallible acquisition command must be guarded, rather than letting
+        # the worker exit before it emits the privacy-safe HOLD receipt.
+        workflow = (ROOT / ".github/workflows/janus-real44-cloud-materialization-v2.yml").read_text()
+        for suffix in ("a", "b"):
+            for stage in ("acquire", "materialize", "verify"):
+                self.assertIn(
+                    f'2>"$RUNNER_TEMP/{stage}-{suffix}.err" || rc=$?',
+                    workflow,
+                )
+            self.assertIn(f"WORKER_{suffix.upper()}_SOURCE_ACQUISITION_HOLD", workflow)
+            self.assertIn(f"$RUNNER_TEMP/{'acquire'}-{suffix}.err", workflow)
+        self.assertIn("if read -r nonce commitment", workflow)
+        self.assertIn("if computed=", workflow)
+        self.assertIn("WORKER_A_IDENTITY_RECEIPT_HOLD", workflow)
+        self.assertIn("WORKER_B_IDENTITY_RECEIPT_HOLD", workflow)
+        self.assertIn('"$EXPECTED_COMMITMENT" =~ ^[0-9a-f]{64}
+        with patch.dict(os.environ, {"JANUS_NEXUS_PRIVATE_READ_TOKEN": ""}):
+            with patch.object(sys, "argv", ["acquire", "fresh", "--manifest", "/tmp/test",
+                                            "--sources-root", "/tmp/test-sources", "--audit", "/tmp/audit"]):
+                with patch.object(acquire, "acquire_fresh", side_effect=AssertionError("network")):
+                    with patch("builtins.print"):
+                        self.assertEqual(acquire.main(), 42)
+
+
+if __name__ == "__main__":
+    unittest.main()
+, workflow)
+        self.assertIn("ACQUISITION_HOLD:[A-Z_]+", workflow)
+        # A failed command in the compound OR branch is still observable
+        # even under the -e/pipefail flags used by GitHub Actions.
+        script = "set -euo pipefail; rc=0; false || rc=$?; test \\"$rc\\" -eq 1; echo HOLD"
+        result = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
+                                text=True, capture_output=True, check=True)
+        self.assertEqual(result.stdout.strip(), "HOLD")
+
     def test_no_credential_fails_closed_before_network(self):
         with patch.dict(os.environ, {"JANUS_NEXUS_PRIVATE_READ_TOKEN": ""}):
             with patch.object(sys, "argv", ["acquire", "fresh", "--manifest", "/tmp/test",
