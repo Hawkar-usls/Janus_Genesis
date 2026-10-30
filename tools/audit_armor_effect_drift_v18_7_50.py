@@ -48,6 +48,10 @@ SURFACE_CLASSIFICATIONS = (
     ("genesis_v18_7_network.py", "LEGACY_DIRECT_NETWORK_ADAPTER"),
     ("genesis_v18_7_38_durable_network_outbox.py", "LEGACY_DURABLE_NETWORK_ADAPTER"),
     ("janus_genesis.py", "LEGACY_ROOT_GEMINI_NARRATOR_EGRESS"),
+    (
+        "tools/janus_nexus_cloud_acquire_v2.py",
+        "EXPLICIT_DISPATCH_ONLY_READ_ONLY_CLOUD_SOURCE_ACQUISITION_NOT_ARMOR_ADMITTED",
+    ),
     ("tools/janus_habitat_process_death_gauntlet_v1.py", "CONTROLLED_FRESH_PROCESS_DEATH_GAUNTLET"),
     (
         "tools/janus_handoff_reliability_reference_gauntlet.py",
