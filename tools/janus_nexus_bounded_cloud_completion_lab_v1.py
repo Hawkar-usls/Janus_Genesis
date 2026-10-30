@@ -150,6 +150,10 @@ def _validate_a(root: Path, run_id: str) -> tuple[Path, dict[str, Any], dict[str
     pass_rows = [r for r in rows if r.get("test_result") == "PASS_LAB_DETERMINISTIC"]
     fail_rows = [r for r in rows if r.get("test_result") == "FAIL_LAB_SOURCE_DIGEST_MISMATCH"]
     expect(len(pass_rows) == len(fail_rows) == 1 and
+           pass_rows[0].get("input_sha256") == sha({"source": state["source"], "event": state["event_id"]}) and
+           fail_rows[0].get("input_sha256") != sha({"source": state["source"], "event": state["event_id"]}) and
+           pass_rows[0].get("bounded_mutation") == "NO_EXTERNAL_EFFECT" and
+           fail_rows[0].get("bounded_mutation") == "INTENTIONAL_SOURCE_DIGEST_MISMATCH" and
            fail_rows[0].get("retained") is True and
            variants.get("selected_variant_id") == pass_rows[0].get("variant_id") and
            variants.get("failed_variant_ids") == [fail_rows[0].get("variant_id")],
@@ -212,6 +216,8 @@ def inspect(root: Path, run_id: str, a_git_commit: str) -> dict[str, Any]:
             "g1_to_g20_full_acceptance": False,
             "full_issue_162_acceptance": False,
             "source_writeback": False,
+            "dedicated_lab_branch_write": True,
+            "production_source_files_modified": False,
             "authority_delta": 0}
 
 
