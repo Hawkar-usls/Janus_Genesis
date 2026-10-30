@@ -17,8 +17,8 @@ import re
 
 WORKFLOW = ".github/workflows/janus-habitat-cloud-home-v1.yml"
 HOME_STATE = "state/habitat_cloud_home/STATE.json"
-RECEIPT = re.compile(r"state/habitat_cloud_home/receipts/[0-9]{8}-[0-9]{5,}-[1-9][0-9]*\\.json\\Z")
-SHA = re.compile(r"[0-9a-f]{64}\\Z")
+RECEIPT = re.compile(r"state/habitat_cloud_home/receipts/[0-9]{8}-[0-9]{5,}-[1-9][0-9]*\.json\Z")
+SHA = re.compile(r"[0-9a-f]{64}\Z")
 LAST_ATTEMPT_SECONDS = 75 * 60
 LAST_SUCCESS_SECONDS = 90 * 60
 ALLOWED_EVENTS = frozenset({"schedule", "workflow_dispatch", "push", "workflow_run"})
