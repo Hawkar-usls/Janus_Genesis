@@ -64,6 +64,9 @@ jobs:
               assert rows['unclassified_surface_count']==0, version
               target=rows['surfaces']['tools/janus_nexus_cloud_acquire_v2.py']
               assert target['classification']=='EXPLICIT_DISPATCH_ONLY_READ_ONLY_CLOUD_SOURCE_ACQUISITION_NOT_ARMOR_ADMITTED'
+              inert=rows['surfaces']['tools/janus_nexus_materializer_v2.py']
+              assert inert['classification']=='TRUSTED_CLOUD_INERT_GIT_SOURCE_MATERIALIZATION_NOT_ARMOR_ADMITTED'
+              assert 'subprocess.check_output' in inert['calls']
               assert 'subprocess.run' in target['calls']
               assert 'subprocess.check_output' in target['calls']
               assert rows['classification_is_security_certification'] is False
