@@ -8,6 +8,14 @@ on:
       - 'protocol/JANUS_REAL44_CLOUD_MATERIALIZATION-v2.0.json'
       - '.github/workflows/janus-real44-cloud-materialization-v2.yml'
   workflow_dispatch:
+  # On trusted main updates to this gate, automatically test the real cloud
+  # capability once; a PR never runs secret-bearing workers.
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_cloud_acquire_v2.py'
+      - 'protocol/JANUS_REAL44_CLOUD_MATERIALIZATION-v2.0.json'
+      - '.github/workflows/janus-real44-cloud-materialization-v2.yml'
   # Weekly bounded read-only cloud proof. Private work runs only on trusted main
   # and only with pre-provisioned least-privilege credential; no PC/NAS fallback.
   schedule:
@@ -60,7 +68,7 @@ jobs:
 
   worker-a:
     needs: offline-contract
-    if: (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    if: (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'push') && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     outputs:
@@ -258,7 +266,7 @@ jobs:
 
   worker-b:
     needs: worker-a
-    if: (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis' && needs.worker-a.outputs.credential_available == 'true' && needs.worker-a.outputs.materialized == 'true'
+    if: (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'push') && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis' && needs.worker-a.outputs.credential_available == 'true' && needs.worker-a.outputs.materialized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     outputs:
@@ -396,7 +404,7 @@ jobs:
 
   verdict:
     needs: [offline-contract, worker-a, worker-b]
-    if: always() && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    if: always() && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'push') && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
     runs-on: ubuntu-24.04
     steps:
       - name: Emit strict real-44 cloud gate
