@@ -1,0 +1,236 @@
+name: JANUS Nexus Bounded Two Cloud Writer Lab v1
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_bounded_cloud_completion_lab_v1.py'
+      - 'tests/test_janus_nexus_bounded_cloud_completion_lab_v1.py'
+      - '.github/workflows/janus-nexus-bounded-two-cloud-writer-lab-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_bounded_cloud_completion_lab_v1.py'
+      - 'tests/test_janus_nexus_bounded_cloud_completion_lab_v1.py'
+      - '.github/workflows/janus-nexus-bounded-two-cloud-writer-lab-v1.yml'
+  schedule:
+    - cron: '29 5 * * 4'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-nexus-bounded-cloud-lab-single-writer
+  cancel-in-progress: false
+
+jobs:
+  offline-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reject forged source proof, tampering, duplicates, false authority
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/janus_nexus_bounded_cloud_completion_lab_v1.py
+          python -m unittest discover -s tests -p 'test_janus_nexus_bounded_cloud_completion_lab_v1.py' -v
+
+  worker-a:
+    needs: offline-tests
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    outputs:
+      a_head: ${{ steps.commit.outputs.a_head }}
+    steps:
+      - name: Checkout exact trusted Genesis code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - name: Checkout isolated lab state branch (never production HOME)
+        uses: actions/checkout@v4
+        with:
+          ref: janus/nexus-closed-loop-lab-state
+          path: _state
+          fetch-depth: 1
+      - name: Checkout independently archived frozen REAL44 public source proof
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          ref: 1890e53267a84f84540c7aeedd50236137d50108
+          path: _registry
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Bind real44 source witness and durably stage tested/rejected variants
+        shell: bash
+        run: |
+          set -euo pipefail
+          python _code/tools/janus_nexus_bounded_cloud_completion_lab_v1.py a \
+            --root _state --run-id "$GITHUB_RUN_ID" --code-sha "$GITHUB_SHA" \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json
+          test ! -e _state/data/nexus_closed_loop_lab/runs/"$GITHUB_RUN_ID"/worker-b.json
+      - name: Commit only new lab receipts to isolated git state branch
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd _state
+          git config user.name 'janus-nexus-lab[bot]'
+          git config user.email 'janus-nexus-lab[bot]@users.noreply.github.com'
+          git add "data/nexus_closed_loop_lab/runs/$GITHUB_RUN_ID/"
+          git diff --cached --check
+          python - <<'PY'
+          import os, subprocess
+          allowed="data/nexus_closed_loop_lab/runs/"+os.environ["GITHUB_RUN_ID"]+"/"
+          changed=subprocess.check_output(["git", "diff", "--cached", "--name-only"], text=True).splitlines()
+          assert sorted(changed)==sorted([allowed+"variants.json", allowed+"checkpoint.json", allowed+"worker-a.json"])
+          PY
+          git commit -m "JANUS bounded lab A checkpoint for $GITHUB_RUN_ID"
+          git push origin HEAD:refs/heads/janus/nexus-closed-loop-lab-state
+          A_HEAD="$(git rev-parse HEAD)"
+          echo "a_head=$A_HEAD" >> "$GITHUB_OUTPUT"
+          echo 'LAB_A_CHECKPOINT_DURABLE=PASS'
+      - name: Kill restarted worker A child after durable git state exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          rc=0
+          python _code/tools/janus_nexus_bounded_cloud_completion_lab_v1.py death \
+            --root _state --run-id "$GITHUB_RUN_ID" || rc=$?
+          test "$rc" -eq 77
+          echo 'LAB_A_PROCESS_DEATH_AFTER_DURABLE_CHECKPOINT=PASS'
+
+  worker-b:
+    needs: worker-a
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    outputs:
+      b_head: ${{ steps.commit.outputs.b_head }}
+    steps:
+      - name: Independently checkout only pinned source code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - name: New cloud worker fetches exactly worker-A persisted git commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.worker-a.outputs.a_head }}
+          path: _state
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Consume durable handoff once and reject duplicate completion
+        shell: bash
+        env:
+          EXPECTED_A_HEAD: ${{ needs.worker-a.outputs.a_head }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _state rev-parse HEAD)" = "$EXPECTED_A_HEAD"
+          test "$(git -C _state ls-remote origin refs/heads/janus/nexus-closed-loop-lab-state | cut -f1)" = "$EXPECTED_A_HEAD"
+          python _code/tools/janus_nexus_bounded_cloud_completion_lab_v1.py b \
+            --root _state --run-id "$GITHUB_RUN_ID" --a-git-commit "$EXPECTED_A_HEAD"
+          python _code/tools/janus_nexus_bounded_cloud_completion_lab_v1.py b \
+            --root _state --run-id "$GITHUB_RUN_ID" --a-git-commit "$EXPECTED_A_HEAD" \
+            | grep -Fx 'LAB_WORKER_B_COMPLETION=IDEMPOTENT_EXISTING'
+      - name: Append exactly one completion to isolated durable git branch
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd _state
+          git config user.name 'janus-nexus-lab[bot]'
+          git config user.email 'janus-nexus-lab[bot]@users.noreply.github.com'
+          git add "data/nexus_closed_loop_lab/runs/$GITHUB_RUN_ID/worker-b.json"
+          git diff --cached --check
+          python - <<'PY'
+          import os,subprocess
+          allowed="data/nexus_closed_loop_lab/runs/"+os.environ["GITHUB_RUN_ID"]+"/worker-b.json"
+          changed=subprocess.check_output(["git","diff","--cached","--name-only"],text=True).splitlines()
+          assert changed==[allowed],changed
+          PY
+          git commit -m "JANUS bounded lab B exactly-once completion for $GITHUB_RUN_ID"
+          git push origin HEAD:refs/heads/janus/nexus-closed-loop-lab-state
+          echo "b_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo 'LAB_B_COMPLETE_ONCE_DURABLE=PASS'
+
+  independent-verdict:
+    needs: [offline-tests, worker-a, worker-b]
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact workflow source without push rights
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - name: Checkout worker B completed immutable source state
+        if: needs.worker-b.result == 'success'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.worker-b.outputs.b_head }}
+          path: _state
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exact source, checkpoint chain, retained loser and one completion
+        if: needs.worker-b.result == 'success'
+        shell: bash
+        env:
+          EXPECTED_A_HEAD: ${{ needs.worker-a.outputs.a_head }}
+        run: |
+          set -euo pipefail
+          python _code/tools/janus_nexus_bounded_cloud_completion_lab_v1.py inspect \
+            --root _state --run-id "$GITHUB_RUN_ID" --a-git-commit "$EXPECTED_A_HEAD" \
+            --output "$RUNNER_TEMP/nexus-lab-independent-proof.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=json.loads((Path(os.environ["RUNNER_TEMP"])/"nexus-lab-independent-proof.json").read_text())
+          assert p["status"]=="PASS_LAB_TWO_CLEAN_CLOUD_WORKERS_ONLY"
+          assert p["failed_variant_retained"] is True
+          assert p["g1_to_g20_full_acceptance"] is False
+          assert p["live_cross_organ_receiver_consumption"] is False
+          assert p["full_issue_162_acceptance"] is False
+          assert p["source_writeback"] is False
+          assert p["authority_delta"]==0
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: janus-nexus-bounded-two-cloud-lab-${{ github.run_id }}
+          path: ${{ runner.temp }}/nexus-lab-independent-proof.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Fail closed unless independently verified
+        shell: bash
+        env:
+          A_RESULT: ${{ needs.worker-a.result }}
+          B_RESULT: ${{ needs.worker-b.result }}
+        run: |
+          set -euo pipefail
+          test "$A_RESULT" = success
+          test "$B_RESULT" = success
+          test -f "$RUNNER_TEMP/nexus-lab-independent-proof.json"
+          echo 'NEXUS_BOUNDED_TWO_CLOUD_WRITERS=PASS_SCOPED_LAB_ONLY'
