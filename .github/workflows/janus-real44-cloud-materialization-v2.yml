@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'tools/janus_nexus_cloud_acquire_v2.py'
+      - 'tools/janus_nexus_materializer_v2.py'
+      - 'tests/test_janus_nexus_materializer_v2.py'
       - 'protocol/JANUS_REAL44_CLOUD_MATERIALIZATION-v2.0.json'
       - '.github/workflows/janus-real44-cloud-materialization-v2.yml'
   workflow_dispatch:
@@ -14,6 +16,8 @@ on:
     branches: [main]
     paths:
       - 'tools/janus_nexus_cloud_acquire_v2.py'
+      - 'tools/janus_nexus_materializer_v2.py'
+      - 'tests/test_janus_nexus_materializer_v2.py'
       - 'protocol/JANUS_REAL44_CLOUD_MATERIALIZATION-v2.0.json'
       - '.github/workflows/janus-real44-cloud-materialization-v2.yml'
   # Weekly bounded read-only cloud proof. Private work runs only on trusted main
@@ -47,8 +51,9 @@ jobs:
           PYTHONDONTWRITEBYTECODE: '1'
         run: |
           set -euo pipefail
-          python -m py_compile tools/janus_nexus_cloud_acquire_v2.py
+          python -m py_compile tools/janus_nexus_cloud_acquire_v2.py tools/janus_nexus_materializer_v2.py
           python -m unittest -v tests.test_janus_nexus_cloud_acquire_v2
+          python -m unittest -v tests.test_janus_nexus_materializer_v2
           python tools/audit_armor_effect_drift_v18_7_50.py > "$RUNNER_TEMP/armor-inventory-50.json"
           python tools/audit_armor_effect_drift_v18_7_51.py > "$RUNNER_TEMP/armor-inventory-51.json"
           python - <<'PY'
@@ -59,6 +64,9 @@ jobs:
               assert rows['unclassified_surface_count']==0, version
               target=rows['surfaces']['tools/janus_nexus_cloud_acquire_v2.py']
               assert target['classification']=='EXPLICIT_DISPATCH_ONLY_READ_ONLY_CLOUD_SOURCE_ACQUISITION_NOT_ARMOR_ADMITTED'
+              inert=rows['surfaces']['tools/janus_nexus_materializer_v2.py']
+              assert inert['classification']=='TRUSTED_CLOUD_INERT_GIT_SOURCE_MATERIALIZATION_NOT_ARMOR_ADMITTED'
+              assert 'subprocess.check_output' in inert['calls']
               assert 'subprocess.run' in target['calls']
               assert 'subprocess.check_output' in target['calls']
               assert rows['classification_is_security_certification'] is False
@@ -167,18 +175,30 @@ jobs:
             esac
           else
             rc=0
-            python "$RUNNER_TEMP/janus_nexus_materializer.py" \
+            python tools/janus_nexus_materializer_v2.py \
               --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" materialize \
               >/dev/null 2>"$RUNNER_TEMP/materialize-a.err" || rc=$?
             if [ "$rc" -ne 0 ]; then
               hold='WORKER_A_MATERIALIZER_HOLD'
+                # Only bounded static error class enters the public receipt.
+                # This rejects any private paths/IDs and raw provider output.
+                safe_code="$(grep -Eo 'NEXUS_[A-Z_]+' "$RUNNER_TEMP/materialize-a.err" | head -n 1 || true)"
+                case "$safe_code" in
+                  NEXUS_*) hold="${hold}_${safe_code}" ;;
+                esac
             else
               rc=0
-              python "$RUNNER_TEMP/janus_nexus_materializer.py" \
+              python tools/janus_nexus_materializer_v2.py \
                 --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" verify \
                 >/dev/null 2>"$RUNNER_TEMP/verify-a.err" || rc=$?
               if [ "$rc" -ne 0 ]; then
                 hold='WORKER_A_VERIFY_HOLD'
+                # Only bounded static error class enters the public receipt.
+                # This rejects any private paths/IDs and raw provider output.
+                safe_code="$(grep -Eo 'NEXUS_[A-Z_]+' "$RUNNER_TEMP/verify-a.err" | head -n 1 || true)"
+                case "$safe_code" in
+                  NEXUS_*) hold="${hold}_${safe_code}" ;;
+                esac
               else
                 if read -r nonce commitment < <(python - <<'PY'
           import hashlib, json, secrets, os
@@ -339,18 +359,30 @@ jobs:
             esac
           else
             rc=0
-            python "$RUNNER_TEMP/janus_nexus_materializer.py" \
+            python tools/janus_nexus_materializer_v2.py \
               --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" materialize \
               >/dev/null 2>"$RUNNER_TEMP/materialize-b.err" || rc=$?
             if [ "$rc" -ne 0 ]; then
               hold='WORKER_B_MATERIALIZER_HOLD'
+                # Only bounded static error class enters the public receipt.
+                # This rejects any private paths/IDs and raw provider output.
+                safe_code="$(grep -Eo 'NEXUS_[A-Z_]+' "$RUNNER_TEMP/materialize-b.err" | head -n 1 || true)"
+                case "$safe_code" in
+                  NEXUS_*) hold="${hold}_${safe_code}" ;;
+                esac
             else
               rc=0
-              python "$RUNNER_TEMP/janus_nexus_materializer.py" \
+              python tools/janus_nexus_materializer_v2.py \
                 --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" verify \
                 >/dev/null 2>"$RUNNER_TEMP/verify-b.err" || rc=$?
               if [ "$rc" -ne 0 ]; then
                 hold='WORKER_B_VERIFY_HOLD'
+                # Only bounded static error class enters the public receipt.
+                # This rejects any private paths/IDs and raw provider output.
+                safe_code="$(grep -Eo 'NEXUS_[A-Z_]+' "$RUNNER_TEMP/verify-b.err" | head -n 1 || true)"
+                case "$safe_code" in
+                  NEXUS_*) hold="${hold}_${safe_code}" ;;
+                esac
               else
                 if computed="$(python - <<'PY'
           import hashlib,json,os

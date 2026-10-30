@@ -52,6 +52,10 @@ SURFACE_CLASSIFICATIONS = (
         "tools/janus_nexus_cloud_acquire_v2.py",
         "EXPLICIT_DISPATCH_ONLY_READ_ONLY_CLOUD_SOURCE_ACQUISITION_NOT_ARMOR_ADMITTED",
     ),
+    (
+        "tools/janus_nexus_materializer_v2.py",
+        "TRUSTED_CLOUD_INERT_GIT_SOURCE_MATERIALIZATION_NOT_ARMOR_ADMITTED",
+    ),
     ("tools/janus_habitat_process_death_gauntlet_v1.py", "CONTROLLED_FRESH_PROCESS_DEATH_GAUNTLET"),
     (
         "tools/janus_handoff_reliability_reference_gauntlet.py",
