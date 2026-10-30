@@ -1,0 +1,126 @@
+name: JANUS Nexus Bounded Native MODEL.CALL Source Witness v1
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_native_model_cloud_witness_v1.py'
+      - 'tests/test_janus_nexus_native_model_cloud_witness_v1.py'
+      - '.github/workflows/janus-nexus-native-model-cloud-witness-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_native_model_cloud_witness_v1.py'
+      - 'tests/test_janus_nexus_native_model_cloud_witness_v1.py'
+      - '.github/workflows/janus-nexus-native-model-cloud-witness-v1.yml'
+  schedule:
+    - cron: '41 6 * * 4'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-nexus-pinned-native-model-source-witness
+  cancel-in-progress: false
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Reject forged native model and lab source evidence
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/janus_nexus_native_model_cloud_witness_v1.py
+          python -m unittest discover -s tests -p 'test_janus_nexus_native_model_cloud_witness_v1.py' -v
+
+  pinned-native-model-cloud-call:
+    needs: offline-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact auditable Genesis witness
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - name: Checkout exact completed A+B Git lab state
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus_Genesis
+          ref: 6de3fc20c0b5a09d045d2fb321018e9b8d2b0b09
+          path: _lab
+          persist-credentials: false
+      - name: Checkout exact promoted public native Demiurge model and code
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          ref: c8c890206f53591d6bfe444d103ed5dd07ec2296
+          path: _brain
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install independent CPU native model inference runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Require exact public model checkpoint and lab Git state
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _lab rev-parse HEAD)" = 6de3fc20c0b5a09d045d2fb321018e9b8d2b0b09
+          test "$(git -C _brain rev-parse HEAD)" = c8c890206f53591d6bfe444d103ed5dd07ec2296
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          repo=Path('_brain')
+          raw=(repo/'janus_model/checkpoints/promoted.pt').read_bytes()
+          actual=hashlib.sha256(raw).hexdigest()
+          state=json.loads((repo/'janus_model/state/JANUS_MODEL_STATE.json').read_text())
+          assert actual=='fc767adb812ac3bea54c44cbccfa9680941f95e2c8a77120559b41da044d9463'
+          assert state['checkpoint_sha256']==actual
+          print('NATIVE_MODEL_EXACT_CHECKPOINT=PASS')
+          PY
+      - name: Execute one real locally generated MODEL.CALL without paid provider
+        shell: bash
+        working-directory: _brain
+        run: |
+          set -euo pipefail
+          PROMPT='JANUS NEXUS LAB 41054190160: give a short non-authoritative research status.'
+          python -m janus_model.cli run \
+            --checkpoint janus_model/checkpoints/promoted.pt \
+            --prompt "$PROMPT" \
+            --max-new-tokens 48 \
+            > "$RUNNER_TEMP/nexus-native-output.txt" \
+            2> "$RUNNER_TEMP/nexus-native-error.txt"
+          test -s "$RUNNER_TEMP/nexus-native-output.txt"
+          echo 'PINNED_NATIVE_MODEL_CALL_RETURNED=PASS'
+      - name: Verify lab source, model checkpoint and non-authoritative output digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python _code/tools/janus_nexus_native_model_cloud_witness_v1.py \
+            --lab _lab --brain _brain \
+            --model-output "$RUNNER_TEMP/nexus-native-output.txt" \
+            --receipt "$RUNNER_TEMP/nexus-native-model-witness.json"
+          rm -f "$RUNNER_TEMP/nexus-native-output.txt" "$RUNNER_TEMP/nexus-native-error.txt"
+      - name: Upload public digest-only cloud model witness
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-nexus-native-cloud-model-call-${{ github.run_id }}
+          path: ${{ runner.temp }}/nexus-native-model-witness.json
+          if-no-files-found: error
+          retention-days: 30
