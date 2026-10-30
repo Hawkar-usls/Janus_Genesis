@@ -1,0 +1,83 @@
+name: JANUS Habitat Cloud HOME bounded recovery
+
+on:
+  schedule:
+    # Independent wake path for missed :17 HOME cron, without relying on a PC.
+    - cron: '29,49 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_habitat_cloud_home_recovery.py'
+      - 'tests/test_janus_habitat_cloud_home_recovery.py'
+      - '.github/workflows/janus-habitat-cloud-home-bounded-recovery.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/janus_habitat_cloud_home_recovery.py'
+      - 'tests/test_janus_habitat_cloud_home_recovery.py'
+      - '.github/workflows/janus-habitat-cloud-home-bounded-recovery.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-habitat-cloud-home-recovery
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test fail-closed policy without external network or secrets
+        run: |
+          python -m py_compile tools/janus_habitat_cloud_home_recovery.py tests/test_janus_habitat_cloud_home_recovery.py
+          python -m unittest -v tests.test_janus_habitat_cloud_home_recovery
+
+  recover:
+    needs: validate
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    # The only added capability is dispatch of the reviewed HOME workflow.
+    # No HOME branch, secrets, Rowan billing or model writes from this worker.
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: janus/habitat-cloud-state
+          path: _state
+          persist-credentials: false
+      - name: Read exact existing HOME runs from this GitHub repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api --method GET "repos/$GITHUB_REPOSITORY/actions/workflows/janus-habitat-cloud-home-v1.yml/runs?per_page=100" > home-runs.json
+      - name: Admit recovery only after durable receipt integrity and clock checks
+        id: gate
+        run: |
+          python tools/janus_habitat_cloud_home_recovery.py \
+            --state-root _state --runs home-runs.json
+      - name: Wake only existing vetted Genesis main-branch Cloud HOME
+        if: steps.gate.outputs.dispatch == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api --method POST "repos/$GITHUB_REPOSITORY/actions/workflows/janus-habitat-cloud-home-v1.yml/dispatches" \
+            -f ref=main
+          echo "JANUS_CLOUD_HOME_RECOVERY=BOUNDED_DISPATCH_ISSUED"
