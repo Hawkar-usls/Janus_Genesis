@@ -383,12 +383,25 @@ class NexusMaterializer:
             ],
         }
         nexus_digest = _sha256_json(identity_basis)
+        inert_symlink_count = sum(
+            f["git_mode"] == INERT_SYMLINK_MODE
+            for source in source_receipts for f in source["files"]
+        )
+        inert_gitlink_count = sum(
+            f["git_mode"] == INERT_GITLINK_MODE
+            for source in source_receipts for f in source["files"]
+        )
         receipt = {
             "schema": RECEIPT_SCHEMA,
             "manifest_sha256": self.manifest_sha256,
             "nexus_digest": nexus_digest,
             "source_count": len(source_receipts),
             "sources": source_receipts,
+            "inert_symlink_blob_count": inert_symlink_count,
+            "inert_gitlink_ref_count": inert_gitlink_count,
+            "symlink_targets_materialized_as_inert_bytes": True,
+            "gitlink_refs_materialized_as_inert_metadata": True,
+            "recursive_submodule_contents_materialized": False,
             "source_history_merged": False,
             "source_history_remains_authoritative": True,
             "source_bytes_read_from_pinned_git_objects": True,
@@ -433,6 +446,12 @@ class NexusMaterializer:
             errors.append("NEXUS_MUTABLE_WORKTREE_CLAIM_INVALID")
         if receipt.get("source_history_merged") is not False:
             errors.append("NEXUS_SOURCE_HISTORY_MERGE_CLAIM_INVALID")
+        if receipt.get("symlink_targets_materialized_as_inert_bytes") is not True:
+            errors.append("NEXUS_SYMLINK_INERT_CLAIM_INVALID")
+        if receipt.get("gitlink_refs_materialized_as_inert_metadata") is not True:
+            errors.append("NEXUS_GITLINK_INERT_CLAIM_INVALID")
+        if receipt.get("recursive_submodule_contents_materialized") is not False:
+            errors.append("NEXUS_UNPROVEN_RECURSIVE_SUBMODULE_CLAIM")
         if receipt.get("source_history_remains_authoritative") is not True:
             errors.append("NEXUS_SOURCE_HISTORY_AUTHORITY_CLAIM_INVALID")
         if receipt.get("source_bytes_read_from_pinned_git_objects") is not True:
@@ -458,6 +477,20 @@ class NexusMaterializer:
         if not isinstance(source_rows, list):
             source_rows = []
             errors.append("NEXUS_SOURCE_RECEIPTS_INVALID")
+        observed_symlinks = sum(
+            f.get("git_mode") == INERT_SYMLINK_MODE
+            for source in source_rows if isinstance(source, dict)
+            for f in source.get("files", []) if isinstance(f, dict)
+        )
+        observed_gitlinks = sum(
+            f.get("git_mode") == INERT_GITLINK_MODE
+            for source in source_rows if isinstance(source, dict)
+            for f in source.get("files", []) if isinstance(f, dict)
+        )
+        if receipt.get("inert_symlink_blob_count") != observed_symlinks:
+            errors.append("NEXUS_INERT_SYMLINK_COUNT_MISMATCH")
+        if receipt.get("inert_gitlink_ref_count") != observed_gitlinks:
+            errors.append("NEXUS_INERT_GITLINK_COUNT_MISMATCH")
         if receipt.get("source_count") != len(source_rows):
             errors.append("NEXUS_SOURCE_COUNT_MISMATCH")
         if receipt.get("source_count") != len(self.manifest["sources"]):
