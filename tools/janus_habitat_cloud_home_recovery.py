@@ -92,6 +92,39 @@ def verify_durable_home(directory: Path) -> dict:
         receipt.get("source_writeback_observed") is not False or
         receipt.get("hidden_session_context_used") is not False):
         raise HomeRecoveryHold("HOME_RECEIPT_INTEGRITY")
+    beetle = state.get("beetle_memory")
+    if (not isinstance(beetle, dict) or
+        beetle.get("status") not in
+          ("HASH_MATCHED_UNVERIFIED_CONTEXT_STAGED", "NO_ACKED_CONTEXT_AVAILABLE") or
+        beetle.get("command_authority") is not False or
+        beetle.get("external_effect_authority") is not False or
+        beetle.get("scientific_authority_delta") != 0 or
+        receipt.get("beetle_memory") != beetle):
+        raise HomeRecoveryHold("HOME_CONTEXT_AUTHORITY_MISMATCH")
+    if beetle["status"] == "HASH_MATCHED_UNVERIFIED_CONTEXT_STAGED":
+        folder = directory / "state/habitat_cloud_home/memory/beetle"
+        ctx, cursor_path = folder / "CONTEXT.json", folder / "CURSOR.json"
+        if any(p.is_symlink() for p in (ctx, cursor_path, *folder.parents)):
+            raise HomeRecoveryHold("HOME_STAGED_CONTEXT_SYMLINK")
+        try:
+            ctx_raw = ctx.read_bytes()
+            cursor_raw = cursor_path.read_bytes()
+            context, cursor = json.loads(ctx_raw), json.loads(cursor_raw)
+        except (OSError, ValueError) as exc:
+            raise HomeRecoveryHold("HOME_STAGED_CONTEXT_UNAVAILABLE") from exc
+        if (not ctx_raw or len(ctx_raw) > 180_000 or
+            not cursor_raw or len(cursor_raw) > 100_000 or
+            hashlib.sha256(ctx_raw).hexdigest() != beetle.get("context_sha256") or
+            hashlib.sha256(cursor_raw).hexdigest() != beetle.get("cursor_sha256") or
+            type(beetle.get("cursor_sequence")) is not int or
+            cursor.get("last_sequence") != beetle["cursor_sequence"] or
+            context.get("last_sequence") != beetle["cursor_sequence"] or
+            cursor.get("context_sha256") != beetle["context_sha256"] or
+            context.get("untrusted_research_only") is not True or
+            context.get("model_text_is_command") is not False or
+            context.get("scientific_authority_delta") != 0 or
+            context.get("external_effect_authority_delta") != 0):
+            raise HomeRecoveryHold("HOME_STAGED_CONTEXT_INTEGRITY")
     return {"sequence": state["sequence"], "receipt_sha256": state["last_receipt_sha256"]}
 
 
