@@ -80,7 +80,7 @@
     ]
   },
   "pass_gate": {
-    "REAL_44_FULL_MATERIALIZATION": "PASS_ONLY_IF_BOTH_CLEAN_WORKERS_MATERIALIZE_AND_VERIFY_ALL_44_AND_PRIVATE_PUBLIC_PROJECTION_REMAINS_OPAQUE",
+    "REAL_44_FULL_MATERIALIZATION": "PASS_ONLY_IF_BOTH_CLEAN_WORKERS_MATERIALIZE_AND_VERIFY_ALL_44_TOP_LEVEL_PINNED_GIT_TREES_WITH_INERT_SYMLINK_BLOBS_AND_GITLINK_REFERENCES; NO_RECURSIVE_SUBMODULE_BYTES; PRIVATE_PROJECTION_OPAQUE",
     "ISSUE_162_FULL_ACCEPTANCE": "NOT_IMPLIED"
   },
   "offline_security_gate": {
@@ -111,5 +111,18 @@
     "prior_projection_violation": "RECORDED_NOT_ERASED",
     "history_rewrite": false
   },
-  "audit_scope_note": "Historical 44-slot source constellation; today's 50-repository owner inventory is tracked separately; 44/44 is not 50/50 nor full #162 closed-loop autonomy."
+  "audit_scope_note": "Historical 44-slot source constellation; today's 50-repository owner inventory is tracked separately; 44/44 is not 50/50 nor full #162 closed-loop autonomy.",
+  "materializer_v2": {
+    "trusted_checkout_source": "tools/janus_nexus_materializer_v2.py",
+    "historical_strict_materializer_head": "dc8e96ba1c0417afa5ce9785b10e60e68a043629",
+    "schema": "janus.nexus.materialization_receipt.v2",
+    "ordinary_regular_blob_bytes": "PRESERVED_EXACT_FROM_PINNED_GIT_OBJECT",
+    "symlink_blob_bytes": "PRESERVED_EXACT_AS_INERT_REGULAR_FILE_NEVER_FOLLOW",
+    "gitlink_commit_ref": "PRESERVED_AS_DETERMINISTIC_INERT_SHA_RECORD_NO_REMOTE_FETCH",
+    "submodule_recursive_contents_materialized": false,
+    "no_source_code_execution": true,
+    "no_source_writeback": true,
+    "private_repository_names_in_public_receipt": false,
+    "sha_bound_reconstruction_required": true
+  }
 }
