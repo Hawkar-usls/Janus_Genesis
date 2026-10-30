@@ -24,7 +24,7 @@
     "credential_material_logged": false,
     "pc_fallback": false,
     "private_read_secret_exposed_to_pull_request": false,
-    "secret_scope": "ONLY_TRUSTED_MAIN_WORKFLOW_DISPATCH_WORKER_ACQUISITION_STEPS"
+    "secret_scope": "TRUSTED_MAIN_PUSH_OR_WEEKLY_SCHEDULE_OR_WORKFLOW_DISPATCH__ACQUISITION_STEPS_ONLY"
   },
   "acquisition": {
     "public_sources": "SHALLOW_FULL_TREE_GIT_CLONE_NO_PARTIAL_FILTER",
@@ -82,14 +82,20 @@
     "unit_tests_required": true
   },
   "trusted_live_gate": {
-    "event": "workflow_dispatch",
+    "event": "TRUSTED_MAIN_PUSH_OR_WEEKLY_SCHEDULE_OR_WORKFLOW_DISPATCH",
     "branch": "refs/heads/main",
     "repo": "Hawkar-usls/Janus_Genesis",
     "credential_required": true,
     "workers_required": 2,
     "full_bytes_required": true,
     "promotion_on_absent_credential": false,
-    "issue_162_automatically_passed": false
+    "issue_162_automatically_passed": false,
+    "schedule": "19 3 * * 1",
+    "push_paths": [
+      "tools/janus_nexus_cloud_acquire_v2.py",
+      "protocol/JANUS_REAL44_CLOUD_MATERIALIZATION-v2.0.json",
+      ".github/workflows/janus-real44-cloud-materialization-v2.yml"
+    ]
   },
   "privacy_policy": {
     "no_private_names_urls_pins_trees_or_file_metadata_in_public_artifacts": true,
