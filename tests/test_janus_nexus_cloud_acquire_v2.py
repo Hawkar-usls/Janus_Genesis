@@ -113,6 +113,25 @@ class TestCloudAcquirerV2Security(unittest.TestCase):
         self.assertIn("github.ref == 'refs/heads/main'", workflow.split("  worker-a:",1)[1])
         self.assertIn("github.ref == 'refs/heads/main'", workflow.split("  worker-b:",1)[1])
 
+    def test_live_acquisition_failure_creates_failclosed_receipt(self):
+        # The GitHub Bash wrapper enables -e: recoverable commands must be
+        # explicitly guarded before the sanitized HOLD receipt is produced.
+        workflow = (ROOT / ".github/workflows/janus-real44-cloud-materialization-v2.yml").read_text()
+        for suffix in ("a", "b"):
+            for stage in ("acquire", "materialize", "verify"):
+                self.assertIn(f'2>"$RUNNER_TEMP/{stage}-{suffix}.err" || rc=$?', workflow)
+            self.assertIn(f"WORKER_{suffix.upper()}_SOURCE_ACQUISITION_HOLD", workflow)
+        self.assertIn("if read -r nonce commitment", workflow)
+        self.assertIn("if computed=", workflow)
+        self.assertIn("WORKER_A_IDENTITY_RECEIPT_HOLD", workflow)
+        self.assertIn("WORKER_B_IDENTITY_RECEIPT_HOLD", workflow)
+        self.assertIn("EXPECTED_COMMITMENT", workflow)
+        self.assertIn("ACQUISITION_HOLD:[A-Z_]+", workflow)
+        script = 'set -euo pipefail; rc=0; false || rc=$?; test "$rc" -eq 1; echo HOLD'
+        result = subprocess.run(["bash", "-e", "-o", "pipefail", "-c", script],
+                                text=True, capture_output=True, check=True)
+        self.assertEqual(result.stdout.strip(), "HOLD")
+
     def test_no_credential_fails_closed_before_network(self):
         with patch.dict(os.environ, {"JANUS_NEXUS_PRIVATE_READ_TOKEN": ""}):
             with patch.object(sys, "argv", ["acquire", "fresh", "--manifest", "/tmp/test",

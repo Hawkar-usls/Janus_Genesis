@@ -140,7 +140,7 @@ jobs:
         env:
           JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
         run: |
-          set -uo pipefail
+          set -euo pipefail
           sources="$RUNNER_TEMP/real44-a-sources"
           nexus="$RUNNER_TEMP/real44-a-nexus"
           manifest="$RUNNER_TEMP/real44-a-manifest.json"
@@ -150,30 +150,37 @@ jobs:
           nonce=''
           commitment=''
 
+          rc=0
           python tools/janus_nexus_cloud_acquire_v2.py fresh \
             --audit "$RUNNER_TEMP/role-audit.json" \
             --manifest "$manifest" \
             --sources-root "$sources" \
-            >/dev/null 2>"$RUNNER_TEMP/acquire-a.err"
-          rc=$?
+            >/dev/null 2>"$RUNNER_TEMP/acquire-a.err" || rc=$?
           if [ "$rc" -ne 0 ]; then
             hold='WORKER_A_SOURCE_ACQUISITION_HOLD'
+            # Classify only static error codes. No raw logs, token, source ID,
+            # private name or repository metadata enter public receipts.
+            safe_code="$(grep -Eo 'ACQUISITION_HOLD:[A-Z_]+' "$RUNNER_TEMP/acquire-a.err" | head -n 1 || true)"
+            case "$safe_code" in
+              ACQUISITION_HOLD:PUBLIC_CLONE_FAILED|ACQUISITION_HOLD:PRIVATE_CLONE_FAILED|ACQUISITION_HOLD:PRIVATE_REPOSITORY_LOOKUP_FAILED|ACQUISITION_HOLD:PRIVATE_REPOSITORY_LOOKUP_MISMATCH|ACQUISITION_HOLD:PRIVATE_REPOSITORY_ID_INVALID|ACQUISITION_HOLD:PRIVATE_REPOSITORY_NAME_UNAVAILABLE|ACQUISITION_HOLD:PRIVATE_REPOSITORY_API_REDIRECT_FORBIDDEN|ACQUISITION_HOLD:PRIVATE_REPOSITORY_METADATA_OVERSIZE|ACQUISITION_HOLD:ROLE_AUDIT_NOT_44|ACQUISITION_HOLD:SOURCE_SET_NOT_44|ACQUISITION_HOLD:PUBLIC_AUDIT_ROW_INVALID|ACQUISITION_HOLD:PRIVATE_AUDIT_ROW_INVALID|ACQUISITION_HOLD:REMOTE_DISCONNECT_FAILED)
+                hold="${hold}_${safe_code#ACQUISITION_HOLD:}" ;;
+            esac
           else
+            rc=0
             python "$RUNNER_TEMP/janus_nexus_materializer.py" \
               --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" materialize \
-              >/dev/null 2>"$RUNNER_TEMP/materialize-a.err"
-            rc=$?
+              >/dev/null 2>"$RUNNER_TEMP/materialize-a.err" || rc=$?
             if [ "$rc" -ne 0 ]; then
               hold='WORKER_A_MATERIALIZER_HOLD'
             else
+              rc=0
               python "$RUNNER_TEMP/janus_nexus_materializer.py" \
                 --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" verify \
-                >/dev/null 2>"$RUNNER_TEMP/verify-a.err"
-              rc=$?
+                >/dev/null 2>"$RUNNER_TEMP/verify-a.err" || rc=$?
               if [ "$rc" -ne 0 ]; then
                 hold='WORKER_A_VERIFY_HOLD'
               else
-                read -r nonce commitment < <(python - <<'PY'
+                if read -r nonce commitment < <(python - <<'PY'
           import hashlib, json, secrets, os
           from pathlib import Path
           root=Path(os.environ['RUNNER_TEMP'])
@@ -189,8 +196,15 @@ jobs:
           commitment=hashlib.sha256((nonce+receipt['nexus_digest']).encode()).hexdigest()
           print(nonce, commitment)
           PY
-                )
-                materialized='true'
+                ); then
+                  if [[ "$nonce" =~ ^[0-9a-f]{64}$ && "$commitment" =~ ^[0-9a-f]{64}$ ]]; then
+                    materialized='true'
+                  else
+                    hold='WORKER_A_IDENTITY_RECEIPT_HOLD'
+                  fi
+                else
+                  hold='WORKER_A_IDENTITY_RECEIPT_HOLD'
+                fi
               fi
             fi
           fi
@@ -300,7 +314,7 @@ jobs:
           COMMITMENT_NONCE: ${{ needs.worker-a.outputs.commitment_nonce }}
           EXPECTED_COMMITMENT: ${{ needs.worker-a.outputs.nexus_commitment }}
         run: |
-          set -uo pipefail
+          set -euo pipefail
           sources="$RUNNER_TEMP/real44-b-sources"
           nexus="$RUNNER_TEMP/real44-b-nexus"
           manifest="$RUNNER_TEMP/real44-b-manifest.json"
@@ -308,30 +322,37 @@ jobs:
           hold='NONE'
           match='false'
 
+          rc=0
           python tools/janus_nexus_cloud_acquire_v2.py fresh \
             --audit "$RUNNER_TEMP/role-audit.json" \
             --manifest "$manifest" \
             --sources-root "$sources" \
-            >/dev/null 2>"$RUNNER_TEMP/acquire-b.err"
-          rc=$?
+            >/dev/null 2>"$RUNNER_TEMP/acquire-b.err" || rc=$?
           if [ "$rc" -ne 0 ]; then
             hold='WORKER_B_SOURCE_ACQUISITION_HOLD'
+            # Classify only static error codes. No raw logs, token, source ID,
+            # private name or repository metadata enter public receipts.
+            safe_code="$(grep -Eo 'ACQUISITION_HOLD:[A-Z_]+' "$RUNNER_TEMP/acquire-b.err" | head -n 1 || true)"
+            case "$safe_code" in
+              ACQUISITION_HOLD:PUBLIC_CLONE_FAILED|ACQUISITION_HOLD:PRIVATE_CLONE_FAILED|ACQUISITION_HOLD:PRIVATE_REPOSITORY_LOOKUP_FAILED|ACQUISITION_HOLD:PRIVATE_REPOSITORY_LOOKUP_MISMATCH|ACQUISITION_HOLD:PRIVATE_REPOSITORY_ID_INVALID|ACQUISITION_HOLD:PRIVATE_REPOSITORY_NAME_UNAVAILABLE|ACQUISITION_HOLD:PRIVATE_REPOSITORY_API_REDIRECT_FORBIDDEN|ACQUISITION_HOLD:PRIVATE_REPOSITORY_METADATA_OVERSIZE|ACQUISITION_HOLD:ROLE_AUDIT_NOT_44|ACQUISITION_HOLD:SOURCE_SET_NOT_44|ACQUISITION_HOLD:PUBLIC_AUDIT_ROW_INVALID|ACQUISITION_HOLD:PRIVATE_AUDIT_ROW_INVALID|ACQUISITION_HOLD:REMOTE_DISCONNECT_FAILED)
+                hold="${hold}_${safe_code#ACQUISITION_HOLD:}" ;;
+            esac
           else
+            rc=0
             python "$RUNNER_TEMP/janus_nexus_materializer.py" \
               --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" materialize \
-              >/dev/null 2>"$RUNNER_TEMP/materialize-b.err"
-            rc=$?
+              >/dev/null 2>"$RUNNER_TEMP/materialize-b.err" || rc=$?
             if [ "$rc" -ne 0 ]; then
               hold='WORKER_B_MATERIALIZER_HOLD'
             else
+              rc=0
               python "$RUNNER_TEMP/janus_nexus_materializer.py" \
                 --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" verify \
-                >/dev/null 2>"$RUNNER_TEMP/verify-b.err"
-              rc=$?
+                >/dev/null 2>"$RUNNER_TEMP/verify-b.err" || rc=$?
               if [ "$rc" -ne 0 ]; then
                 hold='WORKER_B_VERIFY_HOLD'
               else
-                computed="$(python - <<'PY'
+                if computed="$(python - <<'PY'
           import hashlib,json,os
           from pathlib import Path
           r=json.loads((Path(os.environ['RUNNER_TEMP'])/'real44-b-nexus/NEXUS_ID.json').read_text())
@@ -344,11 +365,14 @@ jobs:
           assert r['network_access_performed'] is False
           print(hashlib.sha256((os.environ['COMMITMENT_NONCE']+r['nexus_digest']).encode()).hexdigest())
           PY
-                )"
-                if [ "$computed" = "$EXPECTED_COMMITMENT" ]; then
-                  match='true'
+                )"; then
+                  if [[ "$computed" =~ ^[0-9a-f]{64}$ && "$EXPECTED_COMMITMENT" =~ ^[0-9a-f]{64}$ && "$computed" == "$EXPECTED_COMMITMENT" ]]; then
+                    match='true'
+                  else
+                    hold='TWO_CLEAN_REBUILDS_IDENTITY_MISMATCH_OR_SOURCE_DRIFT'
+                  fi
                 else
-                  hold='TWO_CLEAN_REBUILDS_IDENTITY_MISMATCH_OR_SOURCE_DRIFT'
+                  hold='WORKER_B_IDENTITY_RECEIPT_HOLD'
                 fi
               fi
             fi
