@@ -89,7 +89,12 @@ jobs:
           cd _state
           git config user.name 'janus-nexus-lab[bot]'
           git config user.email 'janus-nexus-lab[bot]@users.noreply.github.com'
-          git add "data/nexus_closed_loop_lab/runs/$GITHUB_RUN_ID/"
+          # The repository ignores data/ globally. Force-stage only the exact
+          # three create-only lab files; the following Python guard rejects
+          # any broader write before the commit.
+          git add -f -- "data/nexus_closed_loop_lab/runs/$GITHUB_RUN_ID/variants.json" \
+            "data/nexus_closed_loop_lab/runs/$GITHUB_RUN_ID/checkpoint.json" \
+            "data/nexus_closed_loop_lab/runs/$GITHUB_RUN_ID/worker-a.json"
           git diff --cached --check
           python - <<'PY'
           import os, subprocess
@@ -157,7 +162,7 @@ jobs:
           cd _state
           git config user.name 'janus-nexus-lab[bot]'
           git config user.email 'janus-nexus-lab[bot]@users.noreply.github.com'
-          git add "data/nexus_closed_loop_lab/runs/$GITHUB_RUN_ID/worker-b.json"
+          git add -f -- "data/nexus_closed_loop_lab/runs/$GITHUB_RUN_ID/worker-b.json"
           git diff --cached --check
           python - <<'PY'
           import os,subprocess
