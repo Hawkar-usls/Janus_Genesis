@@ -162,9 +162,40 @@ def _clone_from_frozen(row: dict[str, Any], destination: Path, token: str) -> No
         _clone_private(repo_id, str(meta["full_name"]), token, destination)
     else:
         raise AcquisitionError("VISIBILITY_INVALID")
+    # A and B must use the very same authenticated A-side snapshot. The
+    # remote's *current* HEAD may have advanced while A was materializing.
+    # Fetch only the pinned Git commit object, never execute or checkout source.
     observed = _git(destination, "rev-parse", "HEAD").lower()
+    current_branch = _git(destination, "symbolic-ref", "--short", "HEAD")
+    if current_branch != row.get("branch"):
+        raise AcquisitionError("FROZEN_BRANCH_CHANGED")
     if observed != row["sha"]:
-        raise AcquisitionError("SOURCE_HEAD_DRIFT")
+        child_env = os.environ.copy()
+        if visibility == "private":
+            auth = base64.b64encode(f"x-access-token:{token}".encode("utf-8")).decode("ascii")
+            child_env.update({
+                "GIT_CONFIG_COUNT": "1",
+                "GIT_CONFIG_KEY_0": "http.extraHeader",
+                "GIT_CONFIG_VALUE_0": f"AUTHORIZATION: Basic {auth}",
+                "GIT_TERMINAL_PROMPT": "0",
+                "GIT_ASKPASS": "/bin/false",
+            })
+        try:
+            subprocess.run(
+                ["git", "-C", str(destination), "fetch", "--depth=1", "--no-tags",
+                 "origin", row["sha"]],
+                check=True, env=child_env,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            )
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise AcquisitionError("FROZEN_COMMIT_UNAVAILABLE") from exc
+        if _git(destination, "cat-file", "-t", row["sha"]) != "commit":
+            raise AcquisitionError("FROZEN_COMMIT_OBJECT_INVALID")
+        # Advance only the disposable local HEAD ref; no worktree checkout,
+        # hooks, smudge filters, submodule recursion or remote mutation.
+        _git(destination, "update-ref", "HEAD", row["sha"])
+        if _git(destination, "rev-parse", "HEAD").lower() != row["sha"]:
+            raise AcquisitionError("FROZEN_LOCAL_PIN_FAILED")
     _disconnect(destination)
 
 
