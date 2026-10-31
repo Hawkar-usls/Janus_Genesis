@@ -1,0 +1,36 @@
+{
+  "category": "RPG_GENERATION_SCHEMA",
+  "engine_context": "Text-Based Infinite Sandbox",
+  "style_guide": "Dark Fantasy, High Entropy, Mysticism (Lineage 2 inspired)",
+  "templates": {
+    "npc_generation": {
+      "required_fields": ["Name", "Race", "Class", "Hidden_Agenda", "Visual_Quirk"],
+      "example": {
+        "Name": "Kaelthas the Hollow",
+        "Race": "Elf (Undead)",
+        "Class": "Necromancer",
+        "Hidden_Agenda": "Seeks to restore the World Tree using corrupted blood.",
+        "Visual_Quirk": "One eye is replaced by a glowing gemstone."
+      }
+    },
+    "quest_structure": {
+      "act_1": "The Hook (A mundane request with a weird detail).",
+      "act_2": "The Twist (The quest giver lied or the target is not what it seems).",
+      "act_3": "The Choice (Moral dilemma: Greed vs. Honor).",
+      "rewards": ["Experience", "Rare Item (JSON data)", "Reputation Change"]
+    },
+    "item_schema": {
+      "format": "JSON",
+      "fields": {
+        "id": "unique_string",
+        "name": "string",
+        "stats": {"p_atk": "int", "m_atk": "int", "weight": "int"},
+        "lore": "string (max 100 chars)"
+      }
+    }
+  },
+  "dice_mechanics": {
+    "resolution": "d20 system + Stat Modifier + Entropy Factor (0-5).",
+    "critical_fail": "Natural 1 leads to 'Catastrophic Narrative Event'."
+  }
+}
