@@ -1,0 +1,423 @@
+name: JANUS Real 44 Cloud Materialization v1
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_cloud_acquire_v1.py'
+      - 'protocol/JANUS_REAL44_CLOUD_MATERIALIZATION-v1.0.json'
+      - '.github/workflows/janus-real44-cloud-materialization-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-real44-cloud-materialization-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  MATERIALIZER_HEAD: dc8e96ba1c0417afa5ce9785b10e60e68a043629
+  ROLE_AUDIT_HEAD: 5627d31a992bcdc71dcc7351cba2c515dac89a2c
+  JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
+
+jobs:
+  worker-a:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    outputs:
+      credential_available: ${{ steps.gate.outputs.credential_available }}
+      materialized: ${{ steps.materialize.outputs.materialized }}
+      commitment_nonce: ${{ steps.materialize.outputs.commitment_nonce }}
+      nexus_commitment: ${{ steps.materialize.outputs.nexus_commitment }}
+      hold_class: ${{ steps.materialize.outputs.hold_class }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify no-PC contract and credential presence
+        id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('protocol/JANUS_REAL44_CLOUD_MATERIALIZATION-v1.0.json').read_text())
+          assert p['source_count_required']==44
+          assert p['execution']['personal_computer_required'] is False
+          assert p['execution']['remote_desktop_required'] is False
+          assert p['execution']['nas_required'] is False
+          assert p['execution']['lan_required'] is False
+          assert p['execution']['source_code_execution'] is False
+          assert p['execution']['source_writeback'] is False
+          assert p['execution']['history_rewrite'] is False
+          assert p['execution']['authority_delta']==0
+          assert p['credential']['pc_fallback'] is False
+          assert p['public_projection']['private_exact_pins'] is False
+          assert p['public_projection']['private_tree_values'] is False
+          assert p['public_projection']['private_file_paths'] is False
+          assert p['public_projection']['private_file_digests'] is False
+          PY
+          if [ -n "${JANUS_NEXUS_PRIVATE_READ_TOKEN:-}" ]; then
+            echo 'credential_available=true' >> "$GITHUB_OUTPUT"
+            echo 'CLOUD_PRIVATE_READ_CREDENTIAL=AVAILABLE'
+          else
+            echo 'credential_available=false' >> "$GITHUB_OUTPUT"
+            echo 'CLOUD_PRIVATE_READ_CREDENTIAL=HOLD_MISSING'
+          fi
+          echo 'PC_REQUIRED=FALSE'
+
+      - name: Prepare exact producer primitives
+        if: steps.gate.outputs.credential_available == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags https://github.com/Hawkar-usls/Janus_Genesis.git "+refs/pull/122/head:refs/remotes/nexus/pr122" "+refs/pull/137/head:refs/remotes/nexus/pr137"
+          test "$(git rev-parse refs/remotes/nexus/pr122)" = "$MATERIALIZER_HEAD"
+          test "$(git rev-parse refs/remotes/nexus/pr137)" = "$ROLE_AUDIT_HEAD"
+          git show "$MATERIALIZER_HEAD:tools/janus_nexus_materializer.py" > "$RUNNER_TEMP/janus_nexus_materializer.py"
+          git show "$ROLE_AUDIT_HEAD:protocol/JANUS_GENESIS_CONSTELLATION_ROLE_AUDIT-v1.0.json" > "$RUNNER_TEMP/role-audit.json"
+
+      - name: Fresh acquire and materialize all 44 on clean worker A
+        if: steps.gate.outputs.credential_available == 'true'
+        id: materialize
+        shell: bash
+        run: |
+          set -uo pipefail
+          sources="$RUNNER_TEMP/real44-a-sources"
+          nexus="$RUNNER_TEMP/real44-a-nexus"
+          manifest="$RUNNER_TEMP/real44-a-manifest.json"
+          public="$RUNNER_TEMP/real44-a-public.json"
+          hold='NONE'
+          materialized='false'
+          nonce=''
+          commitment=''
+
+          python tools/janus_nexus_cloud_acquire_v1.py fresh \
+            --audit "$RUNNER_TEMP/role-audit.json" \
+            --manifest "$manifest" \
+            --sources-root "$sources" \
+            >/dev/null 2>"$RUNNER_TEMP/acquire-a.err"
+          rc=$?
+          if [ "$rc" -ne 0 ]; then
+            hold='WORKER_A_SOURCE_ACQUISITION_HOLD'
+          else
+            python "$RUNNER_TEMP/janus_nexus_materializer.py" \
+              --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" materialize \
+              >/dev/null 2>"$RUNNER_TEMP/materialize-a.err"
+            rc=$?
+            if [ "$rc" -ne 0 ]; then
+              hold='WORKER_A_MATERIALIZER_HOLD'
+            else
+              python "$RUNNER_TEMP/janus_nexus_materializer.py" \
+                --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" verify \
+                >/dev/null 2>"$RUNNER_TEMP/verify-a.err"
+              rc=$?
+              if [ "$rc" -ne 0 ]; then
+                hold='WORKER_A_VERIFY_HOLD'
+              else
+                read -r nonce commitment < <(python - <<'PY'
+          import hashlib, json, secrets, os
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])
+          receipt=json.loads((root/'real44-a-nexus/NEXUS_ID.json').read_text())
+          assert receipt['source_count']==44
+          assert len(receipt['sources'])==44
+          assert sum(1 for x in receipt['sources'] if x['visibility']=='public')==41
+          assert sum(1 for x in receipt['sources'] if x['visibility']=='private')==3
+          assert receipt['source_write_back_performed'] is False
+          assert receipt['source_code_executed'] is False
+          assert receipt['network_access_performed'] is False
+          nonce=secrets.token_hex(32)
+          commitment=hashlib.sha256((nonce+receipt['nexus_digest']).encode()).hexdigest()
+          print(nonce, commitment)
+          PY
+                )
+                materialized='true'
+              fi
+            fi
+          fi
+
+          python - "$public" "$materialized" "$hold" <<'PY'
+          import json,sys
+          from pathlib import Path
+          path=Path(sys.argv[1])
+          ok=sys.argv[2]=='true'
+          hold=sys.argv[3]
+          out={
+            'schema':'JANUS_REAL44_CLOUD_PUBLIC_RECEIPT_A_V1',
+            'status':'PASS_WORKER_A' if ok else 'HOLD',
+            'source_count':44 if ok else None,
+            'public_count':41 if ok else None,
+            'private_count':3 if ok else None,
+            'materializer_verify':ok,
+            'private_repository_names_published':False,
+            'private_repository_urls_published':False,
+            'private_exact_pins_published':False,
+            'private_tree_values_published':False,
+            'private_file_paths_published':False,
+            'private_file_digests_published':False,
+            'clear_nexus_digest_published':False,
+            'credential_material_persisted':False,
+            'pc_used':False,
+            'remote_desktop_used':False,
+            'nas_used':False,
+            'source_writeback':False,
+            'source_code_executed':False,
+            'authority_delta':0,
+            'hold_class':None if ok else hold,
+          }
+          path.write_text(json.dumps(out,sort_keys=True,indent=2)+'\n')
+          PY
+
+          echo "materialized=$materialized" >> "$GITHUB_OUTPUT"
+          echo "commitment_nonce=$nonce" >> "$GITHUB_OUTPUT"
+          echo "nexus_commitment=$commitment" >> "$GITHUB_OUTPUT"
+          echo "hold_class=$hold" >> "$GITHUB_OUTPUT"
+          rm -rf "$sources" "$nexus" "$manifest" "$RUNNER_TEMP/role-audit.json" "$RUNNER_TEMP/janus_nexus_materializer.py" "$RUNNER_TEMP/acquire-a.err" "$RUNNER_TEMP/materialize-a.err" "$RUNNER_TEMP/verify-a.err"
+          if [ "$materialized" = true ]; then
+            echo 'REAL44_WORKER_A_MATERIALIZATION=PASS'
+          else
+            echo "REAL44_WORKER_A_MATERIALIZATION=HOLD:$hold"
+          fi
+
+      - name: Emit missing-credential receipt
+        if: steps.gate.outputs.credential_available != 'true'
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/real44-a-public.json" <<'EOF'
+          {
+            "schema":"JANUS_REAL44_CLOUD_PUBLIC_RECEIPT_A_V1",
+            "status":"HOLD_CLOUD_PRIVATE_READ_CREDENTIAL",
+            "source_count":null,
+            "private_exact_pins_published":false,
+            "credential_material_persisted":false,
+            "pc_used":false,
+            "pc_fallback":false,
+            "source_writeback":false,
+            "authority_delta":0
+          }
+          EOF
+
+      - name: Upload privacy-safe worker A receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-real44-cloud-worker-a-public-${{ github.run_id }}
+          path: ${{ runner.temp }}/real44-a-public.json
+          retention-days: 30
+
+  worker-b:
+    needs: worker-a
+    if: needs.worker-a.outputs.credential_available == 'true' && needs.worker-a.outputs.materialized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    outputs:
+      match: ${{ steps.materialize.outputs.match }}
+      hold_class: ${{ steps.materialize.outputs.hold_class }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Prepare exact producer primitives independently
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags https://github.com/Hawkar-usls/Janus_Genesis.git "+refs/pull/122/head:refs/remotes/nexus/pr122" "+refs/pull/137/head:refs/remotes/nexus/pr137"
+          test "$(git rev-parse refs/remotes/nexus/pr122)" = "$MATERIALIZER_HEAD"
+          test "$(git rev-parse refs/remotes/nexus/pr137)" = "$ROLE_AUDIT_HEAD"
+          git show "$MATERIALIZER_HEAD:tools/janus_nexus_materializer.py" > "$RUNNER_TEMP/janus_nexus_materializer.py"
+          git show "$ROLE_AUDIT_HEAD:protocol/JANUS_GENESIS_CONSTELLATION_ROLE_AUDIT-v1.0.json" > "$RUNNER_TEMP/role-audit.json"
+
+      - name: Independently acquire and materialize all 44 on clean worker B
+        id: materialize
+        shell: bash
+        env:
+          COMMITMENT_NONCE: ${{ needs.worker-a.outputs.commitment_nonce }}
+          EXPECTED_COMMITMENT: ${{ needs.worker-a.outputs.nexus_commitment }}
+        run: |
+          set -uo pipefail
+          sources="$RUNNER_TEMP/real44-b-sources"
+          nexus="$RUNNER_TEMP/real44-b-nexus"
+          manifest="$RUNNER_TEMP/real44-b-manifest.json"
+          public="$RUNNER_TEMP/real44-b-public.json"
+          hold='NONE'
+          match='false'
+
+          python tools/janus_nexus_cloud_acquire_v1.py fresh \
+            --audit "$RUNNER_TEMP/role-audit.json" \
+            --manifest "$manifest" \
+            --sources-root "$sources" \
+            >/dev/null 2>"$RUNNER_TEMP/acquire-b.err"
+          rc=$?
+          if [ "$rc" -ne 0 ]; then
+            hold='WORKER_B_SOURCE_ACQUISITION_HOLD'
+          else
+            python "$RUNNER_TEMP/janus_nexus_materializer.py" \
+              --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" materialize \
+              >/dev/null 2>"$RUNNER_TEMP/materialize-b.err"
+            rc=$?
+            if [ "$rc" -ne 0 ]; then
+              hold='WORKER_B_MATERIALIZER_HOLD'
+            else
+              python "$RUNNER_TEMP/janus_nexus_materializer.py" \
+                --manifest "$manifest" --sources-root "$sources" --output-root "$nexus" verify \
+                >/dev/null 2>"$RUNNER_TEMP/verify-b.err"
+              rc=$?
+              if [ "$rc" -ne 0 ]; then
+                hold='WORKER_B_VERIFY_HOLD'
+              else
+                computed="$(python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['RUNNER_TEMP'])/'real44-b-nexus/NEXUS_ID.json').read_text())
+          assert r['source_count']==44
+          assert len(r['sources'])==44
+          assert sum(1 for x in r['sources'] if x['visibility']=='public')==41
+          assert sum(1 for x in r['sources'] if x['visibility']=='private')==3
+          assert r['source_write_back_performed'] is False
+          assert r['source_code_executed'] is False
+          assert r['network_access_performed'] is False
+          print(hashlib.sha256((os.environ['COMMITMENT_NONCE']+r['nexus_digest']).encode()).hexdigest())
+          PY
+                )"
+                if [ "$computed" = "$EXPECTED_COMMITMENT" ]; then
+                  match='true'
+                else
+                  hold='TWO_CLEAN_REBUILDS_IDENTITY_MISMATCH_OR_SOURCE_DRIFT'
+                fi
+              fi
+            fi
+          fi
+
+          python - "$public" "$match" "$hold" <<'PY'
+          import json,sys
+          from pathlib import Path
+          path=Path(sys.argv[1])
+          match=sys.argv[2]=='true'
+          hold=sys.argv[3]
+          out={
+            'schema':'JANUS_REAL44_CLOUD_PUBLIC_RECEIPT_B_V1',
+            'status':'PASS_TWO_CLEAN_REBUILDS_MATCH' if match else 'HOLD',
+            'source_count':44 if match else None,
+            'public_count':41 if match else None,
+            'private_count':3 if match else None,
+            'worker_a_worker_b_nexus_identity_match':match,
+            'private_repository_names_published':False,
+            'private_repository_urls_published':False,
+            'private_exact_pins_published':False,
+            'private_tree_values_published':False,
+            'private_file_paths_published':False,
+            'private_file_digests_published':False,
+            'clear_nexus_digest_published':False,
+            'credential_material_persisted':False,
+            'pc_used':False,
+            'remote_desktop_used':False,
+            'nas_used':False,
+            'source_writeback':False,
+            'source_code_executed':False,
+            'authority_delta':0,
+            'hold_class':None if match else hold,
+          }
+          path.write_text(json.dumps(out,sort_keys=True,indent=2)+'\n')
+          PY
+          echo "match=$match" >> "$GITHUB_OUTPUT"
+          echo "hold_class=$hold" >> "$GITHUB_OUTPUT"
+          rm -rf "$sources" "$nexus" "$manifest" "$RUNNER_TEMP/role-audit.json" "$RUNNER_TEMP/janus_nexus_materializer.py" "$RUNNER_TEMP/acquire-b.err" "$RUNNER_TEMP/materialize-b.err" "$RUNNER_TEMP/verify-b.err"
+          if [ "$match" = true ]; then
+            echo 'REAL44_TWO_CLEAN_CLOUD_REBUILDS_MATCH=PASS'
+          else
+            echo "REAL44_TWO_CLEAN_CLOUD_REBUILDS_MATCH=HOLD:$hold"
+          fi
+
+      - name: Upload privacy-safe worker B receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-real44-cloud-worker-b-public-${{ github.run_id }}
+          path: ${{ runner.temp }}/real44-b-public.json
+          retention-days: 30
+
+  verdict:
+    needs: [worker-a, worker-b]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Emit strict real-44 cloud gate
+        shell: bash
+        env:
+          CREDENTIAL_AVAILABLE: ${{ needs.worker-a.outputs.credential_available }}
+          WORKER_A_MATERIALIZED: ${{ needs.worker-a.outputs.materialized }}
+          WORKER_A_HOLD: ${{ needs.worker-a.outputs.hold_class }}
+          WORKER_B_RESULT: ${{ needs.worker-b.result }}
+          WORKER_B_MATCH: ${{ needs.worker-b.outputs.match }}
+          WORKER_B_HOLD: ${{ needs.worker-b.outputs.hold_class }}
+        run: |
+          set -euo pipefail
+          status='HOLD'
+          reason='UNKNOWN'
+          if [ "$CREDENTIAL_AVAILABLE" != 'true' ]; then
+            reason='HOLD_CLOUD_PRIVATE_READ_CREDENTIAL'
+          elif [ "$WORKER_A_MATERIALIZED" != 'true' ]; then
+            reason="${WORKER_A_HOLD:-WORKER_A_HOLD}"
+          elif [ "$WORKER_B_RESULT" != 'success' ]; then
+            reason='WORKER_B_NOT_SUCCESS'
+          elif [ "$WORKER_B_MATCH" != 'true' ]; then
+            reason="${WORKER_B_HOLD:-TWO_CLEAN_REBUILDS_NOT_MATCHED}"
+          else
+            status='PASS'
+            reason='TWO_CLEAN_CLOUD_REBUILDS_MATCH'
+          fi
+          python - "$status" "$reason" <<'PY'
+          import json,sys
+          from pathlib import Path
+          status,reason=sys.argv[1:3]
+          out={
+            'schema':'JANUS_REAL44_CLOUD_MATERIALIZATION_PUBLIC_VERDICT_V1',
+            'real_44_full_materialization':'PASS' if status=='PASS' else 'HOLD',
+            'reason':reason,
+            'source_count':44 if status=='PASS' else None,
+            'public_count':41 if status=='PASS' else None,
+            'private_count':3 if status=='PASS' else None,
+            'two_clean_cloud_rebuilds_match':status=='PASS',
+            'private_exact_pins_published':False,
+            'private_tree_values_published':False,
+            'private_file_paths_published':False,
+            'private_file_digests_published':False,
+            'clear_nexus_digest_published':False,
+            'credential_material_persisted':False,
+            'personal_computer_required':False,
+            'remote_desktop_required':False,
+            'nas_required':False,
+            'lan_required':False,
+            'source_writeback':False,
+            'source_code_executed':False,
+            'history_rewrite':False,
+            'authority_delta':0,
+            'issue_162_full_acceptance':'NOT_IMPLIED'
+          }
+          Path('/tmp/real44-verdict.json').write_text(json.dumps(out,sort_keys=True,indent=2)+'\n')
+          PY
+          echo "REAL_44_FULL_MATERIALIZATION=$status"
+          echo "REAL_44_REASON=$reason"
+          echo 'PC_REQUIRED=FALSE'
+          echo 'AUTHORITY_DELTA=0'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: janus-real44-cloud-public-verdict-${{ github.run_id }}
+          path: /tmp/real44-verdict.json
+          retention-days: 30
