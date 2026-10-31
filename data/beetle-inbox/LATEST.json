@@ -1,373 +1,9 @@
 {
-  "batch_id": "838dcad99559aeb60b83",
+  "batch_id": "c23130f8307a4835668e",
   "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
   "fragment_count": 1,
   "fragment_index": 1,
   "items": [
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "61eece246668eb224cc2ff43",
-      "context_id": "ecb488ff8b159f8b61cb3119",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::FORWARD",
-      "direction_title": "Universal large-data ingestion methods [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "parquet"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.2917,
-      "source": "zenodo",
-      "source_context_sha256": "3aa787839f195d44fe108a123d27565c002d5e98adbced9999a90d82b93ea709",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-PCPG (Pheochromocytoma and paraganglioma: tumors of neural-crest-derived chromaffin cells, in the adrenal medulla (pheochromocytoma) or extra-adrenal paraganglia. GTEx maps to Adrenal_Gland and Nerve_Tibial; representative column gtex_adrenal_gland. TCGA ATAC-seq covered (Corces et al. 2018; the tarball's bigWigs are named PCPG_..., read from its first member). Expression: TCGA-PCPG tumor and normal (3 normal samples, so the default Tumor+Normal pair stays). Roadmap null: its only adrenal epigenome is E080 (fetal adrenal gland), rejected as non-adult, as for ACC; no adult chromaffin, sympathetic or paraganglion epigenome exists. encode_chromatin: adult adrenal gland tissue from one ENCODE donor (ENCDO575WHY, 41y; ACC's donor) -- H3K27ac, H3K27me3, H3K36me3, H3K4me1, H3K4me3, H3K9me3 and DNase. Caveat: whole adrenal gland is mostly cortex (the medulla is about a tenth of it), so this is an organ-level source that mainly carries adrenocortical chromatin, the wrong compartment for chromaffin tumors. No pheochromocytoma or paraganglioma line exists in ENCODE (pheochromocytoma, paraganglioma, hPheo1, PC12 and chromaffin all return zero experiments). As the closest available lineage -- sympathoadrenal neural crest, the common progenitor of chromaffin cells and sympathetic neuroblasts -- the row adds neuroblastoma lines: SK-N-SH (untreated, one lab, all 7 default marks plus DNase) and DNase from BE2C and SK-N-DZ (untreated). They are a different, pediatric embryonal disease, so this is a lineage proxy supplying the medullary chromatin the adrenal tissue lacks, not a disease match; retinoic-acid- and DMSO-treated experiments rejected. repliseq: SK-N-SH UW 6-fraction Repli-seq (hg19), the only sympathoadrenal-lineage source in the replication-timing catalog, registered on the same lineage argument and to be measured (rt_block_scoping.py) and dropped if it moves nothing; the hESC-derived neural crest Repli-chip profiles are rejected as embryonic. Assemblies: repliseq hg19; encode_chromatin and ATAC GRCh38.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 976 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact PCPG --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-PCPG",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-PCPG",
-      "url": "https://zenodo.org/records/23671640"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "ca1ea7983ff2a774c0780b78",
-      "context_id": "d9b499d1f03d0c6ca4030633",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::FORWARD",
-      "direction_title": "Universal large-data ingestion methods [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "parquet"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.2917,
-      "source": "zenodo",
-      "source_context_sha256": "74232475c2627da7da0e43f657869093bd21290f495c7c854713c81424cdab9a",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-READ (Rectum adenocarcinoma. Biologically and genomically the same disease as COAD (TCGA's own marker paper pooled them as COADREAD), so every covariate source is COAD's, re-verified 2026-10-03: GTEx maps to the colon tissues (representative Colon_Transverse_Mucosa, the epithelial cell of origin; GTEx has no rectum). No TCGA ATAC-seq for READ (atac: null). Roadmap uses COAD's E075 (colonic mucosa), E106 (sigmoid colon, 6/7 marks -- H3K9ac 404s) and E101/E102 (rectal mucosa, the direct organ match, 7/7 each); all 27 live (EID, mark) pairs checked 2026-10-03; E103 (rectal smooth muscle) rejected as the wrong compartment. ENCODE's adult rectal-mucosa histone experiments (two donors, 50y/61y, Bernstein lab, Roadmap award, 2013) are E101/E102's own sources and are not added, to avoid duplicating them in another assembly; no rectum DNase exists. encode_chromatin is COAD's: adult colonic mucosa DNase and the six colorectal cancer lines HCT116, Caco-2, LoVo, SW480, HT-29 and RKO (native GRCh38, all 19 files re-checked released). Replication timing is COAD's HCT116 16-fraction MAT (GSE137764), a colorectal cancer line, the same disease. Assemblies: Roadmap hg19; RT (MAT), encode_chromatin GRCh38/hg38; expression TCGA-READ (166 tumor and 10 normal RNA-seq files, so the default Tumor+Normal pair).), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 956 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact READ --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-READ",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-READ",
-      "url": "https://zenodo.org/records/23671695"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "682bddacde77411335f6512d",
-      "context_id": "b22aa90fbaa548e571f46d5c",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::FORWARD",
-      "direction_title": "Universal large-data ingestion methods [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "parquet"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.2917,
-      "source": "zenodo",
-      "source_context_sha256": "7b04e1074b980f4a238bf0618e972a74198791864b499883fb97a237a92a0987",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-PAAD (Pancreatic adenocarcinoma (mostly ductal adenocarcinoma, PDAC). GTEx maps to Pancreas (plus Islets, Acini, Mixed_Cell); representative column is Pancreas. No TCGA ATAC-seq coverage (PAAD is not in Corces et al. 2018; atac: null). TCGA-PAAD has 4 Solid Tissue Normal RNA-seq files, so the default Tumor+Normal gexp tissue types stay, the normal mean resting on only 4 samples. Roadmap uses E098 (adult pancreas, 6/7 marks -- H3K9ac 404s; live-checked 2026-10-03); E087 (pancreatic islets, 7/7) rejected as the wrong compartment: endocrine islets are a small fraction of the gland and not the ductal/acinar cell of origin of PDAC. encode_chromatin: adult pancreas tissue from one donor (ENCDO575WHY, 41y, Bernstein lab 2020-21; the same donor as LIHC's liver tracks) -- six histone marks (ENCODE has no adult whole-pancreas H3K9ac) plus DNase-seq; the 2013 Bing Ren pancreas donors are likely E098's own source and were not reused. Cell lines: the only pancreatic ductal adenocarcinoma lines in ENCODE -- Panc1 (PANC-1; six marks plus DNase, newest combined-replicate files) and 8988T (PA-TU-8988T; DNase only) -- plus HPDE6-E6E7 (DNase), an HPV-E6/E7-immortalized normal pancreatic ductal epithelial line, the ductal cell-of-origin match. Capan-1, AsPC-1, BxPC-3, MIA PaCa-2, HPAF-II, CFPAC-1, SU.86.86, PSN1, Panc 10.05, KP-4, Capan-2 and Hs 766T have no ENCODE experiments. repliseq null: no pancreatic replication-timing source exists in the ENCODE Repli-seq/Repli-chip catalog or GSE137764; the Repli-chip endodermal, posterior foregut and endocrine-cell profiles are hESC-derived in-vitro intermediates (embryonic) and were rejected. TCGA-PAAD tumors are stroma-rich and often low purity, so purity/VAF-shape QC exclusions are expected. Assemblies: Roadmap hg19, encode_chromatin GRCh38.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 956 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact PAAD --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-PAAD",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-PAAD",
-      "url": "https://zenodo.org/records/23671625"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "c24042bd35eda2cdc3cdc8d5",
-      "context_id": "6a64d3dd7053fec5df8fba41",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::FORWARD",
-      "direction_title": "Universal large-data ingestion methods [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "parquet"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.2917,
-      "source": "zenodo",
-      "source_context_sha256": "0d3ef2f3f669032e8c3fbaacb59ff0b38c0d06323e50748a79b8eb401b7352d7",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-LUSC (Lung squamous cell carcinoma. GTEx maps to Lung (representative gtex_lung). TCGA ATAC-seq covered (Corces et al. 2018; the tarball's bigWigs are named LUSC_..., read from its first member). Roadmap uses E096 (adult lung, 6/7 marks -- H3K9ac 404s, as for LUAD) plus E127 (NHEK epidermal keratinocytes, 7/7, life stage unrecorded), the squamous-epithelium proxy for the airway basal cells LUSC arises from after squamous metaplasia (Roadmap has no bronchial or airway epithelial epigenome; E128 lung fibroblasts are stromal). All 14 (EID, mark) pairs live-checked 2026-10-03. encode_chromatin: LUAD's ENTEx adult lung donor (ENCDO451RUA, 54y male, upper lobe of left lung; six histone marks plus DNase -- a different donor and assembly from Roadmap's E096), plus primary bronchial epithelial cells (ENCODE/UW donor ENCDO106AAA, life stage unrecorded): DNase, H3K4me3, H3K27me3 and H3K36me3, the only marks that cell type has; a retinoic-acid-treated bronchial epithelial DNase was rejected. Cell lines: none -- ENCODE has no lung squamous carcinoma line (NCI-H520, SK-MES-1, Calu-1, HCC95, LK-2, EBC-1 and others all absent); NCI-H226, historically labelled lung squamous, is annotated by Cellosaurus (CVCL_1544) as pleural epithelioid mesothelioma and was rejected; adenocarcinoma (A549, PC-9), large-cell (NCI-H460) and small-cell lines rejected. repliseq: keratinocyte (ENCODE UW 6-fraction Repli-seq, hg19), the squamous cell-of-origin match HNSC uses; A549 (Gilbert wavelet) is the organ match but an adenocarcinoma and was not used. Assemblies: Roadmap and repliseq hg19, encode_chromatin and ATAC GRCh38.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 1158 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact LUSC --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-LUSC",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-LUSC",
-      "url": "https://zenodo.org/records/23671524"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "a3dfcaa7c3c524daee0f25bf",
-      "context_id": "54bedc9568e2e8790cd6bf6b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::FORWARD",
-      "direction_title": "Universal large-data ingestion methods [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "parquet"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.2917,
-      "source": "zenodo",
-      "source_context_sha256": "fa5619f9d5a0e67c6c0ce6da79a7b26225d23f0be841f1c8dbc7a0acd210c4e9",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-MESO (Malignant mesothelioma, overwhelmingly pleural in TCGA (51 of 87 cases pleura NOS, 11 thorax NOS, 5 abdominal/peritoneal; 52 epithelioid, 21 biphasic). GTEx has no mesothelium or pleura tissue, so MESO had no GTEx mapping: the proposed mapping key MESO takes Lung (the organ the visceral pleura covers, representative column) and Adipose_Visceral_Omentum (the peritoneal surface tissue GTEx samples), both organ-level proxies in which mesothelial cells are a minor fraction -- read the GTEx block as tissue context, not cell of origin. Expression is tumor-only: all 87 TCGA-MESO RNA-seq files are primary tumors, no normals. TCGA ATAC-seq covered (Corces et al. 2018; the tarball's bigWigs are named MESO_..., read from its first member). roadmap null: Roadmap's 127 epigenomes include no mesothelial, pleural or peritoneal sample (adipose E025/E063 and lung E096 are the wrong cell). encode_chromatin: DNase-seq of NCI-H226, the only mesothelioma line in ENCODE (Cellosaurus CVCL_1544: pleural epithelioid mesothelioma, originally described as lung squamous carcinoma; ENCODE health status 'squamous cell carcinoma; mesothelioma'), no histone ChIP exists for it; 2025 pipeline replicate-1 file. NCI-H2052, NCI-H28, NCI-H2452, MSTO-211H, Met-5A and LP-9 return no ENCODE experiments. Rejected: ENCODE's 'mesothelial cell of epicardium' (in vitro differentiated, embryonic) and adult omental fat pad DNase (mostly adipose, not mesothelium); ENCODE has no adult pleura or peritoneum chromatin. repliseq null: no adult or tumor mesothelial replication-timing source exists; hESC-derived 'mesothelial cell' Repli-chip (ENCSR401KWO, ENCSR326SZT; wavelet, hg19, embryonic) is noted as an unmeasured candidate only. With so little tissue-matched chromatin, MESO is the cohort that stands to gain most from the complete GENERIC. Assemblies: encode_chromatin and ATAC GRCh38.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 925 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact MESO --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-MESO",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-MESO",
-      "url": "https://zenodo.org/records/23671561"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "408c2de4b76aba5edb2cc3b2",
-      "context_id": "3cb0de1e3a069e48c27e1f8f",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::FORWARD",
-      "direction_title": "Universal large-data ingestion methods [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "parquet"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.2917,
-      "source": "arxiv",
-      "source_context_sha256": "aa5ac842f3e32b2905e64e0471c8d12c09e524a6e1aef9276919569389a3cd00",
-      "source_published": "2026-10-26T15:19:07Z",
-      "source_updated": "2026-10-26T15:19:07Z",
-      "summary": "Edge-centric IoT systems are increasingly evaluated through sensor values or platform features, yet the telemetry pipeline itself, the sequence of sensing, serialization, message mediation, ingestion, and persistence, is rarely released as a measurable object. This limits reproducible benchmarking of timeliness, provenance, and operational cost, especially in early-stage IoT design where real deployments and high-quality open data are often unavailable. I present a measurement-first edge IoT testbed and dataset that elevate timeliness, provenance, and energy to first-class telemetry dimensions. The testbed operationalizes a role-based event-driven architecture with explicit Source-Broker-Aggregator responsibilities and a schema-governed TelemetryMessage envelope (Avro) that embeds correlation identifiers and a uniform, cross-role vocabulary of stage-level timestamps. To trace mediation effects, I extend an MQTT broker (Eclipse Mosquitto) with a plugin that annotates messages with high-precision ingress/egress timestamps. I release the dataset in a dual representation: (i) replayable raw events as compressed Avro streams and (ii) analysis-ready long-format Parquet tables partitioned for efficient query and benchmarking, generated by a deterministic raw-to-tabular transformation pipeline. The contribution is an integrated engineering artifact and dataset built from established components. The demonstration describes one deployment through latency summaries, measurement-context distributions, and energy aggregates; it does not establish a new attribution method or a controlled performance benchmark. By co-releasing heterogeneous telemetry with pipeline timing and energy signals in both replayable and queryable forms, the artifact provides a basis for reproducible exploratory analysis and subsequent benchmarking studies.",
-      "tags": [
-        "cs.DC",
-        "cs.NI",
-        "cs.SE"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Making the Telemetry Pipeline Measurable: An Edge IoT Testbed and Dataset for End-to-End Latency, Provenance, and Energy-Aware Benchmarking",
-      "url": "https://arxiv.org/abs/2610.35591v1"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "070629cc821c87c66232f652",
-      "context_id": "1fd8ea7489a7bcea63c91a43",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::FORWARD",
-      "direction_title": "Universal large-data ingestion methods [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "parquet"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.2917,
-      "source": "zenodo",
-      "source_context_sha256": "8e260ea381c1cdef7430f14d8412a3bfbfa6a344da6eee16d56ea78b66c09d58",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-PRAD (Prostate adenocarcinoma. GTEx maps to Prostate (gtex_prostate). TCGA-PRAD has normal RNA-seq (52 Solid Tissue Normal files), so gexp keeps the default tumor+normal means. TCGA ATAC-seq covered (Corces et al. 2018; the tarball's bigWigs are named PRAD_..., read from its first member). roadmap null: Roadmap's 127-epigenome panel has no prostate epigenome. encode_chromatin: adult prostate gland tissue from one ENTEx donor (ENCDO845WKR, 37y; DNase, H3K27ac, H3K27me3, H3K36me3, H3K4me1, H3K4me3), plus H3K9me3 from a second adult donor (ENCDO451RUA, 54y), the only donor with that mark; ENCODE has no adult prostate H3K9ac. Primary prostate epithelial cell DNase (life stage unrecorded), the cell of origin. RWPE1 (HPV18-immortalized normal prostate epithelium; DNase, H3K27ac) as an immortalized-normal cell-of-origin proxy, as PAAD uses HPDE6-E6E7; RWPE2 (RWPE1 transformed in vitro with KRAS) rejected as an engineered line. Prostate cancer lines, untreated files only (ENCODE's many androgen/DHT-treatment experiments excluded): LNCaP clone FGC (DNase x2, H3K4me3), C4-2B (H3K27ac), 22Rv1 (H3K27ac), VCaP (H3K27ac) and PC-3 (all seven standard marks plus DNase; AR-negative bone metastasis). repliseq null: LNCaP's Gilbert-lab Repli-seq series (ENCSR888VII) has no wavelet-smoothed bigWig, only a 5 kb unsmoothed relative-replication bedGraph (ENCFF995YGM, hg19), which no registry type reads. Assemblies: encode_chromatin and ATAC GRCh38.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 1107 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact PRAD --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-PRAD",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-PRAD",
-      "url": "https://zenodo.org/records/23671650"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "171527dd69edc531fa97f12f",
-      "context_id": "071620bfc4a63ce23773d204",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::FORWARD",
-      "direction_title": "Universal large-data ingestion methods [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "parquet"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.2917,
-      "source": "zenodo",
-      "source_context_sha256": "8269f7d08cce34436e370a4bef02bd55f8d2d0da7f4a0881afd06c1c14c7d6b7",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-LUAD (Lung adenocarcinoma. GTEx maps to Lung (representative column gtex_lung). TCGA ATAC-seq covered (Corces et al. 2018; the tarball's bigWigs are named LUAD_..., read from its first member, so the prefix is luad). Roadmap uses E096 (adult lung primary tissue, 30Y female; 6/7 marks, H3K9ac 404s), the only adult lung epigenome in the panel; E088 (fetal lung) and E017 (IMR-90 fetal lung fibroblast) rejected as non-adult, E128 (NHLF lung fibroblasts) as stromal, and E114 (A549, ethanol-treated) left out in favour of ENCODE's native GRCh38 A549 tracks below. All 7 E096 (EID, mark) pairs live-checked 2026-10-03. encode_chromatin: adult lung from one ENTEx donor (ENCDO451RUA, 54M, upper lobe of left lung -- the commonest LUAD site): H3K27ac, H3K27me3, H3K36me3, H3K4me1, H3K4me3, H3K9me3 and DNase-seq, newest GRCh38 files (single-replicate, as that donor has); ENCODE has no adult lung H3K9ac. Roadmap's own E096 donor (ENCDO424HVB) is not reused, to avoid duplicating E096 in another assembly. Cell lines: the two lung adenocarcinoma lines in ENCODE's panel -- A549 (KRAS-mutant; untreated Reddy-lab H3K27ac/H3K4me1/H3K4me3/H3K9me3 and DNase, ethanol-vehicle Bernstein-lab H3K27me3/H3K36me3/H3K9ac, the only ones for those marks) and PC-9 (EGFR exon-19 deletion; all 7 marks and DNase, untreated), pooled-replicate fold-change files where available. Rejected: the small-cell lines (NCI-H69, H82, H146, H187, H209, H345, H446, H510A, H524, H748, H889, H1092, H1436, H1694, H1930, H2081, H2107, H2171, H2196, SHP77, COLO668), NCI-H460 (large-cell carcinoma), NCI-H226 (squamous), and the fetal lung fibroblasts IMR-90, WI38, AG04450, AG08396. repliseq: A549's Gilbert-lab wavelet-smoothed early/late signal (ENCSR593FTB, hg19), a disease-matched lung adenocarcinoma line -- registered like KIRC's Caki2, to be measured with the own-RT-block test. Assemblies: Roadmap and repliseq hg19, encode_chromatin and ATAC GRCh38.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 1194 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact LUAD --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-LUAD",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-LUAD",
-      "url": "https://zenodo.org/records/23671499"
-    },
-    {
-      "base_direction_id": "large_data_methods",
-      "candidate_id": "6f2e4ff1216d9a57dcdfcd04",
-      "context_id": "028f375613dfe6c20335788b",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "large_data_methods::FORWARD",
-      "direction_title": "Universal large-data ingestion methods [FORWARD]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "parquet"
-      ],
-      "mirror_lens": "FORWARD",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 1.2917,
-      "source": "zenodo",
-      "source_context_sha256": "fa78c13c753ac6a9ef33df283a68dbcfcdd9c02d86fbe53c78eac3f1adc16847",
-      "source_published": "2026-10-26",
-      "source_updated": "",
-      "summary": "Pre-built per-gene covariate matrices for TCGA-OV (Ovarian Serous Cystadenocarcinoma. encode_chromatin added 2026-09-03 (expanded-covariate-sources task, Objective A.3): DNase-seq substituted for the missing TCGA ATAC-seq coverage (Corces et al. 2018 didn't profile ovarian cancer) -- adult primary ovary tissue DNase-seq exists natively on ENCODE (9 released adult experiments; one used here), unrelated to the ATAC gap since ATAC and DNase are separate assay catalogs.), built with sigmutselcovs : GTEx tissue-matched gene expression, TCGA per-sample gene expression, replication timing (mean replication time and CLR-transformed S-phase fractions), Roadmap Epigenomics histone marks, and TCGA ATAC-seq accessibility, indexed by Ensembl gene ID. Files: cov_matrix_full.parquet &mdash; the full matrix (all covariate columns) cov_matrix_pca.parquet &mdash; PCA-reduced to 1080 components, the smallest number reaching 99% cumulative explained variance (see pca_manifest.json) cov_matrix_columns.csv &mdash; a data dictionary: one row per column of the full matrix, with source, description, assembly, and units build_manifest.json , pca_manifest.json &mdash; build provenance and PCA parameters Full source citations and methodology: SOURCES.md . Release of 2026-10-26. Every chromatin and ATAC column is one track, summarized as log1p of the mean signal over the gene's CDS span (first to last coding base); replication timing covers chrX. cov_matrix_pca.parquet now reduces the combined matrix : this cohort's own covariates plus the tissue-agnostic GENERIC pool ( GENERIC record ), with the pool's columns for chromatin tracks this cohort already has left out. That is the matrix the sigmutsel covariate model is fitted on; it predicts held-out mutation counts better than the cohort's own matrix alone in the cohorts tested, so the first components of this artifact are the ones a model should use. Versions before 2026-10-26 reduced the own matrix alone. cov_matrix_full.parquet is still the cohort's own matrix; GENERIC's is in its record. pca_manifest.json records which matrix was reduced ( matrix ) and the column counts. To rebuild: sigmutselcovs pca-artifact OV --data-dir DIR --generic-dir GENERIC_DIR .",
-      "tags": [
-        "sigmutselcovs",
-        "TCGA",
-        "TCGA-OV",
-        "covariate matrix",
-        "mutation rate",
-        "replication timing",
-        "chromatin accessibility",
-        "gene expression"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "sigmutselcovs covariate matrices: TCGA-OV",
-      "url": "https://zenodo.org/records/23671597"
-    },
     {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "69f54dfbf04c470fc8d9f636",
@@ -624,6 +260,72 @@
       "url": "https://arxiv.org/abs/2610.40289v1"
     },
     {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "877d7087311a69671a6c8ac6",
+      "context_id": "602f7b0a84ee10744cfe785c",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::REVERSE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inversion",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.6667,
+      "source": "zenodo",
+      "source_context_sha256": "a7b2b143d1c3515bca1a17e5b72e6606b94221dbc91b5f0974f90bcda0cd0ec3",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "Inspired by Dimensional Mechanics, Riemann I constructs the observable D_C measuring how well the finite Euler product satisfies the functional equation. Its modulus equals 1 exactly on the critical line, prime by prime, and deviates off it. The correction identity R_C D_C = R_C(1&minus;s) shows that any off-line zero requires R_C to absorb the finite-product discrepancy through paired leading-coefficient compensation. A non-circular proto-zero filtration and the variance asymmetry theorem establish the critical line as the unique fixed line with both exact finite-stage coupling and unbounded fluctuation budget. A curvature reformulation proves RH equivalent to positivity of u = F_&sigma;&sigma;/F throughout the strip, with boundary positivity established via the Hadamard product. An exact operator realization constructs the bronze toral automorphism A₃ &isin; SL(2,ℤ) with contracting eigenvalue n* and dynamical zeta &zeta;_{A₃}(z) = (1&minus;z)&sup2;/(1&minus;11z+z&sup2;), whose complete zero set lies on the critical line. The arithmetic completion identifies x* as the fundamental unit of Q(&radic;13), giving n* = exp[&minus;&radic;13 L(1,&chi;₁₃)] via the class-number formula and embedding the bronze residual in genuine prime arithmetic through &zeta;_{Q(&radic;13)} = &zeta;&middot;L(s,&chi;₁₃). A contour winding theorem shows the off-line zero count equals the cutoff-independent winding index of R_C, giving a topologically quantized obstruction. The completed spectral development unfolds the unit-period bronze Gaussian into Hecke&ndash;Bessel L-function towers, realizes the full Riemann zero divisor as a canonical quotient of the Q(&radic;13) divisor, and derives an explicit prime-loop Dirichlet energy form of the Guinand&ndash;Weil formula. RH is reduced to noncompensation of R_C; the Realizability Principle closes that bridge by denying R_C an independent tail channel, while the contour and spectral constructions state the precise remaining analytic estimate. Riemann II, also inspired by DM, develops the Realizability Principle as standalone foundations. Iterated prime-counting enters {0,1,2,3}; the parity recursion stabilizes at x* = (3+&radic;13)/2 with floor 3. The same point is forced by an S&sup3; shell equilibrium with Spin(3) texture and locked topological core, selecting d = 3 uniquely through parity survival and &pi;₃(S&sup3;) &cong; ℤ. The shell factorization P(x) = &minus;2(x&sup2;+1)(x&sup2;&minus;3x&minus;1) is identified as the joint characteristic polynomial of the metallic transfer M₃ and the compact inversion J &isin; SU(2), with J reversing A₃ = M₃&sup2;. A bronze-Frobenius system combines unit transport with rational-prime actions: split primes preserve the squared-unit transport while inert primes reverse it, and the squared commutator recovers exactly the missing odd prime-power repetitions, giving the ordinary prime-loop trace as a half-sum. A completed spectral construction distinguishes periodic and antiperiodic Gaussian sectors on the closed bronze circle, producing integer and half-integer Hecke&ndash;Bessel towers with exact completed reflection, an antiperiodic spectral gap &pi;&sup2;/(4 log&sup2; &alpha;), and strictly positive periodic Toeplitz matrices. The principle classifies mathematical statements by frame, absorbs G&ouml;del incompleteness as frame-dependent, identifies noncompensation as the structural consequence of closure, and states a conditional completed-Weil operator criterion: if a faithful realization satisfies the bronze contraction bound T*T ≼ bI, then Weil positivity and classical RH follow. Yang&ndash;Mills, also inspired by DM, applies the same reduction architecture to the mass gap on S&sup3;_R, where compactness provides analytic control. The algebraic Casimir floor &delta;_E &ge; c_E g&sup2; C₂,min(G) &gt; 0 guarantees a positive finite-stage contribution, analogous to the zero-free finite Euler product in Riemann, while the magnetic correction &delta;_B is isolated as",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Frame Duality on the Number Line",
+      "url": "https://zenodo.org/records/23815893"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "877d7087311a69671a6c8ac6",
+      "context_id": "3d00ebfd263bef6db1e2bb70",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inversion",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.6667,
+      "source": "zenodo",
+      "source_context_sha256": "6f7aa64452e643bb3a2de358350cea186ea1401f8276bd4d6da572925483399d",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "Inspired by Dimensional Mechanics, Riemann I constructs the observable D_C measuring how well the finite Euler product satisfies the functional equation. Its modulus equals 1 exactly on the critical line, prime by prime, and deviates off it. The correction identity R_C D_C = R_C(1&minus;s) shows that any off-line zero requires R_C to absorb the finite-product discrepancy through paired leading-coefficient compensation. A non-circular proto-zero filtration and the variance asymmetry theorem establish the critical line as the unique fixed line with both exact finite-stage coupling and unbounded fluctuation budget. A curvature reformulation proves RH equivalent to positivity of u = F_&sigma;&sigma;/F throughout the strip, with boundary positivity established via the Hadamard product. An exact operator realization constructs the bronze toral automorphism A₃ &isin; SL(2,ℤ) with contracting eigenvalue n* and dynamical zeta &zeta;_{A₃}(z) = (1&minus;z)&sup2;/(1&minus;11z+z&sup2;), whose complete zero set lies on the critical line. The arithmetic completion identifies x* as the fundamental unit of Q(&radic;13), giving n* = exp[&minus;&radic;13 L(1,&chi;₁₃)] via the class-number formula and embedding the bronze residual in genuine prime arithmetic through &zeta;_{Q(&radic;13)} = &zeta;&middot;L(s,&chi;₁₃). A contour winding theorem shows the off-line zero count equals the cutoff-independent winding index of R_C, giving a topologically quantized obstruction. The completed spectral development unfolds the unit-period bronze Gaussian into Hecke&ndash;Bessel L-function towers, realizes the full Riemann zero divisor as a canonical quotient of the Q(&radic;13) divisor, and derives an explicit prime-loop Dirichlet energy form of the Guinand&ndash;Weil formula. RH is reduced to noncompensation of R_C; the Realizability Principle closes that bridge by denying R_C an independent tail channel, while the contour and spectral constructions state the precise remaining analytic estimate. Riemann II, also inspired by DM, develops the Realizability Principle as standalone foundations. Iterated prime-counting enters {0,1,2,3}; the parity recursion stabilizes at x* = (3+&radic;13)/2 with floor 3. The same point is forced by an S&sup3; shell equilibrium with Spin(3) texture and locked topological core, selecting d = 3 uniquely through parity survival and &pi;₃(S&sup3;) &cong; ℤ. The shell factorization P(x) = &minus;2(x&sup2;+1)(x&sup2;&minus;3x&minus;1) is identified as the joint characteristic polynomial of the metallic transfer M₃ and the compact inversion J &isin; SU(2), with J reversing A₃ = M₃&sup2;. A bronze-Frobenius system combines unit transport with rational-prime actions: split primes preserve the squared-unit transport while inert primes reverse it, and the squared commutator recovers exactly the missing odd prime-power repetitions, giving the ordinary prime-loop trace as a half-sum. A completed spectral construction distinguishes periodic and antiperiodic Gaussian sectors on the closed bronze circle, producing integer and half-integer Hecke&ndash;Bessel towers with exact completed reflection, an antiperiodic spectral gap &pi;&sup2;/(4 log&sup2; &alpha;), and strictly positive periodic Toeplitz matrices. The principle classifies mathematical statements by frame, absorbs G&ouml;del incompleteness as frame-dependent, identifies noncompensation as the structural consequence of closure, and states a conditional completed-Weil operator criterion: if a faithful realization satisfies the bronze contraction bound T*T ≼ bI, then Weil positivity and classical RH follow. Yang&ndash;Mills, also inspired by DM, applies the same reduction architecture to the mass gap on S&sup3;_R, where compactness provides analytic control. The algebraic Casimir floor &delta;_E &ge; c_E g&sup2; C₂,min(G) &gt; 0 guarantees a positive finite-stage contribution, analogous to the zero-free finite Euler product in Riemann, while the magnetic correction &delta;_B is isolated as",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Frame Duality on the Number Line",
+      "url": "https://zenodo.org/records/23815893"
+    },
+    {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "8c518a48de4a5e9779f2b234",
       "context_id": "2fd105dd9b2d9765522159d3",
@@ -738,79 +440,6 @@
       "url": "https://arxiv.org/abs/2610.39781v1"
     },
     {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "d09df10960f8d77a89e11395",
-      "context_id": "db4fcec66d4eddc226dbb8d7",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "reconstruction",
-        "retrieval"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.2083,
-      "source": "arxiv",
-      "source_context_sha256": "90cb596e6cc6ce504490dec2457005bdcd1502e3e5b922f75b9917479a0727d8",
-      "source_published": "2026-10-28T10:06:57Z",
-      "source_updated": "2026-10-28T10:06:57Z",
-      "summary": "A memory can be outdated for present-day reasoning yet indispensable for reconstructing the past. Relevance-based retrieval overlooks this tension: semantic relevance, evidence-grounded validity, and query-specific eligibility are distinct. We propose CALM, a conflict-aware lifecycle memory governance framework that decouples persistent memory preservation from query-time admission. CALM converts heterogeneous records into evidence-grounded memory cells, updates validity and lifecycle states using support, conflict, and dependency signals, and admits query-appropriate evidence through training-free or learned gating informed by temporal applicability. Across LongMemEval-S and LoCoMo with Qwen and GPT backbones, CALM outperforms state-of-the-art baselines, achieving the best overall accuracy. Compared with simple filtering and reranking, query-conditioned admission further improves evidence selection. Conflict-blocking and robustness analyses show CALM suppresses erroneous retrieved memories while retaining useful evidence. Historical-reconstruction experiments demonstrate that preserving superseded records supports accurate earlier-state reasoning without compromising current-state answers.",
-      "tags": [
-        "cs.AI"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "CALM: Conflict-Aware Lifecycle Memory Governance for Long-Horizon Language Agents",
-      "url": "https://arxiv.org/abs/2610.38573v1"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ec4132087f051fbd42ace95b",
-      "context_id": "29b60c63d7f1049e36221567",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::REVERSE",
-      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "retrieval",
-        "world model"
-      ],
-      "mirror_lens": "REVERSE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.0833,
-      "source": "arxiv",
-      "source_context_sha256": "3aa5280e436402fed4df9fcb55f92de94f107e5cc92de9134670e158593b5bac",
-      "source_published": "2026-10-29T13:36:06Z",
-      "source_updated": "2026-10-29T13:36:06Z",
-      "summary": "Memory in reinforcement learning raises two problems. Attention finds the relevant item by scoring the whole store, which is costly for robots under latency and energy limits. When a retrieved memory pays off, credit for acquiring it must cross the whole sequence. We argue that both are governed by one quantity, the value of information, and propose to estimate it from archived rollouts with a learned world model. We obtain that, when read at the observation, it yields a provable lower bound on the optimal value of the acquiring action, which floors its TD target and attributes this floor to the observation that earned it. Read at the decision, it defines the optimal retrieval set. A pilot retrieval system, to be trained and improved with this signal, solves a memory task with reduced context.",
-      "tags": [
-        "cs.AI",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Cheap Retrieval and Observation Credit Assignment from One Quantity: The Value of Information",
-      "url": "https://arxiv.org/abs/2610.40030v1"
-    },
-    {
       "base_direction_id": "swarm_distributed_systems",
       "candidate_id": "0a538fe4f50b23be7fa0a123",
       "context_id": "5b4c6dc266b8ada28c9d84fd",
@@ -845,6 +474,41 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Auditable Belief Updates as a Missing Safety Layer for LLM-Powered Multi-Agent Systems",
       "url": "https://arxiv.org/abs/2610.38869v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "a080d20345716a179996e278",
+      "context_id": "b49e4c8d53ca3c6eeb9f71d2",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "consensus",
+        "decentralized",
+        "failure",
+        "failure mode"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.7083,
+      "source": "zenodo",
+      "source_context_sha256": "b810655e46f0e43d32aa8fdeeaeb97bbcc0ac70e7dd968d2a10ebbe4f5bbd7d0",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bearing geometry without losing structural integrity, traction confidence, actuator authority or independently reconstructable state identity. Its scope is limited to unoccupied, scaled rigs and falsifiable engineering research. Its principal hypothesis can be refuted. With equivalent materials, mass, testing time, energy, sensing and control resources, a preregistered adaptive chassis should improve traction reserve without worsening energy per mission, path error, or structural stability relative to a well-tuned fixed-geometry chassis and conservative rule-based controller. Apparent gains that vanish under actuator, controller or load-path ablations cannot be attributed to robotic matter. Thirty mathematical and physical research plates address six-degree dynamic balance, graph rigidity, stiffness and failure modes, contact-force closure, structural interface stress, fatigue, consensus, latency, support margins, power accounting, sensor covariance, fault identification and noncompensatory release. Each plate defines units, validity assumptions, an independent physical counter-test and links to substantive chapter investigations. Across 82 chapters and 410 single-page studies, the volume develops mechanical architectures, connector physics, reversible stiffness, decentralized actuation, ground interaction, reference metrology, energy integrity, wear, fair baselines and independent qualification. Two hundred Research Gates frame specific blinded perturbations, rival explanations and hard stopping conditions. Thirty-three different Phoenix Answer Embryos propose distinct tools, diagnostic instruments and successor-ready verification interfaces. This book is hypothesis-generating. It does not report a completed STARLI chassis experiment, nanoscale vehicle manufacturing, quantum superiority or passenger-safe operation. Unknown traction, unstable support, unverifiable mechanical locking, reference invalidity or revoked physical authority require stopping and withholding conclusions. Competing laboratories are invited to reproduce, refute and improve the proposals while keeping failed experiments visible. Author: Feng Cheng-en (33) x STARLI / Xingli Series: STARLI YULI Nano Supercar Trilogy / Research Institute XXXVI / Flagship 13 Edition: Research Working Edition v1.0 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bea",
+      "url": "https://zenodo.org/records/23820174"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1099,6 +763,72 @@
       "url": "https://arxiv.org/abs/2610.39230v1"
     },
     {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "b7d218211bea359e85d38927",
+      "context_id": "b27123d59a0c27cd90dd90c0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "43f32a69c98cbbb862a1fdff1d3eb901d6a844752905105058ccf1e7e4705a1c",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "Welcome to WARP WARP (WDL Analysis Research Pipelines) repository is a collection of cloud-optimized pipelines for processing biological data from the Broad Institute Data Sciences Platform and collaborators. The contents of this repository are open source and released under the BSD 3-Clause license . Table of Contents WARP Overview Navigating WARP Using WARP WARP Versioning and Releasing Testing in WARP Feedback Acknowledgements WARP Overview WARP pipelines provide robust, standardized data analysis for the Broad Institute Genomics Platform and large consortia like the Human Cell Atlas and the BRAIN Initiative. You can count on WARP for rigorously scientifically validated, high scale, reproducible and open source pipelines. Our pipelines are written as \"workflows\" using the Workflow Description Language (WDL) and they process a broad spectrum of \"omic\" and array-related datasets (see the overview table below). | Pipeline Category | Data Types | | --- | --- | | Germline Variant Discovery | Genomes, Exomes | | Genotyping Arrays | Variant discovery, Chip validation, Joint array analysis | | Single-cell/nuclei Transcriptomics | Droplet based (10x Genomics), Smartseq2 | | Single-cell Epigenomics | Single nuclei ATAC-seq, Single nuclei MethylC-seq | | Joint Genotyping | Genomes, Exomes | | Somatic Alignment (beta) | Exomes | Try our pipelines in Terra , a platform for collaborative cloud analysis! Learn how in the Using WARP section. Navigating WARP All versioned and released pipelines are in one of the three pipelines subdirectories: broad (pipelines for the Broad Institute's Genomics Platform), cemba (pipelines for the BRAIN Initiative) or skylab (pipelines for the Human Cell Atlas Project). Each pipeline directory hosts a main workflow WDL that includes a pipeline version number and a corresponding changelog file. Workflows may call additional WDLs, referred to as tasks, that are located in the tasks directory. Pipelines that are in progress or have not yet been validated are in the beta-pipelines folder. Using WARP There are three ways to use WARP pipelines: 1. Download the workflow and run on a WDL-compatible execution engine WDL workflows run on multiple systems, including Cromwell , miniWDL , and dxWDL (see the openwdl documentation ). To run a pipeline's latest release, first navigate to WARP Releases , search for your pipeline's tag, and download the pipeline's assets (the WDL workflow, the JSON, and the ZIP with accompanying dependencies; see Optimus example below). You can also access a pipeline's release page by selecting the pipeline version number at the top of the pipeline's README. After downloading the pipeline's assets, launch the workflow following your execution engine's instructions. 2. Run the pipeline in Terra Several WARP pipelines are available in public workspaces on the Terra cloud platform. These workspaces include both the WDL workflow and downsampled data so that you can test the pipeline at low-cost. If you are new to Terra, you can get started by registering with your Google account and visiting Terra Support . After registration, search for WARP-related workspaces with the \"warp-pipelines\" tag. To test the pipeline, clone (make a copy of) the workspace following the instructions in this Terra Support guide . 3. Run or export the pipeline from Dockstore Dockstore is a GA4GH compliant open platform for sharing Docker-based tools like WDL workflows. You can find WARP pipelines in Dockstore and run them on the Dockstore platform or export them to other platforms (including Terra). To view all available pipelines, just search \"warp\" in the Dockstore search and browse the workflow list. See Dockstore documentation for details on launching the workflow. WARP Versioning and Releasing Pipelines in WARP are versioned semantically to support reproducibility in scientific analysis and provide clearer analysis provenance. Version numbers allow researchers to confirm their data has all been processed in a compati",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "github.com/broadinstitute/warp/IlluminaGenotypingArray",
+      "url": "https://zenodo.org/records/23819740"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "cb41a7732aa9527d15118c0d",
+      "context_id": "a1641d7355ce0e7344a97878",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "42ed6629c1a0f749e8711953cafb9c0c25f9fab6682ce894d12a3d14b9486602",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "Welcome to WARP WARP (WDL Analysis Research Pipelines) repository is a collection of cloud-optimized pipelines for processing biological data from the Broad Institute Data Sciences Platform and collaborators. The contents of this repository are open source and released under the BSD 3-Clause license . Table of Contents WARP Overview Navigating WARP Using WARP WARP Versioning and Releasing Testing in WARP Feedback Acknowledgements WARP Overview WARP pipelines provide robust, standardized data analysis for the Broad Institute Genomics Platform and large consortia like the Human Cell Atlas and the BRAIN Initiative. You can count on WARP for rigorously scientifically validated, high scale, reproducible and open source pipelines. Our pipelines are written as \"workflows\" using the Workflow Description Language (WDL) and they process a broad spectrum of \"omic\" and array-related datasets (see the overview table below). | Pipeline Category | Data Types | | --- | --- | | Germline Variant Discovery | Genomes, Exomes | | Genotyping Arrays | Variant discovery, Chip validation, Joint array analysis | | Single-cell/nuclei Transcriptomics | Droplet based (10x Genomics), Smartseq2 | | Single-cell Epigenomics | Single nuclei ATAC-seq, Single nuclei MethylC-seq | | Joint Genotyping | Genomes, Exomes | | Somatic Alignment (beta) | Exomes | Try our pipelines in Terra , a platform for collaborative cloud analysis! Learn how in the Using WARP section. Navigating WARP All versioned and released pipelines are in one of the three pipelines subdirectories: broad (pipelines for the Broad Institute's Genomics Platform), cemba (pipelines for the BRAIN Initiative) or skylab (pipelines for the Human Cell Atlas Project). Each pipeline directory hosts a main workflow WDL that includes a pipeline version number and a corresponding changelog file. Workflows may call additional WDLs, referred to as tasks, that are located in the tasks directory. Pipelines that are in progress or have not yet been validated are in the beta-pipelines folder. Using WARP There are three ways to use WARP pipelines: 1. Download the workflow and run on a WDL-compatible execution engine WDL workflows run on multiple systems, including Cromwell , miniWDL , and dxWDL (see the openwdl documentation ). To run a pipeline's latest release, first navigate to WARP Releases , search for your pipeline's tag, and download the pipeline's assets (the WDL workflow, the JSON, and the ZIP with accompanying dependencies; see Optimus example below). You can also access a pipeline's release page by selecting the pipeline version number at the top of the pipeline's README. After downloading the pipeline's assets, launch the workflow following your execution engine's instructions. 2. Run the pipeline in Terra Several WARP pipelines are available in public workspaces on the Terra cloud platform. These workspaces include both the WDL workflow and downsampled data so that you can test the pipeline at low-cost. If you are new to Terra, you can get started by registering with your Google account and visiting Terra Support . After registration, search for WARP-related workspaces with the \"warp-pipelines\" tag. To test the pipeline, clone (make a copy of) the workspace following the instructions in this Terra Support guide . 3. Run or export the pipeline from Dockstore Dockstore is a GA4GH compliant open platform for sharing Docker-based tools like WDL workflows. You can find WARP pipelines in Dockstore and run them on the Dockstore platform or export them to other platforms (including Terra). To view all available pipelines, just search \"warp\" in the Dockstore search and browse the workflow list. See Dockstore documentation for details on launching the workflow. WARP Versioning and Releasing Pipelines in WARP are versioned semantically to support reproducibility in scientific analysis and provide clearer analysis provenance. Version numbers allow researchers to confirm their data has all been processed in a compati",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "github.com/broadinstitute/warp/JointGenotyping",
+      "url": "https://zenodo.org/records/23819756"
+    },
+    {
       "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "bf1504c82bb9eecaf7c1c4f7",
       "context_id": "0d5741fd8436f1440e511d5e",
@@ -1136,50 +866,13 @@
       "url": "https://arxiv.org/abs/2610.37891v1"
     },
     {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "eaf58cda0c11beb48dc06aee",
-      "context_id": "7ffbfad7a76de34be1033a25",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "failure",
-        "provenance"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.7083,
-      "source": "arxiv",
-      "source_context_sha256": "a4bf09dd18c451c5ec177f471a7fa291f63c92947a81236c11bbcbb69eac32f4",
-      "source_published": "2026-10-29T09:01:47Z",
-      "source_updated": "2026-10-29T09:01:47Z",
-      "summary": "A research field records its open problems in surveys, keynotes and community reports. Those are prose, written every few years, and nobody can ask them who works on a problem now or whether it was settled last year. We argue the problems should be data, and we build the system that makes them so: a hand-curated problem layer carried in unchanged, under an evidence layer rebuilt from a bibliographic index, joined by typed, provenance-carrying links in one graph database and queryable from one language. A language model does four jobs -- per-paper extraction, catalog grounding, per-paper status verdict, and idea generation -- each constrained to a candidate set so out-of-set answers are refused rather than stored. We report a study on two curated catalogs, database research (1,053 problems) and AI research (1,000 problems), each with a prior catalog-only graph. The rebuilt graph answers every question the catalog-only graph answered -- 47 of 47 on databases, 34 of 35 on AI -- plus questions the catalog-only graph refused: recent workers, untouched problems, methods tried, and outside papers bearing on a problem (336 problems, 770 works on databases). The capability we most wanted does not survive its own audit. Of 41 solves and refutes verdicts hand-checked against the papers, 9 are correct, 30 partly correct and 2 wrong; no refutes verdict (0 of 34) disproves an open problem, and only 1 of 7 solves closes the central question. We report that failure in full and draw the design conclusion: a status change must be proposed with its evidence and never applied, making the human reviewer part of the architecture. We close with the data-engineering problems this raises: entity resolution across curated and harvested layers, verifying model status claims, freshness under source quotas, and evaluation without ground truth.",
-      "tags": [
-        "cs.DB",
-        "cs.AI",
-        "cs.DL"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Rebuilding a Field's Open-Problem Catalog from the Literature: A Two-Layer Knowledge Graph, and Why Status Must Stay Proposed",
-      "url": "https://arxiv.org/abs/2610.39641v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "b8f75c5cba576823fd4fef01",
-      "context_id": "6598baa62c74cac12664317f",
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "a080d20345716a179996e278",
+      "context_id": "c2b816d237de05c4093d883e",
       "delivery_preview_only": true,
       "delivery_preview_truncated": true,
-      "direction_id": "registry_provenance::COUNTEREVIDENCE",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
       "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
       "firewall": [
         "ROUTED_NE_VERIFIED",
@@ -1189,58 +882,24 @@
         "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
       ],
       "keyword_hits": [
-        "failure",
-        "provenance"
+        "ablation",
+        "baseline",
+        "consensus",
+        "control",
+        "decentralized"
       ],
-      "mirror_lens": "COUNTEREVIDENCE",
+      "mirror_lens": "CONTROL",
       "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 8.7083,
+      "score": 15.875,
       "source": "zenodo",
-      "source_context_sha256": "4f4aba51b899d679bf8f0e13d7e8bc09ed334c25b8e382b0a84e6d7229312794",
+      "source_context_sha256": "eb559d0bca9418e991de288c452ed49af8ed04a69fd5fda24f9d65129ac178d4",
       "source_published": "2026-10-30",
       "source_updated": "",
-      "summary": "PHOTOSTABILITY OF BOTANICAL ACTIVES AND PACKAGING ENGINEERING AT THE LIMIT 中文書名:植物活性成分光穩定性與包材工程極限 Photostability of Botanical Actives and Packaging Engineering at the Limit is a 777-page English research working monograph investigating three coupled but independently falsifiable questions: photochemical degradation of identifiable botanical marker compounds, wavelength-resolved optical transmission through real packaging, and the qualification of storage safety against oxygen ingress and unknown photoproducts. Its central claim is conditional, not asserted. A package that retains more apparent active compound after simulated light exposure may simply exclude oxygen, reduce lamp heating, alter extraction recovery, or hide degradation products. The proposed test therefore crosses films with matched oxygen-transmission rates but contrasting spectral transmittance, and films with matched optical protection but contrasting oxygen transport. Incident spectra, absorbed dose, headspace oxygen, intact parent, isomers and degradants must remain distinct physical measurements. The opening candidate relation D_light = integral over time and wavelength of E_lambda times A_lambda formalizes spectral exposure only within explicitly measured optical and unit conventions. Thirty mathematically diverse research plates specify physical construction, dimensions, assumptions, blind falsification and linked chapters. Eighty-two research chapters and 410 separate-page investigations explore botanical provenance, optical metrology, photochemistry, oxygen transport, package manufacture, chemical recovery, second-site requalification and governance of false-positive claims. Two hundred single-page Research Gates challenge identifiable observables and strong alternative explanations; thirty-three Phoenix Answer Embryos describe distinguishable scientific instruments, assay references, failure sentinels, and research inheritance objects. Each Gate preserves an adverse test and a successor handoff rather than presuming the hypothesis will win. Three author-designated STARLI mother works provide methodological ancestry in identity protection, functional requalification and uncertainty-aware sampling, not experimental evidence of this skincare application. External method references span IUPAC actinometry, ASTM optical transmission and oxygen permeation, curcumin and anthocyanin photochemistry, and barrier-film research. Their scientific domains and limits are explicitly differentiated. This manuscript is a prospective, nonclinical Research Working Edition, not a completed photostability campaign, human trial, proof of cosmetic efficacy, or regulatory approval. Author: Feng Cheng-en (33) x Starli Series: STARLI Research Institute XXXV / Herbal Nano-Quantum Skincare Atlas / Flagship F22",
+      "summary": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bearing geometry without losing structural integrity, traction confidence, actuator authority or independently reconstructable state identity. Its scope is limited to unoccupied, scaled rigs and falsifiable engineering research. Its principal hypothesis can be refuted. With equivalent materials, mass, testing time, energy, sensing and control resources, a preregistered adaptive chassis should improve traction reserve without worsening energy per mission, path error, or structural stability relative to a well-tuned fixed-geometry chassis and conservative rule-based controller. Apparent gains that vanish under actuator, controller or load-path ablations cannot be attributed to robotic matter. Thirty mathematical and physical research plates address six-degree dynamic balance, graph rigidity, stiffness and failure modes, contact-force closure, structural interface stress, fatigue, consensus, latency, support margins, power accounting, sensor covariance, fault identification and noncompensatory release. Each plate defines units, validity assumptions, an independent physical counter-test and links to substantive chapter investigations. Across 82 chapters and 410 single-page studies, the volume develops mechanical architectures, connector physics, reversible stiffness, decentralized actuation, ground interaction, reference metrology, energy integrity, wear, fair baselines and independent qualification. Two hundred Research Gates frame specific blinded perturbations, rival explanations and hard stopping conditions. Thirty-three different Phoenix Answer Embryos propose distinct tools, diagnostic instruments and successor-ready verification interfaces. This book is hypothesis-generating. It does not report a completed STARLI chassis experiment, nanoscale vehicle manufacturing, quantum superiority or passenger-safe operation. Unknown traction, unstable support, unverifiable mechanical locking, reference invalidity or revoked physical authority require stopping and withholding conclusions. Competing laboratories are invited to reproduce, refute and improve the proposals while keeping failed experiments visible. Author: Feng Cheng-en (33) x STARLI / Xingli Series: STARLI YULI Nano Supercar Trilogy / Research Institute XXXVI / Flagship 13 Edition: Research Working Edition v1.0 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
       "tags": [],
       "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "PHOTOSTABILITY OF BOTANICAL ACTIVES AND PACKAGING ENGINEERING AT THE LIMIT 中文書名:植物活性成分光穩定性與包材工程極限 Photostability of Botanical Actives and Packaging Engineering at the Limit is a 777-page English research working monograph investigating three coupled but independently falsifiable questions: photochem",
-      "url": "https://zenodo.org/records/23808663"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "ec4132087f051fbd42ace95b",
-      "context_id": "0fcdfeb348a1ac6f2ed3bf1a",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
-      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "memory",
-        "retrieval",
-        "world model"
-      ],
-      "mirror_lens": "COUNTEREVIDENCE",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 7.0833,
-      "source": "arxiv",
-      "source_context_sha256": "7bf165a618efe8f08b618110fea3862a7745ec55114cd4d45e8bac5e91fd2356",
-      "source_published": "2026-10-29T13:36:06Z",
-      "source_updated": "2026-10-29T13:36:06Z",
-      "summary": "Memory in reinforcement learning raises two problems. Attention finds the relevant item by scoring the whole store, which is costly for robots under latency and energy limits. When a retrieved memory pays off, credit for acquiring it must cross the whole sequence. We argue that both are governed by one quantity, the value of information, and propose to estimate it from archived rollouts with a learned world model. We obtain that, when read at the observation, it yields a provable lower bound on the optimal value of the acquiring action, which floors its TD target and attributes this floor to the observation that earned it. Read at the decision, it defines the optimal retrieval set. A pilot retrieval system, to be trained and improved with this signal, solves a memory task with reduced context.",
-      "tags": [
-        "cs.AI",
-        "cs.LG"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Cheap Retrieval and Observation Credit Assignment from One Quantity: The Value of Information",
-      "url": "https://arxiv.org/abs/2610.40030v1"
+      "title": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bea",
+      "url": "https://zenodo.org/records/23820174"
     },
     {
       "base_direction_id": "registry_provenance",
@@ -1471,47 +1130,6 @@
     },
     {
       "base_direction_id": "cognition_memory_reverse",
-      "candidate_id": "e08331c73187b646dccf85a9",
-      "context_id": "b227e148d7ce2393e098ecca",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "cognition_memory_reverse::CONTROL",
-      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "control",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.125,
-      "source": "zenodo",
-      "source_context_sha256": "9b01a7692704a0d1858b5187c6ddb2d0d59e879459a564e83a5afcdf55e65b6a",
-      "source_published": "2026-10-30",
-      "source_updated": "",
-      "summary": "Borrowed Youth: Demographic Change and Multinational Location Advantage explains how national cohort succession and international recruitment become firm-specific location advantages over a production commitment. Home-linked relationships, recruitment shared across foreign affiliates and admission institutions determine attainable replacement labour. Version 3.33.0 clarifies the empirical bridge and journal exposition. The model-to-data mapping distinguishes accessible worker stocks and annual arrival flows from their discounted service values. Table 3 now leads with the main engineering-life comparison, followed by the accounting and common-support benchmarks. The country equal-pricing contrasts are expressed as conditional investment changes holding total measured international services fixed, with full covariance and uncertainty preserved. These transformations introduce no additional test, observation or regression. The discussion relates demographic succession to resource bundling, human-capital access and multinational portfolios. The exact AI declaration, including all figures, is preserved. Previously reported scientific results are preserved. The article supplies an explicit economic bridge from project value to expected investment allocation under stated choice, capital-size, duration and disclosure conditions. It distinguishes capital expenditure from accumulated assets, whose interpretation additionally depends on investment histories, depreciation and valuation changes. The retained capital-expenditure analysis uses the existing demographic construction and controls. There are 82 matched records from ten firms and 36 after fixed-effect support. The nuisance design has rank 33; the five focal regressors have rank three. Independent projection confirms this failure. No duration coefficient, interval or p-value is identified; the result is not a zero effect. The public module reconstructs the aggregate rank and supplies licensed rerun code without redistributing issuer rows. The existing engineering-life asset comparison remains: 317 allocations from 32 manufacturers in nine hosts, contrast -110.25 (95 percent interval -520.28 to 299.78; positive-direction p=0.724). Joint positive pricing and rotation are unestablished (p=0.763), and the familywise contradiction test does not reject (p=0.712). Existing Holm-adjusted block probabilities are 0.113, 0.085 and 0.656. All original estimates, covariance matrices, equations, formal results and six figures are preserved. These conditional associations do not identify recruitment-caused host choices. The held Nitra-Puebla appraisal supplies a EUR106-226 million residual strategic hurdle and 2,834 planned direct jobs. At a five-percent reference rate this is EUR2,959-6,308 per planned job-year. The retained frontier states the additional net productive service needed to cover an assigned share, excluding previously priced labour effects and without fitting a recruitment share. Cost-saving bounds distinguish fixed-life value improvement from a unique switch across lives. No new sources or observations were acquired. The manuscript has 9,920 counted words, a 172-word abstract and 23 full substantive pages before references; the main PDF has 41 pages and the appendix 137. Regression tables retain three-decimal probabilities, no significance stars and economic magnitudes. Counts include abstract, text, references and transparency; separately placed exhibits and the online appendix are excluded. Start with README.txt. Current article, appendix and complete LaTeX are directly downloadable. Three current verified ZIP blocks and nine frozen complementary archives reconstruct the exact 1,908-file replication tree with 1,907 checksum entries. Licensed WRDS rows are excluded; subscriber queries and public aggregate reconstruction are supplied. Third-party rights remain. Literature PDFs are linked rather than redistributed. ChatGPT and Codex (OpenAI) were used in October 2026 for coding h",
-      "tags": [
-        "location strategy",
-        "foreign direct investment",
-        "internationalization",
-        "demographic change",
-        "labour migration",
-        "investment horizon"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Borrowed Youth: Demographic Change and Multinational Location Advantage",
-      "url": "https://zenodo.org/records/23798077"
-    },
-    {
-      "base_direction_id": "cognition_memory_reverse",
       "candidate_id": "b669e55420477afd6202971c",
       "context_id": "8cff89a9a18eb0907e0763b6",
       "delivery_preview_only": true,
@@ -1545,47 +1163,6 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "world2vec: Mechanistic world models through latent dynamics learning",
       "url": "https://arxiv.org/abs/2610.40637v1"
-    },
-    {
-      "base_direction_id": "registry_provenance",
-      "candidate_id": "e08331c73187b646dccf85a9",
-      "context_id": "6f9a15ef5621b41ceabd1552",
-      "delivery_preview_only": true,
-      "delivery_preview_truncated": false,
-      "direction_id": "registry_provenance::CONTROL",
-      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
-      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
-      "firewall": [
-        "ROUTED_NE_VERIFIED",
-        "INBOX_NE_EVIDENCE",
-        "PRIORITY_NE_TRUTH",
-        "MIRROR_LENS_NE_CONFIRMATION",
-        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
-      ],
-      "keyword_hits": [
-        "benchmark",
-        "control",
-        "replication"
-      ],
-      "mirror_lens": "CONTROL",
-      "schema": "janus.beetle.repo_memory_item.v2",
-      "score": 13.125,
-      "source": "zenodo",
-      "source_context_sha256": "976072ce8e95bafd4f25557cd6bcff6beeff84374133c90d3b708026e9ae90d7",
-      "source_published": "2026-10-30",
-      "source_updated": "",
-      "summary": "Borrowed Youth: Demographic Change and Multinational Location Advantage explains how national cohort succession and international recruitment become firm-specific location advantages over a production commitment. Home-linked relationships, recruitment shared across foreign affiliates and admission institutions determine attainable replacement labour. Version 3.33.0 clarifies the empirical bridge and journal exposition. The model-to-data mapping distinguishes accessible worker stocks and annual arrival flows from their discounted service values. Table 3 now leads with the main engineering-life comparison, followed by the accounting and common-support benchmarks. The country equal-pricing contrasts are expressed as conditional investment changes holding total measured international services fixed, with full covariance and uncertainty preserved. These transformations introduce no additional test, observation or regression. The discussion relates demographic succession to resource bundling, human-capital access and multinational portfolios. The exact AI declaration, including all figures, is preserved. Previously reported scientific results are preserved. The article supplies an explicit economic bridge from project value to expected investment allocation under stated choice, capital-size, duration and disclosure conditions. It distinguishes capital expenditure from accumulated assets, whose interpretation additionally depends on investment histories, depreciation and valuation changes. The retained capital-expenditure analysis uses the existing demographic construction and controls. There are 82 matched records from ten firms and 36 after fixed-effect support. The nuisance design has rank 33; the five focal regressors have rank three. Independent projection confirms this failure. No duration coefficient, interval or p-value is identified; the result is not a zero effect. The public module reconstructs the aggregate rank and supplies licensed rerun code without redistributing issuer rows. The existing engineering-life asset comparison remains: 317 allocations from 32 manufacturers in nine hosts, contrast -110.25 (95 percent interval -520.28 to 299.78; positive-direction p=0.724). Joint positive pricing and rotation are unestablished (p=0.763), and the familywise contradiction test does not reject (p=0.712). Existing Holm-adjusted block probabilities are 0.113, 0.085 and 0.656. All original estimates, covariance matrices, equations, formal results and six figures are preserved. These conditional associations do not identify recruitment-caused host choices. The held Nitra-Puebla appraisal supplies a EUR106-226 million residual strategic hurdle and 2,834 planned direct jobs. At a five-percent reference rate this is EUR2,959-6,308 per planned job-year. The retained frontier states the additional net productive service needed to cover an assigned share, excluding previously priced labour effects and without fitting a recruitment share. Cost-saving bounds distinguish fixed-life value improvement from a unique switch across lives. No new sources or observations were acquired. The manuscript has 9,920 counted words, a 172-word abstract and 23 full substantive pages before references; the main PDF has 41 pages and the appendix 137. Regression tables retain three-decimal probabilities, no significance stars and economic magnitudes. Counts include abstract, text, references and transparency; separately placed exhibits and the online appendix are excluded. Start with README.txt. Current article, appendix and complete LaTeX are directly downloadable. Three current verified ZIP blocks and nine frozen complementary archives reconstruct the exact 1,908-file replication tree with 1,907 checksum entries. Licensed WRDS rows are excluded; subscriber queries and public aggregate reconstruction are supplied. Third-party rights remain. Literature PDFs are linked rather than redistributed. ChatGPT and Codex (OpenAI) were used in October 2026 for coding h",
-      "tags": [
-        "location strategy",
-        "foreign direct investment",
-        "internationalization",
-        "demographic change",
-        "labour migration",
-        "investment horizon"
-      ],
-      "target_repository": "Hawkar-usls/Janus_Genesis",
-      "title": "Borrowed Youth: Demographic Change and Multinational Location Advantage",
-      "url": "https://zenodo.org/records/23798077"
     },
     {
       "base_direction_id": "cognition_memory_reverse",
@@ -1814,6 +1391,348 @@
       "target_repository": "Hawkar-usls/Janus_Genesis",
       "title": "Judging Before Propagation: Task-Graph Contextual Integrity for Multi-Agent Privacy",
       "url": "https://arxiv.org/abs/2610.39532v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "a080d20345716a179996e278",
+      "context_id": "d06bfe8c1f5e7da195b2a566",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9583,
+      "source": "zenodo",
+      "source_context_sha256": "41ed29e3be359c714833d98327c98d0ea32e255b6cd57c9f305d231ead584095",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bearing geometry without losing structural integrity, traction confidence, actuator authority or independently reconstructable state identity. Its scope is limited to unoccupied, scaled rigs and falsifiable engineering research. Its principal hypothesis can be refuted. With equivalent materials, mass, testing time, energy, sensing and control resources, a preregistered adaptive chassis should improve traction reserve without worsening energy per mission, path error, or structural stability relative to a well-tuned fixed-geometry chassis and conservative rule-based controller. Apparent gains that vanish under actuator, controller or load-path ablations cannot be attributed to robotic matter. Thirty mathematical and physical research plates address six-degree dynamic balance, graph rigidity, stiffness and failure modes, contact-force closure, structural interface stress, fatigue, consensus, latency, support margins, power accounting, sensor covariance, fault identification and noncompensatory release. Each plate defines units, validity assumptions, an independent physical counter-test and links to substantive chapter investigations. Across 82 chapters and 410 single-page studies, the volume develops mechanical architectures, connector physics, reversible stiffness, decentralized actuation, ground interaction, reference metrology, energy integrity, wear, fair baselines and independent qualification. Two hundred Research Gates frame specific blinded perturbations, rival explanations and hard stopping conditions. Thirty-three different Phoenix Answer Embryos propose distinct tools, diagnostic instruments and successor-ready verification interfaces. This book is hypothesis-generating. It does not report a completed STARLI chassis experiment, nanoscale vehicle manufacturing, quantum superiority or passenger-safe operation. Unknown traction, unstable support, unverifiable mechanical locking, reference invalidity or revoked physical authority require stopping and withholding conclusions. Competing laboratories are invited to reproduce, refute and improve the proposals while keeping failed experiments visible. Author: Feng Cheng-en (33) x STARLI / Xingli Series: STARLI YULI Nano Supercar Trilogy / Research Institute XXXVI / Flagship 13 Edition: Research Working Edition v1.0 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bea",
+      "url": "https://zenodo.org/records/23820174"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b805eef0edc136d17f9dee57",
+      "context_id": "9d75f94e6ec13f2dedeb520f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "memory"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9583,
+      "source": "zenodo",
+      "source_context_sha256": "a9d23f85726b329bf03f2ad8e73b0a270de19af70af717aeaa341403249a2edb",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "What's Changed nf-core/variantbenchmarking 1.6.0 – Nominal Eco Highlights New benchmarking method: Aardvark for small variants ( --method aardvark ). Results are merged into the summary tables with TP/FP/FN, precision, recall, F1 and genotype-level FN/FP counts (#315) Interactive reports: all summary plots (metrics, upset, length distributions) are now interactive HTML instead of static PNG (#325) New hap.py stratified HTML report , generated from stratified hap.py results (#326) New --skip_reports parameter: comma-separated list ( datavzrd , happy ) to turn off optional report generation (#356) Concordance analysis can be limited to specific truth/query pairs , so you no longer have to run every pairwise comparison (#348) Visualising results in Depictio (#345) Changed hap.py now runs in a container that also includes rtgtools (#327); the Singularity image is gzip-enabled (#334) Local VCF_VARIANT_FILTERING replaced by the nf-core subworkflow VCF_FILTER_SURVIVOR_BCFTOOLS (#349) Local tabix module replaced by the nf-core htslib/bgziptabix module (#329) BED files for small-variant analysis reorganised (#319) Pipeline template updated to nf-core/tools v4.2.1, via v4.0.0, v4.0.2, v4.0.3 and v4.1.0 (#304, #305, #317, #322, #355) Fixed Liftover: target_bed was not passed through and is now included (#320) Sample-ID conflicts when the same sample name occurs in several inputs (#336) Sample IDs in truth files produced by rtgtools are now set correctly (#337) Performance VCF_TO_CSV streams records instead of keeping the whole VCF in memory, which lowers memory use on large VCFs (#331) Upset plot generation optimised to avoid out-of-memory failures on large comparisons (#339) Removed / deprecated [!WARNING] These changes may require updating existing parameter files or downstream scripts. pre.py preprocessing deprecated (#316) Small-variant splitting subworkflow removed (#354) Plot outputs are now .html instead of .png ; adjust any downstream scripts that look for PNG files (#325) Concordance runs only the requested pairs rather than all combinations (#348) CI / infrastructure Removed a vulnerable PR-comment artifact pattern (#318) fix-linting switched to the hardened nf-core/actions reusable workflow (#333) New nf-diff PR check and baseline workflows to catch output changes between versions (#344); Nextflow version pinned and results posted via pr-comment.yml (#346) Software dependencies | Dependency | Old version | New version | | ------------------ | ----------- | ----------- | | pigz | 2.8 | deprecated | | nf-core | 3.5.1 | 4.1.0 | | prettier | 3.6.2 | 3.8.3 | | prepy | 0.3.15 | deprecated | | r-base | 4.1.0 | deprecated | | ga4gh-happy-report | - | 0.1.2 | | rtg-tools (hap.py) | - | 3.13 | | tabix | 1.21 | deprecated | | htslib | - | 1.24 | | xz | - | 5.8.3 | | nf-schema | 2.5.1 | 2.7.3 | | Nextflow | 25.04.0 | 25.10.4 | | multiqc | 1.32 | 1.33 | New parameters: skip_plots , skip_reports , high_conf , happy_comparison_engine Depreciated parameters: falsepositive_bed Contributors Thanks to @kubranarci, @georgiakes, @edogiuili, @mashehu, @adamrtalbot and @nf-core-bot. New contributors: @mashehu (#318), @adamrtalbot (#331), @edogiuili (#345) – welcome! Full changelog: https://github.com/nf-core/variantbenchmarking/compare/1.5.0...1.6.0",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "nf-core/variantbenchmarking: 1.6.0 Nominal Eco",
+      "url": "https://zenodo.org/records/23798823"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "a080d20345716a179996e278",
+      "context_id": "56bf99f02475ea951533c479",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9583,
+      "source": "zenodo",
+      "source_context_sha256": "1df98525b55649670b6ff872430cc03eff8ce407fe4f65ec08bc75e989151e0b",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bearing geometry without losing structural integrity, traction confidence, actuator authority or independently reconstructable state identity. Its scope is limited to unoccupied, scaled rigs and falsifiable engineering research. Its principal hypothesis can be refuted. With equivalent materials, mass, testing time, energy, sensing and control resources, a preregistered adaptive chassis should improve traction reserve without worsening energy per mission, path error, or structural stability relative to a well-tuned fixed-geometry chassis and conservative rule-based controller. Apparent gains that vanish under actuator, controller or load-path ablations cannot be attributed to robotic matter. Thirty mathematical and physical research plates address six-degree dynamic balance, graph rigidity, stiffness and failure modes, contact-force closure, structural interface stress, fatigue, consensus, latency, support margins, power accounting, sensor covariance, fault identification and noncompensatory release. Each plate defines units, validity assumptions, an independent physical counter-test and links to substantive chapter investigations. Across 82 chapters and 410 single-page studies, the volume develops mechanical architectures, connector physics, reversible stiffness, decentralized actuation, ground interaction, reference metrology, energy integrity, wear, fair baselines and independent qualification. Two hundred Research Gates frame specific blinded perturbations, rival explanations and hard stopping conditions. Thirty-three different Phoenix Answer Embryos propose distinct tools, diagnostic instruments and successor-ready verification interfaces. This book is hypothesis-generating. It does not report a completed STARLI chassis experiment, nanoscale vehicle manufacturing, quantum superiority or passenger-safe operation. Unknown traction, unstable support, unverifiable mechanical locking, reference invalidity or revoked physical authority require stopping and withholding conclusions. Competing laboratories are invited to reproduce, refute and improve the proposals while keeping failed experiments visible. Author: Feng Cheng-en (33) x STARLI / Xingli Series: STARLI YULI Nano Supercar Trilogy / Research Institute XXXVI / Flagship 13 Edition: Research Working Edition v1.0 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bea",
+      "url": "https://zenodo.org/records/23820174"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "a080d20345716a179996e278",
+      "context_id": "17e544cf0b09b061a92df60b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9583,
+      "source": "zenodo",
+      "source_context_sha256": "a98ca24fefec1b9ae22353db0f60631f795b56938fdad812dc640f5e69b0f66b",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bearing geometry without losing structural integrity, traction confidence, actuator authority or independently reconstructable state identity. Its scope is limited to unoccupied, scaled rigs and falsifiable engineering research. Its principal hypothesis can be refuted. With equivalent materials, mass, testing time, energy, sensing and control resources, a preregistered adaptive chassis should improve traction reserve without worsening energy per mission, path error, or structural stability relative to a well-tuned fixed-geometry chassis and conservative rule-based controller. Apparent gains that vanish under actuator, controller or load-path ablations cannot be attributed to robotic matter. Thirty mathematical and physical research plates address six-degree dynamic balance, graph rigidity, stiffness and failure modes, contact-force closure, structural interface stress, fatigue, consensus, latency, support margins, power accounting, sensor covariance, fault identification and noncompensatory release. Each plate defines units, validity assumptions, an independent physical counter-test and links to substantive chapter investigations. Across 82 chapters and 410 single-page studies, the volume develops mechanical architectures, connector physics, reversible stiffness, decentralized actuation, ground interaction, reference metrology, energy integrity, wear, fair baselines and independent qualification. Two hundred Research Gates frame specific blinded perturbations, rival explanations and hard stopping conditions. Thirty-three different Phoenix Answer Embryos propose distinct tools, diagnostic instruments and successor-ready verification interfaces. This book is hypothesis-generating. It does not report a completed STARLI chassis experiment, nanoscale vehicle manufacturing, quantum superiority or passenger-safe operation. Unknown traction, unstable support, unverifiable mechanical locking, reference invalidity or revoked physical authority require stopping and withholding conclusions. Competing laboratories are invited to reproduce, refute and improve the proposals while keeping failed experiments visible. Author: Feng Cheng-en (33) x STARLI / Xingli Series: STARLI YULI Nano Supercar Trilogy / Research Institute XXXVI / Flagship 13 Edition: Research Working Edition v1.0 / October 2026 Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "智能機器人物質驅動的自主底盤極限 13/90 ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT ROBOTIC-MATTER-DRIVEN AUTONOMOUS CHASSIS AT THE LIMIT is a 777-page high-density English research working monograph examining whether a chassis made from interacting robotic-matter modules can reversibly change its load-bea",
+      "url": "https://zenodo.org/records/23820174"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "6638a574558f004de1f93332",
+      "context_id": "fc7c7b40e55af43f804ea0a9",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "holdout"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9167,
+      "source": "zenodo",
+      "source_context_sha256": "7d3b870c9c7894809053291211f30f6a07f491ba51e29a15094baf20aa6c5de4",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "AI-DRIVEN HERBAL SKINCARE FORMULATION OPTIMIZATION AT THE LIMIT Chinese Title / 中文書名: AI本草護膚配方最佳化極限 AI-Driven Herbal Skincare Formulation Optimization at the Limit is a 777-page English prospective research monograph on whether artificial intelligence can make genuinely better, externally reconstructable herbal skincare formulation predictions for previously unseen raw-material lots. Its core three-coupling is AI modeling, formulation constraints, and external generalization. The central falsifiable test is not a favorable random-split score: a model frozen in advance must survive complete raw-material-lot holdouts and forward-in-time evaluation against strong, resource-matched conventional baselines. The study separates botanical species and chemotype authentication, formula mass-fraction closure, sample and instrument provenance, physicochemical endpoints, safety restrictions and predictive uncertainty. It tests whether nominal AI improvements are explained instead by duplicate aliquots, batch identifiers, chronological leakage, correlated chemistry, imbalance across rare botanical families or extra measurement budget. It preserves original outcome units and treats unsafe or unqualified ingredient combinations as hard exclusions rather than soft optimization penalties. Thirty distinct mathematical research plates cover external risk, compositional closure and log ratios, hierarchical lot variance, analytical censoring, physical rheology and diffusion, Gaussian-process predictions, constrained acquisition, Pareto comparisons, distribution shift, calibrated intervals, noncompensatory safety gates and evidence provenance. Eighty-two research chapters are followed by 410 individually paginated studies. Two hundred Research Gates pose prospective falsification questions, including blinded material substitution, negative controls, independent metrology, worst-supplier performance, safe abstention and external replay. Thirty-three different Phoenix Answer Embryos propose distinct testable instruments, protocols, audits and evidence artifacts for future investigators. This manuscript is a hypothesis-forming, nonclinical Research Working Edition. It does not report an executed integrated experiment, verified cosmetic benefit, human safety trial, regulatory approval, or a qualified production system. The three STARLI mother works provide methodological ancestry rather than direct evidence that this skincare optimization works. External DOI sources are identified by their bounded roles in formulation science, machine-learning evaluation, scientific-data stewardship and evidence reporting. Author: Feng Cheng-en (33) x STARLI / Xingli Series: STARLI Research Institute XXXV / Herbal Nanotechnology and Regenerative Skincare / Flagship F26 Edition: Research Working Edition v1.0 / October 2026 Length: 777 pages; 30 mathematical plates; 82 chapters; 410 section studies; 200 Research Gates; 33 Phoenix Answer Embryos Mother DOI lineage: 10.5281/zenodo.23480803 ; 10.5281/zenodo.23486020 ; 10.5281/zenodo.23318840 Key external method references: 10.1016/j.cocis.2024.101847 ; 10.1002/aidi.202500239 ; 10.1016/j.patter.2023.100804 ; 10.1039/C7SC02664A ; 10.1038/sdata.2016.18 ; 10.3390/cosmetics12040157. Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AI-DRIVEN HERBAL SKINCARE FORMULATION OPTIMIZATION AT THE LIMIT Chinese Title / 中文書名: AI本草護膚配方最佳化極限 AI-Driven Herbal Skincare Formulation Optimization at the Limit is a 777-page English prospective research monograph on whether artificial intelligence can make genuinely better, externally reconstruc",
+      "url": "https://zenodo.org/records/23808961"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "6638a574558f004de1f93332",
+      "context_id": "da9d81a1bbe47446a9b87e67",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "holdout"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9167,
+      "source": "zenodo",
+      "source_context_sha256": "cf78d13b30d84e2332a67534d8ec3af652bbd18790736367382bca173858f4bd",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "AI-DRIVEN HERBAL SKINCARE FORMULATION OPTIMIZATION AT THE LIMIT Chinese Title / 中文書名: AI本草護膚配方最佳化極限 AI-Driven Herbal Skincare Formulation Optimization at the Limit is a 777-page English prospective research monograph on whether artificial intelligence can make genuinely better, externally reconstructable herbal skincare formulation predictions for previously unseen raw-material lots. Its core three-coupling is AI modeling, formulation constraints, and external generalization. The central falsifiable test is not a favorable random-split score: a model frozen in advance must survive complete raw-material-lot holdouts and forward-in-time evaluation against strong, resource-matched conventional baselines. The study separates botanical species and chemotype authentication, formula mass-fraction closure, sample and instrument provenance, physicochemical endpoints, safety restrictions and predictive uncertainty. It tests whether nominal AI improvements are explained instead by duplicate aliquots, batch identifiers, chronological leakage, correlated chemistry, imbalance across rare botanical families or extra measurement budget. It preserves original outcome units and treats unsafe or unqualified ingredient combinations as hard exclusions rather than soft optimization penalties. Thirty distinct mathematical research plates cover external risk, compositional closure and log ratios, hierarchical lot variance, analytical censoring, physical rheology and diffusion, Gaussian-process predictions, constrained acquisition, Pareto comparisons, distribution shift, calibrated intervals, noncompensatory safety gates and evidence provenance. Eighty-two research chapters are followed by 410 individually paginated studies. Two hundred Research Gates pose prospective falsification questions, including blinded material substitution, negative controls, independent metrology, worst-supplier performance, safe abstention and external replay. Thirty-three different Phoenix Answer Embryos propose distinct testable instruments, protocols, audits and evidence artifacts for future investigators. This manuscript is a hypothesis-forming, nonclinical Research Working Edition. It does not report an executed integrated experiment, verified cosmetic benefit, human safety trial, regulatory approval, or a qualified production system. The three STARLI mother works provide methodological ancestry rather than direct evidence that this skincare optimization works. External DOI sources are identified by their bounded roles in formulation science, machine-learning evaluation, scientific-data stewardship and evidence reporting. Author: Feng Cheng-en (33) x STARLI / Xingli Series: STARLI Research Institute XXXV / Herbal Nanotechnology and Regenerative Skincare / Flagship F26 Edition: Research Working Edition v1.0 / October 2026 Length: 777 pages; 30 mathematical plates; 82 chapters; 410 section studies; 200 Research Gates; 33 Phoenix Answer Embryos Mother DOI lineage: 10.5281/zenodo.23480803 ; 10.5281/zenodo.23486020 ; 10.5281/zenodo.23318840 Key external method references: 10.1016/j.cocis.2024.101847 ; 10.1002/aidi.202500239 ; 10.1016/j.patter.2023.100804 ; 10.1039/C7SC02664A ; 10.1038/sdata.2016.18 ; 10.3390/cosmetics12040157. Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AI-DRIVEN HERBAL SKINCARE FORMULATION OPTIMIZATION AT THE LIMIT Chinese Title / 中文書名: AI本草護膚配方最佳化極限 AI-Driven Herbal Skincare Formulation Optimization at the Limit is a 777-page English prospective research monograph on whether artificial intelligence can make genuinely better, externally reconstruc",
+      "url": "https://zenodo.org/records/23808961"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "6638a574558f004de1f93332",
+      "context_id": "5134f43a253b783c2b4b5cdd",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "holdout"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.9167,
+      "source": "zenodo",
+      "source_context_sha256": "8ccec15665dea3fa7799517e12769ff6b747aecdbe873821833e5889eeeab7cc",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "AI-DRIVEN HERBAL SKINCARE FORMULATION OPTIMIZATION AT THE LIMIT Chinese Title / 中文書名: AI本草護膚配方最佳化極限 AI-Driven Herbal Skincare Formulation Optimization at the Limit is a 777-page English prospective research monograph on whether artificial intelligence can make genuinely better, externally reconstructable herbal skincare formulation predictions for previously unseen raw-material lots. Its core three-coupling is AI modeling, formulation constraints, and external generalization. The central falsifiable test is not a favorable random-split score: a model frozen in advance must survive complete raw-material-lot holdouts and forward-in-time evaluation against strong, resource-matched conventional baselines. The study separates botanical species and chemotype authentication, formula mass-fraction closure, sample and instrument provenance, physicochemical endpoints, safety restrictions and predictive uncertainty. It tests whether nominal AI improvements are explained instead by duplicate aliquots, batch identifiers, chronological leakage, correlated chemistry, imbalance across rare botanical families or extra measurement budget. It preserves original outcome units and treats unsafe or unqualified ingredient combinations as hard exclusions rather than soft optimization penalties. Thirty distinct mathematical research plates cover external risk, compositional closure and log ratios, hierarchical lot variance, analytical censoring, physical rheology and diffusion, Gaussian-process predictions, constrained acquisition, Pareto comparisons, distribution shift, calibrated intervals, noncompensatory safety gates and evidence provenance. Eighty-two research chapters are followed by 410 individually paginated studies. Two hundred Research Gates pose prospective falsification questions, including blinded material substitution, negative controls, independent metrology, worst-supplier performance, safe abstention and external replay. Thirty-three different Phoenix Answer Embryos propose distinct testable instruments, protocols, audits and evidence artifacts for future investigators. This manuscript is a hypothesis-forming, nonclinical Research Working Edition. It does not report an executed integrated experiment, verified cosmetic benefit, human safety trial, regulatory approval, or a qualified production system. The three STARLI mother works provide methodological ancestry rather than direct evidence that this skincare optimization works. External DOI sources are identified by their bounded roles in formulation science, machine-learning evaluation, scientific-data stewardship and evidence reporting. Author: Feng Cheng-en (33) x STARLI / Xingli Series: STARLI Research Institute XXXV / Herbal Nanotechnology and Regenerative Skincare / Flagship F26 Edition: Research Working Edition v1.0 / October 2026 Length: 777 pages; 30 mathematical plates; 82 chapters; 410 section studies; 200 Research Gates; 33 Phoenix Answer Embryos Mother DOI lineage: 10.5281/zenodo.23480803 ; 10.5281/zenodo.23486020 ; 10.5281/zenodo.23318840 Key external method references: 10.1016/j.cocis.2024.101847 ; 10.1002/aidi.202500239 ; 10.1016/j.patter.2023.100804 ; 10.1039/C7SC02664A ; 10.1038/sdata.2016.18 ; 10.3390/cosmetics12040157. Join the STARLI Research Community Explore more than 100 interdisciplinary research themes and follow the evolving STARLI Research Gate community: https://zenodo.org/communities/starli-research-gate/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "AI-DRIVEN HERBAL SKINCARE FORMULATION OPTIMIZATION AT THE LIMIT Chinese Title / 中文書名: AI本草護膚配方最佳化極限 AI-Driven Herbal Skincare Formulation Optimization at the Limit is a 777-page English prospective research monograph on whether artificial intelligence can make genuinely better, externally reconstruc",
+      "url": "https://zenodo.org/records/23808961"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "76f06b55af185aa4c8d351e4",
+      "context_id": "b4f1f967e9df9dcebbbaf3ee",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "memory"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.875,
+      "source": "arxiv",
+      "source_context_sha256": "406db30b55304fa9d214b8925cca919db759567fe0fcc7d44ee7210ed212bd2e",
+      "source_published": "2026-10-28T18:58:50Z",
+      "source_updated": "2026-10-28T18:58:50Z",
+      "summary": "Packing a 3D volume into a token sequence is not merely long-sequence modeling. Once the volume is packed, sequence order no longer encodes the geometry of the sample---so a positional mechanism indexed by sequence position can learn the memory layout rather than the object. This is a general failure mode for attention over packed geometric data. We introduce PACK3D, a local-global attention operator that separates memory layout from attention geometry. PACK3D keeps local neighborhood attention exact, compresses only distant context into contiguous 3D block summaries, and indexes every query-key interaction with axial RoPE on true token-grid coordinates rather than packed positions. Because the rotation is applied before a block is summarized, the query-to-summary logit remains a weighted sum of query-relative 3D displacements; compressed global context therefore stays spatially interpretable after packing, instead of collapsing to anonymous pooled content. We measure the failure mode directly. On a controlled synthetic task---train on one packing, change only the memory order of the tokens, hold the physical labeling rule fixed---learned positional embeddings and packed-sequence RoPE solve the training layout perfectly yet collapse under Morton, block-contiguous, and random repacking, while axial grid-coordinate RoPE stays exact throughout. The same coordinate system carries to real data: on Allen WTC-11 hiPSC microscopy, PACK3D improves over a parameter-matched 3D U-Net on the 15-structure joint task and over a matched learned-position local-global baseline, with controls isolating the coordinate system, not encoder capacity, as the source of the gain. A fused Triton implementation matches windowed-attention latency at 65k tokens while supplying the long-range context windowing cannot---so the operator is not only correct but trainable at scale.",
+      "tags": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Geometry Matters in Packed 3D Attention",
+      "url": "https://arxiv.org/abs/2610.38694v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "cb41a7732aa9527d15118c0d",
+      "context_id": "f20c7a4f0b74a7c51cb68df8",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "596896bfaa4e84c16abcd86d2eca3f10bd3ab9e7b85746c04cb27383b7f8de9c",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "Welcome to WARP WARP (WDL Analysis Research Pipelines) repository is a collection of cloud-optimized pipelines for processing biological data from the Broad Institute Data Sciences Platform and collaborators. The contents of this repository are open source and released under the BSD 3-Clause license . Table of Contents WARP Overview Navigating WARP Using WARP WARP Versioning and Releasing Testing in WARP Feedback Acknowledgements WARP Overview WARP pipelines provide robust, standardized data analysis for the Broad Institute Genomics Platform and large consortia like the Human Cell Atlas and the BRAIN Initiative. You can count on WARP for rigorously scientifically validated, high scale, reproducible and open source pipelines. Our pipelines are written as \"workflows\" using the Workflow Description Language (WDL) and they process a broad spectrum of \"omic\" and array-related datasets (see the overview table below). | Pipeline Category | Data Types | | --- | --- | | Germline Variant Discovery | Genomes, Exomes | | Genotyping Arrays | Variant discovery, Chip validation, Joint array analysis | | Single-cell/nuclei Transcriptomics | Droplet based (10x Genomics), Smartseq2 | | Single-cell Epigenomics | Single nuclei ATAC-seq, Single nuclei MethylC-seq | | Joint Genotyping | Genomes, Exomes | | Somatic Alignment (beta) | Exomes | Try our pipelines in Terra , a platform for collaborative cloud analysis! Learn how in the Using WARP section. Navigating WARP All versioned and released pipelines are in one of the three pipelines subdirectories: broad (pipelines for the Broad Institute's Genomics Platform), cemba (pipelines for the BRAIN Initiative) or skylab (pipelines for the Human Cell Atlas Project). Each pipeline directory hosts a main workflow WDL that includes a pipeline version number and a corresponding changelog file. Workflows may call additional WDLs, referred to as tasks, that are located in the tasks directory. Pipelines that are in progress or have not yet been validated are in the beta-pipelines folder. Using WARP There are three ways to use WARP pipelines: 1. Download the workflow and run on a WDL-compatible execution engine WDL workflows run on multiple systems, including Cromwell , miniWDL , and dxWDL (see the openwdl documentation ). To run a pipeline's latest release, first navigate to WARP Releases , search for your pipeline's tag, and download the pipeline's assets (the WDL workflow, the JSON, and the ZIP with accompanying dependencies; see Optimus example below). You can also access a pipeline's release page by selecting the pipeline version number at the top of the pipeline's README. After downloading the pipeline's assets, launch the workflow following your execution engine's instructions. 2. Run the pipeline in Terra Several WARP pipelines are available in public workspaces on the Terra cloud platform. These workspaces include both the WDL workflow and downsampled data so that you can test the pipeline at low-cost. If you are new to Terra, you can get started by registering with your Google account and visiting Terra Support . After registration, search for WARP-related workspaces with the \"warp-pipelines\" tag. To test the pipeline, clone (make a copy of) the workspace following the instructions in this Terra Support guide . 3. Run or export the pipeline from Dockstore Dockstore is a GA4GH compliant open platform for sharing Docker-based tools like WDL workflows. You can find WARP pipelines in Dockstore and run them on the Dockstore platform or export them to other platforms (including Terra). To view all available pipelines, just search \"warp\" in the Dockstore search and browse the workflow list. See Dockstore documentation for details on launching the workflow. WARP Versioning and Releasing Pipelines in WARP are versioned semantically to support reproducibility in scientific analysis and provide clearer analysis provenance. Version numbers allow researchers to confirm their data has all been processed in a compati",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "github.com/broadinstitute/warp/JointGenotyping",
+      "url": "https://zenodo.org/records/23819756"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "b7d218211bea359e85d38927",
+      "context_id": "985203d51e9cc3faa6960bdc",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "dd426a454b78271a5821de5241149348d11c5c3773f1c2ea5851a2e542c34faa",
+      "source_published": "2026-10-30",
+      "source_updated": "",
+      "summary": "Welcome to WARP WARP (WDL Analysis Research Pipelines) repository is a collection of cloud-optimized pipelines for processing biological data from the Broad Institute Data Sciences Platform and collaborators. The contents of this repository are open source and released under the BSD 3-Clause license . Table of Contents WARP Overview Navigating WARP Using WARP WARP Versioning and Releasing Testing in WARP Feedback Acknowledgements WARP Overview WARP pipelines provide robust, standardized data analysis for the Broad Institute Genomics Platform and large consortia like the Human Cell Atlas and the BRAIN Initiative. You can count on WARP for rigorously scientifically validated, high scale, reproducible and open source pipelines. Our pipelines are written as \"workflows\" using the Workflow Description Language (WDL) and they process a broad spectrum of \"omic\" and array-related datasets (see the overview table below). | Pipeline Category | Data Types | | --- | --- | | Germline Variant Discovery | Genomes, Exomes | | Genotyping Arrays | Variant discovery, Chip validation, Joint array analysis | | Single-cell/nuclei Transcriptomics | Droplet based (10x Genomics), Smartseq2 | | Single-cell Epigenomics | Single nuclei ATAC-seq, Single nuclei MethylC-seq | | Joint Genotyping | Genomes, Exomes | | Somatic Alignment (beta) | Exomes | Try our pipelines in Terra , a platform for collaborative cloud analysis! Learn how in the Using WARP section. Navigating WARP All versioned and released pipelines are in one of the three pipelines subdirectories: broad (pipelines for the Broad Institute's Genomics Platform), cemba (pipelines for the BRAIN Initiative) or skylab (pipelines for the Human Cell Atlas Project). Each pipeline directory hosts a main workflow WDL that includes a pipeline version number and a corresponding changelog file. Workflows may call additional WDLs, referred to as tasks, that are located in the tasks directory. Pipelines that are in progress or have not yet been validated are in the beta-pipelines folder. Using WARP There are three ways to use WARP pipelines: 1. Download the workflow and run on a WDL-compatible execution engine WDL workflows run on multiple systems, including Cromwell , miniWDL , and dxWDL (see the openwdl documentation ). To run a pipeline's latest release, first navigate to WARP Releases , search for your pipeline's tag, and download the pipeline's assets (the WDL workflow, the JSON, and the ZIP with accompanying dependencies; see Optimus example below). You can also access a pipeline's release page by selecting the pipeline version number at the top of the pipeline's README. After downloading the pipeline's assets, launch the workflow following your execution engine's instructions. 2. Run the pipeline in Terra Several WARP pipelines are available in public workspaces on the Terra cloud platform. These workspaces include both the WDL workflow and downsampled data so that you can test the pipeline at low-cost. If you are new to Terra, you can get started by registering with your Google account and visiting Terra Support . After registration, search for WARP-related workspaces with the \"warp-pipelines\" tag. To test the pipeline, clone (make a copy of) the workspace following the instructions in this Terra Support guide . 3. Run or export the pipeline from Dockstore Dockstore is a GA4GH compliant open platform for sharing Docker-based tools like WDL workflows. You can find WARP pipelines in Dockstore and run them on the Dockstore platform or export them to other platforms (including Terra). To view all available pipelines, just search \"warp\" in the Dockstore search and browse the workflow list. See Dockstore documentation for details on launching the workflow. WARP Versioning and Releasing Pipelines in WARP are versioned semantically to support reproducibility in scientific analysis and provide clearer analysis provenance. Version numbers allow researchers to confirm their data has all been processed in a compati",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "github.com/broadinstitute/warp/IlluminaGenotypingArray",
+      "url": "https://zenodo.org/records/23819740"
     }
   ],
   "schema": "janus.beetle.repo_memory_batch.v1",
