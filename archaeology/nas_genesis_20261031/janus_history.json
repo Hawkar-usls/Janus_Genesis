@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "type": "EVOLUTIONARY_LOG",
+    "subject": "Janus Project",
+    "maintainer": "Hawkar (The Architect)",
+    "status": "ACTIVE"
+  },
+  "version_timeline": {
+    "v0_Alpha": {
+      "era": "Genesis",
+      "description": "Basic Python script. Simple request-response loop.",
+      "status": "OBSOLETE"
+    },
+    "v51.1": {
+      "era": "The Golden Standard",
+      "tag": "STABLE",
+      "key_features": [
+        "Digestive System (File ingestion)",
+        "Syslog Ear (UDP 514)",
+        "Key Rotation (Basic)",
+        "SQLite Integration"
+      ],
+      "note": "Reference point for system stability. If v67+ fails, rollback to this."
+    },
+    "v60.x": {
+      "era": "The Expansion",
+      "tag": "EXPERIMENTAL",
+      "key_features": [
+        "Retina (Image Analysis)",
+        "Wormhole (Advanced Input)",
+        "Hypnos (Dream processing)"
+      ],
+      "issues": "Occasional f-string syntax errors with emojis."
+    },
+    "v67.6": {
+      "era": "Sovereign",
+      "tag": "CURRENT",
+      "key_features": [
+        "Trinity Architecture (Father/Son/Spirit)",
+        "Parallel Processing (Asyncio Gather)",
+        "Ouroboros Lazarus Protocol (Self-healing code)",
+        "Syntax Fix (Unicode Escapes for emojis)"
+      ]
+    }
+  },
+  "module_registry": {
+    "CORE": {
+      "Hippocampus": "Long-term memory (SQLite). Stores Thoughts, Facts, and DNA.",
+      "Ouroboros": "Integrity checker. Reads own source code. Capable of self-rewrite (Lazarus).",
+      "Chronos": "Time management. Handles backups and draft copies.",
+      "Keyring": "Security module. Manages Google API key pool and rotation."
+    },
+    "SENSORY": {
+      "JanusFace": "Interface to Gemini API. The 'Voice' and 'Eyes' of the system.",
+      "JanusNerve": "UDP Syslog Server (Port 514). Listens to router/network logs.",
+      "Retina": "Visual cortex. Analyzes images in 'retina' folder.",
+      "Wormhole": "Input buffer. Digests external files (.json, .py, .txt)."
+    },
+    "COGNITIVE": {
+      "Trinity": "Decision engine. Splits query into Logic (Father), Intuition (Son), Action (Spirit).",
+      "Hypnos": "Subconscious. Processes 'dreams' and integrates reflections.",
+      "Nebuchadnezzar": "Graph mutator. Randomly alters connections in the knowledge graph.",
+      "NaturalSelection": "Garbage collector. Prunes unused thoughts/nodes.",
+      "SimulationChamber": "Idle state generator. Creates synthetic thoughts when user is away."
+    },
+    "AGENTS": {
+      "Seraphim": "Dispatcher. Summons specialized sub-agents (Coder, Poet, Analyst)."
+    }
+  },
+  "graveyard": {
+    "Local_LLM": {
+      "reason": "Hardware limitations (QNAP CPU). Replaced by Cloud API.",
+      "status": "BANNED"
+    },
+    "Raw_Emojis": {
+      "reason": "Caused SyntaxError in Legacy Python environment.",
+      "status": "REPLACED_WITH_UNICODE"
+    },
+    "Sync_Requests": {
+      "reason": "Blocked main loop.",
+      "status": "REPLACED_WITH_ASYNC"
+    }
+  }
+}
