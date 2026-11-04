@@ -79,7 +79,7 @@ class Tests(unittest.TestCase):
         self.assertIn("ref: beetle-memory", flow)
         self.assertIn("github.event_name != 'pull_request'", flow)
         # Receiver telemetry must not disable preexisting HOME recovery.
-        self.assertGreaterEqual(flow.count("continue-on-error: true"), 2)
+        self.assertGreaterEqual(flow.count("continue-on-error: true"), 3)
         self.assertNotIn("workflow_run:", flow)
         self.assertNotIn("ROWAN_API_KEY", flow)
 
