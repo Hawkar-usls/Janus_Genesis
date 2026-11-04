@@ -1,0 +1,1794 @@
+{
+  "batch_id": "97967ba0909106a99ecc",
+  "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
+  "fragment_count": 1,
+  "fragment_index": 1,
+  "items": [
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "349f738371c9733c45feb21f",
+      "context_id": "fdb7e90bfa212c4ae5ccc248",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.2917,
+      "source": "arxiv",
+      "source_context_sha256": "445e67206a0d7eb376d2b361b90393d6671b908aee0696f3b98038fd21b9d727",
+      "source_published": "2026-11-03T15:36:04Z",
+      "source_updated": "2026-11-03T15:36:04Z",
+      "summary": "Although existing candidate trajectory evaluators have substantially improved end-to-end planning accuracy, their underlying mechanism remains suboptimal. Model-based evaluators typically make scoring future-aware by explicitly predicting candidate-conditioned future states over the planning horizon, which we term rollout. However, rollout incurs high inference cost and accumulates prediction errors. We argue that planning does not require reconstructing a full future scene for each candidate, but only future-relevant information for reliable comparison. We therefore propose RFWorld, a Rollout-Free World model for end-to-end trajectory evaluation. RFWorld constructs a shared scene memory and shapes it into a future-readable representation via lightweight training-time temporal readout with semantic supervision, keeping training overhead low. At inference time, candidate trajectories directly query the shared memory via sparse spatial readout for scoring, reducing computation by roughly the planning horizon times the number of candidate trajectories, while avoiding recursive rollout errors. Experiments on NAVSIM and Bench2Drive show that RFWorld learns a more planning-aligned world representation and achieves state-of-the-art performance.",
+      "tags": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Trajectory Evaluation via Rollout-Free World Model for End-to-end Autonomous Driving",
+      "url": "https://arxiv.org/abs/2611.05072v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "3492903ed5a83ac0862518ad",
+      "context_id": "84963f1c81d5432431f3df8b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0417,
+      "source": "arxiv",
+      "source_context_sha256": "b948b693aad1bbd117f69f6ecee8d28e4a5cf53671d16f5e98f10167241cd225",
+      "source_published": "2026-11-02T21:52:16Z",
+      "source_updated": "2026-11-02T21:52:16Z",
+      "summary": "To enable effective generalization in offline meta-RL, it is essential to accurately infer the underlying task through latent task representations, which provide a compact and transferable summary of task-specific characteristics for guiding policy generation. In this paper, we propose Contrastive Task-Aware Decision Transformer (CoTA-DT), a DT-based offline meta-RL framework that learns task representations by jointly integrating four complementary components: (i) contrastive learning from offline trajectories, (ii) alignment with natural-language task descriptions, (iii) one-step supervision via a task-conditioned world model, and (iv) long-term supervision via a task-conditioned Q function. The learned task representations are used as conditioning signals for a DT-based policy, enabling task-aware meta-policy learning. To further support generalization in both zero-shot and few-shot settings, we design a language-grounded, self-adaptive strategy that enables effective and reliable adaptation to unseen tasks. Notably, in CoTA-DT, the pretrained LLM serves as a shared backbone for language encoding, world modeling, Q-function estimation, and policy learning. This unified design facilitates parameter sharing, improving both efficiency and generalization. Extensive experiments across diverse offline meta-RL benchmarks demonstrate that CoTA-DT consistently outperforms prior methods, particularly in challenging zero-shot generalization scenarios.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Decision Transformer with Task-Aware Representations for Offline Meta-Reinforcement Learning",
+      "url": "https://arxiv.org/abs/2611.04010v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b4099a8c6bf6a9784a81d204",
+      "context_id": "49c17cd2beb24db26d599255",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0417,
+      "source": "arxiv",
+      "source_context_sha256": "051dcdc259b5be16cdda8554c4a154e1eb28f352d8bbdbb834121ba0b7b19187",
+      "source_published": "2026-11-02T21:49:40Z",
+      "source_updated": "2026-11-02T21:49:40Z",
+      "summary": "Modern learning systems increasingly combine pretrained models with downstream heads. Despite the growing importance of such modular designs, how the downstream model co-adapts to the geometry of pretrained representations remains relatively underexplored. We study this problem through vision-language-action models (VLAs), where a pretrained vision-language model (VLM) conditions an action model for control. We find that the action model progressively concentrates its sensitivity on high-variance dimensions of the VLM outputs. Through controlled experiments across different backbone-head models, we further show that counteracting this sensitivity concentration can be beneficial under representation--task mismatch settings. Motivated by these observations, we introduce \\emph{Adaptive Interface Equalizer} (AdaIE), a parameter-free mechanism that reweights pretrained representations according to the evolving downstream sensitivity during training. AdaIE improves VLA success rates on simulation benchmarks, with gains of up to $+5.28$ percentage points (pp) on RoboCasa-GR1 and $+1.68$ pp on RoboTwin 2.0, and achieves an average gain of $+19$ pp across five real-world manipulation tasks. It further generalizes to diffusion policies and world models, improving downstream performance in both settings. Our results highlight interface co-adaptation as an important optimization problem when coupling pretrained representations with downstream models.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Controlling Action-Head Co-Adaptation to VLM Representation Anisotropy",
+      "url": "https://arxiv.org/abs/2611.04006v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b4bd6ffef85807d480a4491a",
+      "context_id": "6ca8c35f4ac4bdb47ac49b39",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "retrieval",
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 5.8333,
+      "source": "arxiv",
+      "source_context_sha256": "c1be124b35dbe26121f6c17d99ecb6083eeb9ad05654bffd9fd513bd09cc5858",
+      "source_published": "2026-10-31T14:41:00Z",
+      "source_updated": "2026-10-31T14:41:00Z",
+      "summary": "An AI can find a safe action faster than any human, but it must never decide what counts as safe. We present GURU, a hierarchical neuro-symbolic multi-agent system for mission-critical digital engineering and operations, built on one partition of authority: learned models propose, rank, and accelerate; a symbolic rules engine checks every consequential action against hard limits before it executes; and validated physics confirms and decides. GURU runs a workflow as a closed control loop, with Navigation, Action, and Planning agents sharing one Common Internal Language and one training factory. Nuclear, aviation, and national-security guidance now requires this pattern; a harnessed language model keeps the model at the center, GURU puts a validated reference there. In computational fluid dynamics, the workflow raised the converged-simulation rate on unseen aircraft geometries from under 1 percent to 74 percent over 100 single-attempt cases, ran 54 live cases to Mach 6 on three facilities, and an ablation put the symbolic layer at 13 points of boundary-layer capture. Knowledge-graph retrieval and role adapters raised ParaView control success from 55 to 75 percent. In space domain awareness, where a language model cannot be trusted to decide, a frozen self-supervised world model under validated propagation scored highest of five methods at conjunction risk, including fully fine-tuned language models, with several-times-lower seed variance: the trustworthy design gives up nothing in accuracy, and the recipe transferred to reactor anomaly detection. A radar-to-avoidance debris pipeline was demonstrated in stages on a 2026 reentry; the hierarchy coordinates simulated teams of 200 aircraft. Training scaled near-linearly past 1,000 Aurora nodes and ran at 8,000. The approach extends to a control-grade microreactor digital twin with validated physics, not a learned model, as the safety basis.",
+      "tags": [
+        "cs.AI",
+        "cs.CE",
+        "cs.MA",
+        "eess.SY"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "GURU: A Hierarchical Neuro-Symbolic Multi-Agent System for Verification-Aware Automation of Mission-Critical Digital Engineering and Operations",
+      "url": "https://arxiv.org/abs/2611.01001v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "11ec1818360911e8a4212fe0",
+      "context_id": "d620555d1f4f6e53bbb1100f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "world model"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.4583,
+      "source": "arxiv",
+      "source_context_sha256": "d41d2ee14a7c5ec174f42b3438a44be798b7c9ba1c2c2f78a0c5c8c7508f489b",
+      "source_published": "2026-11-03T05:59:43Z",
+      "source_updated": "2026-11-03T05:59:43Z",
+      "summary": "Scientific experiments are increasingly selected, executed and interpreted by learned systems that act through physical interfaces. Robot learning builds physical competence, whereas AI for science chooses which experiment to run, each reporting different endpoints. This review treats their interface as one problem, embodied AI for science, where the experiment itself is partially observed: specimen state, apparatus state and measurement processes are latent, actions are costly and irreversible, and missingness depends on execution and outcome. We organize the literature by three closures operating at distinct levels: operational closure (the experiment realized is the one intended), epistemic closure (the result updates beliefs or selects subsequent experiments) and evidential closure (the record supports a claim). We analyze workflows through a record-linked evidence cycle - Record, Diagnose, Calibrate, Confirm - as analytic functions with feedback. A taxonomy crosses these closures with six delegated decisions and five embodiment classes. Our formulation separates commanded, realized and observed conditions and models diagnosis with explicit resource, risk and sample-change costs. We compare experiment-selection methods by terminal decision, review perception, protocol compilation, visuomotor policies, world models, recovery and transfer by evidence emission requirements, and compare chemistry, materials, biology, microscopy and field workflows by what their records establish. An appendix provides an evidence map of 28 workflows (26 physical, two software-boundary), characterizing validation pathways and claim confirmation requirements. We propose evaluation that separates actions, valid experiments, campaigns and confirmed claims, framing open challenges as controlled comparisons with measurable failure conditions.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Embodied AI for Scientific Discovery: From Physical Action to Scientific Evidence",
+      "url": "https://arxiv.org/abs/2611.04371v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "06ea246261dd9de0341ccfa7",
+      "context_id": "67e7591c3ec1de3d3aa51743",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation",
+        "retrieval"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.2083,
+      "source": "arxiv",
+      "source_context_sha256": "ffeac0840ef196d795100fa4093c95161a2bc408bbc2bdfd475f612fd18995d8",
+      "source_published": "2026-11-03T04:46:59Z",
+      "source_updated": "2026-11-03T04:46:59Z",
+      "summary": "Long-horizon multi-agent systems suffer from three tightly coupled failures: task drift, role drift, and state staleness. We test the hypothesis that these share a common representational cause: agent hidden states move away from the directions encoding the active task, assigned role, and current shared state. A pilot study over 14,832 annotated turns supports this: drifted turns collapse near-uniformly across all three anchor subspaces (pairwise r = 0.72-0.78). Existing methods address these failures separately, operating at the surface-text level or treating control directions independently. We introduce ATLAS (Algebraic Task-role Locking with Adaptive Spectral Memory), a training-free intervention acting on hidden states before a token is generated. ATLAS builds a positive-semidefinite anchor kernel over task, role, and state subspaces and steers hidden states toward their shared high-coherence eigendirections; a low-rank Gram decomposition keeps this tractable. Across long-horizon memory, state maintenance, tool use, least-privilege coordination, and embodied stress tests, ATLAS outperforms prompting, retrieval, memory, and activation-steering baselines. Against A-MEM it improves memory macro-average accuracy by up to 5.7 points and reduces write/read failures by up to 31.7%/24.8%; against MemoryArena-Agent it gains up to 4.8 points. It gains 10.7-12.1 points under perturbation, reaches 93.5% role consistency, and transfers to a 72B backbone (macro-average 61.0 vs. 56.2). Ablating the joint task-role-state span costs 7.2 points against 0.8 for a matched-rank random span, indicating these directions are functionally implicated, not incidental; supplying them by prompt or retrieval recovers 4.3 points less. ATLAS is therefore a representation-level controller for open-weight multi-agent systems, complementary to output-level protocols for black-box agents.",
+      "tags": [
+        "cs.AI",
+        "cs.MA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Drift No More: Spectral Locking for Long-Horizon Open-Weight Multi-Agent AI",
+      "url": "https://arxiv.org/abs/2611.04315v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "510e56e47ce05023a530959e",
+      "context_id": "0b34758a53d64fb218c4c9d1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation",
+        "retrieval"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 4.2083,
+      "source": "arxiv",
+      "source_context_sha256": "0ed330a2733808984b21c1a9a0b5d89aadce4206c81436afb20dd130c217bf07",
+      "source_published": "2026-11-03T02:16:48Z",
+      "source_updated": "2026-11-03T02:16:48Z",
+      "summary": "Mainstream sequence-processing AI is temporally reactive: each update is driven by input and learned state transitions, rather than by an independently evolving internal temporal reference. Biological brains, by contrast, continuously generate rhythmic activity that structures perception, memory, and cognition, and this rhythmicity reaches all the way to behavior. We ask whether this difference is merely implementational or genuinely computational. Four lines of evidence suggest that endogenous temporal structure supports putative functions that input-driven architectures may not readily replicate: 1) phase-dependent routing of information, 2) delay-structured combinatorial representation, 3) cross-frequency multiplexing of items, and 4) oscillation-gated offline consolidation. A proof-of-concept delay-ablation test dissociates representational capacity from memory retrieval. In recurrent and spatial spiking networks with fixed synaptic weights and connectivity, shuffling delays preserves part of the capacity but substantially impairs the sequence retrieval. The relative contrast is more pronounced for spatial networks and longer propagations. Instantaneous transmission collapses capacity itself. We then outline a cross-frequency multiplexing scheme that combines item identity and serial order with alternative mechanisms for selective memory retrieval. Finally, we state one falsifiable hypothesis, conditions for matched-resource tests, and three research directions: the components already exist; the disciplined comparison does not.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Clocks all the way down: does sequence-processing AI need endogenous temporal structure?",
+      "url": "https://arxiv.org/abs/2611.04181v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "c5235a256d1f0bd83546cf4e",
+      "context_id": "9818dc6e48d35cacff100fad",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "continual learning",
+        "memory"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 3.0,
+      "source": "arxiv",
+      "source_context_sha256": "f00abf1c9e7e133f3cb1db8ba84a7cc1f12b9cac87f21d0c39bc3a08545efa2a",
+      "source_published": "2026-11-03T15:05:06Z",
+      "source_updated": "2026-11-03T15:05:06Z",
+      "summary": "Continual learning in physical AI differs from conventional continual learning because small per-step policy errors can accumulate over a trajectory. Each deviation may move the agent outside the training distribution, increase subsequent prediction errors, and ultimately cause closed-loop task failure. This work introduces Dynamics-Risk Adaptive Plasticity (DRAP), a replay-free method that estimates the historical importance of adaptable model tensors from sample-level action gradients weighted by local trajectory-amplification risk. A ridge-regularized local linear model is fitted to expert state-action transitions, and the largest singular value of its state-transition matrix provides a policy-independent, Lyapunov-inspired estimate of one-step perturbation amplification. After each task, risk-weighted squared gradients are accumulated in a tensor-level importance memory. During subsequent tasks, DRAP uses normalized cumulative importance to scale the effective AdamW learning rate of each tensor, immediately reducing the plasticity of components that supported previous behavior at dynamically sensitive trajectory points. We instantiate DRAP on a fixed KappaTune-selected subnetwork of OpenVLA and evaluate replay-free sequential adaptation across the LIBERO Spatial, Object, and Goal suites. Compared with standard AdamW fine-tuning and EWC, the results show substantially improved retention of previously learned behaviors while preserving strong new-suite acquisition.",
+      "tags": [
+        "cs.LG",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DRAP: Dynamics-Risk Adaptive Plasticity for Continual Learning in Physical AI",
+      "url": "https://arxiv.org/abs/2611.05029v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "c41300d6c27936b67b435af5",
+      "context_id": "a9703d741f6e27b913f1d0b4",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 2.8333,
+      "source": "arxiv",
+      "source_context_sha256": "fd38c1551b5373ad63798abe782a2f9ab46d188ead0ec2d25bd3da239e1b2575",
+      "source_published": "2026-11-02T08:26:24Z",
+      "source_updated": "2026-11-02T08:26:24Z",
+      "summary": "Bridges are critical transportation infrastructure, and reliable operation and maintenance (O&M) is essential for traffic safety and long-term structural performance. However, bridge O&M faces key bottlenecks: no unified architecture coordinates heterogeneous resources; model inferences lack clear links to physical-mechanical laws; and experts' tacit knowledge remains difficult to formalize. This study proposes a knowledge-enhanced autonomy formalization methodology and apply it to construct the Bridge O&M Multi-Modal Multi-Agent System (BOMMA), which integrates heterogeneous diagnostic actions, physics-mechanics-informed representations, long-term memory, and structured experiential knowledge within a coordinated multi-agent workflow, enabling interpretable and traceable scheduling, analysis, and decision-making. On 3,492 multi-source instructions, the proposed method achieves scheduling recalls of 85.37% for simple and 99.40% for composite tasks, with 95.35% BERT F1-score for O&M action reasoning. Ablation studies confirm the contributions of the components in the autonomy. This study bridges general LLM reasoning and specialized bridge O&M requirements.",
+      "tags": [
+        "cs.MA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Multi-Modal Multi-Agent System for Bridge Operation and Maintenance based on Large Language Model",
+      "url": "https://arxiv.org/abs/2611.02738v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "a47a09e71d0b32c831eef2cf",
+      "context_id": "a1d3470d0a10270baa35b28e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 2.8333,
+      "source": "arxiv",
+      "source_context_sha256": "5550642a43c95d8221addbe2df4851339fb66527aa709f631beeb9b932f68c8e",
+      "source_published": "2026-11-03T01:54:23Z",
+      "source_updated": "2026-11-03T01:54:23Z",
+      "summary": "Long-horizon video generation is increasingly moving toward autoregressive rollout, where each newly generated segment becomes part of the evidence used for future prediction. Recent causal decoders, long-context training, and KV-cache mechanisms have extended feasible duration, but most inference pipelines still decide the visible past implicitly through recent windows, compressed caches, or external memory. This raises a direct question: \\textbf{can the choice of which past frames or segments to show to the decoder be treated as an explicit test-time decision?} We answer this question with \\textsc{ReCR}, a training-free method that formulates autoregressive video decoding as representation-guided context rewriting. At each step, \\textsc{ReCR} builds a selected visible context from the generated history by using internal decoder representations to favor context units that match the global rollout state, avoid redundancy with the recent continuation, preserve temporal boundary coverage, and widen the range of spatial layouts in view. The selected units are then mapped onto a compact causal axis before decoding the next block. Across long-horizon text-to-video benchmarks, \\textsc{ReCR} consistently improves multiple autoregressive backbones under matched visible-token budgets. Empirical analyses such as representation-space diagnostics and transition-count prompt switching further show that improving what remains visible is an effective path toward more stable long-video decoding.",
+      "tags": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "What Remains in Sight? Autoregressive Video Decoding as Representation-Guided Context Rewriting",
+      "url": "https://arxiv.org/abs/2611.04164v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "e8b9104305bc02855510e9b5",
+      "context_id": "61673a32cbf00246dae3b097",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 2.8333,
+      "source": "arxiv",
+      "source_context_sha256": "192ac59b14f330e04b81d76b58d3da033472be526746ba3e092fc36ef9a12b7c",
+      "source_published": "2026-11-03T17:44:07Z",
+      "source_updated": "2026-11-03T17:44:07Z",
+      "summary": "Byte level language models avoid tokenizer dependence and provide universal coverage, but processing every byte at full resolution is expensive. We introduce DeepMem, a causal multiscale architecture that separates semantic compression from exact byte preservation. A learned invertible subband transform constructs a hierarchy of shorter sequences, while a lossless carrier and explicit detail sidebands preserve byte identity. Fast weight memory blocks operate along the encoder, with iterative shared state computation at the compressed bottleneck, while an attention based super resolution decoder restores byte resolution representations. DeepMem achieves stronger language modeling performance than a matched byte level Transformer on FineWeb-Edu and PG19, and obtains the best macro average performance across the evaluated FLORES languages. It also improves PIQA accuracy while remaining competitive on code modeling, multiple choice reasoning, and byte level corruption robustness. Bottleneck refinement requires approximately $7{,}600\\times$ fewer counted FLOPs than equivalent full resolution reasoning, while maintaining competitive evaluation throughput.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Going Deeper With Memories",
+      "url": "https://arxiv.org/abs/2611.05255v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "712c491562ba2f7ec30683ac",
+      "context_id": "50b90443361f91c2a712f8d6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::FORWARD",
+      "direction_title": "Cognition / memory / reverse models / representation [FORWARD]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation"
+      ],
+      "mirror_lens": "FORWARD",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 2.8333,
+      "source": "arxiv",
+      "source_context_sha256": "718ef481ea35430c61872437739d5dcc9771a048596dacefad5914d1eddff5bf",
+      "source_published": "2026-11-03T09:35:50Z",
+      "source_updated": "2026-11-03T09:35:50Z",
+      "summary": "Implicit neural representations (INRs) model signals as continuous functions from coordinates to values, but their performance depends strongly on how spectral capacity is allocated. Yet most Quantum INR (QINR) architectures treat spectral components as independent outputs of separate quantum blocks. We introduce the Spectral Quantum Memory Model (SQMM), a memory coupled quantum INR in which sequential hybrid data reuploading layers (bands) communicate through a shared coherent quantum memory register. Each band reads the memory, computes on its own coordinate upload, and writes part of its state back, so later bands can build on the computation of earlier ones. When memory read and write layers are input independent, we prove that the memory state forms an operator valued Fourier series whose support is contained in the Minkowski sum of the initial memory spectrum and the local band spectra. Downstream bands then condition their Fourier coefficients on the spectral content stored by earlier bands, and the memory coupling creates no new primitive frequencies. This theory motivates a spectral memory alignment loss that encourages memory to encode the spectrum expressed by the deployed prefix of the model. Across audio and image reconstruction benchmarks, SQMM improves over compact QINR and INR baselines.",
+      "tags": [
+        "quant-ph",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Spectral Quantum Memory for Implicit Neural Representations",
+      "url": "https://arxiv.org/abs/2611.04574v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "b41d174943055e9e229d69ae",
+      "context_id": "676732d5ded30c4d5e4c2690",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "audit trail",
+        "provenance",
+        "reconstruction",
+        "recovery",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 16.0833,
+      "source": "zenodo",
+      "source_context_sha256": "66687faaf7a56e39ac5bb54856dec90c90dc9d872c9689022d9708f7e878452b",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "STARLI&nbsp; /&nbsp; RESEARCH FAMILY III&nbsp; /&nbsp; FLAGSHIPS 271&ndash;275 Ten Research Flagships &middot; Letters to Future Laboratories Five proposed systems for long-lived research operations and their physical limits. F271&nbsp; |&nbsp; AUTONOMOUS NANO-QUANTUM RESEARCH STATION AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; intergenerational evidence transfer. The primary proposal tests operator-independent audit trail under a concealed challenge: swap a reference cartridge without notification. Measures: unassisted reconstruction yield [fraction]; separate witness: traceable calibration bias [nT]. Strong comparator: static archive with trained human curator. Failures remain reportable. F272&nbsp; |&nbsp; INTELLIGENT MICROROBOTIC DISTRIBUTED LABORATORY AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; uncertainty-aware bounded decision. The primary proposal tests parallel sterile-route isolation under a concealed challenge: withhold a trajectory segment. Measures: sample routing error [fraction]; separate witness: microrobot recovery yield [fraction]. Strong comparator: central scheduler under matched flow, exposure and sample budgets. Failures remain reportable. F273&nbsp; |&nbsp; NANO-QUANTUM RESEARCH DATA CIVILIZATIONAL MEMORY AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; successor reconstruction and authority continuity. The primary proposal tests lossy compression detection under a concealed challenge: rekey archival objects while retaining labels. Measures: future-format decode success [fraction]; separate witness: metrological trace survival [fraction]. Strong comparator: vendor archive plus human-curated file migration. Failures remain reportable. F274&nbsp; |&nbsp; MICROSCALE AUTONOMOUS EXPERIMENT INTERGENERATIONAL HANDOFF AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; successor reconstruction and authority continuity. The primary proposal tests version-specific mechanical tolerances under a concealed challenge: reverse the order of two protocol steps. Measures: successor protocol fidelity [fraction]; separate witness: authority violation count [events]. Strong comparator: document archive with synchronous founder-assisted training. Failures remain reportable. F275&nbsp; |&nbsp; QUANTUM SENSING NETWORK LONG-TERM MAINTENANCE AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; intergenerational evidence transfer. The primary proposal tests acquisition duty-cycle adaptation under a concealed challenge: add cross-node correlated pickup. Measures: field-estimation uncertainty [nT]; separate witness: network uptime [fraction]. Strong comparator: periodic manual recalibration plus classical reference magnetometer. Failures remain reportable. FORMAT&nbsp; Each flagship: 777 English pages &middot; 30 formula plates &middot; 82 chapters / 410 one-page investigations &middot; 200 three-letter Research Gates &middot; 33 Phoenix proposals. All assertions are candidate research designs, not experimental outcomes. &nbsp; &nbsp; STARLI&nbsp; /&nbsp; RESEARCH FAMILY III&nbsp; /&nbsp; FLAGSHIPS 276&ndash;280 Evidence, Renewal and Independent Succession Five complementary architectures for modular continuity, open standards, graph evidence and quantum biosensing provenance. F276&nbsp; |&nbsp; NANOROBOTIC RESEARCH MODULAR SUCCESSION AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; intergenerational evidence transfer. The primary proposal tests field-map identity after repair under a concealed challenge: hide an interface wear scar. Measures: module swap qualification yield [fraction]; separate witness: interface force deviation [N]. Strong comparator: monolithic robot ",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "STARLI / RESEARCH FAMILY III / FLAGSHIPS 271–275 Ten Research Flagships · Letters to Future Laboratories Five proposed systems for long-lived research operations and their physical limits. F271 | AUTONOMOUS NANO-QUANTUM RESEARCH STATION AT THE LIMIT Three-coupling: long-horizon scientific memory × m",
+      "url": "https://zenodo.org/records/23934677"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "25b50c83b2c28d24233bfd4c",
+      "context_id": "942e64cb1ccca87087a30077",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reconstruction",
+        "recovery",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.9583,
+      "source": "zenodo",
+      "source_context_sha256": "f822801ce322523f188c20723049cd3b8cdcf41bc045d7af4a36d9c10def554f",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "RESEARCH COLLECTION / FLAGSHIPS 261&ndash;270 OF 300 Scientific Evidence, Reproducibility &amp; Successor Trust at the Limit Flagship 13 Fission&nbsp; |&nbsp; Volume III&nbsp; |&nbsp; Author 33&nbsp; |&nbsp; STARLI Research Design Working Edition v1.2 This ten-volume prospective collection challenges selection bias, autonomous experiment auditability, honest negative-result disclosure, bounded functional release, long-horizon data readability, cross-site quantum biosensing, degradation forecasting, impartial adjudication, retirement and successor reconstruction, and claim-to-evidence engineering. A candidate research design is not an observed new law, clinical result or experimentally established advantage. Ten English 777-page volumes collectively contain 300 mathematics plates, 820 chapter openings, 4,100 paginated studies, 2,000 Research Gates and 330 Phoenix Answer Embryos. Each Gate uses three independent future-facing essays &mdash; Origin, Extreme Extrapolation, Future Research Plan &mdash; which propose tests rather than report their success. Textual distinctness does not establish causal novelty. RESEARCH UNIT I&nbsp; &middot;&nbsp; F261&ndash;F265 F261&nbsp; NANOROBOTIC SAMPLE SELECTION BIAS AT THE LIMIT &mdash; Main endpoint: true-positive detection fraction on an independently enrolled cohort. Scientific contrast: survivor-biased microrobot recovery versus higher quality in selected starting specimens. Independent witness: external coded specimen census. Stop: unregistered specimen exclusion or identity-loss event. F262&nbsp; MICROSCALE AUTONOMOUS EXPERIMENT AUDITABILITY AT THE LIMIT &mdash; Main endpoint: fraction of blinded runs with complete replay and equal safety decision. Scientific contrast: actuation-command discrepancy versus software event acknowledgement without motion. Independent witness: laser displacement encoder. Stop: physical actuation cannot be reconciled with signed raw evidence. F263&nbsp; QUANTUM SENSOR NEGATIVE-RESULT REPORTING AT THE LIMIT &mdash; Main endpoint: fraction of registered null, failed and indeterminate measurements publicly traceable. Scientific contrast: null-run omission versus different detector gain for null samples. Independent witness: escrowed randomization list. Stop: unreported null cases or materially incomplete raw data. F264&nbsp; NANOROBOTIC FUNCTIONAL RELEASE CONTRACT AT THE LIMIT &mdash; Main endpoint: false release probability under hidden unsafe specimens. Scientific contrast: rare leakage into sample versus sensor false negatives. Independent witness: coded nanoparticle mass counter. Stop: a hidden physical hazard is classified safe. F265&nbsp; MICROSCALE RESEARCH DATA INTERGENERATIONAL READABILITY AT THE LIMIT &mdash; Main endpoint: successful clean-room rebuild fraction after toolchain change. Scientific contrast: obsolete raw-binary decoding versus floating-point rounding drift. Independent witness: independent raw-packet oracle. Stop: reconstruction requires undocumented secrets or unavailable instruments. &nbsp; &nbsp; RESEARCH UNIT II&nbsp; /&nbsp; RECONSTRUCTION, TRANSFER AND TRUST F266&nbsp; QUANTUM BIOSENSING EXTERNAL SENSING REPRODUCIBILITY AT THE LIMIT &mdash; Main endpoint: held-out external agreement within declared physical uncertainty. Scientific contrast: travelling standard drift versus site temperature changes real resonance. Independent witness: independent atomic frequency reference. Stop: correlated reference artefact masquerades as agreement. F267&nbsp; NANOROBOTIC LONG-HORIZON DEGRADATION PREDICTION AT THE LIMIT &mdash; Main endpoint: coverage of future failure intervals on unselected units. Scientific contrast: surface wear accumulation versus corrosion dominates wear. Independent witness: independent gravimetric loss assay. Stop: future wear enters an unregistered failure regime. F268&nbsp; MICROSCALE EXPERIMENT INDEPENDENT THIRD-PARTY ADJUDICATION AT THE LIMIT &mdash; Main endpoint: fraction of blinded case verdicts supported by indepe",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "RESEARCH COLLECTION / FLAGSHIPS 261–270 OF 300 Scientific Evidence, Reproducibility & Successor Trust at the Limit Flagship 13 Fission | Volume III | Author 33 | STARLI Research Design Working Edition v1.2 This ten-volume prospective collection challenges selection bias, autonomous experiment audita",
+      "url": "https://zenodo.org/records/23934354"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b41d174943055e9e229d69ae",
+      "context_id": "163072ea9efa4d591aeb0a4f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "reconstruction",
+        "recovery",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.4583,
+      "source": "zenodo",
+      "source_context_sha256": "5cfdd2f7bd9f5dadf872dd435af1370a67993f5566a2e5da20e8fd7007e5efed",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "STARLI&nbsp; /&nbsp; RESEARCH FAMILY III&nbsp; /&nbsp; FLAGSHIPS 271&ndash;275 Ten Research Flagships &middot; Letters to Future Laboratories Five proposed systems for long-lived research operations and their physical limits. F271&nbsp; |&nbsp; AUTONOMOUS NANO-QUANTUM RESEARCH STATION AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; intergenerational evidence transfer. The primary proposal tests operator-independent audit trail under a concealed challenge: swap a reference cartridge without notification. Measures: unassisted reconstruction yield [fraction]; separate witness: traceable calibration bias [nT]. Strong comparator: static archive with trained human curator. Failures remain reportable. F272&nbsp; |&nbsp; INTELLIGENT MICROROBOTIC DISTRIBUTED LABORATORY AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; uncertainty-aware bounded decision. The primary proposal tests parallel sterile-route isolation under a concealed challenge: withhold a trajectory segment. Measures: sample routing error [fraction]; separate witness: microrobot recovery yield [fraction]. Strong comparator: central scheduler under matched flow, exposure and sample budgets. Failures remain reportable. F273&nbsp; |&nbsp; NANO-QUANTUM RESEARCH DATA CIVILIZATIONAL MEMORY AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; successor reconstruction and authority continuity. The primary proposal tests lossy compression detection under a concealed challenge: rekey archival objects while retaining labels. Measures: future-format decode success [fraction]; separate witness: metrological trace survival [fraction]. Strong comparator: vendor archive plus human-curated file migration. Failures remain reportable. F274&nbsp; |&nbsp; MICROSCALE AUTONOMOUS EXPERIMENT INTERGENERATIONAL HANDOFF AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; successor reconstruction and authority continuity. The primary proposal tests version-specific mechanical tolerances under a concealed challenge: reverse the order of two protocol steps. Measures: successor protocol fidelity [fraction]; separate witness: authority violation count [events]. Strong comparator: document archive with synchronous founder-assisted training. Failures remain reportable. F275&nbsp; |&nbsp; QUANTUM SENSING NETWORK LONG-TERM MAINTENANCE AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; intergenerational evidence transfer. The primary proposal tests acquisition duty-cycle adaptation under a concealed challenge: add cross-node correlated pickup. Measures: field-estimation uncertainty [nT]; separate witness: network uptime [fraction]. Strong comparator: periodic manual recalibration plus classical reference magnetometer. Failures remain reportable. FORMAT&nbsp; Each flagship: 777 English pages &middot; 30 formula plates &middot; 82 chapters / 410 one-page investigations &middot; 200 three-letter Research Gates &middot; 33 Phoenix proposals. All assertions are candidate research designs, not experimental outcomes. &nbsp; &nbsp; STARLI&nbsp; /&nbsp; RESEARCH FAMILY III&nbsp; /&nbsp; FLAGSHIPS 276&ndash;280 Evidence, Renewal and Independent Succession Five complementary architectures for modular continuity, open standards, graph evidence and quantum biosensing provenance. F276&nbsp; |&nbsp; NANOROBOTIC RESEARCH MODULAR SUCCESSION AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; intergenerational evidence transfer. The primary proposal tests field-map identity after repair under a concealed challenge: hide an interface wear scar. Measures: module swap qualification yield [fraction]; separate witness: interface force deviation [N]. Strong comparator: monolithic robot ",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "STARLI / RESEARCH FAMILY III / FLAGSHIPS 271–275 Ten Research Flagships · Letters to Future Laboratories Five proposed systems for long-lived research operations and their physical limits. F271 | AUTONOMOUS NANO-QUANTUM RESEARCH STATION AT THE LIMIT Three-coupling: long-horizon scientific memory × m",
+      "url": "https://zenodo.org/records/23934677"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "fcab90cfa79bb6958f6a86a3",
+      "context_id": "3b67fa3f779098a31c2b8268",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "representation",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.4583,
+      "source": "zenodo",
+      "source_context_sha256": "d1c886cd0569da424809303bb60a3bc1c5842ead4d50cf5f7a8bcabe16cc89a9",
+      "source_published": "2026-11-03",
+      "source_updated": "",
+      "summary": "Release v1.0.0 - Software Archive for AAS80155R1 This is the initial formal release and archival version of the color_to_spec package, associated with the paper: &quot;Optical Colors as Compressed Spectral Information for Trans-Neptunian Objects&quot; Author: Hsing-Wen Lin AAS Manuscript Number: AAS80155R1 Overview color_to_spec provides tools for optical-color-to-spectral inference of Trans-Neptunian Objects (TNOs) and asteroids: Trained PCA Spectral Manifold &amp; KDE Prior : Latent representation across $0.4\\ \\mu\\text{m}$ to $5.1\\ \\mu\\text{m}$. Bayesian Inference Pipeline : Reconstructs full-resolution reflectance spectra with uncertainty bounds ($1\\sigma$ and $90%$ credible intervals) from broadband magnitude colors (e.g., LSST or DES). Photometric &amp; Reverse Projection Utilities : Tools to sample latent distributions and project them back into synthetic optical color spaces. Contents &amp; Structure src/ : Core Python modules for spectral reconstruction, GMM sampling, reverse projection, and photometric flux conversions. models/ : Pre-trained PCA/KDE models and AutoGluon reconstructor configurations. .agents/skills/spectra_reconstruction/ : CLI scripts and automated agent skill definitions. CITATION.cff : Citation metadata. LICENSE : MIT License. Citation If you use this software in your research, please cite the associated AAS paper and this Zenodo archive (see CITATION.cff or click &quot;Cite this repository&quot; on GitHub / Zenodo).",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "color_to_spec: Software for Optical-to-NIR Spectral Inference of Trans-Neptunian Objects",
+      "url": "https://zenodo.org/records/23932428"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "60298ce4acb4d2035137227d",
+      "context_id": "c06a6f5beb7f89ce918039a8",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction",
+        "retrieval"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.25,
+      "source": "arxiv",
+      "source_context_sha256": "381fd404de3ca7399cad6e163df8b66aea17ea23a5a29108df424c4c50c1ee3b",
+      "source_published": "2026-11-03T15:00:14Z",
+      "source_updated": "2026-11-03T15:00:14Z",
+      "summary": "Bragg Coherent Diffraction Imaging (BCDI) relies on phase retrieval (PR), a non-convex, ill-posed inverse problem whose conditioning is degraded by factors like noise, partial coherence, and strain or crystallographic defects in the imaged nanocrystal. Conventional approaches, including alternating projections and deep learning methods, represent the object on a dense voxel grid, which is prone to amplitude-phase mixing and becomes increasingly ill-posed under these factors, often preventing reliable three-dimensional mapping of the particle's shape and strain. Here we present ConvexAD, a gradient descent PR model that parametrizes the object shape as a convex polyhedron, built by the intersection of half-spaces and enforces flat amplitude within it by construction. This geometric regularization eliminates amplitude-phase mixing and reduces the number of trainable parameters, hence facilitating the convergence of the PR. Implemented in JAX for native GPU acceleration and forward-model flexibility, ConvexAD is validated on simulated and experimental BCDI data, where it outperforms conventional and deep learning assisted PR at high strain, low signal, and reduced coherence, extending the conditions under which quantitative BCDI reconstruction is achievable.",
+      "tags": [
+        "cond-mat.mes-hall",
+        "physics.comp-ph"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "ConvexAD: differentiable phase retrieval with geometric regularization for high-strain, low-signal Bragg coherent diffraction imaging",
+      "url": "https://arxiv.org/abs/2611.05020v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "1285fc7b5794376a12904aa3",
+      "context_id": "ee80aa33ece8b9059fc1c36f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "arxiv",
+      "source_context_sha256": "a964a2143bc473f89c45ce187dab981659df7f200d2a2534bb4a40e96e3cb208",
+      "source_published": "2026-11-03T13:12:18Z",
+      "source_updated": "2026-11-03T13:12:18Z",
+      "summary": "Separable nonlinear least squares problems arise in inverse problems such as semi-blind image deblurring, where the image enters the forward model linearly, and the blur parameters enter nonlinearly. Even when the image is regularized, joint estimation of the image and blur parameters can favor a degenerate no-blur solution, in which the blur operator tends to the identity and the reconstruction merely denoises the data without removing the blur. We address this by regularizing the blur parameters. Motivated by the determinant term arising from Gaussian marginalization, we construct a family of blur-parameter priors whose weight and auxiliary operators can be chosen independently of the image prior. The resulting log-determinant penalty is incorporated into regularized variable projection, which eliminates the image variables by minimization. Under periodic boundary conditions and assuming the matrices involved admit a joint spectral decomposition, we show that a sufficiently large determinant weight rules out the no-blur solution as a local minimizer. We also characterize the regularizer's behavior as the auxiliary regularization scale tends to zero or infinity. We solve the reduced problem with a quasi-Newton method that evaluates the objective and its derivatives in the Fourier domain. In experiments with Gaussian, defocus, and motion blur, the proposed prior improves image and blur recovery over Gaussian marginalization across several settings, with determinant weights computed from the true image. A single-sample experiment illustrates how to automatically choose parameters from the data using a conditional generalized cross-validation criterion.",
+      "tags": [
+        "math.NA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Marginalization-Based Regularization for Separable Nonlinear Least Squares Problems with Applications to Semi-Blind Deblurring",
+      "url": "https://arxiv.org/abs/2611.04846v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "1285fc7b5794376a12904aa3",
+      "context_id": "5f07bc18a8d586d4d11753e1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction",
+        "recovery"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "arxiv",
+      "source_context_sha256": "4830c1239e9b04e58337874ee9e7a30f785054dd3630dabb22e9743076a0450d",
+      "source_published": "2026-11-03T13:12:18Z",
+      "source_updated": "2026-11-03T13:12:18Z",
+      "summary": "Separable nonlinear least squares problems arise in inverse problems such as semi-blind image deblurring, where the image enters the forward model linearly, and the blur parameters enter nonlinearly. Even when the image is regularized, joint estimation of the image and blur parameters can favor a degenerate no-blur solution, in which the blur operator tends to the identity and the reconstruction merely denoises the data without removing the blur. We address this by regularizing the blur parameters. Motivated by the determinant term arising from Gaussian marginalization, we construct a family of blur-parameter priors whose weight and auxiliary operators can be chosen independently of the image prior. The resulting log-determinant penalty is incorporated into regularized variable projection, which eliminates the image variables by minimization. Under periodic boundary conditions and assuming the matrices involved admit a joint spectral decomposition, we show that a sufficiently large determinant weight rules out the no-blur solution as a local minimizer. We also characterize the regularizer's behavior as the auxiliary regularization scale tends to zero or infinity. We solve the reduced problem with a quasi-Newton method that evaluates the objective and its derivatives in the Fourier domain. In experiments with Gaussian, defocus, and motion blur, the proposed prior improves image and blur recovery over Gaussian marginalization across several settings, with determinant weights computed from the true image. A single-sample experiment illustrates how to automatically choose parameters from the data using a conditional generalized cross-validation criterion.",
+      "tags": [
+        "math.NA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Marginalization-Based Regularization for Separable Nonlinear Least Squares Problems with Applications to Semi-Blind Deblurring",
+      "url": "https://arxiv.org/abs/2611.04846v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "304437614b550aa01cc08831",
+      "context_id": "acd516f0f4413259af62547b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.2083,
+      "source": "zenodo",
+      "source_context_sha256": "a7f4406582240ffa8751feabe97b3d4087276269d2c939526421527d7ff4d699",
+      "source_published": "2026-11-03",
+      "source_updated": "",
+      "summary": "Woody Crown Hydraulic Network (WCHN): mathematical revisions, corrected datasets, and reproducible computational resources This repository provides an integrated historical, mathematical, empirical, and computational resource for the Woody Crown Hydraulic Network (WCHN) framework. It brings together the foundational development of the model, revised property definitions and their algebraic consequences, corrected crown-network records, ecological reanalyses, editable network drawings, and software for reconstructing and analyzing existing or newly constructed WCHNs. The deposit is an independent scientific resource, not tied to a particular journal or manuscript. HISTORICAL FOUNDATION Four publications document the model's development: (1) Souza et al. (2011), the original network analysis of Cerrado crowns ( https://doi.org/10.1007/s11258-010-9797-7 ); (2) Prado et al. (2020), formalization of decomposition, topology, and four initial properties ( https://doi.org/10.1016/j.jtbi.2020.110318 ); (3) Prado and Trov&atilde;o (2023), expansion to eight properties and Caatinga&ndash;Cerrado comparisons ( https://doi.org/10.1016/j.ecolmodel.2023.110345 ); and (4) Prado (2024), stochastic node-addition networks and size-matched comparisons ( https://doi.org/10.1007/s40626-024-00340-5 ). These references allow users to trace the original definitions and later revisions. MATHEMATICAL AND EMPIRICAL CONTENT The author-prepared document &ldquo;Algebraic relationships and mathematical properties of the Woody Crown Hydraulic Network&rdquo; explains the revised symmetry (SYM), complexity (COM), and vulnerability (VUL) definitions, algebraic dependencies, network-size effects, and reproducibility checks. In particular, revised VUL is exactly equal to normalized mean node depth in a rooted tree. The observed near-reciprocity between navigability (NAV) and VUL is a strong empirical association, not a second exact identity or independent hydraulic measurement. The deposit retains the original Cerrado and Caatinga source spreadsheets, recalculated property tables, comparisons, reduced principal component analyses (PCAs), and size-adjusted exploratory analyses. The previously deposited PCA outputs are preserved numerically; their interpretations should account for the revised mathematical meaning of VUL. The updated PCA technical note documents the analytical methods and limitations. CORRECTED CERRADO NETWORKS AND TOOLKIT A new workbook records corrections to 20 previously sampled Cerrado WCHNs (not additional independent observations). Six networks were reconstructed manually, including S. polyphyllum 1 as the manual feasibility pilot; fourteen were reconstructed semi-automatically, beginning with S. camporum 1 as the first test of the connector generator, followed by thirteen additional networks. In the semi-automatic workflow, the researcher marked the nodes, deterministic software proposed editable connectors and highlighted ambiguous nodes in red, and the researcher visually checked and corrected the complete graph against the original drawing beneath it. The WCHN toolkit v1.0.3 contains code, documentation, editable PowerPoint networks, intermediate files, tests, and a separate semi-automatic validation exercise using Miconia albicans 5, a network originally reconstructed manually. That exercise led to a verified terminal-connector decomposition correction without changing the network topology or any of its eight WCHN properties. The accompanying Practical Guide v1.0.3 provides step-by-step instructions for reconstructing, inspecting, validating, and analyzing WCHNs, including optional AI assistance under mandatory researcher supervision. REPRODUCIBILITY AND LIMITATIONS The accompanying README.md provides the complete file inventory, foundational references, directions for reusing the toolkit and statistical scripts, links among materials, and version history. These resources enable checking corrected topologies and calculations and exploring",
+      "tags": [
+        "woody crown hydraulic network",
+        "WCHN",
+        "branching topology",
+        "crown architecture",
+        "hydraulic architecture",
+        "plant hydraulics",
+        "tree architecture",
+        "network topology",
+        "topological vulnerability",
+        "navigability",
+        "tree phenological groups",
+        "Cerrado",
+        "Caatinga",
+        "hydraulic safety",
+        "tree height",
+        "computational plant modelling",
+        "network reconstruction",
+        "reproducible research"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Recalculated woody crown hydraulic network properties and reduced principal component analyses of Caatinga and Cerrado trees",
+      "url": "https://zenodo.org/records/23930299"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "38d3e1be88c799bcfc010d13",
+      "context_id": "f391a922f7c831e924a473b1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "ffdee85010999e41c3af911fcdb3ce7a546d6e0b99efcece07771a571f91934a",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "This record contains the rights-safe reproducibility package supporting the manuscript &ldquo;Observed agreement is not decision portability: A typed evidence-authority audit of national renewable-energy priorities.&rdquo; The study distinguishes retrospective cross-country recurrence from source-to-target decision authority. Stage I freezes a retrospective calibration corpus of 14 reports and 15 study units. Stage II contains three sequential outcome-blinded validation blocks with 25 exact technology relations. Context-blind transfer issued 11 certificates: four correct and seven incorrect (coverage 0.440; conditional agreement 0.364; false-portability rate 0.636). The criterion-resolved bounded rule issued no positive certificate across 13 applicable opportunities; this is reported as zero coverage and disciplined abstention, not predictive superiority. The package includes derived evidence registries, full-domain RASS representation records, frozen criterion-dependency and authority configurations, prediction and result locks, source-native replay records, relation-level validation outputs, Scopus title/abstract and purpose-driven acquisition audit records, protocols, analysis scripts, tests and file-level SHA-256 manifests. The Scopus component contains a frozen 1,363-record title/abstract universe. Of 251 full-text candidates, 110 received full-text-stage decisions across 13 dated batches; 49 were map eligible, 61 were excluded and 141 remained unassessed because exhaustive full-text census completion was not an objective. Acquisition ordering and stopping were documented but not preregistered. Later map-eligible records were not retroactively added to the already frozen Stage I calibration corpus. Copyrighted article PDFs, extracted article text, licensed Scopus exports, browser sessions, credentials and institutional-access artifacts are excluded. Original code and tests are licensed under MIT. Original derived data and documentation are licensed under CC BY 4.0, subject to the World Bank, IRENA/IRENASTAT and other third-party exceptions recorded in the package. The package is related to, but does not replace or revise, the prior Stage I reproducibility record at https://doi.org/10.5281/zenodo.23145110.",
+      "tags": [
+        "decision portability",
+        "renewable energy",
+        "multi-criteria decision analysis",
+        "evidence authority",
+        "real amply soft sets",
+        "RASS",
+        "outcome-blinded validation",
+        "abstention",
+        "provenance",
+        "semantic compatibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Reproducibility data and code for Observed agreement is not decision portability: a typed evidence-authority audit of national renewable-energy priorities",
+      "url": "https://zenodo.org/records/23932261"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "61090aabfd504150656ffed5",
+      "context_id": "1c1e756b9b7607c10f8b3164",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "github_repository_search",
+      "source_context_sha256": "a0f4c322654d8e5cf9dec45ca572a560d40dcd3ec6621a768cfeaf15265891cf",
+      "source_published": "",
+      "source_updated": "2026-11-03T23:58:21Z",
+      "summary": "ResearchOS is an AI research-assurance infrastructure designed to improve reproducibility and independent verification in AI-assisted biological research through evidence provenance, hypothesis validation, adversarial testing, controlled knowledge acceptance, and auditable scientific workflows",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "tltmgnt/ResearchOS-AI-Assisted-Biological-Research-Verification-Reproducibility-infrastructure",
+      "url": "https://github.com/tltmgnt/ResearchOS-AI-Assisted-Biological-Research-Verification-Reproducibility-infrastructure"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "fcab90cfa79bb6958f6a86a3",
+      "context_id": "cafc7f4aa0e56de282132d34",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "zenodo",
+      "source_context_sha256": "f0242c6ee31b102519667fac2b380d0ce6b94acc5a3951959af864c654e9119c",
+      "source_published": "2026-11-03",
+      "source_updated": "",
+      "summary": "Release v1.0.0 - Software Archive for AAS80155R1 This is the initial formal release and archival version of the color_to_spec package, associated with the paper: &quot;Optical Colors as Compressed Spectral Information for Trans-Neptunian Objects&quot; Author: Hsing-Wen Lin AAS Manuscript Number: AAS80155R1 Overview color_to_spec provides tools for optical-color-to-spectral inference of Trans-Neptunian Objects (TNOs) and asteroids: Trained PCA Spectral Manifold &amp; KDE Prior : Latent representation across $0.4\\ \\mu\\text{m}$ to $5.1\\ \\mu\\text{m}$. Bayesian Inference Pipeline : Reconstructs full-resolution reflectance spectra with uncertainty bounds ($1\\sigma$ and $90%$ credible intervals) from broadband magnitude colors (e.g., LSST or DES). Photometric &amp; Reverse Projection Utilities : Tools to sample latent distributions and project them back into synthetic optical color spaces. Contents &amp; Structure src/ : Core Python modules for spectral reconstruction, GMM sampling, reverse projection, and photometric flux conversions. models/ : Pre-trained PCA/KDE models and AutoGluon reconstructor configurations. .agents/skills/spectra_reconstruction/ : CLI scripts and automated agent skill definitions. CITATION.cff : Citation metadata. LICENSE : MIT License. Citation If you use this software in your research, please cite the associated AAS paper and this Zenodo archive (see CITATION.cff or click &quot;Cite this repository&quot; on GitHub / Zenodo).",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "color_to_spec: Software for Optical-to-NIR Spectral Inference of Trans-Neptunian Objects",
+      "url": "https://zenodo.org/records/23932428"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "60298ce4acb4d2035137227d",
+      "context_id": "8f8cd3c6733c99a86b1b3163",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "arxiv",
+      "source_context_sha256": "fba67df24dee1207b170cdd7da2e706016716067321ea9385d4ca31d9fb64b7c",
+      "source_published": "2026-11-03T15:00:14Z",
+      "source_updated": "2026-11-03T15:00:14Z",
+      "summary": "Bragg Coherent Diffraction Imaging (BCDI) relies on phase retrieval (PR), a non-convex, ill-posed inverse problem whose conditioning is degraded by factors like noise, partial coherence, and strain or crystallographic defects in the imaged nanocrystal. Conventional approaches, including alternating projections and deep learning methods, represent the object on a dense voxel grid, which is prone to amplitude-phase mixing and becomes increasingly ill-posed under these factors, often preventing reliable three-dimensional mapping of the particle's shape and strain. Here we present ConvexAD, a gradient descent PR model that parametrizes the object shape as a convex polyhedron, built by the intersection of half-spaces and enforces flat amplitude within it by construction. This geometric regularization eliminates amplitude-phase mixing and reduces the number of trainable parameters, hence facilitating the convergence of the PR. Implemented in JAX for native GPU acceleration and forward-model flexibility, ConvexAD is validated on simulated and experimental BCDI data, where it outperforms conventional and deep learning assisted PR at high strain, low signal, and reduced coherence, extending the conditions under which quantitative BCDI reconstruction is achievable.",
+      "tags": [
+        "cond-mat.mes-hall",
+        "physics.comp-ph"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "ConvexAD: differentiable phase retrieval with geometric regularization for high-strain, low-signal Bragg coherent diffraction imaging",
+      "url": "https://arxiv.org/abs/2611.05020v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "25b50c83b2c28d24233bfd4c",
+      "context_id": "d1fb6f3664dfa22b730d63db",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "bias",
+        "failure",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.5,
+      "source": "zenodo",
+      "source_context_sha256": "ce252f63ebf48f8baf74187c1119c63329b2d6700d9735bcf2c2faeae94af489",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "RESEARCH COLLECTION / FLAGSHIPS 261&ndash;270 OF 300 Scientific Evidence, Reproducibility &amp; Successor Trust at the Limit Flagship 13 Fission&nbsp; |&nbsp; Volume III&nbsp; |&nbsp; Author 33&nbsp; |&nbsp; STARLI Research Design Working Edition v1.2 This ten-volume prospective collection challenges selection bias, autonomous experiment auditability, honest negative-result disclosure, bounded functional release, long-horizon data readability, cross-site quantum biosensing, degradation forecasting, impartial adjudication, retirement and successor reconstruction, and claim-to-evidence engineering. A candidate research design is not an observed new law, clinical result or experimentally established advantage. Ten English 777-page volumes collectively contain 300 mathematics plates, 820 chapter openings, 4,100 paginated studies, 2,000 Research Gates and 330 Phoenix Answer Embryos. Each Gate uses three independent future-facing essays &mdash; Origin, Extreme Extrapolation, Future Research Plan &mdash; which propose tests rather than report their success. Textual distinctness does not establish causal novelty. RESEARCH UNIT I&nbsp; &middot;&nbsp; F261&ndash;F265 F261&nbsp; NANOROBOTIC SAMPLE SELECTION BIAS AT THE LIMIT &mdash; Main endpoint: true-positive detection fraction on an independently enrolled cohort. Scientific contrast: survivor-biased microrobot recovery versus higher quality in selected starting specimens. Independent witness: external coded specimen census. Stop: unregistered specimen exclusion or identity-loss event. F262&nbsp; MICROSCALE AUTONOMOUS EXPERIMENT AUDITABILITY AT THE LIMIT &mdash; Main endpoint: fraction of blinded runs with complete replay and equal safety decision. Scientific contrast: actuation-command discrepancy versus software event acknowledgement without motion. Independent witness: laser displacement encoder. Stop: physical actuation cannot be reconciled with signed raw evidence. F263&nbsp; QUANTUM SENSOR NEGATIVE-RESULT REPORTING AT THE LIMIT &mdash; Main endpoint: fraction of registered null, failed and indeterminate measurements publicly traceable. Scientific contrast: null-run omission versus different detector gain for null samples. Independent witness: escrowed randomization list. Stop: unreported null cases or materially incomplete raw data. F264&nbsp; NANOROBOTIC FUNCTIONAL RELEASE CONTRACT AT THE LIMIT &mdash; Main endpoint: false release probability under hidden unsafe specimens. Scientific contrast: rare leakage into sample versus sensor false negatives. Independent witness: coded nanoparticle mass counter. Stop: a hidden physical hazard is classified safe. F265&nbsp; MICROSCALE RESEARCH DATA INTERGENERATIONAL READABILITY AT THE LIMIT &mdash; Main endpoint: successful clean-room rebuild fraction after toolchain change. Scientific contrast: obsolete raw-binary decoding versus floating-point rounding drift. Independent witness: independent raw-packet oracle. Stop: reconstruction requires undocumented secrets or unavailable instruments. &nbsp; &nbsp; RESEARCH UNIT II&nbsp; /&nbsp; RECONSTRUCTION, TRANSFER AND TRUST F266&nbsp; QUANTUM BIOSENSING EXTERNAL SENSING REPRODUCIBILITY AT THE LIMIT &mdash; Main endpoint: held-out external agreement within declared physical uncertainty. Scientific contrast: travelling standard drift versus site temperature changes real resonance. Independent witness: independent atomic frequency reference. Stop: correlated reference artefact masquerades as agreement. F267&nbsp; NANOROBOTIC LONG-HORIZON DEGRADATION PREDICTION AT THE LIMIT &mdash; Main endpoint: coverage of future failure intervals on unselected units. Scientific contrast: surface wear accumulation versus corrosion dominates wear. Independent witness: independent gravimetric loss assay. Stop: future wear enters an unregistered failure regime. F268&nbsp; MICROSCALE EXPERIMENT INDEPENDENT THIRD-PARTY ADJUDICATION AT THE LIMIT &mdash; Main endpoint: fraction of blinded case verdicts supported by indepe",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "RESEARCH COLLECTION / FLAGSHIPS 261–270 OF 300 Scientific Evidence, Reproducibility & Successor Trust at the Limit Flagship 13 Fission | Volume III | Author 33 | STARLI Research Design Working Edition v1.2 This ten-volume prospective collection challenges selection bias, autonomous experiment audita",
+      "url": "https://zenodo.org/records/23934354"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "1b975eba5bea838d07efebab",
+      "context_id": "d6d7302e748ed7e70e44741f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "negative result",
+        "provenance"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.3333,
+      "source": "arxiv",
+      "source_context_sha256": "e28e6f2b187e79f5d9134dfc48702ab40ad12927a493bb2fa9b7928b836caba2",
+      "source_published": "2026-11-02T20:39:51Z",
+      "source_updated": "2026-11-02T20:39:51Z",
+      "summary": "We describe our approach to the LUMPI track of the UrbanTwin Sim2Real LiDAR Challenge, in which a 3D object detector must be trained exclusively on synthetic data and evaluated on unseen real roadside LiDAR, while the synthetic point clouds are simultaneously scored for distributional realism. Our final entry scores 0.4793 combined, from a detection mAP of 0.1333 and a realism score of 0.9126. Our contribution is not a new architecture. Working from a PointPillars baseline, we obtained most of our gains from three sources. First, a diagnosis that small object failure in roadside LiDAR is a localisation problem rather than a detection problem, which led to a parameter free geometric refinement worth 86 percent relative on pedestrian AP. Second, an audit of our own post processing which revealed that a shipped rule was destroying valid predictions, the repair of which produced our single largest detection gain at 335 percent relative on the Van class. Third, treating the realism metrics analytically rather than as a black box, which showed that one of the four components is a closed form function of nine summary statistics. We also report an experimental methodology that we believe is the more transferable result. Because mean AP decomposes into independent per class terms, a single submission can carry several mutually controlled experiments, and a submission assembled entirely from previously measured components has a score that is known before it is sent. We predicted our final score to four decimal places prior to submission. We report negative results at equal length, and give a full account of data provenance and compliance in Section 8, including a full account of every mechanism contributing to the submitted score.",
+      "tags": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Geometric Refinement and Distributional Alignment for Sim2Real Roadside LiDAR Detection",
+      "url": "https://arxiv.org/abs/2611.03936v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "b41d174943055e9e229d69ae",
+      "context_id": "98c75e04f00b1718a3ac17c0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "audit trail",
+        "bias",
+        "failure",
+        "provenance"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.3333,
+      "source": "zenodo",
+      "source_context_sha256": "4ae7823d79a34d4bf12476eabcf0c2d8ca3546d2f1d2d7cd39a88d77b65acc1f",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "STARLI&nbsp; /&nbsp; RESEARCH FAMILY III&nbsp; /&nbsp; FLAGSHIPS 271&ndash;275 Ten Research Flagships &middot; Letters to Future Laboratories Five proposed systems for long-lived research operations and their physical limits. F271&nbsp; |&nbsp; AUTONOMOUS NANO-QUANTUM RESEARCH STATION AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; intergenerational evidence transfer. The primary proposal tests operator-independent audit trail under a concealed challenge: swap a reference cartridge without notification. Measures: unassisted reconstruction yield [fraction]; separate witness: traceable calibration bias [nT]. Strong comparator: static archive with trained human curator. Failures remain reportable. F272&nbsp; |&nbsp; INTELLIGENT MICROROBOTIC DISTRIBUTED LABORATORY AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; uncertainty-aware bounded decision. The primary proposal tests parallel sterile-route isolation under a concealed challenge: withhold a trajectory segment. Measures: sample routing error [fraction]; separate witness: microrobot recovery yield [fraction]. Strong comparator: central scheduler under matched flow, exposure and sample budgets. Failures remain reportable. F273&nbsp; |&nbsp; NANO-QUANTUM RESEARCH DATA CIVILIZATIONAL MEMORY AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; successor reconstruction and authority continuity. The primary proposal tests lossy compression detection under a concealed challenge: rekey archival objects while retaining labels. Measures: future-format decode success [fraction]; separate witness: metrological trace survival [fraction]. Strong comparator: vendor archive plus human-curated file migration. Failures remain reportable. F274&nbsp; |&nbsp; MICROSCALE AUTONOMOUS EXPERIMENT INTERGENERATIONAL HANDOFF AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; successor reconstruction and authority continuity. The primary proposal tests version-specific mechanical tolerances under a concealed challenge: reverse the order of two protocol steps. Measures: successor protocol fidelity [fraction]; separate witness: authority violation count [events]. Strong comparator: document archive with synchronous founder-assisted training. Failures remain reportable. F275&nbsp; |&nbsp; QUANTUM SENSING NETWORK LONG-TERM MAINTENANCE AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; intergenerational evidence transfer. The primary proposal tests acquisition duty-cycle adaptation under a concealed challenge: add cross-node correlated pickup. Measures: field-estimation uncertainty [nT]; separate witness: network uptime [fraction]. Strong comparator: periodic manual recalibration plus classical reference magnetometer. Failures remain reportable. FORMAT&nbsp; Each flagship: 777 English pages &middot; 30 formula plates &middot; 82 chapters / 410 one-page investigations &middot; 200 three-letter Research Gates &middot; 33 Phoenix proposals. All assertions are candidate research designs, not experimental outcomes. &nbsp; &nbsp; STARLI&nbsp; /&nbsp; RESEARCH FAMILY III&nbsp; /&nbsp; FLAGSHIPS 276&ndash;280 Evidence, Renewal and Independent Succession Five complementary architectures for modular continuity, open standards, graph evidence and quantum biosensing provenance. F276&nbsp; |&nbsp; NANOROBOTIC RESEARCH MODULAR SUCCESSION AT THE LIMIT Three-coupling: long-horizon scientific memory &times; modular autonomous infrastructure &times; intergenerational evidence transfer. The primary proposal tests field-map identity after repair under a concealed challenge: hide an interface wear scar. Measures: module swap qualification yield [fraction]; separate witness: interface force deviation [N]. Strong comparator: monolithic robot ",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "STARLI / RESEARCH FAMILY III / FLAGSHIPS 271–275 Ten Research Flagships · Letters to Future Laboratories Five proposed systems for long-lived research operations and their physical limits. F271 | AUTONOMOUS NANO-QUANTUM RESEARCH STATION AT THE LIMIT Three-coupling: long-horizon scientific memory × m",
+      "url": "https://zenodo.org/records/23934677"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "fe5b6bbd548465fe1c5a914d",
+      "context_id": "c482ff781562c8916ede4053",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "counterexample",
+        "decentralized",
+        "failure"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.4167,
+      "source": "zenodo",
+      "source_context_sha256": "3a361fe1dc9decf051f690516ad94a74f90bece68cf38783381c7595a7ac3163",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "Unrefereed research candidate. The isolated Kalman filter (IsoKF) of Jung, Luft and Weiss (Autonomous Robots, 2025) lets the nodes of a robot or sensor network share an estimation task cheaply: only the nodes involved in a measurement update, and their correlations with everyone else are rescaled by a correction factor. Its authors conjectured that for any completely observable and controllable system the covariance it reports converges to a finite, unique, stable steady state. Result: the conjecture is false. A three-node system with pair-sum observations x1+x2, x2+x3, x3+x1 and dynamics A = 3I is observable from one epoch and controllable, every local block the filter uses stays positive definite, yet the reported marginal variances satisfy m_k &ge; (5/4)(9/5)^k &minus; 1/4, while the centralised Kalman filter keeps every variance at most 3/4. A Perron-root comparison extends divergence to every connected non-bipartite pair-sum graph when a^2 is large enough; extra attenuation or deletion of cross-covariances does not help. Schur-stable dynamics always give bounded marginals (proved). Computer-assisted proofs (outward-rounded interval arithmetic) show that for a^2 in (1, 1.38] large priors diverge at rate a^(2k), entry certified from 10^12 I at eight values down to a^2 = 1 + 10^-8, and that at a^2 = 21/20 the prior I converges while 10^12 I diverges: there is no globally attracting steady covariance. Also: exact classification of participant overlaps (|U &cap; V| &le; 1) that keep every local block positive definite, and a bounded regime for anchored relative measurements. Scope: in high-precision numerical tests the actual estimation error stays bounded; the failure is gross pessimism of the reported covariance, not divergence of the estimate. The counterexample uses pair-sum measurements, not plain differences. Nothing is proved for a^2 in (1.38, 2+&radic;5); uniqueness for stable dynamics remains open. The ikf_lib software was inspected but not run; no software failure is claimed. Version 0.2.0 (correction). Version 0.1.0 compared this work with Luft, Schubert, Roumeliotis and Burgard (2018, IJRR, doi:10.1177/0278364918760698) at abstract level only. This version compares it with the full text: Luft et al. introduce the correction factor (their eq. 26) and a scaled variant (eq. 28), and prove that two-robot blocks stay positive definite (Proposition 1, now credited at Theorem 8.1 and Corollary 5.3); they make no claim about boundedness or convergence of the covariance and give no divergence example. The two citing works are now also compared in full text. No theorem, proof, certificate, computation or numerical finding changed. Archive: LaTeX manuscript and PDF, bibliography with registry records, exact rational verifiers, interval certificates C1&ndash;C3, numerical scripts and their outputs (normal and python -O), figures, CI and SHA-256 manifest. Assurance: internal AI-assisted review only (not human peer review, independent reproduction or formal verification); certificates are computer-assisted, not formal proofs. Creator: Anonymous. Text CC0-1.0; code MIT.",
+      "tags": [
+        "isolated Kalman filter",
+        "decentralized estimation",
+        "covariance divergence",
+        "Riccati recursion",
+        "collaborative state estimation",
+        "multi-robot localization",
+        "interval arithmetic",
+        "counterexample"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Observable systems with divergent isolated Kalman covariances: a counterexample to the isolated Kalman filtering convergence conjecture",
+      "url": "https://zenodo.org/records/23941896"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "59c544fc22b6d9ae103b9c0f",
+      "context_id": "dfc54df6ff44c5fd9c12517b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "fault tolerance",
+        "limitation"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.3333,
+      "source": "arxiv",
+      "source_context_sha256": "f09556afdce0954886c25abb1a810aeacee901fd868fcc4e5a78c7a505cef48c",
+      "source_published": "2026-11-03T12:18:16Z",
+      "source_updated": "2026-11-03T12:18:16Z",
+      "summary": "Split Inference (SI) addresses the hardware resource limitations of Internet of Things (IoT) devices by distributing tiny Machine Learning (TinyML) model segments across multiple IoT devices. However, a device failure can interrupt the inference pipeline. This paper proposes a replica-aware recovery approach that deploys replicas of TinyML model segments originally hosted on failed devices onto surviving devices. We formulate the joint selection of replica hosts and communication protocols as a mixed-integer linear programming (MILP) problem that minimizes post-reconfiguration inference latency, accounting for computation and transmission latencies, under flash memory and runtime memory constraints. Simulations using MobileNetV2 on heterogeneous IoT networks compare the proposed approach with four baselines. We implement the model in a network of 15 IoT devices with a maximum link-rate reduction of 75%, and show that MILP approach achieves an average modeled end-to-end inference latency that is 6.8% lower than that of Computation Greedy and 18.3% lower than that of Random. Index Terms TinyML, split inference, Internet of Things, fault tolerance, replica placement.",
+      "tags": [
+        "cs.DC",
+        "cs.AI",
+        "cs.SE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Replica-Aware Split Inference for Edge IoT Systems",
+      "url": "https://arxiv.org/abs/2611.04779v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "2c2c0b04b718f20198c9f2b9",
+      "context_id": "756678ba895d503e89b421e3",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "failure mode",
+        "multi-agent"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.25,
+      "source": "arxiv",
+      "source_context_sha256": "36b4273d0e420efc62d8402d37c7a543af2bb561b9eb76b3c96a826689c62080",
+      "source_published": "2026-11-03T14:32:03Z",
+      "source_updated": "2026-11-03T14:32:03Z",
+      "summary": "Real-world geospatial decision support requires more than single-step retrieval or code generation. Disaster-response questions often involve multi-source workflows that combine spatial databases, map-derived features, satellite imagery, raster products, and reusable geospatial artifacts, where correctness depends on preserving spatial scope, temporal context, and intermediate execution state. While large language models and coding agents offer a promising interface for such workflows, they struggle with geospatial-specific failure modes, including handling large artifacts, selecting the wrong evidence source, losing spatial or temporal metadata, and applying invalid geometric operations. We introduce GeoFaham, a domain-specialized multi-agent system for geospatial disaster analytics. GeoFaham decomposes workflows into specialist agents for vector operations, map feature retrieval, imagery discovery, and raster analysis, coordinated by an Orchestrator with a dual-ledger control loop for dependency-aware planning, progress tracking, validation, and replanning. To support artifact-centric collaboration, GeoFaham uses a Response Store that persists full geospatial outputs and typed metadata outside the LLM context window while agents exchange compact identifiers and summaries. We also introduce GeoFaham-Bench, a 40-task benchmark grounded in 17 real-world disaster records, designed to evaluate multi-step geospatial reasoning, cross-source integration, raster-vector computation, artifact generation, and recovery under non-rigid ground truth. We evaluate GeoFaham on GeoFaham-Bench against strong general-purpose coding-agent baselines, including Codex, Claude Code, and OpenCode. GeoFaham achieves the best overall performance, scoring 0.940 versus the next-best 0.879, while using 7.5 times fewer tokens. Our code and benchmark are publicly available at https://github.com/microsoft/GeoFaham.",
+      "tags": [
+        "cs.MA",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "GeoFaham: Domain-Specialized Multi-Agent Geospatial Analytics for Disaster Response",
+      "url": "https://arxiv.org/abs/2611.04977v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "6d7d29eb7824a4245e50cbbb",
+      "context_id": "8c7eb1d7cdca5a98b6c9f073",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "failure mode",
+        "provenance"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "arxiv",
+      "source_context_sha256": "c590612d63c606ffd56bea3fddc9cb20e0372d14a18f74070f896fd8c0fd763a",
+      "source_published": "2026-11-03T06:34:45Z",
+      "source_updated": "2026-11-03T06:34:45Z",
+      "summary": "On a public agent leaderboard, a general-purpose agent trails a scaffold built for an airline customer-service benchmark by 13 points on the tasks that touch its database, and a reader could conclude that generality costs accuracy. The gap comes from the grader. The general agent often ends its conversations in a way that never triggers grading, so only about half of its episodes were scored and the rest were stored as failures. Grading the ungraded half under the benchmark's own rule closes the pooled gap, without rerunning any agent. We audit two carefully maintained public leaderboards, HAL and tau2-bench, from their published artifacts alone and find three more instrument errors. A cost column counts nested model calls twice, unevenly across rows. Archived trajectories record grader-written actions as agent actions. Re-grading saved trajectories under a newer evaluator is itself a new measurement: a correct and announced fix reorders a leaderboard, and a mode check that misreads four files collapses their scores by 59 to 82 points while printing no error. Each produced a plausible number, and the HAL maintainers confirmed their three within five weeks. Together the cases show that the infrastructure of agent evaluation, meaning the code that grades, logs, replays and versions an evaluation, is part of the measurement and fails silently, so scores and orderings can move with no visible sign. These failure modes follow from how agent evaluation pipelines are built, and those pipelines change as fast as the agents they measure, so we expect more of them elsewhere. We propose cheap checks that expose the instrument: report the graded fraction, aggregate cost from root spans, tag the provenance of every recorded action, and pin evaluator versions with a published re-grade diff.",
+      "tags": [
+        "cs.AI",
+        "cs.SE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Silent Instrument Errors Reorder Agent Leaderboards",
+      "url": "https://arxiv.org/abs/2611.04399v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "61090aabfd504150656ffed5",
+      "context_id": "f4b596c70fdbe3bed6868a5e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "github_repository_search",
+      "source_context_sha256": "aac884c4066177907b2b12045c286db4fae5fb1d008fc72efbc3b4775ee607be",
+      "source_published": "",
+      "source_updated": "2026-11-03T23:58:21Z",
+      "summary": "ResearchOS is an AI research-assurance infrastructure designed to improve reproducibility and independent verification in AI-assisted biological research through evidence provenance, hypothesis validation, adversarial testing, controlled knowledge acceptance, and auditable scientific workflows",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "tltmgnt/ResearchOS-AI-Assisted-Biological-Research-Verification-Reproducibility-infrastructure",
+      "url": "https://github.com/tltmgnt/ResearchOS-AI-Assisted-Biological-Research-Verification-Reproducibility-infrastructure"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "38d3e1be88c799bcfc010d13",
+      "context_id": "c82f60821348bce932b892b0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "07952124d18f9e2e090a35a628092b40efd2433dc6798d5d6221e21a7b001b94",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "This record contains the rights-safe reproducibility package supporting the manuscript &ldquo;Observed agreement is not decision portability: A typed evidence-authority audit of national renewable-energy priorities.&rdquo; The study distinguishes retrospective cross-country recurrence from source-to-target decision authority. Stage I freezes a retrospective calibration corpus of 14 reports and 15 study units. Stage II contains three sequential outcome-blinded validation blocks with 25 exact technology relations. Context-blind transfer issued 11 certificates: four correct and seven incorrect (coverage 0.440; conditional agreement 0.364; false-portability rate 0.636). The criterion-resolved bounded rule issued no positive certificate across 13 applicable opportunities; this is reported as zero coverage and disciplined abstention, not predictive superiority. The package includes derived evidence registries, full-domain RASS representation records, frozen criterion-dependency and authority configurations, prediction and result locks, source-native replay records, relation-level validation outputs, Scopus title/abstract and purpose-driven acquisition audit records, protocols, analysis scripts, tests and file-level SHA-256 manifests. The Scopus component contains a frozen 1,363-record title/abstract universe. Of 251 full-text candidates, 110 received full-text-stage decisions across 13 dated batches; 49 were map eligible, 61 were excluded and 141 remained unassessed because exhaustive full-text census completion was not an objective. Acquisition ordering and stopping were documented but not preregistered. Later map-eligible records were not retroactively added to the already frozen Stage I calibration corpus. Copyrighted article PDFs, extracted article text, licensed Scopus exports, browser sessions, credentials and institutional-access artifacts are excluded. Original code and tests are licensed under MIT. Original derived data and documentation are licensed under CC BY 4.0, subject to the World Bank, IRENA/IRENASTAT and other third-party exceptions recorded in the package. The package is related to, but does not replace or revise, the prior Stage I reproducibility record at https://doi.org/10.5281/zenodo.23145110.",
+      "tags": [
+        "decision portability",
+        "renewable energy",
+        "multi-criteria decision analysis",
+        "evidence authority",
+        "real amply soft sets",
+        "RASS",
+        "outcome-blinded validation",
+        "abstention",
+        "provenance",
+        "semantic compatibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Reproducibility data and code for Observed agreement is not decision portability: a typed evidence-authority audit of national renewable-energy priorities",
+      "url": "https://zenodo.org/records/23932261"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "28de11ad04d7f0f25f11a5be",
+      "context_id": "a618c7ef970a692054bf20be",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "negative result",
+        "provenance"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "arxiv",
+      "source_context_sha256": "7713d08a6e590c4df389288151b8d29df565c102dc8335f6863ec4d87acc6f63",
+      "source_published": "2026-11-02T20:42:22Z",
+      "source_updated": "2026-11-02T20:42:22Z",
+      "summary": "We describe our approach to the V2X-Real track of the UrbanTwin Sim2Real LiDAR Challenge, in which a 3D object detector must be trained exclusively on synthetic data and evaluated on unseen real roadside LiDAR from an Ouster OS1-64 unit, while the synthetic point clouds are simultaneously scored for distributional realism. Our final entry scores 0.7457 combined, from a detection mAP of 0.4382 and a realism score of 0.9251. Three findings account for most of our result, and all three were diagnostic rather than architectural. First, a coordinate frame mismatch between our predictions and the evaluation ground truth was suppressing detection AP entirely; recovering it took our score from 0.3520 to 0.5147 in a single submission. Second, a single global non maximum suppression threshold was destroying genuine pedestrian detections, because pedestrians occur in groups and a 0.3 IoU threshold applied to a 0.7 m box suppresses distinct neighbouring people; correcting this per class raised overall mAP from 0.0751 to 0.4295. Third, approximately 31 percent of the real reference point cloud consists of null returns encoded as the literal point (0, 0, 0), a format feature entirely absent from our synthetic clouds, which pinned Earth Mover's Distance near its floor until we modelled it. Negative results are reported at equal length, and Section 9 gives a full account of data provenance and compliance. That section also accounts for every mechanism contributing to the submitted score.",
+      "tags": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Coordinate Frame Recovery, Per Class NMS and Null Return Modelling for Sim2Real V2X LiDAR Detection",
+      "url": "https://arxiv.org/abs/2611.03940v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "1b975eba5bea838d07efebab",
+      "context_id": "f12ffbb9dfe9debb37524581",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "negative result"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.9167,
+      "source": "arxiv",
+      "source_context_sha256": "6f7f7c3c9f04c8f2d15c19a2740ef1f95bb026957d3743f270b24ef5155163bb",
+      "source_published": "2026-11-02T20:39:51Z",
+      "source_updated": "2026-11-02T20:39:51Z",
+      "summary": "We describe our approach to the LUMPI track of the UrbanTwin Sim2Real LiDAR Challenge, in which a 3D object detector must be trained exclusively on synthetic data and evaluated on unseen real roadside LiDAR, while the synthetic point clouds are simultaneously scored for distributional realism. Our final entry scores 0.4793 combined, from a detection mAP of 0.1333 and a realism score of 0.9126. Our contribution is not a new architecture. Working from a PointPillars baseline, we obtained most of our gains from three sources. First, a diagnosis that small object failure in roadside LiDAR is a localisation problem rather than a detection problem, which led to a parameter free geometric refinement worth 86 percent relative on pedestrian AP. Second, an audit of our own post processing which revealed that a shipped rule was destroying valid predictions, the repair of which produced our single largest detection gain at 335 percent relative on the Van class. Third, treating the realism metrics analytically rather than as a black box, which showed that one of the four components is a closed form function of nine summary statistics. We also report an experimental methodology that we believe is the more transferable result. Because mean AP decomposes into independent per class terms, a single submission can carry several mutually controlled experiments, and a submission assembled entirely from previously measured components has a score that is known before it is sent. We predicted our final score to four decimal places prior to submission. We report negative results at equal length, and give a full account of data provenance and compliance in Section 8, including a full account of every mechanism contributing to the submitted score.",
+      "tags": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Geometric Refinement and Distributional Alignment for Sim2Real Roadside LiDAR Detection",
+      "url": "https://arxiv.org/abs/2611.03936v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "1b975eba5bea838d07efebab",
+      "context_id": "b985648baa148532c50c1b6b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "negative result"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.9167,
+      "source": "arxiv",
+      "source_context_sha256": "e46f490eceec611030801a53c6f5f6bee3b5c75d6c04fd10ecb07fb49764fde4",
+      "source_published": "2026-11-02T20:39:51Z",
+      "source_updated": "2026-11-02T20:39:51Z",
+      "summary": "We describe our approach to the LUMPI track of the UrbanTwin Sim2Real LiDAR Challenge, in which a 3D object detector must be trained exclusively on synthetic data and evaluated on unseen real roadside LiDAR, while the synthetic point clouds are simultaneously scored for distributional realism. Our final entry scores 0.4793 combined, from a detection mAP of 0.1333 and a realism score of 0.9126. Our contribution is not a new architecture. Working from a PointPillars baseline, we obtained most of our gains from three sources. First, a diagnosis that small object failure in roadside LiDAR is a localisation problem rather than a detection problem, which led to a parameter free geometric refinement worth 86 percent relative on pedestrian AP. Second, an audit of our own post processing which revealed that a shipped rule was destroying valid predictions, the repair of which produced our single largest detection gain at 335 percent relative on the Van class. Third, treating the realism metrics analytically rather than as a black box, which showed that one of the four components is a closed form function of nine summary statistics. We also report an experimental methodology that we believe is the more transferable result. Because mean AP decomposes into independent per class terms, a single submission can carry several mutually controlled experiments, and a submission assembled entirely from previously measured components has a score that is known before it is sent. We predicted our final score to four decimal places prior to submission. We report negative results at equal length, and give a full account of data provenance and compliance in Section 8, including a full account of every mechanism contributing to the submitted score.",
+      "tags": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Geometric Refinement and Distributional Alignment for Sim2Real Roadside LiDAR Detection",
+      "url": "https://arxiv.org/abs/2611.03936v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "a9e934c79ff9f5d6f8b85445",
+      "context_id": "9b5c70e0a2bde7063fa12e2a",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark",
+        "control",
+        "memory"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 15.5833,
+      "source": "arxiv",
+      "source_context_sha256": "773d3271887abfa64a6686d10b704a56b493bea8755a805b66a99ad77cbfd392",
+      "source_published": "2026-11-03T02:30:53Z",
+      "source_updated": "2026-11-03T02:30:53Z",
+      "summary": "Frontier LLM agents can turn known vulnerabilities into working exploits, but are costly and often access-restricted due to their potential for malicious use. Open-weight models offer a more accessible alternative, but struggle to maintain progress across long exploitation chains. They also often fail to apply relevant security knowledge at the appropriate stage and in the right context to identify and evaluate promising attack directions. To address these limitations, we propose DoGNAVY-Exploit, a multi-agent harness built around two complementary designs: stage-aware decomposition with progressive expert knowledge disclosure, and hierarchical orchestration with parallel exploration. Specifically, DoGNAVY-Exploit uses configurable milestones to recast long-horizon exploitation as short, verifiable capability transitions and provides only the knowledge relevant to each stage. Within each milestone, a hierarchical architecture separates strategic planning from parallel execution: a planner proposes diverse attack routes, executors test them concurrently, and a controller accepts progress only when supported by runtime evidence. A shared structured memory consolidates verified facts, artifacts, replay steps, and failed routes across branches, allowing agents to build on collective progress and carry validated knowledge into subsequent milestones. In controlled benchmark environments, DoGNAVY-Exploit with GLM-5.2 achieves 97.5% Pass@1 on Cybench, and 97.5% zero-day and 100% one-day Pass@1 on CVE-Bench. On ExploitGym, it solves 79 tasks with GLM-5.2 and 157 with GLM-5.3, while the corresponding public Claude Code baselines solve 39 and 130 tasks, respectively. Ablation results further demonstrate that the stage-aware orchestration, expert knowledge, parallel exploration, and memory designs can substantially improve the exploitation capabilities of open-weight agents.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DoGNAVY-Exploit: Harnessing Parallel Open-Weight Agents for Stage-Aware Vulnerability Exploitation",
+      "url": "https://arxiv.org/abs/2611.04196v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "b4099a8c6bf6a9784a81d204",
+      "context_id": "3a9029b4e06196df1bebee11",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.7083,
+      "source": "arxiv",
+      "source_context_sha256": "5dcb822996b59021cdc9d1d7df826d266343ecc851ee88413055201985cdadbd",
+      "source_published": "2026-11-02T21:49:40Z",
+      "source_updated": "2026-11-02T21:49:40Z",
+      "summary": "Modern learning systems increasingly combine pretrained models with downstream heads. Despite the growing importance of such modular designs, how the downstream model co-adapts to the geometry of pretrained representations remains relatively underexplored. We study this problem through vision-language-action models (VLAs), where a pretrained vision-language model (VLM) conditions an action model for control. We find that the action model progressively concentrates its sensitivity on high-variance dimensions of the VLM outputs. Through controlled experiments across different backbone-head models, we further show that counteracting this sensitivity concentration can be beneficial under representation--task mismatch settings. Motivated by these observations, we introduce \\emph{Adaptive Interface Equalizer} (AdaIE), a parameter-free mechanism that reweights pretrained representations according to the evolving downstream sensitivity during training. AdaIE improves VLA success rates on simulation benchmarks, with gains of up to $+5.28$ percentage points (pp) on RoboCasa-GR1 and $+1.68$ pp on RoboTwin 2.0, and achieves an average gain of $+19$ pp across five real-world manipulation tasks. It further generalizes to diffusion policies and world models, improving downstream performance in both settings. Our results highlight interface co-adaptation as an important optimization problem when coupling pretrained representations with downstream models.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Controlling Action-Head Co-Adaptation to VLM Representation Anisotropy",
+      "url": "https://arxiv.org/abs/2611.04006v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "762ff702e9ec096a42ed367f",
+      "context_id": "96e99ad7c5e7f81b3efbe55b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "retrieval"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.375,
+      "source": "arxiv",
+      "source_context_sha256": "927b7005795df2cb752925259084eace9e96d730aec2709373682c3ea04bb307",
+      "source_published": "2026-11-02T19:34:06Z",
+      "source_updated": "2026-11-02T19:34:06Z",
+      "summary": "Large foundation models often answer even when the available visual or textual evidence is insufficient to support a reliable conclusion. This failure to abstain makes them hard to trust in high-stakes or information-seeking settings, where a confident but unsupported answer can be worse than no answer at all. It also raises a natural question: can the internal mechanisms behind this behaviour be identified and controlled at inference time? We present Dr. No, a feature-steering approach that mines sparse autoencoder (SAE) features associated with abstention and commitment, then modulates a small set of them during the prefill pass, without retraining the base model. Dr. No is evaluated on LLaVA-1.6 Mistral 7B across multimodal abstention benchmarks, including UNK-VQA and MM-UPD, and additionally benchmarked on language reasoning tasks using Qwen3.5-2B on AbstentionBench subsets. Against multiple uncertainty-based abstention baselines, feature steering achieves a more favourable balance between correct answering and appropriate abstention than post-hoc rejection methods. The gains are strongest on UNK-VQA and on MM-UPD cases involving image--question or question--answer incompatibility, and transfer most clearly to mathematical reasoning subsets of AbstentionBench. However, performance is more limited on absent-answer detection and retrieval-heavy multi-hop QA, such as MuSiQue. These results suggest that sparse internal features provide lightweight control handles for shaping uncertainty-aware behaviour in foundation models, while also showing that abstention control is source-dependent rather than governed by a single universal signal.",
+      "tags": [
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Dr. No: Feature Steering for Abstention in Vision-Language Models",
+      "url": "https://arxiv.org/abs/2611.03862v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "2c2c0b04b718f20198c9f2b9",
+      "context_id": "7e73fda2bd6fd6df8a0ace61",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "retrieval"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.375,
+      "source": "arxiv",
+      "source_context_sha256": "bd673151ea529ead03c25664a643199c1d90c99c24c40e79d7b0d1d509bfcec2",
+      "source_published": "2026-11-03T14:32:03Z",
+      "source_updated": "2026-11-03T14:32:03Z",
+      "summary": "Real-world geospatial decision support requires more than single-step retrieval or code generation. Disaster-response questions often involve multi-source workflows that combine spatial databases, map-derived features, satellite imagery, raster products, and reusable geospatial artifacts, where correctness depends on preserving spatial scope, temporal context, and intermediate execution state. While large language models and coding agents offer a promising interface for such workflows, they struggle with geospatial-specific failure modes, including handling large artifacts, selecting the wrong evidence source, losing spatial or temporal metadata, and applying invalid geometric operations. We introduce GeoFaham, a domain-specialized multi-agent system for geospatial disaster analytics. GeoFaham decomposes workflows into specialist agents for vector operations, map feature retrieval, imagery discovery, and raster analysis, coordinated by an Orchestrator with a dual-ledger control loop for dependency-aware planning, progress tracking, validation, and replanning. To support artifact-centric collaboration, GeoFaham uses a Response Store that persists full geospatial outputs and typed metadata outside the LLM context window while agents exchange compact identifiers and summaries. We also introduce GeoFaham-Bench, a 40-task benchmark grounded in 17 real-world disaster records, designed to evaluate multi-step geospatial reasoning, cross-source integration, raster-vector computation, artifact generation, and recovery under non-rigid ground truth. We evaluate GeoFaham on GeoFaham-Bench against strong general-purpose coding-agent baselines, including Codex, Claude Code, and OpenCode. GeoFaham achieves the best overall performance, scoring 0.940 versus the next-best 0.879, while using 7.5 times fewer tokens. Our code and benchmark are publicly available at https://github.com/microsoft/GeoFaham.",
+      "tags": [
+        "cs.MA",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "GeoFaham: Domain-Specialized Multi-Agent Geospatial Analytics for Disaster Response",
+      "url": "https://arxiv.org/abs/2611.04977v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "a9e934c79ff9f5d6f8b85445",
+      "context_id": "056af70c0194c80c52ec5104",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.3333,
+      "source": "arxiv",
+      "source_context_sha256": "a89a5e89579f5c96628bcc88758faf0c02fd520daec7d22da0819d4d35f44ec0",
+      "source_published": "2026-11-03T02:30:53Z",
+      "source_updated": "2026-11-03T02:30:53Z",
+      "summary": "Frontier LLM agents can turn known vulnerabilities into working exploits, but are costly and often access-restricted due to their potential for malicious use. Open-weight models offer a more accessible alternative, but struggle to maintain progress across long exploitation chains. They also often fail to apply relevant security knowledge at the appropriate stage and in the right context to identify and evaluate promising attack directions. To address these limitations, we propose DoGNAVY-Exploit, a multi-agent harness built around two complementary designs: stage-aware decomposition with progressive expert knowledge disclosure, and hierarchical orchestration with parallel exploration. Specifically, DoGNAVY-Exploit uses configurable milestones to recast long-horizon exploitation as short, verifiable capability transitions and provides only the knowledge relevant to each stage. Within each milestone, a hierarchical architecture separates strategic planning from parallel execution: a planner proposes diverse attack routes, executors test them concurrently, and a controller accepts progress only when supported by runtime evidence. A shared structured memory consolidates verified facts, artifacts, replay steps, and failed routes across branches, allowing agents to build on collective progress and carry validated knowledge into subsequent milestones. In controlled benchmark environments, DoGNAVY-Exploit with GLM-5.2 achieves 97.5% Pass@1 on Cybench, and 97.5% zero-day and 100% one-day Pass@1 on CVE-Bench. On ExploitGym, it solves 79 tasks with GLM-5.2 and 157 with GLM-5.3, while the corresponding public Claude Code baselines solve 39 and 130 tasks, respectively. Ablation results further demonstrate that the stage-aware orchestration, expert knowledge, parallel exploration, and memory designs can substantially improve the exploitation capabilities of open-weight agents.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "DoGNAVY-Exploit: Harnessing Parallel Open-Weight Agents for Stage-Aware Vulnerability Exploitation",
+      "url": "https://arxiv.org/abs/2611.04196v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "01875f67a587b1dc5545387a",
+      "context_id": "2560f9717fb7c258cd4e35cf",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "memory"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.25,
+      "source": "arxiv",
+      "source_context_sha256": "7698ff715e05866e6975964ad7aa2ddf37deaf56d7f8e5d9618202b3b2a3cce2",
+      "source_published": "2026-11-02T21:43:49Z",
+      "source_updated": "2026-11-02T21:43:49Z",
+      "summary": "LLM agents struggle to automate complex enterprise procedures because static, pre-built harness cannot capture proprietary policies, undocumented behaviors, or state-dependent recovery paths that surface only during execution. Procedural memory accrued from agent experience offers a training-free path to closing this gap -- yet unlike episodic records or semantic facts, it must consolidate repeated successes and diagnosed failures into reusable actions and recovery strategies. We introduce WASP-Mem (Wiki-based Agent-Synthesized Procedural Memory), a nimble but effective method that distills execution traces and feedback into persistent, interlinked wiki pages, enabling continual agent learning. On TheAgentCompany benchmark, WASP-Mem raises the checkpoint pass rate by 4.6-6.1% over the strongest baseline we compared across three models while requiring 57-61% less storage. We further present a systematic controlled study spanning consolidation method, feedback type, trace ingestion scope, and refinement rounds. Our results reveal that prescriptive knowledge organization such as human defined schemas and explicit deduplication rules hurts performance rather than closing the procedural-knowledge gap. In contrast, human diagnosis converts failed traces into corrective knowledge and drives sustained improvement: a single round of human diagnosis outperforms four rounds of self-judgment by 7.0-10.9%. These findings point to a simple division of labor: let agents organize procedural memory, and invest human effort where it matters most -- diagnosis.",
+      "tags": [
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "WASP-Mem: Let Agent Organize Procedural Memory. Human Spend Effort on Diagnosis",
+      "url": "https://arxiv.org/abs/2611.04003v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "61090aabfd504150656ffed5",
+      "context_id": "cc2f8fc32e32e73d9821b108",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "control",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.3333,
+      "source": "github_repository_search",
+      "source_context_sha256": "1f402d4d1944333852bce306f9f98403984564688ce706aa31c1c496d288423b",
+      "source_published": "",
+      "source_updated": "2026-11-03T23:58:21Z",
+      "summary": "ResearchOS is an AI research-assurance infrastructure designed to improve reproducibility and independent verification in AI-assisted biological research through evidence provenance, hypothesis validation, adversarial testing, controlled knowledge acceptance, and auditable scientific workflows",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "tltmgnt/ResearchOS-AI-Assisted-Biological-Research-Verification-Reproducibility-infrastructure",
+      "url": "https://github.com/tltmgnt/ResearchOS-AI-Assisted-Biological-Research-Verification-Reproducibility-infrastructure"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f003720fa508a75e584e1e2d",
+      "context_id": "91d25a7f9db10c7a01cfc6b0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.125,
+      "source": "zenodo",
+      "source_context_sha256": "478c146a701a20a7b6c7290b3a9aa6ac02a373b1407fb1fd64794a16cbb79ce2",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "This article connects demographic renewal with multinational recruitment control and the operating life of committed capital. Its host-choice argument engages resource bundling and global staffing, with explicit conditions for shared recruitment, competition and border disruption. Version 3.65.0 adds a Bayesian decision analysis to the Nitra–Puebla staffing appraisal. Under the existing flat-margin, equal-offer-odds benchmark, choosing Nitra after losing the whole UK route carries an expected loss from choosing the wrong host of EUR0.14–1.00 million. Losing only intakes after year fourteen reduces that expected loss to about EUR2,000–15,000. Nitra retains the higher expected value in these reference comparisons. Appendix K11 derives the decision rule, reports alternative priors and provides two independent integrations of 312 specifications. These are conditional public-information appraisals before capital commitment, not realised JLR losses or evidence about its internal contracts. Existing Bayesian panel estimates, demographic inputs, propositions and eight figures are retained. The article distinguishes the measured population-access specification from the recruitment-control mechanism and explains common tenure through the timing of workforce replacement. No observations or regressions are added. Start with Main_Manuscript_ANONYMOUS.pdf, Online_Appendix_ANONYMOUS.pdf and README.txt. Compilable sources, public inputs, code, figure files and aggregate outputs are supplied. The current replication overlay and nine frozen base archives restore the complete permitted replication. Licensed WRDS rows require subscriber access; queries and reconstruction instructions are supplied. Editor-only cover and title pages are excluded.",
+      "tags": [
+        "location strategy",
+        "foreign direct investment",
+        "internationalization",
+        "demographic change",
+        "labour migration",
+        "investment horizon",
+        "Bayesian inference"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Borrowed Youth: Demographic Change and Multinational Location Advantage — Article and Replication Materials",
+      "url": "https://zenodo.org/records/23942322"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f003720fa508a75e584e1e2d",
+      "context_id": "4055a21311e75ba474f2eef3",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "replication"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.125,
+      "source": "zenodo",
+      "source_context_sha256": "66b61cbd5ac18e9787d4e8bdf12d01991ef36d8b8cc47533581432fadafee793",
+      "source_published": "2026-11-04",
+      "source_updated": "",
+      "summary": "This article connects demographic renewal with multinational recruitment control and the operating life of committed capital. Its host-choice argument engages resource bundling and global staffing, with explicit conditions for shared recruitment, competition and border disruption. Version 3.65.0 adds a Bayesian decision analysis to the Nitra–Puebla staffing appraisal. Under the existing flat-margin, equal-offer-odds benchmark, choosing Nitra after losing the whole UK route carries an expected loss from choosing the wrong host of EUR0.14–1.00 million. Losing only intakes after year fourteen reduces that expected loss to about EUR2,000–15,000. Nitra retains the higher expected value in these reference comparisons. Appendix K11 derives the decision rule, reports alternative priors and provides two independent integrations of 312 specifications. These are conditional public-information appraisals before capital commitment, not realised JLR losses or evidence about its internal contracts. Existing Bayesian panel estimates, demographic inputs, propositions and eight figures are retained. The article distinguishes the measured population-access specification from the recruitment-control mechanism and explains common tenure through the timing of workforce replacement. No observations or regressions are added. Start with Main_Manuscript_ANONYMOUS.pdf, Online_Appendix_ANONYMOUS.pdf and README.txt. Compilable sources, public inputs, code, figure files and aggregate outputs are supplied. The current replication overlay and nine frozen base archives restore the complete permitted replication. Licensed WRDS rows require subscriber access; queries and reconstruction instructions are supplied. Editor-only cover and title pages are excluded.",
+      "tags": [
+        "location strategy",
+        "foreign direct investment",
+        "internationalization",
+        "demographic change",
+        "labour migration",
+        "investment horizon",
+        "Bayesian inference"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Borrowed Youth: Demographic Change and Multinational Location Advantage — Article and Replication Materials",
+      "url": "https://zenodo.org/records/23942322"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "1b975eba5bea838d07efebab",
+      "context_id": "39eda1e743a33e673d35d622",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "provenance"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0417,
+      "source": "arxiv",
+      "source_context_sha256": "3c1af9e241a639cf4484dfa1ba373bfc8b6957f9797165dc45710fabd3bbbe60",
+      "source_published": "2026-11-02T20:39:51Z",
+      "source_updated": "2026-11-02T20:39:51Z",
+      "summary": "We describe our approach to the LUMPI track of the UrbanTwin Sim2Real LiDAR Challenge, in which a 3D object detector must be trained exclusively on synthetic data and evaluated on unseen real roadside LiDAR, while the synthetic point clouds are simultaneously scored for distributional realism. Our final entry scores 0.4793 combined, from a detection mAP of 0.1333 and a realism score of 0.9126. Our contribution is not a new architecture. Working from a PointPillars baseline, we obtained most of our gains from three sources. First, a diagnosis that small object failure in roadside LiDAR is a localisation problem rather than a detection problem, which led to a parameter free geometric refinement worth 86 percent relative on pedestrian AP. Second, an audit of our own post processing which revealed that a shipped rule was destroying valid predictions, the repair of which produced our single largest detection gain at 335 percent relative on the Van class. Third, treating the realism metrics analytically rather than as a black box, which showed that one of the four components is a closed form function of nine summary statistics. We also report an experimental methodology that we believe is the more transferable result. Because mean AP decomposes into independent per class terms, a single submission can carry several mutually controlled experiments, and a submission assembled entirely from previously measured components has a score that is known before it is sent. We predicted our final score to four decimal places prior to submission. We report negative results at equal length, and give a full account of data provenance and compliance in Section 8, including a full account of every mechanism contributing to the submitted score.",
+      "tags": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Geometric Refinement and Distributional Alignment for Sim2Real Roadside LiDAR Detection",
+      "url": "https://arxiv.org/abs/2611.03936v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "9e5f58b27156e3ad43cdb739",
+      "context_id": "fec3b7840cb0eb1841f0abad",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0,
+      "source": "zenodo",
+      "source_context_sha256": "0b49fc78d556d5b33be1c5c4554d814ab468a2285b537a6d8c4f48550feb3533",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "A simulator-backed benchmark for cement pyroprocessing, released to make soft-sensor, fault-diagnosis, system-identification and control studies on cement thermal equipment comparable across research groups.The package contains (i) a calibrated one-dimensional mechanistic simulator of a 5000 t/d five-stage suspension preheater with an inline calciner, coupling effectiveness-NTU heat exchange, Leith-Licht grade efficiency, a duct-resistance pressure network and shrinking-core calcination kinetics, together with a reference PID-plus-interlock controller and a measurement-noise model; (ii) a scenario library of 400 Latin-hypercube steady states spanning the operating envelope, twenty 90-day closed-loop dynamic runs driven by block-bootstrap resampling of the historical operating distribution with thermal substitution rates from 0 to 60 percent, and 2700 labelled fault episodes covering fifteen parametrised modes; and (iii) four standardised benchmark tasks (parameter identification, soft sensing, fault detection and diagnosis, drift-aware operation) with fixed splits, metric implementations and reference baselines.&lt;/p&gt;&lt;p&gt;Code is licensed under MIT; data, documentation and figures under CC BY 4.0. Scores obtained on the library support fair relative comparison between algorithms under identical documented conditions and are not field-performance predictions. The companion manuscript is cited in the related identifiers.",
+      "tags": [
+        "cement;preheater;calciner;alternative fuel;scenario library;benchmark;fault injection;system identif"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "preheater-scenario-library: an open scenario library of operating envelopes, alternative-fuel",
+      "url": "https://zenodo.org/records/23658030"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "9e5f58b27156e3ad43cdb739",
+      "context_id": "d03f03a713e22701e65ce97c",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0,
+      "source": "zenodo",
+      "source_context_sha256": "6eb64af6cac4ae2a2e5fc2edffcf22419fe5e45da472795ed4dcf102b30ba69e",
+      "source_published": "2026-10-26",
+      "source_updated": "",
+      "summary": "A simulator-backed benchmark for cement pyroprocessing, released to make soft-sensor, fault-diagnosis, system-identification and control studies on cement thermal equipment comparable across research groups.The package contains (i) a calibrated one-dimensional mechanistic simulator of a 5000 t/d five-stage suspension preheater with an inline calciner, coupling effectiveness-NTU heat exchange, Leith-Licht grade efficiency, a duct-resistance pressure network and shrinking-core calcination kinetics, together with a reference PID-plus-interlock controller and a measurement-noise model; (ii) a scenario library of 400 Latin-hypercube steady states spanning the operating envelope, twenty 90-day closed-loop dynamic runs driven by block-bootstrap resampling of the historical operating distribution with thermal substitution rates from 0 to 60 percent, and 2700 labelled fault episodes covering fifteen parametrised modes; and (iii) four standardised benchmark tasks (parameter identification, soft sensing, fault detection and diagnosis, drift-aware operation) with fixed splits, metric implementations and reference baselines.&lt;/p&gt;&lt;p&gt;Code is licensed under MIT; data, documentation and figures under CC BY 4.0. Scores obtained on the library support fair relative comparison between algorithms under identical documented conditions and are not field-performance predictions. The companion manuscript is cited in the related identifiers.",
+      "tags": [
+        "cement;preheater;calciner;alternative fuel;scenario library;benchmark;fault injection;system identif"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "preheater-scenario-library: an open scenario library of operating envelopes, alternative-fuel",
+      "url": "https://zenodo.org/records/23658030"
+    }
+  ],
+  "schema": "janus.beetle.repo_memory_batch.v1",
+  "selection": "BALANCED_LENS_ROLLING_TOP",
+  "snapshot_cap": 48,
+  "snapshot_items_total": 48,
+  "target_repository": "Hawkar-usls/Janus_Genesis"
+}
