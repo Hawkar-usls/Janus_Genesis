@@ -85,6 +85,7 @@ jobs:
           path: _inbox
           persist-credentials: false
       - name: Read same-repo receiver run history and public sender queue
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -96,6 +97,8 @@ jobs:
             -o sender-queue.json
       - name: Independently gate one existing receiver wake on ACK/SHA and run age
         id: receiver_gate
+        # Missing public sender/ACK must not prevent independent HOME recovery.
+        continue-on-error: true
         run: |
           python tools/genesis_beetle_receiver_recovery.py \
             --sender-queue sender-queue.json \
