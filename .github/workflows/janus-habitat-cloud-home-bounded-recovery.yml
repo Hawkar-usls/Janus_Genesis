@@ -79,6 +79,8 @@ jobs:
           python tools/janus_habitat_cloud_home_recovery.py \
             --state-root _state --runs home-runs.json
       - name: Checkout durable receiver inbox for bounded missed-tick recovery
+        # Failure cannot stop the independent HOME-recovery lane.
+        continue-on-error: true
         uses: actions/checkout@v4
         with:
           ref: beetle-memory
