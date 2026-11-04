@@ -10,12 +10,16 @@ on:
     paths:
       - 'tools/janus_habitat_cloud_home_recovery.py'
       - 'tests/test_janus_habitat_cloud_home_recovery.py'
+      - 'tools/genesis_beetle_receiver_recovery.py'
+      - 'tests/test_genesis_beetle_receiver_recovery.py'
       - '.github/workflows/janus-habitat-cloud-home-bounded-recovery.yml'
   pull_request:
     branches: [main]
     paths:
       - 'tools/janus_habitat_cloud_home_recovery.py'
       - 'tests/test_janus_habitat_cloud_home_recovery.py'
+      - 'tools/genesis_beetle_receiver_recovery.py'
+      - 'tests/test_genesis_beetle_receiver_recovery.py'
       - '.github/workflows/janus-habitat-cloud-home-bounded-recovery.yml'
 
 permissions:
@@ -40,6 +44,8 @@ jobs:
         run: |
           python -m py_compile tools/janus_habitat_cloud_home_recovery.py tests/test_janus_habitat_cloud_home_recovery.py
           python -m unittest -v tests.test_janus_habitat_cloud_home_recovery
+          python -m py_compile tools/genesis_beetle_receiver_recovery.py tests/test_genesis_beetle_receiver_recovery.py
+          python -m unittest -v tests.test_genesis_beetle_receiver_recovery
 
   recover:
     needs: validate
@@ -72,8 +78,39 @@ jobs:
         run: |
           python tools/janus_habitat_cloud_home_recovery.py \
             --state-root _state --runs home-runs.json
+      - name: Checkout durable receiver inbox for bounded missed-tick recovery
+        uses: actions/checkout@v4
+        with:
+          ref: beetle-memory
+          path: _inbox
+          persist-credentials: false
+      - name: Read same-repo receiver run history and public sender queue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --method GET "repos/$GITHUB_REPOSITORY/actions/workflows/janus-beetle-memory-receiver.yml/runs?per_page=100" > receiver-runs.json
+          curl --fail --silent --show-error --max-time 20 --max-filesize 20000000 \
+            "https://raw.githubusercontent.com/Hawkar-usls/janus-lapis/beetle-state/data/beetle-state/mirrors/Hawkar-usls__Janus_Genesis/delivery.json" \
+            -o sender-queue.json
+      - name: Independently gate one existing receiver wake on ACK/SHA and run age
+        id: receiver_gate
+        run: |
+          python tools/genesis_beetle_receiver_recovery.py \
+            --sender-queue sender-queue.json \
+            --ack _inbox/data/beetle-inbox/ACK.json \
+            --runs receiver-runs.json
+      - name: Wake only existing, idle main-branch receiver
+        if: steps.receiver_gate.outputs.dispatch == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api --method POST "repos/$GITHUB_REPOSITORY/actions/workflows/janus-beetle-memory-receiver.yml/dispatches" -f ref=main
+          echo 'JANUS_RECEIVER_RECOVERY=BOUNDED_DISPATCH_ISSUED'
       - name: Wake only existing vetted Genesis main-branch Cloud HOME
-        if: steps.gate.outputs.dispatch == 'true'
+        if: ${{ steps.gate.outputs.dispatch == 'true' && steps.receiver_gate.outputs.dispatch != 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
