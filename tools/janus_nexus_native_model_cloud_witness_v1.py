@@ -79,8 +79,14 @@ def inspect(lab: Path, brain: Path, output: Path) -> dict:
     raw = output.read_bytes()
     require(0 < len(raw) <= 15000, "NATIVE_GENERATED_OUTPUT_OUT_OF_BOUNDS")
     decoded = raw.decode("utf-8")
-    require(decoded.strip() and PROMPT in decoded,
-            "NATIVE_GENERATION_PROMPT_NOT_PRESENT")
+    # Demiurge's CLI prints the decoded prompt + generated tokens + one
+    # terminal newline. The prompt by itself is NOT evidence of generation.
+    # Require an exact prompt prefix and a non-whitespace generated suffix;
+    # do not mistake the print() newline for model-produced content.
+    require(decoded.startswith(PROMPT), "NATIVE_GENERATION_PROMPT_PREFIX_INVALID")
+    without_print_newline = decoded[:-1] if decoded.endswith("\n") else decoded
+    generated = without_print_newline[len(PROMPT):]
+    require(generated.strip(), "NATIVE_GENERATED_SUFFIX_EMPTY")
     receipt = {
       "schema": "janus.nexus.source_pinned_native_model_cloud_call.v1",
       "status": "PASS_PINNED_REAL_NATIVE_MODEL_CALL_SCOPED_ONLY",
@@ -92,6 +98,9 @@ def inspect(lab: Path, brain: Path, output: Path) -> dict:
       "native_checkpoint_sha256": CHECKPOINT_SHA256,
       "generated_text_sha256": digest(raw),
       "generated_text_bytes": len(raw),
+      "generated_suffix_bytes": len(generated.encode("utf-8")),
+      "generated_suffix_sha256": digest(generated.encode("utf-8")),
+      "generated_suffix_nonempty": True,
       "model_call_executed": True,
       "raw_model_output_archived": False,
       "model_output_quality_verified": False,
