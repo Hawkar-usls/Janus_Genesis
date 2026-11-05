@@ -67,6 +67,31 @@ class NativeWitnessTests(unittest.TestCase):
             self.assertFalse(value["live_cross_organ_receiver_consumption"])
             self.assertFalse(value["raw_model_output_archived"])
             self.assertFalse(value["paid_provider_invoked"])
+            self.assertTrue(value["generated_suffix_nonempty"])
+            self.assertGreater(value["generated_suffix_bytes"], 0)
+            self.assertEqual(len(value["generated_suffix_sha256"]), 64)
+
+    def test_prompt_echo_only_never_attests_generation(self):
+        with tempfile.TemporaryDirectory() as temp:
+            lab,brain,out,base,ckpt=self.fixture(Path(temp))
+            for raw in (w.PROMPT+"\\n", w.PROMPT+"   \\n",
+                        "preamble "+w.PROMPT+"\\nextra",
+                        w.PROMPT):
+                with self.subTest(raw=raw):
+                    out.write_text(raw.replace("\\n", "\n"))
+                    with self.assertRaises(w.WitnessHold):
+                        self.evaluate(lab,brain,out,ckpt)
+
+    def test_generated_suffix_bound_to_digest_without_archiving_text(self):
+        with tempfile.TemporaryDirectory() as temp:
+            lab,brain,out,base,ckpt=self.fixture(Path(temp))
+            out.write_text(w.PROMPT+"\\nnon-authoritative candidate\\n".replace("\\n", "\n"))
+            value=self.evaluate(lab,brain,out,ckpt)
+            self.assertEqual(value["generated_suffix_bytes"],
+                             len("\nnon-authoritative candidate".encode()))
+            self.assertEqual(value["generated_suffix_sha256"],
+                             hashlib.sha256("\nnon-authoritative candidate".encode()).hexdigest())
+            self.assertFalse(value["raw_model_output_archived"])
 
     def test_corrupted_source_ref_or_missing_failed_variant_holds(self):
         with tempfile.TemporaryDirectory() as temp:
