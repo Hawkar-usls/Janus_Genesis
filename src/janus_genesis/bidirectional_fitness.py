@@ -10,11 +10,12 @@ import json
 import os
 import time
 import uuid
+from collections.abc import Iterable, Mapping, Sequence
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any
 
 REQUIRED_SCALES = ("1", "3", "5", "7")
 DEFAULT_HARD_GATES = (
@@ -126,7 +127,7 @@ class MutationExperimentRecord:
     phase_state: str = "PHASE_NOT_EVALUATED"
     provenance: dict[str, list[str]] = field(default_factory=dict)
     created_at_utc: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
+        default_factory=lambda: datetime.now(UTC).isoformat()
     )
     schema: str = "janus-mutation-experiment/1.0"
 
@@ -134,7 +135,7 @@ class MutationExperimentRecord:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, raw: Mapping[str, Any]) -> "MutationExperimentRecord":
+    def from_dict(cls, raw: Mapping[str, Any]) -> MutationExperimentRecord:
         return cls(
             baseline_fingerprint=str(raw["baseline_fingerprint"]),
             contract_fingerprint=str(raw["contract_fingerprint"]),
@@ -153,7 +154,7 @@ class MutationExperimentRecord:
                 for key, value in dict(raw.get("provenance", {})).items()
             },
             created_at_utc=str(
-                raw.get("created_at_utc", datetime.now(timezone.utc).isoformat())
+                raw.get("created_at_utc", datetime.now(UTC).isoformat())
             ),
             schema=str(raw.get("schema", "janus-mutation-experiment/1.0")),
         )
@@ -313,7 +314,7 @@ class MutationMemory:
         owner = {
             "pid": os.getpid(),
             "token": token,
-            "created_at_utc": datetime.now(timezone.utc).isoformat(),
+            "created_at_utc": datetime.now(UTC).isoformat(),
         }
         encoded_owner = json.dumps(owner, sort_keys=True).encode("utf-8")
 

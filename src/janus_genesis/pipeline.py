@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from janus_genesis.config import JanusConfig
@@ -54,7 +54,7 @@ def transform_model(
 
     report: dict[str, object] = {
         "schema_version": "0.1",
-        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_at_utc": datetime.now(UTC).isoformat(),
         "claim_level": "mesh_repair_and_orientation_only",
         "source": str(source),
         "output": str(output_path),

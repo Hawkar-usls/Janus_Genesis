@@ -1,0 +1,69 @@
+name: SCOBY PLA skin - bounded digital prototype
+
+on:
+  pull_request:
+    paths:
+      - "src/janus_genesis/scoby_skin_genesis.py"
+      - "tests/test_scoby_skin_genesis.py"
+      - ".github/workflows/scoby-pla-skin-prototype.yml"
+      - "docs/SCOBY_PLA_SKIN_DIGITAL_PROTOTYPE.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scoby-pla-skin-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        pitch_mm: [7, 10, 14]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run isolated stdlib tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest discover -s tests -p 'test_scoby_skin_genesis.py' -v
+      - name: Generate geometry and evidence report
+        env:
+          PYTHONPATH: src
+        run: >-
+          python -m janus_genesis.scoby_skin_genesis
+          --size 70
+          --pitch ${{ matrix.pitch_mm }}
+          --strut 1.5
+          --thickness 1.8
+          --out "outputs/scoby-pla-pitch-${{ matrix.pitch_mm }}"
+      - name: Check outputs and mandatory null physical forecasts
+        env:
+          PITCH: ${{ matrix.pitch_mm }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          p = Path(f"outputs/scoby-pla-pitch-{os.environ['PITCH']}")
+          data = json.loads((p / "predictions.json").read_text(encoding="utf-8"))
+          assert (p / data["digital_prototype"]["stl"]).is_file()
+          assert (p / data["digital_prototype"]["preview_svg"]).is_file()
+          assert data["biological_forecasts"]["BC_PLA_bond_strength_MPa"] is None
+          assert data["sensing_forecasts"]["SkinGPT_severe_fault_recall"] is None
+          assert data["validation_level"] == "GEOMETRY_CREATED_NOT_PRINT_OR_PHYSICS_QUALIFIED"
+          print("GEOMETRY_ONLY_PASS", data["geometric_predictions"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: scoby-pla-skin-pitch-${{ matrix.pitch_mm }}
+          path: outputs/scoby-pla-pitch-${{ matrix.pitch_mm }}/
+          if-no-files-found: error
+          retention-days: 7
