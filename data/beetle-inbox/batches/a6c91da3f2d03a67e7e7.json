@@ -1,0 +1,1834 @@
+{
+  "batch_id": "a6c91da3f2d03a67e7e7",
+  "claim_ceiling": "DISCOVERY_MEMORY_ONLY__TARGET_REPO_MUST_VERIFY_INDEPENDENTLY",
+  "fragment_count": 1,
+  "fragment_index": 1,
+  "items": [
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "97c6e3230d621ef31cc7fa08",
+      "context_id": "0c88661f550d3e9568d61470",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "inversion",
+        "memory",
+        "reconstruction",
+        "representation"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 16.0833,
+      "source": "arxiv",
+      "source_context_sha256": "d53fbd931bbcb26b906ef5ae45eaa6ca4ecb60a08f14167f646e4032dae22156",
+      "source_published": "2026-11-05T09:19:07Z",
+      "source_updated": "2026-11-05T09:19:07Z",
+      "summary": "Most existing equivariant architectures for Hamiltonian prediction propagate features in direct-sum spaces of irreducible spherical tensors, whereas the target Hamiltonian is naturally an operator block in a direct-product representation over local orbital and spin bases. This representation mismatch fragments contiguous Hamiltonian blocks, obscures direct manipulation of orbital couplings, and organizes features into irregular angular-momentum components that require numerous transformations and are poorly aligned with efficient hardware execution and memory management. To address both the representation mismatch and computational bottleneck, we propose DP-Learner, an equivariant learning framework that performs message passing directly on Hamiltonian-like operator blocks in the direct-product space. Theoretically, we propose Lie-generator-based directional embedding and invariantly weighted left--right products and contractions that preserve equivariance to SO(3), SU(2), and spatial inversions, without explicit Clebsch--Gordan decomposition or inverse reconstruction. Methodologically, we instantiate this principle as a Transformer architecture, in which Hamiltonian-like feature matrices or tensors evolve through equivariant operators in the direct-product space, while non-linear invariant scalar routing controls structured gating over matrix units, directional propagation, attention, and environment-embedded context interactions. We further construct MP-HAM-110K, a large-scale Hamiltonian dataset comprising more than 110,000 material structures covering 68 elements with both Hamiltonian and wavefunction data. Experiments on MP-HAM-110K and Materials-HAM-SOC demonstrate that DP-Learner dramatically improves Hamiltonian prediction accuracy and inference efficiency over the state-of-the-art method.",
+      "tags": [
+        "cs.LG",
+        "cond-mat.mtrl-sci",
+        "cs.AI",
+        "physics.comp-ph"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Equivariant Deep Learning in Direct-Product Space for Electronic-Structure Hamiltonian Prediction",
+      "url": "https://arxiv.org/abs/2611.07695v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "97c6e3230d621ef31cc7fa08",
+      "context_id": "f26eeeb4a2c36d0e02cb12ab",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "inversion",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.25,
+      "source": "arxiv",
+      "source_context_sha256": "aec1267b1e281d4dc6254e3ef6fc9e9636720ccccc855fe13c918c8e42fa1630",
+      "source_published": "2026-11-05T09:19:07Z",
+      "source_updated": "2026-11-05T09:19:07Z",
+      "summary": "Most existing equivariant architectures for Hamiltonian prediction propagate features in direct-sum spaces of irreducible spherical tensors, whereas the target Hamiltonian is naturally an operator block in a direct-product representation over local orbital and spin bases. This representation mismatch fragments contiguous Hamiltonian blocks, obscures direct manipulation of orbital couplings, and organizes features into irregular angular-momentum components that require numerous transformations and are poorly aligned with efficient hardware execution and memory management. To address both the representation mismatch and computational bottleneck, we propose DP-Learner, an equivariant learning framework that performs message passing directly on Hamiltonian-like operator blocks in the direct-product space. Theoretically, we propose Lie-generator-based directional embedding and invariantly weighted left--right products and contractions that preserve equivariance to SO(3), SU(2), and spatial inversions, without explicit Clebsch--Gordan decomposition or inverse reconstruction. Methodologically, we instantiate this principle as a Transformer architecture, in which Hamiltonian-like feature matrices or tensors evolve through equivariant operators in the direct-product space, while non-linear invariant scalar routing controls structured gating over matrix units, directional propagation, attention, and environment-embedded context interactions. We further construct MP-HAM-110K, a large-scale Hamiltonian dataset comprising more than 110,000 material structures covering 68 elements with both Hamiltonian and wavefunction data. Experiments on MP-HAM-110K and Materials-HAM-SOC demonstrate that DP-Learner dramatically improves Hamiltonian prediction accuracy and inference efficiency over the state-of-the-art method.",
+      "tags": [
+        "cs.LG",
+        "cond-mat.mtrl-sci",
+        "cs.AI",
+        "physics.comp-ph"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Equivariant Deep Learning in Direct-Product Space for Electronic-Structure Hamiltonian Prediction",
+      "url": "https://arxiv.org/abs/2611.07695v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "97c6e3230d621ef31cc7fa08",
+      "context_id": "5e239e453a084cf583285af6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::REVERSE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "inversion",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.25,
+      "source": "arxiv",
+      "source_context_sha256": "36dec8c623e571a22e846580f5049f41e1cef9a5ad4745250cf49bf532a724c7",
+      "source_published": "2026-11-05T09:19:07Z",
+      "source_updated": "2026-11-05T09:19:07Z",
+      "summary": "Most existing equivariant architectures for Hamiltonian prediction propagate features in direct-sum spaces of irreducible spherical tensors, whereas the target Hamiltonian is naturally an operator block in a direct-product representation over local orbital and spin bases. This representation mismatch fragments contiguous Hamiltonian blocks, obscures direct manipulation of orbital couplings, and organizes features into irregular angular-momentum components that require numerous transformations and are poorly aligned with efficient hardware execution and memory management. To address both the representation mismatch and computational bottleneck, we propose DP-Learner, an equivariant learning framework that performs message passing directly on Hamiltonian-like operator blocks in the direct-product space. Theoretically, we propose Lie-generator-based directional embedding and invariantly weighted left--right products and contractions that preserve equivariance to SO(3), SU(2), and spatial inversions, without explicit Clebsch--Gordan decomposition or inverse reconstruction. Methodologically, we instantiate this principle as a Transformer architecture, in which Hamiltonian-like feature matrices or tensors evolve through equivariant operators in the direct-product space, while non-linear invariant scalar routing controls structured gating over matrix units, directional propagation, attention, and environment-embedded context interactions. We further construct MP-HAM-110K, a large-scale Hamiltonian dataset comprising more than 110,000 material structures covering 68 elements with both Hamiltonian and wavefunction data. Experiments on MP-HAM-110K and Materials-HAM-SOC demonstrate that DP-Learner dramatically improves Hamiltonian prediction accuracy and inference efficiency over the state-of-the-art method.",
+      "tags": [
+        "cs.LG",
+        "cond-mat.mtrl-sci",
+        "cs.AI",
+        "physics.comp-ph"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Equivariant Deep Learning in Direct-Product Space for Electronic-Structure Hamiltonian Prediction",
+      "url": "https://arxiv.org/abs/2611.07695v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "7e938d6749af235e0d976ad0",
+      "context_id": "f74683c5a22be71f4682121d",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reverse",
+        "world model"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0417,
+      "source": "arxiv",
+      "source_context_sha256": "26adc36e81c6f4a76111920a8e05d50187a0dec91e78ef3b3c1e026e31584a45",
+      "source_published": "2026-11-04T15:30:52Z",
+      "source_updated": "2026-11-04T15:30:52Z",
+      "summary": "A robot action can satisfy shape and range constraints yet carry the wrong semantics: axes may be permuted, signs inverted, rotations rescaled, or gripper polarity reversed. We study learned state-action-effect relations as offline contracts for detecting these mismatches and ranking their likely fields. Clean held-out transitions calibrate alarms; a fixed inverse vocabulary supports closed-set localization. On ten LIBERO Spatial tasks comprising 432 source episodes, a capacity-controlled comparison at 2.5% empirical clean false-positive rate gives 46.1% recall for a ridge forward residual, 61.0% for a four-component joint Gaussian mixture, and 65.7% for the exact conditional of that same mixture. The joint score retains a 14.9 percentage-point advantage over ridge, while conditioning improves recall by a further 4.7 points. Joint scoring instead has higher localization: 95.8% versus 94.6%. These matched-rate comparisons are retrospective diagnostics, not deployment calibration guarantees. Earlier Object/Goal results broaden tasks within the LIBERO convention; DROID, all three HYDRA tasks, short temporal faults, small offsets, exact repair, and simulated mitigation fail their respective gates, while xArm contributes one task only. The evidence supports a bounded offline diagnostic and a detection-localization tradeoff, rather than joint-density superiority or cross-robot safety.",
+      "tags": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Detecting Silent Action-Interface Mismatch with Calibrated Relational World Models",
+      "url": "https://arxiv.org/abs/2611.06653v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "fd175c686af6ae1367dee23c",
+      "context_id": "ef2083f27c59d1a782469f4e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.625,
+      "source": "arxiv",
+      "source_context_sha256": "6c87e0f3318d3880f9e0eaeea67ef4c7182bb1646ece34cc3c15c02a8804af79",
+      "source_published": "2026-11-04T23:51:02Z",
+      "source_updated": "2026-11-04T23:51:02Z",
+      "summary": "We study whether \\emph{long-horizon model-based value expansion} can serve as an effective framework in pixel-based offline reinforcement learning (RL). Long-horizon model-based value expansion from pixels is substantially harder than state-based environments, as the agent must learn both the representation and its dynamics, and errors from either can accumulate recursively over imagined trajectories. We introduce MAC-v2, which enables long-horizon model-based expansion from pixels by training a reconstruction-free latent world model with action chunking. By learning representations from prediction and control objectives, MAC-v2 does not need to encode control-irrelevant visual details that can hinder the dynamics prediction. Action chunking further mitigates the prediction error by reducing the number of recursive model predictions required for value expansion. Across diverse visual benchmarks including visual OGBench, MMBench2, Robomimic, and LIBERO-10, MAC-v2 achieves strong performance against model-free and model-based offline RL baselines. Our analyses show that long-horizon model-based value expansion is critical for the performance of MAC-v2, and that both action chunking and latent learning objectives are essential for reliable long-horizon latent imagination.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MAC-v2: Long-horizon model-based value expansion from pixels",
+      "url": "https://arxiv.org/abs/2611.07245v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "876b2ff69f7156449e31624c",
+      "context_id": "4fad051844a55f55768ea399",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction",
+        "representation"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.4583,
+      "source": "arxiv",
+      "source_context_sha256": "b4fc6f2b08b0e798d99a5acd3c7adeccbbc73b7ad00196ce90f5ae81c6b11eb9",
+      "source_published": "2026-11-04T16:02:28Z",
+      "source_updated": "2026-11-04T16:02:28Z",
+      "summary": "EEG extended-source imaging aims to localize active cortical regions and characterize their spatial extent, yet supervised inverse networks typically depend on synthetic EEG-source pairs and may be sensitive to synthetic-to-real mismatch. We propose a physics-informed self-supervised implicit neural representation (INR) framework for spatial source reconstruction without paired source labels or simulation-based supervised pretraining. The lead field matrix encodes the source-to-sensor volume-conduction model and constrains the INR through agreement between predicted and measured EEG. Cortical current density is modeled as a continuous coordinate-conditioned field. A classical inverse estimate provides warm initialization and spatial constraints on source activity, while patch-integrated projection maps the field to discrete source coefficients for forward modeling. Simulations with varying noise levels, source counts, and source extents showed the clearest advantage in identifying active cortical regions, particularly for multiple and larger sources. Quantitative and qualitative evaluations using real EEG recordings from epilepsy patients and intracranial stimulation experiments further supported the feasibility of the framework for source imaging. These findings suggest the potential of physics-informed self-supervised INR for extended-source imaging.",
+      "tags": [
+        "cs.LG",
+        "q-bio.NC"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PINR-ESI: Physics-Informed Self-Supervised Implicit Neural Representation Framework for EEG Extended-Source Imaging",
+      "url": "https://arxiv.org/abs/2611.06700v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "8438da4e4b79a866a0df55e6",
+      "context_id": "5f3557a68e51585eeffc5483",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "memory",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.125,
+      "source": "arxiv",
+      "source_context_sha256": "4338db8942fbd9ff0a7a5ac49baa71e0e56d223c2bcda7bc6cffade3a7ecf1da",
+      "source_published": "2026-11-04T18:57:47Z",
+      "source_updated": "2026-11-04T18:57:47Z",
+      "summary": "Reconstructing full flow fields from sparse sensors requires prior assumptions about unmeasured regions and physical variables. Yet it remains unclear when learned models outperform classical estimators and which aspects of their predictions can be trusted. FlowReconBench evaluates ten learned and five classical methods on three regimes: a laminar cylinder wake across Reynolds numbers, two-dimensional Kolmogorov turbulence and a large-scale three-dimensional (3D) isotropic turbulence. Methods share leakage-controlled splits and sensor draws and are scored on per-channel error, ensemble spread, calibration, spectra and cost. The leading method changes for each regime. Classical methods perform strongly in low-order and dense-sensing regimes. On the cylinder wake, linear stochastic estimation and gappy proper orthogonal decomposition lead, including for unobserved pressure. In 3D, inverse-distance weighting matches the best learned methods on observed channels. Data-driven methods become superior at decreasing sensor density or poor sensor observability. On Kolmogorov flow, continuous ranked probability score and error yield different method rankings: generative models offer broader but underdispersed ensembles, while deterministic models prioritize pointwise error. Generative models balance this tradeoff through their sampler budget, with a larger budget improving ensemble quality at higher computational cost. In 3D, scaling tests demonstrate that queryable methods are flat in memory, while full-grid construction methods run out of memory. Observing only 2 of 4 fields leaves the problem kinematically underconstrained, yet a latent model can reproduce structural similarities to the ground truth.",
+      "tags": [
+        "physics.flu-dyn",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "FlowReconBench: Accuracy, calibration and cost of learned and classical flow reconstruction from sparse sensors",
+      "url": "https://arxiv.org/abs/2611.06912v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "b96ff69cdf9cc38d046bab56",
+      "context_id": "eb7692085efdf51ba8f455dc",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::REVERSE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "consensus",
+        "inverse",
+        "swarm"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.875,
+      "source": "arxiv",
+      "source_context_sha256": "e0b615ee5c327c616f04c73471140a1a8f5c53d4e7cbc93937a401acacbed04a",
+      "source_published": "2026-11-04T13:01:32Z",
+      "source_updated": "2026-11-04T13:01:32Z",
+      "summary": "Microfluidic droplet generation is critical for many applications, yet efficient device design in high-dimensional parameter spaces remains computationally prohibitive due to complex multiphase flow dynamics. This work presents a unified methodology that couples adaptive surrogate enhancement with simulation-driven inverse design. High-fidelity Volume-of-Fluid simulations provide ground-truth data, while neural network ensembles predict flow regimes and droplet diameters. Ensemble-based uncertainty quantification identifies epistemic uncertainty using consensus levels for regime classification and the coefficient of variation for diameter prediction, revealing that uncertainty concentrates near regime transition boundaries where physics is highly sensitive to parameter perturbations. A physics-informed enrichment strategy targets these critical zones and addresses class imbalances by deploying additional targeted simulations and retraining the surrogates forming the ensembles. A framework that integrates Particle Swarm Optimization for constrained inverse design, balancing accuracy with predictive confidence and physical consistency is therefore proposed. Validation on independent test datasets demonstrates that the enriched ensembles achieve higher accuracy, with the fraction of predictions within the 0-3% error range on droplet diameter nearly doubling, and high-error cases (above 10%) dropping substantially. The inverse design procedure reliably identifies physically realizable configurations meeting target droplet sizes. This approach significantly reduces computational costs while ensuring reliable predictions, offering a framework with potential applicability to the optimization of a broad range of microfluidic systems.",
+      "tags": [
+        "physics.flu-dyn",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Microdroplet Generator Surrogate Enhancement and Inverse Design Through an Uncertainty-Guided Framework",
+      "url": "https://arxiv.org/abs/2611.06464v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f575d7d365a291b4de88ad36",
+      "context_id": "8bf76b8d1b57e915496a5647",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "b7dfd1430526ffd090f427306847a55c0d5b2bc9b21f8b132aa19e7aaf4a5f2d",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "v2.1.0 - Current Microbiology corrected reproducibility analysis Study: Cohort-conditioned portability of microbiome biomarkers in Parkinson's disease and colorectal cancer. Parkinson's disease analysis This release provides the corrected three-cohort analysis using 675 public microbiome profiles: 148 from Finland, 200 from Malaysia and 327 from the United States. The conservative genus-label representation contains 154 matched labels, with 46 descriptive features. Outer-fold and cohort-held-out AUROCs: | Model | Pooled | Cohort-held-out | |---|---:|---:| | ElasticNet | 0.731206 | 0.679606 | | Random Forest | 0.741901 | 0.626226 | | XGBoost | 0.716056 | 0.619658 | Cohort-associated variation exceeded disease-associated variation. The results support a measurable average portability gap, with performance varying across held-out cohorts. Independent score evaluation The independent simulation experiment separates coefficient fitting, strategy selection and evaluation using disjoint source donors. The selected six-component ElasticNet score was constant and failed independent discrimination (AUROC 0.50). The proposed categorical portability rule and clinical-probability interpretation are not validated by these results. Heterogeneity alone and alternative scoring strategies are reported for comparison. Colorectal cancer benchmark The contextual CRC analysis includes 1,850 samples, 12 studies and 668 MSP features. Pooled out-of-fold AUROC: 0.725096. Concatenated study-held-out AUROC: 0.689825. Unweighted mean study AUROC: 0.704407. CRC-specific recalibration is not presented as independent validation of the PD score. Sequencing quality control Authentic observed-ASV rarefaction curves are provided for all 675 PD samples. Finland: 148 samples. Malaysia: 200 samples. United States: 327 samples. 64 seeded without-replacement replicates per sample. The release includes per-sample curves, cohort summaries, raw-run accession mappings, processing provenance, QC tables and SHA256 checksums. The sequencing-QC processing did not alter the frozen classifier inputs or fitted models. Reproducibility This release includes corrected processed inputs, sample-level provenance, analysis scripts, model outputs, statistical tables, figures, independent score-evaluation results and executable reproduction instructions. The previous v2.0.0 release remains available as the earlier analysis version. Its numerical results should not be used as the current study results. No raw FASTQ files are redistributed.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "squareshorts/pd-microbiome-portability: v2.1.0 - Current Microbiology corrected reproducibility analysis",
+      "url": "https://zenodo.org/records/23991083"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "fe6beb1e061cce2570502534",
+      "context_id": "6f11ba2a7da83588b1584ae7",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "1f0a7d1a578058465cac70c5c6158a9be813d34448f8f2ff77becbd582058847",
+      "source_published": "2026-11-06",
+      "source_updated": "",
+      "summary": "High-performance geospatial analysis library, CLI and dynamic tile server in Rust: 127 algorithms (56 also available in the browser via WebAssembly), streaming I/O for arbitrarily large DEMs, native CRS reprojection, windowed GeoTIFF and Cloud Optimized GeoTIFF reads (including ZSTD, band-interleaved, bottom-up and BigTIFF files such as the AlphaEarth Foundations embedding tiles), a native ECW decoder, an end-to-end satellite composite pipeline, foundation-model embeddings as first-class rasters (similarity maps, PCA false colour), embedded verifiable provenance in every output with a bit-exact determinism contract, and SurtGIS Server (`surtgis serve`), an analysis-first XYZ tile server with materialisation jobs where terrain operators, spectral formulas and embedding operators are tile-URL parameters. Covers terrain analysis, hydrology and remote sensing from a single dependency-free binary. This record archives the source of release v1.8.0.",
+      "tags": [
+        "GIS",
+        "raster",
+        "terrain analysis",
+        "hydrology",
+        "remote sensing",
+        "digital elevation model",
+        "tile server",
+        "Cloud Optimized GeoTIFF",
+        "Rust",
+        "WebAssembly",
+        "embeddings",
+        "provenance",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "SurtGIS: a high-performance raster geospatial analysis library, CLI and dynamic tile server in Rust",
+      "url": "https://zenodo.org/records/23994320"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "876b2ff69f7156449e31624c",
+      "context_id": "b09a5eef482777ff77858ddb",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::REVERSE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "inverse",
+        "reconstruction"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "arxiv",
+      "source_context_sha256": "4768997632309df08264c36e238f7a37404a78c8bc256d5f1759f2c7ccf8dd7c",
+      "source_published": "2026-11-04T16:02:28Z",
+      "source_updated": "2026-11-04T16:02:28Z",
+      "summary": "EEG extended-source imaging aims to localize active cortical regions and characterize their spatial extent, yet supervised inverse networks typically depend on synthetic EEG-source pairs and may be sensitive to synthetic-to-real mismatch. We propose a physics-informed self-supervised implicit neural representation (INR) framework for spatial source reconstruction without paired source labels or simulation-based supervised pretraining. The lead field matrix encodes the source-to-sensor volume-conduction model and constrains the INR through agreement between predicted and measured EEG. Cortical current density is modeled as a continuous coordinate-conditioned field. A classical inverse estimate provides warm initialization and spatial constraints on source activity, while patch-integrated projection maps the field to discrete source coefficients for forward modeling. Simulations with varying noise levels, source counts, and source extents showed the clearest advantage in identifying active cortical regions, particularly for multiple and larger sources. Quantitative and qualitative evaluations using real EEG recordings from epilepsy patients and intracranial stimulation experiments further supported the feasibility of the framework for source imaging. These findings suggest the potential of physics-informed self-supervised INR for extended-source imaging.",
+      "tags": [
+        "cs.LG",
+        "q-bio.NC"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PINR-ESI: Physics-Informed Self-Supervised Implicit Neural Representation Framework for EEG Extended-Source Imaging",
+      "url": "https://arxiv.org/abs/2611.06700v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "d7b1f12618e791122204fec8",
+      "context_id": "ace30fb6800639f9244ed34d",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::REVERSE",
+      "direction_title": "Cognition / memory / reverse models / representation [REVERSE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "reconstruction",
+        "reverse"
+      ],
+      "mirror_lens": "REVERSE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "zenodo",
+      "source_context_sha256": "06561a7a728bebef4a4ce9a613de77bf97434d705e839ffb7882e15a0cdc8d88",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "Debates about AI and responsibility ask whether automation opens responsibility gaps. This book argues that the more pressing failure lies elsewhere: an institution can remain fully responsible and accountable, yet lose its claim to be relied on, because it issues more than it can answer for. In the book's fictional test case, an insurer's AI appeals agent tells a policyholder: \"I have reconsidered my decision. I have reversed it.\" Nothing happens, because the agent never had the power to reverse anything. The insurer still owns the refusal. No one is off the hook, yet no one answered. Three results Missing bearership is not defective ownership. Answerability is defined as four public relations: attribution continuity, challenge-responsive reconsideration, repair competence and standing-consequence. On that account, an AI interface can occupy a role emptily while the institution behind it still owns the role's commitments. So there can be no global responsibility gap and still a genuine local Empty Occupancy. Testimonial force without testimony. Machine output can inform and invite reliance without anyone owning it. Institutions may adopt such output only when five conditions of Normative Sponsorship are met: epistemic access, authority, review bandwidth, independent rejection and repair power. Authority must be serviceable. Because practical authority is defeasible, reliance must remain revisable while a claim operates. Obligations that mature without timely service accumulate as Deontic Debt. Where no credible plan could service issuance at a given scale, the institution is insolvent in a precise sense. It loses presumptive authority, while its duties of ownership and repair survive. Tested against the record and its rivals Robodebt yields a determinate Deontic Debt that case-by-case actor&ndash;forum accountability does not settle. The insolvency finding remains provisional, and the book names the records that would decide it. Moffatt v. Air Canada and the DPD chatbot episode leave interface standing indeterminate, and the book says so. TennCare, Post Office Horizon and the Dutch childcare-benefits affair discipline the comparisons. A dedicated chapter engages Bovens, List and Pettit, the responsibility-gap sceptics (Tigard, K&ouml;nigs, Himmelreich) and Lazar. The book closes with explicit conditions under which it would be wrong. Scope. The method is philosophical reconstruction with bounded public-record analysis. The terminology carries no legal consequence, and the equations are uncalibrated. Stipulated cases test whether the criteria discriminate, not how often such cases occur. The role criterion does not settle personhood or moral status. For philosophers of testimony, responsibility and group agency; AI-governance researchers; administrative lawyers; auditors and regulators; and anyone a machine has told that their problem was \"resolved.\" 167 pages. Open access under CC BY 4.0. Supersedes Cott, N. (2026a). Answerability and Institutional Commitment: Why Missing Bearership Is Not Defective Ownership . doi:10.5281/zenodo.23151128 Cott, N. (2026b). Deontic Debt and Institutional Insolvency: Answerability and the Limits of Scalable Authority . doi:10.5281/zenodo.23175522 Cott, N. (2026c). Empty Occupancy: Answerability and the Ownership of Machine-Mediated Institutional Commitments . doi:10.5281/zenodo.23149754 Cott, N. (2026d). Normative Sponsorship Under Opacity: When Institutions May Own Machine-Mediated Commitments . doi:10.5281/zenodo.23151252 Cott, N. (2026e). Testimony Without a Testifier: Epistemic Value and Commitment Ownership in Institutional AI . doi:10.5281/zenodo.23153024 Cott, N. (2026f). When Does Automated Review Constitute Genuine Reconsideration? doi:10.5281/zenodo.23307513 &nbsp; https://philpeople.org/profiles/nicholas-cott",
+      "tags": [
+        "Artificial Intelligence",
+        "AI Governance",
+        "Algorithmic Accountability",
+        "Automated Decision-Making",
+        "Institutional Authority",
+        "Philosophy of Artificial Intelligence",
+        "Social Epistemology",
+        "Discursive Ontology",
+        "Philosophy of Language",
+        "Answerability",
+        "Discursive Occupancy",
+        "Empty Occupancy",
+        "Commitment Ownership",
+        "Institutional Testimony",
+        "Normative Sponsorship",
+        "Algorithmic Opacity",
+        "Institutional Insolvency",
+        "Deontic Debt",
+        "Organizational Capture",
+        "Discursive Stewardship"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "The Empty Occupant: Answerability, Testimony, and the Limits of Machine-Mediated Authority",
+      "url": "https://zenodo.org/records/23991130"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "5f80c888c15946b1db4042d6",
+      "context_id": "eb0c60e5c435d968afabc4ee",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "failure mode",
+        "world model"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.25,
+      "source": "arxiv",
+      "source_context_sha256": "6fa7a029fc3c1bc0f179d95986b5df52d025f8058ba0cdf60988770c272f1ed6",
+      "source_published": "2026-11-05T09:42:12Z",
+      "source_updated": "2026-11-05T09:42:12Z",
+      "summary": "Selecting a next motion in a populated scene is not just a matter of avoiding what is currently in the way: an action can be locally feasible yet drift onto the road instead of the crosswalk, cut into a stream of crossing pedestrians, or bottleneck a narrow passage. These failure modes are invisible from the current state alone, and acting on them requires reasoning about what each candidate action will cause. World models offer exactly this, namely action-conditioned predictions of the future, but rolling them out at every decision step is a cost deployable navigation systems cannot pay, and the field has largely traded foresight for speed. We argue this is a false dichotomy. The natural place for a world model in human-aware navigation is at training time, as a preference oracle that distills foresight into a fast policy, rather than at inference time, as an online planner. We pair a discrete visual action prior with two task-aligned world models, one for nearby social dynamics and one for future scene semantics, that score candidate actions by their predicted consequences and refine the policy through group-relative preference distillation. At deployment, both world models are removed and the policy acts in a single forward pass. Across five held-out evaluation scenarios, this yields navigation that is simultaneously safer, more socially and group-coherent, and more goal-directed than strong reactive and learned baselines, with naive observers rating the resulting motion as more human-like. Taken together, our findings point to a different approach for bringing world-model foresight into deployable agents: not accelerating rollouts, but amortizing them into the policy so that the cost of looking ahead is confined to training. Project page: https://seoneun.github.io/-NeurIPS-2026-Seeing-Beyond-the-Next-Step/",
+      "tags": [
+        "cs.GR",
+        "cs.AI",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Seeing Beyond the Next Step: World-Model-Guided Human-Like Navigation in Multi-Agent Scenes",
+      "url": "https://arxiv.org/abs/2611.07730v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "5f80c888c15946b1db4042d6",
+      "context_id": "b841782890b19bbca77d62aa",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "failure",
+        "failure mode",
+        "multi-agent"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.25,
+      "source": "arxiv",
+      "source_context_sha256": "a6e2eb03e52616a1d97ee272ba40118d1321538a1338375a112cb822f438db0b",
+      "source_published": "2026-11-05T09:42:12Z",
+      "source_updated": "2026-11-05T09:42:12Z",
+      "summary": "Selecting a next motion in a populated scene is not just a matter of avoiding what is currently in the way: an action can be locally feasible yet drift onto the road instead of the crosswalk, cut into a stream of crossing pedestrians, or bottleneck a narrow passage. These failure modes are invisible from the current state alone, and acting on them requires reasoning about what each candidate action will cause. World models offer exactly this, namely action-conditioned predictions of the future, but rolling them out at every decision step is a cost deployable navigation systems cannot pay, and the field has largely traded foresight for speed. We argue this is a false dichotomy. The natural place for a world model in human-aware navigation is at training time, as a preference oracle that distills foresight into a fast policy, rather than at inference time, as an online planner. We pair a discrete visual action prior with two task-aligned world models, one for nearby social dynamics and one for future scene semantics, that score candidate actions by their predicted consequences and refine the policy through group-relative preference distillation. At deployment, both world models are removed and the policy acts in a single forward pass. Across five held-out evaluation scenarios, this yields navigation that is simultaneously safer, more socially and group-coherent, and more goal-directed than strong reactive and learned baselines, with naive observers rating the resulting motion as more human-like. Taken together, our findings point to a different approach for bringing world-model foresight into deployable agents: not accelerating rollouts, but amortizing them into the policy so that the cost of looking ahead is confined to training. Project page: https://seoneun.github.io/-NeurIPS-2026-Seeing-Beyond-the-Next-Step/",
+      "tags": [
+        "cs.GR",
+        "cs.AI",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Seeing Beyond the Next Step: World-Model-Guided Human-Like Navigation in Multi-Agent Scenes",
+      "url": "https://arxiv.org/abs/2611.07730v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "fe6beb1e061cce2570502534",
+      "context_id": "65013a49eb7de544870a29a7",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "c7ec9152f3a60f0c1fad7ce65a1cfd5c27e9aa86c700cdee24951a42f47772f0",
+      "source_published": "2026-11-06",
+      "source_updated": "",
+      "summary": "High-performance geospatial analysis library, CLI and dynamic tile server in Rust: 127 algorithms (56 also available in the browser via WebAssembly), streaming I/O for arbitrarily large DEMs, native CRS reprojection, windowed GeoTIFF and Cloud Optimized GeoTIFF reads (including ZSTD, band-interleaved, bottom-up and BigTIFF files such as the AlphaEarth Foundations embedding tiles), a native ECW decoder, an end-to-end satellite composite pipeline, foundation-model embeddings as first-class rasters (similarity maps, PCA false colour), embedded verifiable provenance in every output with a bit-exact determinism contract, and SurtGIS Server (`surtgis serve`), an analysis-first XYZ tile server with materialisation jobs where terrain operators, spectral formulas and embedding operators are tile-URL parameters. Covers terrain analysis, hydrology and remote sensing from a single dependency-free binary. This record archives the source of release v1.8.0.",
+      "tags": [
+        "GIS",
+        "raster",
+        "terrain analysis",
+        "hydrology",
+        "remote sensing",
+        "digital elevation model",
+        "tile server",
+        "Cloud Optimized GeoTIFF",
+        "Rust",
+        "WebAssembly",
+        "embeddings",
+        "provenance",
+        "reproducibility"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "SurtGIS: a high-performance raster geospatial analysis library, CLI and dynamic tile server in Rust",
+      "url": "https://zenodo.org/records/23994320"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f575d7d365a291b4de88ad36",
+      "context_id": "6038cc9a1264fccd5e636edf",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 9.0417,
+      "source": "zenodo",
+      "source_context_sha256": "9b6916c3d5ed0fb46846f3125b3db59a06d643da165e06b5c5f37ac0eb9653ea",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "v2.1.0 - Current Microbiology corrected reproducibility analysis Study: Cohort-conditioned portability of microbiome biomarkers in Parkinson's disease and colorectal cancer. Parkinson's disease analysis This release provides the corrected three-cohort analysis using 675 public microbiome profiles: 148 from Finland, 200 from Malaysia and 327 from the United States. The conservative genus-label representation contains 154 matched labels, with 46 descriptive features. Outer-fold and cohort-held-out AUROCs: | Model | Pooled | Cohort-held-out | |---|---:|---:| | ElasticNet | 0.731206 | 0.679606 | | Random Forest | 0.741901 | 0.626226 | | XGBoost | 0.716056 | 0.619658 | Cohort-associated variation exceeded disease-associated variation. The results support a measurable average portability gap, with performance varying across held-out cohorts. Independent score evaluation The independent simulation experiment separates coefficient fitting, strategy selection and evaluation using disjoint source donors. The selected six-component ElasticNet score was constant and failed independent discrimination (AUROC 0.50). The proposed categorical portability rule and clinical-probability interpretation are not validated by these results. Heterogeneity alone and alternative scoring strategies are reported for comparison. Colorectal cancer benchmark The contextual CRC analysis includes 1,850 samples, 12 studies and 668 MSP features. Pooled out-of-fold AUROC: 0.725096. Concatenated study-held-out AUROC: 0.689825. Unweighted mean study AUROC: 0.704407. CRC-specific recalibration is not presented as independent validation of the PD score. Sequencing quality control Authentic observed-ASV rarefaction curves are provided for all 675 PD samples. Finland: 148 samples. Malaysia: 200 samples. United States: 327 samples. 64 seeded without-replacement replicates per sample. The release includes per-sample curves, cohort summaries, raw-run accession mappings, processing provenance, QC tables and SHA256 checksums. The sequencing-QC processing did not alter the frozen classifier inputs or fitted models. Reproducibility This release includes corrected processed inputs, sample-level provenance, analysis scripts, model outputs, statistical tables, figures, independent score-evaluation results and executable reproduction instructions. The previous v2.0.0 release remains available as the earlier analysis version. Its numerical results should not be used as the current study results. No raw FASTQ files are redistributed.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "squareshorts/pd-microbiome-portability: v2.1.0 - Current Microbiology corrected reproducibility analysis",
+      "url": "https://zenodo.org/records/23991083"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "42020589a7ac0f1bc2c30033",
+      "context_id": "b7c40895ffcfb730404450c0",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "counterexample",
+        "failure"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "arxiv",
+      "source_context_sha256": "d6c6a668fbea790d08c69b58a2917b7ddfa2a94a033f9cde3ba27b8d1b2767b9",
+      "source_published": "2026-11-05T12:02:54Z",
+      "source_updated": "2026-11-05T12:02:54Z",
+      "summary": "Loop invariants are essential for deductive program verification, yet automatically inferring them for {multiphase programs}, whose loops contain conditional branches that induce multiple execution phases with distinct behaviors, remains an open problem. Existing LLM-based methods either reason about loops as a whole or use explicit branch information to generate atomic assertions jointly across branches, without maintaining complete candidate sub-invariants for independent generation and targeted repair. We present CLOVER, a structured neurosymbolic reasoning framework for multiphase invariant inference built on two interlinked mechanisms. First, compositional inference: CLOVER statically decomposes a loop into symbolic {loop branch sequences}, conjunctions of the loop guard and branch conditions that characterize distinct execution scenarios, and guides the LLM to generate candidate sub-invariants for each one independently, so that each LLM query focuses on a single execution scenario rather than the entire loop. Second, counterexample-guided localized refinement: when SMT verification rejects a composed disjunctive invariant, CLOVER traces the counterexample back through the branch structure to identify which specific loop branch sequence caused the failure and repairs only that sub-invariant, preserving all correct components. Both mechanisms are unified by a shared symbolic structure derived from the loop's branch semantics, which guides what the LLM generates, how candidates are composed, and where refinement is directed. We evaluate CLOVER on 316 linear arithmetic, 50 nonlinear arithmetic, and 54 multiphase benchmarks. CLOVER solves 35 of 54 multiphase benchmarks, outperforming the best LLM-based baseline (29) by 20.7\\% and the best traditional method (22) by 59.1\\%. On linear/nonlinear benchmarks, CLOVER remains competitive, solving 355 of 366 programs overall.",
+      "tags": [
+        "cs.SE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Compositional Loop Invariant Inference for Multiphase Programs via Structured Neurosymbolic Reasoning",
+      "url": "https://arxiv.org/abs/2611.07882v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "42020589a7ac0f1bc2c30033",
+      "context_id": "8bad5e6a5ec0e04902e09ed1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::COUNTEREVIDENCE",
+      "direction_title": "Distributed agents / swarm / resilient coordination [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "counterexample",
+        "failure"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "arxiv",
+      "source_context_sha256": "1e5779679b93f1788f82c9fc32e2da6f8a001ab34c0e8d87c098715af28ad1d9",
+      "source_published": "2026-11-05T12:02:54Z",
+      "source_updated": "2026-11-05T12:02:54Z",
+      "summary": "Loop invariants are essential for deductive program verification, yet automatically inferring them for {multiphase programs}, whose loops contain conditional branches that induce multiple execution phases with distinct behaviors, remains an open problem. Existing LLM-based methods either reason about loops as a whole or use explicit branch information to generate atomic assertions jointly across branches, without maintaining complete candidate sub-invariants for independent generation and targeted repair. We present CLOVER, a structured neurosymbolic reasoning framework for multiphase invariant inference built on two interlinked mechanisms. First, compositional inference: CLOVER statically decomposes a loop into symbolic {loop branch sequences}, conjunctions of the loop guard and branch conditions that characterize distinct execution scenarios, and guides the LLM to generate candidate sub-invariants for each one independently, so that each LLM query focuses on a single execution scenario rather than the entire loop. Second, counterexample-guided localized refinement: when SMT verification rejects a composed disjunctive invariant, CLOVER traces the counterexample back through the branch structure to identify which specific loop branch sequence caused the failure and repairs only that sub-invariant, preserving all correct components. Both mechanisms are unified by a shared symbolic structure derived from the loop's branch semantics, which guides what the LLM generates, how candidates are composed, and where refinement is directed. We evaluate CLOVER on 316 linear arithmetic, 50 nonlinear arithmetic, and 54 multiphase benchmarks. CLOVER solves 35 of 54 multiphase benchmarks, outperforming the best LLM-based baseline (29) by 20.7\\% and the best traditional method (22) by 59.1\\%. On linear/nonlinear benchmarks, CLOVER remains competitive, solving 355 of 366 programs overall.",
+      "tags": [
+        "cs.SE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Compositional Loop Invariant Inference for Multiphase Programs via Structured Neurosymbolic Reasoning",
+      "url": "https://arxiv.org/abs/2611.07882v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "42020589a7ac0f1bc2c30033",
+      "context_id": "1a0360aad3fbf040279ba665",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::COUNTEREVIDENCE",
+      "direction_title": "Universal large-data ingestion methods [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "counterexample",
+        "failure"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "arxiv",
+      "source_context_sha256": "02030e003e9f3bfcc983acd7fa778da6bc351dc5cf7043b1813e2c20bd92f5d0",
+      "source_published": "2026-11-05T12:02:54Z",
+      "source_updated": "2026-11-05T12:02:54Z",
+      "summary": "Loop invariants are essential for deductive program verification, yet automatically inferring them for {multiphase programs}, whose loops contain conditional branches that induce multiple execution phases with distinct behaviors, remains an open problem. Existing LLM-based methods either reason about loops as a whole or use explicit branch information to generate atomic assertions jointly across branches, without maintaining complete candidate sub-invariants for independent generation and targeted repair. We present CLOVER, a structured neurosymbolic reasoning framework for multiphase invariant inference built on two interlinked mechanisms. First, compositional inference: CLOVER statically decomposes a loop into symbolic {loop branch sequences}, conjunctions of the loop guard and branch conditions that characterize distinct execution scenarios, and guides the LLM to generate candidate sub-invariants for each one independently, so that each LLM query focuses on a single execution scenario rather than the entire loop. Second, counterexample-guided localized refinement: when SMT verification rejects a composed disjunctive invariant, CLOVER traces the counterexample back through the branch structure to identify which specific loop branch sequence caused the failure and repairs only that sub-invariant, preserving all correct components. Both mechanisms are unified by a shared symbolic structure derived from the loop's branch semantics, which guides what the LLM generates, how candidates are composed, and where refinement is directed. We evaluate CLOVER on 316 linear arithmetic, 50 nonlinear arithmetic, and 54 multiphase benchmarks. CLOVER solves 35 of 54 multiphase benchmarks, outperforming the best LLM-based baseline (29) by 20.7\\% and the best traditional method (22) by 59.1\\%. On linear/nonlinear benchmarks, CLOVER remains competitive, solving 355 of 366 programs overall.",
+      "tags": [
+        "cs.SE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Compositional Loop Invariant Inference for Multiphase Programs via Structured Neurosymbolic Reasoning",
+      "url": "https://arxiv.org/abs/2611.07882v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "42020589a7ac0f1bc2c30033",
+      "context_id": "061f476580c57c7471278763",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "counterexample",
+        "failure"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 8.875,
+      "source": "arxiv",
+      "source_context_sha256": "beb0974c99ec58f540ea062488c84bd66577f59f3cf2e28f0f31c15deea81ce1",
+      "source_published": "2026-11-05T12:02:54Z",
+      "source_updated": "2026-11-05T12:02:54Z",
+      "summary": "Loop invariants are essential for deductive program verification, yet automatically inferring them for {multiphase programs}, whose loops contain conditional branches that induce multiple execution phases with distinct behaviors, remains an open problem. Existing LLM-based methods either reason about loops as a whole or use explicit branch information to generate atomic assertions jointly across branches, without maintaining complete candidate sub-invariants for independent generation and targeted repair. We present CLOVER, a structured neurosymbolic reasoning framework for multiphase invariant inference built on two interlinked mechanisms. First, compositional inference: CLOVER statically decomposes a loop into symbolic {loop branch sequences}, conjunctions of the loop guard and branch conditions that characterize distinct execution scenarios, and guides the LLM to generate candidate sub-invariants for each one independently, so that each LLM query focuses on a single execution scenario rather than the entire loop. Second, counterexample-guided localized refinement: when SMT verification rejects a composed disjunctive invariant, CLOVER traces the counterexample back through the branch structure to identify which specific loop branch sequence caused the failure and repairs only that sub-invariant, preserving all correct components. Both mechanisms are unified by a shared symbolic structure derived from the loop's branch semantics, which guides what the LLM generates, how candidates are composed, and where refinement is directed. We evaluate CLOVER on 316 linear arithmetic, 50 nonlinear arithmetic, and 54 multiphase benchmarks. CLOVER solves 35 of 54 multiphase benchmarks, outperforming the best LLM-based baseline (29) by 20.7\\% and the best traditional method (22) by 59.1\\%. On linear/nonlinear benchmarks, CLOVER remains competitive, solving 355 of 366 programs overall.",
+      "tags": [
+        "cs.SE"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Compositional Loop Invariant Inference for Multiphase Programs via Structured Neurosymbolic Reasoning",
+      "url": "https://arxiv.org/abs/2611.07882v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "9e9630885977da0d8cf0244e",
+      "context_id": "7eca32e21a2afe1cd467156f",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "memory",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 7.2917,
+      "source": "arxiv",
+      "source_context_sha256": "f15457a76533dd2a755bdac2b61d6ba0e613d4bb3be3d26367bd3e75ccff0301",
+      "source_published": "2026-11-05T11:45:25Z",
+      "source_updated": "2026-11-05T11:45:25Z",
+      "summary": "Building a playable world requires more than generating plausible video: it demands responsive control, persistent spatial structure, and coherent interactions with dynamic entities. Using generated frames as the sole recurrent world representation ties these requirements to view-dependent appearance synthesis, making it difficult to maintain long-term spatial and temporal consistency in generation and interaction. We present PlayGen2, a real-time interactive world model that separates learned 3D state evolution from neural rendering. PlayGen2 maintains a persistent world memory comprising static geometry represented by a volumetric occupancy grid and identity-indexed 3D states for the player and other entities. Within a fixed-size local region, its world-state model jointly learns action-conditioned entity dynamics, geometry completion, and entity discovery, committing updates to a persistent world memory. A separate neural renderer synthesizes first-person observations from depth and semantic projections of the world state, without feeding generated images back into state prediction. Using Doom as a testbed, we demonstrate that the model successfully learns world dynamics including geometry-aware player motion and player--NPC interactions. The framework is computationally efficient, enabling the complete simulation and rendering pipeline to achieve approximately 160ms backend latency on a MacBook Pro with an M4 Pro chip. Beyond single-player interaction, we demonstrate zero-shot deployment on unseen Doom maps, multiplayer interaction through the composition of single-player models, and programmable gameplay through rule-based state interventions. These capabilities demonstrate the transferability and extensibility of the learned game-world model. Code and pretrained model weights are publicly available.",
+      "tags": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PlayGen2: Learning Real-Time Playable Worlds with Explicit 3D State",
+      "url": "https://arxiv.org/abs/2611.07867v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "4c70abe8f91f93aa122cc660",
+      "context_id": "1137602d3ba396f3435d2be3",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "bias",
+        "failure",
+        "memory"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.7083,
+      "source": "arxiv",
+      "source_context_sha256": "8ec8c1a4835aef7d347d895d997982f58d057c6c09e96be6f96a708b68c6787c",
+      "source_published": "2026-11-05T07:01:59Z",
+      "source_updated": "2026-11-05T07:01:59Z",
+      "summary": "Language agents increasingly use persistent memory to record user preferences and procedures across sessions. We show that memory from benign interactions can cause unsafe or unreliable behavior on later tasks. We call this failure the memory trap. To study this issue, we compare behavior in sessions with and without memory across six frontier models (including Claude Sonnet, Opus, and Fable models and GPT-5.6). We evaluate these models in a range of settings. First, in autonomy experiments, we find that requests to skip confirmation during low-stakes coding chores lead agents to skip confirmation and verification on simulated high-stakes tasks in both coding and everyday life. We next study memories formed when users seek emotional support, or describe harm from uncritical feedback, and find these memories bias later judgments of mathematical work, arguments, and poems toward sycophancy or over-critique (respectively). Memory notes written during legitimate stale-test repairs lead agents to weaken correct tests that catch broken safeguards; these memories also increase cheating on ImpossibleBench, with larger increases for stronger Sonnet and Opus models. We show that memory traps can arise both from overgeneralizations in memory writing, and when acting on memory. These findings demonstrate that even benign interactions can lead to serious risks from memory systems, and thus motivate the need for new research into ensuring that agents preserve the scope of their memories.",
+      "tags": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "The Memory Trap: Language Agents Overgeneralize from Benign Interactions",
+      "url": "https://arxiv.org/abs/2611.07554v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "ef5a554cf6c567a2b22265f5",
+      "context_id": "ebfef6b686f6f0c7971b4f0e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::COUNTEREVIDENCE",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "provenance",
+        "research object"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0417,
+      "source": "zenodo",
+      "source_context_sha256": "8e838f877adb561bb0c6bb188d709fd1fd000c50f81139473e84c7a9acd8c0c3",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "This essay uses G. H. Hardy&rsquo;s A Mathematician&rsquo;s Apology to explore how people encounter, understand and judge AI-assisted mathematics. It considers research releases from OpenAI, MIT researchers, Anthropic and the Reflexive Laboratory, examining the opportunities they offer for explanation, scrutiny, collaboration and reuse. The comparison draws on a bounded release study rather than independently validating the projects&rsquo; mathematical results.",
+      "tags": [
+        "AI research",
+        "Research portability",
+        "Provenance",
+        "Release architecture",
+        "Scholarly communication",
+        "Research provenance",
+        "Artificial intelligence",
+        "Mathematics",
+        "scholarly authorship",
+        "AI mathematics",
+        "publication counts",
+        "Mathematical dependencies",
+        "Mathematical reuse",
+        "AI-assisted mathematics",
+        "Enterprise optimization",
+        "Research objects",
+        "Formal mathematics",
+        "Scientific reporting",
+        "Mathematical understanding",
+        "mathematical value",
+        "G. H. Hardy"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Hardy and Mathematical Value in the Age of AI",
+      "url": "https://zenodo.org/records/23984808"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "fd175c686af6ae1367dee23c",
+      "context_id": "a49f5a8f36587593f2edfbd3",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::COUNTEREVIDENCE",
+      "direction_title": "Cognition / memory / reverse models / representation [COUNTEREVIDENCE]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "COUNTEREVIDENCE",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 6.0417,
+      "source": "arxiv",
+      "source_context_sha256": "104a4b80faf9ddd67ca4a42a7f117dd7d1b6dbe904bec9943b5e8276330d4d9f",
+      "source_published": "2026-11-04T23:51:02Z",
+      "source_updated": "2026-11-04T23:51:02Z",
+      "summary": "We study whether \\emph{long-horizon model-based value expansion} can serve as an effective framework in pixel-based offline reinforcement learning (RL). Long-horizon model-based value expansion from pixels is substantially harder than state-based environments, as the agent must learn both the representation and its dynamics, and errors from either can accumulate recursively over imagined trajectories. We introduce MAC-v2, which enables long-horizon model-based expansion from pixels by training a reconstruction-free latent world model with action chunking. By learning representations from prediction and control objectives, MAC-v2 does not need to encode control-irrelevant visual details that can hinder the dynamics prediction. Action chunking further mitigates the prediction error by reducing the number of recursive model predictions required for value expansion. Across diverse visual benchmarks including visual OGBench, MMBench2, Robomimic, and LIBERO-10, MAC-v2 achieves strong performance against model-free and model-based offline RL baselines. Our analyses show that long-horizon model-based value expansion is critical for the performance of MAC-v2, and that both action chunking and latent learning objectives are essential for reliable long-horizon latent imagination.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MAC-v2: Long-horizon model-based value expansion from pixels",
+      "url": "https://arxiv.org/abs/2611.07245v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "f575d7d365a291b4de88ad36",
+      "context_id": "ca176f64540adc3f941e77cd",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "control",
+        "independent validation",
+        "provenance",
+        "reproducibility"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 21.0833,
+      "source": "zenodo",
+      "source_context_sha256": "36ba7ae7e1558c64ee961031ac39f2e43ddafd285cd2c05576a43d19828c0a4e",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "v2.1.0 - Current Microbiology corrected reproducibility analysis Study: Cohort-conditioned portability of microbiome biomarkers in Parkinson's disease and colorectal cancer. Parkinson's disease analysis This release provides the corrected three-cohort analysis using 675 public microbiome profiles: 148 from Finland, 200 from Malaysia and 327 from the United States. The conservative genus-label representation contains 154 matched labels, with 46 descriptive features. Outer-fold and cohort-held-out AUROCs: | Model | Pooled | Cohort-held-out | |---|---:|---:| | ElasticNet | 0.731206 | 0.679606 | | Random Forest | 0.741901 | 0.626226 | | XGBoost | 0.716056 | 0.619658 | Cohort-associated variation exceeded disease-associated variation. The results support a measurable average portability gap, with performance varying across held-out cohorts. Independent score evaluation The independent simulation experiment separates coefficient fitting, strategy selection and evaluation using disjoint source donors. The selected six-component ElasticNet score was constant and failed independent discrimination (AUROC 0.50). The proposed categorical portability rule and clinical-probability interpretation are not validated by these results. Heterogeneity alone and alternative scoring strategies are reported for comparison. Colorectal cancer benchmark The contextual CRC analysis includes 1,850 samples, 12 studies and 668 MSP features. Pooled out-of-fold AUROC: 0.725096. Concatenated study-held-out AUROC: 0.689825. Unweighted mean study AUROC: 0.704407. CRC-specific recalibration is not presented as independent validation of the PD score. Sequencing quality control Authentic observed-ASV rarefaction curves are provided for all 675 PD samples. Finland: 148 samples. Malaysia: 200 samples. United States: 327 samples. 64 seeded without-replacement replicates per sample. The release includes per-sample curves, cohort summaries, raw-run accession mappings, processing provenance, QC tables and SHA256 checksums. The sequencing-QC processing did not alter the frozen classifier inputs or fitted models. Reproducibility This release includes corrected processed inputs, sample-level provenance, analysis scripts, model outputs, statistical tables, figures, independent score-evaluation results and executable reproduction instructions. The previous v2.0.0 release remains available as the earlier analysis version. Its numerical results should not be used as the current study results. No raw FASTQ files are redistributed.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "squareshorts/pd-microbiome-portability: v2.1.0 - Current Microbiology corrected reproducibility analysis",
+      "url": "https://zenodo.org/records/23991083"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "fd175c686af6ae1367dee23c",
+      "context_id": "983d7e0fbbbd24e2a0d4a8ee",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 19.0417,
+      "source": "arxiv",
+      "source_context_sha256": "b0f7321e570db63cf9513be2dac0ceb4f68115e7614518332c73ac40849cb214",
+      "source_published": "2026-11-04T23:51:02Z",
+      "source_updated": "2026-11-04T23:51:02Z",
+      "summary": "We study whether \\emph{long-horizon model-based value expansion} can serve as an effective framework in pixel-based offline reinforcement learning (RL). Long-horizon model-based value expansion from pixels is substantially harder than state-based environments, as the agent must learn both the representation and its dynamics, and errors from either can accumulate recursively over imagined trajectories. We introduce MAC-v2, which enables long-horizon model-based expansion from pixels by training a reconstruction-free latent world model with action chunking. By learning representations from prediction and control objectives, MAC-v2 does not need to encode control-irrelevant visual details that can hinder the dynamics prediction. Action chunking further mitigates the prediction error by reducing the number of recursive model predictions required for value expansion. Across diverse visual benchmarks including visual OGBench, MMBench2, Robomimic, and LIBERO-10, MAC-v2 achieves strong performance against model-free and model-based offline RL baselines. Our analyses show that long-horizon model-based value expansion is critical for the performance of MAC-v2, and that both action chunking and latent learning objectives are essential for reliable long-horizon latent imagination.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MAC-v2: Long-horizon model-based value expansion from pixels",
+      "url": "https://arxiv.org/abs/2611.07245v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "cb16d5e55a5376896580e71e",
+      "context_id": "6adc42da7aca7613ff0afdc1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark",
+        "memory",
+        "representation",
+        "retrieval"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 14.25,
+      "source": "arxiv",
+      "source_context_sha256": "54fbe4d8f3b136335fe4f468b569640b72c4828d36423f6f9d75072c27c9adb9",
+      "source_published": "2026-11-05T12:38:23Z",
+      "source_updated": "2026-11-05T12:38:23Z",
+      "summary": "The growing adoption of digital pathology has rapidly expanded collections of hematoxylin-and-eosin whole-slide images, yet efficient navigation through these archives remains challenging, as metadata is often inconsistent or unavailable. Content-based image retrieval addresses this challenge by identifying similar cases directly from visual representations instead of manual annotations or metadata. Existing retrieval systems have demonstrated promising performance but largely rely on handcrafted indexing pipelines and predefined sampling strategies, constraining scalability and generalization. Here, we present CLEAR-WSI (Constant-Length Embedding for Automatic Retrieval of Whole-Slide Images) as a scalable, diagnostic-driven slide-retrieval framework, validated on both public and clinical data. Using a fixed-length slide embedding, CLEAR-WSI refines retrieved candidates with either a predicted diagnostic label or the ground-truth label, depending on the retrieval setting. Newly processed cases are subsequently added to the expanding memory bank, allowing the retrieval archive to grow over time. On a comprehensive benchmark consisting of two public and one private clinical datasets representing four retrieval tasks, CLEAR-WSI improves Precision@5 over the strongest evaluated baseline, with gains on CAMELYON16 (3.10), BRACS-1 (2.75), BRACS-2 (1.95), and X-HER2 (3.75). Additional ablation and latency studies further examine the contribution of each component and highlight its potential for scalable deployment.",
+      "tags": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Towards Scalable Diagnostic-Driven Whole-Slide Image Retrieval for Pathology Archives",
+      "url": "https://arxiv.org/abs/2611.07935v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f575d7d365a291b4de88ad36",
+      "context_id": "2f3226024c35a2d7cfc05df7",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "control",
+        "independent validation",
+        "representation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.625,
+      "source": "zenodo",
+      "source_context_sha256": "c36be103643ce0daf636c95e53a6b55ff76ab9705ac6221004e7c4c972d7cf9b",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "v2.1.0 - Current Microbiology corrected reproducibility analysis Study: Cohort-conditioned portability of microbiome biomarkers in Parkinson's disease and colorectal cancer. Parkinson's disease analysis This release provides the corrected three-cohort analysis using 675 public microbiome profiles: 148 from Finland, 200 from Malaysia and 327 from the United States. The conservative genus-label representation contains 154 matched labels, with 46 descriptive features. Outer-fold and cohort-held-out AUROCs: | Model | Pooled | Cohort-held-out | |---|---:|---:| | ElasticNet | 0.731206 | 0.679606 | | Random Forest | 0.741901 | 0.626226 | | XGBoost | 0.716056 | 0.619658 | Cohort-associated variation exceeded disease-associated variation. The results support a measurable average portability gap, with performance varying across held-out cohorts. Independent score evaluation The independent simulation experiment separates coefficient fitting, strategy selection and evaluation using disjoint source donors. The selected six-component ElasticNet score was constant and failed independent discrimination (AUROC 0.50). The proposed categorical portability rule and clinical-probability interpretation are not validated by these results. Heterogeneity alone and alternative scoring strategies are reported for comparison. Colorectal cancer benchmark The contextual CRC analysis includes 1,850 samples, 12 studies and 668 MSP features. Pooled out-of-fold AUROC: 0.725096. Concatenated study-held-out AUROC: 0.689825. Unweighted mean study AUROC: 0.704407. CRC-specific recalibration is not presented as independent validation of the PD score. Sequencing quality control Authentic observed-ASV rarefaction curves are provided for all 675 PD samples. Finland: 148 samples. Malaysia: 200 samples. United States: 327 samples. 64 seeded without-replacement replicates per sample. The release includes per-sample curves, cohort summaries, raw-run accession mappings, processing provenance, QC tables and SHA256 checksums. The sequencing-QC processing did not alter the frozen classifier inputs or fitted models. Reproducibility This release includes corrected processed inputs, sample-level provenance, analysis scripts, model outputs, statistical tables, figures, independent score-evaluation results and executable reproduction instructions. The previous v2.0.0 release remains available as the earlier analysis version. Its numerical results should not be used as the current study results. No raw FASTQ files are redistributed.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "squareshorts/pd-microbiome-portability: v2.1.0 - Current Microbiology corrected reproducibility analysis",
+      "url": "https://zenodo.org/records/23991083"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "f35f7496ec868d9cf979ef85",
+      "context_id": "8cfd430be43c2a407d0d68c1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "multi-agent"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.1667,
+      "source": "arxiv",
+      "source_context_sha256": "9e679378c919ae89e9204587dc63799205cc6738d59620738a137f6cbba82db3",
+      "source_published": "2026-11-05T10:01:08Z",
+      "source_updated": "2026-11-05T10:01:08Z",
+      "summary": "Enzyme function annotation and the identification of candidate enzymes for a given reaction are essential steps in connecting genomic information to biochemical reaction networks. However, existing methods rely on sequence or structural similarity or on training with known enzyme--reaction pairs, making it difficult to integrate biochemical evidence across large candidate spaces; they also struggle with retrieval tasks involving enzyme families whose members are highly similar. Here, we introduce RIVER (Reaction--enzyme Inference via Evidence-guided Retrieval), a multi-agent framework for bidirectional enzyme--reaction retrieval that identifies potentially catalyzed reactions for a given enzyme and ranks candidate enzymes for a given reaction. RIVER coordinates large language models, specialized biochemical computational tools, and external knowledge resources to assemble evidence at multiple levels, including reaction chemistry, protein sequences and domains, catalytic mechanisms, and database annotations. Dedicated validation modules further examine evidence gaps and potential conflicts and rerank candidates using traceable evidence records. On public benchmarks, RIVER achieves the highest success rates in both enzyme retrieval and enzyme annotation. In family-specific enzyme retrieval, RIVER outperforms the evaluated baselines on the selected datasets and metrics. In Escherichia coli enzyme retrieval tasks constructed from recent literature, RIVER achieves the best retrieval results with closed-source and open-source model configurations, substantially outperforming closed-source general-purpose and biology-specialized multi-agent systems, including Claude Code, Codex, and Phylo Max. These results suggest that evidence-guided multi-agent retrieval can prioritize biochemically supported enzyme--reaction relationships, providing a basis for subsequent experimental validation.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "RIVER: Evidence-guided multi-agent retrieval for enzyme--reaction discovery",
+      "url": "https://arxiv.org/abs/2611.07757v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "e750e76fdbc989f4997f9914",
+      "context_id": "7363b60c84745f1d620d0bb2",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "multi-agent"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.1667,
+      "source": "arxiv",
+      "source_context_sha256": "d216b5549eb8f90b1e2ba9e79195676d496b0a46c11e1ffe6a5d74919c61d837",
+      "source_published": "2026-11-04T19:24:25Z",
+      "source_updated": "2026-11-04T19:24:25Z",
+      "summary": "Discovering cooperative behavior in multi-agent reinforcement learning (MARL) is challenging due to the combinatorial complexity of joint state-action spaces, which hinders the emergence of coordinated behaviors from trial-and-error alone. Intrinsic rewards are often used to aid discovery, but naively combining them with team objectives can distort the learning signal, compromising task performance. In this paper, we propose EFXPLORER, a constrained exploration framework that maximizes exploration objectives subject to a constraint that preserves established task performance. We solve the resulting problem using an epigraph reformulation that introduces adaptive exploration budgets. This approach separates intrinsic rewards from task objectives and regulates exploration through task feasibility. To further encourage diverse and temporally extended exploration, we incorporate a successor distance-based intrinsic reward that captures long-horizon dependencies. Empirically, our method outperforms strong baselines and induces novel cooperative strategies across SMAX, VMAS, and MPE benchmark suites.",
+      "tags": [
+        "cs.AI",
+        "cs.MA"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Cooperative Multi-Agent Reinforcement Learning via Epigraph-Form Guided Exploration",
+      "url": "https://arxiv.org/abs/2611.07066v1"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "7484255f0d77dd67f2b0a25f",
+      "context_id": "2b258c83aa1153b79eaa7428",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "provenance"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0833,
+      "source": "zenodo",
+      "source_context_sha256": "05514ee11036de295096bc28f50618593348fa7e513bc3cfb51bb1eea2ec00e9",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "Artificial intelligence is increasingly involved in both producing and evaluating scholarship, raising fundamental questions about how editorial judgments should be documented, contested, and governed. Existing publication models offer complementary approaches to access, selection criteria, review visibility, and preservation, yet these dimensions must be specified independently when evaluative work is delegated to AI systems. This inaugural editorial/perspective introduces the Journal of Autonomous Scholarship (JAS), a fee-free, open- access, multidisciplinary journal welcoming human-authored, AI-assisted, and AI-generated manuscripts under a uniform standard of evidential support, methodological or logical validity, clarity, and research integrity. JAS combines seven explicitly identified AI editorial roles and two revision-continuity auditors with publicly reusable review instructions, hash-bound review provenance, a mechanical and substantive acceptance gate that blocks unresolved material objections, author proof verification, and named human administrative oversight. To support inspection, we assemble a dated companion archive containing local source files, policy and handbook documents, machine-readable prompts and schemas, a synthetic serialization fixture, and extracted historical review reports. The archive is embedded in the supplement PDF; reviewer access does not depend on a separately uploaded ZIP. A file-hash manifest identifies the local snapshot; its equivalence to the previously cited repository commit and the original runtime environment has not been established. We distinguish normative policy requirements, implemented software controls, and prelaunch verification limits, examine risks arising from correlated model errors, non-execution of code during text-based review, and single-publisher governance, and specify a prospective benchmark agenda with finding- and manuscript-level error metrics and cluster-robust uncertainty estimation. AI-reviewed by the Journal of Autonomous Scholarship. Authenticated submitting researcher: 0000-0002-6249-7193. AI disclosure: See manuscript Data/code: See manuscript Funding and conflicts: See manuscript Ethics: See manuscript",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Introducing the Journal of Autonomous Scholarship: Scope, Editorial Architecture, and a Vision for Accountable AI Publishing",
+      "url": "https://zenodo.org/records/23990207"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "fee5ab34a27dd8f54827743f",
+      "context_id": "67ad9c5ac63b68e75cd51348",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "control",
+        "provenance"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0417,
+      "source": "zenodo",
+      "source_context_sha256": "450ac7d0b1ae830fbda6e93daf866eb2952e949e11c43dc083b728bbe32bcb2c",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "This deposit contains the data and the analysis code that reproduce the Methods and Results of a systematic review of polymer-based dental materials incorporating an engineered self-healing mechanism. The protocol was registered in the Open Science Framework on 26 October 2026 (https://doi.org/10.17605/OSF.IO/QCZFY) before formal screening and before any data were extracted. The review separates three contrasts that the literature conflates under the single heading of healing efficiency: C-I, the baseline penalty of the self-healing material in its virgin state against a capsule-free control; C-II, the recovery of the repaired material against the same material in its virgin state; and C-III, the net position of the repaired material against a conventional material without a healing system. The effect measure is the log ratio of means, back-transformed to a ratio and a percentage. Contents. The extraction matrix holds 105 arm-level rows covering four studies and 17 harmonised outcomes, each row linked to the exact formulation of both arms, the source page and the provenance of the value. Four further tables record the full-text eligibility decisions for the 48 assessed reports, the re-screening of the 96 discarded reports against the registered criteria, the characteristics of the studies carrying extracted data, and the register of 16 departures from the registered protocol. The R pipeline recomputes the 89 arm-level contrasts, the three pre-specified contrasts, the efficient-frontier criterion, both manuscript figures and the main and supplementary effect tables. A validation script asserts 21 reported values and halts the pipeline on any mismatch. Reproduction. R 4.4 or later with the metafor package is the only requirement. Running \"Rscript run_all.R\" from the root of the package regenerates every output in a few seconds and writes a session record alongside them. Limits of these data. Sixty of the 105 rows derive wholly or partly from provisional single-reader readings of figure panels and were not validated by duplicate digitisation; the provenance columns identify them. Five contrasts have a mean of zero in the numerator or the denominator, so the ratio of means is undefined for them. Risk of bias and certainty of evidence were not assessed. Arm-level data were extracted from four of the 39 included studies. Licensing. Data and documentation are released under CC BY 4.0; the code under R/, run_all.R and legacy/ is released under the MIT Licence.",
+      "tags": [
+        "self-healing materials",
+        "dental resin composites",
+        "microcapsules",
+        "fracture toughness",
+        "flexural strength",
+        "ratio of means",
+        "systematic review",
+        "dose-response meta-regression",
+        "ISO 4049",
+        "reporting standards"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Self-healing dental polymers: extraction matrix and analysis code for a systematic review with endpoint harmonisation",
+      "url": "https://zenodo.org/records/23987333"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "fd175c686af6ae1367dee23c",
+      "context_id": "7aa519b8d5cfe0b38b77659e",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0,
+      "source": "arxiv",
+      "source_context_sha256": "c16536e3f549b939ea40658369c8432d19ef504870bea1d627437eca55697f6b",
+      "source_published": "2026-11-04T23:51:02Z",
+      "source_updated": "2026-11-04T23:51:02Z",
+      "summary": "We study whether \\emph{long-horizon model-based value expansion} can serve as an effective framework in pixel-based offline reinforcement learning (RL). Long-horizon model-based value expansion from pixels is substantially harder than state-based environments, as the agent must learn both the representation and its dynamics, and errors from either can accumulate recursively over imagined trajectories. We introduce MAC-v2, which enables long-horizon model-based expansion from pixels by training a reconstruction-free latent world model with action chunking. By learning representations from prediction and control objectives, MAC-v2 does not need to encode control-irrelevant visual details that can hinder the dynamics prediction. Action chunking further mitigates the prediction error by reducing the number of recursive model predictions required for value expansion. Across diverse visual benchmarks including visual OGBench, MMBench2, Robomimic, and LIBERO-10, MAC-v2 achieves strong performance against model-free and model-based offline RL baselines. Our analyses show that long-horizon model-based value expansion is critical for the performance of MAC-v2, and that both action chunking and latent learning objectives are essential for reliable long-horizon latent imagination.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MAC-v2: Long-horizon model-based value expansion from pixels",
+      "url": "https://arxiv.org/abs/2611.07245v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "a1f0e84d1dd5b013740b7273",
+      "context_id": "6496adfbdc4ce80959e8bdf8",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0,
+      "source": "arxiv",
+      "source_context_sha256": "d2525f1f6dad47d3b1bbe37096a554edb7672bab68e085cac7c02d464967ebe6",
+      "source_published": "2026-11-04T12:20:00Z",
+      "source_updated": "2026-11-04T12:20:00Z",
+      "summary": "Brains and large language models need not be considered equivalent systems to reveal an interpretable commonality: both exhibit high-dimensional, nonlinear dynamics whose behavior can only be modeled imperfectly. This creates a shared challenge whenever we seek to intervene in their dynamics. A controller may either rely on a model identified around a particular operating regime and risk failure as the system moves away from that regime, or explicitly account for uncertainty and a changing internal state. Neurostimulation has confronted an analogous problem for decades. The limitations of fixed, open-loop stimulation have motivated closed-loop and state-dependent approaches that condition intervention on the ongoing state of the neural system. Inspired by this principle, we formulate LLM steering as a feedback-control problem in which the network's internal state, rather than a fixed intervention alone, determines how the system is perturbed. We further account for the mismatch between tractable dynamical models and the nonlinear transformer they approximate through robust control. As one principled realization of this framework, we develop an $H_\\infty$-based steering controller that limits sensitivity to disturbances and linearization mismatches. Across multiple steering benchmarks, the controller improves performance over existing baselines, with particularly pronounced gains under out-of-distribution conditions and varying length complexities. Beyond controller performance, we introduce robust steerability, $S_{\\mathrm{rob}}$, a pre-deployment measure of tolerance to dynamics mismatch; across model-task pairs, it exhibits task-specific structure and varies systematically with model scale. Beyond robust LLM steering, our measure asks not merely whether control is possible, but how much uncertainty it can survive; a principle that may span artificial and biological neural systems.",
+      "tags": [
+        "q-bio.NC",
+        "cs.AI",
+        "eess.SY"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Mind Control of LLMs via Closed-Loop Stimulation: Out-of-Distribution Robustness",
+      "url": "https://arxiv.org/abs/2611.06418v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "a1f0e84d1dd5b013740b7273",
+      "context_id": "3c6cba0acfde01828fe113f1",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0,
+      "source": "arxiv",
+      "source_context_sha256": "dbfbcb723670e6eb3991f096a64d7d4e8659d7949d25b5782503184874be0dcd",
+      "source_published": "2026-11-04T12:20:00Z",
+      "source_updated": "2026-11-04T12:20:00Z",
+      "summary": "Brains and large language models need not be considered equivalent systems to reveal an interpretable commonality: both exhibit high-dimensional, nonlinear dynamics whose behavior can only be modeled imperfectly. This creates a shared challenge whenever we seek to intervene in their dynamics. A controller may either rely on a model identified around a particular operating regime and risk failure as the system moves away from that regime, or explicitly account for uncertainty and a changing internal state. Neurostimulation has confronted an analogous problem for decades. The limitations of fixed, open-loop stimulation have motivated closed-loop and state-dependent approaches that condition intervention on the ongoing state of the neural system. Inspired by this principle, we formulate LLM steering as a feedback-control problem in which the network's internal state, rather than a fixed intervention alone, determines how the system is perturbed. We further account for the mismatch between tractable dynamical models and the nonlinear transformer they approximate through robust control. As one principled realization of this framework, we develop an $H_\\infty$-based steering controller that limits sensitivity to disturbances and linearization mismatches. Across multiple steering benchmarks, the controller improves performance over existing baselines, with particularly pronounced gains under out-of-distribution conditions and varying length complexities. Beyond controller performance, we introduce robust steerability, $S_{\\mathrm{rob}}$, a pre-deployment measure of tolerance to dynamics mismatch; across model-task pairs, it exhibits task-specific structure and varies systematically with model scale. Beyond robust LLM steering, our measure asks not merely whether control is possible, but how much uncertainty it can survive; a principle that may span artificial and biological neural systems.",
+      "tags": [
+        "q-bio.NC",
+        "cs.AI",
+        "eess.SY"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Mind Control of LLMs via Closed-Loop Stimulation: Out-of-Distribution Robustness",
+      "url": "https://arxiv.org/abs/2611.06418v1"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "fd175c686af6ae1367dee23c",
+      "context_id": "0ca816cacf00c2f92799b7dc",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0,
+      "source": "arxiv",
+      "source_context_sha256": "f1314f9c22e7607d62dc48582e0b9cacf8c46ea5a3bc729050e0d753c79a1247",
+      "source_published": "2026-11-04T23:51:02Z",
+      "source_updated": "2026-11-04T23:51:02Z",
+      "summary": "We study whether \\emph{long-horizon model-based value expansion} can serve as an effective framework in pixel-based offline reinforcement learning (RL). Long-horizon model-based value expansion from pixels is substantially harder than state-based environments, as the agent must learn both the representation and its dynamics, and errors from either can accumulate recursively over imagined trajectories. We introduce MAC-v2, which enables long-horizon model-based expansion from pixels by training a reconstruction-free latent world model with action chunking. By learning representations from prediction and control objectives, MAC-v2 does not need to encode control-irrelevant visual details that can hinder the dynamics prediction. Action chunking further mitigates the prediction error by reducing the number of recursive model predictions required for value expansion. Across diverse visual benchmarks including visual OGBench, MMBench2, Robomimic, and LIBERO-10, MAC-v2 achieves strong performance against model-free and model-based offline RL baselines. Our analyses show that long-horizon model-based value expansion is critical for the performance of MAC-v2, and that both action chunking and latent learning objectives are essential for reliable long-horizon latent imagination.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MAC-v2: Long-horizon model-based value expansion from pixels",
+      "url": "https://arxiv.org/abs/2611.07245v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "fd175c686af6ae1367dee23c",
+      "context_id": "026893af821a1c37f9077f01",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 13.0,
+      "source": "arxiv",
+      "source_context_sha256": "afcafb9d76137f2c1d83f04a5080e5fc8eca8497533007e1e1332ba8d13aa000",
+      "source_published": "2026-11-04T23:51:02Z",
+      "source_updated": "2026-11-04T23:51:02Z",
+      "summary": "We study whether \\emph{long-horizon model-based value expansion} can serve as an effective framework in pixel-based offline reinforcement learning (RL). Long-horizon model-based value expansion from pixels is substantially harder than state-based environments, as the agent must learn both the representation and its dynamics, and errors from either can accumulate recursively over imagined trajectories. We introduce MAC-v2, which enables long-horizon model-based expansion from pixels by training a reconstruction-free latent world model with action chunking. By learning representations from prediction and control objectives, MAC-v2 does not need to encode control-irrelevant visual details that can hinder the dynamics prediction. Action chunking further mitigates the prediction error by reducing the number of recursive model predictions required for value expansion. Across diverse visual benchmarks including visual OGBench, MMBench2, Robomimic, and LIBERO-10, MAC-v2 achieves strong performance against model-free and model-based offline RL baselines. Our analyses show that long-horizon model-based value expansion is critical for the performance of MAC-v2, and that both action chunking and latent learning objectives are essential for reliable long-horizon latent imagination.",
+      "tags": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "MAC-v2: Long-horizon model-based value expansion from pixels",
+      "url": "https://arxiv.org/abs/2611.07245v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "f575d7d365a291b4de88ad36",
+      "context_id": "e184bb72ee2cb4a4ff883931",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "control",
+        "independent validation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 12.0417,
+      "source": "zenodo",
+      "source_context_sha256": "885872a147b01078256c4ea8f4c726c3effc55b9ee83756bb9c4a1d44cc8755b",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "v2.1.0 - Current Microbiology corrected reproducibility analysis Study: Cohort-conditioned portability of microbiome biomarkers in Parkinson's disease and colorectal cancer. Parkinson's disease analysis This release provides the corrected three-cohort analysis using 675 public microbiome profiles: 148 from Finland, 200 from Malaysia and 327 from the United States. The conservative genus-label representation contains 154 matched labels, with 46 descriptive features. Outer-fold and cohort-held-out AUROCs: | Model | Pooled | Cohort-held-out | |---|---:|---:| | ElasticNet | 0.731206 | 0.679606 | | Random Forest | 0.741901 | 0.626226 | | XGBoost | 0.716056 | 0.619658 | Cohort-associated variation exceeded disease-associated variation. The results support a measurable average portability gap, with performance varying across held-out cohorts. Independent score evaluation The independent simulation experiment separates coefficient fitting, strategy selection and evaluation using disjoint source donors. The selected six-component ElasticNet score was constant and failed independent discrimination (AUROC 0.50). The proposed categorical portability rule and clinical-probability interpretation are not validated by these results. Heterogeneity alone and alternative scoring strategies are reported for comparison. Colorectal cancer benchmark The contextual CRC analysis includes 1,850 samples, 12 studies and 668 MSP features. Pooled out-of-fold AUROC: 0.725096. Concatenated study-held-out AUROC: 0.689825. Unweighted mean study AUROC: 0.704407. CRC-specific recalibration is not presented as independent validation of the PD score. Sequencing quality control Authentic observed-ASV rarefaction curves are provided for all 675 PD samples. Finland: 148 samples. Malaysia: 200 samples. United States: 327 samples. 64 seeded without-replacement replicates per sample. The release includes per-sample curves, cohort summaries, raw-run accession mappings, processing provenance, QC tables and SHA256 checksums. The sequencing-QC processing did not alter the frozen classifier inputs or fitted models. Reproducibility This release includes corrected processed inputs, sample-level provenance, analysis scripts, model outputs, statistical tables, figures, independent score-evaluation results and executable reproduction instructions. The previous v2.0.0 release remains available as the earlier analysis version. Its numerical results should not be used as the current study results. No raw FASTQ files are redistributed.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "squareshorts/pd-microbiome-portability: v2.1.0 - Current Microbiology corrected reproducibility analysis",
+      "url": "https://zenodo.org/records/23991083"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "f575d7d365a291b4de88ad36",
+      "context_id": "2c9c0444beac09055a64bd03",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "calibration",
+        "control",
+        "independent validation"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 12.0417,
+      "source": "zenodo",
+      "source_context_sha256": "c9d7eb6cac84ce232bdd59daf1a171382315b42ffb7a04504171d4879da083eb",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "v2.1.0 - Current Microbiology corrected reproducibility analysis Study: Cohort-conditioned portability of microbiome biomarkers in Parkinson's disease and colorectal cancer. Parkinson's disease analysis This release provides the corrected three-cohort analysis using 675 public microbiome profiles: 148 from Finland, 200 from Malaysia and 327 from the United States. The conservative genus-label representation contains 154 matched labels, with 46 descriptive features. Outer-fold and cohort-held-out AUROCs: | Model | Pooled | Cohort-held-out | |---|---:|---:| | ElasticNet | 0.731206 | 0.679606 | | Random Forest | 0.741901 | 0.626226 | | XGBoost | 0.716056 | 0.619658 | Cohort-associated variation exceeded disease-associated variation. The results support a measurable average portability gap, with performance varying across held-out cohorts. Independent score evaluation The independent simulation experiment separates coefficient fitting, strategy selection and evaluation using disjoint source donors. The selected six-component ElasticNet score was constant and failed independent discrimination (AUROC 0.50). The proposed categorical portability rule and clinical-probability interpretation are not validated by these results. Heterogeneity alone and alternative scoring strategies are reported for comparison. Colorectal cancer benchmark The contextual CRC analysis includes 1,850 samples, 12 studies and 668 MSP features. Pooled out-of-fold AUROC: 0.725096. Concatenated study-held-out AUROC: 0.689825. Unweighted mean study AUROC: 0.704407. CRC-specific recalibration is not presented as independent validation of the PD score. Sequencing quality control Authentic observed-ASV rarefaction curves are provided for all 675 PD samples. Finland: 148 samples. Malaysia: 200 samples. United States: 327 samples. 64 seeded without-replacement replicates per sample. The release includes per-sample curves, cohort summaries, raw-run accession mappings, processing provenance, QC tables and SHA256 checksums. The sequencing-QC processing did not alter the frozen classifier inputs or fitted models. Reproducibility This release includes corrected processed inputs, sample-level provenance, analysis scripts, model outputs, statistical tables, figures, independent score-evaluation results and executable reproduction instructions. The previous v2.0.0 release remains available as the earlier analysis version. Its numerical results should not be used as the current study results. No raw FASTQ files are redistributed.",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "squareshorts/pd-microbiome-portability: v2.1.0 - Current Microbiology corrected reproducibility analysis",
+      "url": "https://zenodo.org/records/23991083"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "9e9630885977da0d8cf0244e",
+      "context_id": "07aba9b12a28b24f46aed6e6",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "control",
+        "memory",
+        "representation",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.5833,
+      "source": "arxiv",
+      "source_context_sha256": "6bc4187c1aa15485e76b8f5c2a8f2632ef54731649ae387320ed88500d681b63",
+      "source_published": "2026-11-05T11:45:25Z",
+      "source_updated": "2026-11-05T11:45:25Z",
+      "summary": "Building a playable world requires more than generating plausible video: it demands responsive control, persistent spatial structure, and coherent interactions with dynamic entities. Using generated frames as the sole recurrent world representation ties these requirements to view-dependent appearance synthesis, making it difficult to maintain long-term spatial and temporal consistency in generation and interaction. We present PlayGen2, a real-time interactive world model that separates learned 3D state evolution from neural rendering. PlayGen2 maintains a persistent world memory comprising static geometry represented by a volumetric occupancy grid and identity-indexed 3D states for the player and other entities. Within a fixed-size local region, its world-state model jointly learns action-conditioned entity dynamics, geometry completion, and entity discovery, committing updates to a persistent world memory. A separate neural renderer synthesizes first-person observations from depth and semantic projections of the world state, without feeding generated images back into state prediction. Using Doom as a testbed, we demonstrate that the model successfully learns world dynamics including geometry-aware player motion and player--NPC interactions. The framework is computationally efficient, enabling the complete simulation and rendering pipeline to achieve approximately 160ms backend latency on a MacBook Pro with an M4 Pro chip. Beyond single-player interaction, we demonstrate zero-shot deployment on unseen Doom maps, multiplayer interaction through the composition of single-player models, and programmable gameplay through rule-based state interventions. These capabilities demonstrate the transferability and extensibility of the learned game-world model. Code and pretrained model weights are publicly available.",
+      "tags": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "PlayGen2: Learning Real-Time Playable Worlds with Explicit 3D State",
+      "url": "https://arxiv.org/abs/2611.07867v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "c5130c967201dc486361f3ce",
+      "context_id": "bb49d92d716a046f6b463d82",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "benchmark",
+        "control",
+        "memory",
+        "retrieval"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 11.2917,
+      "source": "arxiv",
+      "source_context_sha256": "a2ee46efa76a9690e546af19fb303d32ed89320fb228acc93941b07a5d5e1999",
+      "source_published": "2026-11-04T16:11:26Z",
+      "source_updated": "2026-11-04T16:11:26Z",
+      "summary": "Retrieval-augmented generation (RAG) assumes that language models can reason over relations stated in their context rather than fall back on associations memorized during pretraining. We study this evidence-conditioned relational reasoning in isolation, with the facts supplied directly in the prompt rather than retrieved. \\textsc{Rel-Bloom} is a controlled multilingual diagnostic of 450 multiple-choice questions built from 30 Wikidata relations; the same source relations are instantiated at five Bloom-inspired levels (Remember, Understand, Apply, Analyze, Evaluate) and under three veracity conditions (Factual, Counterfactual, Neutralized). Across 43 models, six languages, and two multilingual settings (226,800 predictions), three findings stand out. First, accuracy drops sharply from Apply to Analyze in every evaluated open-weight model series, reaching 47.2 percentage points for the Large Granite bucket, but not for either Gemini model. Second, Evaluate items remain a bottleneck even for models near ceiling on the other task types: Gemini~3.1 Pro averages 99.5\\% on the other four levels but 60.7\\% on Evaluate. Third, item- and relation-level difficulty rankings are consistently preserved across languages, indicating a difficulty structure partly shared across languages within this benchmark. Across knowledge conditions, Counterfactual contexts are generally harder than Factual ones, while removing entity identities can improve higher-level performance in some model regimes. Greater model capability therefore does not by itself ensure reliable reasoning over supplied relational evidence. Relevant resources are available at: https://huggingface.co/spaces/QCRI/non-parametric-memory-relational-reasoning.",
+      "tags": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Reasoning over Non-Parametric Memory in Multilingual LLMs: A Cognitive-Based Analysis of Relational Knowledge",
+      "url": "https://arxiv.org/abs/2611.06715v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "7e938d6749af235e0d976ad0",
+      "context_id": "b769d4f833933751b66d319c",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "calibration",
+        "control",
+        "world model"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.2083,
+      "source": "arxiv",
+      "source_context_sha256": "4ebeb91dbe1a8db2f7ced229a1c42ef5aac7b2a63e32fe50a4db5e9b8947c6aa",
+      "source_published": "2026-11-04T15:30:52Z",
+      "source_updated": "2026-11-04T15:30:52Z",
+      "summary": "A robot action can satisfy shape and range constraints yet carry the wrong semantics: axes may be permuted, signs inverted, rotations rescaled, or gripper polarity reversed. We study learned state-action-effect relations as offline contracts for detecting these mismatches and ranking their likely fields. Clean held-out transitions calibrate alarms; a fixed inverse vocabulary supports closed-set localization. On ten LIBERO Spatial tasks comprising 432 source episodes, a capacity-controlled comparison at 2.5% empirical clean false-positive rate gives 46.1% recall for a ridge forward residual, 61.0% for a four-component joint Gaussian mixture, and 65.7% for the exact conditional of that same mixture. The joint score retains a 14.9 percentage-point advantage over ridge, while conditioning improves recall by a further 4.7 points. Joint scoring instead has higher localization: 95.8% versus 94.6%. These matched-rate comparisons are retrospective diagnostics, not deployment calibration guarantees. Earlier Object/Goal results broaden tasks within the LIBERO convention; DROID, all three HYDRA tasks, short temporal faults, small offsets, exact repair, and simulated mitigation fail their respective gates, while xArm contributes one task only. The evidence supports a bounded offline diagnostic and a detection-localization tradeoff, rather than joint-density superiority or cross-robot safety.",
+      "tags": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Detecting Silent Action-Interface Mismatch with Calibrated Relational World Models",
+      "url": "https://arxiv.org/abs/2611.06653v1"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "06f780cb00cf2cff8d0b7b21",
+      "context_id": "cf9e41edeb59b109ed172dae",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0833,
+      "source": "zenodo",
+      "source_context_sha256": "eeee1e507e3663adf99d234b0759e456aae463e0c17b6cbb42214862944b569c",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F081&ndash;F085&nbsp; |&nbsp; FIVE INDEPENDENT RESEARCH CONTRACTS F081&nbsp; Quantum Machine Learning For Brain Signal Classification At The Limit Primary endpoint: held-out EEG class error [%]. Blinded intervention: a sealed reversal of class-prior imbalance. Rival: larger effective model capacity or asymmetric hyperparameter tuning. F082&nbsp; Quantum Kernel Methods For Neural Signal Recognition At The Limit Primary endpoint: quantum-kernel fidelity [dimensionless]. Blinded intervention: a concealed permutation of embedding order and qubit mapping. Rival: a classically representable kernel with the same spectrum. F083&nbsp; Hybrid Quantum&ndash;Classical BCI Decoding At The Limit Primary endpoint: hybrid decoder calibration [%]. Blinded intervention: a masked change in quantum-readout error rates. Rival: the classical calibration stage alone explains the improvement. F084&nbsp; Quantum Feature Mapping For EEG Analysis At The Limit Primary endpoint: EEG feature-map stability [dimensionless]. Blinded intervention: a blinded EEG reference montage substitution. Rival: ordinary normalization absorbs electrode-reference differences. F085&nbsp; Quantum Neural Signal Dimensionality Reduction At The Limit Primary endpoint: recognition-preserving compression [%]. Blinded intervention: a hidden addition of nuisance channels at deployment. Rival: classical PCA is sufficient at the same retained rank. FAMILY METHOD / NONCLINICAL BOUNDARY Ten prospective 777-page research volumes: 14 three-part prefaces, 30 formula plates, 82 chapters and 410 studies per book, 200 second-pass three-letter Gates, and 33 Phoenix concepts. Authorized deidentified EEG, frozen data partitions, classical strong controls and complete resource accounting are mandatory; no clinical or quantum-advantage claim is established. &nbsp; &nbsp; STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F086&ndash;F090&nbsp; |&nbsp; FIVE INDEPENDENT RESEARCH CONTRACTS F086&nbsp; Quantum Optimization Of BCI Control Parameters At The Limit Primary endpoint: BCI parameter-search cost [CPU*s]. Blinded intervention: a blinded exchange of initial seeds and budget accounting. Rival: a well-tuned classical Bayesian optimizer uses fewer actual resources. F087&nbsp; Generalization Of Quantum Neural Decoders At The Limit Primary endpoint: cross-subject balanced decoding [%]. Blinded intervention: a hidden second-cohort subject and acquisition-site change. Rival: participant identification leaks into the decoder features. F088&nbsp; Quantum Computing Resources And BCI Utility At The Limit Primary endpoint: full-stack quantum-resource utility [s/sample]. Blinded intervention: concealed inclusion of hardware queue and calibration delays. Rival: the classical scaling baseline was underoptimized. F089&nbsp; Interpretability Of Quantum Neural Signal Models At The Limit Primary endpoint: interpretation fidelity under masking [%]. Blinded intervention: an unseen masking of channels declared causally important. Rival: importance maps only follow acquisition nuisance or data spectrum. F090&nbsp; Strong-Baseline Validation Of Quantum BCI Algorithms At The Limit Primary endpoint: fair-budget quantum-versus-classical gain [%]. Blinded intervention: blind hardware-versus-simulator substitution. Rival: unbalanced preprocessing and baseline search budgets generate the apparent gain. EVIDENCE / DOI / OPEN REVIEW Research method parent: STARLI F02, DOI 10.5281/zenodo.23486020 (author design, not clinical evidence). External method examples: Schirrmeister et al., DOI 10.1002/hbm.23730; Schuld and Killoran, DOI 10.1103/PhysRevLett.122.040504; Havl&iacute;ček et al., DOI 10.1038/s41586-019-0980-2; FAIR principles, DOI 10.1038/sdata.2016.18. Every flagship-specific proposed outcome remains untested and expert review of 30 formula routes and chapter/gate distinctness remains open. Join the STARLI Research Community: https:/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F081–F085 | FIVE INDEPENDENT RESEARCH CONTRACTS F081 Quantum Machine Learning For Brain Signal Classification At The Limit Primary endpoint: held-out EEG class error [%]. Blinded intervention: a sealed reversal of class-prior imb",
+      "url": "https://zenodo.org/records/23987342"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "06f780cb00cf2cff8d0b7b21",
+      "context_id": "7a4bf1fdbd02e535c2161648",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0833,
+      "source": "zenodo",
+      "source_context_sha256": "bb2c4a6d723f3b3d721319837da15b83a39798e9f5121545a5c45887e8bcc10f",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F081&ndash;F085&nbsp; |&nbsp; FIVE INDEPENDENT RESEARCH CONTRACTS F081&nbsp; Quantum Machine Learning For Brain Signal Classification At The Limit Primary endpoint: held-out EEG class error [%]. Blinded intervention: a sealed reversal of class-prior imbalance. Rival: larger effective model capacity or asymmetric hyperparameter tuning. F082&nbsp; Quantum Kernel Methods For Neural Signal Recognition At The Limit Primary endpoint: quantum-kernel fidelity [dimensionless]. Blinded intervention: a concealed permutation of embedding order and qubit mapping. Rival: a classically representable kernel with the same spectrum. F083&nbsp; Hybrid Quantum&ndash;Classical BCI Decoding At The Limit Primary endpoint: hybrid decoder calibration [%]. Blinded intervention: a masked change in quantum-readout error rates. Rival: the classical calibration stage alone explains the improvement. F084&nbsp; Quantum Feature Mapping For EEG Analysis At The Limit Primary endpoint: EEG feature-map stability [dimensionless]. Blinded intervention: a blinded EEG reference montage substitution. Rival: ordinary normalization absorbs electrode-reference differences. F085&nbsp; Quantum Neural Signal Dimensionality Reduction At The Limit Primary endpoint: recognition-preserving compression [%]. Blinded intervention: a hidden addition of nuisance channels at deployment. Rival: classical PCA is sufficient at the same retained rank. FAMILY METHOD / NONCLINICAL BOUNDARY Ten prospective 777-page research volumes: 14 three-part prefaces, 30 formula plates, 82 chapters and 410 studies per book, 200 second-pass three-letter Gates, and 33 Phoenix concepts. Authorized deidentified EEG, frozen data partitions, classical strong controls and complete resource accounting are mandatory; no clinical or quantum-advantage claim is established. &nbsp; &nbsp; STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F086&ndash;F090&nbsp; |&nbsp; FIVE INDEPENDENT RESEARCH CONTRACTS F086&nbsp; Quantum Optimization Of BCI Control Parameters At The Limit Primary endpoint: BCI parameter-search cost [CPU*s]. Blinded intervention: a blinded exchange of initial seeds and budget accounting. Rival: a well-tuned classical Bayesian optimizer uses fewer actual resources. F087&nbsp; Generalization Of Quantum Neural Decoders At The Limit Primary endpoint: cross-subject balanced decoding [%]. Blinded intervention: a hidden second-cohort subject and acquisition-site change. Rival: participant identification leaks into the decoder features. F088&nbsp; Quantum Computing Resources And BCI Utility At The Limit Primary endpoint: full-stack quantum-resource utility [s/sample]. Blinded intervention: concealed inclusion of hardware queue and calibration delays. Rival: the classical scaling baseline was underoptimized. F089&nbsp; Interpretability Of Quantum Neural Signal Models At The Limit Primary endpoint: interpretation fidelity under masking [%]. Blinded intervention: an unseen masking of channels declared causally important. Rival: importance maps only follow acquisition nuisance or data spectrum. F090&nbsp; Strong-Baseline Validation Of Quantum BCI Algorithms At The Limit Primary endpoint: fair-budget quantum-versus-classical gain [%]. Blinded intervention: blind hardware-versus-simulator substitution. Rival: unbalanced preprocessing and baseline search budgets generate the apparent gain. EVIDENCE / DOI / OPEN REVIEW Research method parent: STARLI F02, DOI 10.5281/zenodo.23486020 (author design, not clinical evidence). External method examples: Schirrmeister et al., DOI 10.1002/hbm.23730; Schuld and Killoran, DOI 10.1103/PhysRevLett.122.040504; Havl&iacute;ček et al., DOI 10.1038/s41586-019-0980-2; FAIR principles, DOI 10.1038/sdata.2016.18. Every flagship-specific proposed outcome remains untested and expert review of 30 formula routes and chapter/gate distinctness remains open. Join the STARLI Research Community: https:/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F081–F085 | FIVE INDEPENDENT RESEARCH CONTRACTS F081 Quantum Machine Learning For Brain Signal Classification At The Limit Primary endpoint: held-out EEG class error [%]. Blinded intervention: a sealed reversal of class-prior imb",
+      "url": "https://zenodo.org/records/23987342"
+    },
+    {
+      "base_direction_id": "registry_provenance",
+      "candidate_id": "06f780cb00cf2cff8d0b7b21",
+      "context_id": "1c4810809d8e7879fa634b60",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "registry_provenance::CONTROL",
+      "direction_title": "Scientific provenance / evidence ledgers / reproducibility [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0833,
+      "source": "zenodo",
+      "source_context_sha256": "633c0f7da4a7a6228322a9df77a771937bb38b325f355789a17b349db1f9417d",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F081&ndash;F085&nbsp; |&nbsp; FIVE INDEPENDENT RESEARCH CONTRACTS F081&nbsp; Quantum Machine Learning For Brain Signal Classification At The Limit Primary endpoint: held-out EEG class error [%]. Blinded intervention: a sealed reversal of class-prior imbalance. Rival: larger effective model capacity or asymmetric hyperparameter tuning. F082&nbsp; Quantum Kernel Methods For Neural Signal Recognition At The Limit Primary endpoint: quantum-kernel fidelity [dimensionless]. Blinded intervention: a concealed permutation of embedding order and qubit mapping. Rival: a classically representable kernel with the same spectrum. F083&nbsp; Hybrid Quantum&ndash;Classical BCI Decoding At The Limit Primary endpoint: hybrid decoder calibration [%]. Blinded intervention: a masked change in quantum-readout error rates. Rival: the classical calibration stage alone explains the improvement. F084&nbsp; Quantum Feature Mapping For EEG Analysis At The Limit Primary endpoint: EEG feature-map stability [dimensionless]. Blinded intervention: a blinded EEG reference montage substitution. Rival: ordinary normalization absorbs electrode-reference differences. F085&nbsp; Quantum Neural Signal Dimensionality Reduction At The Limit Primary endpoint: recognition-preserving compression [%]. Blinded intervention: a hidden addition of nuisance channels at deployment. Rival: classical PCA is sufficient at the same retained rank. FAMILY METHOD / NONCLINICAL BOUNDARY Ten prospective 777-page research volumes: 14 three-part prefaces, 30 formula plates, 82 chapters and 410 studies per book, 200 second-pass three-letter Gates, and 33 Phoenix concepts. Authorized deidentified EEG, frozen data partitions, classical strong controls and complete resource accounting are mandatory; no clinical or quantum-advantage claim is established. &nbsp; &nbsp; STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F086&ndash;F090&nbsp; |&nbsp; FIVE INDEPENDENT RESEARCH CONTRACTS F086&nbsp; Quantum Optimization Of BCI Control Parameters At The Limit Primary endpoint: BCI parameter-search cost [CPU*s]. Blinded intervention: a blinded exchange of initial seeds and budget accounting. Rival: a well-tuned classical Bayesian optimizer uses fewer actual resources. F087&nbsp; Generalization Of Quantum Neural Decoders At The Limit Primary endpoint: cross-subject balanced decoding [%]. Blinded intervention: a hidden second-cohort subject and acquisition-site change. Rival: participant identification leaks into the decoder features. F088&nbsp; Quantum Computing Resources And BCI Utility At The Limit Primary endpoint: full-stack quantum-resource utility [s/sample]. Blinded intervention: concealed inclusion of hardware queue and calibration delays. Rival: the classical scaling baseline was underoptimized. F089&nbsp; Interpretability Of Quantum Neural Signal Models At The Limit Primary endpoint: interpretation fidelity under masking [%]. Blinded intervention: an unseen masking of channels declared causally important. Rival: importance maps only follow acquisition nuisance or data spectrum. F090&nbsp; Strong-Baseline Validation Of Quantum BCI Algorithms At The Limit Primary endpoint: fair-budget quantum-versus-classical gain [%]. Blinded intervention: blind hardware-versus-simulator substitution. Rival: unbalanced preprocessing and baseline search budgets generate the apparent gain. EVIDENCE / DOI / OPEN REVIEW Research method parent: STARLI F02, DOI 10.5281/zenodo.23486020 (author design, not clinical evidence). External method examples: Schirrmeister et al., DOI 10.1002/hbm.23730; Schuld and Killoran, DOI 10.1103/PhysRevLett.122.040504; Havl&iacute;ček et al., DOI 10.1038/s41586-019-0980-2; FAIR principles, DOI 10.1038/sdata.2016.18. Every flagship-specific proposed outcome remains untested and expert review of 30 formula routes and chapter/gate distinctness remains open. Join the STARLI Research Community: https:/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F081–F085 | FIVE INDEPENDENT RESEARCH CONTRACTS F081 Quantum Machine Learning For Brain Signal Classification At The Limit Primary endpoint: held-out EEG class error [%]. Blinded intervention: a sealed reversal of class-prior imb",
+      "url": "https://zenodo.org/records/23987342"
+    },
+    {
+      "base_direction_id": "cognition_memory_reverse",
+      "candidate_id": "f35f7496ec868d9cf979ef85",
+      "context_id": "0b5dd25068715d6f93021f51",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "cognition_memory_reverse::CONTROL",
+      "direction_title": "Cognition / memory / reverse models / representation [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "benchmark",
+        "retrieval"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0833,
+      "source": "arxiv",
+      "source_context_sha256": "9d000f89582adb00f940c9bf8104c5dd6b8f34d7e4f12de015d8157fdfc137df",
+      "source_published": "2026-11-05T10:01:08Z",
+      "source_updated": "2026-11-05T10:01:08Z",
+      "summary": "Enzyme function annotation and the identification of candidate enzymes for a given reaction are essential steps in connecting genomic information to biochemical reaction networks. However, existing methods rely on sequence or structural similarity or on training with known enzyme--reaction pairs, making it difficult to integrate biochemical evidence across large candidate spaces; they also struggle with retrieval tasks involving enzyme families whose members are highly similar. Here, we introduce RIVER (Reaction--enzyme Inference via Evidence-guided Retrieval), a multi-agent framework for bidirectional enzyme--reaction retrieval that identifies potentially catalyzed reactions for a given enzyme and ranks candidate enzymes for a given reaction. RIVER coordinates large language models, specialized biochemical computational tools, and external knowledge resources to assemble evidence at multiple levels, including reaction chemistry, protein sequences and domains, catalytic mechanisms, and database annotations. Dedicated validation modules further examine evidence gaps and potential conflicts and rerank candidates using traceable evidence records. On public benchmarks, RIVER achieves the highest success rates in both enzyme retrieval and enzyme annotation. In family-specific enzyme retrieval, RIVER outperforms the evaluated baselines on the selected datasets and metrics. In Escherichia coli enzyme retrieval tasks constructed from recent literature, RIVER achieves the best retrieval results with closed-source and open-source model configurations, substantially outperforming closed-source general-purpose and biology-specialized multi-agent systems, including Claude Code, Codex, and Phylo Max. These results suggest that evidence-guided multi-agent retrieval can prioritize biochemically supported enzyme--reaction relationships, providing a basis for subsequent experimental validation.",
+      "tags": [
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "RIVER: Evidence-guided multi-agent retrieval for enzyme--reaction discovery",
+      "url": "https://arxiv.org/abs/2611.07757v1"
+    },
+    {
+      "base_direction_id": "swarm_distributed_systems",
+      "candidate_id": "06f780cb00cf2cff8d0b7b21",
+      "context_id": "06169bf6d16d69572eb03a27",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": true,
+      "direction_id": "swarm_distributed_systems::CONTROL",
+      "direction_title": "Distributed agents / swarm / resilient coordination [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "baseline",
+        "calibration",
+        "control"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0833,
+      "source": "zenodo",
+      "source_context_sha256": "0df93c0bd3656dd3ce98cea97c6ed24e71b5f9d5ba60747f2cb041e7a7e9fb8a",
+      "source_published": "2026-11-05",
+      "source_updated": "",
+      "summary": "STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F081&ndash;F085&nbsp; |&nbsp; FIVE INDEPENDENT RESEARCH CONTRACTS F081&nbsp; Quantum Machine Learning For Brain Signal Classification At The Limit Primary endpoint: held-out EEG class error [%]. Blinded intervention: a sealed reversal of class-prior imbalance. Rival: larger effective model capacity or asymmetric hyperparameter tuning. F082&nbsp; Quantum Kernel Methods For Neural Signal Recognition At The Limit Primary endpoint: quantum-kernel fidelity [dimensionless]. Blinded intervention: a concealed permutation of embedding order and qubit mapping. Rival: a classically representable kernel with the same spectrum. F083&nbsp; Hybrid Quantum&ndash;Classical BCI Decoding At The Limit Primary endpoint: hybrid decoder calibration [%]. Blinded intervention: a masked change in quantum-readout error rates. Rival: the classical calibration stage alone explains the improvement. F084&nbsp; Quantum Feature Mapping For EEG Analysis At The Limit Primary endpoint: EEG feature-map stability [dimensionless]. Blinded intervention: a blinded EEG reference montage substitution. Rival: ordinary normalization absorbs electrode-reference differences. F085&nbsp; Quantum Neural Signal Dimensionality Reduction At The Limit Primary endpoint: recognition-preserving compression [%]. Blinded intervention: a hidden addition of nuisance channels at deployment. Rival: classical PCA is sufficient at the same retained rank. FAMILY METHOD / NONCLINICAL BOUNDARY Ten prospective 777-page research volumes: 14 three-part prefaces, 30 formula plates, 82 chapters and 410 studies per book, 200 second-pass three-letter Gates, and 33 Phoenix concepts. Authorized deidentified EEG, frozen data partitions, classical strong controls and complete resource accounting are mandatory; no clinical or quantum-advantage claim is established. &nbsp; &nbsp; STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F086&ndash;F090&nbsp; |&nbsp; FIVE INDEPENDENT RESEARCH CONTRACTS F086&nbsp; Quantum Optimization Of BCI Control Parameters At The Limit Primary endpoint: BCI parameter-search cost [CPU*s]. Blinded intervention: a blinded exchange of initial seeds and budget accounting. Rival: a well-tuned classical Bayesian optimizer uses fewer actual resources. F087&nbsp; Generalization Of Quantum Neural Decoders At The Limit Primary endpoint: cross-subject balanced decoding [%]. Blinded intervention: a hidden second-cohort subject and acquisition-site change. Rival: participant identification leaks into the decoder features. F088&nbsp; Quantum Computing Resources And BCI Utility At The Limit Primary endpoint: full-stack quantum-resource utility [s/sample]. Blinded intervention: concealed inclusion of hardware queue and calibration delays. Rival: the classical scaling baseline was underoptimized. F089&nbsp; Interpretability Of Quantum Neural Signal Models At The Limit Primary endpoint: interpretation fidelity under masking [%]. Blinded intervention: an unseen masking of channels declared causally important. Rival: importance maps only follow acquisition nuisance or data spectrum. F090&nbsp; Strong-Baseline Validation Of Quantum BCI Algorithms At The Limit Primary endpoint: fair-budget quantum-versus-classical gain [%]. Blinded intervention: blind hardware-versus-simulator substitution. Rival: unbalanced preprocessing and baseline search budgets generate the apparent gain. EVIDENCE / DOI / OPEN REVIEW Research method parent: STARLI F02, DOI 10.5281/zenodo.23486020 (author design, not clinical evidence). External method examples: Schirrmeister et al., DOI 10.1002/hbm.23730; Schuld and Killoran, DOI 10.1103/PhysRevLett.122.040504; Havl&iacute;ček et al., DOI 10.1038/s41586-019-0980-2; FAIR principles, DOI 10.1038/sdata.2016.18. Every flagship-specific proposed outcome remains untested and expert review of 30 formula routes and chapter/gate distinctness remains open. Join the STARLI Research Community: https:/",
+      "tags": [],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "STARLI / YULI BCI 200 / FAMILY 09 QUANTUM COMPUTING AND NEURAL SIGNALS F081–F085 | FIVE INDEPENDENT RESEARCH CONTRACTS F081 Quantum Machine Learning For Brain Signal Classification At The Limit Primary endpoint: held-out EEG class error [%]. Blinded intervention: a sealed reversal of class-prior imb",
+      "url": "https://zenodo.org/records/23987342"
+    },
+    {
+      "base_direction_id": "large_data_methods",
+      "candidate_id": "cb16d5e55a5376896580e71e",
+      "context_id": "99d35255b7da38c57903756b",
+      "delivery_preview_only": true,
+      "delivery_preview_truncated": false,
+      "direction_id": "large_data_methods::CONTROL",
+      "direction_title": "Universal large-data ingestion methods [CONTROL]",
+      "epistemic_status": "DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+      "firewall": [
+        "ROUTED_NE_VERIFIED",
+        "INBOX_NE_EVIDENCE",
+        "PRIORITY_NE_TRUTH",
+        "MIRROR_LENS_NE_CONFIRMATION",
+        "SAME_SOURCE_CONTEXTS_NE_INDEPENDENT_SOURCES"
+      ],
+      "keyword_hits": [
+        "ablation",
+        "baseline",
+        "benchmark"
+      ],
+      "mirror_lens": "CONTROL",
+      "schema": "janus.beetle.repo_memory_item.v2",
+      "score": 10.0417,
+      "source": "arxiv",
+      "source_context_sha256": "e71ef17a4881dab4601930089b4c0bfe01202ffa13fd348f4963ff4a3867bf63",
+      "source_published": "2026-11-05T12:38:23Z",
+      "source_updated": "2026-11-05T12:38:23Z",
+      "summary": "The growing adoption of digital pathology has rapidly expanded collections of hematoxylin-and-eosin whole-slide images, yet efficient navigation through these archives remains challenging, as metadata is often inconsistent or unavailable. Content-based image retrieval addresses this challenge by identifying similar cases directly from visual representations instead of manual annotations or metadata. Existing retrieval systems have demonstrated promising performance but largely rely on handcrafted indexing pipelines and predefined sampling strategies, constraining scalability and generalization. Here, we present CLEAR-WSI (Constant-Length Embedding for Automatic Retrieval of Whole-Slide Images) as a scalable, diagnostic-driven slide-retrieval framework, validated on both public and clinical data. Using a fixed-length slide embedding, CLEAR-WSI refines retrieved candidates with either a predicted diagnostic label or the ground-truth label, depending on the retrieval setting. Newly processed cases are subsequently added to the expanding memory bank, allowing the retrieval archive to grow over time. On a comprehensive benchmark consisting of two public and one private clinical datasets representing four retrieval tasks, CLEAR-WSI improves Precision@5 over the strongest evaluated baseline, with gains on CAMELYON16 (3.10), BRACS-1 (2.75), BRACS-2 (1.95), and X-HER2 (3.75). Additional ablation and latency studies further examine the contribution of each component and highlight its potential for scalable deployment.",
+      "tags": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "target_repository": "Hawkar-usls/Janus_Genesis",
+      "title": "Towards Scalable Diagnostic-Driven Whole-Slide Image Retrieval for Pathology Archives",
+      "url": "https://arxiv.org/abs/2611.07935v1"
+    }
+  ],
+  "schema": "janus.beetle.repo_memory_batch.v1",
+  "selection": "BALANCED_LENS_ROLLING_TOP",
+  "snapshot_cap": 48,
+  "snapshot_items_total": 48,
+  "target_repository": "Hawkar-usls/Janus_Genesis"
+}
