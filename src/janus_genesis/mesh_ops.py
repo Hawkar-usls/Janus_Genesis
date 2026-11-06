@@ -53,8 +53,8 @@ def load_mesh(path: Path) -> trimesh.Trimesh:
 def metrics(mesh: trimesh.Trimesh) -> MeshMetrics:
     volume = float(abs(mesh.volume)) if mesh.is_watertight else None
     return MeshMetrics(
-        vertices=int(len(mesh.vertices)),
-        faces=int(len(mesh.faces)),
+        vertices=len(mesh.vertices),
+        faces=len(mesh.faces),
         watertight=bool(mesh.is_watertight),
         winding_consistent=bool(mesh.is_winding_consistent),
         volume_mm3=volume,
