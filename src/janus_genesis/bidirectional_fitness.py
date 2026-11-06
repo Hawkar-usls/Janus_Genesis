@@ -10,11 +10,11 @@ import json
 import os
 import time
 import uuid
+from collections.abc import Iterable, Mapping, Sequence
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
-from collections.abc import Iterable, Mapping, Sequence
 from typing import Any
 
 REQUIRED_SCALES = ("1", "3", "5", "7")
