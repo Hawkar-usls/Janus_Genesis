@@ -151,7 +151,7 @@ def reconcile(root: Path, run_id: str, attempt: int, source_sha: str,
 
     # Genuine external organ ACK from *this* run is required. Historical
     # Demiurge ACKs are rejected even when their model hash matches.
-    external_bound=False
+    external_claim_matches_fields=False
     if external_ack is not None:
         require(external_ack.get("sender_source_run_id")==run_id and
                 external_ack.get("sender_source_attempt")==attempt and
@@ -163,8 +163,8 @@ def reconcile(root: Path, run_id: str, attempt: int, source_sha: str,
                 external_ack.get("source_writeback") is False and
                 external_ack.get("full_issue_162_acceptance") is False,
                 "EXTERNAL_ACK_WRONG_RUN_OR_PROPOSAL")
-        external_bound=True
-    neural_bound=False
+        external_claim_matches_fields=True
+    neural_claim_matches_fields=False
     if neural_patch is not None:
         require(neural_patch.get("run_id")==run_id and
                 neural_patch.get("attempt")==attempt and
@@ -174,7 +174,7 @@ def reconcile(root: Path, run_id: str, attempt: int, source_sha: str,
                 neural_patch.get("source_writeback") is False and
                 neural_patch.get("authority_delta")==0,
                 "NEURAL_PATCH_WRONG_RUN_OR_FALSE_ATTESTATION")
-        neural_bound=True
+        neural_claim_matches_fields=True
 
     # G1-G20 are conservative scoped engineering labels, NOT official launch
     # acceptance. A source pointer that still refers to archived REAL44
@@ -205,8 +205,10 @@ def reconcile(root: Path, run_id: str, attempt: int, source_sha: str,
         "G19_NAS_DEPENDENCY_OBSERVED":"FALSE_SCOPED_CLOUD",
         "G20_CLEAN_CLOUD_WORKER_RECONSTRUCTION":"PASS_SCOPED"
     }
-    holds=["HOLD_NATIVE_NEURAL_SOURCE_REPAIR"] if not neural_bound else []
-    if not external_bound: holds.append("HOLD_CAUSAL_EXTERNAL_DEMIURGE_ACK")
+    # Field-matching JSON is NOT an independent Git provenance or raw-model
+    # attestation. Never turn untrusted receipt fields into a verified ACK.
+    holds=["HOLD_NATIVE_NEURAL_SOURCE_REPAIR_INDEPENDENT_PROVENANCE"]
+    holds.append("HOLD_CAUSAL_EXTERNAL_DEMIURGE_ACK_INDEPENDENT_PROVENANCE")
     if not same_run_source_bound: holds.append("HOLD_REAL44_MODEL_INPUT_CAUSAL_LINK")
     holds += ["HOLD_FULL_RESIDENT_AND_HANDOFF_LEDGER",
               "HOLD_EXTERNAL_EFFECT_EXACTLY_ONCE",
@@ -221,8 +223,10 @@ def reconcile(root: Path, run_id: str, attempt: int, source_sha: str,
         "same_run_phase2_to_ttl_git_parent_verified":True,
         "phase2_two_clean_real44_verified":True,
         "lease_expiry_stale_owner_git_fence_verified":True,
-        "external_organ_same_cohort_ack":external_bound,
-        "neural_patch_same_cohort_holdout":neural_bound,
+        "external_organ_same_cohort_ack":False,
+        "neural_patch_same_cohort_holdout":False,
+        "external_ack_fields_match_without_origin_proof":external_claim_matches_fields,
+        "neural_patch_fields_match_without_origin_proof":neural_claim_matches_fields,
         "g1_g20_scoped_observations":bounded_gates,
         "hard_holds":holds,"full_issue_162_acceptance":False,
         "g1_to_g20_full_acceptance":False,
