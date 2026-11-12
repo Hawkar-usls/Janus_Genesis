@@ -18,14 +18,14 @@ import sys
 if __package__:
     from tools.janus_nexus_integrated_model_git_lab_v1 import (
         Hold, require, read, save_once, run_path, validate_a, digest,
-        raw_sha,
+        raw_sha, receiver_receipt, worker_b_receipt,
     )
     from tools.janus_nexus_same_run_model_handoff_v1 import (
         MODEL_COMMIT, CHECKPOINT_SHA256, verify_model_source,
     )
 else:
     from janus_nexus_integrated_model_git_lab_v1 import (
-        Hold, require, read, save_once, run_path, validate_a, digest, raw_sha,
+        Hold, require, read, save_once, run_path, validate_a, digest, raw_sha, receiver_receipt, worker_b_receipt,
     )
     from janus_nexus_same_run_model_handoff_v1 import (
         MODEL_COMMIT, CHECKPOINT_SHA256, verify_model_source,
@@ -227,7 +227,9 @@ def screen_patch(raw: bytes, source_sha: str, run_id: str, attempt: int) -> dict
     admitted = bool(re.fullmatch(r"return value\s*\+\s*1", proposed))
     points = [-7, 0, 1, 13]
     baseline_fails = sum(x != x + 1 for x in points)
-    candidate_pass = admitted and all((x + 1) == (x + 1) for x in points)
+    # A fixed trusted interpreter handles this ONE admitted grammar; no model code is executed.
+    candidate = (lambda value: value + 1) if admitted else None
+    candidate_pass = candidate is not None and all(candidate(x) == x + 1 for x in points)
     return {
         "schema": SCHEMA + ".patch_screen",
         "status": ("PASS_WHITELISTED_PATCH_PROPOSAL_FIXTURE_ONLY"
@@ -267,10 +269,105 @@ def one_run_real44_receipt(run_id: str, source_sha: str, success: bool) -> dict:
     }
 
 
+def validate_b_with_cas(root: Path, run_id: str, attempt: int,
+                        registry: dict, a_head: str, b_head: str,
+                        race: dict) -> dict:
+    check_sha(a_head)
+    check_sha(b_head)
+    base, state, variants = validate_a(root, run_id, attempt, registry)
+    require(race["schema"] == SCHEMA + ".race_verdict" and
+            race["status"] == "PASS_REAL_GIT_CAS_ONE_WINNER" and
+            race["a_checkpoint_git_sha"] == a_head and
+            race["source_code_sha"] == state["code_sha"],
+            "GIT_RACE_NOT_BOUND_TO_TASK")
+    rx = read(base / "receiver.json")
+    b = read(base / "worker-b.json")
+    require(rx == receiver_receipt(state, variants, a_head),
+            "LAB_RECEIVER_RECEIPT_DRIFT")
+    require(b == worker_b_receipt(state, variants, rx, a_head),
+            "LAB_WORKER_B_RECEIPT_DRIFT")
+    require(set(x.name for x in base.iterdir()) ==
+            {"checkpoint.json","variants.json","worker-a.json",
+             "receiver.json","worker-b.json","lease.json"},
+            "LAB_WITH_RACE_RECEIPT_SURFACE_INVALID")
+    require(b_head != a_head and b["fence_to"] == 2,
+            "GIT_B_CHECKPOINT_OR_FENCE_INVALID")
+    return {"status":"PASS_B_WITH_GIT_CAS_SCOPED",
+            "completion_id":b["completion_id"],
+            "a_head":a_head,"b_head":b_head,
+            "authority_delta":0}
+
+
+def independent_phase2_verdict(root: Path, run_id: str, attempt: int,
+                               registry: dict, a_head: str, b_head: str,
+                               race: dict, consumer: dict, raw_consumer: bytes,
+                               patch_screen: dict, real44: dict) -> dict:
+    state = validate_b_with_cas(root,run_id,attempt,registry,
+                                a_head,b_head,race)
+    base,checkpoint,_ = validate_a(root,run_id,attempt,registry)
+    check_sha(checkpoint["code_sha"])
+    require(consumer["schema"] == SCHEMA + ".native_consumer" and
+            consumer["status"] == "PASS_REAL_PINNED_DEMIURGE_CONSUMPTION_SCOPED" and
+            consumer["run_id"] == run_id and consumer["attempt"] == attempt and
+            consumer["code_sha"] == checkpoint["code_sha"],
+            "REAL_CONSUMER_NOT_BOUND_TO_TASK")
+    require(raw_sha(raw_consumer) == consumer["model_output_sha256"],
+            "REAL_CONSUMER_OUTPUT_TAMPERED")
+    prompt=native_consumer_prompt(root,run_id,attempt)
+    require(consumer["model_prompt_sha256"] ==
+            raw_sha(prompt.encode("utf-8")) and
+            consumer["selected_proposal_sha256"] ==
+            _selected(base)[1]["proposal"]["proposal_sha256"],
+            "REAL_CONSUMER_PROMPT_NOT_REPLAYED")
+    require(consumer["model_commit"] == MODEL_COMMIT and
+            consumer["model_checkpoint_sha256"] == CHECKPOINT_SHA256 and
+            consumer["real_native_model_call_observed"] is True and
+            consumer["real_external_organ_ack"] is False and
+            consumer["source_writeback"] is False and
+            consumer["authority_delta"] == 0,
+            "REAL_CONSUMER_FALSE_CLAIM")
+    require(patch_screen["schema"] == SCHEMA + ".patch_screen" and
+            patch_screen["run_id"] == run_id and
+            patch_screen["source_code_sha"] == checkpoint["code_sha"] and
+            patch_screen["status"] in
+                ("HOLD_NO_ADMISSIBLE_MODEL_PATCH",
+                 "PASS_WHITELISTED_PATCH_PROPOSAL_FIXTURE_ONLY") and
+            patch_screen["actual_repository_patch_written"] is False and
+            patch_screen["generated_source_executed"] is False and
+            patch_screen["authority_delta"] == 0,
+            "PATCH_CLAIM_NOT_BOUND")
+    require(real44 == one_run_real44_receipt(
+        run_id,checkpoint["code_sha"],
+        real44.get("status") == "PASS_ONE_CLEAN_CLOUD_REAL44"),
+        "REAL44_PUBLIC_RECEIPT_NOT_BOUND")
+    require(race["run_id"] == run_id and race["attempt"] == attempt and
+            race["authority_delta"] == 0 and
+            race["live_lease_expiry_renewal_tested"] is False,
+            "CAS_RACE_FALSE_AUTHORITY")
+    return {
+      "schema":SCHEMA+".independent_verdict",
+      "run_id":run_id,"attempt":attempt,"source_code_sha":checkpoint["code_sha"],
+      "status":"PASS_SCOPED_NATIVE_CONSUMER_GIT_CAS_LAB_WITH_HARD_HOLDS",
+      "real_native_consumer":True,
+      "real_github_branch_ref_cas_winner":True,
+      "real44_same_run_single_worker":real44["status"] == "PASS_ONE_CLEAN_CLOUD_REAL44",
+      "real44_two_clean_rebuilds_same_run":False,
+      "native_generated_software_patch_admitted":patch_screen["status"].startswith("PASS"),
+      "independent_software_improvement_verified":False,
+      "g1_to_g20_full_acceptance":False,
+      "full_issue_162_acceptance":False,
+      "real_external_organ_ack":False,
+      "lease_expiry_renewal_and_replay_tested":False,
+      "a_head":a_head,"b_head":b_head,
+      "completion_id":state["completion_id"],
+      "source_writeback":False,"authority_delta":0
+    }
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("phase", choices=(
-        "claim", "race", "consumer-prompt", "consumer", "patch", "real44"))
+        "claim", "contender", "race", "consumer-prompt", "consumer", "patch", "real44", "final"))
     ap.add_argument("--root", type=Path)
     ap.add_argument("--registry", type=Path)
     ap.add_argument("--brain", type=Path)
@@ -282,13 +379,27 @@ def main() -> int:
     ap.add_argument("--a-head", default="")
     ap.add_argument("--winning-head", default="")
     ap.add_argument("--holder", default="")
+    ap.add_argument("--claim", type=Path)
+    ap.add_argument("--won", action="store_true")
+    ap.add_argument("--outcome", default="")
+    ap.add_argument("--raw-consumer", type=Path)
+    ap.add_argument("--race", type=Path)
+    ap.add_argument("--consumer", type=Path)
+    ap.add_argument("--patch-screen", type=Path)
+    ap.add_argument("--real44", type=Path)
+    ap.add_argument("--b-head", default="")
     ap.add_argument("--contender-1", type=Path)
     ap.add_argument("--contender-2", type=Path)
     ap.add_argument("--pass-real44", action="store_true")
     args = ap.parse_args()
     try:
         require(not args.out.is_symlink(), "OUTPUT_SYMLINK")
-        if args.phase == "real44":
+        if args.phase == "contender":
+            require(args.claim is not None, "CLAIM_FILE_REQUIRED")
+            value=contender_receipt(read(args.claim),won=args.won,
+                                    head=args.winning_head or None,
+                                    outcome=args.outcome)
+        elif args.phase == "real44":
             value = one_run_real44_receipt(args.run_id,args.source_sha,
                                            args.pass_real44)
         elif args.phase == "patch":
@@ -309,6 +420,15 @@ def main() -> int:
                     args.source_sha,args.a_head,
                     [read(args.contender_1),read(args.contender_2)],
                     args.winning_head)
+            elif args.phase == "final":
+                require(all((x is not None for x in
+                  (args.race,args.consumer,args.patch_screen,args.real44,
+                   args.raw_consumer))), "FINAL_EVIDENCE_REQUIRED")
+                value=independent_phase2_verdict(args.root,args.run_id,
+                    args.attempt,witness,args.a_head,args.b_head,
+                    read(args.race),read(args.consumer),
+                    bounded_bytes(args.raw_consumer),read(args.patch_screen),
+                    read(args.real44))
             elif args.phase == "consumer-prompt":
                 prompt = native_consumer_prompt(args.root,args.run_id,args.attempt)
                 require(not args.out.exists(), "PROMPT_OUTPUT_ALREADY_PRESENT")
