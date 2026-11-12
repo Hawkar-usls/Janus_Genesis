@@ -1,0 +1,240 @@
+name: JANUS Nexus Real Source Bounded Auto Repair v1
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_real_source_self_repair_v1.py'
+      - 'tests/test_janus_nexus_real_source_self_repair_v1.py'
+      - '.github/workflows/janus-nexus-real-source-auto-repair-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_real_source_self_repair_v1.py'
+      - 'tests/test_janus_nexus_real_source_self_repair_v1.py'
+      - '.github/workflows/janus-nexus-real-source-auto-repair-v1.yml'
+  workflow_dispatch:
+
+# One shot only, no cron. No production auto-merge or free-form codegen.
+concurrency:
+  group: janus-nexus-bounded-source-repair-v1
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  REPAIR_CLI: tools/janus_nexus_real_source_self_repair_v1.py
+  REAL_FILE: tools/janus_nexus_phase2_live_gates_v1.py
+  FROZEN_TARGET_BLOB: bc839416b1cdfcaf5cd803ab494985ddd678d3cd
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Test real source bounded mutation and adversarial safeguards
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile "$REPAIR_CLI" tests/test_janus_nexus_real_source_self_repair_v1.py
+          python -m unittest discover -s tests -p 'test_janus_nexus_real_source_self_repair_v1.py' -v
+          python tools/audit_armor_effect_drift_v18_7_50.py > "$RUNNER_TEMP/armor50.json"
+          python tools/audit_armor_effect_drift_v18_7_51.py > "$RUNNER_TEMP/armor51.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          for i in (50,51):
+              row=json.loads((Path(os.environ['RUNNER_TEMP'])/f'armor{i}.json').read_text())
+              assert row['unclassified_surface_count']==0
+              assert row['classification_is_security_certification'] is False
+          PY
+          echo 'JANUS_BOUNDED_REAL_SOURCE_REPAIR_OFFLINE=PASS'
+
+  propose:
+    needs: offline-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Prove original source defect and select bounded algorithmic repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _code rev-parse HEAD:$REAL_FILE)" = "$FROZEN_TARGET_BLOB"
+          python _code/"$REPAIR_CLI" stage \
+            --target "_code/$REAL_FILE" \
+            --candidate "$RUNNER_TEMP/candidate.py" \
+            --receipt "$RUNNER_TEMP/selection.json" \
+            --diff "$RUNNER_TEMP/patch.diff"
+          echo 'JANUS_REAL_FILE_SELF_REPAIR=GENERATED_BOUND_SOURCE_CANDIDATE'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: janus-bounded-repair-candidate-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/candidate.py
+            ${{ runner.temp }}/selection.json
+            ${{ runner.temp }}/patch.diff
+          if-no-files-found: error
+          retention-days: 1
+
+  independent-holdout:
+    needs: propose
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/download-artifact@v4
+        with:
+          name: janus-bounded-repair-candidate-${{ github.run_id }}
+          path: ${{ runner.temp }}/proposal
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Independently replay real file, exact source and unseen test cases
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _code rev-parse HEAD:$REAL_FILE)" = "$FROZEN_TARGET_BLOB"
+          python _code/"$REPAIR_CLI" verify \
+            --target "_code/$REAL_FILE" \
+            --candidate "$RUNNER_TEMP/proposal/candidate.py" \
+            --receipt "$RUNNER_TEMP/proposal/selection.json" \
+            --diff "$RUNNER_TEMP/proposal/patch.diff" \
+            --output "$RUNNER_TEMP/repair-verdict.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['RUNNER_TEMP'])/'repair-verdict.json').read_text())
+          assert r['status']=='PASS_REAL_FILE_BOUND_RULE_REPAIR_INDEPENDENT_HELDOUT'
+          assert r['candidate_holdout_passed']==r['heldout_total']
+          assert r['source_holdout_passed']<r['heldout_total']
+          assert r['neural_model_self_patch_proven'] is False
+          assert r['production_main_modified'] is False
+          assert r['authority_delta']==0
+          PY
+          echo 'JANUS_REAL_FILE_SELF_REPAIR=INDEPENDENT_HELDOUT_PASS'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: janus-bounded-repair-verdict-${{ github.run_id }}
+          path: ${{ runner.temp }}/repair-verdict.json
+          if-no-files-found: error
+          retention-days: 30
+
+  publish-candidate:
+    needs: independent-holdout
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions: {contents: write}
+    outputs:
+      candidate_head: ${{ steps.commit.outputs.candidate_head }}
+      candidate_branch: ${{ steps.commit.outputs.candidate_branch }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, fetch-depth: 0}
+      - uses: actions/download-artifact@v4
+        with:
+          name: janus-bounded-repair-candidate-${{ github.run_id }}
+          path: ${{ runner.temp }}/proposal
+      - uses: actions/download-artifact@v4
+        with:
+          name: janus-bounded-repair-verdict-${{ github.run_id }}
+          path: ${{ runner.temp }}/verified
+      - name: Append verified repair to a NEW isolated candidate branch only
+        id: commit
+        shell: bash
+        working-directory: _code
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:$REAL_FILE)" = "$FROZEN_TARGET_BLOB"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])
+          proposal=json.loads((root/'proposal/selection.json').read_text())
+          verdict=json.loads((root/'verified/repair-verdict.json').read_text())
+          candidate=(root/'proposal/candidate.py').read_bytes()
+          assert proposal['patched_source_sha256']==hashlib.sha256(candidate).hexdigest()
+          assert verdict['candidate_sha256']==proposal['patched_source_sha256']
+          assert verdict['status']=='PASS_REAL_FILE_BOUND_RULE_REPAIR_INDEPENDENT_HELDOUT'
+          assert verdict['source_writeback'] is False and verdict['authority_delta']==0
+          assert verdict['neural_model_self_patch_proven'] is False
+          PY
+          branch="janus/self-repair-candidate-$GITHUB_RUN_ID"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            echo 'CANDIDATE_BRANCH_ALREADY_EXISTS_HOLD'
+            exit 3
+          fi
+          git switch -c "$branch"
+          cp "$RUNNER_TEMP/proposal/candidate.py" "$REAL_FILE"
+          folder="data/nexus_self_repair/receipts"
+          mkdir -p "$folder"
+          cp "$RUNNER_TEMP/verified/repair-verdict.json" "$folder/$GITHUB_RUN_ID.json"
+          git add -- "$REAL_FILE" "$folder/$GITHUB_RUN_ID.json"
+          git diff --cached --check
+          python - <<'PY'
+          import os,subprocess
+          expect=sorted([os.environ['REAL_FILE'],
+                         'data/nexus_self_repair/receipts/'+os.environ['GITHUB_RUN_ID']+'.json'])
+          staged=sorted(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())
+          assert staged==expect,(staged,expect)
+          PY
+          git config user.name 'janus-self-repair[bot]'
+          git config user.email 'janus-self-repair[bot]@users.noreply.github.com'
+          git commit -m "JANUS bounded independently verified actual source repair $GITHUB_RUN_ID"
+          git push origin "HEAD:refs/heads/$branch"
+          echo "candidate_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "candidate_branch=$branch" >> "$GITHUB_OUTPUT"
+          echo 'JANUS_REAL_FILE_AUTONOMOUS_CANDIDATE_BRANCH=PASS_NO_MAIN_PROMOTION'
+
+  independent-git-check:
+    needs: publish-candidate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with:
+          ref: "${{ needs.publish-candidate.outputs.candidate_head }}"
+          path: _candidate
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Verify exact isolated Git candidate still passes independent holdout
+        shell: bash
+        env:
+          HEAD: ${{ needs.publish-candidate.outputs.candidate_head }}
+          BRANCH: ${{ needs.publish-candidate.outputs.candidate_branch }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _candidate rev-parse HEAD)" = "$HEAD"
+          test "$(git -C _candidate ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$HEAD"
+          git -C _candidate merge-base --is-ancestor "$GITHUB_SHA" "$HEAD"
+          test "$(git -C _code rev-parse HEAD:$REAL_FILE)" = "$FROZEN_TARGET_BLOB"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          original=Path('_code/tools/janus_nexus_phase2_live_gates_v1.py')
+          candidate=Path('_candidate/tools/janus_nexus_phase2_live_gates_v1.py')
+          report=json.loads((Path('_candidate/data/nexus_self_repair/receipts')/
+                             (os.environ['GITHUB_RUN_ID']+'.json')).read_text())
+          assert hashlib.sha256(original.read_bytes()).hexdigest()==report['source_sha256']
+          assert hashlib.sha256(candidate.read_bytes()).hexdigest()==report['candidate_sha256']
+          assert report['candidate_holdout_passed']==report['heldout_total']
+          assert report['full_issue_162_acceptance'] is False
+          assert report['authority_delta']==0
+          PY
+          echo 'JANUS_SELF_REPAIR_GIT_CANDIDATE=INDEPENDENT_SAME_CODE_PASS'
+          echo 'JANUS_NEURAL_SELF_PATCH_PROVEN=FALSE'
+          echo 'GENESIS_162_FULL_ACCEPTANCE=HOLD'
