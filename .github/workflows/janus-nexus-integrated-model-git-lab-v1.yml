@@ -1,0 +1,320 @@
+name: JANUS Nexus Integrated Native Git Handoff Lab v1
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_integrated_model_git_lab_v1.py'
+      - 'tests/test_janus_nexus_integrated_model_git_lab_v1.py'
+      - '.github/workflows/janus-nexus-integrated-model-git-lab-v1.yml'
+      - 'tools/audit_armor_effect_drift_v18_7_50.py'
+      - 'tools/audit_armor_effect_drift_v18_7_51.py'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_integrated_model_git_lab_v1.py'
+      - 'tests/test_janus_nexus_integrated_model_git_lab_v1.py'
+      - '.github/workflows/janus-nexus-integrated-model-git-lab-v1.yml'
+  workflow_dispatch:
+
+# Shared with existing bounded Git-state lab; no cron or recurring wakeup.
+concurrency:
+  group: janus-nexus-bounded-cloud-lab-single-writer
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  REGISTRY_PIN: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b
+  MODEL_PIN: c8c890206f53591d6bfe444d103ed5dd07ec2296
+  LAB_BRANCH: janus/nexus-closed-loop-lab-state
+  LAB_SCRIPT: tools/janus_nexus_integrated_model_git_lab_v1.py
+  LAB_ROOT: data/nexus_integrated_native_lab/runs
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run restricted lab negative-controls without secrets or model
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/janus_nexus_integrated_model_git_lab_v1.py
+          python -m unittest discover -s tests -p 'test_janus_nexus_integrated_model_git_lab_v1.py' -v
+          python tools/audit_armor_effect_drift_v18_7_50.py > "$RUNNER_TEMP/armor50.json"
+          python tools/audit_armor_effect_drift_v18_7_51.py > "$RUNNER_TEMP/armor51.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          for x in ('50','51'):
+              row=json.loads((Path(os.environ['RUNNER_TEMP'])/f'armor{x}.json').read_text())
+              assert row['unclassified_surface_count']==0, x
+              assert row['classification_is_security_certification'] is False
+          print('NEXUS_INTEGRATED_OFFLINE_CONTRACT=PASS')
+          PY
+
+  worker-a:
+    needs: offline-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    outputs:
+      a_head: \${{ steps.commit.outputs.a_head }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: \${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          ref: c8c890206f53591d6bfe444d103ed5dd07ec2296
+          path: _brain
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          ref: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b
+          path: _registry
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: janus/nexus-closed-loop-lab-state
+          path: _state
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU native inference (public-only, no paid provider)
+        run: python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Generate two actual model outputs with fixed public prompt
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _brain rev-parse HEAD)" = "$MODEL_PIN"
+          test "$(git -C _registry rev-parse HEAD)" = "$REGISTRY_PIN"
+          (
+            cd _brain
+            python -m janus_model.cli run \
+              --checkpoint janus_model/checkpoints/promoted.pt \
+              --prompt 'JANUS NEXUS LAB 41054190160: give a short non-authoritative research status.' \
+              --max-new-tokens 48 --temperature 0.65 \
+              > "$RUNNER_TEMP/native-proposal-a.txt" 2> "$RUNNER_TEMP/native-a.err"
+            python -m janus_model.cli run \
+              --checkpoint janus_model/checkpoints/promoted.pt \
+              --prompt 'JANUS NEXUS LAB 41054190160: give a short non-authoritative research status.' \
+              --max-new-tokens 48 --temperature 1.10 \
+              > "$RUNNER_TEMP/native-proposal-b.txt" 2> "$RUNNER_TEMP/native-b.err"
+          )
+          rm -f "$RUNNER_TEMP/native-a.err" "$RUNNER_TEMP/native-b.err"
+          test -s "$RUNNER_TEMP/native-proposal-a.txt"
+          test -s "$RUNNER_TEMP/native-proposal-b.txt"
+          python _code/"$LAB_SCRIPT" a \
+            --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --brain _brain --raw-a "$RUNNER_TEMP/native-proposal-a.txt" \
+            --raw-b "$RUNNER_TEMP/native-proposal-b.txt" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --code-sha "$GITHUB_SHA"
+          # Raw generation was on an entirely public prompt, nevertheless
+          # keep ephemeral complete model stdout out of Git and artifacts.
+          rm -f "$RUNNER_TEMP/native-proposal-a.txt" "$RUNNER_TEMP/native-proposal-b.txt"
+          echo 'NEXUS_TWO_NATIVE_MODEL_TEXT_VARIANTS=PREPARED_SCOPED_LAB'
+      - name: Append exact checkpoint and both variants only to isolated lab branch
+        id: commit
+        working-directory: _state
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="$(git rev-parse HEAD)"
+          test "$(git ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$expected"
+          base="$LAB_ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git add -f -- "$base/variants.json" "$base/checkpoint.json" "$base/worker-a.json"
+          git diff --cached --check
+          python - <<'PY'
+          import os,subprocess
+          p=os.environ['LAB_ROOT']+'/'+os.environ['GITHUB_RUN_ID']+'-'+os.environ['GITHUB_RUN_ATTEMPT']+'/'
+          expected=sorted(p+x for x in ('variants.json','checkpoint.json','worker-a.json'))
+          changed=sorted(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())
+          assert changed==expected,(changed,expected)
+          PY
+          git config user.name 'janus-nexus-integrated-lab[bot]'
+          git config user.email 'janus-nexus-integrated-lab[bot]@users.noreply.github.com'
+          git commit -m "JANUS integrated native A checkpoint $GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git push origin HEAD:refs/heads/$LAB_BRANCH
+          echo "a_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo 'NEXUS_A_DURABLE_GIT_CHECKPOINT=PASS'
+      - name: Intentionally terminate worker A child after its durable Git commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          rc=0
+          python _code/"$LAB_SCRIPT" death \
+            --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" || rc=$?
+          test "$rc" -eq 77
+          echo 'NEXUS_A_PROCESS_DEATH_AFTER_CHECKPOINT=PASS'
+
+  worker-b:
+    needs: worker-a
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    outputs:
+      b_head: \${{ steps.commit.outputs.b_head }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: \${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          ref: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b
+          path: _registry
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: \${{ needs.worker-a.outputs.a_head }}
+          path: _state
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Reconstruct from Git alone, consume real candidate, test idempotence
+        shell: bash
+        env:
+          EXPECTED_A: \${{ needs.worker-a.outputs.a_head }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _state rev-parse HEAD)" = "$EXPECTED_A"
+          test "$(git -C _state ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$EXPECTED_A"
+          python _code/"$LAB_SCRIPT" b --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --a-head "$EXPECTED_A"
+          python _code/"$LAB_SCRIPT" b --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --a-head "$EXPECTED_A" | grep -Fx 'NEXUS_INTEGRATED_MODEL_B=IDEMPOTENT_EXISTING'
+      - name: Commit exact B completion and lab-only consumer receipts
+        id: commit
+        working-directory: _state
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="$(git rev-parse HEAD)"
+          test "$(git ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$expected"
+          base="$LAB_ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git add -f -- "$base/receiver.json" "$base/worker-b.json"
+          git diff --cached --check
+          python - <<'PY'
+          import os,subprocess
+          p=os.environ['LAB_ROOT']+'/'+os.environ['GITHUB_RUN_ID']+'-'+os.environ['GITHUB_RUN_ATTEMPT']+'/'
+          expected=sorted(p+x for x in ('receiver.json','worker-b.json'))
+          changed=sorted(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())
+          assert changed==expected,(changed,expected)
+          PY
+          git config user.name 'janus-nexus-integrated-lab[bot]'
+          git config user.email 'janus-nexus-integrated-lab[bot]@users.noreply.github.com'
+          git commit -m "JANUS integrated native B completion $GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git push origin HEAD:refs/heads/$LAB_BRANCH
+          echo "b_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo 'NEXUS_B_LAB_RECEIVER_COMPLETION_DURABLE=PASS'
+
+  independent-verdict:
+    needs: [offline-contract, worker-a, worker-b]
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        if: needs.worker-b.result == 'success'
+        with:
+          ref: \${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        if: needs.worker-b.result == 'success'
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          ref: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b
+          path: _registry
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        if: needs.worker-b.result == 'success'
+        with:
+          ref: \${{ needs.worker-b.outputs.b_head }}
+          path: _state
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        if: needs.worker-b.result == 'success'
+        with:
+          python-version: '3.11'
+      - name: Independent source-bound check of A, B, and lab consumer
+        if: needs.worker-b.result == 'success'
+        shell: bash
+        env:
+          EXPECTED_A: \${{ needs.worker-a.outputs.a_head }}
+          EXPECTED_B: \${{ needs.worker-b.outputs.b_head }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _state rev-parse HEAD)" = "$EXPECTED_B"
+          test "$(git -C _state ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$EXPECTED_B"
+          python _code/"$LAB_SCRIPT" verify --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --a-head "$EXPECTED_A" --b-head "$EXPECTED_B" \
+            --output "$RUNNER_TEMP/nexus-integrated-lab-verdict.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['RUNNER_TEMP'])/'nexus-integrated-lab-verdict.json').read_text())
+          assert r["status"]=="PASS_SCOPED_NATIVE_MODEL_GIT_A_B_LAB_ONLY"
+          assert r["model_generated_text_variants"]==2
+          assert r["failed_or_unselected_variant_retained"] is True
+          assert r["lab_receiver_evaluation_executed"] is True
+          assert r["production_receiver_ack"] is False
+          assert r["source44_same_run_materialization"] is False
+          assert r["live_lease_race_tested"] is False
+          assert r["real_software_patch_selected_and_tested"] is False
+          assert r["g1_g20_same_run_full_pass"] is False
+          assert r["full_issue_162_acceptance"] is False
+          assert r["source_writeback"] is False
+          assert r["authority_delta"]==0
+          PY
+          echo 'NEXUS_INTEGRATED_NATIVE_GIT_LAB=SCOPED_PASS'
+          echo 'GENESIS_162_FULL_ACCEPTANCE=HOLD'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nexus-integrated-native-git-lab-verdict-\${{ github.run_id }}-\${{ github.run_attempt }}
+          path: \${{ runner.temp }}/nexus-integrated-lab-verdict.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Fail closed on any skipped or missing independent proof
+        shell: bash
+        env:
+          A: \${{ needs.worker-a.result }}
+          B: \${{ needs.worker-b.result }}
+        run: |
+          set -euo pipefail
+          test "$A" = success
+          test "$B" = success
+          test -f "$RUNNER_TEMP/nexus-integrated-lab-verdict.json"
+          echo 'JANUS_AUTHORITY_DELTA=0'
