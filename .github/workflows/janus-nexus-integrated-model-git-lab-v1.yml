@@ -68,11 +68,11 @@ jobs:
     permissions:
       contents: write
     outputs:
-      a_head: \${{ steps.commit.outputs.a_head }}
+      a_head: ${{ steps.commit.outputs.a_head }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: \${{ github.sha }}
+          ref: ${{ github.sha }}
           path: _code
           persist-credentials: false
       - uses: actions/checkout@v4
@@ -173,11 +173,11 @@ jobs:
     permissions:
       contents: write
     outputs:
-      b_head: \${{ steps.commit.outputs.b_head }}
+      b_head: ${{ steps.commit.outputs.b_head }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: \${{ github.sha }}
+          ref: ${{ github.sha }}
           path: _code
           persist-credentials: false
       - uses: actions/checkout@v4
@@ -188,7 +188,7 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@v4
         with:
-          ref: \${{ needs.worker-a.outputs.a_head }}
+          ref: ${{ needs.worker-a.outputs.a_head }}
           path: _state
           fetch-depth: 1
       - uses: actions/setup-python@v5
@@ -197,7 +197,7 @@ jobs:
       - name: Reconstruct from Git alone, consume real candidate, test idempotence
         shell: bash
         env:
-          EXPECTED_A: \${{ needs.worker-a.outputs.a_head }}
+          EXPECTED_A: ${{ needs.worker-a.outputs.a_head }}
         run: |
           set -euo pipefail
           test "$(git -C _state rev-parse HEAD)" = "$EXPECTED_A"
@@ -246,7 +246,7 @@ jobs:
       - uses: actions/checkout@v4
         if: needs.worker-b.result == 'success'
         with:
-          ref: \${{ github.sha }}
+          ref: ${{ github.sha }}
           path: _code
           persist-credentials: false
       - uses: actions/checkout@v4
@@ -259,7 +259,7 @@ jobs:
       - uses: actions/checkout@v4
         if: needs.worker-b.result == 'success'
         with:
-          ref: \${{ needs.worker-b.outputs.b_head }}
+          ref: ${{ needs.worker-b.outputs.b_head }}
           path: _state
           persist-credentials: false
       - uses: actions/setup-python@v5
@@ -270,8 +270,8 @@ jobs:
         if: needs.worker-b.result == 'success'
         shell: bash
         env:
-          EXPECTED_A: \${{ needs.worker-a.outputs.a_head }}
-          EXPECTED_B: \${{ needs.worker-b.outputs.b_head }}
+          EXPECTED_A: ${{ needs.worker-a.outputs.a_head }}
+          EXPECTED_B: ${{ needs.worker-b.outputs.b_head }}
         run: |
           set -euo pipefail
           test "$(git -C _state rev-parse HEAD)" = "$EXPECTED_B"
@@ -303,15 +303,15 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: nexus-integrated-native-git-lab-verdict-\${{ github.run_id }}-\${{ github.run_attempt }}
-          path: \${{ runner.temp }}/nexus-integrated-lab-verdict.json
+          name: nexus-integrated-native-git-lab-verdict-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/nexus-integrated-lab-verdict.json
           if-no-files-found: warn
           retention-days: 30
       - name: Fail closed on any skipped or missing independent proof
         shell: bash
         env:
-          A: \${{ needs.worker-a.result }}
-          B: \${{ needs.worker-b.result }}
+          A: ${{ needs.worker-a.result }}
+          B: ${{ needs.worker-b.result }}
         run: |
           set -euo pipefail
           test "$A" = success
