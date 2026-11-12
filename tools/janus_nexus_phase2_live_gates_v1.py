@@ -301,7 +301,7 @@ def validate_b_with_cas(root: Path, run_id: str, attempt: int,
 def independent_phase2_verdict(root: Path, run_id: str, attempt: int,
                                registry: dict, a_head: str, b_head: str,
                                race: dict, consumer: dict, raw_consumer: bytes,
-                               patch_screen: dict, real44: dict) -> dict:
+                               patch_screen: dict, raw_patch: bytes, real44: dict) -> dict:
     state = validate_b_with_cas(root,run_id,attempt,registry,
                                 a_head,b_head,race)
     base,checkpoint,_ = validate_a(root,run_id,attempt,registry)
@@ -314,6 +314,16 @@ def independent_phase2_verdict(root: Path, run_id: str, attempt: int,
     require(raw_sha(raw_consumer) == consumer["model_output_sha256"],
             "REAL_CONSUMER_OUTPUT_TAMPERED")
     prompt=native_consumer_prompt(root,run_id,attempt)
+    try:
+        consumer_text=raw_consumer.decode("utf-8")
+    except UnicodeError as exc:
+        raise Hold("INDEPENDENT_NATIVE_RESPONSE_NOT_UTF8") from exc
+    require(consumer_text.startswith(prompt) and
+            bool(consumer_text[len(prompt):].strip()), 
+            "INDEPENDENT_NATIVE_PROMPT_OR_RESPONSE_MISMATCH")
+    require(consumer["generated_response_sha256"] ==
+            raw_sha(consumer_text[len(prompt):].strip().encode("utf-8")),
+            "INDEPENDENT_NATIVE_GENERATED_SUFFIX_MISMATCH")
     require(consumer["model_prompt_sha256"] ==
             raw_sha(prompt.encode("utf-8")) and
             consumer["selected_proposal_sha256"] ==
@@ -326,6 +336,8 @@ def independent_phase2_verdict(root: Path, run_id: str, attempt: int,
             consumer["source_writeback"] is False and
             consumer["authority_delta"] == 0,
             "REAL_CONSUMER_FALSE_CLAIM")
+    require(patch_screen == screen_patch(raw_patch,checkpoint["code_sha"],
+            run_id,attempt), "INDEPENDENT_PATCH_REPLAY_MISMATCH")
     require(patch_screen["schema"] == SCHEMA + ".patch_screen" and
             patch_screen["run_id"] == run_id and
             patch_screen["source_code_sha"] == checkpoint["code_sha"] and
@@ -383,6 +395,7 @@ def main() -> int:
     ap.add_argument("--won", action="store_true")
     ap.add_argument("--outcome", default="")
     ap.add_argument("--raw-consumer", type=Path)
+    ap.add_argument("--raw-patch", type=Path)
     ap.add_argument("--race", type=Path)
     ap.add_argument("--consumer", type=Path)
     ap.add_argument("--patch-screen", type=Path)
@@ -423,12 +436,12 @@ def main() -> int:
             elif args.phase == "final":
                 require(all((x is not None for x in
                   (args.race,args.consumer,args.patch_screen,args.real44,
-                   args.raw_consumer))), "FINAL_EVIDENCE_REQUIRED")
+                   args.raw_consumer,args.raw_patch))), "FINAL_EVIDENCE_REQUIRED")
                 value=independent_phase2_verdict(args.root,args.run_id,
                     args.attempt,witness,args.a_head,args.b_head,
                     read(args.race),read(args.consumer),
                     bounded_bytes(args.raw_consumer),read(args.patch_screen),
-                    read(args.real44))
+                    bounded_bytes(args.raw_patch),read(args.real44))
             elif args.phase == "consumer-prompt":
                 prompt = native_consumer_prompt(args.root,args.run_id,args.attempt)
                 require(not args.out.exists(), "PROMPT_OUTPUT_ALREADY_PRESENT")
