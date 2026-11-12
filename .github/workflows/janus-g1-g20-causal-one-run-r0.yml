@@ -1,0 +1,154 @@
+name: JANUS Genesis G1-G20 Single Causal Cohort R0
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_g1_g20_causal_join_v1.py'
+      - 'tests/test_janus_nexus_g1_g20_causal_join_v1.py'
+      - '.github/workflows/janus-g1-g20-causal-one-run-r0.yml'
+      - '.github/workflows/janus-g20-phase2-frozen-reusable-v1.yml'
+      - '.github/workflows/janus-g20-ttl-frozen-reusable-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/janus-g1-g20-causal-one-run-r0.yml'
+  workflow_dispatch:
+
+# No cron. One shared GitHub Actions run_id for Phase2 and TTL.
+# Isolated lab branch only; no production source writeback.
+permissions:
+  contents: read
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Reject cross-run receipt replay, history drift and fake ACKs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/janus_nexus_g1_g20_causal_join_v1.py
+          python -m unittest discover -s tests -p 'test_janus_nexus_g1_g20_causal_join_v1.py' -v
+          python tools/audit_armor_effect_drift_v18_7_50.py > "$RUNNER_TEMP/armor50.json"
+          python tools/audit_armor_effect_drift_v18_7_51.py > "$RUNNER_TEMP/armor51.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          for n in (50,51):
+              r=json.loads((Path(os.environ['RUNNER_TEMP'])/f'armor{n}.json').read_text())
+              assert r['unclassified_surface_count']==0
+              assert r['classification_is_security_certification'] is False
+          PY
+          echo 'JANUS_G1_G20_CAUSAL_CONTRACT_OFFLINE=PASS'
+
+  phase2:
+    needs: offline-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    permissions: {contents: write}
+    uses: ./.github/workflows/janus-g20-phase2-frozen-reusable-v1.yml
+
+  ttl:
+    needs: phase2
+    if: needs.phase2.result == 'success' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    permissions: {contents: write}
+    uses: ./.github/workflows/janus-g20-ttl-frozen-reusable-v1.yml
+    with:
+      expected_predecessor_sha: ${{ needs.phase2.outputs.b_head }}
+
+  independent-causal-join:
+    needs: [offline-contract,phase2,ttl]
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        if: needs.ttl.result == 'success'
+        with:
+          ref: "${{ needs.ttl.outputs.takeover_head }}"
+          path: _state
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        if: needs.phase2.result == 'success'
+        with:
+          name: nexus-phase2-independent-verdict-${{ github.run_id }}
+          path: ${{ runner.temp }}/phase2
+      - uses: actions/download-artifact@v4
+        if: needs.ttl.result == 'success'
+        with:
+          name: nexus-lease-verdict-${{ github.run_id }}
+          path: ${{ runner.temp }}/ttl
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Demand one SOURCE SHA, one run ID, one phase2-B-to-seed Git parent
+        shell: bash
+        env:
+          OFFLINE: ${{ needs.offline-contract.result }}
+          PHASE2: ${{ needs.phase2.result }}
+          TTL: ${{ needs.ttl.result }}
+          B_HEAD: ${{ needs.phase2.outputs.b_head }}
+          TAKE_HEAD: ${{ needs.ttl.outputs.takeover_head }}
+        run: |
+          set -euo pipefail
+          for value in "$OFFLINE" "$PHASE2" "$TTL"; do
+            test "$value" = success
+          done
+          [[ "$B_HEAD" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$TAKE_HEAD" =~ ^[0-9a-f]{40}$ ]]
+          test "$B_HEAD" != "$TAKE_HEAD"
+          test "$(git -C _state rev-parse HEAD)" = "$TAKE_HEAD"
+          test "$(git -C _state ls-remote origin refs/heads/janus/nexus-closed-loop-lab-state | cut -f1)" = "$TAKE_HEAD"
+          seed="$(python -c 'import json,os;from pathlib import Path;r=json.loads((Path(os.environ["RUNNER_TEMP"])/"ttl/lease-verdict.json").read_text());print(r["seed_git_sha"])')"
+          [[ "$seed" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git -C _state rev-list --parents -n 1 "$seed" | awk '{print $2}')" = "$B_HEAD"
+          git -C _state merge-base --is-ancestor "$B_HEAD" "$seed"
+          git -C _state merge-base --is-ancestor "$seed" "$TAKE_HEAD"
+          (
+            cd _code
+            python tools/janus_nexus_g1_g20_causal_join_v1.py \
+              --root "$GITHUB_WORKSPACE/_state" \
+              --run-id "$GITHUB_RUN_ID" \
+              --attempt "$GITHUB_RUN_ATTEMPT" \
+              --source-sha "$GITHUB_SHA" \
+              --phase2 "$RUNNER_TEMP/phase2/phase2-verdict.json" \
+              --ttl "$RUNNER_TEMP/ttl/lease-verdict.json" \
+              --phase2-b-head "$B_HEAD" \
+              --ttl-takeover-head "$TAKE_HEAD" \
+              --ttl-seed-parent "$B_HEAD" \
+              --out "$RUNNER_TEMP/g1-g20-causal-join.json"
+          )
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          r=json.loads((Path(os.environ['RUNNER_TEMP'])/'g1-g20-causal-join.json').read_text())
+          assert r['status']=='PASS_SAME_RUN_PHASE2_TO_TTL_GIT_JOIN_WITH_HARD_HOLDS'
+          assert r['same_run_phase2_to_ttl_git_parent_verified'] is True
+          assert r['phase2_two_clean_real44_verified'] is True
+          assert r['lease_expiry_stale_owner_git_fence_verified'] is True
+          assert r['external_organ_same_cohort_ack'] is False
+          assert r['neural_patch_same_cohort_holdout'] is False
+          assert r['full_issue_162_acceptance'] is False
+          assert r['g1_to_g20_full_acceptance'] is False
+          assert len(r['g1_g20_scoped_observations'])==20
+          assert len(r['hard_holds'])>=4
+          assert r['scientific_authority_delta']==0
+          PY
+          echo 'JANUS_G1_G20_SAME_RUN_PHASE2_TTL=PASS_SCOPED'
+          echo 'JANUS_G1_G20_FULL_ACCEPTANCE=HOLD'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: janus-g1-g20-single-cohort-R0-${{ github.run_id }}
+          path: ${{ runner.temp }}/g1-g20-causal-join.json
+          if-no-files-found: warn
+          retention-days: 30
