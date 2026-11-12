@@ -1,0 +1,44 @@
+name: JANUS ESSENCE v0.1 Offline Read-Only Microkernel Pilot
+
+on:
+  pull_request:
+    paths:
+      - '.janus/essence/**'
+      - 'tests/test_essence_kernel.py'
+      - '.github/workflows/janus-essence-readonly-pilot.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.janus/essence/**'
+      - 'tests/test_essence_kernel.py'
+      - '.github/workflows/janus-essence-readonly-pilot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-offline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Contract tests — inert default and zero effects
+        run: |
+          python -m py_compile .janus/essence/kernel.py
+          python -m unittest discover -s tests -p 'test_essence_kernel.py' -v
+      - name: Local synthetic offline pilot and proposed child
+        run: |
+          python .janus/essence/kernel.py --manifest .janus/essence/manifest.json --fixture .janus/essence/fixture.json --allow-readonly --propose-child recovery --out artifacts/essence/receipt.json
+          python .janus/essence/kernel.py --verify artifacts/essence/receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: essence-readonly-pilot
+          path: artifacts/essence/receipt.json
+          if-no-files-found: error
+          retention-days: 14
