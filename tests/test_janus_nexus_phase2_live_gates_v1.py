@@ -161,11 +161,12 @@ class Phase2LabTest(unittest.TestCase):
         with patch("tools.janus_nexus_phase2_live_gates_v1.verify_model_source"):
             consumer=make_native_consumer_receipt(self.root,RUN,ATTEMPT,
                                                   self.reg,self.root,raw)
-        patch_value=screen_patch((PATCH_PROMPT+"noise").encode(),SOURCE,RUN,ATTEMPT)
+        patch_raw=(PATCH_PROMPT+"noise").encode()
+        patch_value=screen_patch(patch_raw,SOURCE,RUN,ATTEMPT)
         real44=one_run_real44_receipt(RUN,SOURCE,True)
         out=independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
                                       A,"e"*40,race,consumer,raw,
-                                      patch_value,real44)
+                                      patch_value,patch_raw,real44)
         self.assertTrue(out["real_native_consumer"])
         self.assertTrue(out["real44_same_run_single_worker"])
         self.assertFalse(out["real44_two_clean_rebuilds_same_run"])
@@ -175,13 +176,19 @@ class Phase2LabTest(unittest.TestCase):
         with self.assertRaisesRegex(Hold,"REAL_CONSUMER_OUTPUT_TAMPERED"):
             independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
                                       A,"e"*40,race,consumer,b"tampered",
-                                      patch_value,real44)
+                                      patch_value,patch_raw,real44)
+        forged_patch=copy.deepcopy(patch_value)
+        forged_patch["status"]="PASS_WHITELISTED_PATCH_PROPOSAL_FIXTURE_ONLY"
+        with self.assertRaisesRegex(Hold,"INDEPENDENT_PATCH_REPLAY_MISMATCH"):
+            independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
+                                      A,"e"*40,race,consumer,raw,
+                                      forged_patch,patch_raw,real44)
         forged=copy.deepcopy(real44)
         forged["same_run_two_clean_real44_rebuilds"]=True
         with self.assertRaisesRegex(Hold,"REAL44_PUBLIC_RECEIPT_NOT_BOUND"):
             independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
                                       A,"e"*40,race,consumer,raw,
-                                      patch_value,forged)
+                                      patch_value,patch_raw,forged)
 
     def test_invalid_run_or_boolean_rejected(self):
         with self.assertRaises(Hold):
