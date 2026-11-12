@@ -1,0 +1,71 @@
+{
+  "schema": "janus.essence.microkernel/0.1",
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "enabled": false,
+  "activation": "EXPLICIT_READONLY_TEST_ONLY",
+  "capabilities": {
+    "network": false,
+    "shell": false,
+    "repo_write": false,
+    "workflow_dispatch": false,
+    "secrets": false,
+    "hardware": false
+  },
+  "birth_policy": "PROPOSAL_ONLY",
+  "microkernels": [
+    {
+      "id": "cell-sensing-00",
+      "role": "sensing",
+      "generation": 0,
+      "gene_sources": [
+        "MicroGPT",
+        "JanusTinyTransformer"
+      ]
+    },
+    {
+      "id": "cell-memory-01",
+      "role": "memory",
+      "generation": 0,
+      "gene_sources": [
+        "CatGPT",
+        "All_starsGPT"
+      ]
+    },
+    {
+      "id": "cell-planning-02",
+      "role": "planning",
+      "generation": 0,
+      "gene_sources": [
+        "JGPT1",
+        "Trinity"
+      ]
+    },
+    {
+      "id": "cell-verification-03",
+      "role": "verification",
+      "generation": 0,
+      "gene_sources": [
+        "Trinity",
+        "NonceMapGPT"
+      ]
+    },
+    {
+      "id": "cell-recovery-04",
+      "role": "recovery",
+      "generation": 0,
+      "gene_sources": [
+        "Yaksa+12",
+        "GEX"
+      ]
+    },
+    {
+      "id": "cell-coding-05",
+      "role": "coding",
+      "generation": 0,
+      "gene_sources": [
+        "MicroGPTSlime",
+        "All_starsGPT"
+      ]
+    }
+  ]
+}
