@@ -2,6 +2,10 @@ name: JANUS G1G20 Frozen Phase2 Reusable v1
 
 on:
   workflow_call:
+    secrets:
+      JANUS_NEXUS_PRIVATE_READ_TOKEN:
+        description: Read-only exact 3 private REAL44 sources for frozen A/B rebuilds
+        required: false
     outputs:
       b_head:
         description: "Durable clean worker B Git checkpoint SHA, scoped only"

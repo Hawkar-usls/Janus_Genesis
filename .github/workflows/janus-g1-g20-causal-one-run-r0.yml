@@ -53,6 +53,8 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
     permissions: {contents: write}
     uses: ./.github/workflows/janus-g20-phase2-frozen-reusable-v1.yml
+    secrets:
+      JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
 
   ttl:
     needs: phase2
