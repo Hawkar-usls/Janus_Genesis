@@ -62,8 +62,199 @@ jobs:
     with:
       expected_predecessor_sha: ${{ needs.phase2.outputs.b_head }}
 
+  external-dispatch:
+    needs: [phase2,ttl]
+    if: needs.ttl.result == 'success' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    permissions: {contents: read}
+    outputs:
+      dispatch_state: ${{ steps.send.outputs.dispatch_state }}
+    steps:
+      - name: Authenticated cross-repository workflow dispatch or explicit HOLD
+        id: send
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.JANUS_NEXUS_DEMIURGE_DISPATCH_TOKEN }}
+          B_HEAD: ${{ needs.phase2.outputs.b_head }}
+        run: |
+          set -euo pipefail
+          [[ "$B_HEAD" =~ ^[0-9a-f]{40}$ ]]
+          if [ -z "$GH_TOKEN" ]; then
+            echo 'dispatch_state=HOLD_MISSING_SCOPED_CROSS_REPO_TOKEN' >> "$GITHUB_OUTPUT"
+            echo 'JANUS_EXTERNAL_DISPATCH=HOLD_MISSING_SCOPED_CROSS_REPO_TOKEN'
+            exit 0
+          fi
+          if ! gh api -X POST \
+              repos/Hawkar-usls/Janus-Demiurge/actions/workflows/janus-nexus-external-dynamic-ack-v1.yml/dispatches \
+              -f ref=main \
+              -f "inputs[source_run]=$GITHUB_RUN_ID" \
+              -f "inputs[attempt]=$GITHUB_RUN_ATTEMPT" \
+              -f "inputs[source_sha]=$GITHUB_SHA" \
+              -f "inputs[b_head]=$B_HEAD" >/dev/null; then
+            echo 'dispatch_state=HOLD_CROSS_REPO_DISPATCH_REJECTED' >> "$GITHUB_OUTPUT"
+            echo 'JANUS_EXTERNAL_DISPATCH=HOLD_CROSS_REPO_DISPATCH_REJECTED'
+            exit 0
+          fi
+          echo 'dispatch_state=DISPATCHED_TO_REAL_DEMIURGE' >> "$GITHUB_OUTPUT"
+          echo 'JANUS_EXTERNAL_DISPATCH=DISPATCHED_TO_REAL_DEMIURGE'
+
+  external-origin-check:
+    needs: [phase2,ttl,external-dispatch]
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    permissions: {contents: read}
+    outputs:
+      external_status: ${{ steps.prove.outputs.external_status }}
+    steps:
+      - uses: actions/checkout@v4
+        if: needs.external-dispatch.outputs.dispatch_state == 'DISPATCHED_TO_REAL_DEMIURGE'
+        with: {ref: "${{ needs.phase2.outputs.b_head }}", path: _state, persist-credentials: false}
+      - name: Poll only separate Demiurge Git branch for this root-run ACK
+        id: prove
+        shell: bash
+        env:
+          DISPATCH_STATE: ${{ needs.external-dispatch.outputs.dispatch_state }}
+          B_HEAD: ${{ needs.phase2.outputs.b_head }}
+          TTL_HEAD: ${{ needs.ttl.outputs.takeover_head }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP"
+          if [ "$DISPATCH_STATE" != DISPATCHED_TO_REAL_DEMIURGE ]; then
+            echo 'external_status=HOLD_NO_VERIFIED_EXTERNAL_DISPATCH' >> "$GITHUB_OUTPUT"
+            echo 'JANUS_EXTERNAL_CAUSAL_ACK=HOLD_NO_VERIFIED_EXTERNAL_DISPATCH'
+            exit 0
+          fi
+          [[ "$B_HEAD" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$TTL_HEAD" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git -C _state rev-parse HEAD)" = "$B_HEAD"
+          git clone --quiet --depth=1 --single-branch \
+            --branch janus/nexus-external-organ-ack-state \
+            https://github.com/Hawkar-usls/Janus-Demiurge.git "$RUNNER_TEMP/organ-ack-repo"
+          found=''
+          for n in $(seq 1 75); do
+            git -C "$RUNNER_TEMP/organ-ack-repo" pull --ff-only --quiet || true
+            shopt -s nullglob
+            candidates=( "$RUNNER_TEMP/organ-ack-repo/data/nexus_external_acks/receipts/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT-dynamic-external-"*.json )
+            shopt -u nullglob
+            if [ "${#candidates[@]}" -gt 1 ]; then
+              echo 'JANUS_EXTERNAL_CAUSAL_ACK=HOLD_MULTIPLE_AMBIGUOUS_ACKS'
+              echo 'external_status=HOLD_MULTIPLE_AMBIGUOUS_ACKS' >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [ "${#candidates[@]}" -eq 1 ]; then
+              found="${candidates[0]}"
+              break
+            fi
+            sleep 10
+          done
+          if [ -z "$found" ]; then
+            echo 'external_status=HOLD_ACK_NOT_RECEIVED_IN_BOUNDED_POLL' >> "$GITHUB_OUTPUT"
+            echo 'JANUS_EXTERNAL_CAUSAL_ACK=HOLD_ACK_NOT_RECEIVED_IN_BOUNDED_POLL'
+            exit 0
+          fi
+          cp -- "$found" "$RUNNER_TEMP/external-ack.json"
+          python - <<'PY'
+          import json,os,re
+          from pathlib import Path
+          base=Path("_state/data/nexus_integrated_native_lab/runs")/(os.environ["GITHUB_RUN_ID"]+"-"+os.environ["GITHUB_RUN_ATTEMPT"])
+          chk=json.loads((base/"checkpoint.json").read_text())
+          variants=json.loads((base/"variants.json").read_text())
+          b=json.loads((base/"worker-b.json").read_text())
+          row=json.loads((Path(os.environ["RUNNER_TEMP"])/"external-ack.json").read_text())
+          chosen=[r for r in variants["candidates"] if r["variant_id"]==variants["selected_variant_id"]]
+          assert len(chosen)==1
+          require = lambda v: (_ for _ in ()).throw(ValueError("ACK_LINEAGE_MISMATCH")) if not v else None
+          require(row["schema"]=="janus.nexus.dynamic_external_organ_ack.v1")
+          require(row["status"]=="PASS_REAL_EXTERNAL_DEMIURGE_NATIVE_CONSUMPTION_SCOPED")
+          require(row["sender_source_run_id"]==os.environ["GITHUB_RUN_ID"])
+          require(row["sender_source_attempt"]==int(os.environ["GITHUB_RUN_ATTEMPT"]))
+          require(row["sender_code_sha"]==os.environ["GITHUB_SHA"]==chk["code_sha"])
+          require(row["sender_b_git_head"]==os.environ["B_HEAD"])
+          require(row["selected_proposal_sha256"]==chosen[0]["proposal"]["proposal_sha256"])
+          require(row["sender_completion_id"]==b["completion_id"])
+          require(row["receiver_repository"]=="Hawkar-usls/Janus-Demiurge")
+          require(row["external_organ_is_separate_git_repository_and_runner"] is True)
+          require(row["real_external_organ_readonly_consumption_proven"] is True)
+          require(row["source_writeback"] is False and row["authority_delta"]==0)
+          require(row["full_issue_162_acceptance"] is False)
+          receiver=str(row["external_receiver_run_id"])
+          require(re.fullmatch("[1-9][0-9]{3,23}",receiver) is not None)
+          (Path(os.environ["RUNNER_TEMP"])/"receiver-run-id").write_text(receiver)
+          PY
+          receiver_run="$(cat "$RUNNER_TEMP/receiver-run-id")"
+          passed=0
+          for n in $(seq 1 14); do
+            if curl -fsSL -H 'Accept: application/vnd.github+json' \
+                "https://api.github.com/repos/Hawkar-usls/Janus-Demiurge/actions/runs/$receiver_run" \
+                > "$RUNNER_TEMP/external-run.json" && \
+               curl -fsSL -H 'Accept: application/vnd.github+json' \
+                "https://api.github.com/repos/Hawkar-usls/Janus-Demiurge/actions/runs/$receiver_run/jobs?per_page=50" \
+                > "$RUNNER_TEMP/external-jobs.json"; then
+              if python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ['RUNNER_TEMP'])
+          ack=json.loads((p/'external-ack.json').read_text())
+          run=json.loads((p/'external-run.json').read_text())
+          jobs=json.loads((p/'external-jobs.json').read_text())['jobs']
+          assert run.get('status')=='completed' and run.get('conclusion')=='success'
+          assert run.get('event')=='workflow_dispatch'
+          assert run.get('head_sha')==ack['external_receiver_source_sha']
+          assert run.get('name')=='JANUS Nexus Dynamic External Organ ACK v1'
+          statuses={j['name']:j['conclusion'] for j in jobs}
+          assert statuses.get('consume')=='success'
+          assert statuses.get('independent-verdict')=='success'
+          PY
+              then
+                passed=1
+                break
+              fi
+            fi
+            sleep 8
+          done
+          if [ "$passed" != 1 ]; then
+            echo 'external_status=HOLD_EXTERNAL_RUN_NOT_INDEPENDENTLY_COMPLETED' >> "$GITHUB_OUTPUT"
+            echo 'JANUS_EXTERNAL_CAUSAL_ACK=HOLD_EXTERNAL_RUN_NOT_INDEPENDENTLY_COMPLETED'
+            exit 0
+          fi
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])
+          ack=json.loads((p/"external-ack.json").read_text())
+          run=json.loads((p/"external-run.json").read_text())
+          out={"schema":"janus.nexus.external_git_origin_check.v1",
+               "status":"PASS_CROSS_REPO_GIT_ACK_AND_WORKFLOW_VERIFIED_SCOPED",
+               "sender_run_id":os.environ["GITHUB_RUN_ID"],
+               "sender_attempt":int(os.environ["GITHUB_RUN_ATTEMPT"]),
+               "sender_code_sha":os.environ["GITHUB_SHA"],
+               "sender_b_git_head":os.environ["B_HEAD"],
+               "receiver_run_id":run["id"],
+               "receiver_source_sha":run["head_sha"],
+               "receiver_workflow_url":run["html_url"],
+               "same_root_run_and_proposal_checked":True,
+               "independent_receiver_job_success":True,
+               "production_integration_ack":False,
+               "full_issue_162_acceptance":False,
+               "source_writeback":False,"authority_delta":0}
+          (p/"external-origin-verdict.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          PY
+          echo 'external_status=PASS_CROSS_REPO_GIT_ACK_AND_WORKFLOW_VERIFIED_SCOPED' >> "$GITHUB_OUTPUT"
+          echo 'JANUS_EXTERNAL_CAUSAL_ACK=PASS_CROSS_REPO_GIT_ACK_AND_WORKFLOW_VERIFIED_SCOPED'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: janus-g20-external-origin-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/external-ack.json
+            ${{ runner.temp }}/external-origin-verdict.json
+          if-no-files-found: warn
+          retention-days: 30
+
   independent-causal-join:
-    needs: [offline-contract,phase2,ttl]
+    needs: [offline-contract,phase2,ttl,external-origin-check]
     if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
     runs-on: ubuntu-24.04
     timeout-minutes: 12
@@ -96,6 +287,7 @@ jobs:
           OFFLINE: ${{ needs.offline-contract.result }}
           PHASE2: ${{ needs.phase2.result }}
           TTL: ${{ needs.ttl.result }}
+          EXTERNAL_ORIGIN: ${{ needs.external-origin-check.outputs.external_status }}
           B_HEAD: ${{ needs.phase2.outputs.b_head }}
           TAKE_HEAD: ${{ needs.ttl.outputs.takeover_head }}
         run: |
@@ -143,6 +335,7 @@ jobs:
           assert len(r['hard_holds'])>=4
           assert r['scientific_authority_delta']==0
           PY
+          echo "JANUS_G1_G20_CAUSAL_EXTERNAL_ORIGIN=$EXTERNAL_ORIGIN"
           echo 'JANUS_G1_G20_SAME_RUN_PHASE2_TTL=PASS_SCOPED'
           echo 'JANUS_G1_G20_FULL_ACCEPTANCE=HOLD'
       - uses: actions/upload-artifact@v4
