@@ -178,7 +178,7 @@ jobs:
           folder="data/nexus_self_repair/receipts"
           mkdir -p "$folder"
           cp "$RUNNER_TEMP/verified/repair-verdict.json" "$folder/$GITHUB_RUN_ID.json"
-          git add -- "$REAL_FILE" "$folder/$GITHUB_RUN_ID.json"
+          git add -f -- "$REAL_FILE" "$folder/$GITHUB_RUN_ID.json"
           git diff --cached --check
           python - <<'PY'
           import os,subprocess
