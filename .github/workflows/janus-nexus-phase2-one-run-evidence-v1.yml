@@ -421,12 +421,19 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     permissions: {contents: read}
+    outputs:
+      materialized: ${{ steps.freeze.outputs.materialized }}
+      commitment_nonce: ${{ steps.freeze.outputs.commitment_nonce }}
+      nexus_commitment: ${{ steps.freeze.outputs.nexus_commitment }}
     steps:
       - uses: actions/checkout@v4
         with: {ref: "${{ github.sha }}", persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
+      - name: Install pinned encrypted snapshot cipher
+        run: python -m pip install --disable-pip-version-check cryptography==43.0.3
       - name: Rebuild actual 44 source Git objects; no private pins or names in public
+        id: freeze
         shell: bash
         env:
           JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
@@ -458,6 +465,38 @@ jobs:
               fi
             fi
           fi
+          nonce=''
+          commitment=''
+          # An AEAD-authenticated *encrypted* manifest is the only Git pins
+          # transfer to clean worker B. A public salted commitment is safe.
+          if [ "$ok" = 1 ]; then
+            proof="$(python -c 'import hashlib,json,os,secrets; from pathlib import Path; r=json.loads((Path(os.environ["RUNNER_TEMP"])/"nexus"/"NEXUS_ID.json").read_text()); assert r["source_count"]==44 and len(r["sources"])==44 and sum(x["visibility"]=="public" for x in r["sources"])==41 and sum(x["visibility"]=="private" for x in r["sources"])==3 and r["source_write_back_performed"] is False and r["source_code_executed"] is False and r["network_access_performed"] is False; n=secrets.token_hex(32); print(n, hashlib.sha256((n+r["nexus_digest"]).encode()).hexdigest())')" || ok=0
+            if [ "$ok" = 1 ]; then
+              read -r nonce commitment <<< "$proof"
+              if [[ ! "$nonce" =~ ^[0-9a-f]{64}$ || ! "$commitment" =~ ^[0-9a-f]{64}$ ]]; then
+                ok=0
+              fi
+            fi
+            if [ "$ok" = 1 ]; then
+              if ! python tools/janus_nexus_frozen_snapshot_v1.py seal \
+                --manifest "$RUNNER_TEMP/manifest.json" \
+                --encrypted "$RUNNER_TEMP/real44-a-frozen.aead.json" \
+                --run-id "$GITHUB_RUN_ID" \
+                >/dev/null 2>"$RUNNER_TEMP/seal.err"; then
+                ok=0
+              fi
+            fi
+          fi
+          if [ "$ok" = 1 ]; then
+            echo "materialized=true" >> "$GITHUB_OUTPUT"
+            echo "commitment_nonce=$nonce" >> "$GITHUB_OUTPUT"
+            echo "nexus_commitment=$commitment" >> "$GITHUB_OUTPUT"
+          else
+            echo "materialized=false" >> "$GITHUB_OUTPUT"
+            echo 'commitment_nonce=' >> "$GITHUB_OUTPUT"
+            echo 'nexus_commitment=' >> "$GITHUB_OUTPUT"
+            rm -f "$RUNNER_TEMP/real44-a-frozen.aead.json"
+          fi
           # No raw source paths, private repo IDs, manifest, stdout or stderr
           # ever cross worker boundaries.
           if [ "$ok" = 1 ]; then
@@ -473,7 +512,14 @@ jobs:
           fi
           rm -rf "$RUNNER_TEMP/sources" "$RUNNER_TEMP/nexus" \
             "$RUNNER_TEMP/manifest.json" "$RUNNER_TEMP/role-audit.json" \
-            "$RUNNER_TEMP/acquisition.err" "$RUNNER_TEMP/materialize.err" "$RUNNER_TEMP/verify.err"
+            "$RUNNER_TEMP/acquisition.err" "$RUNNER_TEMP/materialize.err" "$RUNNER_TEMP/verify.err" "$RUNNER_TEMP/seal.err"
+      - uses: actions/upload-artifact@v4
+        if: steps.freeze.outputs.materialized == 'true'
+        with:
+          name: nexus-phase2-real44-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/real44-a-frozen.aead.json
+          if-no-files-found: error
+          retention-days: 1
       - uses: actions/upload-artifact@v4
         with:
           name: nexus-phase2-real44-${{ github.run_id }}
@@ -481,8 +527,98 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+  real44-replay-b:
+    needs: real44-source
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis' && needs.real44-source.outputs.materialized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install pinned authenticated frozen snapshot cipher
+        run: python -m pip install --disable-pip-version-check cryptography==43.0.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: nexus-phase2-real44-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}
+      - name: Independently acquire and verify same frozen 44 Git trees
+        shell: bash
+        env:
+          JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
+          COMMITMENT_NONCE: ${{ needs.real44-source.outputs.commitment_nonce }}
+          EXPECTED_COMMITMENT: ${{ needs.real44-source.outputs.nexus_commitment }}
+        run: |
+          set -euo pipefail
+          matched=0
+          trap 'rm -rf "$RUNNER_TEMP/b-sources" "$RUNNER_TEMP/b-nexus" "$RUNNER_TEMP/b-manifest.json" "$RUNNER_TEMP/real44-a-frozen.aead.json" "$RUNNER_TEMP/open-b.err" "$RUNNER_TEMP/acquire-b.err" "$RUNNER_TEMP/materialize-b.err" "$RUNNER_TEMP/verify-b.err"' EXIT
+          if [ -n "$JANUS_NEXUS_PRIVATE_READ_TOKEN" ] &&
+             [[ "$COMMITMENT_NONCE" =~ ^[0-9a-f]{64}$ ]] &&
+             [[ "$EXPECTED_COMMITMENT" =~ ^[0-9a-f]{64}$ ]]; then
+            if python tools/janus_nexus_frozen_snapshot_v1.py open \
+                 --manifest "$RUNNER_TEMP/b-manifest.json" \
+                 --encrypted "$RUNNER_TEMP/real44-a-frozen.aead.json" \
+                 --run-id "$GITHUB_RUN_ID" \
+                 >/dev/null 2>"$RUNNER_TEMP/open-b.err" &&
+               python tools/janus_nexus_cloud_acquire_v2.py frozen \
+                 --manifest "$RUNNER_TEMP/b-manifest.json" \
+                 --sources-root "$RUNNER_TEMP/b-sources" \
+                 >/dev/null 2>"$RUNNER_TEMP/acquire-b.err" &&
+               python tools/janus_nexus_materializer_v2.py \
+                 --manifest "$RUNNER_TEMP/b-manifest.json" \
+                 --sources-root "$RUNNER_TEMP/b-sources" \
+                 --output-root "$RUNNER_TEMP/b-nexus" materialize \
+                 >/dev/null 2>"$RUNNER_TEMP/materialize-b.err" &&
+               python tools/janus_nexus_materializer_v2.py \
+                 --manifest "$RUNNER_TEMP/b-manifest.json" \
+                 --sources-root "$RUNNER_TEMP/b-sources" \
+                 --output-root "$RUNNER_TEMP/b-nexus" verify \
+                 >/dev/null 2>"$RUNNER_TEMP/verify-b.err"; then
+              if python - <<'PY'
+          import hashlib,json,os,re
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"b-nexus"/"NEXUS_ID.json").read_text())
+          assert r["source_count"]==44 and len(r["sources"])==44
+          assert sum(x["visibility"]=="public" for x in r["sources"])==41
+          assert sum(x["visibility"]=="private" for x in r["sources"])==3
+          assert r["source_write_back_performed"] is False
+          assert r["source_code_executed"] is False
+          assert r["network_access_performed"] is False
+          n=os.environ["COMMITMENT_NONCE"]
+          expected=os.environ["EXPECTED_COMMITMENT"]
+          assert re.fullmatch("[a-f0-9]{64}",n) and re.fullmatch("[a-f0-9]{64}",expected)
+          assert hashlib.sha256((n+r["nexus_digest"]).encode()).hexdigest()==expected
+          PY
+              then
+                matched=1
+              fi
+            fi
+          fi
+          if [ "$matched" = 1 ]; then
+            python tools/janus_nexus_phase2_live_gates_v1.py real44-replay \
+              --run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA" \
+              --pass-real44 --out "$RUNNER_TEMP/real44-b-public.json"
+            echo 'NEXUS_PHASE2_TWO_CLEAN_REAL44=PASS_FROZEN_MATCH'
+          else
+            python tools/janus_nexus_phase2_live_gates_v1.py real44-replay \
+              --run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA" \
+              --out "$RUNNER_TEMP/real44-b-public.json"
+            echo 'NEXUS_PHASE2_TWO_CLEAN_REAL44=HOLD'
+          fi
+          test "$matched" = 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nexus-phase2-real44-b-public-${{ github.run_id }}
+          path: ${{ runner.temp }}/real44-b-public.json
+          if-no-files-found: warn
+          retention-days: 30
+
+
   independent-verdict:
-    needs: [offline-contract, worker-a, contenders, race-verdict, worker-b, native-consumer, patch-screen, real44-source]
+    needs: [offline-contract, worker-a, contenders, race-verdict, worker-b, native-consumer, patch-screen, real44-source, real44-replay-b]
     if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 12
@@ -507,6 +643,9 @@ jobs:
       - uses: actions/download-artifact@v4
         if: needs.real44-source.result == 'success'
         with: {name: "nexus-phase2-real44-${{ github.run_id }}", path: "${{ runner.temp }}/real44"}
+      - uses: actions/download-artifact@v4
+        if: needs.real44-replay-b.result == 'success'
+        with: {name: "nexus-phase2-real44-b-public-${{ github.run_id }}", path: "${{ runner.temp }}/real44-b"}
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
       - name: Source-bound independent replay and fail-closed full-launch status
@@ -521,9 +660,10 @@ jobs:
           CONSUMER: ${{ needs.native-consumer.result }}
           PATCH: ${{ needs.patch-screen.result }}
           REAL44: ${{ needs.real44-source.result }}
+          REAL44_B: ${{ needs.real44-replay-b.result }}
         run: |
           set -euo pipefail
-          for v in "$OFFLINE" "$A" "$RACE" "$B" "$CONSUMER" "$PATCH" "$REAL44"; do
+          for v in "$OFFLINE" "$A" "$RACE" "$B" "$CONSUMER" "$PATCH" "$REAL44" "$REAL44_B"; do
             test "$v" = success
           done
           test "$(git -C _state rev-parse HEAD)" = "$B_HEAD"
@@ -536,6 +676,7 @@ jobs:
             --patch-screen "$RUNNER_TEMP/patch/patch-screen.json" \
             --raw-patch "$RUNNER_TEMP/patch/model-patch-output.txt" \
             --real44 "$RUNNER_TEMP/real44/real44-public.json" \
+            --real44-replay "$RUNNER_TEMP/real44-b/real44-b-public.json" \
             --out "$RUNNER_TEMP/phase2-verdict.json" \
             --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
             --a-head "$A_HEAD" --b-head "$B_HEAD"
@@ -546,6 +687,7 @@ jobs:
           assert x['status']=='PASS_SCOPED_NATIVE_CONSUMER_GIT_CAS_LAB_WITH_HARD_HOLDS'
           assert x['real_native_consumer'] is True
           assert x['real_github_branch_ref_cas_winner'] is True
+          assert x['real44_two_clean_rebuilds_same_run'] is True
           assert x['g1_to_g20_full_acceptance'] is False
           assert x['full_issue_162_acceptance'] is False
           assert x['real_external_organ_ack'] is False
