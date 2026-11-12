@@ -1,0 +1,698 @@
+name: JANUS G1G20 Frozen Phase2 Reusable v1
+
+on:
+  workflow_call:
+    outputs:
+      b_head:
+        description: "Durable clean worker B Git checkpoint SHA, scoped only"
+        value: ${{ jobs.independent-verdict.outputs.b_head }}
+
+# No schedule. Serializes with the legacy writer, but two contenders below run
+# simultaneously and race for the same NONFORCE Git ref; concurrency is not CAS.
+concurrency:
+  group: janus-nexus-bounded-cloud-lab-single-writer
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  MODEL_PIN: c8c890206f53591d6bfe444d103ed5dd07ec2296
+  REGISTRY_PIN: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b
+  LAB_BRANCH: janus/nexus-closed-loop-lab-state
+  LAB_SCRIPT: tools/janus_nexus_integrated_model_git_lab_v1.py
+  PHASE2_SCRIPT: tools/janus_nexus_phase2_live_gates_v1.py
+  LAB_ROOT: data/nexus_integrated_native_lab/runs
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Adversarial offline gates and source inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/janus_nexus_phase2_live_gates_v1.py
+          python -m unittest discover -s tests -p 'test_janus_nexus_phase2_live_gates_v1.py' -v
+          python tools/audit_armor_effect_drift_v18_7_50.py > "$RUNNER_TEMP/armor50.json"
+          python tools/audit_armor_effect_drift_v18_7_51.py > "$RUNNER_TEMP/armor51.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          for i in (50,51):
+              x=json.loads((Path(os.environ['RUNNER_TEMP'])/f'armor{i}.json').read_text())
+              assert x['unclassified_surface_count']==0
+              assert x['classification_is_security_certification'] is False
+          print('NEXUS_PHASE2_OFFLINE_CONTRACT=PASS')
+          PY
+
+  worker-a:
+    needs: offline-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions: {contents: write}
+    outputs:
+      a_head: ${{ steps.commit.outputs.a_head }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {repository: Hawkar-usls/Janus-Demiurge, ref: c8c890206f53591d6bfe444d103ed5dd07ec2296, path: _brain, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {repository: Hawkar-usls/janus-meta-registry, ref: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b, path: _registry, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {ref: janus/nexus-closed-loop-lab-state, path: _state, fetch-depth: 1}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install public CPU native model runtime
+        run: python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Two distinct real pinned model variants, no external inputs or code execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _brain rev-parse HEAD)" = "$MODEL_PIN"
+          test "$(git -C _registry rev-parse HEAD)" = "$REGISTRY_PIN"
+          (
+            cd _brain
+            python -m janus_model.cli run --checkpoint janus_model/checkpoints/promoted.pt \
+              --prompt 'JANUS NEXUS LAB 41054190160: give a short non-authoritative research status.' \
+              --max-new-tokens 48 --temperature 0.65 > "$RUNNER_TEMP/proposal-1.txt" 2>"$RUNNER_TEMP/model-1.err"
+            python -m janus_model.cli run --checkpoint janus_model/checkpoints/promoted.pt \
+              --prompt 'JANUS NEXUS LAB 41054190160: give a short non-authoritative research status.' \
+              --max-new-tokens 48 --temperature 1.10 > "$RUNNER_TEMP/proposal-2.txt" 2>"$RUNNER_TEMP/model-2.err"
+          )
+          rm -f "$RUNNER_TEMP/model-1.err" "$RUNNER_TEMP/model-2.err"
+          python _code/"$LAB_SCRIPT" a --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --brain _brain --raw-a "$RUNNER_TEMP/proposal-1.txt" \
+            --raw-b "$RUNNER_TEMP/proposal-2.txt" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --code-sha "$GITHUB_SHA"
+          rm -f "$RUNNER_TEMP/proposal-1.txt" "$RUNNER_TEMP/proposal-2.txt"
+      - name: CAS-predecessor A checkpoint into only dedicated Git lab branch
+        id: commit
+        working-directory: _state
+        shell: bash
+        run: |
+          set -euo pipefail
+          old="$(git rev-parse HEAD)"
+          test "$(git ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$old"
+          base="$LAB_ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git add -f -- "$base/variants.json" "$base/checkpoint.json" "$base/worker-a.json"
+          git diff --cached --check
+          python - <<'PY'
+          import os,subprocess
+          base=os.environ['LAB_ROOT']+'/'+os.environ['GITHUB_RUN_ID']+'-'+os.environ['GITHUB_RUN_ATTEMPT']+'/'
+          expected=sorted(base+x for x in ('variants.json','checkpoint.json','worker-a.json'))
+          got=sorted(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())
+          assert got==expected
+          PY
+          git config user.name 'janus-nexus-phase2[bot]'
+          git config user.email 'janus-nexus-phase2[bot]@users.noreply.github.com'
+          git commit -m "JANUS phase2 A checkpoint $GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git push origin HEAD:refs/heads/$LAB_BRANCH
+          echo "a_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo 'NEXUS_PHASE2_A_DURABLE=PASS'
+      - name: Kill A child after Git commit, return 77
+        shell: bash
+        run: |
+          set -euo pipefail
+          rc=0
+          python _code/"$LAB_SCRIPT" death --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" || rc=$?
+          test "$rc" -eq 77
+          echo 'NEXUS_PHASE2_A_PROCESS_DEATH=PASS'
+
+  contenders:
+    needs: worker-a
+    strategy:
+      fail-fast: false
+      matrix:
+        contender: [1, 2]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions: {contents: write}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {repository: Hawkar-usls/janus-meta-registry, ref: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b, path: _registry, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {ref: "${{ needs.worker-a.outputs.a_head }}", path: _state, fetch-depth: 1}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Real two-runner nonforce Git compare-and-swap arbitration
+        shell: bash
+        env:
+          A_HEAD: ${{ needs.worker-a.outputs.a_head }}
+          CONTENDER: ${{ matrix.contender }}
+        run: |
+          set -euo pipefail
+          owner="contender-$CONTENDER"
+          base="$LAB_ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          claim="_state/$base/lease.json"
+          python _code/"$PHASE2_SCRIPT" claim --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --out "$claim" --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --source-sha "$GITHUB_SHA" --a-head "$A_HEAD" --holder "$owner"
+          cd _state
+          test "$(git rev-parse HEAD)" = "$A_HEAD"
+          git add -f -- "$base/lease.json"
+          git diff --cached --check
+          test "$(git diff --cached --name-only)" = "$base/lease.json"
+          git config user.name 'janus-cas-contender[bot]'
+          git config user.email 'janus-cas-contender[bot]@users.noreply.github.com'
+          git commit -m "JANUS real Git CAS contender $CONTENDER $GITHUB_RUN_ID"
+          won=0
+          head=''
+          if [ "$(git ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$A_HEAD" ]; then
+            if git push -q origin HEAD:refs/heads/$LAB_BRANCH >/dev/null 2>&1; then
+              won=1
+              head="$(git rev-parse HEAD)"
+            fi
+          fi
+          cd ..
+          if [ "$won" = 1 ]; then
+            python _code/"$PHASE2_SCRIPT" contender \
+              --out "$RUNNER_TEMP/contender-$CONTENDER.json" \
+              --claim "$claim" --run-id "$GITHUB_RUN_ID" --won \
+              --winning-head "$head" --outcome PUSH_FAST_FORWARD_WIN
+            echo "NEXUS_CAS_CONTENDER_$CONTENDER=WIN"
+          else
+            python _code/"$PHASE2_SCRIPT" contender \
+              --out "$RUNNER_TEMP/contender-$CONTENDER.json" \
+              --claim "$claim" --run-id "$GITHUB_RUN_ID" \
+              --outcome NON_FF_OR_HEAD_CHANGED
+            echo "NEXUS_CAS_CONTENDER_$CONTENDER=LOSE_NONFF"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nexus-phase2-contender-${{ matrix.contender }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/contender-${{ matrix.contender }}.json
+          if-no-files-found: error
+          retention-days: 30
+
+  race-verdict:
+    needs: [worker-a, contenders]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions: {contents: read}
+    outputs:
+      winner_head: ${{ steps.choose.outputs.head }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {repository: Hawkar-usls/janus-meta-registry, ref: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b, path: _registry, persist-credentials: false}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: nexus-phase2-contender-*-${{ github.run_id }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/contenders
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Select only one actual Git push winner from two independent receipts
+        id: choose
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,re
+          from pathlib import Path
+          base=Path(os.environ['RUNNER_TEMP'])/'contenders'
+          rows=[json.loads((base/f'contender-{i}.json').read_text()) for i in (1,2)]
+          winners=[r for r in rows if r.get('won') is True]
+          assert len(winners)==1 and len(rows)==2,rows
+          head=winners[0].get('commit_head')
+          assert isinstance(head,str) and re.fullmatch('[0-9a-f]{40}',head)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:out.write('head='+head+'\n')
+          PY
+      - uses: actions/checkout@v4
+        with: {ref: "${{ steps.choose.outputs.head }}", path: _state, persist-credentials: false}
+      - name: Independent real-branch winner and loser contract replay
+        shell: bash
+        env:
+          A_HEAD: ${{ needs.worker-a.outputs.a_head }}
+          WINNER_HEAD: ${{ steps.choose.outputs.head }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _state rev-parse HEAD)" = "$WINNER_HEAD"
+          test "$(git -C _state ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$WINNER_HEAD"
+          python _code/"$PHASE2_SCRIPT" race --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --contender-1 "$RUNNER_TEMP/contenders/contender-1.json" \
+            --contender-2 "$RUNNER_TEMP/contenders/contender-2.json" \
+            --out "$RUNNER_TEMP/race.json" --run-id "$GITHUB_RUN_ID" \
+            --attempt "$GITHUB_RUN_ATTEMPT" --source-sha "$GITHUB_SHA" \
+            --a-head "$A_HEAD" --winning-head "$WINNER_HEAD"
+          echo 'NEXUS_GIT_CAS_EXCLUSIVE=PASS_TWO_ACTUAL_CLOUD_RUNNERS'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nexus-phase2-race-${{ github.run_id }}
+          path: ${{ runner.temp }}/race.json
+          if-no-files-found: error
+          retention-days: 30
+
+  worker-b:
+    needs: [worker-a, race-verdict]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions: {contents: write}
+    outputs:
+      b_head: ${{ steps.commit.outputs.b_head }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {repository: Hawkar-usls/janus-meta-registry, ref: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b, path: _registry, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {ref: "${{ needs.race-verdict.outputs.winner_head }}", path: _state, fetch-depth: 1}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Clean B resumes old A task with actual winner's Git lease state
+        shell: bash
+        env:
+          A_HEAD: ${{ needs.worker-a.outputs.a_head }}
+          WINNER_HEAD: ${{ needs.race-verdict.outputs.winner_head }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _state rev-parse HEAD)" = "$WINNER_HEAD"
+          test "$(git -C _state ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$WINNER_HEAD"
+          python _code/"$LAB_SCRIPT" b --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --a-head "$A_HEAD" | grep 'NEXUS_INTEGRATED_MODEL_B=COMPLETED_NEW'
+          python _code/"$LAB_SCRIPT" b --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --a-head "$A_HEAD" | grep 'NEXUS_INTEGRATED_MODEL_B=IDEMPOTENT_EXISTING'
+      - name: Commit one B completion only, preserving the winning CAS lease
+        id: commit
+        working-directory: _state
+        shell: bash
+        run: |
+          set -euo pipefail
+          prior="$(git rev-parse HEAD)"
+          test "$(git ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$prior"
+          base="$LAB_ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git add -f -- "$base/receiver.json" "$base/worker-b.json"
+          git diff --cached --check
+          python - <<'PY'
+          import os,subprocess
+          p=os.environ['LAB_ROOT']+'/'+os.environ['GITHUB_RUN_ID']+'-'+os.environ['GITHUB_RUN_ATTEMPT']+'/'
+          got=sorted(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())
+          assert got==sorted([p+'receiver.json',p+'worker-b.json'])
+          PY
+          git config user.name 'janus-nexus-phase2[bot]'
+          git config user.email 'janus-nexus-phase2[bot]@users.noreply.github.com'
+          git commit -m "JANUS phase2 B exactly-once completion $GITHUB_RUN_ID"
+          git push origin HEAD:refs/heads/$LAB_BRANCH
+          echo "b_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo 'NEXUS_PHASE2_B_DURABLE_COMPLETION=PASS'
+
+  native-consumer:
+    needs: worker-b
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {repository: Hawkar-usls/Janus-Demiurge, ref: c8c890206f53591d6bfe444d103ed5dd07ec2296, path: _brain, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {repository: Hawkar-usls/janus-meta-registry, ref: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b, path: _registry, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {ref: "${{ needs.worker-b.outputs.b_head }}", path: _state, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install CPU native model for actual downstream JANUS consumption
+        run: python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Feed selected prior generated candidate as untrusted text to real JANUS module
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _brain rev-parse HEAD)" = "$MODEL_PIN"
+          python _code/"$PHASE2_SCRIPT" consumer-prompt --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --out "$RUNNER_TEMP/model-prompt.txt" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT"
+          (
+            cd _brain
+            python -m janus_model.cli run --checkpoint janus_model/checkpoints/promoted.pt \
+              --prompt "$(cat "$RUNNER_TEMP/model-prompt.txt")" --max-new-tokens 40 \
+              > "$RUNNER_TEMP/native-consumer-raw.txt" 2>"$RUNNER_TEMP/consumer.err"
+          )
+          rm -f "$RUNNER_TEMP/consumer.err" "$RUNNER_TEMP/model-prompt.txt"
+          python _code/"$PHASE2_SCRIPT" consumer --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --brain _brain --raw "$RUNNER_TEMP/native-consumer-raw.txt" \
+            --out "$RUNNER_TEMP/native-consumer.json" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT"
+          echo 'NEXUS_PHASE2_REAL_JANUS_NATIVE_CONSUMER=PASS_SCOPED'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nexus-phase2-native-consumer-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/native-consumer.json
+            ${{ runner.temp }}/native-consumer-raw.txt
+          if-no-files-found: error
+          retention-days: 1
+
+  patch-screen:
+    needs: offline-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {repository: Hawkar-usls/Janus-Demiurge, ref: c8c890206f53591d6bfe444d103ed5dd07ec2296, path: _brain, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Ask native model to repair one frozen function, never execute raw code
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _brain rev-parse HEAD)" = "$MODEL_PIN"
+          (
+            cd _brain
+            python -m janus_model.cli run --checkpoint janus_model/checkpoints/promoted.pt \
+              --prompt 'JANUS PATCH LAB: fix def inc(value): return value. Output only the corrected return line.' \
+              --max-new-tokens 32 --temperature 0.65 \
+              > "$RUNNER_TEMP/model-patch-output.txt" 2> "$RUNNER_TEMP/patch.err"
+          )
+          rm -f "$RUNNER_TEMP/patch.err"
+          python _code/"$PHASE2_SCRIPT" patch --run-id "$GITHUB_RUN_ID" \
+            --attempt "$GITHUB_RUN_ATTEMPT" --source-sha "$GITHUB_SHA" \
+            --raw "$RUNNER_TEMP/model-patch-output.txt" \
+            --out "$RUNNER_TEMP/patch-screen.json"
+          echo 'NEXUS_PHASE2_MODEL_PATCH=EVALUATED_NO_UNTRUSTED_CODE_EXECUTION'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nexus-phase2-patch-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/patch-screen.json
+            ${{ runner.temp }}/model-patch-output.txt
+          if-no-files-found: error
+          retention-days: 1
+
+  real44-source:
+    needs: offline-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    permissions: {contents: read}
+    outputs:
+      materialized: ${{ steps.freeze.outputs.materialized }}
+      commitment_nonce: ${{ steps.freeze.outputs.commitment_nonce }}
+      nexus_commitment: ${{ steps.freeze.outputs.nexus_commitment }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install pinned encrypted snapshot cipher
+        run: python -m pip install --disable-pip-version-check cryptography==43.0.3
+      - name: Rebuild actual 44 source Git objects; no private pins or names in public
+        id: freeze
+        shell: bash
+        env:
+          JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
+        run: |
+          set -euo pipefail
+          ok=0
+          if [ -n "$JANUS_NEXUS_PRIVATE_READ_TOKEN" ]; then
+            if git fetch -q --no-tags https://github.com/Hawkar-usls/Janus_Genesis.git \
+              '+refs/pull/137/head:refs/remotes/nexus/pr137' >/dev/null 2>&1 &&
+              [ "$(git rev-parse refs/remotes/nexus/pr137)" = '5627d31a992bcdc71dcc7351cba2c515dac89a2c' ]; then
+              git show '5627d31a992bcdc71dcc7351cba2c515dac89a2c:protocol/JANUS_GENESIS_CONSTELLATION_ROLE_AUDIT-v1.0.json' > "$RUNNER_TEMP/role-audit.json"
+              if python tools/janus_nexus_cloud_acquire_v2.py fresh \
+                --audit "$RUNNER_TEMP/role-audit.json" \
+                --manifest "$RUNNER_TEMP/manifest.json" \
+                --sources-root "$RUNNER_TEMP/sources" \
+                >/dev/null 2>"$RUNNER_TEMP/acquisition.err"; then
+                if python tools/janus_nexus_materializer_v2.py \
+                  --manifest "$RUNNER_TEMP/manifest.json" \
+                  --sources-root "$RUNNER_TEMP/sources" \
+                  --output-root "$RUNNER_TEMP/nexus" materialize \
+                  >/dev/null 2>"$RUNNER_TEMP/materialize.err" &&
+                  python tools/janus_nexus_materializer_v2.py \
+                  --manifest "$RUNNER_TEMP/manifest.json" \
+                  --sources-root "$RUNNER_TEMP/sources" \
+                  --output-root "$RUNNER_TEMP/nexus" verify \
+                  >/dev/null 2>"$RUNNER_TEMP/verify.err"; then
+                  ok=1
+                fi
+              fi
+            fi
+          fi
+          nonce=''
+          commitment=''
+          # An AEAD-authenticated *encrypted* manifest is the only Git pins
+          # transfer to clean worker B. A public salted commitment is safe.
+          if [ "$ok" = 1 ]; then
+            proof="$(python -c 'import hashlib,json,os,secrets; from pathlib import Path; r=json.loads((Path(os.environ["RUNNER_TEMP"])/"nexus"/"NEXUS_ID.json").read_text()); assert r["source_count"]==44 and len(r["sources"])==44 and sum(x["visibility"]=="public" for x in r["sources"])==41 and sum(x["visibility"]=="private" for x in r["sources"])==3 and r["source_write_back_performed"] is False and r["source_code_executed"] is False and r["network_access_performed"] is False; n=secrets.token_hex(32); print(n, hashlib.sha256((n+r["nexus_digest"]).encode()).hexdigest())')" || ok=0
+            if [ "$ok" = 1 ]; then
+              read -r nonce commitment <<< "$proof"
+              if [[ ! "$nonce" =~ ^[0-9a-f]{64}$ || ! "$commitment" =~ ^[0-9a-f]{64}$ ]]; then
+                ok=0
+              fi
+            fi
+            if [ "$ok" = 1 ]; then
+              if ! python tools/janus_nexus_frozen_snapshot_v1.py seal \
+                --manifest "$RUNNER_TEMP/manifest.json" \
+                --encrypted "$RUNNER_TEMP/real44-a-frozen.aead.json" \
+                --run-id "$GITHUB_RUN_ID" \
+                >/dev/null 2>"$RUNNER_TEMP/seal.err"; then
+                ok=0
+              fi
+            fi
+          fi
+          if [ "$ok" = 1 ]; then
+            echo "materialized=true" >> "$GITHUB_OUTPUT"
+            echo "commitment_nonce=$nonce" >> "$GITHUB_OUTPUT"
+            echo "nexus_commitment=$commitment" >> "$GITHUB_OUTPUT"
+          else
+            echo "materialized=false" >> "$GITHUB_OUTPUT"
+            echo 'commitment_nonce=' >> "$GITHUB_OUTPUT"
+            echo 'nexus_commitment=' >> "$GITHUB_OUTPUT"
+            rm -f "$RUNNER_TEMP/real44-a-frozen.aead.json"
+          fi
+          # No raw source paths, private repo IDs, manifest, stdout or stderr
+          # ever cross worker boundaries.
+          if [ "$ok" = 1 ]; then
+            python tools/janus_nexus_phase2_live_gates_v1.py real44 \
+              --run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA" \
+              --pass-real44 --out "$RUNNER_TEMP/real44-public.json"
+            echo 'NEXUS_PHASE2_REAL44=PASS_SINGLE_CLEAN_WORKER_ONLY'
+          else
+            python tools/janus_nexus_phase2_live_gates_v1.py real44 \
+              --run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA" \
+              --out "$RUNNER_TEMP/real44-public.json"
+            echo 'NEXUS_PHASE2_REAL44=HOLD_AUTH_OR_MATERIALIZE'
+          fi
+          rm -rf "$RUNNER_TEMP/sources" "$RUNNER_TEMP/nexus" \
+            "$RUNNER_TEMP/manifest.json" "$RUNNER_TEMP/role-audit.json" \
+            "$RUNNER_TEMP/acquisition.err" "$RUNNER_TEMP/materialize.err" "$RUNNER_TEMP/verify.err" "$RUNNER_TEMP/seal.err"
+      - uses: actions/upload-artifact@v4
+        if: steps.freeze.outputs.materialized == 'true'
+        with:
+          name: nexus-phase2-real44-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}/real44-a-frozen.aead.json
+          if-no-files-found: error
+          retention-days: 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nexus-phase2-real44-${{ github.run_id }}
+          path: ${{ runner.temp }}/real44-public.json
+          if-no-files-found: error
+          retention-days: 30
+
+  real44-replay-b:
+    needs: real44-source
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis' && needs.real44-source.outputs.materialized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install pinned authenticated frozen snapshot cipher
+        run: python -m pip install --disable-pip-version-check cryptography==43.0.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: nexus-phase2-real44-encrypted-${{ github.run_id }}
+          path: ${{ runner.temp }}
+      - name: Independently acquire and verify same frozen 44 Git trees
+        shell: bash
+        env:
+          JANUS_NEXUS_PRIVATE_READ_TOKEN: ${{ secrets.JANUS_NEXUS_PRIVATE_READ_TOKEN }}
+          COMMITMENT_NONCE: ${{ needs.real44-source.outputs.commitment_nonce }}
+          EXPECTED_COMMITMENT: ${{ needs.real44-source.outputs.nexus_commitment }}
+        run: |
+          set -euo pipefail
+          matched=0
+          trap 'rm -rf "$RUNNER_TEMP/b-sources" "$RUNNER_TEMP/b-nexus" "$RUNNER_TEMP/b-manifest.json" "$RUNNER_TEMP/real44-a-frozen.aead.json" "$RUNNER_TEMP/open-b.err" "$RUNNER_TEMP/acquire-b.err" "$RUNNER_TEMP/materialize-b.err" "$RUNNER_TEMP/verify-b.err"' EXIT
+          if [ -n "$JANUS_NEXUS_PRIVATE_READ_TOKEN" ] &&
+             [[ "$COMMITMENT_NONCE" =~ ^[0-9a-f]{64}$ ]] &&
+             [[ "$EXPECTED_COMMITMENT" =~ ^[0-9a-f]{64}$ ]]; then
+            if python tools/janus_nexus_frozen_snapshot_v1.py open \
+                 --manifest "$RUNNER_TEMP/b-manifest.json" \
+                 --encrypted "$RUNNER_TEMP/real44-a-frozen.aead.json" \
+                 --run-id "$GITHUB_RUN_ID" \
+                 >/dev/null 2>"$RUNNER_TEMP/open-b.err" &&
+               python tools/janus_nexus_cloud_acquire_v2.py frozen \
+                 --manifest "$RUNNER_TEMP/b-manifest.json" \
+                 --sources-root "$RUNNER_TEMP/b-sources" \
+                 >/dev/null 2>"$RUNNER_TEMP/acquire-b.err" &&
+               python tools/janus_nexus_materializer_v2.py \
+                 --manifest "$RUNNER_TEMP/b-manifest.json" \
+                 --sources-root "$RUNNER_TEMP/b-sources" \
+                 --output-root "$RUNNER_TEMP/b-nexus" materialize \
+                 >/dev/null 2>"$RUNNER_TEMP/materialize-b.err" &&
+               python tools/janus_nexus_materializer_v2.py \
+                 --manifest "$RUNNER_TEMP/b-manifest.json" \
+                 --sources-root "$RUNNER_TEMP/b-sources" \
+                 --output-root "$RUNNER_TEMP/b-nexus" verify \
+                 >/dev/null 2>"$RUNNER_TEMP/verify-b.err"; then
+              if python - <<'PY'
+          import hashlib,json,os,re
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"b-nexus"/"NEXUS_ID.json").read_text())
+          assert r["source_count"]==44 and len(r["sources"])==44
+          assert sum(x["visibility"]=="public" for x in r["sources"])==41
+          assert sum(x["visibility"]=="private" for x in r["sources"])==3
+          assert r["source_write_back_performed"] is False
+          assert r["source_code_executed"] is False
+          assert r["network_access_performed"] is False
+          n=os.environ["COMMITMENT_NONCE"]
+          expected=os.environ["EXPECTED_COMMITMENT"]
+          assert re.fullmatch("[a-f0-9]{64}",n) and re.fullmatch("[a-f0-9]{64}",expected)
+          assert hashlib.sha256((n+r["nexus_digest"]).encode()).hexdigest()==expected
+          PY
+              then
+                matched=1
+              fi
+            fi
+          fi
+          if [ "$matched" = 1 ]; then
+            python tools/janus_nexus_phase2_live_gates_v1.py real44-replay \
+              --run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA" \
+              --pass-real44 --out "$RUNNER_TEMP/real44-b-public.json"
+            echo 'NEXUS_PHASE2_TWO_CLEAN_REAL44=PASS_FROZEN_MATCH'
+          else
+            python tools/janus_nexus_phase2_live_gates_v1.py real44-replay \
+              --run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA" \
+              --out "$RUNNER_TEMP/real44-b-public.json"
+            echo 'NEXUS_PHASE2_TWO_CLEAN_REAL44=HOLD'
+          fi
+          test "$matched" = 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nexus-phase2-real44-b-public-${{ github.run_id }}
+          path: ${{ runner.temp }}/real44-b-public.json
+          if-no-files-found: warn
+          retention-days: 30
+
+
+  independent-verdict:
+    outputs:
+      b_head: ${{ needs.worker-b.outputs.b_head }}
+    needs: [offline-contract, worker-a, contenders, race-verdict, worker-b, native-consumer, patch-screen, real44-source, real44-replay-b]
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {repository: Hawkar-usls/janus-meta-registry, ref: cb9b0f13816f8ae0b906b1f8a37cc7d65817e26b, path: _registry, persist-credentials: false}
+      - uses: actions/checkout@v4
+        if: needs.worker-b.result == 'success'
+        with: {ref: "${{ needs.worker-b.outputs.b_head }}", path: _state, persist-credentials: false}
+      - uses: actions/download-artifact@v4
+        if: needs.race-verdict.result == 'success'
+        with: {name: "nexus-phase2-race-${{ github.run_id }}", path: "${{ runner.temp }}/race"}
+      - uses: actions/download-artifact@v4
+        if: needs.native-consumer.result == 'success'
+        with: {name: "nexus-phase2-native-consumer-${{ github.run_id }}", path: "${{ runner.temp }}/consumer"}
+      - uses: actions/download-artifact@v4
+        if: needs.patch-screen.result == 'success'
+        with: {name: "nexus-phase2-patch-${{ github.run_id }}", path: "${{ runner.temp }}/patch"}
+      - uses: actions/download-artifact@v4
+        if: needs.real44-source.result == 'success'
+        with: {name: "nexus-phase2-real44-${{ github.run_id }}", path: "${{ runner.temp }}/real44"}
+      - uses: actions/download-artifact@v4
+        if: needs.real44-replay-b.result == 'success'
+        with: {name: "nexus-phase2-real44-b-public-${{ github.run_id }}", path: "${{ runner.temp }}/real44-b"}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Source-bound independent replay and fail-closed full-launch status
+        shell: bash
+        env:
+          A_HEAD: ${{ needs.worker-a.outputs.a_head }}
+          B_HEAD: ${{ needs.worker-b.outputs.b_head }}
+          OFFLINE: ${{ needs.offline-contract.result }}
+          A: ${{ needs.worker-a.result }}
+          RACE: ${{ needs.race-verdict.result }}
+          B: ${{ needs.worker-b.result }}
+          CONSUMER: ${{ needs.native-consumer.result }}
+          PATCH: ${{ needs.patch-screen.result }}
+          REAL44: ${{ needs.real44-source.result }}
+          REAL44_B: ${{ needs.real44-replay-b.result }}
+        run: |
+          set -euo pipefail
+          for v in "$OFFLINE" "$A" "$RACE" "$B" "$CONSUMER" "$PATCH" "$REAL44" "$REAL44_B"; do
+            test "$v" = success
+          done
+          test "$(git -C _state rev-parse HEAD)" = "$B_HEAD"
+          test "$(git -C _state ls-remote origin refs/heads/$LAB_BRANCH | cut -f1)" = "$B_HEAD"
+          python _code/"$PHASE2_SCRIPT" final --root _state \
+            --registry _registry/data/integrations/nexus_real44/LATEST.json \
+            --race "$RUNNER_TEMP/race/race.json" \
+            --consumer "$RUNNER_TEMP/consumer/native-consumer.json" \
+            --raw-consumer "$RUNNER_TEMP/consumer/native-consumer-raw.txt" \
+            --patch-screen "$RUNNER_TEMP/patch/patch-screen.json" \
+            --raw-patch "$RUNNER_TEMP/patch/model-patch-output.txt" \
+            --real44 "$RUNNER_TEMP/real44/real44-public.json" \
+            --real44-replay "$RUNNER_TEMP/real44-b/real44-b-public.json" \
+            --out "$RUNNER_TEMP/phase2-verdict.json" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --a-head "$A_HEAD" --b-head "$B_HEAD"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          x=json.loads((Path(os.environ['RUNNER_TEMP'])/'phase2-verdict.json').read_text())
+          assert x['status']=='PASS_SCOPED_NATIVE_CONSUMER_GIT_CAS_LAB_WITH_HARD_HOLDS'
+          assert x['real_native_consumer'] is True
+          assert x['real_github_branch_ref_cas_winner'] is True
+          assert x['real44_two_clean_rebuilds_same_run'] is True
+          assert x['g1_to_g20_full_acceptance'] is False
+          assert x['full_issue_162_acceptance'] is False
+          assert x['real_external_organ_ack'] is False
+          assert x['source_writeback'] is False and x['authority_delta']==0
+          PY
+          echo 'NEXUS_PHASE2_INDEPENDENT=PASS_SCOPED_ONLY'
+          echo 'GENESIS_162_G1_G20=HOLD'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nexus-phase2-independent-verdict-${{ github.run_id }}
+          path: ${{ runner.temp }}/phase2-verdict.json
+          if-no-files-found: warn
+          retention-days: 30

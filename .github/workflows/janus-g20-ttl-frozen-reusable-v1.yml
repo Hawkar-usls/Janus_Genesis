@@ -1,0 +1,303 @@
+name: JANUS G1G20 Frozen TTL Reusable v1
+on:
+  workflow_call:
+    inputs:
+      expected_predecessor_sha:
+        description: "Exact Phase2 Worker-B Git head; no historical run can substitute"
+        type: string
+        required: true
+    outputs:
+      takeover_head:
+        description: "Actual Git takeover head after wallclock TTL/stale-holder proof"
+        value: ${{ jobs.independent-verdict.outputs.takeover_head }}
+
+concurrency:
+  group: janus-nexus-bounded-cloud-lab-single-writer
+  cancel-in-progress: false
+permissions:
+  contents: read
+env:
+  BRANCH: janus/nexus-closed-loop-lab-state
+  ROOT: data/nexus_lease_expiry_lab/runs
+  CLI: tools/janus_nexus_live_git_lease_expiry_v1.py
+jobs:
+  offline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Fenced TTL adversarial offline contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile "$CLI"
+          python -m unittest discover -s tests -p 'test_janus_nexus_live_git_lease_expiry_v1.py' -v
+          python tools/audit_armor_effect_drift_v18_7_50.py > "$RUNNER_TEMP/armor50.json"
+          python tools/audit_armor_effect_drift_v18_7_51.py > "$RUNNER_TEMP/armor51.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          for i in (50,51):
+              x=json.loads((Path(os.environ['RUNNER_TEMP'])/f'armor{i}.json').read_text())
+              assert x['unclassified_surface_count']==0
+              assert x['classification_is_security_certification'] is False
+          PY
+          echo 'NEXUS_LIVE_LEASE_OFFLINE=PASS'
+
+  seed:
+    needs: offline
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions: {contents: write}
+    outputs:
+      head: ${{ steps.persist.outputs.head }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {ref: janus/nexus-closed-loop-lab-state, path: _state, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Start bounded live lease on exactly the Phase2 B parent
+        shell: bash
+        env:
+          EXPECTED_PARENT: ${{ inputs.expected_predecessor_sha }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_PARENT" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git -C _state rev-parse HEAD)" = "$EXPECTED_PARENT"
+          test "$(git -C _state ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$EXPECTED_PARENT"
+          python _code/"$CLI" seed --root _state --run-id "$GITHUB_RUN_ID" \
+            --attempt "$GITHUB_RUN_ATTEMPT" --source-sha "$GITHUB_SHA" \
+            --out "_state/$ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/seed.json"
+      - name: Commit only the seed file to Git lab state
+        id: persist
+        working-directory: _state
+        shell: bash
+        run: |
+          set -euo pipefail
+          old="$(git rev-parse HEAD)"
+          test "$(git ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$old"
+          target="$ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/seed.json"
+          git add -f -- "$target"
+          test "$(git diff --cached --name-only)" = "$target"
+          git diff --cached --check
+          git config user.name 'janus-nexus-lease[bot]'
+          git config user.email 'janus-nexus-lease[bot]@users.noreply.github.com'
+          git commit -m "JANUS live lease seed $GITHUB_RUN_ID"
+          git push origin HEAD:refs/heads/$BRANCH
+          echo "head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo 'NEXUS_LIVE_LEASE_SEED=PASS'
+
+  renew:
+    needs: seed
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions: {contents: write}
+    outputs:
+      head: ${{ steps.persist.outputs.head }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {ref: "${{ needs.seed.outputs.head }}", path: _state, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Independently renew exact live lease
+        shell: bash
+        env:
+          OLD: ${{ needs.seed.outputs.head }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _state rev-parse HEAD)" = "$OLD"
+          test "$(git -C _state ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$OLD"
+          python _code/"$CLI" renew --root _state --run-id "$GITHUB_RUN_ID" \
+            --attempt "$GITHUB_RUN_ATTEMPT" --source-sha "$GITHUB_SHA" \
+            --out "_state/$ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/renew.json"
+      - name: Commit only renewal with non-force Git CAS
+        id: persist
+        working-directory: _state
+        shell: bash
+        run: |
+          set -euo pipefail
+          old="$(git rev-parse HEAD)"
+          test "$(git ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$old"
+          target="$ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/renew.json"
+          git add -f -- "$target"
+          test "$(git diff --cached --name-only)" = "$target"
+          git diff --cached --check
+          git config user.name 'janus-nexus-lease[bot]'
+          git config user.email 'janus-nexus-lease[bot]@users.noreply.github.com'
+          git commit -m "JANUS live lease renew $GITHUB_RUN_ID"
+          git push origin HEAD:refs/heads/$BRANCH
+          echo "head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo 'NEXUS_LIVE_LEASE_RENEW=PASS'
+
+  takeover:
+    needs: renew
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions: {contents: write}
+    outputs:
+      head: ${{ steps.persist.outputs.head }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {ref: "${{ needs.renew.outputs.head }}", path: _state, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Observe real expiry and become new fenced owner
+        shell: bash
+        env:
+          OLD: ${{ needs.renew.outputs.head }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _state rev-parse HEAD)" = "$OLD"
+          test "$(git -C _state ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$OLD"
+          python _code/"$CLI" takeover --root _state --run-id "$GITHUB_RUN_ID" \
+            --attempt "$GITHUB_RUN_ATTEMPT" --source-sha "$GITHUB_SHA" \
+            --live-wait \
+            --out "_state/$ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/takeover.json"
+      - name: CAS commit epoch 2 after actual wallclock expiry
+        id: persist
+        working-directory: _state
+        shell: bash
+        run: |
+          set -euo pipefail
+          old="$(git rev-parse HEAD)"
+          test "$(git ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$old"
+          target="$ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/takeover.json"
+          git add -f -- "$target"
+          test "$(git diff --cached --name-only)" = "$target"
+          git diff --cached --check
+          git config user.name 'janus-nexus-lease[bot]'
+          git config user.email 'janus-nexus-lease[bot]@users.noreply.github.com'
+          git commit -m "JANUS lease stale takeover $GITHUB_RUN_ID"
+          git push origin HEAD:refs/heads/$BRANCH
+          echo "head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo 'NEXUS_LIVE_LEASE_TAKEOVER=PASS'
+
+  stale:
+    needs: [renew, takeover]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions: {contents: write}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {ref: "${{ needs.renew.outputs.head }}", path: _stale, fetch-depth: 0}
+      - uses: actions/checkout@v4
+        with: {ref: "${{ needs.takeover.outputs.head }}", path: _state, fetch-depth: 0, persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Old owner commits locally but must LOSE nonforce remote push
+        shell: bash
+        env:
+          OLD: ${{ needs.renew.outputs.head }}
+          NEW: ${{ needs.takeover.outputs.head }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _stale rev-parse HEAD)" = "$OLD"
+          test "$(git -C _state rev-parse HEAD)" = "$NEW"
+          test "$(git -C _stale ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$NEW"
+          file="$ROOT/$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/late-forbidden.json"
+          printf '{"schema":"janus.old_holder_stale_candidate","production_effect":false}\n' > "_stale/$file"
+          (
+            cd _stale
+            git add -f -- "$file"
+            test "$(git diff --cached --name-only)" = "$file"
+            git config user.name 'janus-nexus-stale[bot]'
+            git config user.email 'janus-nexus-stale[bot]@users.noreply.github.com'
+            git commit -m "UNPUSHABLE stale local lease attempt $GITHUB_RUN_ID"
+          )
+          if git -C _stale push origin HEAD:refs/heads/$BRANCH >/dev/null 2>&1; then
+            echo 'SECURITY_FAILURE_OLD_OWNER_MUTATED_GIT'
+            exit 4
+          fi
+          test "$(git -C _stale ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$NEW"
+          python _code/"$CLI" late --root _state --run-id "$GITHUB_RUN_ID" \
+            --attempt "$GITHUB_RUN_ATTEMPT" --source-sha "$GITHUB_SHA" \
+            --renew-head "$OLD" --takeover-head "$NEW" \
+            --git-push-rejected --out "$RUNNER_TEMP/late-attempt.json"
+          echo 'NEXUS_LIVE_LEASE_STALE_OWNER=GIT_AND_SEMANTIC_REJECTED'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nexus-lease-stale-${{ github.run_id }}
+          path: ${{ runner.temp }}/late-attempt.json
+          if-no-files-found: error
+          retention-days: 30
+
+  independent-verdict:
+    outputs:
+      takeover_head: ${{ needs.takeover.outputs.head }}
+    needs: [offline,seed,renew,takeover,stale]
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        if: needs.stale.result == 'success'
+        with: {ref: "${{ github.sha }}", path: _code, persist-credentials: false}
+      - uses: actions/checkout@v4
+        if: needs.stale.result == 'success'
+        with: {ref: "${{ needs.takeover.outputs.head }}", path: _state, fetch-depth: 0, persist-credentials: false}
+      - uses: actions/download-artifact@v4
+        if: needs.stale.result == 'success'
+        with:
+          name: nexus-lease-stale-${{ github.run_id }}
+          path: ${{ runner.temp }}/late
+      - uses: actions/setup-python@v5
+        if: needs.stale.result == 'success'
+        with: {python-version: '3.11'}
+      - name: Independently verify actual Git ancestry and late rejection
+        shell: bash
+        env:
+          A: ${{ needs.offline.result }}
+          B: ${{ needs.seed.result }}
+          C: ${{ needs.renew.result }}
+          D: ${{ needs.takeover.result }}
+          E: ${{ needs.stale.result }}
+          SHA_SEED: ${{ needs.seed.outputs.head }}
+          SHA_RENEW: ${{ needs.renew.outputs.head }}
+          SHA_TAKE: ${{ needs.takeover.outputs.head }}
+        run: |
+          set -euo pipefail
+          for v in "$A" "$B" "$C" "$D" "$E"; do test "$v" = success; done
+          test "$(git -C _state rev-parse HEAD)" = "$SHA_TAKE"
+          test "$(git -C _state ls-remote origin refs/heads/$BRANCH | cut -f1)" = "$SHA_TAKE"
+          git -C _state merge-base --is-ancestor "$SHA_SEED" "$SHA_RENEW"
+          git -C _state merge-base --is-ancestor "$SHA_RENEW" "$SHA_TAKE"
+          python _code/"$CLI" verify --root _state --run-id "$GITHUB_RUN_ID" \
+            --attempt "$GITHUB_RUN_ATTEMPT" --source-sha "$GITHUB_SHA" \
+            --seed-head "$SHA_SEED" --renew-head "$SHA_RENEW" \
+            --takeover-head "$SHA_TAKE" --remote-head "$SHA_TAKE" \
+            --late-path "$RUNNER_TEMP/late/late-attempt.json" \
+            --out "$RUNNER_TEMP/lease-verdict.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          r=json.loads((Path(os.environ['RUNNER_TEMP'])/'lease-verdict.json').read_text())
+          assert r['status']=='PASS_SCOPED_REAL_WALLCLOCK_TTL_TAKEOVER_GIT_STALE_FENCE'
+          assert r['late_owner_git_nonforce_rejected'] is True
+          assert r['late_owner_semantic_rejected'] is True
+          assert r['real_wallclock_tested'] is True
+          assert r['external_effect_lease_fence_tested'] is False
+          assert r['full_issue_162_acceptance'] is False
+          assert r['authority_delta']==0 and r['source_writeback'] is False
+          PY
+          echo 'NEXUS_REAL_GIT_LEASE=PASS_SCOPED_TTL_TAKEOVER_STALE_REJECTED'
+          echo 'GENESIS_162_G1_G20=HOLD'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nexus-lease-verdict-${{ github.run_id }}
+          path: ${{ runner.temp }}/lease-verdict.json
+          if-no-files-found: warn
+          retention-days: 30
