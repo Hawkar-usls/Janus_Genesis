@@ -1,0 +1,200 @@
+name: JANUS Nexus Same-Run Native Output Handoff Lab v1
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_same_run_model_handoff_v1.py'
+      - 'tests/test_janus_nexus_same_run_model_handoff_v1.py'
+      - '.github/workflows/janus-nexus-same-run-native-output-handoff-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_nexus_same_run_model_handoff_v1.py'
+      - 'tests/test_janus_nexus_same_run_model_handoff_v1.py'
+      - '.github/workflows/janus-nexus-same-run-native-output-handoff-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-nexus-same-run-native-output-handoff-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Adversarial receipt and replay tests (no model, no secrets)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/janus_nexus_same_run_model_handoff_v1.py
+          python -m unittest discover -s tests -p 'test_janus_nexus_same_run_model_handoff_v1.py' -v
+
+  worker-a:
+    needs: offline-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          ref: c8c890206f53591d6bfe444d103ed5dd07ec2296
+          path: _brain
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU-only native inference runtime
+        run: python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Invoke real pinned native MODEL.CALL on public fixed prompt
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _brain rev-parse HEAD)" = c8c890206f53591d6bfe444d103ed5dd07ec2296
+          mkdir -p "$RUNNER_TEMP/handoff-a"
+          (
+            cd _brain
+            python -m janus_model.cli run \
+              --checkpoint janus_model/checkpoints/promoted.pt \
+              --prompt 'JANUS NEXUS LAB 41054190160: give a short non-authoritative research status.' \
+              --max-new-tokens 48 \
+              > "$RUNNER_TEMP/handoff-a/output.txt" \
+              2> "$RUNNER_TEMP/native-model.stderr"
+          )
+          test -s "$RUNNER_TEMP/handoff-a/output.txt"
+          rm -f "$RUNNER_TEMP/native-model.stderr"
+          python _code/tools/janus_nexus_same_run_model_handoff_v1.py produce \
+            --brain _brain --raw "$RUNNER_TEMP/handoff-a/output.txt" \
+            --out "$RUNNER_TEMP/handoff-a/worker-a.json" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --source-sha "$GITHUB_SHA"
+          echo 'NEXUS_A_ACTUAL_NATIVE_OUTPUT=PRODUCED_SCOPED_LAB'
+      - name: Transfer real A output and source-bound receipt (one-day expiry)
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexus-model-output-a-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/handoff-a/
+          if-no-files-found: error
+          retention-days: 1
+
+  worker-b:
+    needs: worker-a
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          ref: c8c890206f53591d6bfe444d103ed5dd07ec2296
+          path: _brain
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read the actual A model-output bytes on clean worker B
+        uses: actions/download-artifact@v4
+        with:
+          name: nexus-model-output-a-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/handoff-a
+      - name: Rebind A output, independently extract candidate features and HOLD
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C _brain rev-parse HEAD)" = c8c890206f53591d6bfe444d103ed5dd07ec2296
+          python _code/tools/janus_nexus_same_run_model_handoff_v1.py consume \
+            --brain _brain \
+            --raw "$RUNNER_TEMP/handoff-a/output.txt" \
+            --a "$RUNNER_TEMP/handoff-a/worker-a.json" \
+            --out "$RUNNER_TEMP/worker-b.json" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --source-sha "$GITHUB_SHA"
+          test -f "$RUNNER_TEMP/worker-b.json"
+          rm -rf "$RUNNER_TEMP/handoff-a"
+          echo 'NEXUS_B_ACTUAL_A_OUTPUT=CONSUMED_AS_UNTRUSTED_CANDIDATE'
+      - name: Publish only B candidate digest and strictly scoped receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexus-model-output-b-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/worker-b.json
+          if-no-files-found: error
+          retention-days: 30
+
+  independent-verdict:
+    needs: [offline-contract, worker-a, worker-b]
+    if: always() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: _code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          ref: c8c890206f53591d6bfe444d103ed5dd07ec2296
+          path: _brain
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Retrieve same-run A model bytes
+        uses: actions/download-artifact@v4
+        with:
+          name: nexus-model-output-a-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/handoff-a
+      - name: Retrieve B consumption receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: nexus-model-output-b-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/handoff-b
+      - name: Independently reject receipt forgery, changed outputs, false FULL
+        shell: bash
+        env:
+          A_RESULT: ${{ needs.worker-a.result }}
+          B_RESULT: ${{ needs.worker-b.result }}
+        run: |
+          set -euo pipefail
+          test "$A_RESULT" = success
+          test "$B_RESULT" = success
+          python _code/tools/janus_nexus_same_run_model_handoff_v1.py verify \
+            --brain _brain \
+            --raw "$RUNNER_TEMP/handoff-a/output.txt" \
+            --a "$RUNNER_TEMP/handoff-a/worker-a.json" \
+            --b "$RUNNER_TEMP/handoff-b/worker-b.json" \
+            --out "$RUNNER_TEMP/nexus-same-run-verdict.json" \
+            --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
+            --source-sha "$GITHUB_SHA"
+          rm -rf "$RUNNER_TEMP/handoff-a"
+          echo 'NEXUS_SAME_RUN_MODEL_OUTPUT_CONSUMPTION=PASS_SCOPED_LAB_ONLY'
+          echo 'HABITAT_CLOSED_LOOP_ACCEPTANCE=HOLD'
+          echo 'AUTHORITY_DELTA=0'
+      - name: Archive restricted-scope public verdict without raw output
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexus-same-run-native-output-verdict-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/nexus-same-run-verdict.json
+          if-no-files-found: error
+          retention-days: 30
