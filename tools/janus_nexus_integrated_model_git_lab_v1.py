@@ -18,10 +18,16 @@ import re
 import sys
 from typing import Any
 
-from janus_nexus_same_run_model_handoff_v1 import (
-    MODEL_COMMIT, CHECKPOINT_SHA256, PROMPT, bounded_bytes,
-    suffix_from_output, verify_model_source,
-)
+if __package__:
+    from tools.janus_nexus_same_run_model_handoff_v1 import (
+        MODEL_COMMIT, CHECKPOINT_SHA256, PROMPT, bounded_bytes,
+        suffix_from_output, verify_model_source,
+    )
+else:
+    from janus_nexus_same_run_model_handoff_v1 import (
+        MODEL_COMMIT, CHECKPOINT_SHA256, PROMPT, bounded_bytes,
+        suffix_from_output, verify_model_source,
+    )
 
 SCHEMA = "janus.nexus.integrated_native_git_lab.v1"
 ROOT = Path("data/nexus_integrated_native_lab/runs")
