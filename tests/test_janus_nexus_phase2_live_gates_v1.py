@@ -13,7 +13,7 @@ from tools.janus_nexus_phase2_live_gates_v1 import (
     Hold, PATCH_PROMPT, make_claim, contender_receipt, race_verdict,
     native_consumer_prompt, make_native_consumer_receipt,
     screen_patch, one_run_real44_receipt, raw_sha, run_path,
-    independent_phase2_verdict,
+    independent_phase2_verdict, replay_real44_receipt,
 )
 from tools.janus_nexus_integrated_model_git_lab_v1 import (
     REGISTRY_SCHEMA, REGISTRY_SOURCE_RUN, REGISTRY_SOURCE_SHA,
@@ -164,31 +164,54 @@ class Phase2LabTest(unittest.TestCase):
         patch_raw=(PATCH_PROMPT+"noise").encode()
         patch_value=screen_patch(patch_raw,SOURCE,RUN,ATTEMPT)
         real44=one_run_real44_receipt(RUN,SOURCE,True)
+        replay=replay_real44_receipt(RUN,SOURCE,True)
         out=independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
                                       A,"e"*40,race,consumer,raw,
-                                      patch_value,patch_raw,real44)
+                                      patch_value,patch_raw,real44,replay)
         self.assertTrue(out["real_native_consumer"])
         self.assertTrue(out["real44_same_run_single_worker"])
-        self.assertFalse(out["real44_two_clean_rebuilds_same_run"])
+        self.assertTrue(out["real44_two_clean_rebuilds_same_run"])
         self.assertFalse(out["independent_software_improvement_verified"])
         self.assertFalse(out["full_issue_162_acceptance"])
         self.assertEqual(out["authority_delta"],0)
         with self.assertRaisesRegex(Hold,"REAL_CONSUMER_OUTPUT_TAMPERED"):
             independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
                                       A,"e"*40,race,consumer,b"tampered",
-                                      patch_value,patch_raw,real44)
+                                      patch_value,patch_raw,real44,replay)
         forged_patch=copy.deepcopy(patch_value)
         forged_patch["status"]="PASS_WHITELISTED_PATCH_PROPOSAL_FIXTURE_ONLY"
         with self.assertRaisesRegex(Hold,"INDEPENDENT_PATCH_REPLAY_MISMATCH"):
             independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
                                       A,"e"*40,race,consumer,raw,
-                                      forged_patch,patch_raw,real44)
+                                      forged_patch,patch_raw,real44,replay)
+        missing=replay_real44_receipt(RUN,SOURCE,False)
+        with self.assertRaisesRegex(Hold,"REAL44_CLEAN_B_REPLAY_NOT_VERIFIED"):
+            independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
+                                      A,"e"*40,race,consumer,raw,
+                                      patch_value,patch_raw,real44,missing)
+        forged_replay=copy.deepcopy(replay)
+        forged_replay["private_exact_pins_disclosed"]=True
+        with self.assertRaisesRegex(Hold,"REAL44_CLEAN_B_REPLAY_NOT_VERIFIED"):
+            independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
+                                      A,"e"*40,race,consumer,raw,
+                                      patch_value,patch_raw,real44,forged_replay)
         forged=copy.deepcopy(real44)
         forged["same_run_two_clean_real44_rebuilds"]=True
         with self.assertRaisesRegex(Hold,"REAL44_PUBLIC_RECEIPT_NOT_BOUND"):
             independent_phase2_verdict(self.root,RUN,ATTEMPT,self.reg,
                                       A,"e"*40,race,consumer,raw,
-                                      patch_value,patch_raw,forged)
+                                      patch_value,patch_raw,forged,replay)
+
+    def test_real44_b_missing_or_forged_never_promotes(self):
+        b = replay_real44_receipt(RUN,SOURCE,True)
+        self.assertTrue(b["same_run_two_clean_real44_rebuilds"])
+        self.assertFalse(b["private_exact_pins_disclosed"])
+        self.assertFalse(b["full_issue_162_acceptance"])
+        with self.assertRaises(Hold):
+            replay_real44_receipt(RUN,SOURCE,1)
+        hold = replay_real44_receipt(RUN,SOURCE,False)
+        self.assertIsNone(hold["private_count"])
+        self.assertFalse(hold["source_pins_authenticated_encrypted_a_to_b"])
 
     def test_invalid_run_or_boolean_rejected(self):
         with self.assertRaises(Hold):
