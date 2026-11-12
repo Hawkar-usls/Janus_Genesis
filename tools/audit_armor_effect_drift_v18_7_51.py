@@ -60,6 +60,10 @@ SURFACE_CLASSIFICATIONS = (
         "tools/janus_nexus_native_model_cloud_witness_v1.py",
         "READ_ONLY_SOURCE_PINNED_NATIVE_MODEL_PROVENANCE_WITNESS_NOT_ARMOR_ADMITTED",
     ),
+    (
+        "tools/janus_nexus_same_run_model_handoff_v1.py",
+        "READ_ONLY_EXACT_GIT_PROVENANCE_NATIVE_OUTPUT_TRANSFER_LAB_NOT_ARMOR_ADMITTED",
+    ),
     ("tools/janus_habitat_process_death_gauntlet_v1.py", "CONTROLLED_FRESH_PROCESS_DEATH_GAUNTLET"),
     (
         "tools/janus_handoff_reliability_reference_gauntlet.py",
