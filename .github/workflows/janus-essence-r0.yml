@@ -1,0 +1,42 @@
+name: JANUS ESSENCE Inheritable Microkernel R0
+
+on:
+  pull_request:
+    paths:
+      - 'tools/janus_essence.py'
+      - 'tests/test_janus_essence.py'
+      - 'protocol/ESSENCE_GENOME-v0.1.json'
+      - '.github/workflows/janus-essence-r0.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_essence.py'
+      - 'tests/test_janus_essence.py'
+      - 'protocol/ESSENCE_GENOME-v0.1.json'
+      - '.github/workflows/janus-essence-r0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-r0-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and test offline inheritance and fault isolation
+        run: |
+          python -m py_compile tools/janus_essence.py
+          python -m unittest -v tests.test_janus_essence
+          python -m tools.janus_essence demo > /tmp/essence-demo.json
+          python -m json.tool /tmp/essence-demo.json > /dev/null
