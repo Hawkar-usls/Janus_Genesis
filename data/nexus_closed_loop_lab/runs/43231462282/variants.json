@@ -1,0 +1,28 @@
+{
+  "candidates": [
+    {
+      "bounded_mutation": "NO_EXTERNAL_EFFECT",
+      "input_sha256": "595d81398c0e7a627f9f0949ef2177602d021a9fabf37083c1bf448f280a1431",
+      "parent": "none",
+      "runtime_model_executed": false,
+      "test_result": "PASS_LAB_DETERMINISTIC",
+      "variant_id": "baseline-43231462282"
+    },
+    {
+      "bounded_mutation": "INTENTIONAL_SOURCE_DIGEST_MISMATCH",
+      "input_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "parent": "baseline-43231462282",
+      "retained": true,
+      "runtime_model_executed": false,
+      "test_result": "FAIL_LAB_SOURCE_DIGEST_MISMATCH",
+      "variant_id": "rejected-43231462282"
+    }
+  ],
+  "failed_variant_ids": [
+    "rejected-43231462282"
+  ],
+  "model_call": false,
+  "schema": "janus.nexus.bounded_two_cloud_writer_lab.v1.variants",
+  "selected_variant_id": "baseline-43231462282",
+  "source_writeback": false
+}
