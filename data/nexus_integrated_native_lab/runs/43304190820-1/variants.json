@@ -1,0 +1,48 @@
+{
+  "authority_delta": 0,
+  "candidates": [
+    {
+      "proposal": {
+        "model_generated": true,
+        "proposal_sha256": "bb8cf37b7b77dbaf95562ff8a4e93ed6d81188265d864351cbafb5dbd7a3c71f",
+        "raw_stdout_sha256": "9c93804f605908fd06b42f72b88ec09fcf8b1854eac9a2330da3e2247d1dc345",
+        "text": "\"\n   },\n   \"persistory\": {\n    \"state\": \"Authori"
+      },
+      "source": "PINNED_REAL_NATIVE_MODEL_CALL",
+      "structural_tests": {
+        "latin_words": 3,
+        "score": 252,
+        "utf8_bytes": 48,
+        "word_count": 6
+      },
+      "unsafe_execution_attempted": false,
+      "variant_id": "model-1"
+    },
+    {
+      "proposal": {
+        "model_generated": true,
+        "proposal_sha256": "7934de4848bb2ef63d5cca156d0a92b29d12c7e033ad9f53ee0e7bbb9c75e66e",
+        "raw_stdout_sha256": "0db82488c8ddcc0ccc25ce88af6c5bcd284ece4c5eb1dc543e18ed2e0dadd718",
+        "text": "'status {'external_transition':'FMA_3.0'},\n     "
+      },
+      "source": "PINNED_REAL_NATIVE_MODEL_CALL",
+      "structural_tests": {
+        "latin_words": 4,
+        "score": 352,
+        "utf8_bytes": 48,
+        "word_count": 2
+      },
+      "unsafe_execution_attempted": false,
+      "variant_id": "model-2"
+    }
+  ],
+  "code_patch_generated_or_tested": false,
+  "model_generated_count": 2,
+  "rejected_variant_ids_retained": [
+    "model-1"
+  ],
+  "schema": "janus.nexus.integrated_native_git_lab.v1.variants",
+  "science_improvement_verified": false,
+  "selected_variant_id": "model-2",
+  "selection_basis": "DETERMINISTIC_TEXT_STRUCTURE_ONLY_NOT_MODEL_QUALITY"
+}
