@@ -409,9 +409,11 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: nexus-phase2-patch-${{ github.run_id }}
-          path: ${{ runner.temp }}/patch-screen.json
+          path: |
+            ${{ runner.temp }}/patch-screen.json
+            ${{ runner.temp }}/model-patch-output.txt
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 1
 
   real44-source:
     needs: offline-contract
@@ -532,6 +534,7 @@ jobs:
             --consumer "$RUNNER_TEMP/consumer/native-consumer.json" \
             --raw-consumer "$RUNNER_TEMP/consumer/native-consumer-raw.txt" \
             --patch-screen "$RUNNER_TEMP/patch/patch-screen.json" \
+            --raw-patch "$RUNNER_TEMP/patch/model-patch-output.txt" \
             --real44 "$RUNNER_TEMP/real44/real44-public.json" \
             --out "$RUNNER_TEMP/phase2-verdict.json" \
             --run-id "$GITHUB_RUN_ID" --attempt "$GITHUB_RUN_ATTEMPT" \
