@@ -287,10 +287,21 @@ def main() -> int:
             result=seed(args.run_id,args.attempt,args.source_sha,now_ms(),
                         secrets.token_hex(16))
         elif args.phase=="renew":
-            result=renew(read(b/"seed.json"),now_ms())
+            initial=read(b/"seed.json")
+            validate_seed(initial)
+            require(initial["run_id"]==args.run_id and
+                    initial["attempt"]==args.attempt and
+                    initial["source_sha"]==args.source_sha,
+                    "LIVE_RUN_SOURCE_PIN_DRIFT")
+            result=renew(initial,now_ms())
         else:
             first=read(b/"seed.json")
             renewed=read(b/"renew.json")
+            validate_chain(first,renewed)
+            require(first["run_id"]==args.run_id and
+                    first["attempt"]==args.attempt and
+                    first["source_sha"]==args.source_sha,
+                    "LIVE_RUN_SOURCE_PIN_DRIFT")
             if args.phase=="takeover":
                 if args.live_wait:
                     current=now_ms()
