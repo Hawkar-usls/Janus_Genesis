@@ -21,12 +21,12 @@ from typing import Any
 if __package__:
     from tools.janus_nexus_same_run_model_handoff_v1 import (
         MODEL_COMMIT, CHECKPOINT_SHA256, PROMPT, bounded_bytes,
-        suffix_from_output, verify_model_source,
+        suffix_from_output, verify_model_source, Hold as NativeHold,
     )
 else:
     from janus_nexus_same_run_model_handoff_v1 import (
         MODEL_COMMIT, CHECKPOINT_SHA256, PROMPT, bounded_bytes,
-        suffix_from_output, verify_model_source,
+        suffix_from_output, verify_model_source, Hold as NativeHold,
     )
 
 SCHEMA = "janus.nexus.integrated_native_git_lab.v1"
@@ -109,7 +109,10 @@ def source_witness(value: dict) -> dict:
 
 
 def proposal(raw: bytes) -> dict:
-    suffix = suffix_from_output(raw)
+    try:
+        suffix = suffix_from_output(raw)
+    except NativeHold as exc:
+        raise Hold("NATIVE_OUTPUT_" + str(exc)) from exc
     size = len(suffix.encode("utf-8"))
     require(0 < size <= MAX_PROPOSAL_BYTES, "MODEL_PROPOSAL_SIZE")
     require(all(x.isprintable() or x in "\n\t" for x in suffix),
