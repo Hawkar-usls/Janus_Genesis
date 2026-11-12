@@ -159,6 +159,28 @@ class CohortJoinTests(unittest.TestCase):
         with self.assertRaisesRegex(JoinHold,"EXTERNAL_ACK_WRONG_RUN_OR_PROPOSAL"):
             self.joined(external_ack=external)
 
+    def test_matching_json_is_not_authenticated_external_or_neural_proof(self):
+        external={
+            "sender_source_run_id":RUN,"sender_source_attempt":1,
+            "sender_code_sha":SOURCE,
+            "selected_proposal_sha256":"2"*64,
+            "receiver_repository":"Hawkar-usls/Janus-Demiurge",
+            "real_external_organ_readonly_consumption_proven":True,
+            "external_organ_is_separate_git_repository_and_runner":True,
+            "source_writeback":False,"full_issue_162_acceptance":False}
+        neural={
+            "run_id":RUN,"attempt":1,"source_sha":SOURCE,
+            "model_generated_actual_source_patch":True,
+            "independent_heldout_pass":True,
+            "source_writeback":False,"authority_delta":0}
+        d=self.joined(external_ack=external,neural_patch=neural)
+        self.assertTrue(d["external_ack_fields_match_without_origin_proof"])
+        self.assertTrue(d["neural_patch_fields_match_without_origin_proof"])
+        self.assertFalse(d["external_organ_same_cohort_ack"])
+        self.assertFalse(d["neural_patch_same_cohort_holdout"])
+        self.assertFalse(d["full_issue_162_acceptance"])
+        self.assertIn("HOLD_CAUSAL_EXTERNAL_DEMIURGE_ACK_INDEPENDENT_PROVENANCE",d["hard_holds"])
+
     def test_source_archive_same_run_claim_is_not_retroactively_inferred(self):
         p=self.base/"checkpoint.json"
         row=json.loads(p.read_text())
