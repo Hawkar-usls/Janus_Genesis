@@ -269,6 +269,35 @@ def one_run_real44_receipt(run_id: str, source_sha: str, success: bool) -> dict:
     }
 
 
+def replay_real44_receipt(run_id: str, source_sha: str, matched: bool) -> dict:
+    """Privacy-safe statement produced only after clean B's cryptographic check.
+
+    This record itself is not proof: independent acceptance must also require
+    trusted clean B job success and an A artifact in the *same* Actions run.
+    """
+    check_sha(source_sha)
+    require(bool(re.fullmatch(r"[1-9][0-9]{3,23}", run_id)), "RUN_ID_INVALID")
+    require(type(matched) is bool, "REAL44_REPLAY_MATCH_INVALID")
+    return {
+        "schema": SCHEMA + ".real44_replay_b",
+        "run_id": run_id, "source_code_sha": source_sha,
+        "status": "PASS_FROZEN_TWO_CLEAN_REAL44_MATCH" if matched
+                  else "HOLD_FROZEN_TWO_CLEAN_REAL44",
+        "source_count": 44 if matched else None,
+        "public_count": 41 if matched else None,
+        "private_count": 3 if matched else None,
+        "source_pins_authenticated_encrypted_a_to_b": matched,
+        "same_run_two_clean_real44_rebuilds": matched,
+        "private_source_names_disclosed": False,
+        "private_exact_pins_disclosed": False,
+        "private_nexus_digest_disclosed": False,
+        "source_code_executed": False,
+        "source_writeback": False,
+        "authority_delta": 0,
+        "full_issue_162_acceptance": False,
+    }
+
+
 def validate_b_with_cas(root: Path, run_id: str, attempt: int,
                         registry: dict, a_head: str, b_head: str,
                         race: dict) -> dict:
@@ -301,7 +330,8 @@ def validate_b_with_cas(root: Path, run_id: str, attempt: int,
 def independent_phase2_verdict(root: Path, run_id: str, attempt: int,
                                registry: dict, a_head: str, b_head: str,
                                race: dict, consumer: dict, raw_consumer: bytes,
-                               patch_screen: dict, raw_patch: bytes, real44: dict) -> dict:
+                               patch_screen: dict, raw_patch: bytes, real44: dict,
+                               real44_replay: dict) -> dict:
     state = validate_b_with_cas(root,run_id,attempt,registry,
                                 a_head,b_head,race)
     base,checkpoint,_ = validate_a(root,run_id,attempt,registry)
@@ -352,6 +382,10 @@ def independent_phase2_verdict(root: Path, run_id: str, attempt: int,
         run_id,checkpoint["code_sha"],
         real44.get("status") == "PASS_ONE_CLEAN_CLOUD_REAL44"),
         "REAL44_PUBLIC_RECEIPT_NOT_BOUND")
+    require(real44.get("status") == "PASS_ONE_CLEAN_CLOUD_REAL44",
+            "REAL44_WORKER_A_UNAVAILABLE")
+    require(real44_replay == replay_real44_receipt(
+        run_id, checkpoint["code_sha"], True), "REAL44_CLEAN_B_REPLAY_NOT_VERIFIED")
     require(race["run_id"] == run_id and race["attempt"] == attempt and
             race["authority_delta"] == 0 and
             race["live_lease_expiry_renewal_tested"] is False,
@@ -363,7 +397,7 @@ def independent_phase2_verdict(root: Path, run_id: str, attempt: int,
       "real_native_consumer":True,
       "real_github_branch_ref_cas_winner":True,
       "real44_same_run_single_worker":real44["status"] == "PASS_ONE_CLEAN_CLOUD_REAL44",
-      "real44_two_clean_rebuilds_same_run":False,
+      "real44_two_clean_rebuilds_same_run":True,
       "native_generated_software_patch_admitted":patch_screen["status"].startswith("PASS"),
       "independent_software_improvement_verified":False,
       "g1_to_g20_full_acceptance":False,
@@ -379,7 +413,7 @@ def independent_phase2_verdict(root: Path, run_id: str, attempt: int,
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("phase", choices=(
-        "claim", "contender", "race", "consumer-prompt", "consumer", "patch", "real44", "final"))
+        "claim", "contender", "race", "consumer-prompt", "consumer", "patch", "real44", "real44-replay", "final"))
     ap.add_argument("--root", type=Path)
     ap.add_argument("--registry", type=Path)
     ap.add_argument("--brain", type=Path)
@@ -400,6 +434,7 @@ def main() -> int:
     ap.add_argument("--consumer", type=Path)
     ap.add_argument("--patch-screen", type=Path)
     ap.add_argument("--real44", type=Path)
+    ap.add_argument("--real44-replay", type=Path)
     ap.add_argument("--b-head", default="")
     ap.add_argument("--contender-1", type=Path)
     ap.add_argument("--contender-2", type=Path)
@@ -415,6 +450,9 @@ def main() -> int:
         elif args.phase == "real44":
             value = one_run_real44_receipt(args.run_id,args.source_sha,
                                            args.pass_real44)
+        elif args.phase == "real44-replay":
+            value = replay_real44_receipt(args.run_id,args.source_sha,
+                                          args.pass_real44)
         elif args.phase == "patch":
             require(args.raw is not None, "MODEL_OUTPUT_REQUIRED")
             value = screen_patch(bounded_bytes(args.raw),args.source_sha,
@@ -436,12 +474,13 @@ def main() -> int:
             elif args.phase == "final":
                 require(all((x is not None for x in
                   (args.race,args.consumer,args.patch_screen,args.real44,
-                   args.raw_consumer,args.raw_patch))), "FINAL_EVIDENCE_REQUIRED")
+                   args.raw_consumer,args.raw_patch,args.real44_replay))), "FINAL_EVIDENCE_REQUIRED")
                 value=independent_phase2_verdict(args.root,args.run_id,
                     args.attempt,witness,args.a_head,args.b_head,
                     read(args.race),read(args.consumer),
                     bounded_bytes(args.raw_consumer),read(args.patch_screen),
-                    bounded_bytes(args.raw_patch),read(args.real44))
+                    bounded_bytes(args.raw_patch),read(args.real44),
+                    read(args.real44_replay))
             elif args.phase == "consumer-prompt":
                 prompt = native_consumer_prompt(args.root,args.run_id,args.attempt)
                 require(not args.out.exists(), "PROMPT_OUTPUT_ALREADY_PRESENT")
