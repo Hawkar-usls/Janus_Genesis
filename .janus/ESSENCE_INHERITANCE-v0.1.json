@@ -1,0 +1,33 @@
+{
+  "schema": "janus.essence.repository_install.v0.1",
+  "name": "ESSENCE",
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "specialty": "genesis",
+  "parent_repository": "Hawkar-usls/Janus-Demiurge",
+  "parent_ref_type": "CANONICAL_COMMIT",
+  "parent_ref": "6a0995f2e4613444897f365dbe43ec91a4cdf8d1",
+  "parent_module": "tools/janus_essence.py",
+  "canonical_module_blob_sha": "89972959eedef3c18b5ae705d119619068bdc0a1",
+  "local_module": "tools/janus_essence.py",
+  "inherited_roles": [
+    "identity",
+    "sensing",
+    "memory",
+    "planning",
+    "verification",
+    "recovery",
+    "learning",
+    "evolution",
+    "routing",
+    "resource",
+    "governance",
+    "transport"
+  ],
+  "local_genome_generator": "python -m tools.janus_essence genome --repo Hawkar-usls/Janus_Genesis --specialty genesis",
+  "runtime_default": "OFFLINE_NO_SIDE_EFFECTS",
+  "auto_dispatch": false,
+  "autonomous_model_training": false,
+  "peer_messages": "UNVERIFIED_CANDIDATES_ONLY",
+  "model_weights_included": false,
+  "initial_deployment": "PILOT_ONLY"
+}
