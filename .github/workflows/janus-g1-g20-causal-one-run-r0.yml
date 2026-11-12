@@ -309,7 +309,7 @@ jobs:
           git -C _state merge-base --is-ancestor "$seed" "$TAKE_HEAD"
           (
             cd _code
-            python tools/janus_nexus_g1_g20_causal_join_v1.py \
+            python -m tools.janus_nexus_g1_g20_causal_join_v1 \
               --root "$GITHUB_WORKSPACE/_state" \
               --run-id "$GITHUB_RUN_ID" \
               --attempt "$GITHUB_RUN_ATTEMPT" \
