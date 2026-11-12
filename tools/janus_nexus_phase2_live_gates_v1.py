@@ -47,7 +47,9 @@ def check_sha(value: str) -> str:
 
 
 def bounded_bytes(path: Path) -> bytes:
-    require(path.is_file() and not path.is_symlink(), "MODEL_OUTPUT_MISSING")
+    require(path.is_file() and not path.is_symlink() and
+            not any(ancestor.is_symlink() for ancestor in path.parents),
+            "MODEL_OUTPUT_MISSING")
     size = path.stat().st_size
     require(0 < size <= MAX_MODEL_BYTES, "MODEL_OUTPUT_BOUNDS")
     return path.read_bytes()
