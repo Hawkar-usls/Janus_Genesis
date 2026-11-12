@@ -1,0 +1,47 @@
+{
+  "schema": "janus.essence.legal_sources/0.1",
+  "observed_at": "2026-11-12",
+  "source": "GitHub repository metadata; SPDX at repository level only (not per-file legal audit)",
+  "purpose": "Study eligible ideas before any code reuse. No automated download or import.",
+  "repositories": [
+    {
+      "repository": "karpathy/micrograd",
+      "observed_spdx": "MIT",
+      "focus": "tiny autograd and neural nets",
+      "auto_fetch_code": false,
+      "auto_import_code": false,
+      "attribution_required": true
+    },
+    {
+      "repository": "karpathy/nanoGPT",
+      "observed_spdx": "MIT",
+      "focus": "minimal GPT training and model layout",
+      "auto_fetch_code": false,
+      "auto_import_code": false,
+      "attribution_required": true
+    },
+    {
+      "repository": "TheAlgorithms/Python",
+      "observed_spdx": "MIT",
+      "focus": "Python algorithms and tests",
+      "auto_fetch_code": false,
+      "auto_import_code": false,
+      "attribution_required": true
+    },
+    {
+      "repository": "huggingface/transformers",
+      "observed_spdx": "Apache-2.0",
+      "focus": "model architecture, evaluation and pretrained interoperability",
+      "auto_fetch_code": false,
+      "auto_import_code": false,
+      "attribution_required": true
+    }
+  ],
+  "admission_note": "Repository license metadata is preliminary. Before copying any file check its actual license, notices, dependencies, copyright holders, model-weight/data licenses, security and provenance. Use code only through reviewed PR, isolated tests and rollback.",
+  "permissions": {
+    "code_execution": false,
+    "auto_merge": false,
+    "auto_install": false,
+    "network_in_essence_runtime": false
+  }
+}
