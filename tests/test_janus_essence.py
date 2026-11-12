@@ -99,7 +99,7 @@ class EssenceContractTests(unittest.TestCase):
         self.assertEqual(roles["planning"], "ISOLATED_FAILURE")
         self.assertEqual(roles["memory"], "LOCAL_POLICY_READY")
         self.assertEqual(roles["learning"], "HOLD_INDEPENDENT_VALIDATION_REQUIRED")
-        self.assertEqual(len(roles), 12)
+        self.assertEqual(len(roles), 13)
         self.assertEqual(receipt["receipt_sha256"],
                          e.digest({k: v for k, v in receipt.items()
                                    if k != "receipt_sha256"}))
@@ -111,6 +111,39 @@ class EssenceContractTests(unittest.TestCase):
         malicious = e._sealed(data, "packet_sha256")
         with self.assertRaises(ValueError):
             e.verify_packet(malicious)
+
+
+    def test_unified_six_cell_adapter_inside_one_essence(self):
+        six = ("sensing", "memory", "planning", "verification", "recovery", "coding")
+        adapter = {
+            "schema": "janus.essence.microkernel/0.1",
+            "repository": "Hawkar-usls/Janus_Genesis",
+            "enabled": False,
+            "activation": "EXPLICIT_READONLY_TEST_ONLY",
+            "capabilities": {x: False for x in (
+                "network", "shell", "repo_write", "workflow_dispatch",
+                "secrets", "hardware",
+            )},
+            "birth_policy": "PROPOSAL_ONLY",
+            "microkernels": [
+                {"id": f"cell-{role}", "role": role, "generation": 0,
+                 "gene_sources": ["historical_source"]}
+                for role in six
+            ],
+        }
+        profile = e.unified_profile(adapter, self.child)
+        self.assertEqual(profile["logical_core_instances"], 1)
+        self.assertEqual(len(profile["legacy_adapter_roles"]), 6)
+        self.assertEqual(len(profile["extended_roles"]), 7)
+        self.assertFalse(profile["model_weights_imported"])
+        forged = copy.deepcopy(adapter)
+        forged["capabilities"]["network"] = True
+        with self.assertRaises(ValueError):
+            e.unified_profile(forged, self.child)
+        forged = copy.deepcopy(adapter)
+        forged["repository"] = "Hawkar-usls/Janus-Demiurge"
+        with self.assertRaisesRegex(ValueError, "REPOSITORY_IDENTITY_SPLIT"):
+            e.unified_profile(forged, self.child)
 
 
 if __name__ == "__main__":
