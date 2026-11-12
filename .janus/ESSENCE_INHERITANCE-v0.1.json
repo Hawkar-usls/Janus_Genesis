@@ -5,9 +5,9 @@
   "specialty": "genesis",
   "parent_repository": "Hawkar-usls/Janus-Demiurge",
   "parent_ref_type": "CANONICAL_COMMIT",
-  "parent_ref": "6a0995f2e4613444897f365dbe43ec91a4cdf8d1",
+  "parent_ref": "cbf1bf9c93e92278ae9697bc7fe0cd71f2451b58",
   "parent_module": "tools/janus_essence.py",
-  "canonical_module_blob_sha": "89972959eedef3c18b5ae705d119619068bdc0a1",
+  "canonical_module_blob_sha": "fbfefd674bddb3e69feeda240b20bfbc01c9f8a3",
   "local_module": "tools/janus_essence.py",
   "inherited_roles": [
     "identity",
@@ -21,7 +21,8 @@
     "routing",
     "resource",
     "governance",
-    "transport"
+    "transport",
+    "coding"
   ],
   "local_genome_generator": "python -m tools.janus_essence genome --repo Hawkar-usls/Janus_Genesis --specialty genesis",
   "runtime_default": "OFFLINE_NO_SIDE_EFFECTS",
@@ -29,5 +30,8 @@
   "autonomous_model_training": false,
   "peer_messages": "UNVERIFIED_CANDIDATES_ONLY",
   "model_weights_included": false,
-  "initial_deployment": "PILOT_ONLY"
+  "initial_deployment": "PILOT_ONLY",
+  "logical_instances": 1,
+  "compatible_with_six_adapter_manifest": ".janus/essence/manifest.json",
+  "compatibility_status": "R1_UNIFIED_OFFLINE_POLICY_ONLY"
 }

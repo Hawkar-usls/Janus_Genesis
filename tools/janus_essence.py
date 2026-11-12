@@ -17,7 +17,7 @@ PACKET_SCHEMA = "janus.essence.peer_lesson.v0.1"
 ROLES = (
     "identity", "sensing", "memory", "planning", "verification",
     "recovery", "learning", "evolution", "routing", "resource",
-    "governance", "transport",
+    "governance", "transport", "coding",
 )
 REQUIRED = frozenset(("identity", "memory", "verification", "governance", "resource"))
 CAPABILITIES = ("local_observation", "candidate_exchange", "lineage_proposal")
@@ -164,6 +164,72 @@ def verify_packet(packet):
     if expected != packet:
         raise ValueError("PACKET_INVALID")
     return True
+
+
+LEGACY_ADAPTER_ROLES = frozenset((
+    "sensing", "memory", "planning", "verification", "recovery", "coding",
+))
+
+
+def unified_profile(legacy_adapter_manifest, inherited_genome):
+    """Verify that the six-cell offline adapter and ESSENCE genome are one organism.
+
+    This validates manifest *consistency*, not live runtime trust or model
+    training. It never executes the legacy adapter or imports its code.
+    """
+    verify_genome(inherited_genome)
+    obj = legacy_adapter_manifest
+    if not isinstance(obj, dict) or obj.get("schema") != "janus.essence.microkernel/0.1":
+        raise ValueError("UNKNOWN_LEGACY_ADAPTER")
+    if obj.get("repository") != inherited_genome["repository"]:
+        raise ValueError("REPOSITORY_IDENTITY_SPLIT")
+    if obj.get("enabled") is not False or obj.get("activation") != "EXPLICIT_READONLY_TEST_ONLY":
+        raise ValueError("LIVE_ADAPTER_FORBIDDEN")
+    caps = obj.get("capabilities")
+    denied = {"network", "shell", "repo_write", "workflow_dispatch",
+              "secrets", "hardware"}
+    if not isinstance(caps, dict) or set(caps) != denied or any(v is not False for v in caps.values()):
+        raise ValueError("LEGACY_CAPABILITY_ESCALATION")
+    if obj.get("birth_policy") != "PROPOSAL_ONLY":
+        raise ValueError("UNADMITTED_LEGACY_OFFSPRING")
+    cells = obj.get("microkernels")
+    if not isinstance(cells, list) or not 6 <= len(cells) <= 16:
+        raise ValueError("LEGACY_CELL_BOUNDS")
+    roles = []
+    ids = set()
+    for cell in cells:
+        if not isinstance(cell, dict) or set(cell) != {
+            "id", "role", "generation", "gene_sources",
+        }:
+            raise ValueError("LEGACY_CELL_SHAPE")
+        role = cell["role"]
+        ident = cell["id"]
+        if role not in LEGACY_ADAPTER_ROLES or not isinstance(ident, str) or not re.fullmatch(r"[a-z][a-z0-9_-]{0,47}", ident):
+            raise ValueError("LEGACY_CELL_ROLE_OR_ID")
+        if ident in ids:
+            raise ValueError("LEGACY_DUPLICATE_ID")
+        ids.add(ident)
+        roles.append(role)
+        if type(cell["generation"]) is not int or not 0 <= cell["generation"] <= 32:
+            raise ValueError("LEGACY_GENERATION")
+        if not isinstance(cell["gene_sources"], list) or len(cell["gene_sources"]) > 5 or any(
+            not isinstance(s, str) or len(s) > 64 for s in cell["gene_sources"]
+        ):
+            raise ValueError("LEGACY_DONOR_INVALID")
+    if not LEGACY_ADAPTER_ROLES.issubset(roles) or not set(roles).issubset(inherited_genome["microcores"]):
+        raise ValueError("ADAPTER_ROLES_NOT_INHERITED")
+    return _sealed({
+        "schema": "janus.essence.unified_profile.v0.1",
+        "repository": inherited_genome["repository"],
+        "genome_sha256": inherited_genome["integrity_sha256"],
+        "legacy_adapter_manifest_sha256": digest(obj),
+        "legacy_adapter_roles": sorted(set(roles)),
+        "extended_roles": sorted(set(inherited_genome["microcores"]) - LEGACY_ADAPTER_ROLES),
+        "logical_core_instances": 1,
+        "model_weights_imported": False,
+        "cross_repo_gradient_exchange": False,
+        "external_effects": False,
+    }, "profile_sha256")
 
 
 class EssenceCore:
