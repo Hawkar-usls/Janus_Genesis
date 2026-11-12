@@ -276,6 +276,7 @@ def main() -> int:
     p.add_argument("--takeover-head",default="")
     p.add_argument("--remote-head",default="")
     p.add_argument("--git-push-rejected",action="store_true")
+    p.add_argument("--late-path",type=Path)
     p.add_argument("--live-wait",action="store_true")
     args=p.parse_args()
     try:
@@ -305,7 +306,7 @@ def main() -> int:
                          args.git_push_rejected,args.renew_head,args.takeover_head)
                 else:
                     result=verify(first,renewed,successor,
-                        read(b/"late-attempt.json"),args.seed_head,
+                        read(args.late_path or b/"late-attempt.json"),args.seed_head,
                         args.renew_head,args.takeover_head,args.remote_head)
         save_once(args.out,result)
         print("JANUS_REAL_GIT_LEASE_"+args.phase.upper()+"="+
