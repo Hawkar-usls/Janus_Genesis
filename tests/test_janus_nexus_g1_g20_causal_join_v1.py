@@ -109,8 +109,8 @@ class CohortJoinTests(unittest.TestCase):
         self.assertFalse(d["full_issue_162_acceptance"])
         self.assertEqual(d["scientific_authority_delta"],0)
         self.assertIn("HOLD_REAL44_MODEL_INPUT_CAUSAL_LINK",d["hard_holds"])
-        self.assertIn("HOLD_CAUSAL_EXTERNAL_DEMIURGE_ACK",d["hard_holds"])
-        self.assertIn("HOLD_NATIVE_NEURAL_SOURCE_REPAIR",d["hard_holds"])
+        self.assertIn("HOLD_CAUSAL_EXTERNAL_DEMIURGE_ACK_INDEPENDENT_PROVENANCE",d["hard_holds"])
+        self.assertIn("HOLD_NATIVE_NEURAL_SOURCE_REPAIR_INDEPENDENT_PROVENANCE",d["hard_holds"])
         self.assertEqual(len(d["g1_g20_scoped_observations"]),20)
 
     def test_cross_run_phase2_rejected(self):
