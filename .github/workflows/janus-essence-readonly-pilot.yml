@@ -5,6 +5,7 @@ on:
     paths:
       - '.janus/essence/**'
       - 'tests/test_essence_kernel.py'
+      - 'tests/test_essence_gene_bank.py'
       - '.github/workflows/janus-essence-readonly-pilot.yml'
   push:
     branches: [main]
@@ -41,4 +42,72 @@ jobs:
           name: essence-readonly-pilot
           path: artifacts/essence/receipt.json
           if-no-files-found: error
+          retention-days: 14
+
+  gene-bank-archaeology:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Checkout Meta Registry data read-only
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          path: dependencies/registry
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Checkout Demiurge archaeology read-only
+        uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          path: dependencies/archives
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Verify historical reader and license hold invariants
+        run: |
+          python -m py_compile .janus/essence/gene_bank.py
+          python -m unittest discover -s tests -p 'test_essence_gene_bank.py' -v
+      - name: Parse lineage and propose no-authority offspring
+        shell: bash
+        run: |
+          set -euo pipefail
+          REGISTRY_SHA="$(git -C dependencies/registry rev-parse HEAD)"
+          ARCHIVE_SHA="$(git -C dependencies/archives rev-parse HEAD)"
+          python .janus/essence/gene_bank.py \
+            --manifest .janus/essence/manifest.json \
+            --catalog .janus/essence/legal_sources.json \
+            --registry-root dependencies/registry \
+            --archive-root dependencies/archives \
+            --registry-sha "$REGISTRY_SHA" \
+            --archive-sha "$ARCHIVE_SHA" \
+            --expected-repo "${{ github.repository }}" \
+            --out artifacts/essence/gene-bank.json
+          python .janus/essence/gene_bank.py --verify artifacts/essence/gene-bank.json
+          python - <<'PY'
+          import json,os,sys
+          r=json.load(open("artifacts/essence/gene-bank.json", encoding="utf-8"))
+          rows=["# ESSENCE Gene Bank v0.2","- Gate: **"+r["gate"]+"**",
+                "- Archives: "+str(len(r["archive_inventory"])),
+                "- Invalid/missing: "+str(len(r["missing_sources"])),
+                "- Gene families: "+str(r["historical_gene_count"]),
+                "- Proposed cells: "+str(len(r["proposals"])),
+                "- No executable import, weight change, auto-copy or promotion."]
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as stream:
+            stream.write("\n".join(rows)+"\n")
+          if r["gate"] != "RESEARCH_READY_PROPOSAL_ONLY":
+            sys.exit("ESSENCE_ARCHIVE_HOLD")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: essence-gene-bank-${{ github.run_id }}
+          path: artifacts/essence/gene-bank.json
+          if-no-files-found: warn
           retention-days: 14
