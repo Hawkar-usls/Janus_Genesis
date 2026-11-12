@@ -1,0 +1,255 @@
+name: JANUS Cooling Tower | one-shot ecosystem probe
+
+on:
+  push:
+    branches:
+      - janus/cooling-tower-one-shot-20261112
+    paths:
+      - .github/workflows/janus-cooling-tower-one-shot.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: janus-cooling-tower-one-shot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  repository-circulation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout pinned source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify local repository constellation and G1-G20 join contracts
+        continue-on-error: true
+        run: |
+          python3 -m unittest discover -s tests -p 'test_genesis_git_habitat_repository_constellation_v18_7_59.py' -v
+          python3 -m unittest discover -s tests -p 'test_janus_nexus_g1_g20_causal_join_v1.py' -v
+      - name: Run two bounded read-only circulation passes over all public repositories
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ github.sha }}
+          SOURCE_RUN_ID: ${{ github.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p runtime/cooling_tower
+          python3 - <<'PY'
+          import concurrent.futures
+          import datetime
+          import hashlib
+          import json
+          import os
+          import time
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+          from pathlib import Path
+
+          OWNER = "Hawkar-usls"
+          BASE = "https://api.github.com"
+          OUT = Path("runtime/cooling_tower")
+          TOKEN = os.environ.get("GH_TOKEN", "")
+          HEADERS = {
+              "Accept": "application/vnd.github+json",
+              "User-Agent": "JANUS-Cooling-Tower-ReadOnly/1.0",
+              "X-GitHub-Api-Version": "2022-11-28",
+          }
+          if TOKEN:
+              HEADERS["Authorization"] = "Bearer " + TOKEN
+
+          def request(path):
+              url = BASE + path
+              for attempt in range(2):
+                  try:
+                      with urllib.request.urlopen(
+                          urllib.request.Request(url, headers=HEADERS), timeout=18
+                      ) as response:
+                          return json.load(response)
+                  except urllib.error.HTTPError as exc:
+                      if exc.code in (429, 500, 502, 503, 504) and attempt == 0:
+                          time.sleep(2)
+                          continue
+                      return {"_error": "HTTP_" + str(exc.code)}
+                  except (TimeoutError, OSError, ValueError) as exc:
+                      if attempt == 0:
+                          time.sleep(2)
+                          continue
+                      return {"_error": type(exc).__name__}
+              return {"_error": "UNEXPECTED"}
+
+          started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+          public = []
+          for page in range(1, 3):
+              result = request(f"/users/{OWNER}/repos?per_page=100&page={page}&type=owner")
+              if not isinstance(result, list):
+                  raise RuntimeError("Cannot enumerate public GitHub repositories: " + str(result))
+              public.extend(result)
+              if len(result) < 100:
+                  break
+          names = sorted(set(
+              x["name"] for x in public if x.get("owner", {}).get("login", "").lower() == OWNER.lower()
+              and x.get("private") is False and not x.get("archived", False)
+          ))
+          if len(names) < 30:
+              raise RuntimeError("Refuse incomplete inventory: fewer than 30 public repositories")
+          (OUT / "public-repository-list.json").write_text(
+              json.dumps({"owner": OWNER, "public_repositories": names}, indent=2) + "\n"
+          )
+          critical = [
+              ("Janus_Genesis", "janus-g1-g20-causal-one-run-r0.yml"),
+              ("Janus-Demiurge", "janus-demiurge-conductor.yml"),
+              ("janus-meta-registry", "janus-autonomous-coder.yml"),
+              ("Hrain", "hrain-topa-continuous-semantic-flywheel.yml"),
+              ("TOPA", "spider-github-actions-scheduler-s3.yml"),
+              ("janus-lapis", "universal-beetle-hourly.yml"),
+              ("janus-distributed-ai-swarm", "validate-brain-five-face-bus.yml"),
+              ("Janus-Fundamentum", "validate-registry.yml"),
+              ("Demi_Head", "unified-memory-v2-e2e.yml"),
+              ("AIFC", "validate-aifc-internal-terminal-handoff-v1.yml"),
+              ("Janus-Cosmos", "cosmos-rowan-ecosystem-witness.yml"),
+              ("SCOBY-D0", "invariants.yml"),
+          ]
+
+          def inspect_repository(name):
+              q = urllib.parse.quote(name, safe="")
+              wf = request(f"/repos/{OWNER}/{q}/actions/workflows?per_page=1")
+              runs = request(f"/repos/{OWNER}/{q}/actions/runs?per_page=5")
+              latest = next((r for r in runs.get("workflow_runs", [])
+                             if r.get("event") != "dynamic"), None) if "_error" not in runs else None
+              return {
+                  "repository": name,
+                  "workflow_count": wf.get("total_count"),
+                  "workflow_error": wf.get("_error"),
+                  "runs_error": runs.get("_error"),
+                  "latest_workflow": latest.get("name") if latest else None,
+                  "latest_event": latest.get("event") if latest else None,
+                  "latest_status": latest.get("status") if latest else None,
+                  "latest_conclusion": latest.get("conclusion") if latest else None,
+                  "latest_run_id": latest.get("id") if latest else None,
+                  "latest_head_sha": latest.get("head_sha") if latest else None,
+                  "last_run_at": latest.get("created_at") if latest else None,
+              }
+
+          def probe_core(pair):
+              repo, workflow = pair
+              q = urllib.parse.quote(workflow, safe="")
+              result = request(f"/repos/{OWNER}/{repo}/actions/workflows/{q}/runs?per_page=1")
+              row = (result.get("workflow_runs") or [None])[0] if "_error" not in result else None
+              return {
+                  "repository": repo, "workflow": workflow,
+                  "status": row.get("status") if row else None,
+                  "conclusion": row.get("conclusion") if row else None,
+                  "run_id": row.get("id") if row else None,
+                  "head_sha": row.get("head_sha") if row else None,
+                  "error": result.get("_error"),
+              }
+
+          snapshots = []
+          for cycle in (1, 2):
+              with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+                  observed = list(executor.map(inspect_repository, names))
+              snapshot = {
+                  "cycle": cycle,
+                  "utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  "repositories": observed,
+                  "reachable": sum(r["workflow_error"] is None and r["runs_error"] is None for r in observed),
+                  "latest_success": sum(r["latest_conclusion"] == "success" for r in observed),
+                  "latest_failure": sum(r["latest_conclusion"] == "failure" for r in observed),
+                  "incomplete": sum(r["latest_status"] != "completed" for r in observed),
+              }
+              snapshots.append(snapshot)
+              (OUT / f"circulation-{cycle}.json").write_text(
+                  json.dumps(snapshot, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+              )
+              print("CIRCULATION", cycle, "REACHABLE", snapshot["reachable"], "/", len(names),
+                    "LATEST_SUCCESS", snapshot["latest_success"], "LATEST_FAILURE", snapshot["latest_failure"])
+              if cycle == 1:
+                  time.sleep(4)
+
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
+              core = list(executor.map(probe_core, critical))
+          fingerprint = lambda snap: hashlib.sha256(json.dumps(
+              [(r["repository"], r["latest_run_id"], r["latest_conclusion"], r["latest_head_sha"])
+               for r in snap["repositories"]], sort_keys=True
+          ).encode()).hexdigest()
+          critical_failed = [r for r in core if r["conclusion"] == "failure"]
+          critical_unknown = [r for r in core if r["conclusion"] is None or r["error"]]
+          complete = snapshots[-1]["reachable"] == len(names)
+          gate = "HOLD" if critical_failed or critical_unknown or not complete else "PASS_OBSERVATION_ONLY"
+          receipt = {
+              "schema": "janus.cooling_tower.one_shot_observation.v1",
+              "run_id": os.environ["SOURCE_RUN_ID"],
+              "source_sha": os.environ["SOURCE_SHA"],
+              "started_at": started,
+              "completed_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              "scope": {
+                  "public_repositories": len(names),
+                  "private_repositories": "NOT_QUERIED_IN_PUBLIC_WORKFLOW",
+                  "circulation_passes": 2,
+                  "cross_repository_dispatches": 0,
+                  "code_mutations": 0,
+                  "nas_operations": 0,
+                  "self_rescheduling": False,
+              },
+              "gate": gate,
+              "gate_is_full_system_acceptance": False,
+              "private_repositories_are_excluded_from_public_artifact": True,
+              "critical_workflows": core,
+              "critical_failures": critical_failed,
+              "critical_unknowns": critical_unknown,
+              "stable_latest_run_fingerprint": fingerprint(snapshots[0]) == fingerprint(snapshots[1]),
+              "first_cycle": {k: v for k, v in snapshots[0].items() if k != "repositories"},
+              "second_cycle": {k: v for k, v in snapshots[1].items() if k != "repositories"},
+              "loop_policy": {
+                  "desired_flow": "SENSE -> VALIDATE -> CLASSIFY -> ROUTE -> VERIFY -> RETURN",
+                  "max_cycles": 2,
+                  "stops_on_critical_failure": True,
+                  "dispatch_disabled_until_independent_acceptance": True,
+                  "no_infinite_self_dispatch": True,
+                  "no_production_promotions": True,
+              },
+          }
+          (OUT / "receipt.json").write_text(json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
+          print("COOLING_TOWER_GATE", gate, "CRITICAL_FAILURES", len(critical_failed),
+                "CRITICAL_UNKNOWNS", len(critical_unknown), "STABLE", receipt["stable_latest_run_fingerprint"])
+          PY
+      - name: Publish bounded loop report to workflow summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f runtime/cooling_tower/receipt.json ]; then
+            python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          r=json.loads(Path("runtime/cooling_tower/receipt.json").read_text())
+          lines=[
+              "# JANUS Cooling Tower — one-shot",
+              f"- Gate: **{r['gate']}** (observation only)",
+              f"- Public repos: {r['scope']['public_repositories']}; private repos excluded",
+              f"- Reachable: {r['second_cycle']['reachable']}",
+              f"- Latest successful runs: {r['second_cycle']['latest_success']}",
+              f"- Latest failed runs: {r['second_cycle']['latest_failure']}",
+              f"- Stable fingerprint: {r['stable_latest_run_fingerprint']}",
+              f"- Critical failures: {len(r['critical_failures'])}; unknowns: {len(r['critical_unknowns'])}",
+              "- No new cross-repo dispatch, no code mutation, no NAS actions, no autonomous loop.",
+          ]
+          with open(os.environ["GITHUB_STEP_SUMMARY"],"a") as h:
+              h.write("\n".join(lines)+"\n")
+          PY
+          else
+            echo 'No report emitted: probe failed before final receipt' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Upload full machine-readable evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-cooling-tower-one-shot-${{ github.run_id }}
+          path: runtime/cooling_tower/
+          if-no-files-found: warn
+          retention-days: 14
