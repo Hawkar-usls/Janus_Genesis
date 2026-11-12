@@ -27,16 +27,35 @@ env:
   REPAIR_CLI: tools/janus_nexus_real_source_self_repair_v1.py
   REAL_FILE: tools/janus_nexus_phase2_live_gates_v1.py
   FROZEN_TARGET_BLOB: bc839416b1cdfcaf5cd803ab494985ddd678d3cd
+  CERTIFIED_FIXED_BLOB: ed3301deececfb52fa2744f3d9a034b9783d454d
 
 jobs:
   offline-contract:
     runs-on: ubuntu-24.04
     timeout-minutes: 12
+    outputs:
+      needs_repair: ${{ steps.preflight.outputs.needs_repair }}
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
+      - name: Distinguish SHA-certified preimage from already-fixed source
+        id: preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          blob="$(git rev-parse HEAD:"$REAL_FILE")"
+          if [ "$blob" = "$FROZEN_TARGET_BLOB" ]; then
+            echo 'needs_repair=true' >> "$GITHUB_OUTPUT"
+            echo 'NEXUS_REAL_SOURCE_STATUS=FROZEN_VULNERABLE_PREIMAGE'
+          elif [ "$blob" = "$CERTIFIED_FIXED_BLOB" ]; then
+            echo 'needs_repair=false' >> "$GITHUB_OUTPUT"
+            echo 'NEXUS_REAL_SOURCE_STATUS=CERTIFIED_PATCH_ALREADY_APPLIED'
+          else
+            echo "NEXUS_REAL_SOURCE_STATUS=HOLD_UNREVIEWED_SOURCE"
+            exit 2
+          fi
       - name: Test real source bounded mutation and adversarial safeguards
         shell: bash
         run: |
@@ -55,9 +74,37 @@ jobs:
           PY
           echo 'JANUS_BOUNDED_REAL_SOURCE_REPAIR_OFFLINE=PASS'
 
+  verify-already-fixed:
+    needs: offline-contract
+    if: needs.offline-contract.outputs.needs_repair == 'false' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions: {contents: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Reverify certified fixed file without generating another patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:$REAL_FILE)" = "$CERTIFIED_FIXED_BLOB"
+          python - <<'PY'
+          from pathlib import Path
+          from tools.janus_nexus_real_source_self_repair_v1 import run_tests,sha
+          path=Path("tools/janus_nexus_phase2_live_gates_v1.py")
+          assert sha(path.read_bytes())=="d75b0e3dfdb81101705199e4d563268f504281d6cd5ccc318d418353c7eed7ea"
+          for independent in (False,True):
+              scores=run_tests(path, independent=independent)
+              assert all(scores.values()),scores
+          PY
+          echo 'JANUS_CERTIFIED_SELF_REPAIR=ALREADY_APPLIED_RECHECK_PASS'
+          echo 'JANUS_NEURAL_SELF_PATCH_PROVEN=FALSE'
+
   propose:
     needs: offline-contract
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
+    if: needs.offline-contract.outputs.needs_repair == 'true' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'Hawkar-usls/Janus_Genesis'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
