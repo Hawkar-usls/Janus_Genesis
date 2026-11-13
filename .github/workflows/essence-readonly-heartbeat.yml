@@ -1,0 +1,80 @@
+name: ESSENCE v0.5 read-only research heartbeat
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7 5 * * 2'
+  pull_request:
+    paths:
+      - '.janus/essence/**'
+      - '.github/workflows/essence-readonly-heartbeat.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-heartbeat-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  synthetic-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run bounded offline ESSENCE microcores; never activate production
+        env:
+          ESSENCE_REPO: ${{ github.repository }}
+          ESSENCE_REPORT: ${{ runner.temp }}/essence-heartbeat.json
+        run: |
+          python - <<'PY'
+          import importlib.util, json, os
+          from pathlib import Path
+          root = Path('.janus/essence')
+          repo = os.environ['ESSENCE_REPO']
+          def module(name):
+              p = root / (name + '.py')
+              spec = importlib.util.spec_from_file_location('essence_'+name, p)
+              obj = importlib.util.module_from_spec(spec)
+              spec.loader.exec_module(obj)
+              return obj
+          manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          kernel = module('kernel')
+          kernel.validate_manifest(manifest, repo)
+          probe = {'kind':'SYNTHETIC_FIXTURE','id':'readonly-heartbeat',
+                   'metrics':{'contract':1.0,'non_authority':0.0}}
+          result = kernel.evaluate(manifest, probe, explicit_readonly=True,
+                                   propose_child='verification', expected_repo=repo)
+          assert kernel.verify_report(result)
+          assert result['action_authority'] is False
+          assert result['status'] == 'PASS_WITH_OPERATIONAL_HOLD'
+          assert all(not x['activation_allowed'] for x in result['proposed_children'])
+          factory_path = root / 'collective_seed.py'
+          if factory_path.exists():
+              factory = module('collective_seed')
+              factory.validate_manifest(manifest, repo)
+              innovations_path = root / 'innovations.json'
+              if innovations_path.exists():
+                  innovations = json.loads(innovations_path.read_text(encoding='utf-8'))
+                  factory.validate_innovations(innovations, repo)
+          evidence = {'schema':'janus.essence.readonly_heartbeat/0.5',
+                      'repository':repo, 'input_class':'SYNTHETIC_FIXTURE_ONLY',
+                      'production_authority':False, 'automated_birth':False,
+                      'report':result}
+          Path(os.environ['ESSENCE_REPORT']).write_text(
+              json.dumps(evidence, ensure_ascii=False, sort_keys=True, indent=2)+'\n',
+              encoding='utf-8')
+          print('ESSENCE_READONLY_HEARTBEAT_PASS', repo)
+          PY
+      - name: Keep a short-lived verification receipt (not model learning)
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-readonly-heartbeat-${{ github.run_id }}
+          path: ${{ runner.temp }}/essence-heartbeat.json
+          if-no-files-found: error
+          retention-days: 14
