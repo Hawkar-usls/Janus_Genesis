@@ -155,6 +155,94 @@ class CollectiveContracts(unittest.TestCase):
         self.assertEqual(len(r),1)
         self.assertEqual(r[0]["donors"],[key])
 
+    def test_newborn_has_innovation_channel_and_factory(self):
+        with tempfile.TemporaryDirectory() as temp:
+            base=Path(temp)
+            e.seed_bundle(self.snapshot,"Hawkar-usls/newborn",base,ROOT,BANK)
+            innovation=e.load(base/e.CANONICAL/"innovations.json")
+            self.assertEqual(innovation["repository"],"Hawkar-usls/newborn")
+            self.assertEqual(innovation["entries"],[])
+            self.assertTrue(e.validate_innovations(innovation,"Hawkar-usls/newborn"))
+            inherited=e.load(base/e.CANONICAL/"inherited_ideas.json")
+            self.assertFalse(inherited["activation_allowed"])
+
+    def test_new_generation_contributes_to_future_generation(self):
+        entries,things,fetch=fixture()
+        parent="Hawkar-usls/core4"
+        path=e.CANONICAL+"/innovations.json"
+        idea=e.propose_idea(parent,"planning",
+                            "New lineage learns safe planned duration forecasts",
+                            "1"*64,"2"*64,"3"*64,
+                            Path(tempfile.mkdtemp())/"idea.json")
+        things[parent][path]={"blob_sha":"x","data":json.dumps(idea).encode()}
+        snapshot=e.collect_snapshot(entries,fetch,ROOT,"2026-11-13")
+        self.assertEqual(len(snapshot["innovation_candidates"]),1)
+        self.assertEqual(snapshot["innovation_candidates"][0]["repo"],parent)
+        with tempfile.TemporaryDirectory() as temp:
+            e.seed_bundle(snapshot,"Hawkar-usls/grandchild",temp,ROOT)
+            lineage=e.load(Path(temp)/e.CANONICAL/"inherited_ideas.json")
+            self.assertEqual(lineage["innovation_candidates"][0]["repo"],parent)
+
+    def test_invalid_candidate_does_not_contaminate_donor(self):
+        entries,things,fetch=fixture()
+        parent="Hawkar-usls/core4"
+        path=e.CANONICAL+"/innovations.json"
+        obj=e.empty_innovations(parent)
+        obj["entries"]=[{"role":"sensing","id":"unsafe","idea":"x",
+                         "evidence_sha256":"a"*64}]
+        things[parent][path]={"blob_sha":"y","data":json.dumps(obj).encode()}
+        s=e.collect_snapshot(entries,fetch,ROOT,"2026-11-13")
+        self.assertEqual(s["verified_donor_count"],5)
+        self.assertEqual(s["innovation_candidates"],[])
+        self.assertTrue(any(x["reason"].startswith("INNOVATIONS_REJECTED")
+                            for x in s["excluded"]))
+
+    def test_fitness_rejects_self_verified_and_leaked_holdout(self):
+        entries,things,fetch=fixture()
+        parent="Hawkar-usls/core3"
+        idea=e.propose_idea(parent,"memory",
+                            "Continually calibrate memory retrieval forecasts",
+                            "a"*64,"b"*64,"c"*64,
+                            Path(tempfile.mkdtemp())/"newidea.json")
+        things[parent][e.CANONICAL+"/innovations.json"]={
+            "blob_sha":"x","data":json.dumps(idea).encode()}
+        snap=e.collect_snapshot(entries,fetch,ROOT,"2026-11-13")
+        rep={
+            "schema":e.FITNESS_SCHEMA,"source_repository":parent,
+            "candidate_id":idea["entries"][0]["id"],
+            "verifier_repository":parent,"externally_authenticated":True,
+            "source_evidence_sha256":"a"*64,"precommit_sha256":"b"*64,
+            "holdout_after_precommit":True,"holdout_n":120,
+            "baseline_error":100.0,"candidate_error":80.0,
+            "evaluation_sha256":"f"*64,
+        }
+        score=e.rank_independent_fitness(snap,[rep])
+        self.assertEqual(score["research_shortlist"],[])
+        self.assertIn("SELF_VERIFICATION_FORBIDDEN",score["rejected_reasons"])
+        rep["verifier_repository"]="Hawkar-usls/independent-verifier"
+        rep["holdout_after_precommit"]=False
+        score=e.rank_independent_fitness(snap,[rep])
+        self.assertIn("LEAKED_HOLDOUT",score["rejected_reasons"])
+        rep["holdout_after_precommit"]=True
+        rep["externally_authenticated"]=False
+        score=e.rank_independent_fitness(snap,[rep])
+        self.assertIn("NO_EXTERNAL_AUTHENTICATION",score["rejected_reasons"])
+        rep["externally_authenticated"]=True
+        rep["candidate_error"]=98.0
+        score=e.rank_independent_fitness(snap,[rep])
+        self.assertIn("NO_GAIN_AGAINST_FROZEN_BASELINE",score["rejected_reasons"])
+        rep["candidate_error"]=85.0
+        score=e.rank_independent_fitness(snap,[rep])
+        self.assertEqual(score["research_shortlist"][0]["relative_gain"],.15)
+        self.assertFalse(score["research_shortlist"][0]["production_authority"])
+
+    def test_candidate_requires_precommit_hash(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError,"INVALID_IDEA_PROVENANCE"):
+                e.propose_idea("Hawkar-usls/lab","coding",
+                               "Develop resource-bounded improvements",
+                               "a"*64,"not-a-sha","c"*64,Path(tmp)/"idea.json")
+
     def test_tampered_origin_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
             base=Path(temp)
