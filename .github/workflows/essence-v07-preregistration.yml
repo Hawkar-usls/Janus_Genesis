@@ -1,0 +1,53 @@
+name: ESSENCE v0.7 preregistered two-lane prospective evidence gate
+
+on:
+  pull_request:
+    paths:
+      - 'tools/essence_v07_trial_gate.py'
+      - 'tests/test_essence_v07_trial_gate.py'
+      - 'research/essence/v07/preregistration.json'
+      - '.github/workflows/essence-v07-preregistration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-v07-prereg-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  frozen-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify frozen protocol, paired statistics and anti-fake gates
+        run: |
+          python -m py_compile tools/essence_v07_trial_gate.py
+          python -m unittest -v tests.test_essence_v07_trial_gate
+      - name: Record prospective experiment is pending—not an actual success
+        run: |
+          python - <<'PY'
+          import json
+          from tools.essence_v07_trial_gate import preregistered,sha
+          with open("research/essence/v07/preregistration.json", encoding="utf-8") as f:
+              p=json.load(f)
+          preregistered(p)
+          assert p["automatic_promotion"] is False
+          print("ESSENCE_V07_PRECOMMIT_READY", sha(p))
+          print("HOLD: future cohorts not yet independently observed")
+          print("HOLD: no independently signed custodian or production gene")
+          PY
+      - name: Publish frozen proposed protocol (no experimental result)
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-v07-preregistered-protocol-${{ github.run_id }}
+          path: research/essence/v07/preregistration.json
+          retention-days: 30
+          if-no-files-found: error
