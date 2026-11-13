@@ -1,0 +1,58 @@
+name: ESSENCE v0.6 real-evidence fitness gate (research only)
+
+on:
+  pull_request:
+    paths:
+      - 'tools/essence_fitness_ledger_v06.py'
+      - 'tests/test_essence_fitness_ledger_v06.py'
+      - 'tests/fixtures/essence_r2_real_duration_20261113.json'
+      - '.github/workflows/essence-fitness-v06.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-v06-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run chronology, source-boundary and anti-replay contracts
+        run: |
+          python -m py_compile tools/essence_fitness_ledger_v06.py
+          python -m unittest -v tests.test_essence_fitness_ledger_v06
+      - name: Replay real historical R2 result; require explicit scientific HOLD
+        env:
+          ESSENCE_LEDGER: ${{ runner.temp }}/essence-v06-real-evidence.json
+        run: |
+          python -m tools.essence_fitness_ledger_v06 historical \
+            --source tests/fixtures/essence_r2_real_duration_20261113.json \
+            --out "$ESSENCE_LEDGER"
+          python -m tools.essence_fitness_ledger_v06 verify --ledger "$ESSENCE_LEDGER"
+          python - "$ESSENCE_LEDGER" <<'PY'
+          import json, sys
+          item = json.load(open(sys.argv[1], encoding="utf-8"))["entries"][0]
+          assert item["research_gate"] == "HOLD_NO_INDEPENDENT_GAIN"
+          assert item["relative_gain"] < 0
+          assert item["raw_rows_bound"] is False
+          assert item["production_authority"] is False
+          assert item["offspring_activation"] is False
+          print("ESSENCE_V06_REAL_R2_NEGATIVE_BASELINE_PASS")
+          PY
+      - name: Upload non-authoritative research receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-v06-actual-r2-hold-${{ github.run_id }}
+          path: ${{ runner.temp }}/essence-v06-real-evidence.json
+          retention-days: 14
+          if-no-files-found: error
