@@ -26,6 +26,7 @@ OWNER = "Hawkar-usls"
 SCHEMA = "janus.essence.collective_seed/0.4"
 IDEA_SCHEMA = "janus.essence.innovations/0.1"
 FITNESS_SCHEMA = "janus.essence.independent_fitness/0.1"
+EVOLUTION_SCHEMA = "janus.essence.evolution_memory/0.1"
 MAX_IDEAS_PER_REPO = 12
 ROOT_SCHEMA = "janus.essence.microkernel/0.1"
 ROLES = ("sensing", "memory", "planning", "verification", "recovery", "coding")
@@ -146,6 +147,72 @@ def propose_idea(repo, role, idea, evidence_sha256, precommit_sha256,
     validate_innovations(result,repo)
     save(out,result)
     return result
+
+def empty_evolution(repo):
+    state={"schema":EVOLUTION_SCHEMA,"repository":allowed_repo(repo),
+           "generation":0,"evaluations":[],"fitness_by_candidate":{},
+           "status":"RESEARCH_ONLY_NO_PRODUCTION_AUTHORITY",
+           "automatic_activation":False}
+    state["state_sha256"]=digest(state)
+    return state
+
+def learn_evolution(repo, independent_ranking, previous=None):
+    """Persistent bounded experience update, not gradient training or self-modification.
+
+    Each independent immutable evaluation changes a candidate's online sample
+    mean gain. Exact evidence hashes prevent double-counting; origin chain is
+    preserved. Inputs must already have passed outside-source authentication.
+    """
+    repo=allowed_repo(repo)
+    state=previous if previous is not None else empty_evolution(repo)
+    if not isinstance(state,dict) or state.get("schema")!=EVOLUTION_SCHEMA:
+        raise ValueError("BAD_EVOLUTION_MEMORY")
+    if state.get("repository")!=repo:
+        raise ValueError("EVOLUTION_REPOSITORY_MISMATCH")
+    if state.get("state_sha256")!=digest({k:v for k,v in state.items() if k!="state_sha256"}):
+        raise ValueError("EVOLUTION_STATE_TAMPERED")
+    if not isinstance(independent_ranking,dict) or independent_ranking.get("schema")!=SCHEMA:
+        raise ValueError("BAD_INDEPENDENT_RANKING")
+    if independent_ranking.get("report_sha256")!=digest({
+            k:v for k,v in independent_ranking.items() if k!="report_sha256"}):
+        raise ValueError("RANKING_HASH_MISMATCH")
+    results=independent_ranking.get("research_shortlist")
+    if not isinstance(results,list) or len(results)>MAX_MODULES:
+        raise ValueError("UNBOUNDED_INDEPENDENT_RESULTS")
+    seen={e["evaluation_sha256"] for e in state["evaluations"]}
+    # New generation must actually have NEW independent evidence.
+    new=[]
+    for c in results:
+        h=c.get("evaluation_sha256")
+        if not isinstance(h,str) or not re.fullmatch(r"[0-9a-f]{64}",h):
+            raise ValueError("BAD_EVALUATION_DIGEST")
+        if c.get("production_authority") is not False:
+            raise ValueError("UNSAFE_EVALUATION_AUTHORITY")
+        if h in seen: continue
+        if len(state["evaluations"])+len(new)>=128:
+            raise ValueError("EVOLUTION_HISTORY_LIMIT")
+        seen.add(h)
+        new.append({"evaluation_sha256":h,"source_repository":c["repo"],
+                    "candidate_id":c["candidate_id"],"role":c["role"],
+                    "relative_gain":c["relative_gain"],
+                    "holdout_n":c["holdout_n"],
+                    "generation_observed":state["generation"]+1})
+    fresh=json.loads(json.dumps(state))
+    fresh["evaluations"].extend(new)
+    scores={}
+    for r in fresh["evaluations"]:
+        k=r["source_repository"]+"#"+r["candidate_id"]
+        scores.setdefault(k,[]).append(r["relative_gain"])
+    fresh["fitness_by_candidate"]={
+        k:{"independent_evaluations":len(xs),
+           "mean_gain":round(sum(xs)/len(xs),6)}
+        for k,xs in sorted(scores.items())}
+    if new:
+        fresh["generation"]+=1
+        fresh["previous_state_sha256"]=state["state_sha256"]
+    fresh.pop("state_sha256",None)
+    fresh["state_sha256"]=digest(fresh)
+    return fresh
 
 def rank_independent_fitness(snapshot, independent_reports, *,
                              min_holdout=60, minimum_gain=0.05):
@@ -411,6 +478,7 @@ def seed_bundle(snapshot,repo,out,root_bytes,gene_bank_bytes=None):
     save(out/CANONICAL/"manifest.json",manifest)
     save(out/CANONICAL/"collective_origin.json",origin)
     save(out/CANONICAL/"innovations.json",empty_innovations(repo))
+    save(out/CANONICAL/"evolution_memory.json",empty_evolution(repo))
     # Candidate ideas are inherited as study proposals, never executable code.
     save(out/CANONICAL/"inherited_ideas.json",{
         "schema":SCHEMA,"parent_snapshot_sha256":snapshot["snapshot_sha256"],
@@ -449,6 +517,7 @@ def adopt_existing_root(snapshot, repo, out, root_bytes, manifest):
     }
     origin["receipt_sha256"]=digest(origin)
     save(Path(out)/CANONICAL/"collective_origin.json",origin)
+    save(Path(out)/CANONICAL/"evolution_memory.json",empty_evolution(repo))
     return origin
 
 def module_text(role,ident,origin_hash):
@@ -535,6 +604,9 @@ def main():
     idea.add_argument("--existing")
     rank=sub.add_parser("rank");rank.add_argument("--snapshot",required=True)
     rank.add_argument("--reports",required=True);rank.add_argument("--out",required=True)
+    learn=sub.add_parser("learn");learn.add_argument("--repo",required=True)
+    learn.add_argument("--ranking",required=True)
+    learn.add_argument("--previous");learn.add_argument("--out",required=True)
     c=sub.add_parser("grow");c.add_argument("--repo",required=True)
     c.add_argument("--manifest",required=True);c.add_argument("--origin",required=True)
     c.add_argument("--requests",required=True);c.add_argument("--out",required=True)
@@ -571,6 +643,13 @@ def main():
         report=rank_independent_fitness(load(args.snapshot),reports["reports"])
         save(args.out,report)
         print(json.dumps({"research_candidates":len(report["research_shortlist"]),
+                          "production_authority":False}))
+    elif args.command=="learn":
+        state=learn_evolution(args.repo,load(args.ranking),
+                              load(args.previous) if args.previous else None)
+        save(args.out,state)
+        print(json.dumps({"generation":state["generation"],
+                          "observed_evaluations":len(state["evaluations"]),
                           "production_authority":False}))
     else:
         report=grow_modules(args.repo,load(args.manifest),load(args.origin),
