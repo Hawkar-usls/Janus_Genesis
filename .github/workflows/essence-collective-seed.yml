@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - 'tools/essence_collective_seed.py'
+      - 'tools/essence_seed_pr_publisher.py'
       - 'tests/test_essence_collective_seed.py'
+      - 'tests/test_essence_seed_pr_publisher.py'
       - '.github/workflows/essence-collective-seed.yml'
   workflow_dispatch:
     inputs:
@@ -12,6 +14,11 @@ on:
         description: 'New Hawkar-usls repository without existing ESSENCE root'
         required: true
         type: string
+      publish_draft_pr:
+        description: 'Explicitly open a draft PR using a scoped GitHub App credential (default false)'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -33,8 +40,8 @@ jobs:
           python-version: '3.11'
       - name: Verify deterministic collective parenthood and no root overwrite
         run: |
-          python -m py_compile tools/essence_collective_seed.py
-          python -m unittest -v tests.test_essence_collective_seed
+          python -m py_compile tools/essence_collective_seed.py tools/essence_seed_pr_publisher.py
+          python -m unittest -v tests.test_essence_collective_seed tests.test_essence_seed_pr_publisher
 
   stage-new-root:
     needs: offline-contracts
@@ -65,3 +72,26 @@ jobs:
           path: staging/
           if-no-files-found: error
           retention-days: 30
+
+  publish-one-draft-pr:
+    needs: stage-new-root
+    if: github.event_name == 'workflow_dispatch' && inputs.publish_draft_pr == true
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: essence-collective-seed-${{ github.run_id }}
+          path: staging
+      - name: Publish exactly one new-root DRAFT PR (no merge) after explicit dispatch
+        env:
+          ESSENCE_TARGET: ${{ inputs.target_repo }}
+          ESSENCE_SEED_PR_TOKEN: ${{ secrets.ESSENCE_SEED_PR_TOKEN }}
+        run: |
+          python -m tools.essence_seed_pr_publisher --target "$ESSENCE_TARGET" --bundle staging/seed --publish-draft-pr
