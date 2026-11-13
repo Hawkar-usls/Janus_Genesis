@@ -264,6 +264,7 @@ def seed_bundle(snapshot,repo,out,root_bytes,gene_bank_bytes=None):
         "origin_type":"COLLECTIVE_CONSENSUS_MANIFEST_NOT_MERGED_EXECUTABLES",
         "root_count":1,"root_sha256":file_sha(root_bytes),
         "manifest_sha256":digest(manifest),
+        "factory_sha256":file_sha(Path(__file__).read_bytes()),
         "generation":0,"authority":"PROPOSAL_ONLY",
         "human_pr_review_required":True,
         "offline_contract_tests_required":True,
@@ -271,6 +272,7 @@ def seed_bundle(snapshot,repo,out,root_bytes,gene_bank_bytes=None):
     }
     origin["receipt_sha256"]=digest(origin)
     write_new(out/CANONICAL/"kernel.py",root_bytes.decode("utf-8"))
+    write_new(out/CANONICAL/"collective_seed.py",Path(__file__).read_text(encoding="utf-8"))
     save(out/CANONICAL/"manifest.json",manifest)
     save(out/CANONICAL/"collective_origin.json",origin)
     if gene_bank_bytes is not None:
@@ -296,6 +298,7 @@ def adopt_existing_root(snapshot, repo, out, root_bytes, manifest):
         "origin_type":"ADOPT_EXISTING_ROOT_NO_ROOT_REPLACEMENT",
         "root_count":1,"root_sha256":file_sha(root_bytes),
         "manifest_sha256":digest(manifest),
+        "factory_sha256":file_sha(Path(__file__).read_bytes()),
         "generation":0,"authority":"PROPOSAL_ONLY",
         "human_pr_review_required":True,
         "offline_contract_tests_required":True,
