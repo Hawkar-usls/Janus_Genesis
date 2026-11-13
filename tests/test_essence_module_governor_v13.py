@@ -246,7 +246,7 @@ class ModuleGovernorV13Tests(unittest.TestCase):
     def test_source_tampering_rejected(self):
         with tempfile.TemporaryDirectory() as root:
             path=Path(root)/"fake.json"
-            path.write_text((SAMPLES/"corrected_cases.json").read_text(encoding="utf-8").replace("6,","7,"),encoding="utf-8")
+            path.write_bytes((SAMPLES/"corrected_cases.json").read_bytes()+b" ")
             with self.assertRaisesRegex(ValueError,"FROZEN_GIT_BLOB_MISMATCH"):
                 m.load_frozen(path,m.CORPUS_GIT_BLOB,m.CASES)
 
