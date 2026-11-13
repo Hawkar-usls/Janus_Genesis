@@ -1,0 +1,67 @@
+name: ESSENCE Collective Root Seeding v0.3 (Proposal Only)
+
+on:
+  pull_request:
+    paths:
+      - 'tools/essence_collective_seed.py'
+      - 'tests/test_essence_collective_seed.py'
+      - '.github/workflows/essence-collective-seed.yml'
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: 'New Hawkar-usls repository without existing ESSENCE root'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-collective-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  offline-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify deterministic collective parenthood and no root overwrite
+        run: |
+          python -m py_compile tools/essence_collective_seed.py
+          python -m unittest -v tests.test_essence_collective_seed
+
+  stage-new-root:
+    needs: offline-contracts
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Gather verified read-only public donors
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m tools.essence_collective_seed collect --out staging/donors.json
+      - name: Build one root and local microkernel genome in staging only
+        env:
+          ESSENCE_TARGET: ${{ inputs.target_repo }}
+        run: |
+          python -m tools.essence_collective_seed seed --snapshot staging/donors.json --target "$ESSENCE_TARGET" --out staging/seed
+      - name: Preserve reviewable provenance artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-collective-seed-${{ github.run_id }}
+          path: staging/
+          if-no-files-found: error
+          retention-days: 30
