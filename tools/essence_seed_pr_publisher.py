@@ -28,7 +28,7 @@ MANDATORY = (
     ".janus/essence/collective_seed.py",
 )
 OPTIONAL = (".janus/essence/gene_bank.py", ".janus/essence/innovations.json",
-            ".janus/essence/inherited_ideas.json")
+            ".janus/essence/inherited_ideas.json", ".janus/essence/evolution_memory.json")
 MAX_BUNDLE_BYTES = 400_000
 
 def bundle_files(root, expected_target):
@@ -81,6 +81,16 @@ def bundle_files(root, expected_target):
             not isinstance(inherited.get("innovation_candidates"),list) or
             not isinstance(inherited.get("minority_gene_candidates"),list)):
             raise ValueError("BAD_INHERITED_IDEAS")
+    memory_file=contents.get(".janus/essence/evolution_memory.json")
+    if memory_file is not None:
+        memory=json.loads(memory_file)
+        if (memory.get("schema")!=c.EVOLUTION_SCHEMA or
+            memory.get("repository")!=target or
+            memory.get("generation")!=0 or
+            memory.get("evaluations")!=[] or
+            memory.get("automatic_activation") is not False or
+            memory.get("state_sha256")!=c.digest({k:v for k,v in memory.items() if k!="state_sha256"})):
+            raise ValueError("BAD_EVOLUTION_MEMORY")
     return contents,origin
 
 def branch_name(origin):
