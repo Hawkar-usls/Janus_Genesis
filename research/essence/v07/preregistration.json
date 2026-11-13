@@ -1,0 +1,65 @@
+{
+  "schema": "janus.essence.preregistered_dual_lane/0.7",
+  "version": "0.7",
+  "research_only": true,
+  "automatic_promotion": false,
+  "precommit_not_before": "2026-11-14T00:00:00Z",
+  "precommit_rule": "Only frozen default-branch source SHA and evidence created after the freeze count. The manuscript/PR itself is not an external laboratory signature.",
+  "cohorts": [
+    {
+      "id": "future-1",
+      "start": "2026-11-14T00:00:00Z",
+      "end": "2026-11-21T00:00:00Z"
+    },
+    {
+      "id": "future-2",
+      "start": "2026-11-21T00:00:00Z",
+      "end": "2026-11-28T00:00:00Z"
+    }
+  ],
+  "thresholds": {
+    "min_cases_each_cohort": 60,
+    "min_absolute_accuracy_gain": 0.05,
+    "max_one_sided_mcnemar_p_each_cohort": 0.005,
+    "allow_healthy_false_rejection": false
+  },
+  "arms": [
+    {
+      "id": "idea-swarm-dual-strand-00",
+      "lane": "swarm-real-jobs",
+      "source_kind": "GITHUB_PUBLIC_ACTIONS_JOB",
+      "origin_repo": "Hawkar-usls/janus-distributed-ai-swarm",
+      "baseline_path": "tools/demiurge_spiral_swarm.py",
+      "baseline_git_blob": "f4bcb0817dd91057a73e1a873eb48470058786de",
+      "candidate_path": "tools/swarm_genome_ledger.py",
+      "candidate_git_blob": "b4c116cd1d6500d16c5052b8cb733113935c61ee",
+      "origin_receipt_sha256": "52f7a9f785768deeb23fb55877c89f4d12941a25762460303d9518ae9fbcf7bf",
+      "task": "Recover the exact historical failure/outcome evidence and provenance for new public CI jobs, compared to full original per-entity SpiralLedger (not intentionally lossy memory)."
+    },
+    {
+      "id": "idea-nexus-wal-failclosed-00",
+      "lane": "nexus-real-sqlite-wal",
+      "source_kind": "SQLITE_REAL_WAL_WITH_PREREGISTERED_INDUCED_FAULTS",
+      "origin_repo": "Hawkar-usls/Demi_Head",
+      "baseline_path": "tools/nexus_storage_fault_gate.py",
+      "baseline_git_blob": "8cb257dbb65d34f095610a60ea9d491d940b09bc",
+      "candidate_path": "tools/nexus_wal_sidecar_gate.py",
+      "candidate_git_blob": "0305c55cf2987480beb94275a71eab3d34963bc5",
+      "origin_receipt_sha256": "4702d208b197db846bcba800bd3b0f433c6d33bcff2853567db086a08aaa0d5e",
+      "task": "Classify real SQLite WAL snapshots under preregistered fault injection; report checksum-only corruptions as missed by physical-envelope checks; no claim of natural hardware failures."
+    }
+  ],
+  "governance": {
+    "authentic_source_rows_require_independent_live_fetch": true,
+    "authenticator_distinct_from_candidate_owner": true,
+    "identity_string_in_packet_is_not_authentication": true,
+    "independent_verifier_not_yet_onboarded": true,
+    "no_production_authority": true
+  },
+  "sources": [
+    "https://github.com/Hawkar-usls/janus-distributed-ai-swarm/pull/30",
+    "https://github.com/Hawkar-usls/Demi_Head/pull/98",
+    "https://github.com/Hawkar-usls/Janus_Genesis/pull/329"
+  ],
+  "interpretation": "A passing internal metric is a research hypothesis only. Cross-repository CI controlled by one owner is NOT independent external replication."
+}
