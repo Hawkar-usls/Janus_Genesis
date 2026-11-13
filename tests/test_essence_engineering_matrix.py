@@ -166,5 +166,60 @@ class IntegratedMatrixTests(unittest.TestCase):
         self.assertFalse(r["production_promotion"])
 
 
+
+class IntegratedCounterexampleTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.manifest = kernel.load_json(ORGANS / "manifest.json")
+        cls.fixture = kernel.load_json(ORGANS / "fixture.json")
+
+    @staticmethod
+    def slow_unary():
+        m = tm.unary_increment()
+        m["start"] = "warm"
+        m["transitions"].extend([
+            {"state": "warm", "read": "1", "write": "1", "move": "S", "next": "scan"},
+            {"state": "warm", "read": "_", "write": "_", "move": "S", "next": "scan"},
+        ])
+        return m
+
+    def test_opt_in_full_matrix_with_counterexample_gate(self):
+        basic = matrix.evaluate(self.manifest, self.fixture, expression="5*kN*2*m",
+                                output_unit="kJ", explicit_readonly=True)
+        trial = matrix.evaluate(self.manifest, self.fixture, expression="5*kN*2*m",
+                                output_unit="kJ", explicit_readonly=True,
+                                parent_machine=self.slow_unary(),
+                                child_machine=tm.unary_increment())
+        self.assertEqual(basic["legacy_receipt_sha256"], trial["legacy_receipt_sha256"])
+        self.assertNotIn("candidate_trial", basic)
+        self.assertEqual(trial["candidate_trial"]["gate"], "RESEARCH_PASS_FINITE_DOMAIN_ONLY")
+        self.assertEqual(trial["candidate_trial"]["faster_child_cases"], 7)
+        self.assertFalse(trial["production_promotion"])
+        self.assertTrue(matrix.verify(trial))
+
+    def test_bad_child_halted_inside_matrix(self):
+        bad = tm.unary_increment()
+        bad["transitions"][1]["write"] = "0"
+        report = matrix.evaluate(self.manifest, self.fixture, expression="1+1",
+                                 explicit_readonly=True, parent_machine=self.slow_unary(),
+                                 child_machine=bad)
+        self.assertEqual(report["candidate_trial"]["gate"], "HOLD_SEMANTIC_COUNTEREXAMPLE")
+        self.assertTrue(matrix.verify(report))
+
+    def test_partial_candidate_pair_rejected(self):
+        with self.assertRaisesRegex(ValueError, "PAIR_OF_MACHINES_REQUIRED"):
+            matrix.evaluate(self.manifest, self.fixture, expression="1+1",
+                            explicit_readonly=True,parent_machine=self.slow_unary())
+
+    def test_integrated_trial_tampering_rejected(self):
+        report = matrix.evaluate(self.manifest,self.fixture,expression="1+1",
+                                 explicit_readonly=True,parent_machine=self.slow_unary(),
+                                 child_machine=tm.unary_increment())
+        report["candidate_trial"]["gate"] = "FORGED"
+        report["receipt_sha256"] = kernel.digest({k:v for k,v in report.items() if k!="receipt_sha256"})
+        with self.assertRaisesRegex(ValueError,"TAMPERED"):
+            matrix.verify(report)
+
+
 if __name__ == "__main__":
     unittest.main()

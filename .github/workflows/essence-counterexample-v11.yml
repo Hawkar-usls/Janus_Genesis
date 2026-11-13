@@ -1,0 +1,33 @@
+name: ESSENCE v1.1 Counterexample Gate
+
+on:
+  pull_request:
+    paths:
+      - ".janus/essence/**"
+      - "tests/test_essence_counterexample_gate.py"
+      - "tests/test_essence_engineering_matrix.py"
+      - "tools/essence_counterexample_v11_benchmark.py"
+      - "research/essence/counterexample_v11/**"
+      - ".github/workflows/essence-counterexample-v11.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bounded-falsification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Root ESSENCE 0.1 regression
+        run: python -m unittest discover -s tests -p 'test_essence_kernel.py' -v
+      - name: Engineering matrix 0.1 regression
+        run: python -m unittest discover -s tests -p 'test_essence_engineering_matrix.py' -v
+      - name: Exhaustive finite counterexample and adversarial tests
+        run: python -m unittest discover -s tests -p 'test_essence_counterexample_gate.py' -v
+      - name: Independent deterministic replay, positive and negative candidate
+        run: python tools/essence_counterexample_v11_benchmark.py

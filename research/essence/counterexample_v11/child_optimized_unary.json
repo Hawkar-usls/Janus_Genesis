@@ -1,0 +1,24 @@
+{
+  "blank": "_",
+  "start": "scan",
+  "accept": [
+    "accept"
+  ],
+  "reject": [],
+  "transitions": [
+    {
+      "state": "scan",
+      "read": "1",
+      "write": "1",
+      "move": "R",
+      "next": "scan"
+    },
+    {
+      "state": "scan",
+      "read": "_",
+      "write": "1",
+      "move": "S",
+      "next": "accept"
+    }
+  ]
+}

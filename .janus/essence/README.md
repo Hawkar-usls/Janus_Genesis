@@ -88,3 +88,40 @@ Tests (stdlib only):
 Archived donor source copies live at archaeology/gpt_sources_20261113/reference_only
 as inert *.py.txt files. They are never imported by ESSENCE or CI.
 No archival source is promoted by its filename, hash or popularity alone.
+
+## ESSENCE v1.1 — bounded counterexample-based offspring fitness (2026-11-13)
+
+The optional counterexample_gate.py performs actual deterministic transitions
+of two declarative one-tape Turing machines over a finite enumerated input
+alphabet and length. It checks parent and child terminal status and tape output
+for equality, reports the shortest witness of a mismatch, holds on unresolved
+cases, nonhalting or slower offspring, and counts step savings only if NO
+regression occurs on the enumerated domain.
+
+The unchanged six-core ESSENCE kernel still holds all execution rights disabled.
+The 'CounterexampleVerifier' gene name in the manifest is advisory only.
+Use --parent-machine and --child-machine together when invoking
+engineering_matrix.py to request the new read-only candidate_trial receipt.
+Every candidate result is SHA-256 linked and replayable with
+counterexample_gate.verify_replay(). Receipt hashing alone is NOT external
+authentication.
+
+Scientific limits: Enumerating strings up to fixed length is not
+Turing-machine equivalence in general, which is undecidable; optimizing steps
+on a small finite benchmark is not proven neural-network improvement. The
+trial is NOT hidden or externally blind. A RESEARCH_PASS_FINITE_DOMAIN_ONLY
+result does not authorize production model changes, new active microkernels,
+cross-repository execution, automatic PR merges or training weights.
+
+Run the reproducible before/after benchmark from repository root:
+
+    python tools/essence_counterexample_v11_benchmark.py
+
+Results and witness source examples:
+research/essence/counterexample_v11/comparison.json.
+
+The failing child writes the wrong tape symbol, yielding the empty input as
+the minimal counterexample. An optimized child omits one redundant transition,
+saving one step on each unary case. All six ESSENCE role receipts remain
+unchanged. The Turing simulator also refuses to report a sparsely spread tape
+wider than its memory budget as a successful empty output.
