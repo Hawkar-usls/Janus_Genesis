@@ -1,0 +1,45 @@
+{
+  "artifact_id": "JANUS-ESSENCE-R2-REAL-JOB-DURATION-PILOT-2026-11-13",
+  "schema": "janus.meta_registry.essence_r2_real_duration_pilot.v1",
+  "experiment_date": "2026-11-13",
+  "append_only": true,
+  "source": {
+    "repository": "Hawkar-usls/Janus-Demiurge",
+    "pull_request": "https://github.com/Hawkar-usls/Janus-Demiurge/pull/553",
+    "workflow_run": "https://github.com/Hawkar-usls/Janus-Demiurge/actions/runs/43412213966",
+    "holdout_artifact": "https://github.com/Hawkar-usls/Janus-Demiurge/actions/runs/43412213966/artifacts/14030950011",
+    "artifact_zip_sha256": "bd4a4c7665185ae0e1772d41c73bd13cdd188255e254a197cf4bb7ff5f98a99a",
+    "report_provenance_sha256": "d20df5fca36dae190a82ad69193db709dd3af6ab91043f83a0d38c493052ed8f",
+    "holdout_job_ids_sha256": "6e51807b4eeebedb7dd94fc6ad8775f688d61cd53c39864a5a9d5be0eff28cbd"
+  },
+  "dataset": {
+    "source": "Dated public GitHub Actions job started_at and completed_at for Janus-Demiurge, Janus_Genesis and janus-meta-registry",
+    "holdout_jobs": 60,
+    "heldout_procedure": "Retrospective chronological split with independent verifier job; not prospective",
+    "data_target": "actual_job_execution_duration_seconds_excludes_queue_time",
+    "replication_count": 0
+  },
+  "results_mae_seconds": {
+    "frozen_train_median": 24.41667,
+    "no_gene_model": 27.1295,
+    "temporal_gene_candidate": 26.32281,
+    "causal_repo_median": 31.15833,
+    "frozen_repo_median": 31.64167
+  },
+  "results_log_mae": {
+    "frozen_train_median": 0.871644,
+    "no_gene_model": 0.942882,
+    "temporal_gene_candidate": 0.89241
+  },
+  "temporal_candidate_by_repository_mae_seconds": {
+    "Janus-Demiurge": 27.63628,
+    "Janus_Genesis": 29.57668,
+    "janus-meta-registry": 21.20984
+  },
+  "research_gate": "HOLD_NO_INDEPENDENT_DURATION_GAIN",
+  "production_gate": "HOLD_REQUIRES_EXTERNAL_PROSPECTIVE_REPLICATION",
+  "interpretation": "Training and verifier jobs completed successfully but temporal candidate did not beat the strongest frozen control overall; no proof of useful inherited improvement.",
+  "recorded_implementation_followup": "Stricter embargo/purging and retrospective-vs-prospective labels proposed in the same PR; this receipt represents earlier SHA 14af6a0, not revised successor.",
+  "production_weights_promoted": false,
+  "offspring_activated": false
+}
