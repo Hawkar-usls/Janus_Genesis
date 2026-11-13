@@ -204,6 +204,12 @@ def verify(report,blob,backup):
         or report.get('production_authority') is not False
         or report.get('automatic_model_promotion') is not False
         or report.get('real_model_weights_modified') is not False
+        or report.get('actual_training') is not False
+        or report.get('production_rollback_tested') is not False
+        or report.get('external_blind_evaluator') is not False
+        or report.get('source_class') not in ('SYNTHETIC_FIXTURE',
+             'SYNTHETIC_NUMERIC_STATE','DECLARED_NUMERIC_STATE_UNVERIFIED')
+        or report.get('numerical_lanes_tested')!=7
         or report.get('gate')!='RESEARCH_QUANTIZED_STATE_ONLY_NO_ACTIVE_MODEL_CHANGE'
         or type(blob) is not bytes or type(backup) is not bytes
         or report.get('packed_bundle_sha256')!=sha(blob)
@@ -216,7 +222,10 @@ def verify(report,blob,backup):
     if [r.get('role') for r in report['lanes']]!=list((*ROLES,'essence_self')):
         raise ValueError('UNTRUSTED_ROLE_ORDER')
     for r in report['lanes']:
-        if r.get('offset')!=offset or r.get('backup_offset')!=boffset:
+        if (type(r.get('offset')) is not int or type(r.get('backup_offset')) is not int
+            or type(r.get('size')) is not int or r['size']<=0
+            or type(r.get('backup_size')) is not int or r['backup_size']<=0
+            or r.get('offset')!=offset or r.get('backup_offset')!=boffset):
             raise ValueError('INVALID_OFFSETS')
         p=blob[offset:offset+r['size']];snap=backup[boffset:boffset+r['backup_size']]
         if sha(p)!=r['packed_sha256'] or sha(snap)!=r['backup_sha256'] or len(snap)%4:
@@ -234,6 +243,8 @@ def verify(report,blob,backup):
             raise ValueError('QUANTIZED_ACCURACY_OR_AUTHORITY_HOLD')
         offset+=len(p);boffset+=len(snap)
     if offset!=len(blob) or boffset!=len(backup):raise ValueError('EXTRA_DATA')
+    if abs(report['storage_saving_fraction']-(1-len(blob)/len(backup)))>0.000001:
+        raise ValueError('FABRICATED_STORAGE_SAVING')
     return True
 
 
