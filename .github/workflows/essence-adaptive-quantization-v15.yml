@@ -1,0 +1,58 @@
+name: ESSENCE v1.5 Adaptive Microkernel Quantization
+
+on:
+  pull_request:
+    paths:
+      - ".janus/essence/adaptive_quantization_v15.py"
+      - "tests/test_essence_adaptive_quantization_v15.py"
+      - ".github/workflows/essence-adaptive-quantization-v15.yml"
+      - "research/essence/v15/**"
+  workflow_dispatch:
+  schedule:
+    - cron: '43 5 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-v15-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  controlled-research-quantization:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Guard six-role root and 30 quantization negative controls
+        run: |
+          python -m unittest discover -s tests -p 'test_essence_kernel.py' -q
+          python -m unittest discover -s tests -p 'test_essence_adaptive_quantization_v15.py' -v
+      - name: Quantize seven research numeric states, preserving FP32 source
+        run: |
+          python .janus/essence/adaptive_quantization_v15.py \
+            --root .janus/essence/manifest.json \
+            --fixture .janus/essence/fixture.json \
+            --allow-readonly \
+            --report research/essence/v15/ci_report.json \
+            --binary research/essence/v15/ci_quantized.bin \
+            --snapshot research/essence/v15/ci_original_fp32.bin
+      - name: Replay stored artifacts without loading a model
+        run: |
+          python .janus/essence/adaptive_quantization_v15.py \
+            --verify-report research/essence/v15/ci_report.json \
+            --verify-binary research/essence/v15/ci_quantized.bin \
+            --verify-snapshot research/essence/v15/ci_original_fp32.bin
+      - name: Preserve binary, snapshot and receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-v15-quantization-research
+          path: |
+            research/essence/v15/ci_report.json
+            research/essence/v15/ci_quantized.bin
+            research/essence/v15/ci_original_fp32.bin
+          if-no-files-found: error
+          retention-days: 30
