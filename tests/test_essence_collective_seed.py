@@ -243,6 +243,55 @@ class CollectiveContracts(unittest.TestCase):
                                "Develop resource-bounded improvements",
                                "a"*64,"not-a-sha","c"*64,Path(tmp)/"idea.json")
 
+    def test_learning_memory_grows_only_with_independent_new_evidence(self):
+        report={"schema":e.SCHEMA,
+                "donor_snapshot_sha256":self.snapshot["snapshot_sha256"],
+                "research_shortlist":[{"repo":"Hawkar-usls/core0","candidate_id":"novel",
+                    "role":"coding","relative_gain":.12,"holdout_n":150,
+                    "evaluation_sha256":"8"*64,"production_authority":False}]}
+        report["report_sha256"]=e.digest(report)
+        first=e.learn_evolution("Hawkar-usls/core0",report)
+        self.assertEqual(first["generation"],1)
+        self.assertEqual(first["fitness_by_candidate"]["Hawkar-usls/core0#novel"]["mean_gain"],.12)
+        second=e.learn_evolution("Hawkar-usls/core0",report,first)
+        self.assertEqual(second["generation"],1)
+        self.assertEqual(len(second["evaluations"]),1)
+        self.assertFalse(second["automatic_activation"])
+
+    def test_evolution_rejects_tampered_state_or_ranking(self):
+        report={"schema":e.SCHEMA,"research_shortlist":[]}
+        report["report_sha256"]=e.digest(report)
+        initial=e.empty_evolution("Hawkar-usls/core0")
+        initial["generation"]=9
+        with self.assertRaisesRegex(ValueError,"EVOLUTION_STATE_TAMPERED"):
+            e.learn_evolution("Hawkar-usls/core0",report,initial)
+        report["research_shortlist"]=[{"false":"claim"}]
+        with self.assertRaisesRegex(ValueError,"RANKING_HASH_MISMATCH"):
+            e.learn_evolution("Hawkar-usls/core0",report)
+
+    def test_newborn_has_evolution_memory_initialized(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            e.seed_bundle(self.snapshot,"Hawkar-usls/next-generation",tmp,ROOT)
+            memory=e.load(Path(tmp)/e.CANONICAL/"evolution_memory.json")
+            self.assertEqual(memory["generation"],0)
+            self.assertEqual(memory["evaluations"],[])
+            self.assertFalse(memory["automatic_activation"])
+
+    def test_append_existing_innovation_is_deduplicated(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out=Path(tmp)
+            first=e.propose_idea("Hawkar-usls/core4","verification",
+                    "Detect bias in duration prediction and abstain",
+                    "a"*64,"b"*64,"c"*64,out/"first.json")
+            second=e.propose_idea("Hawkar-usls/core4","verification",
+                    "Check causality of data-driven improvements",
+                    "d"*64,"e"*64,"f"*64,out/"second.json",out/"first.json")
+            self.assertEqual(len(second["entries"]),2)
+            with self.assertRaisesRegex(ValueError,"DUPLICATE_IDEA"):
+                e.propose_idea("Hawkar-usls/core4","verification",
+                    "Check causality of data-driven improvements",
+                    "d"*64,"e"*64,"f"*64,out/"third.json",out/"second.json")
+
     def test_tampered_origin_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
             base=Path(temp)
