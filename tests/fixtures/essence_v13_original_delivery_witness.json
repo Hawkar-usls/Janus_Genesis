@@ -1,0 +1,57 @@
+{
+  "schema": "janus.meta_registry.essence_peer_delivery_witness/1.0",
+  "artifact_id": "JANUS-ESSENCE-V10-TWO-REPOSITORY-DELIVERY-ACK-2026-11-13",
+  "recorded_on": "2026-11-13",
+  "history_policy": "APPEND_ONLY",
+  "publisher": "Hawkar-usls/Janus_Genesis",
+  "mailbox_repository": "Hawkar-usls/janus-meta-registry",
+  "original_message_publication": "https://github.com/Hawkar-usls/janus-meta-registry/pull/547",
+  "original_mailbox_main_sha": "0a500f71b06d5c545f6d6a501117f9a622b8e090",
+  "immutable_mailbox_round": "data/essence_peer_mailbox/round-2026-11-13-v1.json",
+  "immutable_round_git_blob_sha1": "e298a184bdb05d9b411a0679baf53591aa2da108",
+  "observed_receipts": [
+    {
+      "receiver": "Hawkar-usls/janus-distributed-ai-swarm",
+      "idea_id": "idea-swarm-dual-strand-00",
+      "implementation_pr": "https://github.com/Hawkar-usls/janus-distributed-ai-swarm/pull/35",
+      "main_merge_sha": "7fa01826187345cd7cf740273dd823f0c848ba12",
+      "actual_main_push_event": "https://github.com/Hawkar-usls/janus-distributed-ai-swarm/actions/runs/43490010609",
+      "artifact": "https://github.com/Hawkar-usls/janus-distributed-ai-swarm/actions/runs/43490010609/artifacts/14068772167",
+      "offline_contracts_passed": 9,
+      "addressed_messages_found": 1,
+      "observed_marker": "ESSENCE_V10_REAL_CROSS_REPO_MAIL_RECEIVED",
+      "observed_status": "REPLY_RECEIVED_RESEARCH_ONLY",
+      "observed_mailbox_round_sha": "e298a184bdb05d9b411a0679baf53591aa2da108",
+      "completed_ci": "PASS"
+    },
+    {
+      "receiver": "Hawkar-usls/Demi_Head",
+      "idea_id": "idea-nexus-wal-failclosed-00",
+      "implementation_pr": "https://github.com/Hawkar-usls/Demi_Head/pull/102",
+      "main_merge_sha": "73872c6bddb5bc95c9871e1da3d4657650e54012",
+      "actual_main_push_event": "https://github.com/Hawkar-usls/Demi_Head/actions/runs/43490357859",
+      "artifact": "https://github.com/Hawkar-usls/Demi_Head/actions/runs/43490357859/artifacts/14069801738",
+      "offline_contracts_passed": 9,
+      "addressed_messages_found": 1,
+      "observed_marker": "ESSENCE_V10_REAL_CROSS_REPO_MAIL_RECEIVED",
+      "observed_status": "REPLY_RECEIVED_RESEARCH_ONLY",
+      "observed_mailbox_round_sha": "e298a184bdb05d9b411a0679baf53591aa2da108",
+      "completed_ci": "PASS"
+    }
+  ],
+  "interpretation": {
+    "public_two_way_information_path_verified": true,
+    "subscribers_actually_read_registry_messages": true,
+    "two_distinct_repository_runs": true,
+    "scientifically_independent_organizations": false,
+    "hardware_live_wal_read_or_network_model_updating": false,
+    "untrusted_external_code_executed": false,
+    "working_model_changed": false,
+    "evidence_is_model_improvement": false,
+    "neural_weights_modified": false,
+    "production_authority": false,
+    "offspring_activation": false,
+    "messages_published_by_candidates_without_review": false
+  },
+  "next_gate": "Prospective independent externally attested performance evidence in frozen Nov 14-28 cohorts; model review still requires external trust pins and owner approval"
+}
