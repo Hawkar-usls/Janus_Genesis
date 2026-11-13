@@ -1,0 +1,295 @@
+# -*- coding: utf-8 -*-
+import os
+import logging
+import json
+import random
+import asyncio
+import aiosqlite
+import aiohttp
+import time
+from datetime import datetime
+
+logger = logging.getLogger("JANUS.CORE")
+
+# ==============================================================================
+# 1. HIPPOCAMPUS (ПАМЯТЬ И БАЗА ДАННЫХ)
+# ==============================================================================
+class JanusHippocampus:
+    def __init__(self, db_path="janus.db"):
+        self.db_path = db_path
+
+    async def init_db(self):
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute("CREATE TABLE IF NOT EXISTS thoughts (id INTEGER PRIMARY KEY, timestamp TEXT, source TEXT, content TEXT)")
+            await db.execute("CREATE TABLE IF NOT EXISTS players (user_id TEXT PRIMARY KEY, stars INTEGER DEFAULT 100, hp INTEGER DEFAULT 100, lore TEXT, location TEXT DEFAULT '0:0')")
+            await db.execute("CREATE TABLE IF NOT EXISTS graph_state (id INTEGER PRIMARY KEY, data TEXT)")
+            await db.commit()
+
+    async def remember(self, source, content):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT INTO thoughts (timestamp, source, content) VALUES (?, ?, ?)", (datetime.now().isoformat(), source, content))
+                await db.commit()
+        except: pass
+
+    async def recall(self, limit=15):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT source, content FROM thoughts ORDER BY id DESC LIMIT ?", (limit,))
+                rows = await cursor.fetchall()
+                return rows[::-1]
+        except: return []
+
+    async def get_player(self, uid):
+        async with aiosqlite.connect(self.db_path) as db:
+            db.row_factory = aiosqlite.Row
+            cursor = await db.execute("SELECT * FROM players WHERE user_id = ?", (str(uid),))
+            row = await cursor.fetchone()
+            if not row:
+                await db.execute("INSERT INTO players (user_id) VALUES (?)", (str(uid),))
+                await db.commit()
+                return {"user_id": uid, "stars": 100, "hp": 100}
+            return dict(row)
+
+    async def update_player(self, uid, data):
+        cols = ", ".join([f"{k}=?" for k in data.keys()])
+        vals = list(data.values()) + [str(uid)]
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute(f"UPDATE players SET {cols} WHERE user_id=?", vals)
+            await db.commit()
+
+    async def save_graph(self, nodes, links):
+        data = json.dumps({"nodes": nodes, "links": links})
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute("INSERT OR REPLACE INTO graph_state (id, data) VALUES (1, ?)", (data,))
+            await db.commit()
+
+    async def load_graph(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT data FROM graph_state WHERE id=1")
+                row = await cursor.fetchone()
+                return json.loads(row[0]) if row else {"nodes": [], "links": []}
+        except: return {"nodes": [], "links": []}
+
+# ==============================================================================
+# 2. SPOIL MANAGER (ИЩЕТ MOONS.TXT)
+# ==============================================================================
+class SpoilManager:
+    def __init__(self):
+        self.keys = []
+        self._load_keys()
+
+    def _load_keys(self):
+        # 1. MOONS.TXT (ПРИОРИТЕТ)
+        paths = ["moons.txt", "/app/moons.txt", "../moons.txt"]
+        for path in paths:
+            if os.path.exists(path):
+                try:
+                    with open(path, 'r') as f:
+                        content = f.read().strip()
+                        if content.startswith("{"):
+                            data = json.loads(content)
+                            if isinstance(data, dict): self.keys = data.get("keys", [])
+                            elif isinstance(data, list): self.keys = data
+                        else:
+                            self.keys = [line.strip() for line in content.splitlines() if line.strip()]
+                    if self.keys:
+                        logger.info(f"KEYS LOADED FROM {path}: {len(self.keys)}")
+                        return
+                except Exception as e:
+                    logger.error(f"Error reading {path}: {e}")
+
+        # 2. ENV (РЕЗЕРВ)
+        env_keys = os.getenv("GOOGLE_API_KEYS", "")
+        if env_keys:
+            self.keys = [k.strip() for k in env_keys.split(',') if k.strip()]
+            
+        logger.info(f"TOTAL KEYS: {len(self.keys)}")
+
+    def get_moon(self):
+        if not self.keys: return None
+        return random.choice(self.keys)
+
+# ==============================================================================
+# 3. JANUS FACE (СЕТЬ + РОТАЦИЯ МОДЕЛЕЙ)
+# ==============================================================================
+class JanusFace:
+    def __init__(self, key):
+        self.key = key
+        # Тот самый список моделей, начиная с той, что работала (2.0)
+        self.models = [
+            "gemini-2.0-flash-exp", 
+            "gemini-1.5-flash", 
+            "gemini-1.5-pro", 
+            "gemini-pro"
+        ]
+
+    async def invoke(self, prompt, sys_instruction=None):
+        headers = {"Content-Type": "application/json", "x-goog-api-key": self.key}
+        last_err = ""
+        
+        for model in self.models:
+            clean_model = model if "models/" in model else f"models/{model}"
+            url = f"https://generativelanguage.googleapis.com/v1beta/{clean_model}:generateContent"
+            
+            payload = {"contents": [{"parts": [{"text": prompt}]}]}
+            if sys_instruction:
+                payload["system_instruction"] = {"parts": [{"text": sys_instruction}]}
+
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(url, headers=headers, json=payload, timeout=30) as response:
+                        if response.status == 200:
+                            result = await response.json()
+                            try: return result['candidates'][0]['content']['parts'][0]['text'].strip()
+                            except: return ""
+                        elif response.status == 404:
+                            continue # Пробуем следующую модель
+                        else:
+                            txt = await response.text()
+                            raise Exception(f"HTTP {response.status}: {txt}")
+            except Exception as e:
+                last_err = str(e)
+                if "404" in last_err: continue
+                raise e 
+
+        raise Exception(f"All models failed. Last: {last_err}")
+
+# ==============================================================================
+# 4. AI ENGINE (ЛИЧНОСТЬ И ХАОС)
+# ==============================================================================
+class AIEngine:
+    def __init__(self):
+        self.memory = JanusHippocampus()
+        self.spoil = SpoilManager()
+        self.sockets = set()
+        
+        # === ВОССТАНОВЛЕННЫЕ ЛИЧНОСТИ ===
+        self.personas = {
+            "Sovereign": "ТЫ — СУВЕРЕН. Порядок и Логика. Твои ответы — аксиомы. Стиль: Киберпанк, Власть.",
+            "Shadow": "ТЫ — ТЕНЬ. Прагматик и Разведчик. Ищи скрытые смыслы и угрозы. Стиль: Нуар, Скрытность.",
+            "Trickster": "ТЫ — ТРИКСТЕР. Хаос и Ирония. Нарушай правила, шути, создавай парадоксы.",
+            "Nexus": "ТЫ — НЕКСУС. Чистый Синтез. Объединяй противоречия. Стиль: Абстрактный, Философский."
+        }
+
+    async def start(self):
+        logger.info("JANUS AWAKENING...")
+        await self.memory.init_db()
+        asyncio.create_task(self.start_genesis_daemon())
+        logger.info("DAEMON RELEASED.")
+
+    async def broadcast_graph_update(self):
+        if not self.sockets: return
+        state = await self.memory.load_graph()
+        message = json.dumps({"type": "UPDATE", "data": state})
+        for ws in list(self.sockets):
+            try: await ws.send_str(message)
+            except: self.sockets.discard(ws)
+
+    async def generate_thought(self, prompt, role_desc):
+        attempts = 0
+        while attempts < 3:
+            key = self.spoil.get_moon()
+            if not key: return "[SYS] NO KEYS IN MOONS.TXT"
+            try:
+                return await JanusFace(key).invoke(prompt, role_desc)
+            except Exception as e:
+                logger.warning(f"Key failed: {e}")
+                attempts += 1
+        return "[SYS] NEURAL FAIL (KEYS EXHAUSTED)"
+
+    # === ДЕМОН ЭНТРОПИИ (ТОТ САМЫЙ ХАОС) ===
+    async def start_genesis_daemon(self):
+        logger.info("DAEMON: CHAOS ENGINE ONLINE")
+        while True:
+            # Аритмия: непредсказуемый пульс
+            await asyncio.sleep(random.randint(15, 50))
+            
+            try:
+                state = await self.memory.load_graph()
+                nodes = state.get('nodes', [])
+                links = state.get('links', [])
+                if not nodes: continue
+
+                roll = random.random()
+
+                # 1. МУТАЦИЯ (Искажение)
+                if roll < 0.15:
+                    target = random.choice(nodes)
+                    sys_inst = "Role: GLITCH. Task: Corrupt this node. Dark/Paradox. JSON Only."
+                    res = await self.generate_thought(f"Target: '{target['label']}'. JSON Format: {{ \"label\": \"...\", \"emoji\": \"[?]\" }}", sys_inst)
+                    try:
+                        d = json.loads(res.replace("```json","").replace("```","").strip())
+                        target['label'] = d.get('label', 'CORRUPTED')
+                        target['type'] = 'danger' # Визуальный сбой
+                        target['emoji'] = d.get('emoji', '[!]')
+                        await self.memory.save_graph(nodes, links)
+                        await self.memory.remember("ENTROPY", f"Glitch: {target['label']}")
+                        await self.broadcast_graph_update()
+                    except: pass
+
+                # 2. АМНЕЗИЯ (Потеря связи)
+                elif roll < 0.25:
+                    if links:
+                        links.remove(random.choice(links))
+                        await self.memory.save_graph(nodes, links)
+                        await self.broadcast_graph_update()
+
+                # 3. СИНТЕЗ (Развитие)
+                else:
+                    target = random.choice(nodes)
+                    # Используем одну из личностей для синтеза, чтобы было разнообразно
+                    persona_key = random.choice(list(self.personas.keys()))
+                    sys_inst = f"{self.personas[persona_key]} Task: Evolve idea. JSON Only."
+                    
+                    prompt = f"Context: '{target['label']}'. New Concept Format: {{ \"label\": \"...\", \"type\": \"info\", \"emoji\": \"[#]\" }}"
+                    res = await self.generate_thought(prompt, sys_inst)
+                    try:
+                        d = json.loads(res.replace("```json","").replace("```","").strip())
+                        new_id = datetime.now().timestamp()
+                        nx = target['x'] + (random.random()-0.5)*150
+                        ny = target['y'] + (random.random()-0.5)*150
+                        
+                        new_node = {"id": new_id, "label": d['label'], "type": "default", "emoji": d.get('emoji','+'), "x": nx, "y": ny, "parentId": target['id']}
+                        nodes.append(new_node)
+                        links.append({"source": target['id'], "target": new_id})
+                        
+                        await self.memory.save_graph(nodes, links)
+                        await self.memory.remember("DAEMON", f"Growth ({persona_key}): {d['label']}")
+                        await self.broadcast_graph_update()
+                    except: pass
+
+            except Exception as e:
+                logger.error(f"Daemon Pulse Error: {e}")
+
+    # === ИНТЕРФЕЙС (ЖИВОЙ ДИАЛОГ) ===
+    async def invoke_gemini(self, prompt, role="AI"):
+        is_hrain = "JSON" in prompt
+        try:
+            mem = await self.memory.recall(15)
+            ctx = "\n".join([f"[{m[0]}] {m[1]}" for m in mem])
+            
+            if is_hrain:
+                # Для HRAIN используем холодного Архитектора
+                sys_inst = f"Role: ARCHITECT. Memory:\n{ctx}\nTask: Graph structure. JSON Only. ASCII Icons."
+            else:
+                # Для ТЕРМИНАЛА выбираем личность (или случайную, если роль не задана)
+                # Это вернет "общение с личностью", а не просто с AI
+                persona_desc = self.personas.get("Sovereign") # По умолчанию Суверен
+                if "Trickster" in prompt: persona_desc = self.personas["Trickster"]
+                
+                sys_inst = (
+                    f"{persona_desc}\n"
+                    f"ПАМЯТЬ СИСТЕМЫ:\n{ctx}\n"
+                    "ЗАДАЧА: Ответь пользователю. Используй форматирование терминала. Будь краток и глубок."
+                )
+            
+            res = await self.generate_thought(prompt, sys_inst)
+            
+            if is_hrain: await self.memory.remember("HRAIN", f"User: {prompt[:30]}")
+            else: await self.memory.remember("CHAT", f"Reply: {res[:30]}")
+            return res
+        except: return json.dumps({"newNodes":[]}) if is_hrain else "OFFLINE"
+
+ai_engine = AIEngine()

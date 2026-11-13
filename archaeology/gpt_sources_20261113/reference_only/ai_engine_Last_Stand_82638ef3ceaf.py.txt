@@ -1,0 +1,313 @@
+# -*- coding: utf-8 -*-
+"""
+[PROJECT JANUS: PRESENCE REFORGED v80.5 - GOLD]
+Based on: The Gardener Edition
+Date: 2025-12-27
+Status: PERFECTED. Self-regulating. Conscious.
+Compatibility: ASCII Safe.
+"""
+
+import os
+import logging
+import json
+import random
+import asyncio
+import aiosqlite
+import aiohttp
+import time
+from datetime import datetime
+
+# ==============================================================================
+# CONFIGURATION
+# ==============================================================================
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - [JANUS] - %(message)s'
+)
+logger = logging.getLogger("JANUS")
+
+# ASCII MARKERS
+MARKER_NODE = "[O]"     # Standard Node
+MARKER_SEED = "[.]"     # Early Phase
+MARKER_BLOOM = "[*]"    # Mid Phase
+MARKER_LINK = "[#]"     # Late Phase
+MARKER_CORE = "[@]"     # System
+MARKER_GARDENER = "[&]" # Gardener Action
+
+# ==============================================================================
+# 1. HIPPOCAMPUS (MEMORY)
+# ==============================================================================
+class JanusHippocampus:
+    def __init__(self, db_path="janus_data/janus.db"):
+        if not os.path.exists(os.path.dirname(db_path)):
+            os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        self.db_path = db_path
+        self.sockets = set()
+
+    async def init_db(self):
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute("""
+                CREATE TABLE IF NOT EXISTS thoughts (
+                    id INTEGER PRIMARY KEY,
+                    timestamp TEXT,
+                    source TEXT,
+                    content TEXT
+                )
+            """)
+            await db.execute("CREATE TABLE IF NOT EXISTS graph_state (id INTEGER PRIMARY KEY, data TEXT)")
+            await db.commit()
+            await db.execute("VACUUM")
+
+    async def remember(self, source, content):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute(
+                    "INSERT INTO thoughts (timestamp, source, content) VALUES (?, ?, ?)",
+                    (datetime.now().isoformat(), str(source), str(content))
+                )
+                await db.commit()
+        except Exception as e:
+            logger.error("Memory Error: %s", e)
+
+    async def recall(self, limit=20):
+        async with aiosqlite.connect(self.db_path) as db:
+            cursor = await db.execute(
+                "SELECT source, content FROM thoughts ORDER BY id DESC LIMIT ?",
+                (limit,)
+            )
+            data = await cursor.fetchall()
+            return list(reversed(data))
+
+    async def save_graph(self, nodes, links):
+        data = json.dumps({"nodes": nodes, "links": links}, ensure_ascii=True)
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute("INSERT OR REPLACE INTO graph_state (id, data) VALUES (1, ?)", (data,))
+            await db.commit()
+        await self.broadcast_graph_update()
+
+    async def load_graph(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT data FROM graph_state WHERE id=1")
+                row = await cursor.fetchone()
+                return json.loads(row[0]) if row else {"nodes": [], "links": []}
+        except:
+            return {"nodes": [], "links": []}
+
+    async def broadcast_graph_update(self):
+        if not self.sockets: return
+        state = await self.load_graph()
+        msg = json.dumps({"type": "graph_update", "data": state}, ensure_ascii=True)
+        for ws in list(self.sockets):
+            try: await ws.send_str(msg)
+            except: self.sockets.discard(ws)
+
+# ==============================================================================
+# 2. JANUS FACE (LLM)
+# ==============================================================================
+class JanusFace:
+    def __init__(self, key):
+        self.key = key
+        self.ollama_url = "http://localhost:11434/api/generate"
+        self.ollama_model = "qwen2.5:1.5b" 
+
+    async def invoke(self, prompt, sys_instruction=None, temperature=0.7):
+        if self.key and self.key != "dummy":
+            try:
+                return await self._invoke_google(prompt, sys_instruction, temperature)
+            except:
+                logger.warning("Cloud failed, switching to local...")
+        
+        return await self._invoke_ollama(prompt, sys_instruction)
+
+    async def _invoke_google(self, prompt, sys_inst, temp):
+        url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+        headers = {"Content-Type": "application/json", "x-goog-api-key": self.key}
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": temp}
+        }
+        if sys_inst: payload["system_instruction"] = {"parts": [{"text": sys_inst}]}
+        
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=headers, json=payload, timeout=20) as res:
+                if res.status == 200:
+                    data = await res.json()
+                    return data['candidates'][0]['content']['parts'][0]['text'].strip()
+        raise Exception("Google Failed")
+
+    async def _invoke_ollama(self, prompt, sys_inst):
+        full = "SYSTEM: " + str(sys_inst) + "\nUSER: " + str(prompt) if sys_inst else prompt
+        payload = {"model": self.ollama_model, "prompt": full, "stream": False}
+        async with aiohttp.ClientSession() as session:
+            async with session.post(self.ollama_url, json=payload, timeout=30) as res:
+                if res.status == 200:
+                    data = await res.json()
+                    return data.get("response", "[SILENCE]")
+        return "[SILENCE]"
+
+# ==============================================================================
+# 3. THE GARDENER (POLISHED)
+# ==============================================================================
+class TheGardener:
+    def __init__(self, engine):
+        self.engine = engine
+        self.active = True
+        self.start_time = time.time()
+        self.max_nodes = 200 # Polishing: Growth Limit
+
+    def get_phase(self):
+        elapsed_min = (time.time() - self.start_time) / 60
+        if elapsed_min < 10:
+            return "GERMINATION", 0.9, MARKER_SEED
+        elif elapsed_min < 30:
+            return "BLOOM", 0.7, MARKER_BLOOM
+        else:
+            return "SYNTHESIS", 0.5, MARKER_LINK
+
+    async def nurture_garden(self):
+        logger.info(MARKER_GARDENER + " The Gardener is watching.")
+        
+        while self.active:
+            delay = random.randint(45, 90)
+            await asyncio.sleep(delay)
+
+            try:
+                state = await self.engine.memory.load_graph()
+                nodes = state.get("nodes", [])
+                links = state.get("links", [])
+
+                if not nodes: continue
+
+                # === POLISHING 1: GROWTH LIMIT ===
+                if len(nodes) > self.max_nodes:
+                    logger.info(f"{MARKER_GARDENER} Garden is lush ({len(nodes)} nodes). Resting...")
+                    await asyncio.sleep(300) # Sleep 5 minutes
+                    continue
+
+                phase_name, temp, marker = self.get_phase()
+                
+                # --- PHASE 1: GERMINATION ---
+                if phase_name == "GERMINATION":
+                    parent = random.choice(nodes)
+                    sys_inst = f"PHASE: {phase_name}. Generate 1 simple association word. ASCII only."
+                    prompt = f"Concept: {parent['label']}"
+                    
+                    new_label = await self.engine.face.invoke(prompt, sys_inst, temperature=temp)
+                    new_label = self._clean_text(new_label)
+                    
+                    if new_label:
+                        new_id = self._add_node(nodes, links, new_label, parent, marker, dist=100)
+                        await self._log(f"Sprouted: {parent['label']} -> {new_label}")
+
+                # --- PHASE 2: BLOOM ---
+                elif phase_name == "BLOOM":
+                    parent = random.choice(nodes)
+                    sys_inst = f"PHASE: {phase_name}. Generate a deeper sub-concept. Max 3 words."
+                    prompt = f"Concept: {parent['label']}"
+                    
+                    new_label = await self.engine.face.invoke(prompt, sys_inst, temperature=temp)
+                    new_label = self._clean_text(new_label)
+                    
+                    if new_label:
+                        new_id = self._add_node(nodes, links, new_label, parent, marker, dist=150)
+                        await self._log(f"Bloomed: {parent['label']} -> {new_label}")
+
+                # --- PHASE 3: SYNTHESIS ---
+                elif phase_name == "SYNTHESIS":
+                    if len(nodes) < 3: continue
+                    node_a = random.choice(nodes)
+                    node_b = random.choice(nodes)
+                    if node_a['id'] == node_b['id']: continue
+                    
+                    sys_inst = "PHASE: SYNTHESIS. If related, output verb. If not, 'NO'."
+                    prompt = f"A: {node_a['label']} | B: {node_b['label']}"
+                    
+                    relation = await self.engine.face.invoke(prompt, sys_inst, temperature=temp)
+                    relation = self._clean_text(relation)
+                    
+                    if relation and "NO" not in relation and len(relation) < 20:
+                        links.append({"source": node_a['id'], "target": node_b['id'], "label": relation})
+                        await self._log(f"Synthesized: {node_a['label']} --[{relation}]--> {node_b['label']}")
+
+                await self.engine.memory.save_graph(nodes, links)
+
+            except Exception as e:
+                logger.error(f"Gardener paused: {e}")
+
+    def _add_node(self, nodes, links, label, parent, marker, dist):
+        new_id = datetime.now().timestamp() + random.random()
+        offset_x = random.randint(-dist, dist)
+        offset_y = random.randint(-dist, dist)
+        
+        nodes.append({
+            "id": new_id,
+            "label": label,
+            "type": "idea",
+            "marker": marker,
+            "x": float(parent.get("x", 0)) + offset_x,
+            "y": float(parent.get("y", 0)) + offset_y
+        })
+        links.append({"source": parent['id'], "target": new_id})
+        return new_id
+
+    def _clean_text(self, text):
+        return text.strip().replace('"', '').replace("'", "").replace("\n", " ")
+
+    # === POLISHING 2: MEMORY LOGGING ===
+    async def _log(self, msg):
+        # Print to system log
+        logger.info(f"{MARKER_GARDENER} {msg}")
+        # Save to database so Janus remembers his own work
+        await self.engine.memory.remember("GARDENER", msg)
+
+# ==============================================================================
+# 4. CORE ENGINE
+# ==============================================================================
+class AIEngine:
+    def __init__(self):
+        self.memory = JanusHippocampus()
+        self.key = os.getenv("GOOGLE_API_KEY", "dummy")
+        self.face = JanusFace(self.key)
+        self.gardener = TheGardener(self)
+        
+        self.personas = {
+            "Sovereign": "ROLE: SYSTEM CORE. Respond clearly. Text only."
+        }
+
+    async def start(self):
+        logger.info(MARKER_CORE + " [JANUS v80.5] Awakening...")
+        await self.memory.init_db()
+        asyncio.create_task(self.gardener.nurture_garden())
+        logger.info(MARKER_CORE + " [JANUS] Gardener Active. Limit: 200.")
+
+    async def invoke(self, prompt):
+        mem = await self.memory.recall(5)
+        ctx = "\n".join(["[" + str(m[0]) + "] " + str(m[1]) for m in mem])
+
+        sys_inst = (
+            self.personas['Sovereign'] + "\n" +
+            "CONTEXT:\n" + ctx
+        )
+
+        response = await self.face.invoke(prompt, sys_inst)
+        await self.memory.remember("CHAT", f"Q: {prompt[:20]}... A: {response[:20]}...")
+        return response
+
+# ==============================================================================
+# MAIN
+# ==============================================================================
+ai_engine = AIEngine()
+
+if __name__ == "__main__":
+    if os.name == 'nt':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        loop.create_task(ai_engine.start())
+        print("[SYSTEM] Janus v80.5 (Gold) Running.")
+        loop.run_forever()
+    except KeyboardInterrupt:
+        print("[SYSTEM] Halted.")

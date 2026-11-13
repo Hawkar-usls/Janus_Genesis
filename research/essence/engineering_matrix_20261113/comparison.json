@@ -1,0 +1,55 @@
+{
+  "after": {
+    "invalid_unit_expression_rejected": true,
+    "legacy_receipts_equal": true,
+    "loop_control": {
+      "status": "LIMIT",
+      "steps": 17
+    },
+    "microkernels": 6,
+    "new_suite": {
+      "exit_code": 0,
+      "passed": true,
+      "tests_run": 27
+    },
+    "original_suite": {
+      "exit_code": 0,
+      "passed": true,
+      "tests_run": 10
+    },
+    "policy": {
+      "automatic_execution": false,
+      "model_weights_modified": false,
+      "production_promotion": false
+    },
+    "pressure_in_MPa": "1.5",
+    "receipt_sha256": "588b029955afd3c9a926dc71ee832ca43bdd661a91551f6db7c081f1ec3b84bc",
+    "unary_turing": {
+      "output": "1111",
+      "status": "ACCEPT",
+      "steps": 4
+    },
+    "work_expression": "5*kN*2*m",
+    "work_in_kJ": "10"
+  },
+  "baseline": {
+    "engineering_calculator": "NOT_IMPLEMENTED",
+    "microkernels": 6,
+    "original_suite": {
+      "exit_code": 0,
+      "passed": true,
+      "tests_run": 10
+    },
+    "receipt_sha256": "2bd0645a30393b66d068db8676808b4a892937b6c47a013897eb79abae19ff46",
+    "status": "PASS_WITH_OPERATIONAL_HOLD",
+    "turing_interpreter": "NOT_IMPLEMENTED"
+  },
+  "baseline_git_head": "6aefb9b8d77c862af64cbfa970c760afed9c8f97",
+  "comparison_sha256": "67be4e2ee11ad1b8540ac7e2a7932448807cfb7c587c3c6ea9a983c9d85b895d",
+  "date_utc": "2026-11-13",
+  "fixture_sha256": "45313bb0531cceeea47d400be555c99772b7bd95cf58a4f678ecd6aacd008696",
+  "repo": "Hawkar-usls/Janus_Genesis",
+  "schema": "janus.essence.engineering_comparison/0.1",
+  "scientific_claim_limit": "CAPABILITY_ADDITION_NOT_LANGUAGE_MODEL_QUALITY_IMPROVEMENT",
+  "test_location_class": "USER_PC_YAKSA_ISOLATED_CLONE"
+}

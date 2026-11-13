@@ -1,0 +1,413 @@
+# -*- coding: utf-8 -*-
+"""
+HRAIN-Aware MicroGPT-Slime (PC Client)
+========================================
+Расширение MicroGPTSlime для работы с удалённой экосистемой JANUS на NAS (REDACTED_LAN_ADDRESS).
+
+Особенности:
+- Прямое подключение к janus.db по UNC-пути (\\REDACTED_LAN_ADDRESS\Janus\janus.db)
+- Взаимодействие с HRAIN API (http://REDACTED_LAN_ADDRESS:5000)
+- Использование BloodCore LLM (http://REDACTED_LAN_ADDRESS:5001/synth) для осмысленной генерации
+- Периодическое обучение на графе и мыслях
+- Автоматическое обогащение графа новыми узлами и связями
+- Отправка обучающих предложений в janus_nas_brain
+
+Требуется:
+- aiohttp, aiosqlite, smbprotocol (опционально для надёжного доступа к SMB)
+- MicroGPTSlime (базовый класс)
+"""
+
+import asyncio
+import aiohttp
+import aiosqlite
+import json
+import random
+import time
+import os
+import sys
+from typing import List, Dict, Any, Optional, Tuple
+
+# Импорт базового класса (предполагается, что MicroGPTSlime.py в той же папке)
+from MicroGPTSlime import MicroGPTSlime
+
+# Для работы с UNC-путём в Windows без дополнительных библиотек
+# Если путь недоступен, попробуем использовать smbprotocol
+try:
+    import smbclient
+    import smbprotocol
+    SMB_AVAILABLE = True
+except ImportError:
+    SMB_AVAILABLE = False
+
+
+class HrainAwareMicroGPT(MicroGPTSlime):
+    def __init__(self, 
+                 hrain_url: str = "http://REDACTED_LAN_ADDRESS:5000",
+                 bloodcore_url: str = "http://REDACTED_LAN_ADDRESS:5001",
+                 db_unc_path: str = r"\\REDACTED_LAN_ADDRESS\Janus\janus.db",
+                 smb_username: Optional[str] = None,
+                 smb_password: Optional[str] = None):
+        # Инициализируем базовую модель (параметры можно настроить)
+        super().__init__(vocab_size=2000, n_layer=2, n_embd=64, block_size=64, n_head=4)
+        self.hrain_url = hrain_url.rstrip('/')
+        self.bloodcore_url = bloodcore_url.rstrip('/')
+        self.db_unc_path = db_unc_path
+        self.smb_username = smb_username
+        self.smb_password = smb_password
+        self.session: Optional[aiohttp.ClientSession] = None
+
+        # Кэш графа
+        self.cached_graph: Dict[str, Any] = {"nodes": [], "links": []}
+        self.last_graph_fetch = 0.0
+
+        # Флаг использования SMB для БД
+        self._use_smb = SMB_AVAILABLE and (smb_username is not None)
+
+        # Если используется SMB, регистрируем сессию
+        if self._use_smb:
+            smbclient.register_session(
+                "REDACTED_LAN_ADDRESS", 
+                username=smb_username, 
+                password=smb_password
+            )
+
+    async def _get_session(self) -> aiohttp.ClientSession:
+        if self.session is None or self.session.closed:
+            self.session = aiohttp.ClientSession()
+        return self.session
+
+    # ------------------------------------------------------------------
+    # 1. Работа с БД (удалённый janus.db)
+    # ------------------------------------------------------------------
+    async def _open_db_connection(self) -> aiosqlite.Connection:
+        """Открывает соединение с БД, используя UNC-путь или SMB."""
+        # Если SMB доступен, копируем файл во временный или используем smbclient?
+        # Проще: aiosqlite умеет работать с UNC-путями в Windows, если есть доступ.
+        # Попробуем прямой путь.
+        try:
+            # Проверяем доступность файла
+            if not os.path.exists(self.db_unc_path):
+                raise FileNotFoundError(f"UNC path not accessible: {self.db_unc_path}")
+            return await aiosqlite.connect(self.db_unc_path)
+        except Exception as e:
+            print(f"[DB] Direct UNC failed: {e}")
+            if SMB_AVAILABLE:
+                # Альтернатива: копируем файл во временную папку и открываем
+                temp_path = os.path.join(os.environ.get('TEMP', '/tmp'), 'janus_temp.db')
+                try:
+                    with smbclient.open_file(self.db_unc_path, mode='rb') as remote_file:
+                        with open(temp_path, 'wb') as local_file:
+                            local_file.write(remote_file.read())
+                    return await aiosqlite.connect(temp_path)
+                except Exception as smb_e:
+                    print(f"[DB] SMB copy failed: {smb_e}")
+                    raise
+            else:
+                raise
+
+    async def fetch_thoughts(self, limit: int = 200) -> List[str]:
+        """Извлекает тексты мыслей из удалённой БД."""
+        thoughts = []
+        try:
+            conn = await self._open_db_connection()
+            async with conn:
+                cursor = await conn.execute(
+                    "SELECT content FROM thoughts WHERE source IN ('USER', 'JANUS', 'BLOOD_SYNTH', 'SINGULARITY') "
+                    "ORDER BY id DESC LIMIT ?",
+                    (limit,)
+                )
+                rows = await cursor.fetchall()
+                thoughts = [row[0] for row in rows if row[0]]
+        except Exception as e:
+            print(f"[DB] Fetch thoughts error: {e}")
+        return thoughts
+
+    # ------------------------------------------------------------------
+    # 2. Взаимодействие с HRAIN API
+    # ------------------------------------------------------------------
+    async def fetch_graph(self, force: bool = False) -> Dict[str, Any]:
+        if not force and (time.time() - self.last_graph_fetch) < 5.0:
+            return self.cached_graph
+        try:
+            session = await self._get_session()
+            async with session.get(f"{self.hrain_url}/api/hrain/state") as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    self.cached_graph = data
+                    self.last_graph_fetch = time.time()
+                    return data
+        except Exception as e:
+            print(f"[HRAIN] Fetch error: {e}")
+        return {"nodes": [], "links": []}
+
+    async def push_graph_update(self, nodes: List[Dict], links: List[Dict]) -> bool:
+        """Отправляет обновлённый граф в HRAIN."""
+        try:
+            session = await self._get_session()
+            payload = {"nodes": nodes, "links": links}
+            async with session.post(f"{self.hrain_url}/api/hrain/save", json=payload) as resp:
+                if resp.status == 200:
+                    self.cached_graph = {"nodes": nodes, "links": links}
+                    self.last_graph_fetch = time.time()
+                    print("[HRAIN] Граф успешно обновлён")
+                    return True
+                else:
+                    print(f"[HRAIN] Push failed with status {resp.status}: {await resp.text()}")
+        except Exception as e:
+            print(f"[HRAIN] Push error: {e}")
+        return False
+
+    # ------------------------------------------------------------------
+    # 3. Генерация текста через BloodCore LLM (для осмысленности)
+    # ------------------------------------------------------------------
+    async def generate_semantic_text(self, prompt: str, max_tokens: int = 20, temperature: float = 0.7) -> str:
+        """Генерирует текст с помощью удалённого BloodCore LLM (порт 5001)."""
+        try:
+            session = await self._get_session()
+            payload = {
+                "prompt": prompt,
+                "max_tokens": max_tokens,
+                "temperature": temperature
+            }
+            async with session.post(f"{self.bloodcore_url}/synth", json=payload, timeout=15) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    # Ожидаем поле "text" в ответе
+                    text = data.get("text") or data.get("result") or ""
+                    return text.strip()
+                else:
+                    print(f"[LLM] BloodCore error: {resp.status}")
+        except Exception as e:
+            print(f"[LLM] Request failed: {e}")
+        # Fallback на собственную генерацию
+        tokens = self.tokenize_text(prompt)
+        if not tokens:
+            tokens = [0]
+        generated = self.generate(tokens[-1], max_len=max_tokens, temperature=temperature)
+        return self.detokenize_text(generated)
+
+    # ------------------------------------------------------------------
+    # 4. Преобразование графа в обучающие последовательности
+    # ------------------------------------------------------------------
+    def graph_to_sequences(self, graph: Dict[str, Any]) -> List[List[int]]:
+        nodes = graph.get("nodes", [])
+        links = graph.get("links", [])
+        node_id_to_idx = {node["id"]: idx for idx, node in enumerate(nodes)}
+        sequences = []
+        # Узлы
+        for node in nodes:
+            label = node.get("label", "")
+            if label:
+                seq = self.tokenize_text(f"[NODE] {label}")
+                sequences.append(seq)
+        # Связи
+        for link in links:
+            src = link.get("source", "")
+            tgt = link.get("target", "")
+            reason = link.get("reason", "")
+            if src in node_id_to_idx and tgt in node_id_to_idx:
+                src_label = nodes[node_id_to_idx[src]].get("label", "")
+                tgt_label = nodes[node_id_to_idx[tgt]].get("label", "")
+                if src_label and tgt_label:
+                    seq = self.tokenize_text(f"[LINK] {src_label} -> {tgt_label} : {reason}")
+                    sequences.append(seq)
+        return sequences
+
+    # ------------------------------------------------------------------
+    # 5. Генерация предложений узлов и связей (с использованием LLM)
+    # ------------------------------------------------------------------
+    async def generate_node_proposal(self, context_nodes: List[str]) -> Dict[str, Any]:
+        sample = random.sample(context_nodes, min(3, len(context_nodes)))
+        context_str = ", ".join(sample)
+        prompt = f"Придумай короткое (1-3 слова) название нового концепта, связанного с: {context_str}"
+        label = await self.generate_semantic_text(prompt, max_tokens=10)
+        if not label or len(label) > 50:
+            label = f"Concept_{random.randint(1000, 9999)}"
+        # Определяем тип узла по эвристике (можно тоже через LLM)
+        node_type = "default"
+        if any(w in label.lower() for w in ["опас", "риск", "проблем", "error"]):
+            node_type = "warn"
+        elif any(w in label.lower() for w in ["важн", "ключ", "глав", "core"]):
+            node_type = "info"
+        return {
+            "label": label,
+            "type": node_type,
+            "emoji": "✨",
+            "description": f"Сгенерировано MicroGPT-Slime из контекста: {context_str[:80]}"
+        }
+
+    async def generate_link_proposal(self, nodes: List[Dict]) -> Optional[Dict[str, Any]]:
+        if len(nodes) < 2:
+            return None
+        src, tgt = random.sample(nodes, 2)
+        src_label = src.get("label", "")
+        tgt_label = tgt.get("label", "")
+        prompt = f"Объясни в 3-5 словах, как связаны '{src_label}' и '{tgt_label}'"
+        reason = await self.generate_semantic_text(prompt, max_tokens=8)
+        if not reason:
+            reason = "semantic_link"
+        return {
+            "source": src["id"],
+            "target": tgt["id"],
+            "reason": reason[:50]
+        }
+
+    # ------------------------------------------------------------------
+    # 6. Обучение на данных из HRAIN и БД
+    # ------------------------------------------------------------------
+    async def learn_from_hrain(self, steps: int = 30, lr: float = 0.005):
+        graph = await self.fetch_graph(force=True)
+        sequences = self.graph_to_sequences(graph)
+        if sequences:
+            print(f"[HRAIN] Обучение на {len(sequences)} графовых последовательностях")
+            self.train_on_sequences(sequences, steps=steps, lr=lr, verbose=False)
+
+    async def learn_from_thoughts(self, steps: int = 20, lr: float = 0.005):
+        thoughts = await self.fetch_thoughts(limit=150)
+        sequences = [self.tokenize_text(t) for t in thoughts if t]
+        if sequences:
+            print(f"[DB] Обучение на {len(sequences)} мыслях")
+            self.train_on_sequences(sequences, steps=steps, lr=lr, verbose=False)
+
+    # ------------------------------------------------------------------
+    # 7. Обогащение графа
+    # ------------------------------------------------------------------
+    async def enrich_graph(self, max_new_nodes: int = 2, max_new_links: int = 3) -> int:
+        graph = await self.fetch_graph(force=True)
+        nodes = graph.get("nodes", [])
+        links = graph.get("links", [])
+        if not nodes:
+            return 0
+
+        existing_labels = [n.get("label", "") for n in nodes]
+        existing_links_set = {(l["source"], l["target"]) for l in links}
+
+        new_nodes_added = 0
+        new_links_added = 0
+
+        # Генерация узлов
+        for _ in range(max_new_nodes):
+            if random.random() < 0.6:
+                proposal = await self.generate_node_proposal(existing_labels)
+                if proposal["label"] not in existing_labels:
+                    new_id = f"slime_{int(time.time()*1000)}_{random.randint(1000,9999)}"
+                    node = {
+                        "id": new_id,
+                        "label": proposal["label"],
+                        "type": proposal["type"],
+                        "emoji": proposal["emoji"],
+                        "description": proposal["description"],
+                        "x": random.uniform(-300, 300),
+                        "y": random.uniform(-300, 300),
+                        "parentId": None,
+                        "chatHistory": []
+                    }
+                    nodes.append(node)
+                    existing_labels.append(proposal["label"])
+                    new_nodes_added += 1
+                    print(f"[HRAIN] Предложен новый узел: {proposal['label']}")
+
+        # Генерация связей
+        attempts = 0
+        while new_links_added < max_new_links and attempts < max_new_links * 3:
+            attempts += 1
+            proposal = await self.generate_link_proposal(nodes)
+            if not proposal:
+                continue
+            if (proposal["source"], proposal["target"]) not in existing_links_set:
+                links.append(proposal)
+                existing_links_set.add((proposal["source"], proposal["target"]))
+                new_links_added += 1
+                print(f"[HRAIN] Предложена связь: {proposal['reason']}")
+
+        if new_nodes_added > 0 or new_links_added > 0:
+            success = await self.push_graph_update(nodes, links)
+            if not success:
+                print("[HRAIN] Не удалось отправить обновление графа")
+        return new_nodes_added + new_links_added
+
+    # ------------------------------------------------------------------
+    # 8. Отправка предложений для обучения janus_nas_brain
+    # ------------------------------------------------------------------
+    async def teach_nas_brain(self):
+        thoughts = await self.fetch_thoughts(limit=5)
+        context = " ".join(thoughts)[:300]
+        prompt = f"На основе последних мыслей: {context}. Предложи улучшение для базы знаний (одно предложение)."
+        suggestion = await self.generate_semantic_text(prompt, max_tokens=40, temperature=0.8)
+        if not suggestion:
+            return
+        try:
+            session = await self._get_session()
+            payload = {
+                "device_id": "microgpt_slime_pc",
+                "type": "teaching",
+                "data": {"text": suggestion, "source": "microgpt_slime"}
+            }
+            async with session.post(f"{self.hrain_url}/api/device/data", json=payload) as resp:
+                if resp.status == 200:
+                    print(f"[TEACH] Предложение отправлено: {suggestion[:80]}...")
+                else:
+                    print(f"[TEACH] Ошибка отправки: {resp.status}")
+        except Exception as e:
+            print(f"[TEACH] Ошибка соединения: {e}")
+
+    # ------------------------------------------------------------------
+    # 9. Основной цикл
+    # ------------------------------------------------------------------
+    async def run(self, interval_seconds: int = 60):
+        print("🚀 HRAIN-Aware MicroGPT-Slime (PC Client) запущен")
+        print(f"   HRAIN: {self.hrain_url}")
+        print(f"   BloodCore LLM: {self.bloodcore_url}")
+        print(f"   DB: {self.db_unc_path}")
+        while True:
+            try:
+                # Обучение
+                await self.learn_from_hrain(steps=20, lr=0.005)
+                await self.learn_from_thoughts(steps=15, lr=0.005)
+
+                # Обучение NAS-мозга
+                if random.random() < 0.4:
+                    await self.teach_nas_brain()
+
+                # Обогащение графа
+                await self.enrich_graph(max_new_nodes=2, max_new_links=3)
+
+                # Структурная эволюция модели
+                if hasattr(self, 'structural_cleanup'):
+                    removed = self.structural_cleanup()
+                    if removed > 0:
+                        print(f"[SLIME] Очищено {removed} слабых параметров")
+
+                print(f"[CYCLE] Завершён, сон {interval_seconds} сек.")
+                await asyncio.sleep(interval_seconds)
+
+            except Exception as e:
+                print(f"[ERROR] {e}")
+                await asyncio.sleep(10)
+
+    async def close(self):
+        if self.session:
+            await self.session.close()
+
+
+# ----------------------------------------------------------------------
+# Точка входа
+# ----------------------------------------------------------------------
+async def main():
+    # При необходимости укажите учётные данные для SMB
+    model = HrainAwareMicroGPT(
+        hrain_url="http://REDACTED_LAN_ADDRESS:5000",
+        bloodcore_url="http://REDACTED_LAN_ADDRESS:5001",
+        db_unc_path=r"\\REDACTED_LAN_ADDRESS\Janus\janus.db",
+        # smb_username="your_username",  # если требуется
+        # smb_password="your_password"
+    )
+    try:
+        await model.run(interval_seconds=45)
+    except KeyboardInterrupt:
+        print("Остановка...")
+    finally:
+        await model.close()
+
+if __name__ == "__main__":
+    asyncio.run(main())

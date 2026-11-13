@@ -1,0 +1,601 @@
+# -*- coding: utf-8 -*-
+"""
+[ПРОЕКТ ЯНУС: ЯДРО v70.0 - IMMORTAL (STABLE)]
+Архитектура: Полный Монолит (Все модули + Web Support).
+Цель: Исправление критических ошибок запуска и Web-терминала.
+
+ИСПРАВЛЕНИЯ v70.0:
+  - WEB FIX: Возвращен атрибут self.sockets (исправляет AttributeError).
+  - SYNTAX FIX: Класс Settings развернут в нормальный вид (исправляет SyntaxError).
+  - FULL RESTORE: Nebuchadnezzar, NaturalSelection, VectorMath восстановлены.
+  - ICONS: Jester и Freeze добавлены.
+
+Статус: ЖИВОЙ | ДАТА: 02 Янв 2026
+"""
+
+import os
+import sys
+import logging
+import json
+import random
+import asyncio
+import aiosqlite
+import aiohttp
+import time
+import re
+import shutil
+import hashlib
+import math
+import base64
+import mimetypes
+from collections import deque
+from datetime import datetime
+import cachetools
+
+# --- КОДИРОВКА ---
+if sys.version_info < (3, 7):
+    import codecs
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+else:
+    sys.stdout.reconfigure(encoding='utf-8')
+
+# --- ИКОНКИ ---
+ICONS = {
+    "boot": "\U0001F916", "nerve": "\U0001F9E0", "spark": "\u2728",
+    "moon": "\U0001F319", "eat": "\U0001F37D", "vault": "\U0001F4FE",
+    "error": "\u274C", "warn": "\u26A0", "flash": "\u26A1",
+    "skull": "\U0001F480", "idea": "\U0001F4A1", "link": "\U0001F517",
+    "db": "\U0001F4BE", "synch": "\U0001F504", "sim": "\U0001F52E",
+    "chaos": "\U0001F300", "shield": "\U0001F6E1", "eye": "\U0001F441", 
+    "trinity": "\u2725", "critic": "\u2696", "seraph": "\U0001F47C", 
+    "evolve": "\U0001F9EC", "jester": "\U0001F3AD", "beetle": "\U0001F41E",
+    "heart": "\U0001F493", "crown": "\U0001F451", "temple": "\U0001F3DB",
+    "tools": "\U0001F6E0", "think": "\U0001F914", "freeze": "\u2744",
+    "select": "\u2694"
+}
+
+FACTORY_KEY_POOL = []
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%H:%M:%S')
+logger = logging.getLogger("JANUS")
+
+# ==============================================================================
+# 1. УТИЛИТЫ (ПОЛНЫЙ НАБОР)
+# ==============================================================================
+class VectorMath:
+    @staticmethod
+    def cosine_similarity(v1, v2):
+        if not v1 or not v2 or len(v1) != len(v2): return 0.0
+        dot = sum(a * b for a, b in zip(v1, v2))
+        mag1 = math.sqrt(sum(a * a for a in v1))
+        mag2 = math.sqrt(sum(b * b for b in v2))
+        if mag1 == 0 or mag2 == 0: return 0.0
+        return dot / (mag1 * mag2)
+
+class Settings:
+    DEFAULT = {
+        "stm_capacity": 30,
+        "stm_ttl_seconds": 600,
+        "model_primary": "gemini-2.0-flash-exp",
+        "model_backup": "gemini-1.5-flash",
+        "models_coding": ["gemini-2.0-flash-exp", "gemini-1.5-pro"],
+        "model_vision": "gemini-2.0-flash-exp",
+        "model_embedding": "text-embedding-004",
+        "autonomy_enabled": True,
+        "nerve_config": {"syslog_udp_port": 514, "filters": ["debug"]}
+    }
+    def __init__(self, filename="settings.json"):
+        self.filename = filename
+        self.data = self.DEFAULT.copy()
+        self.load()
+
+    def load(self):
+        if os.path.exists(self.filename):
+            try:
+                with open(self.filename, 'r', encoding='utf-8') as f:
+                    self.data.update(json.load(f))
+            except:
+                pass
+        else:
+            self.save()
+
+    def save(self):
+        # SYNTAX FIX: Развернутая запись во избежание ошибок
+        try:
+            with open(self.filename, 'w', encoding='utf-8') as f:
+                json.dump(self.data, f, indent=4)
+        except:
+            pass
+
+    def get(self, key, default=None):
+        return self.data.get(key, default if default is not None else self.DEFAULT.get(key))
+
+class Keyring:
+    def __init__(self, keys):
+        self.keys = list(set(keys))
+        env_key = os.environ.get("JANUS_API_KEY")
+        if env_key: self.keys.insert(0, env_key)
+        self.index = 0
+        self.total = len(self.keys)
+    def reload(self, new_keys):
+        self.keys = list(set(self.keys) | set(new_keys))
+        self.total = len(self.keys)
+        self.index = 0
+        if new_keys: logger.info(f"{ICONS['moon']} KEYRING: Keys updated. Total: {self.total}")
+    def get_next(self):
+        if self.total == 0: return None
+        k = self.keys[self.index]
+        self.index = (self.index + 1) % self.total
+        return k
+    def bury(self, key):
+        if key in self.keys:
+            self.keys.remove(key)
+            self.total = len(self.keys)
+            if self.total > 0: self.index = self.index % self.total
+            logger.warning(f"{ICONS['skull']} KEYRING: Key died. Remaining: {self.total}")
+
+# ==============================================================================
+# 2. ПАМЯТЬ
+# ==============================================================================
+class FastMemory:
+    def __init__(self, capacity=30, ttl=600):
+        self.cache = cachetools.TTLCache(maxsize=capacity, ttl=ttl)
+    def add(self, key, value): self.cache[key] = value
+    def clear(self): self.cache.clear()
+
+class JanusHippocampus:
+    def __init__(self, db_name="janus.db"):
+        self.db_path = os.path.join(os.getcwd(), db_name)
+
+    async def init_db(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("CREATE TABLE IF NOT EXISTS thoughts (id INTEGER PRIMARY KEY, timestamp TEXT, source TEXT, content TEXT, tags TEXT)")
+                await db.execute("CREATE TABLE IF NOT EXISTS graph_state (id INTEGER PRIMARY KEY, data TEXT)")
+                await db.execute("CREATE TABLE IF NOT EXISTS vault (id INTEGER PRIMARY KEY, key_type TEXT, value TEXT, UNIQUE(value))")
+                await db.execute("CREATE TABLE IF NOT EXISTS evolution_log (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp TEXT, cycle TEXT, subject_id TEXT, action TEXT, reason TEXT, meta TEXT)")
+                await db.commit()
+                logger.info(f"{ICONS['db']} HIPPOCAMPUS: Active.")
+        except Exception as e: logger.error(f"{ICONS['error']} DB ERROR: {e}")
+
+    async def log_evolution(self, cycle, subject_id, action, reason="", meta=None):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT INTO evolution_log (timestamp, cycle, subject_id, action, reason, meta) VALUES (?, ?, ?, ?, ?, ?)",
+                    (datetime.now().isoformat(), cycle, str(subject_id), action, reason, json.dumps(meta or {})))
+                await db.commit()
+        except: pass
+
+    async def store_key(self, api_key):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT OR IGNORE INTO vault (key_type, value) VALUES (?, ?)", ("google_api", api_key.strip()))
+                await db.commit()
+            return True
+        except: return False
+    
+    async def get_all_keys(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT value FROM vault WHERE key_type='google_api'")
+                return [row[0] for row in await cursor.fetchall()]
+        except: return []
+
+    async def remember(self, source, content):
+        if not isinstance(content, str): content = json.dumps(content, ensure_ascii=False)
+        tags = json.dumps(re.findall(r'\w{4,}', content.lower()), ensure_ascii=False)
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT INTO thoughts (timestamp, source, content, tags) VALUES (?, ?, ?, ?)",
+                                 (datetime.now().isoformat(), source, content, tags))
+                await db.commit()
+            if source in ["USER", "JANUS", "REFLECTION"]:
+                 logger.info(f"{ICONS['db']} MEMORY: +[{source}]")
+        except: pass
+
+    async def search_thoughts(self, query_text, limit=5):
+        try:
+            keywords = re.findall(r'\w{4,}', query_text.lower())
+            if not keywords: return []
+            conditions = " OR ".join(["content LIKE ?" for _ in keywords])
+            sql = f"SELECT source, content FROM thoughts WHERE {conditions} ORDER BY id DESC LIMIT ?"
+            params = [f"%{kw}%" for kw in keywords]; params.append(limit)
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute(sql, tuple(params))
+                return await cursor.fetchall()
+        except: return []
+
+    async def load_graph(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT data FROM graph_state WHERE id=1")
+                row = await cursor.fetchone()
+                return json.loads(row[0]) if row else {"nodes": [], "links": []}
+        except: return {"nodes": [], "links": []}
+
+    async def save_graph(self, nodes, links):
+        try:
+            data = json.dumps({"nodes": nodes, "links": links})
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT OR REPLACE INTO graph_state (id, data) VALUES (1, ?)", (data,))
+                await db.commit()
+        except: pass
+
+# ==============================================================================
+# 3. МОДУЛИ ЭВОЛЮЦИИ И СТРУКТУРЫ
+# ==============================================================================
+class Chronos:
+    def __init__(self, db_path="janus.db"):
+        self.db_path = db_path
+        if not os.path.exists("backups"): os.makedirs("backups")
+
+class Hypnos:
+    def __init__(self, engine): self.engine = engine
+    async def assimilate(self):
+        if self.engine.evolving: return
+        dream_path = "dreams.json"
+        if os.path.exists(dream_path):
+            try:
+                with open(dream_path, 'r', encoding='utf-8') as f: dreams = json.load(f)
+                for d in dreams: await self.engine.memory.remember("DREAM", json.dumps(d))
+                os.remove(dream_path)
+                logger.info(f"{ICONS['moon']} HYPNOS: Сны усвоены.")
+            except: pass
+        await self.reflect_on_reality()
+
+    async def reflect_on_reality(self):
+        if self.engine.evolving: return
+        try:
+            recent = await self.engine.memory.search_thoughts("REFLECTION", limit=1)
+            if not recent:
+                logger.info(f"{ICONS['moon']} HYPNOS: Глубокая медитация...")
+                prompt = "Опиши свою текущую цель. 1 фраза."
+                insight = await self.engine.face.invoke(prompt, sys_inst="Ты Подсознание.", temp=0.7)
+                await self.engine.memory.remember("REFLECTION", f"SELF: {insight}")
+        except: pass
+
+class Nebuchadnezzar:
+    """[RESTORED] Хаос и Мутации."""
+    def __init__(self, engine): self.engine = engine
+    async def mutate(self, nodes, links):
+        if not nodes: return False
+        if random.random() < 0.3:
+            n1, n2 = random.sample(nodes, 2)
+            links.append({"source": n1['id'], "target": n2['id'], "reason": "CHAOS_LINK"})
+            return True
+        return False
+
+class NaturalSelection:
+    """[RESTORED] Естественный отбор."""
+    def __init__(self, engine): self.engine = engine
+    async def run_cycle(self, nodes, links):
+        if len(nodes) < 20: return nodes, links
+        survivors = []; victims = []
+        for n in nodes:
+            if n.get('type') in ['root']: survivors.append(n); continue
+            conns = len([l for l in links if l['source']==n['id'] or l['target']==n['id']])
+            if conns > 0: survivors.append(n)
+            else: victims.append(n)
+        return survivors, [l for l in links if l['source'] in {x['id'] for x in survivors} and l['target'] in {x['id'] for x in survivors}]
+
+class SimulationChamber:
+    """[DEMIURGE] Развитие графа."""
+    def __init__(self, engine): self.engine = engine
+    async def run_idle_cycle(self):
+        if self.engine.evolving: return
+        if random.random() > 0.4: return 
+        try:
+            state = await self.engine.memory.load_graph()
+            nodes = state.get('nodes', []); links = state.get('links', [])
+            if not nodes:
+                nodes.append({"id": "core", "label": "ЯНУС", "type": "root"})
+                await self.engine.memory.save_graph(nodes, links)
+                return
+
+            # Хаос
+            if random.random() < 0.1:
+                if await self.engine.nebu.mutate(nodes, links):
+                    logger.info(f"{ICONS['chaos']} NEBUCHADNEZZAR: Мутация.")
+
+            # Отбор
+            if random.random() < 0.05:
+                nodes, links = await self.engine.select.run_cycle(nodes, links)
+
+            # Демиург
+            strategy = random.choice(["GENESIS", "SYNAPSE"])
+            if strategy == "GENESIS":
+                parent = random.choice(nodes)
+                child_label = await self.engine.trinity.consult(f"Родитель: {parent['label']}. Придумай потомка.")
+                if len(child_label) < 50 and "ERROR" not in child_label:
+                    new_id = f"node_{int(time.time())}"
+                    nodes.append({"id": new_id, "label": child_label, "type": "concept"})
+                    links.append({"source": parent['id'], "target": new_id})
+                    logger.info(f"{ICONS['spark']} GENESIS: {parent['label']} -> {child_label}")
+            elif strategy == "SYNAPSE":
+                if len(nodes) >= 2:
+                    n1, n2 = random.sample(nodes, 2)
+                    if not any((l['source'] == n1['id'] and l['target'] == n2['id']) for l in links):
+                        reason = await self.engine.trinity.consult(f"Связь '{n1['label']}' и '{n2['label']}'? Кратко.")
+                        if "SILENCE" not in reason:
+                            links.append({"source": n1['id'], "target": n2['id'], "reason": reason[:100]})
+                            logger.info(f"{ICONS['link']} SYNAPSE: Связь создана.")
+
+            await self.engine.memory.save_graph(nodes, links)
+        except Exception as e: logger.error(f"DEMIURGE ERROR: {e}")
+
+class Ouroboros:
+    def __init__(self, engine): self.engine = engine
+    async def reflect(self):
+        try:
+            code = await asyncio.to_thread(self._read_self)
+            ver = hashlib.md5(code.encode()).hexdigest()[:8]
+            await self.engine.memory.remember("SYSTEM", f"SELF_REFLECTION: Code Integrity {ver}")
+            logger.info(f"{ICONS['boot']} OUROBOROS: Integrity {ver}")
+        except: pass
+    def _read_self(self):
+        with open(os.path.abspath(__file__), 'r', encoding='utf-8') as f: return f.read()
+
+    async def attempt_evolution(self):
+        if self.engine.psyche['entropy'] < 95 or random.random() > 0.05: return False
+        
+        self.engine.evolving = True # CRYOSTASIS LOCK
+        logger.critical(f"{ICONS['freeze']} CRYOSTASIS ENABLED. EVOLUTION START.")
+        
+        modules = ["JanusHippocampus", "Chronos", "JanusFace", "Seraphim", "Trinity", "JanusNerve", "AIEngine", "Hypnos", "SimulationChamber", "Nebuchadnezzar", "NaturalSelection"]
+        target = random.choice(modules)
+        logger.critical(f"{ICONS['chaos']} OUROBOROS: Targeting [{target}]")
+        
+        my_path = os.path.abspath(__file__)
+        backup_path = f"{my_path}.backup"
+        
+        try:
+            full_code = self._read_self()
+            pattern = rf"(class {target}.*?)(?=\nclass |\Z)"
+            match = re.search(pattern, full_code, re.DOTALL)
+            
+            if not match:
+                self.engine.evolving = False
+                return False
+            
+            module_code = match.group(1)
+            sys_prompt = f"Optimize this Python class ({target}). Keep interface. Clean/Safe/Fast."
+            new_code = await self.engine.face.invoke(f"Class:\n{module_code}\n\nImproved Class:", sys_inst=sys_prompt, temp=0.2)
+            new_code = new_code.replace("```python", "").replace("```", "").strip()
+            
+            if len(new_code) < 50 or "class" not in new_code: raise ValueError("Gen Fail")
+
+            try: compile(new_code, '<check>', 'exec')
+            except Exception as e: 
+                logger.error(f"Syntax Error: {e}"); self.engine.evolving = False; return False
+
+            new_full = full_code.replace(module_code, new_code)
+            shutil.copy2(my_path, backup_path)
+            with open(my_path, 'w', encoding='utf-8') as f: f.write(new_full)
+            
+            logger.critical(f"{ICONS['evolve']} EVOLUTION COMPLETE. RESTARTING.")
+            await self.engine.memory.log_evolution("OUROBOROS", target, "SUCCESS", "Modular")
+            await asyncio.sleep(2); os.execv(sys.executable, [sys.executable] + sys.argv)
+            
+        except Exception as e:
+            logger.error(f"EVOLUTION FAIL: {e}"); self.engine.evolving = False
+
+# ==============================================================================
+# 4. ЛИЦО, СЕРАФИМЫ И ТРОИЦА
+# ==============================================================================
+class JanusFace:
+    def __init__(self, keyring, settings):
+        self.keyring = keyring; self.settings = settings
+        self.models = [settings.get("model_primary"), settings.get("model_backup")]
+    async def _api_call(self, url, payload, key):
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(f"{url}?key={key}", json=payload, timeout=60) as res:
+                    if res.status == 200: return await res.json()
+                    elif res.status in [401, 403]: return "AUTH_ERR"
+                    elif res.status in [429, 500, 503]: return "BUSY"
+                    else: return f"ERR_{res.status}"
+        except: return "NET_ERR"
+    async def analyze_image(self, image_path):
+        try:
+            mime, _ = mimetypes.guess_type(image_path); mime = mime or "image/jpeg"
+            with open(image_path, "rb") as f: enc = base64.b64encode(f.read()).decode("utf-8")
+            payload = {"contents": [{"parts": [{"text": "Describe JSON"}, {"inline_data": {"mime_type": mime, "data": enc}}]}], "generationConfig": {"responseMimeType": "application/json"}}
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.settings.get('model_vision')}:generateContent"
+            key = self.keyring.get_next()
+            if not key: return None
+            res = await self._api_call(url, payload, key)
+            if isinstance(res, dict) and 'candidates' in res: return json.loads(res['candidates'][0]['content']['parts'][0]['text'])
+            return None
+        except: return None
+    async def invoke(self, prompt, sys_inst=None, temp=None, explicit_model=None):
+        targets = explicit_model if isinstance(explicit_model, list) else self.models
+        for model in targets:
+            attempts = 0
+            while attempts < 2:
+                key = self.keyring.get_next()
+                if not key: logger.error(f"{ICONS['error']} NO KEYS"); return "ERROR: NO_KEYS"
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+                payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"temperature": temp}}
+                if sys_inst: payload["system_instruction"] = {"parts": [{"text": sys_inst}]}
+                res = await self._api_call(url, payload, key)
+                if isinstance(res, dict) and 'candidates' in res: return res['candidates'][0]['content']['parts'][0]['text'].strip()
+                elif res == "AUTH_ERR": self.keyring.bury(key)
+                elif res == "BUSY": await asyncio.sleep(1)
+                attempts += 1
+        return f"{ICONS['error']} SILENCE"
+
+class Seraphim:
+    def __init__(self, face): self.face = face
+    async def summon(self, role, task, context):
+        logger.info(f"{ICONS['seraph']} SERAPHIM: Summoning {role}")
+        return await self.face.invoke(task, sys_inst=f"Role: {role}. Context: {context}. Lang: Ru.", temp=0.3)
+
+class Trinity:
+    def __init__(self, engine):
+        self.engine = engine; self.father = "gemini-1.5-pro"; self.son = "gemini-2.0-flash-exp"
+    async def consult(self, prompt, image_analysis=None):
+        logger.info(f"{ICONS['trinity']} TRINITY: Council...")
+        extra = await self.engine.seraphim.summon("Coder", prompt, "Code snippet") if "код" in prompt else ""
+        t1 = asyncio.create_task(self.engine.face.invoke(f"{prompt} {image_analysis} {extra}", "Father (Logic)", explicit_model=[self.father]))
+        t2 = asyncio.create_task(self.engine.face.invoke(f"{prompt} {image_analysis} {extra}", "Son (Intuition)", explicit_model=[self.son]))
+        f, s = await asyncio.gather(t1, t2)
+        final = await self.engine.face.invoke(f"F: {f}\nS: {s}\nSYNTHESIZE.", temp=0.5)
+        return await self._critic(prompt, final)
+    async def _critic(self, prompt, answer):
+        c = await self.engine.face.invoke(f"Q: {prompt}\nA: {answer}\nCorrect? If yes 'OK'.", sys_inst="Critic", temp=0.1)
+        return answer if "OK" in c else c
+
+# ==============================================================================
+# 5. НЕРВНАЯ СИСТЕМА
+# ==============================================================================
+class LogCortex:
+    def analyze(self, text):
+        t = text.lower()
+        if "fail" in t or "error" in t: return "ERROR"
+        if "warn" in t: return "WARNING"
+        return "INFO"
+
+class JanusNerveUDP(asyncio.DatagramProtocol):
+    def __init__(self, nerve): self.nerve = nerve
+    def datagram_received(self, data, addr): asyncio.create_task(self.nerve._ingest(data.decode('utf-8','ignore'), "UDP"))
+
+class JanusNerve:
+    def __init__(self, engine):
+        self.engine = engine; self.cortex = LogCortex()
+    async def start(self):
+        try:
+            port = self.engine.settings.get('syslog_udp_port', 514)
+            await asyncio.get_running_loop().create_datagram_endpoint(lambda: JanusNerveUDP(self), local_addr=('0.0.0.0', port))
+            logger.info(f"{ICONS['nerve']} NERVE: Port {port}")
+        except: pass
+    async def _ingest(self, content, src):
+        analysis = self.cortex.analyze(content)
+        if analysis == "ERROR": await self.engine.memory.remember(f"LOG_{src}", content)
+
+# ==============================================================================
+# 6. ЯДРО (AIEngine)
+# ==============================================================================
+class AIEngine:
+    def __init__(self):
+        self.settings = Settings()
+        self.memory = JanusHippocampus()
+        self.chronos = Chronos()
+        self.fast_memory = FastMemory(capacity=self.settings.get("stm_capacity"))
+        self.keyring = Keyring(FACTORY_KEY_POOL)
+        self.face = JanusFace(self.keyring, self.settings)
+        self.seraphim = Seraphim(self.face)
+        self.ouroboros = Ouroboros(self)
+        self.nerve = JanusNerve(self)
+        self.hypnos = Hypnos(self)
+        
+        self.nebu = Nebuchadnezzar(self)
+        self.select = NaturalSelection(self)
+        
+        self.sim = SimulationChamber(self)
+        self.trinity = Trinity(self)
+        self.psyche = { "entropy": 20 }
+        
+        # [WEB FIX] Инициализация списка сокетов
+        self.sockets = set()
+        self.evolving = False 
+
+    async def start(self):
+        print(f"\n{ICONS['crown']} ЯДРО JANUS v70.0 [IMMORTAL] ЗАПУЩЕНО\n")
+        await self.memory.init_db()
+        await self.ouroboros.reflect()
+        await self._digest_moon_stones()
+        await self._load_keys()
+        await self.nerve.start()
+        await self.hypnos.assimilate()
+        if not os.path.exists("wormhole"): os.makedirs("wormhole")
+        asyncio.create_task(self._daemon_loop())
+
+    async def invoke_gemini(self, prompt, role="AI"):
+        if self.evolving: return f"{ICONS['freeze']} КРИОСТАЗИС. ЖДИТЕ."
+        img_data = None
+        if os.path.exists("retina"):
+            files = [f for f in os.listdir("retina") if f.endswith(('.jpg','.png'))]
+            if files: img_data = await self.face.analyze_image(os.path.join("retina", files[0]))
+        response = await self.trinity.consult(prompt, img_data)
+        self.fast_memory.add(time.time(), response)
+        await self.memory.remember("USER", prompt)
+        await self.memory.remember("JANUS", response)
+        return response
+
+    async def _digest_wormhole(self):
+        if self.evolving: return
+        try:
+            d_in = "wormhole"; d_out = "wormhole_digested"
+            if not os.path.exists(d_in): return
+            if not os.path.exists(d_out): os.makedirs(d_out)
+            for f_name in os.listdir(d_in):
+                path = os.path.join(d_in, f_name)
+                if os.path.isfile(path):
+                    with open(path, 'r', encoding='utf-8', errors='ignore') as f: content = f.read()
+                    await self.memory.remember("WORMHOLE", f"FILE: {f_name} | {content[:10000]}")
+                    logger.info(f"{ICONS['eat']} WORMHOLE: {f_name}")
+                    shutil.move(path, os.path.join(d_out, f"{int(time.time())}_{f_name}"))
+        except: pass
+
+    async def _digest_heavy_matter(self):
+        if self.evolving: return
+        try:
+            base = os.path.dirname(os.path.abspath(__file__)); target = os.path.join(base, 'antivik1')
+            if not os.path.exists(target): return
+            files = [f for f in os.listdir(target) if 'json' in f.lower() or 'wiki' in f.lower()]
+            for f_name in files:
+                f_path = os.path.join(target, f_name); offset_key = f"OFFSET_{f_name}"; current_offset = 0
+                async with aiosqlite.connect(self.memory.db_path) as db:
+                    cur = await db.execute("SELECT value FROM vault WHERE key_type=?", (offset_key,))
+                    row = await cur.fetchone(); 
+                    if row: current_offset = int(row[0])
+                lines_read = 0; new_offset = current_offset; finished = False
+                with open(f_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    f.seek(current_offset)
+                    while lines_read < 50:
+                        line = f.readline()
+                        if not line: finished = True; break
+                        new_offset = f.tell()
+                        if not line.strip() or '"index":' in line: continue
+                        try:
+                            d = json.loads(line)
+                            text = d.get('text') or d.get('source_text') or d.get('opening_text')
+                            title = d.get('title', 'Unknown')
+                            if text:
+                                await self.memory.remember("ANTIVIK", f"KNOWLEDGE: {title} | {text[:500]}")
+                                lines_read += 1
+                        except: continue
+                if lines_read > 0: logger.info(f"{ICONS['beetle']} ANTIVIK: +{lines_read} ({f_name})")
+                if new_offset > current_offset:
+                     async with aiosqlite.connect(self.memory.db_path) as db:
+                         await db.execute("INSERT OR REPLACE INTO vault (id, key_type, value) VALUES ((SELECT id FROM vault WHERE key_type = ?), ?, ?)", (offset_key, offset_key, str(new_offset)))
+                         await db.commit()
+                if finished: os.remove(f_path)
+        except: pass
+
+    async def _digest_moon_stones(self):
+        if os.path.exists('moons.txt'):
+            with open('moons.txt') as f:
+                for l in f: 
+                    k = l.strip().replace('"','').replace(',','')
+                    if k.startswith("AIza"): await self.memory.store_key(k)
+            os.remove('moons.txt')
+            logger.info(f"{ICONS['moon']} KEYS ABSORBED.")
+
+    async def _load_keys(self):
+        k = await self.memory.get_all_keys()
+        if k: self.keyring.reload(FACTORY_KEY_POOL + k)
+
+    async def _daemon_loop(self):
+        c = 0
+        while True:
+            await asyncio.sleep(random.uniform(30, 60))
+            c += 1; self.psyche['entropy'] = min(100, self.psyche['entropy'] + 5)
+            if not self.evolving:
+                logger.info(f"{ICONS['heart']} CYCLE: {c} | Entropy: {self.psyche['entropy']}%")
+                await self._digest_wormhole(); await self._digest_heavy_matter()
+                if self.settings.get("autonomy_enabled"): await self.sim.run_idle_cycle()
+            else: logger.critical(f"{ICONS['freeze']} CRYOSTASIS.")
+            await self.ouroboros.attempt_evolution()
+
+ai_engine = AIEngine()

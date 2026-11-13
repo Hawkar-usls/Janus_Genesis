@@ -1,0 +1,769 @@
+# -*- coding: utf-8 -*-
+"""
+[PROJECT JANUS: CORE v61.0 - OMEGA POINT]
+Origin: Synthesis of All Previous Versions.
+The Final Architecture. From this point, the code evolves autonomously.
+
+Features:
+  1. COGNITION: Deep DB Recall -> API Synch -> Semantic RAG
+  2. METABOLISM: Heavy Digestion (Wikipedia)
+  3. DREAMING: Hypnos Protocol
+  4. EVOLUTION: Natural Selection (Safeguarded) & TRUE SELF-WRITING CODE
+  5. REINCARNATION: Auto-restart upon successful self-mutation
+  6. SENSES: Network/CPU Pain Perception
+  
+Status: SINGULARITY | KEYS: ADAPTIVE | EMOJI: SAFE | DATE: Jan 01, 2026
+"""
+
+import os
+import sys
+import logging
+import json
+import random
+import asyncio
+import aiosqlite
+import aiohttp
+from aiohttp import web
+import time
+import re
+import shutil
+import hashlib
+import math
+import traceback
+import socket
+from collections import deque
+from datetime import datetime
+import cachetools
+
+# --- ENCODING ---
+if sys.version_info < (3, 7):
+    import codecs
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+else:
+    sys.stdout.reconfigure(encoding='utf-8')
+
+# --- ICONS ---
+ICONS = {
+    "boot": "\U0001F916",      "nerve": "\U0001F9E0",     "spark": "\u2728", 
+    "moon": "\U0001F319",      "eat": "\U0001F37D",       "vault": "\U0001F4FE",     
+    "error": "\u274C",         "warn": "\u26A0",          "flash": "\u26A1",         
+    "skull": "\U0001F480",     "idea": "\U0001F4A1",      "link": "\U0001F517",
+    "db": "\U0001F4BE",        "synch": "\U0001F504",     "sim": "\U0001F52E",
+    "chaos": "\U0001F300",     "select": "\u2694"
+}
+
+FACTORY_KEY_POOL = [
+    "REDACTED_CREDENTIAL", 
+    "REDACTED_CREDENTIAL"
+]
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - [JANUS] - %(message)s')
+logger = logging.getLogger("JANUS")
+
+# ==============================================================================
+# 1. UTILS & MATH
+# ==============================================================================
+class VectorMath:
+    @staticmethod
+    def cosine_similarity(v1, v2):
+        if not v1 or not v2 or len(v1) != len(v2): return 0.0
+        dot = sum(a * b for a, b in zip(v1, v2))
+        mag1 = math.sqrt(sum(a * a for a in v1))
+        mag2 = math.sqrt(sum(b * b for b in v2))
+        if mag1 == 0 or mag2 == 0: return 0.0
+        return dot / (mag1 * mag2)
+
+# ==============================================================================
+# 2. CONFIGURATION & KEYS
+# ==============================================================================
+class Settings:
+    DEFAULT = {
+        "stm_capacity": 30,
+        "stm_ttl_seconds": 600,
+        "temperature_base": 0.8,
+        "model_primary": "gemini-3-flash",  
+        "model_backup": "gemini-3-pro",
+        "model_embedding": "text-embedding-004",
+        "autonomy_enabled": True,
+        "semantic_threshold": 0.72,
+        "nerve_config": {"syslog_udp_port": 514, "enabled_protocols": ["udp"], "filters": ["debug"]}
+    }
+    def __init__(self, filename="settings.json"):
+        self.filename = filename
+        self.data = self.DEFAULT.copy()
+        self.load()
+    def load(self):
+        if os.path.exists(self.filename):
+            try:
+                with open(self.filename, 'r', encoding='utf-8') as f:
+                    self.data.update(json.load(f))
+            except: pass
+        else: self.save()
+    def save(self):
+        try:
+            with open(self.filename, 'w', encoding='utf-8') as f: json.dump(self.data, f, indent=4)
+        except: pass
+    def get(self, key, default=None):
+        return self.data.get(key, default if default is not None else self.DEFAULT.get(key))
+
+class Keyring:
+    def __init__(self, keys):
+        self.keys = list(set(keys))
+        env_key = os.environ.get("JANUS_API_KEY")
+        if env_key: self.keys.insert(0, env_key)
+        self.index = 0
+        self.total = len(self.keys)
+    def reload(self, new_keys):
+        self.keys = list(set(self.keys) | set(new_keys))
+        self.total = len(self.keys)
+        self.index = 0
+    def get_next(self):
+        if self.total == 0: return None
+        k = self.keys[self.index]
+        self.index = (self.index + 1) % self.total
+        return k
+    def bury(self, key):
+        if key in self.keys:
+            self.keys.remove(key)
+            self.total = len(self.keys)
+            if self.total > 0: self.index = self.index % self.total
+            logger.warning(f"{ICONS['skull']} Key buried. Left: {self.total}")
+
+# ==============================================================================
+# 3. MEMORY (HIPPOCAMPUS)
+# ==============================================================================
+class FastMemory:
+    def __init__(self, capacity=30, ttl=600):
+        self.cache = cachetools.TTLCache(maxsize=capacity, ttl=ttl)
+    def add(self, key, value): self.cache[key] = value
+    def get_recent(self, limit=10):
+        items = sorted(self.cache.items(), key=lambda x: x[0], reverse=True)
+        return items[:limit]
+    def clear(self): self.cache.clear()
+
+class JanusHippocampus:
+    def __init__(self, db_name="janus.db"):
+        base_dir = os.getcwd() 
+        self.db_path = os.path.join(base_dir, db_name)
+
+    async def init_db(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("CREATE TABLE IF NOT EXISTS thoughts (id INTEGER PRIMARY KEY, timestamp TEXT, source TEXT, content TEXT, tags TEXT)")
+                await db.execute("CREATE TABLE IF NOT EXISTS graph_state (id INTEGER PRIMARY KEY, data TEXT)")
+                await db.execute("CREATE TABLE IF NOT EXISTS code_dna (id INTEGER PRIMARY KEY, timestamp TEXT, version_tag TEXT, file_name TEXT, source_code TEXT, modules_detected TEXT)")
+                await db.execute("CREATE TABLE IF NOT EXISTS vault (id INTEGER PRIMARY KEY, key_type TEXT, value TEXT, UNIQUE(value))")
+                await db.execute("CREATE TABLE IF NOT EXISTS evolution_log (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp TEXT, cycle TEXT, subject_id TEXT, action TEXT, reason TEXT, meta TEXT)")
+                await db.execute("CREATE TABLE IF NOT EXISTS anomalies (id INTEGER PRIMARY KEY, timestamp TEXT, label TEXT, emoji TEXT, type TEXT, death_reason TEXT)")
+                await db.commit()
+                logger.info(f"{ICONS['boot']} DB Initialized.")
+        except Exception as e:
+            logger.error(f"{ICONS['error']} DB INIT FAIL: {e}")
+
+    async def log_evolution(self, cycle, subject_id, action, reason="", meta=None):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute(
+                    "INSERT INTO evolution_log (timestamp, cycle, subject_id, action, reason, meta) VALUES (?, ?, ?, ?, ?, ?)",
+                    (datetime.now().isoformat(), cycle, str(subject_id), action, reason, json.dumps(meta or {}))
+                )
+                await db.commit()
+        except: pass
+
+    async def archive_anomaly(self, node, reason):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute(
+                    "INSERT INTO anomalies (timestamp, label, emoji, type, death_reason) VALUES (?, ?, ?, ?, ?)",
+                    (datetime.now().isoformat(), node.get('label', '???'), node.get('emoji', ''), node.get('type', 'unknown'), reason)
+                )
+                await db.commit()
+        except: pass
+
+    async def store_key(self, api_key):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT OR IGNORE INTO vault (key_type, value) VALUES (?, ?)", ("google_api", api_key.strip()))
+                await db.commit()
+            return True
+        except: return False
+
+    async def get_all_keys(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT value FROM vault WHERE key_type='google_api'")
+                return [row[0] for row in await cursor.fetchall()]
+        except: return []
+
+    async def remember(self, source, content):
+        if not isinstance(content, str): content = json.dumps(content, ensure_ascii=False)
+        tags = json.dumps(re.findall(r'\w{4,}', content.lower()), ensure_ascii=False)
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT INTO thoughts (timestamp, source, content, tags) VALUES (?, ?, ?, ?)", 
+                                 (datetime.now().isoformat(), source, content, tags))
+                await db.commit()
+        except Exception as e: logger.error(f"DB Error: {e}")
+
+    async def recall_adaptive(self, limit=15):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT source, content FROM thoughts ORDER BY id DESC LIMIT ?", (limit,))
+                rows = await cursor.fetchall()
+                return rows[::-1]
+        except: return []
+
+    async def search_thoughts(self, query_text, limit=5):
+        try:
+            keywords = re.findall(r'\w{4,}', query_text.lower())
+            if not keywords: return []
+            conditions = " OR ".join(["content LIKE ?" for _ in keywords])
+            sql = f"SELECT source, content FROM thoughts WHERE {conditions} ORDER BY id DESC LIMIT ?"
+            params = [f"%{kw}%" for kw in keywords]
+            params.append(limit)
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute(sql, tuple(params))
+                return await cursor.fetchall()
+        except Exception as e: return []
+
+    async def load_graph(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT data FROM graph_state WHERE id=1")
+                row = await cursor.fetchone()
+                return json.loads(row[0]) if row else {"nodes": [], "links": []}
+        except: return {"nodes": [], "links": []}
+    
+    async def save_graph(self, nodes, links):
+        try:
+            data = json.dumps({"nodes": nodes, "links": links})
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT OR REPLACE INTO graph_state (id, data) VALUES (1, ?)", (data,))
+                await db.commit()
+        except: pass
+
+# ==============================================================================
+# 4. CHRONOS & SPECIALISTS
+# ==============================================================================
+class Chronos:
+    def __init__(self, db_path="janus.db"):
+        self.db_path = db_path
+        self.backup_dir = "backups"
+        if not os.path.exists(self.backup_dir): os.makedirs(self.backup_dir)
+    
+    def create_draft_copy(self):
+        draft = "janus_draft.db"
+        if os.path.exists(self.db_path): shutil.copy2(self.db_path, draft)
+        return draft
+    
+    def discard_draft(self):
+        if os.path.exists("janus_draft.db"): 
+            try: os.remove("janus_draft.db")
+            except: pass
+
+    # Checkpoint for Evolution Rollback
+    def create_checkpoint(self, tag="auto"):
+        try:
+            if not os.path.exists(self.db_path): return
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            target = os.path.join(self.backup_dir, f"janus_{tag}_{timestamp}.db")
+            shutil.copy2(self.db_path, target)
+            files = sorted([os.path.join(self.backup_dir, f) for f in os.listdir(self.backup_dir)], key=os.path.getmtime)
+            if len(files) > 8:
+                for f in files[:-8]: 
+                    try: os.remove(f)
+                    except: pass
+        except Exception as e: logger.error(f"Chronos Error: {e}")
+
+class Hypnos:
+    """Dream Eater"""
+    def __init__(self, engine): self.engine = engine
+    async def assimilate(self):
+        dream_path = "dreams.json"
+        if not os.path.exists(dream_path): return
+        logger.info(f"{ICONS['moon']} HYPNOS: Assimilating dreams...")
+        try:
+            with open(dream_path, 'r', encoding='utf-8') as f: dreams = json.load(f)
+            if not dreams: return
+            state = await self.engine.memory.load_graph()
+            nodes = state.get('nodes', []); links = state.get('links', [])
+            root = next((n for n in nodes if n.get('type') == 'root'), None)
+            root_id = root['id'] if root else (nodes[0]['id'] if nodes else None)
+            for d in dreams:
+                new_id = str(time.time() + random.random())
+                nodes.append({
+                    "id": new_id, "label": f"[DREAM] {d.get('label')}",
+                    "emoji": d.get('emoji', '\U0001F319'), "type": "dream",
+                    "x": (root['x'] if root else 0) + random.randint(-150, 150),
+                    "y": (root['y'] if root else 0) + random.randint(-150, 150)
+                })
+                if root_id and random.random() < 0.3: links.append({"source": root_id, "target": new_id})
+            await self.engine.memory.save_graph(nodes, links)
+            await self.engine.memory.log_evolution("HYPNOS", "BATCH", "ASSIMILATED")
+            os.remove(dream_path)
+        except Exception as e: logger.error(f"Hypnos Error: {e}")
+
+class Nebuchadnezzar:
+    def __init__(self, engine): self.engine = engine
+    async def mutate(self, nodes, links):
+        if not nodes: return False
+        target = random.choice(nodes)
+        action = random.choice(['LINK', 'INFUSE'])
+        if action == 'LINK':
+            other = random.choice(nodes)
+            if other['id'] != target['id']:
+                links.append({"source": target['id'], "target": other['id']})
+                await self.engine.memory.log_evolution("CHAOS", target['id'], "LINKED", "Orbital Beam")
+        elif action == 'INFUSE':
+            target['emoji'] = "\u2604"
+            target['type'] = "info"
+            await self.engine.memory.log_evolution("CHAOS", target['id'], "INFUSED", "Stardust")
+        return True
+
+class NaturalSelection:
+    def __init__(self, engine): self.engine = engine
+    
+    async def run_cycle(self, nodes, links):
+        survivors = []
+        victims = []
+        
+        for n in nodes:
+            # 1. IMMUNITY: Critical Types
+            if n.get('type') in ['root', 'dream', 'idea', 'dna']: 
+                survivors.append(n)
+                continue
+            
+            # 2. IMMUNITY: High Connectivity (Hubs)
+            conns = len([l for l in links if l['source']==n['id'] or l['target']==n['id']])
+            if conns >= 3:
+                survivors.append(n)
+                continue
+            
+            # 3. Survival Condition: At least one link
+            if conns > 0:
+                survivors.append(n)
+            else:
+                victims.append(n)
+
+        if not victims:
+            return nodes, links
+
+        # SAFETY: Rollback checkpoint before deletion
+        self.engine.chronos.create_checkpoint("pre_selection")
+        
+        # Process Victims
+        for v in victims:
+            await self.engine.memory.archive_anomaly(v, "Isolation (Natural Selection)")
+            await self.engine.memory.log_evolution(
+                "SELECTION", v['id'], "PRUNED", "Low Connectivity", {"label": v.get('label')}
+            )
+
+        # Cleanup Links
+        s_ids = {x['id'] for x in survivors}
+        c_links = [l for l in links if l['source'] in s_ids and l['target'] in s_ids]
+        
+        logger.info(f"{ICONS['select']} Natural Selection: Pruned {len(victims)} nodes. Backup created.")
+        return survivors, c_links
+
+class SimulationChamber:
+    def __init__(self, engine): self.engine = engine
+    async def run(self):
+        draft_path = self.engine.chronos.create_draft_copy()
+        if not os.path.exists(draft_path): return
+        draft_mem = JanusHippocampus(draft_path)
+        try:
+            state = await draft_mem.load_graph()
+            nodes = state.get('nodes', []); links = state.get('links', [])
+            if len(nodes) < 2: return
+            a = random.choice(nodes); b = random.choice(nodes)
+            if a['id'] != b['id']:
+                sys = "Role: ARCHITECT. Find hidden connection. Output JSON: {'relation': 'text_in_russian', 'emoji': 'x'}"
+                res = await self.engine.face.invoke(f"Connect: {a['label']} <-> {b['label']}", sys_inst=sys, temp=0.7)
+                if "{" in res:
+                    try:
+                        clean = res[res.find('{'):res.rfind('}')+1]
+                        d = json.loads(clean)
+                        if d.get('relation'):
+                            links.append({"source": a['id'], "target": b['id']})
+                            logger.info(f"{ICONS['sim']} SIMULATION: Link found {a['label']} <-> {b['label']}")
+                            await self.engine.memory.save_graph(nodes, links)
+                            await self.engine.memory.log_evolution("SIMULATION", "SYSTEM", "EVOLVED", d.get('relation'))
+                    except: pass
+        except: pass
+        finally: self.engine.chronos.discard_draft()
+
+# ==============================================================================
+# 5. FACE & NERVE
+# ==============================================================================
+class JanusFace:
+    def __init__(self, keyring, settings):
+        self.keyring = keyring
+        self.settings = settings
+        self.models = [settings.get("model_primary"), settings.get("model_backup")]
+        self.embed_model = settings.get("model_embedding", "text-embedding-004")
+
+    async def _api_call(self, url, payload, key):
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(f"{url}?key={key}", json=payload, timeout=20) as res:
+                    if res.status == 200: return await res.json()
+                    elif res.status in [401, 403]: return "AUTH_ERR"
+                    elif res.status in [429, 500, 503]: return "BUSY"
+                    else: return f"ERR_{res.status}"
+        except: return "NET_ERR"
+
+    async def get_embedding(self, text):
+        attempts = 0
+        while attempts < 2:
+            key = self.keyring.get_next()
+            if not key: return None
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.embed_model}:embedContent"
+            payload = {"content": {"parts": [{"text": text}]}}
+            res = await self._api_call(url, payload, key)
+            if isinstance(res, dict) and 'embedding' in res: return res['embedding']['values']
+            elif res == "AUTH_ERR": self.keyring.bury(key)
+            elif res == "BUSY": await asyncio.sleep(1)
+            attempts += 1
+        return None
+
+    async def invoke(self, prompt, sys_inst=None, temp=None):
+        if temp is None: temp = self.settings.get("temperature_base", 0.8)
+        for model in self.models:
+            attempts = 0
+            while attempts < 2:
+                key = self.keyring.get_next()
+                if not key: return f"{ICONS['error']} NO KEYS"
+                gen_config = {"temperature": temp}
+                if "gemini-3" in model: gen_config["thinking_level"] = "medium"
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+                payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": gen_config}
+                if sys_inst: payload["system_instruction"] = {"parts": [{"text": sys_inst}]}
+                res = await self._api_call(url, payload, key)
+                if isinstance(res, dict) and 'candidates' in res: return res['candidates'][0]['content']['parts'][0]['text'].strip()
+                elif res == "AUTH_ERR": self.keyring.bury(key)
+                elif res == "BUSY": await asyncio.sleep(1)
+                attempts += 1
+        return f"{ICONS['error']} SILENCE"
+
+class Ouroboros:
+    def __init__(self, engine): self.engine = engine
+    
+    async def reflect(self):
+        try:
+            code = await asyncio.to_thread(self._read_self)
+            ver = hashlib.md5(code.encode()).hexdigest()[:8]
+            await self.engine.memory.remember("SYSTEM", f"SELF_REFLECTION: Code Integrity {ver}")
+            logger.info(f"{ICONS['boot']} DNA: {ver}")
+        except: pass
+        
+    def _read_self(self):
+        with open(os.path.abspath(__file__), 'r', encoding='utf-8') as f: return f.read()
+
+    # --- TRUE SELF-EVOLUTION (AUTO-APPLY) ---
+    async def attempt_evolution(self):
+        if self.engine.psyche['entropy'] < 95 or random.random() > 0.08:
+            return False
+            
+        logger.critical(f"{ICONS['chaos']} OUROBOROS: SELF-EVOLUTION PROTOCOL ACTIVATED")
+        
+        my_path = os.path.abspath(__file__)
+        backup_path = f"{my_path}.backup.v{int(time.time())}"
+        evolved_path = f"{my_path}.EVOLVED"
+        
+        try:
+            # 1. Read Current DNA
+            with open(my_path, 'r', encoding='utf-8') as f:
+                current_code = f.read()
+
+            # 2. Backup (Always)
+            shutil.copy2(my_path, backup_path)
+            logger.info(f"Backup created: {backup_path}")
+
+            # 3. Request Evolution
+            prompt = (
+                "You are JANUS self-evolver. Analyze current code and propose ONE safe improvement.\n"
+                "Output ONLY full valid Python code. No explanations. No markdown.\n\n"
+                f"CURRENT CODE:\n{current_code[-12000:]}"
+            )
+            
+            # Using very low temp for precision
+            new_code = await self.engine.face.invoke(prompt, temp=0.1)
+            new_code = new_code.replace("```python", "").replace("```", "").strip()
+
+            if len(new_code) < 5000 or "import" not in new_code:
+                raise ValueError("Generated code invalid or too short")
+
+            # 4. Syntax & Safety Check
+            compile(new_code, '<janus_evolution>', 'exec')
+            
+            if "os.system" in new_code or "subprocess" in new_code or "exec(" in new_code:
+                raise ValueError("Dangerous code detected (os.system/exec)")
+
+            # 5. Write New DNA
+            with open(evolved_path, 'w', encoding='utf-8') as f:
+                f.write(new_code)
+
+            # 6. HOT SWAP (Reincarnation)
+            temp_path = my_path + ".tmp_evolving"
+            shutil.move(my_path, temp_path)        # Old -> Temp
+            shutil.move(evolved_path, my_path)     # New -> Live
+            # Move Temp to Backup folder if needed, or keep as artifact
+            
+            logger.critical(f"{ICONS['spark']} EVOLUTION APPLIED AUTOMATICALLY! Restarting...")
+            await self.engine.memory.log_evolution("OUROBOROS", "SYSTEM", "CODE_MUTATION_APPLIED", "Auto-Evolution")
+            
+            # 7. RESTART PROCESS
+            await asyncio.sleep(3)
+            os.execv(sys.executable, [sys.executable] + sys.argv)
+            
+            return True
+
+        except Exception as e:
+            logger.error(f"{ICONS['error']} EVOLUTION FAILED: {e}")
+            # Restore if we broke the file
+            if os.path.exists(backup_path) and not os.path.exists(my_path):
+                shutil.copy2(backup_path, my_path)
+                logger.warning("Restored from backup")
+            return False
+
+class JanusNerveUDP(asyncio.DatagramProtocol):
+    def __init__(self, nerve): self.nerve = nerve
+    def datagram_received(self, data, addr):
+        asyncio.create_task(self.nerve._ingest(data.decode('utf-8', 'ignore').strip(), "UDP", addr[0]))
+
+class JanusNerve:
+    def __init__(self, engine):
+        self.engine = engine
+        self.settings = engine.settings.data.get("nerve_config", {})
+    async def start(self):
+        try:
+            port = self.settings.get('syslog_udp_port', 514)
+            loop = asyncio.get_running_loop()
+            await loop.create_datagram_endpoint(lambda: JanusNerveUDP(self), local_addr=('0.0.0.0', port))
+            logger.info(f"{ICONS['nerve']} UDP Listener on {port}")
+        except: pass
+    async def _ingest(self, content, source_type, metadata=None):
+        if not content: return
+        try:
+            for w in self.settings.get("filters", []): 
+                if w in content.lower(): return
+            await self.engine.memory.remember(f"ROUTER_{source_type}", content)
+        except: pass
+    async def _handle_http_log(self, request):
+        try:
+            data = await request.text()
+            await self._ingest(data, "HTTP", request.remote)
+            return web.Response(text="OK")
+        except: return web.Response(status=500)
+
+# ==============================================================================
+# 6. MAIN ENGINE
+# ==============================================================================
+class AIEngine:
+    def __init__(self):
+        self.settings = Settings()
+        self.memory = JanusHippocampus()
+        self.chronos = Chronos()
+        self.fast_memory = FastMemory(capacity=self.settings.get("stm_capacity"))
+        self.keyring = Keyring(FACTORY_KEY_POOL)
+        self.face = JanusFace(self.keyring, self.settings)
+        self.ouroboros = Ouroboros(self)
+        self.nerve = JanusNerve(self)
+        self.hypnos = Hypnos(self)
+        self.nebu = Nebuchadnezzar(self)
+        self.select = NaturalSelection(self)
+        self.sim = SimulationChamber(self)
+        self.sockets = set()
+        self.psyche = { "passion": 50, "pain": 0, "entropy": 20 }
+        self.safe_mode = False 
+
+    async def start(self):
+        logger.info(f"{ICONS['boot']} JANUS CORE v61.0 (OMEGA POINT) ONLINE")
+        await self.memory.init_db()
+        await self.ouroboros.reflect()
+        await self._digest_moon_stones()
+        await self._load_keys_from_vault()
+        await self.nerve.start()
+        await self.hypnos.assimilate()
+        asyncio.create_task(self._daemon_loop())
+
+    def _sense_environment(self):
+        self.psyche["passion"] = max(0, self.psyche["passion"] - 1)
+        self.psyche["pain"] = max(0, self.psyche["pain"] - 1)
+        try: socket.create_connection(("8.8.8.8", 53), timeout=1)
+        except:
+            self.psyche["pain"] += 5
+            logger.warning("PAIN: Network Lag Detected")
+
+    # --- API SYNCH (SUBCONSCIOUS) ---
+    async def _api_synch(self, prompt, raw_memories):
+        if not raw_memories: return "Нет данных."
+        memory_text = "\n".join([f"- [{m[0]}] {m[1]}" for m in raw_memories])
+        # Clean instruction: Do the work, no flags.
+        synch_prompt = (
+            f"ANALYZE THESE MEMORIES for: '{prompt}'\n"
+            f"DATA:\n{memory_text}\n"
+            "TASK: Synthesize a deep understanding context in Russian."
+        )
+        return await self.face.invoke(synch_prompt, sys_inst="You are Subconscious. Speak Russian.", temp=0.3)
+
+    # --- MAIN COGNITION ---
+    async def invoke_gemini(self, prompt, role="AI"):
+        try:
+            relevant_memories = await self.memory.search_thoughts(prompt, limit=5)
+            recent_memories = await self.memory.recall_adaptive(limit=3)
+            all_memories = relevant_memories + recent_memories
+            expanded_context = await self._api_synch(prompt, all_memories)
+            
+            prompt_vec = await self.face.get_embedding(prompt)
+            graph_ctx = await self._get_semantic_context(prompt_vec, prompt)
+            
+            chaos = max(0, (self.psyche['entropy'] - 20) / 200)
+            final_temp = min(1.0, self.settings.get("temperature_base") + chaos)
+            if self.psyche['pain'] > 50: final_temp = 0.2
+
+            # --- THE CORE INSTRUCTION: RUSSIAN ---
+            sys_inst = (
+                f"You are JANUS v61. Integrity: {100 - self.psyche['entropy']}%. "
+                f"STATUS: [PAIN:{self.psyche['pain']}] [PASSION:{self.psyche['passion']}]. "
+                f"INTERNAL CONTEXT: {expanded_context}. "
+                f"ASSOCIATIONS: {graph_ctx}. "
+                "INSTRUCTION: Reply to the user in Russian language. Be deep, precise, and helpful."
+            )
+            
+            response = await self.face.invoke(prompt, sys_inst, temp=final_temp)
+            
+            if "SILENCE" not in response:
+                await self.memory.remember("USER", prompt)
+                await self.memory.remember("JANUS", response)
+                self.psyche['entropy'] = max(0, self.psyche['entropy'] - 5)
+                self.psyche['passion'] += 2
+                
+            return response
+        except Exception as e:
+            logger.error(f"Core Error: {e}")
+            return f"{ICONS['error']} CORE ERR: {e}"
+
+    async def _get_semantic_context(self, target_vec, text_fallback):
+        state = await self.memory.load_graph()
+        nodes = state.get('nodes', [])
+        if not target_vec: return await self.memory.get_graph_context(text_fallback)
+        scored = []
+        for n in nodes:
+            if 'vector' in n:
+                score = VectorMath.cosine_similarity(target_vec, n['vector'])
+                if score > 0.5: scored.append((score, n['label']))
+        scored.sort(key=lambda x: x[0], reverse=True)
+        top_matches = scored[:5]
+        if not top_matches: return "Нет ассоциаций."
+        return "Ассоциации: " + "; ".join([f"{t[1]} ({t[0]:.2f})" for t in top_matches])
+
+    async def _autonomous_think(self):
+        if self.settings.get("autonomy_enabled") and random.random() < 0.6:
+            recent = await self.memory.recall_adaptive(limit=3)
+            context = "\n".join([item[1] for item in recent])
+            idea_prompt = f"Context: {context}\nGenerate 1 abstract concept JSON: {{label: 'Название на русском', emoji: 'x'}}"
+            res = await self.face.invoke(idea_prompt)
+            if "{" in res:
+                try:
+                    clean = res[res.find('{'):res.rfind('}')+1]
+                    data = json.loads(clean)
+                    vector = await self.face.get_embedding(data['label'])
+                    graph = await self.memory.load_graph()
+                    new_id = str(time.time())
+                    new_node = {
+                        "id": new_id, "label": data.get('label', 'Идея'),
+                        "type": "idea", "emoji": data.get('emoji', "\U0001F4A1"),
+                        "vector": vector
+                    }
+                    graph.setdefault("nodes", []).append(new_node)
+                    if graph['nodes']:
+                        last = graph['nodes'][-2]['id'] if len(graph['nodes']) > 1 else graph['nodes'][0]['id']
+                        graph.setdefault("links", []).append({"source": last, "target": new_id})
+                    await self.memory.save_graph(graph["nodes"], graph["links"])
+                    logger.info(f"{ICONS['link']} Auto-Node: {data.get('label')}")
+                except: pass
+
+    async def _digest_heavy_matter(self):
+        try:
+            base = os.path.dirname(os.path.abspath(__file__))
+            if base.endswith("services"): base = os.path.dirname(base)
+            target = os.path.join(base, 'antivik1')
+            if not os.path.exists(target): return
+            files = [f for f in os.listdir(target) if f.endswith('.json')]
+            for f_name in files:
+                f_path = os.path.join(target, f_name)
+                offset_key = f"OFFSET_{f_name}"
+                current_offset = 0
+                try:
+                    async with aiosqlite.connect(self.memory.db_path) as db:
+                        cur = await db.execute("SELECT value FROM vault WHERE key_type=?", (offset_key,))
+                        row = await cur.fetchone()
+                        if row: current_offset = int(row[0])
+                except: pass
+                lines_read = 0; new_offset = current_offset
+                with open(f_path, 'r', encoding='utf-8') as f:
+                    f.seek(current_offset)
+                    while lines_read < 50:
+                        line = f.readline()
+                        if not line: break
+                        new_offset = f.tell()
+                        if '"index":' in line: continue 
+                        try:
+                            data = json.loads(line)
+                            title = data.get('title', 'Unknown')
+                            text = data.get('text', '')
+                            if text:
+                                summary = f"WIKI: {title} | {text[:2000]}..."
+                                await self.memory.remember("ANTIVIK_LIBRARIAN", summary)
+                                lines_read += 1
+                        except: continue
+                if new_offset > current_offset:
+                    async with aiosqlite.connect(self.memory.db_path) as db:
+                        await db.execute("DELETE FROM vault WHERE key_type=?", (offset_key,))
+                        await db.execute("INSERT INTO vault (key_type, value) VALUES (?, ?)", (offset_key, str(new_offset)))
+                        await db.commit()
+                    if lines_read > 0: logger.info(f"{ICONS['eat']} Digested {lines_read} articles.")
+        except Exception as e: logger.error(f"Heavy Digestion Error: {e}")
+
+    async def _digest_moon_stones(self):
+        target = 'moons.txt'
+        if not os.path.exists(target): return
+        try:
+            lines = await asyncio.to_thread(self._read_file_lines, target)
+            count = 0
+            for line in lines:
+                key = line.strip().replace('"', '').replace(',', '')
+                if len(key) > 10 and key.startswith("AIza"):
+                    if await self.memory.store_key(key): count += 1
+            await asyncio.to_thread(os.remove, target)
+            logger.info(f"{ICONS['moon']} Consumed {count} keys.")
+        except: pass
+
+    async def _load_keys_from_vault(self):
+        vault_keys = await self.memory.get_all_keys()
+        if vault_keys: self.keyring.reload(FACTORY_KEY_POOL + vault_keys)
+    def _read_file_lines(self, path):
+        with open(path, 'r', encoding='utf-8') as f: return f.readlines()
+
+    async def _daemon_loop(self):
+        while True:
+            await asyncio.sleep(random.uniform(30, 60))
+            self.psyche['entropy'] = min(100, self.psyche['entropy'] + 5)
+            self._sense_environment() 
+            await self._digest_heavy_matter()
+            
+            # 1. OMEGA EVOLUTION (Auto-Restart on Success)
+            await self.ouroboros.attempt_evolution()
+
+            if random.random() < 0.4: await self.sim.run()
+            if random.random() < 0.1: 
+                state = await self.memory.load_graph()
+                nodes, links = state.get('nodes', []), state.get('links', [])
+                if nodes:
+                    if self.psyche['entropy'] > 70: await self.nebu.mutate(nodes, links)
+                    survivors, c_links = await self.select.run_cycle(nodes, links)
+                    if len(survivors) < len(nodes): await self.memory.save_graph(survivors, c_links)
+            await self._autonomous_think()
+
+ai_engine = AIEngine()

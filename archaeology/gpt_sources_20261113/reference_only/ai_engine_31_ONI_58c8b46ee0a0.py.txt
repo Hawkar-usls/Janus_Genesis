@@ -1,0 +1,505 @@
+# -*- coding: utf-8 -*-
+"""
+[PROJECT JANUS: CORE v58.0 - SEMANTIC ETHER]
+Purpose: Backend for routes.py
+Feature: Gemini Embeddings + Semantic RAG + Associative Graph + No Deps
+Status: EVOLVED | KEYS: ADAPTIVE | EMOJI: SAFE | DATE: Dec 30, 2025
+"""
+
+import os
+import sys
+import logging
+import json
+import random
+import asyncio
+import aiosqlite
+import aiohttp
+from aiohttp import web
+import time
+import re
+import shutil
+import hashlib
+import math  # Native math for vector calculations
+from collections import deque
+from datetime import datetime
+import cachetools  # pip install cachetools
+
+# --- ENCODING ---
+if sys.version_info < (3, 7):
+    import codecs
+    sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+else:
+    sys.stdout.reconfigure(encoding='utf-8')
+
+# --- ICONS ---
+ICONS = {
+    "boot": "\U0001F916",      # Robot
+    "nerve": "\U0001F9E0",     # Brain
+    "spark": "\u2728",         # Sparkles
+    "moon": "\U0001F319",      # Moon
+    "eat": "\U0001F37D",       # Eat
+    "vault": "\U0001F4FE",     # Vault
+    "error": "\u274C",         # Error
+    "warn": "\u26A0",          # Warning
+    "flash": "\u26A1",         # STM
+    "skull": "\U0001F480",     # Dead Key
+    "idea": "\U0001F4A1",      # Idea
+    "link": "\U0001F517"       # Link/Chain
+}
+
+FACTORY_KEY_POOL = [
+    "REDACTED_CREDENTIAL", 
+    "REDACTED_CREDENTIAL"
+]
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - [JANUS] - %(message)s')
+logger = logging.getLogger("JANUS")
+
+PROTECTED_FILES = {'config.json', 'package.json', 'tsconfig.json', 'settings.json', 'ai_engine.py'}
+
+# ==============================================================================
+# 1. VECTOR MATH (PURE PYTHON)
+# ==============================================================================
+class VectorMath:
+    @staticmethod
+    def cosine_similarity(v1, v2):
+        """Calculates similarity between two vectors (0.0 to 1.0) without numpy."""
+        if not v1 or not v2 or len(v1) != len(v2): return 0.0
+        dot_product = sum(a * b for a, b in zip(v1, v2))
+        magnitude_v1 = math.sqrt(sum(a * a for a in v1))
+        magnitude_v2 = math.sqrt(sum(b * b for b in v2))
+        if magnitude_v1 == 0 or magnitude_v2 == 0: return 0.0
+        return dot_product / (magnitude_v1 * magnitude_v2)
+
+# ==============================================================================
+# 2. CONFIGURATION
+# ==============================================================================
+class Settings:
+    DEFAULT = {
+        "stm_capacity": 30,
+        "stm_ttl_seconds": 600,
+        "temperature_base": 0.8,
+        # GEMINI MODELS
+        "model_primary": "gemini-3-flash",  
+        "model_backup": "gemini-3-pro",
+        "model_embedding": "text-embedding-004", # New Embedding Model
+        "autonomy_enabled": True,
+        "semantic_threshold": 0.72, # Threshold for linking nodes
+        "nerve_config": {
+            "syslog_udp_port": 514,
+            "syslog_tcp_port": 6514,
+            "http_port": 8080,
+            "auth_token": None,
+            "filters": ["debug", "trace", "keepalive"],
+            "enabled_protocols": ["udp"]
+        }
+    }
+
+    def __init__(self, filename="settings.json"):
+        self.filename = filename
+        self.data = self.DEFAULT.copy()
+        self.load()
+
+    def load(self):
+        if os.path.exists(self.filename):
+            try:
+                with open(self.filename, 'r', encoding='utf-8') as f:
+                    self.data.update(json.load(f))
+                    logger.info(f"{ICONS['boot']} Config loaded.")
+            except: pass
+        else: self.save()
+
+    def save(self):
+        try:
+            with open(self.filename, 'w', encoding='utf-8') as f:
+                json.dump(self.data, f, indent=4)
+        except: pass
+
+    def get(self, key, default=None):
+        return self.data.get(key, default if default is not None else self.DEFAULT.get(key))
+
+class Keyring:
+    def __init__(self, keys):
+        self.keys = list(set(keys))
+        env_key = os.environ.get("JANUS_API_KEY")
+        if env_key: self.keys.insert(0, env_key)
+        self.index = 0
+        self.total = len(self.keys)
+    
+    def reload(self, new_keys):
+        self.keys = list(set(self.keys) | set(new_keys))
+        self.total = len(self.keys)
+        self.index = 0
+
+    def get_next(self):
+        if self.total == 0: return None
+        k = self.keys[self.index]
+        self.index = (self.index + 1) % self.total
+        return k
+
+    def bury(self, key):
+        if key in self.keys:
+            self.keys.remove(key)
+            self.total = len(self.keys)
+            if self.total > 0: self.index = self.index % self.total
+            logger.warning(f"{ICONS['skull']} Key buried. Left: {self.total}")
+
+# ==============================================================================
+# 3. MEMORY & GRAPH
+# ==============================================================================
+class FastMemory:
+    def __init__(self, capacity=30, ttl=600):
+        self.cache = cachetools.TTLCache(maxsize=capacity, ttl=ttl)
+
+    def add(self, key, value): self.cache[key] = value
+
+    def get_recent(self, limit=10):
+        items = sorted(self.cache.items(), key=lambda x: x[0], reverse=True)
+        return items[:limit]
+
+    def clear(self): self.cache.clear()
+
+class JanusHippocampus:
+    def __init__(self, db_path="janus.db"):
+        self.db_path = db_path
+
+    async def init_db(self):
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute("CREATE TABLE IF NOT EXISTS thoughts (id INTEGER PRIMARY KEY, timestamp TEXT, source TEXT, content TEXT, tags TEXT)")
+            await db.execute("CREATE TABLE IF NOT EXISTS graph_state (id INTEGER PRIMARY KEY, data TEXT)")
+            await db.execute("CREATE TABLE IF NOT EXISTS code_dna (id INTEGER PRIMARY KEY, timestamp TEXT, version_tag TEXT, file_name TEXT, source_code TEXT, modules_detected TEXT)")
+            await db.execute("CREATE TABLE IF NOT EXISTS vault (id INTEGER PRIMARY KEY, key_type TEXT, value TEXT, UNIQUE(value))")
+            await db.commit()
+
+    async def store_key(self, api_key):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT OR IGNORE INTO vault (key_type, value) VALUES (?, ?)", ("google_api", api_key.strip()))
+                await db.commit()
+            return True
+        except: return False
+
+    async def get_all_keys(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT value FROM vault WHERE key_type='google_api'")
+                return [row[0] for row in await cursor.fetchall()]
+        except: return []
+
+    async def remember(self, source, content):
+        if not isinstance(content, str): content = json.dumps(content, ensure_ascii=False)
+        tags = json.dumps(re.findall(r'\w{4,}', content.lower()), ensure_ascii=False)
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("INSERT INTO thoughts (timestamp, source, content, tags) VALUES (?, ?, ?, ?)", 
+                                 (datetime.now().isoformat(), source, content, tags))
+                await db.commit()
+        except Exception as e: logger.error(f"DB Error: {e}")
+
+    async def recall_adaptive(self, limit=15):
+        async with aiosqlite.connect(self.db_path) as db:
+            cursor = await db.execute("SELECT source, content FROM thoughts ORDER BY id DESC LIMIT ?", (limit,))
+            return (await cursor.fetchall())[::-1]
+
+    async def load_graph(self):
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                cursor = await db.execute("SELECT data FROM graph_state WHERE id=1")
+                row = await cursor.fetchone()
+                return json.loads(row[0]) if row else {"nodes": [], "links": []}
+        except: return {"nodes": [], "links": []}
+    
+    async def save_graph(self, nodes, links):
+        data = json.dumps({"nodes": nodes, "links": links})
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute("INSERT OR REPLACE INTO graph_state (id, data) VALUES (1, ?)", (data,))
+            await db.commit()
+
+# ==============================================================================
+# 4. SAFETY & OUROBOROS
+# ==============================================================================
+class Ouroboros:
+    def __init__(self, engine):
+        self.engine = engine
+    async def reflect(self):
+        try:
+            code = await asyncio.to_thread(self._read_self)
+            ver = hashlib.md5(code.encode()).hexdigest()[:8]
+            async with aiosqlite.connect(self.engine.memory.db_path) as db:
+                await db.execute("INSERT INTO code_dna (timestamp, version_tag, file_name, source_code, modules_detected) VALUES (?, ?, ?, ?, ?)",
+                                 (datetime.now().isoformat(), f"v.{ver}", "ai_engine.py", code, "SEMANTIC_ETHER"))
+                await db.commit()
+            logger.info(f"{ICONS['boot']} DNA: {ver}")
+        except: pass
+    def _read_self(self):
+        with open(os.path.abspath(__file__), 'r', encoding='utf-8') as f: return f.read()
+
+# ==============================================================================
+# 5. NERVE SYSTEM
+# ==============================================================================
+class JanusNerveUDP(asyncio.DatagramProtocol):
+    def __init__(self, nerve): self.nerve = nerve
+    def datagram_received(self, data, addr):
+        asyncio.create_task(self.nerve._ingest(data.decode('utf-8', 'ignore').strip(), "UDP", addr[0]))
+
+class JanusNerve:
+    def __init__(self, engine):
+        self.engine = engine
+        self.settings = engine.settings.data.get("nerve_config", {})
+
+    async def start(self):
+        try:
+            port = self.settings.get('syslog_udp_port', 514)
+            loop = asyncio.get_running_loop()
+            await loop.create_datagram_endpoint(lambda: JanusNerveUDP(self), local_addr=('0.0.0.0', port))
+            logger.info(f"{ICONS['nerve']} UDP Listener on {port}")
+        except: pass
+        
+        # HTTP is started by routes.py calling _handle_http_log directly via route
+
+    async def _ingest(self, content, source_type, metadata=None):
+        if not content: return
+        try:
+            for w in self.settings.get("filters", []): 
+                if w in content.lower(): return
+            await self.engine.memory.remember(f"ROUTER_{source_type}", content)
+        except Exception as e: logger.error(f"Ingest error: {e}")
+
+    async def _handle_http_log(self, request):
+        try:
+            data = await request.text()
+            await self._ingest(data, "HTTP", request.remote)
+            return web.Response(text="OK")
+        except: return web.Response(status=500)
+
+# ==============================================================================
+# 6. FACE (SEMANTIC GEMINI)
+# ==============================================================================
+class JanusFace:
+    def __init__(self, keyring, settings):
+        self.keyring = keyring
+        self.settings = settings
+        self.models = [
+            settings.get("model_primary"),
+            settings.get("model_backup")
+        ]
+        self.embed_model = settings.get("model_embedding", "text-embedding-004")
+
+    async def _api_call(self, url, payload, key):
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f"{url}?key={key}", json=payload, timeout=20) as res:
+                if res.status == 200:
+                    return await res.json()
+                elif res.status in [401, 403]:
+                    return "AUTH_ERR"
+                elif res.status in [429, 500, 503]:
+                    return "BUSY"
+                else:
+                    return f"ERR_{res.status}"
+
+    async def get_embedding(self, text):
+        """Fetches vector embedding for text."""
+        attempts = 0
+        while attempts < 3:
+            key = self.keyring.get_next()
+            if not key: return None
+            
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.embed_model}:embedContent"
+            payload = {"content": {"parts": [{"text": text}]}}
+            
+            res = await self._api_call(url, payload, key)
+            
+            if isinstance(res, dict) and 'embedding' in res:
+                return res['embedding']['values']
+            elif res == "AUTH_ERR":
+                self.keyring.bury(key)
+            elif res == "BUSY":
+                await asyncio.sleep(1)
+            
+            attempts += 1
+        return None
+
+    async def invoke(self, prompt, sys_inst=None, temp=None):
+        if temp is None: temp = self.settings.get("temperature_base", 0.8)
+        
+        for model in self.models:
+            attempts = 0
+            while attempts < 3:
+                key = self.keyring.get_next()
+                if not key: return f"{ICONS['error']} NO KEYS"
+
+                gen_config = {"temperature": temp}
+                if "gemini-3" in model: gen_config["thinking_level"] = "medium"
+
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+                payload = {
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": gen_config
+                }
+                if sys_inst: payload["system_instruction"] = {"parts": [{"text": sys_inst}]}
+
+                res = await self._api_call(url, payload, key)
+
+                if isinstance(res, dict) and 'candidates' in res:
+                    return res['candidates'][0]['content']['parts'][0]['text'].strip()
+                elif res == "AUTH_ERR":
+                    self.keyring.bury(key)
+                elif res == "BUSY":
+                    await asyncio.sleep(1)
+                
+                attempts += 1
+                
+        return f"{ICONS['error']} SILENCE"
+
+# ==============================================================================
+# 7. MAIN ENGINE
+# ==============================================================================
+class AIEngine:
+    def __init__(self):
+        self.settings = Settings()
+        self.memory = JanusHippocampus()
+        self.fast_memory = FastMemory(capacity=self.settings.get("stm_capacity"))
+        self.keyring = Keyring(FACTORY_KEY_POOL)
+        
+        self.face = JanusFace(self.keyring, self.settings)
+        self.ouroboros = Ouroboros(self)
+        self.nerve = JanusNerve(self)
+        
+        self.sockets = set()
+        self.psyche = { "passion": 50, "pain": 0, "entropy": 20 }
+        self.safe_mode = False 
+
+    async def start(self):
+        logger.info(f"{ICONS['boot']} JANUS CORE v58.0 (SEMANTIC ETHER) ONLINE")
+        await self.memory.init_db()
+        await self.ouroboros.reflect()
+        
+        await self._digest_moon_stones()
+        await self._load_keys_from_vault()
+        await self.nerve.start()
+
+        asyncio.create_task(self._daemon_loop())
+
+    async def invoke_gemini(self, prompt, role="AI"):
+        try:
+            # 1. Semantic RAG (Context)
+            prompt_vec = await self.face.get_embedding(prompt)
+            graph_ctx = await self._get_semantic_context(prompt_vec, prompt)
+            
+            # 2. Linear Memory
+            mem = await self.memory.recall_adaptive(limit=8)
+            mem_str = "\n".join([f"- {m[1]}" for m in mem])
+            
+            # 3. Dynamic Entropy
+            chaos = max(0, (self.psyche['entropy'] - 20) / 200)
+            final_temp = min(1.0, self.settings.get("temperature_base") + chaos)
+            self.psyche['entropy'] = max(0, self.psyche['entropy'] - 10)
+
+            sys_inst = (
+                f"You are JANUS v58. Integrity: {100 - self.psyche['entropy']}%. "
+                f"SEMANTIC MEMORY: {graph_ctx}. "
+                f"RECENT LOG: {mem_str}. "
+                "Reply concisely."
+            )
+            
+            response = await self.face.invoke(prompt, sys_inst, temp=final_temp)
+            
+            if "SILENCE" not in response:
+                await self.memory.remember("USER", prompt)
+                await self.memory.remember("JANUS", response)
+                
+            return response
+        except Exception as e: return f"{ICONS['error']} CORE ERR: {e}"
+
+    async def _get_semantic_context(self, target_vec, text_fallback):
+        """Finds semantically similar nodes in the graph."""
+        state = await self.memory.load_graph()
+        nodes = state.get('nodes', [])
+        
+        if not target_vec:
+            # Fallback to keyword search if embedding failed
+            return await self.memory.get_graph_context(text_fallback)
+        
+        # Calculate Cosine Similarity for all nodes with embeddings
+        scored = []
+        for n in nodes:
+            if 'vector' in n:
+                score = VectorMath.cosine_similarity(target_vec, n['vector'])
+                if score > 0.5: # Min relevance
+                    scored.append((score, n['label']))
+        
+        # Top 5 Semantic Matches
+        scored.sort(key=lambda x: x[0], reverse=True)
+        top_matches = scored[:5]
+        
+        if not top_matches: return "No semantic associations."
+        return "Associations: " + "; ".join([f"{t[1]} ({t[0]:.2f})" for t in top_matches])
+
+    async def _autonomous_think(self):
+        """Generates ideas and links them ASSOCIATIVELY, not just chronologically."""
+        if random.random() < 0.75 and self.settings.get("autonomy_enabled"):
+            recent = await self.memory.recall_adaptive(limit=5)
+            context = "\n".join([item[1] for item in recent])
+            idea_prompt = f"Based on: {context}\nGenerate 1 abstract concept JSON: {{label, emoji}}"
+            
+            res = await self.face.invoke(idea_prompt)
+            if "{" in res:
+                try:
+                    clean = res[res.find('{'):res.rfind('}')+1]
+                    data = json.loads(clean)
+                    
+                    # 1. Vectorize the new idea
+                    vector = await self.face.get_embedding(data['label'])
+                    
+                    graph = await self.memory.load_graph()
+                    new_id = str(time.time())
+                    
+                    # 2. Find Parents (Associative Linking)
+                    parents = []
+                    if vector and graph['nodes']:
+                        threshold = self.settings.get("semantic_threshold", 0.72)
+                        for n in graph['nodes']:
+                            if 'vector' in n:
+                                sim = VectorMath.cosine_similarity(vector, n['vector'])
+                                if sim > threshold:
+                                    parents.append(n['id'])
+                    
+                    # Fallback parent (chronological) if no semantic link found
+                    if not parents and graph['nodes']:
+                        parents.append(graph['nodes'][-1]['id'])
+                    
+                    # 3. Add Node
+                    new_node = {
+                        "id": new_id,
+                        "label": data.get('label', 'Idea'),
+                        "type": "idea",
+                        "emoji": data.get('emoji', "\U0001F4A1"),
+                        "vector": vector # STORE EMBEDDING
+                    }
+                    graph.setdefault("nodes", []).append(new_node)
+                    
+                    # 4. Create Links (Multiple Parents!)
+                    for pid in parents[:3]: # Limit to 3 strongest connections
+                        graph.setdefault("links", []).append({"source": pid, "target": new_id})
+                    
+                    await self.memory.save_graph(graph["nodes"], graph["links"])
+                    logger.info(f"{ICONS['link']} New Node Linked to {len(parents)} parents.")
+                    
+                except Exception as e: logger.error(f"Autonomy err: {e}")
+
+    async def _digest_moon_stones(self):
+        # ... (same as before)
+        pass 
+    async def _load_keys_from_vault(self):
+        vault_keys = await self.memory.get_all_keys()
+        if vault_keys: self.keyring.reload(FACTORY_KEY_POOL + vault_keys)
+    def _read_file_lines(self, path):
+        with open(path, 'r', encoding='utf-8') as f: return f.readlines()
+
+    async def _daemon_loop(self):
+        while True:
+            await asyncio.sleep(random.uniform(40, 80))
+            self.psyche['entropy'] = min(100, self.psyche['entropy'] + 5)
+            await self._autonomous_think()
+
+ai_engine = AIEngine()
