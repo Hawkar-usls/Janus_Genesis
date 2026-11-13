@@ -30,7 +30,7 @@ jobs:
           python -m unittest -v tests.test_essence_collective_seed
       - name: Collect LIVE current public donor roots; never publish or deploy
         env:
-          ${{ github.token }}: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
           ESSENCE_SNAPSHOT: ${{ runner.temp }}/essence-v06-public-donors.json
         run: |
           python -m tools.essence_collective_seed collect --out "$ESSENCE_SNAPSHOT"
