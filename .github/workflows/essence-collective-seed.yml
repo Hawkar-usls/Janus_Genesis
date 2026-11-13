@@ -1,0 +1,123 @@
+name: ESSENCE Collective Root Seeding v0.3 (Proposal Only)
+
+on:
+  pull_request:
+    paths:
+      - 'tools/essence_collective_seed.py'
+      - 'tools/essence_seed_pr_publisher.py'
+      - 'tests/test_essence_collective_seed.py'
+      - 'tests/test_essence_seed_pr_publisher.py'
+      - '.github/workflows/essence-collective-seed.yml'
+  schedule:
+    - cron: '23 4 * * 1'
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: 'New Hawkar-usls repository without existing ESSENCE root'
+        required: true
+        type: string
+      publish_draft_pr:
+        description: 'Explicitly open a draft PR using a scoped GitHub App credential (default false)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-collective-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  offline-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify deterministic collective parenthood and no root overwrite
+        run: |
+          python -m py_compile tools/essence_collective_seed.py tools/essence_seed_pr_publisher.py
+          python -m unittest -v tests.test_essence_collective_seed tests.test_essence_seed_pr_publisher
+
+  stage-new-root:
+    needs: offline-contracts
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Gather verified read-only public donors
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m tools.essence_collective_seed collect --out staging/donors.json
+      - name: Build one root and local microkernel genome in staging only
+        env:
+          ESSENCE_TARGET: ${{ inputs.target_repo }}
+        run: |
+          python -m tools.essence_collective_seed seed --snapshot staging/donors.json --target "$ESSENCE_TARGET" --out staging/seed
+      - name: Preserve reviewable provenance artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-collective-seed-${{ github.run_id }}
+          path: staging/
+          if-no-files-found: error
+          retention-days: 30
+
+  publish-one-draft-pr:
+    needs: stage-new-root
+    if: github.event_name == 'workflow_dispatch' && inputs.publish_draft_pr == true
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: essence-collective-seed-${{ github.run_id }}
+          path: staging
+      - name: Publish exactly one new-root DRAFT PR (no merge) after explicit dispatch
+        env:
+          ESSENCE_TARGET: ${{ inputs.target_repo }}
+          ESSENCE_SEED_PR_TOKEN: ${{ secrets.ESSENCE_SEED_PR_TOKEN }}
+        run: |
+          python -m tools.essence_seed_pr_publisher --target "$ESSENCE_TARGET" --bundle staging/seed --publish-draft-pr
+
+  weekly-donor-discovery:
+    needs: offline-contracts
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read-only discover innovations from all approved public descendant repos
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m tools.essence_collective_seed collect --out staging/weekly-donor-snapshot.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: essence-collective-donor-inventory-${{ github.run_id }}
+          path: staging/weekly-donor-snapshot.json
+          if-no-files-found: error
+          retention-days: 30

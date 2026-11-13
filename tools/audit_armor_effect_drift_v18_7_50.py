@@ -36,6 +36,10 @@ DIRECT_EFFECT_CALLS = {
 
 # Ordered most-specific first. Classification != Armor admission.
 SURFACE_CLASSIFICATIONS = (
+    ("tools/essence_collective_seed.py",
+     "READ_ONLY_PUBLIC_GITHUB_DONOR_INVENTORY_NOT_ARMOR_ADMITTED"),
+    ("tools/essence_seed_pr_publisher.py",
+     "EXPLICIT_SCOPED_TOKEN_DRAFT_PR_PUBLISHER_NOT_ARMOR_ADMITTED"),
     (
         "ops/live_nas_intent_sovereignty_v1_2/deploy_live_nas.py",
         "EXPLICIT_OPERATOR_LIVE_NAS_DEPLOYMENT_TOOL",
