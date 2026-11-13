@@ -1,0 +1,90 @@
+name: ESSENCE v0.9 weekly peer exchange and offspring research
+
+on:
+  pull_request:
+    paths:
+      - 'tools/essence_peer_evolution_v09.py'
+      - 'tests/test_essence_peer_evolution_v09.py'
+      - '.github/workflows/essence-peer-evolution-v09.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '19 6 * * 5'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-peer-v09-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  offline-peer-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify immutable parent, no-exec child and anti-replay contracts
+        run: |
+          python -m py_compile tools/essence_peer_evolution_v09.py
+          python -m unittest -v tests.test_essence_peer_evolution_v09
+
+  real-public-peer-cycle:
+    needs: offline-peer-contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Collect verified public repo voices and rare ideas
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m tools.essence_collective_seed collect \
+            --out "$RUNNER_TEMP/essence-v09-public-census.json"
+      - name: Generate bounded OFFLINE child microcores and real peer replies
+        env:
+          ESSENCE_REPO: ${{ github.repository }}
+        run: |
+          python -m tools.essence_peer_evolution_v09 \
+            --repo "$ESSENCE_REPO" \
+            --snapshot "$RUNNER_TEMP/essence-v09-public-census.json" \
+            --out "$RUNNER_TEMP/essence-v09-children"
+      - name: Verify no invented independent model gain or production authority
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"essence-v09-children"
+          r=json.loads((root/"cycle_receipt.json").read_text())
+          assert r["research_gate"]=="RESEARCH_CHILDREN_WITH_NO_PROVEN_INDEPENDENT_GAIN"
+          assert r["learning_generation"]==0
+          assert r["independent_evaluations"]==0
+          assert r["peer_offers"] >= 2
+          assert r["new_microcore_proposals"] == r["peer_offers"]
+          assert r["foreign_weights_or_code_executed"] is False
+          assert r["automatic_child_activation"] is False
+          assert r["peer_replies_sent"] is False
+          assert r["production_authority"] is False
+          print("ESSENCE_V09_VERIFIED_LIVE_PEER_OFFERS_AND_STAGED_CHILDREN")
+          print("verified_donors:",r["verified_donors"])
+          print("peer_offers:",r["peer_offers"])
+          print("research_microcore_offspring:",r["new_microcore_proposals"])
+          PY
+      - name: Save reproducible research proposals only, never auto-merge
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-v09-offspring-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/essence-v09-public-census.json
+            ${{ runner.temp }}/essence-v09-children/
+          retention-days: 14
+          if-no-files-found: error
