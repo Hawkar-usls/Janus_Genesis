@@ -172,6 +172,27 @@ class AdaptiveQuantizationV15(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'BAD_LENGTH'):
             q.decode(q.encode([.5]*64,16)+b'X')
 
+    def test_resigned_fake_training_claim_denied(self):
+        doc,blob,snap=q.run(self.root,self.fixture,allow_readonly=True)
+        doc['actual_training']=True
+        doc['receipt_sha256']=q.seal({k:v for k,v in doc.items() if k!='receipt_sha256'})
+        with self.assertRaisesRegex(ValueError,'UNTRUSTED_QUANT_REPORT_OR_BUNDLES'):
+            q.verify(doc,blob,snap)
+
+    def test_resigned_fake_rollback_claim_denied(self):
+        doc,blob,snap=q.run(self.root,self.fixture,allow_readonly=True)
+        doc['production_rollback_tested']=True
+        doc['receipt_sha256']=q.seal({k:v for k,v in doc.items() if k!='receipt_sha256'})
+        with self.assertRaisesRegex(ValueError,'UNTRUSTED_QUANT_REPORT_OR_BUNDLES'):
+            q.verify(doc,blob,snap)
+
+    def test_resigned_fake_saving_claim_denied(self):
+        doc,blob,snap=q.run(self.root,self.fixture,allow_readonly=True)
+        doc['storage_saving_fraction']=.999999
+        doc['receipt_sha256']=q.seal({k:v for k,v in doc.items() if k!='receipt_sha256'})
+        with self.assertRaisesRegex(ValueError,'FABRICATED_STORAGE_SAVING'):
+            q.verify(doc,blob,snap)
+
     def test_external_numeric_state_adapter_research_only(self):
         state={'schema':'janus.essence.numeric_state/1.5',
                'repository':self.root['repository'],
