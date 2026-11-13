@@ -1,0 +1,68 @@
+name: ESSENCE v0.6 live collective donor and rare-idea witness
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/essence-v06-live-donor-witness.yml'
+      - 'tools/essence_collective_seed.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-v06-donor-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify-public-donors:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check collective inherited gene contracts offline
+        run: |
+          python -m unittest -v tests.test_essence_collective_seed
+      - name: Collect LIVE current public donor roots; never publish or deploy
+        env:
+          ${{ github.token }}: ${{ github.token }}
+          ESSENCE_SNAPSHOT: ${{ runner.temp }}/essence-v06-public-donors.json
+        run: |
+          python -m tools.essence_collective_seed collect --out "$ESSENCE_SNAPSHOT"
+      - name: Validate rare source-specific contributions are visible in the network
+        env:
+          ESSENCE_SNAPSHOT: ${{ runner.temp }}/essence-v06-public-donors.json
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from tools import essence_collective_seed as e
+          snapshot = json.loads(Path(os.environ["ESSENCE_SNAPSHOT"]).read_text())
+          e.check_snapshot(snapshot)
+          assert snapshot["automatic_replication_enabled"] is False
+          assert snapshot["source_code_and_weights_transplanted"] is False
+          observed = {(x["repo"], x["id"]) for x in snapshot["innovation_candidates"]}
+          expected = {
+            ("Hawkar-usls/janus-distributed-ai-swarm", "idea-swarm-dual-strand-00"),
+            ("Hawkar-usls/Demi_Head", "idea-nexus-wal-failclosed-00"),
+          }
+          missing = sorted(expected - observed)
+          if missing:
+            raise SystemExit("RARE_IDEA_MISSING: " + repr(missing))
+          print("ESSENCE_V06_BOTH_RARE_REPO_IDEAS_DISCOVERED")
+          print("verified_donors:", snapshot["verified_donor_count"])
+          print("innovation_candidates:", len(snapshot["innovation_candidates"]))
+          print("Production authority: NONE; candidate genealogy only")
+          PY
+      - name: Store bounded read-only network inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-v06-live-donor-witness-${{ github.run_id }}
+          path: ${{ runner.temp }}/essence-v06-public-donors.json
+          retention-days: 14
+          if-no-files-found: error
