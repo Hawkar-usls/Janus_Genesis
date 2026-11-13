@@ -27,7 +27,8 @@ MANDATORY = (
     ".janus/essence/collective_origin.json",
     ".janus/essence/collective_seed.py",
 )
-OPTIONAL = (".janus/essence/gene_bank.py",)
+OPTIONAL = (".janus/essence/gene_bank.py", ".janus/essence/innovations.json",
+            ".janus/essence/inherited_ideas.json")
 MAX_BUNDLE_BYTES = 400_000
 
 def bundle_files(root, expected_target):
@@ -67,6 +68,19 @@ def bundle_files(root, expected_target):
         raise ValueError("DUPLICATE_DONOR")
     if any(c.allowed_repo(n)==target for n in origin["donor_repositories"]):
         raise ValueError("TARGET_ALREADY_DONOR")
+    idea_file=contents.get(".janus/essence/innovations.json")
+    if idea_file is not None:
+        c.validate_innovations(json.loads(idea_file),target)
+    inherited_file=contents.get(".janus/essence/inherited_ideas.json")
+    if inherited_file is not None:
+        inherited=json.loads(inherited_file)
+        if (inherited.get("schema")!=c.SCHEMA or
+            inherited.get("parent_snapshot_sha256")!=origin["donor_snapshot_sha256"] or
+            inherited.get("activation_allowed") is not False or
+            inherited.get("independent_fitness_gate")!="REQUIRED" or
+            not isinstance(inherited.get("innovation_candidates"),list) or
+            not isinstance(inherited.get("minority_gene_candidates"),list)):
+            raise ValueError("BAD_INHERITED_IDEAS")
     return contents,origin
 
 def branch_name(origin):
