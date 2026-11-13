@@ -135,12 +135,13 @@ def validate_innovations(obj, repo):
     return True
 
 def propose_idea(repo, role, idea, evidence_sha256, precommit_sha256,
-                 origin_receipt_sha256, out):
+                 origin_receipt_sha256, out, existing=None):
     repo=allowed_repo(repo)
     raw={"role":role,"idea":idea,"evidence_sha256":evidence_sha256,
          "precommit_sha256":precommit_sha256,
          "origin_receipt_sha256":origin_receipt_sha256}
-    result=empty_innovations(repo)
+    result=load(existing) if existing else empty_innovations(repo)
+    validate_innovations(result,repo)
     result["entries"].append({"id":"idea-"+digest({"repo":repo,**raw})[:20],**raw})
     validate_innovations(result,repo)
     save(out,result)
@@ -531,6 +532,7 @@ def main():
     idea.add_argument("--precommit",required=True)
     idea.add_argument("--origin",required=True)
     idea.add_argument("--out",required=True)
+    idea.add_argument("--existing")
     rank=sub.add_parser("rank");rank.add_argument("--snapshot",required=True)
     rank.add_argument("--reports",required=True);rank.add_argument("--out",required=True)
     c=sub.add_parser("grow");c.add_argument("--repo",required=True)
@@ -560,10 +562,13 @@ def main():
                           "new_root_created":False,"donors":report["donor_count"]}))
     elif args.command=="idea":
         proposal=propose_idea(args.repo,args.role,args.description,args.evidence,
-                              args.precommit,args.origin,args.out)
+                              args.precommit,args.origin,args.out,args.existing)
         print(json.dumps({"candidate":proposal["entries"][0]["id"],"state":"REVIEW_ONLY"}))
     elif args.command=="rank":
-        report=rank_independent_fitness(load(args.snapshot),load(args.reports))
+        reports=load(args.reports)
+        if not isinstance(reports.get("reports"),list):
+            raise ValueError("BAD_FITNESS_REPORT_BUNDLE")
+        report=rank_independent_fitness(load(args.snapshot),reports["reports"])
         save(args.out,report)
         print(json.dumps({"research_candidates":len(report["research_shortlist"]),
                           "production_authority":False}))
