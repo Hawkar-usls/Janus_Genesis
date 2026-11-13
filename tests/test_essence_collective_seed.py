@@ -128,6 +128,29 @@ class CollectiveContracts(unittest.TestCase):
             self.assertTrue((base/"growing"/e.CANONICAL/"microkernels"/
                             (result["proposals"][0]["id"]+".py")).exists())
 
+    def test_adopt_existing_parent_uses_one_root_no_replacement(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo="Hawkar-usls/core0"
+            m=donor("core0")
+            report=e.adopt_existing_root(self.snapshot,repo,temp,ROOT,m)
+            self.assertEqual(report["root_count"],1)
+            self.assertEqual(report["origin_type"],"ADOPT_EXISTING_ROOT_NO_ROOT_REPLACEMENT")
+            self.assertFalse((Path(temp)/e.CANONICAL/"kernel.py").exists())
+            self.assertTrue((Path(temp)/e.CANONICAL/"collective_origin.json").exists())
+
+    def test_rare_gene_retained_as_review_candidate_not_quorum_gene(self):
+        entries,things,fetch=fixture()
+        key="Hawkar-usls/core0"
+        path=e.CANONICAL+"/manifest.json"
+        m=json.loads(things[key][path]["data"])
+        m["microkernels"][0]["gene_sources"]=["MicroGPT","RarePhysicsGPT"]
+        things[key][path]["data"]=json.dumps(m).encode()
+        s=e.collect_snapshot(entries,fetch,ROOT,"2026-11-13")
+        self.assertNotIn("RarePhysicsGPT",s["genes_by_role"]["sensing"])
+        r=[x for x in s["minority_gene_candidates"] if x["gene"]=="RarePhysicsGPT"]
+        self.assertEqual(len(r),1)
+        self.assertEqual(r[0]["donors"],[key])
+
     def test_tampered_origin_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
             base=Path(temp)
