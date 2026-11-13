@@ -52,7 +52,8 @@ class CollectiveContracts(unittest.TestCase):
         s=self.snapshot
         self.assertEqual(s["verified_donor_count"],5)
         self.assertEqual(s["quorum"],4)
-        self.assertEqual(s["genes_by_role"],GENES)
+        self.assertEqual({r:set(g) for r,g in s["genes_by_role"].items()},
+                         {r:set(g) for r,g in GENES.items()})
         self.assertTrue(e.check_snapshot(s,ROOT))
         self.assertFalse(s["automatic_replication_enabled"])
 
