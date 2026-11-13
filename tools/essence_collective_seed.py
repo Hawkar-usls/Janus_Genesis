@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ESSENCE Collective Seeding v0.3 — one root per repository, many local microcores.
+"""ESSENCE Collective Seeding v0.4 — one root per repository, many local microcores.
 
 All network access is read-only. Public repository roots contribute verified
 manifest genes and their content hashes; no donor code/weights are executed.
@@ -23,7 +23,10 @@ import urllib.parse
 import urllib.request
 
 OWNER = "Hawkar-usls"
-SCHEMA = "janus.essence.collective_seed/0.3"
+SCHEMA = "janus.essence.collective_seed/0.4"
+IDEA_SCHEMA = "janus.essence.innovations/0.1"
+FITNESS_SCHEMA = "janus.essence.independent_fitness/0.1"
+MAX_IDEAS_PER_REPO = 12
 ROOT_SCHEMA = "janus.essence.microkernel/0.1"
 ROLES = ("sensing", "memory", "planning", "verification", "recovery", "coding")
 DENIED = ("network", "shell", "repo_write", "workflow_dispatch", "secrets", "hardware")
@@ -100,12 +103,119 @@ def validate_manifest(m, repo):
         raise ValueError("INCOMPLETE_ROLES")
     return True
 
+import math
+
+def empty_innovations(repo):
+    return {"schema":IDEA_SCHEMA,"repository":allowed_repo(repo),
+            "entries":[],"authority":"RESEARCH_PROPOSAL_ONLY"}
+
+def validate_innovations(obj, repo):
+    if not isinstance(obj,dict) or set(obj)!={"schema","repository","entries","authority"}:
+        raise ValueError("INVALID_INNOVATION_SCHEMA")
+    if obj["schema"]!=IDEA_SCHEMA or obj["repository"]!=repo or obj["authority"]!="RESEARCH_PROPOSAL_ONLY":
+        raise ValueError("INNOVATION_REPOSITORY_OR_AUTHORITY_MISMATCH")
+    entries=obj["entries"]
+    if not isinstance(entries,list) or len(entries)>MAX_IDEAS_PER_REPO:
+        raise ValueError("UNBOUNDED_INNOVATIONS")
+    seen=set()
+    for c in entries:
+        if not isinstance(c,dict) or set(c)!={"id","role","idea","evidence_sha256",
+                                               "precommit_sha256","origin_receipt_sha256"}:
+            raise ValueError("INVALID_IDEA_SHAPE")
+        if not isinstance(c["id"],str) or not MODULE_PATTERN.fullmatch(c["id"]):
+            raise ValueError("INVALID_IDEA_ID")
+        if c["id"] in seen:
+            raise ValueError("DUPLICATE_IDEA")
+        seen.add(c["id"])
+        if c["role"] not in ROLES or not isinstance(c["idea"],str) or not 12<=len(c["idea"])<=240:
+            raise ValueError("BAD_IDEA_OR_ROLE")
+        for k in ("evidence_sha256","precommit_sha256","origin_receipt_sha256"):
+            if not isinstance(c[k],str) or not re.fullmatch(r"[0-9a-f]{64}",c[k]):
+                raise ValueError("INVALID_IDEA_PROVENANCE")
+    return True
+
+def propose_idea(repo, role, idea, evidence_sha256, precommit_sha256,
+                 origin_receipt_sha256, out):
+    repo=allowed_repo(repo)
+    raw={"role":role,"idea":idea,"evidence_sha256":evidence_sha256,
+         "precommit_sha256":precommit_sha256,
+         "origin_receipt_sha256":origin_receipt_sha256}
+    result=empty_innovations(repo)
+    result["entries"].append({"id":"idea-"+digest({"repo":repo,**raw})[:20],**raw})
+    validate_innovations(result,repo)
+    save(out,result)
+    return result
+
+def rank_independent_fitness(snapshot, independent_reports, *,
+                             min_holdout=60, minimum_gain=0.05):
+    """Research shortlist, not deployment. Only independently replicated reports.
+
+    Caller MUST externally authenticate report sources and frozen artifact hashes.
+    Report self-claims alone are NOT trusted as an authorization signal.
+    """
+    check_snapshot(snapshot)
+    reports=independent_reports if isinstance(independent_reports,list) else []
+    by_id={(x["repo"],x["id"]):x for x in snapshot.get("innovation_candidates",[])}
+    ranked=[]
+    rejected=[]
+    for report in reports:
+        try:
+            if not isinstance(report,dict) or report.get("schema")!=FITNESS_SCHEMA:
+                raise ValueError("BAD_FITNESS_SCHEMA")
+            key=(report["source_repository"],report["candidate_id"])
+            candidate=by_id[key]
+            verifier=allowed_repo(report["verifier_repository"])
+            if verifier==key[0]:
+                raise ValueError("SELF_VERIFICATION_FORBIDDEN")
+            if not report.get("externally_authenticated") is True:
+                raise ValueError("NO_EXTERNAL_AUTHENTICATION")
+            if (report.get("source_evidence_sha256") != candidate["evidence_sha256"] or
+                report.get("precommit_sha256") != candidate["precommit_sha256"]):
+                raise ValueError("FITNESS_SOURCE_MISMATCH")
+            if report.get("holdout_after_precommit") is not True:
+                raise ValueError("LEAKED_HOLDOUT")
+            n=report.get("holdout_n")
+            if type(n) is not int or n<min_holdout:
+                raise ValueError("INSUFFICIENT_HOLDOUT")
+            base,gain=report.get("baseline_error"),report.get("candidate_error")
+            if (type(base) not in (int,float) or type(gain) not in (int,float)
+                or not all(map(lambda z:math.isfinite(z), (base,gain)))
+                or base<=0 or gain<0):
+                raise ValueError("BAD_FITNESS_METRIC")
+            reduction=(base-gain)/base
+            if reduction < minimum_gain:
+                raise ValueError("NO_GAIN_AGAINST_FROZEN_BASELINE")
+            h=report.get("evaluation_sha256")
+            if not isinstance(h,str) or not re.fullmatch(r"[0-9a-f]{64}",h):
+                raise ValueError("MISSING_IMMUTABLE_EVALUATION")
+            ranked.append({
+                "repo":key[0],"candidate_id":key[1],
+                "role":candidate["role"],"idea":candidate["idea"],
+                "verifier_repository":verifier,
+                "evaluation_sha256":h,
+                "relative_gain":round(reduction,6),
+                "holdout_n":n,"fitness_state":"EXTERNALLY_REVIEWED_RESEARCH_CANDIDATE",
+                "production_authority":False,
+            })
+        except (ValueError,KeyError,TypeError) as exc:
+            rejected.append(str(exc)[:100])
+    ranked.sort(key=lambda x:(-x["relative_gain"],-x["holdout_n"],x["repo"],x["candidate_id"]))
+    output={"schema":SCHEMA,
+            "donor_snapshot_sha256":snapshot["snapshot_sha256"],
+            "research_shortlist":ranked[:MAX_MODULES],
+            "rejected_count":len(rejected),
+            "rejected_reasons":rejected[:MAX_MODULES],
+            "source_authentication_must_be_out_of_band":True,
+            "cannot_promote_without_independent_code_review":True}
+    output["report_sha256"]=digest(output)
+    return output
+
 def github(path, token=""):
     if not path.startswith("/users/"+OWNER+"/repos?") and not path.startswith("/repos/"+OWNER+"/"):
         raise ValueError("UNTRUSTED_GITHUB_PATH")
     url="https://api.github.com"+path
     h={"Accept":"application/vnd.github+json",
-       "User-Agent":"JANUS-ESSENCE-CollectiveSeed/0.3",
+       "User-Agent":"JANUS-ESSENCE-CollectiveSeed/0.4",
        "X-GitHub-Api-Version":"2022-11-28"}
     if token: h["Authorization"]="Bearer "+token
     req=urllib.request.Request(url,headers=h)
@@ -139,7 +249,7 @@ def github_content(repo, path, branch, token=""):
     allowed_repo(repo)
     if not isinstance(branch,str) or not re.fullmatch(r"[A-Za-z0-9_.-]{1,80}",branch):
         raise ValueError("INVALID_REF")
-    if path not in (CANONICAL+"/kernel.py",CANONICAL+"/manifest.json"):
+    if path not in (CANONICAL+"/kernel.py",CANONICAL+"/manifest.json",CANONICAL+"/innovations.json"):
         raise ValueError("PATH_NOT_ALLOWED")
     raw=github(f"/repos/{repo}/contents/{path}?ref="+urllib.parse.quote(branch,safe=""),token)
     if raw is None:
@@ -156,6 +266,7 @@ def collect_snapshot(repos, fetch_content, canonical_root_bytes, collected_at):
     canonical_hash=file_sha(canonical_root_bytes)
     donors=[]
     excluded=[]
+    innovation_candidates=[]
     scanned=0
     for entry in sorted(repos,key=lambda x:x["repo"]):
         repo=allowed_repo(entry["repo"])
@@ -173,6 +284,27 @@ def collect_snapshot(repos, fetch_content, canonical_root_bytes, collected_at):
                 raise ValueError("DIVERGENT_KERNEL_CODE")
             m=json.loads(mb)
             validate_manifest(m,repo)
+            # A newly born public root has exactly the same opportunity to
+            # contribute future ideas as any original donor. Idea claims remain
+            # non-authoritative until independently measured.
+            idea_record=fetch_content(repo,CANONICAL+"/innovations.json",branch)
+            if idea_record is not None:
+                try:
+                    ideas=json.loads(idea_record["data"])
+                    validate_innovations(ideas,repo)
+                    for candidate in ideas["entries"]:
+                        innovation_candidates.append({
+                            "repo":repo,"id":candidate["id"],
+                            "role":candidate["role"],"idea":candidate["idea"],
+                            "evidence_sha256":candidate["evidence_sha256"],
+                            "precommit_sha256":candidate["precommit_sha256"],
+                            "origin_receipt_sha256":candidate["origin_receipt_sha256"],
+                            "source_manifest_sha256":file_sha(mb),
+                            "source_ideas_sha256":file_sha(idea_record["data"]),
+                            "status":"IDEA_NOT_PERFORMANCE_PROOF",
+                        })
+                except (ValueError,TypeError,KeyError,UnicodeDecodeError) as exc:
+                    excluded.append({"repo":repo,"reason":"INNOVATIONS_REJECTED:"+str(exc)[:100]})
             donors.append({
                 "repo":repo,"default_branch":branch,
                 "kernel_sha256":file_sha(kb),"manifest_sha256":file_sha(mb),
@@ -209,6 +341,8 @@ def collect_snapshot(repos, fetch_content, canonical_root_bytes, collected_at):
         "scanned_public_repositories":scanned,"verified_donor_count":len(donors),
         "excluded":excluded,"quorum":quorum,"donors":donors,
         "genes_by_role":selected,"minority_gene_candidates":minority,
+        "innovation_candidates":sorted(innovation_candidates,key=lambda c:(c["repo"],c["id"])),
+        "future_generation_participation":"ALL_NEW_PUBLIC_ROOTS_WITH_VALID_MANIFEST_AND_IDEAS",
         "consensus_kind":"VERIFIED_MANIFEST_AGREEMENT_NOT_INDEPENDENT_MODEL_GAIN",
         "source_code_and_weights_transplanted":False,
         "automatic_replication_enabled":False,
@@ -275,6 +409,14 @@ def seed_bundle(snapshot,repo,out,root_bytes,gene_bank_bytes=None):
     write_new(out/CANONICAL/"collective_seed.py",Path(__file__).read_text(encoding="utf-8"))
     save(out/CANONICAL/"manifest.json",manifest)
     save(out/CANONICAL/"collective_origin.json",origin)
+    save(out/CANONICAL/"innovations.json",empty_innovations(repo))
+    # Candidate ideas are inherited as study proposals, never executable code.
+    save(out/CANONICAL/"inherited_ideas.json",{
+        "schema":SCHEMA,"parent_snapshot_sha256":snapshot["snapshot_sha256"],
+        "innovation_candidates":snapshot["innovation_candidates"],
+        "minority_gene_candidates":snapshot["minority_gene_candidates"],
+        "activation_allowed":False,"independent_fitness_gate":"REQUIRED",
+    })
     if gene_bank_bytes is not None:
         if len(gene_bank_bytes)>MAX_FILE: raise ValueError("OVERSIZE_GENE_BANK")
         write_new(out/CANONICAL/"gene_bank.py",gene_bank_bytes.decode("utf-8"))
@@ -382,6 +524,15 @@ def main():
     a2.add_argument("--repo",required=True);a2.add_argument("--out",required=True)
     a2.add_argument("--manifest",default=CANONICAL+"/manifest.json")
     a2.add_argument("--root",default=CANONICAL+"/kernel.py")
+    idea=sub.add_parser("idea");idea.add_argument("--repo",required=True)
+    idea.add_argument("--role",choices=ROLES,required=True)
+    idea.add_argument("--description",required=True)
+    idea.add_argument("--evidence",required=True)
+    idea.add_argument("--precommit",required=True)
+    idea.add_argument("--origin",required=True)
+    idea.add_argument("--out",required=True)
+    rank=sub.add_parser("rank");rank.add_argument("--snapshot",required=True)
+    rank.add_argument("--reports",required=True);rank.add_argument("--out",required=True)
     c=sub.add_parser("grow");c.add_argument("--repo",required=True)
     c.add_argument("--manifest",required=True);c.add_argument("--origin",required=True)
     c.add_argument("--requests",required=True);c.add_argument("--out",required=True)
@@ -407,6 +558,15 @@ def main():
                                    Path(args.root).read_bytes(),load(args.manifest))
         print(json.dumps({"repo":report["child_repository"],
                           "new_root_created":False,"donors":report["donor_count"]}))
+    elif args.command=="idea":
+        proposal=propose_idea(args.repo,args.role,args.description,args.evidence,
+                              args.precommit,args.origin,args.out)
+        print(json.dumps({"candidate":proposal["entries"][0]["id"],"state":"REVIEW_ONLY"}))
+    elif args.command=="rank":
+        report=rank_independent_fitness(load(args.snapshot),load(args.reports))
+        save(args.out,report)
+        print(json.dumps({"research_candidates":len(report["research_shortlist"]),
+                          "production_authority":False}))
     else:
         report=grow_modules(args.repo,load(args.manifest),load(args.origin),
                             load(args.requests),args.out)
