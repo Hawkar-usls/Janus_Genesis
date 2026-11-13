@@ -71,10 +71,21 @@ jobs:
               encoding='utf-8')
           print('ESSENCE_READONLY_HEARTBEAT_PASS', repo)
           PY
+      - name: Exercise the 13-role ESSENCE v0.8 heritage advisor, without side-effects
+        env:
+          ESSENCE_REPO: ${{ github.repository }}
+          ESSENCE_REPORT: ${{ runner.temp }}/essence-heartbeat.json
+          ESSENCE_V08_REPORT: ${{ runner.temp }}/essence-v08-heritage.json
+        run: |
+          python .janus/essence/heritage_v08.py --selftest --repo "$ESSENCE_REPO"
+          python .janus/essence/heritage_v08.py --repo "$ESSENCE_REPO" \
+            --heartbeat "$ESSENCE_REPORT" --out "$ESSENCE_V08_REPORT"
       - name: Keep a short-lived verification receipt (not model learning)
         uses: actions/upload-artifact@v4
         with:
           name: essence-readonly-heartbeat-${{ github.run_id }}
-          path: ${{ runner.temp }}/essence-heartbeat.json
+          path: |
+            ${{ runner.temp }}/essence-heartbeat.json
+            ${{ runner.temp }}/essence-v08-heritage.json
           if-no-files-found: error
           retention-days: 14
