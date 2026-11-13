@@ -67,6 +67,10 @@ class RealAlgorithmReviewTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"SOURCE_FINGERPRINT"):
             guard.review(bad)
 
+    def test_benchmark_cannot_be_relabelled_as_another_repository(self):
+        with self.assertRaisesRegex(ValueError,"BAD_PROVENANCE"):
+            guard.review(self.report,expected_repo="Hawkar-usls/Janus-Demiurge")
+
     def test_external_attestation_forgery_fails(self):
         bad=copy.deepcopy(self.report)
         bad["independent_external_evaluator_attested"]=True

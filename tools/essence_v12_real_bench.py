@@ -316,7 +316,7 @@ def run(*, skip_torch:bool=False)->dict:
     }
     result={
         "schema":SCHEMA,
-        "repository":"Hawkar-usls/Janus_Genesis",
+        "repository":kernel.load_json(ESSENCE/"manifest.json")["repository"],
         "holdout_origin_repo":"Hawkar-usls/janus-meta-registry",
         "holdout_origin_commit":FREEZE_COMMIT,
         "holdout_git_blob_sha1":CORPUS_BLOB,

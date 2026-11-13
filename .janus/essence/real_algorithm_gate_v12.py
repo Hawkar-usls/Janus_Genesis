@@ -50,13 +50,14 @@ def _lane(lane,identity):
     return True
 
 
-def review(report:dict)->dict:
+def review(report:dict,expected_repo:str | None=None)->dict:
     if not isinstance(report,dict) or report.get("schema")!=BENCH:
         raise ValueError("V12_BAD_REPORT_SCHEMA")
     if report.get("receipt_sha256")!=kernel.digest({
             k:v for k,v in report.items() if k!="receipt_sha256"}):
         raise ValueError("V12_REPORT_TAMPERED")
-    if (report.get("repository")!="Hawkar-usls/Janus_Genesis"
+    if (report.get("repository") not in ("Hawkar-usls/Janus_Genesis","Hawkar-usls/Janus-Demiurge")
+            or (expected_repo is not None and report.get("repository")!=expected_repo)
             or report.get("holdout_origin_repo")!="Hawkar-usls/janus-meta-registry"
             or report.get("holdout_origin_commit")!=FREEZE_COMMIT
             or report.get("holdout_git_blob_sha1")!=HOLDOUT
@@ -88,6 +89,7 @@ def review(report:dict)->dict:
     receipt={
         "schema":SCHEMA,
         "benchmark_receipt_sha256":report["receipt_sha256"],
+        "repository":report["repository"],
         "holdout_commit_sha1":FREEZE_COMMIT,
         "holdout_git_blob_sha1":HOLDOUT,
         "real_gpt_tokenizer_evaluated":True,

@@ -53,7 +53,8 @@ def evaluate(manifest: dict, fixture: dict, *, expression: str,
             alphabet=trial_alphabet, max_length=trial_max_length,
             expected_repo=expected_repo, explicit_readonly=True)
     if real_algorithm_report is not None:
-        result["real_algorithm_review"] = real_algorithm_gate_v12.review(real_algorithm_report)
+        result["real_algorithm_review"] = real_algorithm_gate_v12.review(
+            real_algorithm_report, expected_repo=base["repository"])
     result["receipt_sha256"] = kernel.digest(result)
     return result
 
