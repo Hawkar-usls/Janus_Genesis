@@ -195,6 +195,11 @@ def collect_snapshot(repos, fetch_content, canonical_root_bytes, collected_at):
     for role in ROLES:
         eligible=[(votes[(role,g)],g) for r,g in votes if r==role and votes[(r,g)]>=quorum]
         selected[role]=[g for n,g in sorted(eligible,key=lambda x:(-x[0],x[1]))[:5]]
+    # Preserve minority innovations separately for per-repo review; never auto-inherit.
+    minority=[{"role":role,"gene":g,"support":votes[(role,g)],
+               "donors":[d["repo"] for d in donors if any(
+                   c["role"]==role and g in c["gene_sources"] for c in d["cells"])]}
+              for (role,g),count in sorted(votes.items()) if count<quorum]
     if any(not selected[r] for r in ROLES):
         raise ValueError("GENE_QUORUM_NOT_REACHED")
     snapshot={
@@ -203,7 +208,7 @@ def collect_snapshot(repos, fetch_content, canonical_root_bytes, collected_at):
         "canonical_kernel_sha256":canonical_hash,
         "scanned_public_repositories":scanned,"verified_donor_count":len(donors),
         "excluded":excluded,"quorum":quorum,"donors":donors,
-        "genes_by_role":selected,
+        "genes_by_role":selected,"minority_gene_candidates":minority,
         "consensus_kind":"VERIFIED_MANIFEST_AGREEMENT_NOT_INDEPENDENT_MODEL_GAIN",
         "source_code_and_weights_transplanted":False,
         "automatic_replication_enabled":False,
@@ -271,6 +276,33 @@ def seed_bundle(snapshot,repo,out,root_bytes,gene_bank_bytes=None):
     if gene_bank_bytes is not None:
         if len(gene_bank_bytes)>MAX_FILE: raise ValueError("OVERSIZE_GENE_BANK")
         write_new(out/CANONICAL/"gene_bank.py",gene_bank_bytes.decode("utf-8"))
+    return origin
+
+def adopt_existing_root(snapshot, repo, out, root_bytes, manifest):
+    """Bind an existing single root to a verified collective ancestry; no new root."""
+    repo=allowed_repo(repo)
+    check_snapshot(snapshot,root_bytes)
+    donors={d["repo"]:d for d in snapshot["donors"]}
+    if repo not in donors:
+        raise ValueError("EXISTING_ROOT_NOT_IN_DONOR_INVENTORY")
+    validate_manifest(manifest,repo)
+    if file_sha(root_bytes)!=donors[repo]["kernel_sha256"]:
+        raise ValueError("EXISTING_ROOT_BYTES_CHANGED")
+    origin={
+        "schema":SCHEMA,"child_repository":repo,
+        "donor_snapshot_sha256":snapshot["snapshot_sha256"],
+        "donor_count":len(snapshot["donors"]),
+        "donor_repositories":[d["repo"] for d in snapshot["donors"]],
+        "origin_type":"ADOPT_EXISTING_ROOT_NO_ROOT_REPLACEMENT",
+        "root_count":1,"root_sha256":file_sha(root_bytes),
+        "manifest_sha256":digest(manifest),
+        "generation":0,"authority":"PROPOSAL_ONLY",
+        "human_pr_review_required":True,
+        "offline_contract_tests_required":True,
+        "automatic_birth":False,"promotion_authority":False,
+    }
+    origin["receipt_sha256"]=digest(origin)
+    save(Path(out)/CANONICAL/"collective_origin.json",origin)
     return origin
 
 def module_text(role,ident,origin_hash):
@@ -343,6 +375,10 @@ def main():
     b.add_argument("--target",required=True);b.add_argument("--out",required=True)
     b.add_argument("--root",default=CANONICAL+"/kernel.py")
     b.add_argument("--gene-bank",default=CANONICAL+"/gene_bank.py")
+    a2=sub.add_parser("adopt");a2.add_argument("--snapshot",required=True)
+    a2.add_argument("--repo",required=True);a2.add_argument("--out",required=True)
+    a2.add_argument("--manifest",default=CANONICAL+"/manifest.json")
+    a2.add_argument("--root",default=CANONICAL+"/kernel.py")
     c=sub.add_parser("grow");c.add_argument("--repo",required=True)
     c.add_argument("--manifest",required=True);c.add_argument("--origin",required=True)
     c.add_argument("--requests",required=True);c.add_argument("--out",required=True)
@@ -363,6 +399,11 @@ def main():
         report=seed_bundle(load(args.snapshot),args.target,args.out,root,bank)
         print(json.dumps({"target":report["child_repository"],
                           "donors":report["donor_count"],"authority":"PROPOSAL_ONLY"}))
+    elif args.command=="adopt":
+        report=adopt_existing_root(load(args.snapshot),args.repo,args.out,
+                                   Path(args.root).read_bytes(),load(args.manifest))
+        print(json.dumps({"repo":report["child_repository"],
+                          "new_root_created":False,"donors":report["donor_count"]}))
     else:
         report=grow_modules(args.repo,load(args.manifest),load(args.origin),
                             load(args.requests),args.out)
