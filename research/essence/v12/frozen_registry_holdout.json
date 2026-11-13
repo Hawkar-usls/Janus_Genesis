@@ -1,0 +1,88 @@
+{
+  "schema": "janus.essence.real_algorithm_cross_repo_holdout/1.2",
+  "origin": "JANUS_META_REGISTRY_FROZEN_BEFORE_CANDIDATE_IMPLEMENTATION",
+  "frozen_date_utc": "2026-11-13",
+  "blinded": false,
+  "externally_independently_attested": false,
+  "source_refs": [
+    {
+      "repo": "Hawkar-usls/Janus-Demiurge",
+      "path": "janus_model/model.py",
+      "git_blob_sha1": "11e359e89d3946895b2e0d6817c54253f09dfed1"
+    },
+    {
+      "repo": "Hawkar-usls/Janus_Genesis",
+      "path": ".janus/essence/gene_bank.py",
+      "git_blob_sha1": "e7fe6f59591009df1905dbbf06b164d49e422660"
+    },
+    {
+      "repo": "Hawkar-usls/Janus-Demiurge",
+      "path": ".janus/essence/README.md",
+      "git_blob_sha1": "e488eddb7d7ebdad265aac2f5fa341ed19628337"
+    }
+  ],
+  "text_cases": [
+    "import torch.nn as nn",
+    "import torch.nn.functional as F",
+    "class JanusModelConfig:",
+    "    def to_dict(self): return asdict(self)",
+    "    def from_dict(cls,obj): return cls(**obj)",
+    "class ByteTokenizer:",
+    "    def encode(cls,text,bos=False,eos=False):",
+    "        return ids",
+    "    def decode(cls,ids):",
+    "        return bytes(i for i in ids if 0 <= int(i) < 256).decode('utf-8',errors='replace')",
+    "class JanusTinyTransformer(nn.Module):",
+    "    def __init__(self,config):",
+    "        super().__init__(); self.config=config",
+    "        self.token=nn.Embedding(config.vocab_size,config.d_model)",
+    "        self.pos=nn.Embedding(config.context_length,config.d_model)",
+    "        self.blocks=nn.TransformerEncoder(layer,num_layers=config.n_layers)",
+    "        self.norm=nn.LayerNorm(config.d_model)",
+    "        self.lm_head=nn.Linear(config.d_model,config.vocab_size,bias=False); self.lm_head.weight=self.token.weight",
+    "# ESSENCE v0.1 — repository-local microkernel pilot",
+    "Status: **OFFLINE READ-ONLY RESEARCH PILOT**. No autonomous deployment or trained model is implied by this package.",
+    "## Run locally (Python 3.11+; no dependencies)",
+    "  --manifest .janus/essence/manifest.json \\",
+    "  --fixture .janus/essence/fixture.json \\",
+    "  --allow-readonly --propose-child recovery \\",
+    "  --out artifacts/essence/receipt.json",
+    "python .janus/essence/kernel.py --verify artifacts/essence/receipt.json",
+    "python -m unittest discover -s tests -p test_essence_kernel.py -v",
+    "## ESSENCE evolution admission gates",
+    "Янус: проверка реальных моделей ESSENCE",
+    "SCOBY • ARGO • τ • Δt",
+    ""
+  ],
+  "gene_cases": [
+    "MicroGPT",
+    "MicroGPTSlime",
+    "MicroGPTSlime_quantized",
+    "All_starsGPT",
+    "FractalGPT",
+    "CatGPT",
+    "JGPT1",
+    "NonceMapGPT",
+    "SHA256-GPT",
+    "IR_GPT_PhysicsLab",
+    "HoloGPT",
+    "HoloGPT_TEST2",
+    "Physarum",
+    "Yaksa+12",
+    "GEX",
+    "Trinity",
+    "MicroGPT.py",
+    "JGPT1.py",
+    "FractalGPT(4).py",
+    "MicroGPTSlime.py",
+    "unknown_model",
+    "",
+    "HoloGPT_TEST2.py"
+  ],
+  "policy": {
+    "arbitrary_code_execution": false,
+    "model_weight_updates": false,
+    "external_signatures_present": false,
+    "source_content_readonly": true
+  }
+}

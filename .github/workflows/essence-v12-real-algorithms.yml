@@ -1,0 +1,44 @@
+name: ESSENCE v1.2 Real GPT and Microkernel Fitness
+
+on:
+  pull_request:
+    paths:
+      - "tools/essence_v12_real_bench.py"
+      - "tests/test_essence_v12_real_bench.py"
+      - "tests/test_essence_v12_review.py"
+      - ".janus/essence/real_algorithm_gate_v12.py"
+      - ".janus/essence/engineering_matrix.py"
+      - "research/essence/v12/**"
+      - ".github/workflows/essence-v12-real-algorithms.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-frozen-real-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Existing ESSENCE v1.1 and engineering regression
+        run: |
+          python -m unittest discover -s tests -p 'test_essence_kernel.py' -q
+          python -m unittest discover -s tests -p 'test_essence_engineering_matrix.py' -q
+          python -m unittest discover -s tests -p 'test_essence_counterexample_gate.py' -q
+      - name: Source pin, frozen corpus and rollback tests
+        run: python -m unittest discover -s tests -p 'test_essence_v12_real_bench.py' -v
+      - name: Read-only ESSENCE Matrix admission firewall tests
+        run: python -m unittest discover -s tests -p 'test_essence_v12_review.py' -v
+      - name: Actual GPT tokenizer and ESSENCE gene-bank benchmark
+        run: python tools/essence_v12_real_bench.py --skip-torch --out research/essence/v12/ci_comparison.json
+      - name: Publish immutable CI measurement artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-v12-stdlib-real-algorithms
+          path: research/essence/v12/ci_comparison.json
+          if-no-files-found: error
+          retention-days: 14

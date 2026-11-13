@@ -1,0 +1,118 @@
+{
+  "automatic_promotion": false,
+  "byte_tokenizer": {
+    "baseline_metrics": {
+      "measurement_kind": "LOCAL_WALL_CLOCK_PLUS_PYTHON_TRACEMALLOC_NOT_TOTAL_RSS",
+      "median_ns_per_call": 5113.6,
+      "median_tracemalloc_python_peak_bytes": 660,
+      "min_ns_per_call": 5066.1,
+      "repetitions_each_round": 120,
+      "rounds": 9
+    },
+    "baseline_output_sha256": "0c1a6bffae6dfe3bc49db37a213c30f6e8ce8a6cd4a56830a559a048fbf8b2b5",
+    "candidate_metrics": {
+      "measurement_kind": "LOCAL_WALL_CLOCK_PLUS_PYTHON_TRACEMALLOC_NOT_TOTAL_RSS",
+      "median_ns_per_call": 4719.9,
+      "median_tracemalloc_python_peak_bytes": 660,
+      "min_ns_per_call": 4653.8,
+      "repetitions_each_round": 120,
+      "rounds": 9
+    },
+    "candidate_output_sha256": "0c1a6bffae6dfe3bc49db37a213c30f6e8ce8a6cd4a56830a559a048fbf8b2b5",
+    "case_count": 31,
+    "decision": {
+      "counterexample_count": 0,
+      "counterexample_indices": [],
+      "gate": "RESEARCH_CANDIDATE_PENDING_INDEPENDENT_BLIND_REPLICATION",
+      "median_wall_speed_ratio": 1.0834,
+      "python_peak_mem_ratio": 1.0
+    },
+    "negative_control": {
+      "baseline_output_sha256": "0c1a6bffae6dfe3bc49db37a213c30f6e8ce8a6cd4a56830a559a048fbf8b2b5",
+      "candidate_held": true,
+      "counterexample_count": 30,
+      "first_counterexample_index": 0,
+      "production_weights_or_modules_changed": false,
+      "recovered_output_sha256": "0c1a6bffae6dfe3bc49db37a213c30f6e8ce8a6cd4a56830a559a048fbf8b2b5",
+      "rollback_kind": "IN_MEMORY_ROUTER_NO_DEPLOYMENT_OR_CHECKPOINT_CHANGE",
+      "rollback_verified": true
+    },
+    "source": "PINNED_REAL_JANUS_GPT_BYTE_TOKENIZER",
+    "source_git_blob_sha1": "11e359e89d3946895b2e0d6817c54253f09dfed1"
+  },
+  "candidates_executed_in_working_production": false,
+  "essence_gene_bank": {
+    "baseline_metrics": {
+      "measurement_kind": "LOCAL_WALL_CLOCK_PLUS_PYTHON_TRACEMALLOC_NOT_TOTAL_RSS",
+      "median_ns_per_call": 1833.6,
+      "median_tracemalloc_python_peak_bytes": 275,
+      "min_ns_per_call": 1786.3,
+      "repetitions_each_round": 120,
+      "rounds": 9
+    },
+    "baseline_output_sha256": "fbcd82ab49357018e2b46395feaae392424bccfa6a864f3ebaf5aefe951f1a41",
+    "candidate_metrics": {
+      "measurement_kind": "LOCAL_WALL_CLOCK_PLUS_PYTHON_TRACEMALLOC_NOT_TOTAL_RSS",
+      "median_ns_per_call": 460.7,
+      "median_tracemalloc_python_peak_bytes": 385,
+      "min_ns_per_call": 455.7,
+      "repetitions_each_round": 120,
+      "rounds": 9
+    },
+    "candidate_output_sha256": "fbcd82ab49357018e2b46395feaae392424bccfa6a864f3ebaf5aefe951f1a41",
+    "case_count": 23,
+    "decision": {
+      "counterexample_count": 0,
+      "counterexample_indices": [],
+      "gate": "HOLD_PYTHON_MEMORY_REGRESSION",
+      "median_wall_speed_ratio": 3.98,
+      "python_peak_mem_ratio": 1.4
+    },
+    "negative_control": {
+      "baseline_output_sha256": "fbcd82ab49357018e2b46395feaae392424bccfa6a864f3ebaf5aefe951f1a41",
+      "candidate_held": true,
+      "counterexample_count": 1,
+      "first_counterexample_index": 0,
+      "production_weights_or_modules_changed": false,
+      "recovered_output_sha256": "fbcd82ab49357018e2b46395feaae392424bccfa6a864f3ebaf5aefe951f1a41",
+      "rollback_kind": "IN_MEMORY_ROUTER_NO_DEPLOYMENT_OR_CHECKPOINT_CHANGE",
+      "rollback_verified": true
+    },
+    "source": "PINNED_REAL_ESSENCE_GENE_BANK_NORMALIZED_MODEL",
+    "source_git_blob_sha1": "e7fe6f59591009df1905dbbf06b164d49e422660"
+  },
+  "holdout_blinded": false,
+  "holdout_git_blob_sha1": "71f23a157a9849998dc9655bc6bdf15c08d9934a",
+  "holdout_independent_of_candidate_source_repo": true,
+  "holdout_origin_commit": "5fcd50ad7fc26f9e26aef6ff25ebcb42ef7c8f28",
+  "holdout_origin_repo": "Hawkar-usls/janus-meta-registry",
+  "independent_external_evaluator_attested": false,
+  "model_weights_updated": false,
+  "overall_gate": "HOLD_EXTERNAL_BLIND_REPLICATION_AND_REAL_CHECKPOINT_REVIEW",
+  "receipt_sha256": "bfe5d20e8977944083bf0f3794241b30e8e778ef01705d3383812969ba0eb8ed",
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "rollback_drill_not_production_deployment": true,
+  "runtime_execution_authority": false,
+  "schema": "janus.essence.real_algorithm_benchmark/1.2",
+  "transformer_forward": {
+    "baseline_no_grad_median_ns": 360918.8,
+    "candidate_faster_paired_rounds": 15,
+    "candidate_inference_mode_median_ns": 353850.0,
+    "config": {
+      "batch": 2,
+      "d_model": 32,
+      "n_layers": 1,
+      "sequence_length": 23
+    },
+    "exact_logits_match": true,
+    "gate": "HOLD_NO_STABLE_CPU_GAIN_ON_16_PAIRED_ROUNDS",
+    "hardware": "CPU_ONLY_NO_CUDA",
+    "model": "JanusTinyTransformer_random_init_NO_CHECKPOINT",
+    "native_tensor_memory_measurement": "NOT_MEASURED",
+    "paired_rounds": 16,
+    "status": "REAL_TORCH_CPU_FORWARD_TESTED",
+    "wall_speed_ratio": 1.02,
+    "weights_modified": false,
+    "weights_trained": false
+  }
+}

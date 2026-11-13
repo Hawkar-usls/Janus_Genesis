@@ -11,6 +11,7 @@ from pathlib import Path
 
 import kernel
 import counterexample_gate
+import real_algorithm_gate_v12
 from engineering_math import calculate
 from turing_machine import run, unary_increment
 
@@ -20,7 +21,8 @@ def evaluate(manifest: dict, fixture: dict, *, expression: str,
              tape: str = "111", max_steps: int = 1024,
              expected_repo: str | None = None, explicit_readonly: bool = False,
              parent_machine: dict | None = None, child_machine: dict | None = None,
-             trial_alphabet: tuple[str, ...] = ("1",), trial_max_length: int = 6) -> dict:
+             trial_alphabet: tuple[str, ...] = ("1",), trial_max_length: int = 6,
+             real_algorithm_report: dict | None = None) -> dict:
     if explicit_readonly is not True:
         raise PermissionError("EXPLICIT_READONLY_REQUIRED")
     base = kernel.evaluate(manifest, fixture, explicit_readonly=True,
@@ -50,6 +52,8 @@ def evaluate(manifest: dict, fixture: dict, *, expression: str,
             manifest, fixture, parent_machine, child_machine,
             alphabet=trial_alphabet, max_length=trial_max_length,
             expected_repo=expected_repo, explicit_readonly=True)
+    if real_algorithm_report is not None:
+        result["real_algorithm_review"] = real_algorithm_gate_v12.review(real_algorithm_report)
     result["receipt_sha256"] = kernel.digest(result)
     return result
 
@@ -67,6 +71,16 @@ def verify(receipt: dict) -> bool:
         raise ValueError("UNREVIEWED_ADMISSION")
     if "candidate_trial" in receipt:
         counterexample_gate.verify(receipt["candidate_trial"])
+    if "real_algorithm_review" in receipt:
+        review = receipt["real_algorithm_review"]
+        if (not isinstance(review, dict)
+            or review.get("receipt_sha256") != kernel.digest({k:v for k,v in review.items() if k!="receipt_sha256"})
+            or review.get("schema") != real_algorithm_gate_v12.SCHEMA
+            or review.get("gate") != "HOLD_EXTERNAL_BLIND_REPLICATION_AND_REAL_CHECKPOINT_REVIEW"
+            or review.get("production_authority") is not False
+            or review.get("model_weights_modified") is not False
+            or review.get("child_activation") is not False):
+            raise ValueError("INVALID_REAL_ALGORITHM_REVIEW")
     return True
 
 
@@ -83,6 +97,7 @@ def main() -> None:
     ap.add_argument("--child-machine", help="Read-only declarative child transition table")
     ap.add_argument("--trial-alphabet", default="1")
     ap.add_argument("--trial-max-length", type=int, default=6)
+    ap.add_argument("--real-algorithm-report", help="SHA-bound v1.2 real-algorithm research report")
     ap.add_argument("--expected-repo")
     ap.add_argument("--allow-readonly", action="store_true")
     ap.add_argument("--out")
@@ -95,7 +110,8 @@ def main() -> None:
                       parent_machine=kernel.load_json(args.parent_machine) if args.parent_machine else None,
                       child_machine=kernel.load_json(args.child_machine) if args.child_machine else None,
                       trial_alphabet=tuple(args.trial_alphabet),
-                      trial_max_length=args.trial_max_length)
+                      trial_max_length=args.trial_max_length,
+                      real_algorithm_report=kernel.load_json(args.real_algorithm_report) if args.real_algorithm_report else None)
     verify(result)
     data = json.dumps(result, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
     if args.out:

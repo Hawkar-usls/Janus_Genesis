@@ -125,3 +125,36 @@ the minimal counterexample. An optimized child omits one redundant transition,
 saving one step on each unary case. All six ESSENCE role receipts remain
 unchanged. The Turing simulator also refuses to report a sparsely spread tape
 wider than its memory budget as a successful empty output.
+
+## ESSENCE v1.2 — verified real-algorithm research fitness (2026-11-13)
+
+The sidecar tools/essence_v12_real_bench.py executes the source-pinned actual
+ByteTokenizer from Janus-Demiurge/janus_model/model.py, compares it against
+an audited candidate, and runs the real existing ESSENCE
+gene_bank.normalized_model() algorithm against another candidate.
+The inputs are imported exactly from a separately frozen Meta Registry commit
+before writing new candidate implementations. This is **independently stored**
+but not secret, blinded or externally attested.
+
+The candidate bench measures per-call wall-time medians and Python tracemalloc
+peak allocations on each test platform; these numbers are not native tensor
+RSS or statistically guaranteed speedups. When PyTorch is installed, it also
+checks the genuine JanusTinyTransformer forward pass on CPU for exact output
+equivalence with randomly initialized fixed-seed weights. It neither trains nor
+loads any checkpoint. The CPU timing is compared with AB/BA paired rounds.
+
+A deliberately broken GPT tokenizer and a deliberately broken gene normalizer
+must be rejected. The rollback drill restores the original in-memory dispatch
+and verifies its output hashes; it does **not** touch production containers
+or checkpoints, nor does it establish tested deployment rollback.
+
+Run:
+    python tools/essence_v12_real_bench.py --skip-torch
+    python tools/essence_v12_real_bench.py
+    python -m unittest discover -s tests -p 'test_essence_v12_real_bench.py' -v
+
+The same report can be passed as --real-algorithm-report to
+engineering_matrix.py for a read-only, hashed real_algorithm_review subreceipt.
+This review is always HOLD pending externally blinded verification and
+genuine trained-checkpoint + rollback validation, even if local speed rises.
+The original six ESSENCE roles and the parent model are unchanged.
