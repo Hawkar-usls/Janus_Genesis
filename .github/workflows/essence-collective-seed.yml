@@ -8,6 +8,8 @@ on:
       - 'tests/test_essence_collective_seed.py'
       - 'tests/test_essence_seed_pr_publisher.py'
       - '.github/workflows/essence-collective-seed.yml'
+  schedule:
+    - cron: '23 4 * * 1'
   workflow_dispatch:
     inputs:
       target_repo:
@@ -95,3 +97,27 @@ jobs:
           ESSENCE_SEED_PR_TOKEN: ${{ secrets.ESSENCE_SEED_PR_TOKEN }}
         run: |
           python -m tools.essence_seed_pr_publisher --target "$ESSENCE_TARGET" --bundle staging/seed --publish-draft-pr
+
+  weekly-donor-discovery:
+    needs: offline-contracts
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read-only discover innovations from all approved public descendant repos
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m tools.essence_collective_seed collect --out staging/weekly-donor-snapshot.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: essence-collective-donor-inventory-${{ github.run_id }}
+          path: staging/weekly-donor-snapshot.json
+          if-no-files-found: error
+          retention-days: 30
