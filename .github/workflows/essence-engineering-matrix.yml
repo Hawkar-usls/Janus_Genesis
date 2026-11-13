@@ -1,0 +1,30 @@
+name: ESSENCE engineering calculator + bounded Turing machine
+
+on:
+  pull_request:
+    paths:
+      - ".janus/essence/**"
+      - "tests/test_essence_engineering_matrix.py"
+      - "archaeology/gpt_sources_20261113/**"
+      - ".github/workflows/essence-engineering-matrix.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-engineering-matrix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Original ESSENCE contract
+        run: python -m unittest discover -s tests -p 'test_essence_kernel.py' -v
+      - name: Calculator and Turing regression
+        run: python -m unittest discover -s tests -p 'test_essence_engineering_matrix.py' -v
+      - name: Readonly smoke
+        run: python .janus/essence/engineering_matrix.py --manifest .janus/essence/manifest.json --fixture .janus/essence/fixture.json --expr '5*kN*2*m' --unit kJ --tape 111 --allow-readonly

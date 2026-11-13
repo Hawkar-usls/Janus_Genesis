@@ -61,3 +61,30 @@ checkout of both source repositories, then emits
 `artifacts/essence/gene-bank.json` for audit. This artifact is a SHA-linked
 checksum receipt, **not a cryptographic attestation** or evidence of real-world
 model performance. ESSENCE remains disabled for autonomous actions.
+
+## Offline engineering organs (2026-11-13, development-only)
+
+ESSENCE gains two explicitly invoked, resource-bounded, deterministic specialist organs:
+(1) engineering_math.py: Decimal-50 arithmetic with SI dimension validation, selected
+physical units, square roots and explicitly approximate trigonometric/logarithmic functions;
+(2) turing_machine.py: an interpreter of arbitrary finite deterministic one-tape
+Turing-machine transition tables with halting states, head moves, trace hashes,
+and strict tape/step limits. It is a bounded interpreter, not an unbounded
+universal computer with infinite memory.
+
+engineering_matrix.py binds both to the unchanged six-role ESSENCE offline kernel,
+verifies its evidence chain and emits a SHA-256-bound combined receipt. It does
+not grant children authority to modify code, weights, workflows, network or NAS.
+The manifest records proposed gene-source names, not permission to auto-import.
+This adds computational capability, NOT a model training or general reasoning gain.
+
+Example (from repo root):
+  python .janus/essence/engineering_matrix.py --manifest .janus/essence/manifest.json --fixture .janus/essence/fixture.json --expr "5*kN*2*m" --unit kJ --tape 111 --allow-readonly --expected-repo Hawkar-usls/Janus_Genesis
+
+Tests (stdlib only):
+  python -m unittest discover -s tests -p test_essence_engineering_matrix.py -v
+  python -m unittest discover -s tests -p test_essence_kernel.py -v
+
+Archived donor source copies live at archaeology/gpt_sources_20261113/reference_only
+as inert *.py.txt files. They are never imported by ESSENCE or CI.
+No archival source is promoted by its filename, hash or popularity alone.

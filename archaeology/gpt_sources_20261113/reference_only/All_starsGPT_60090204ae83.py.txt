@@ -1,0 +1,606 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+ALL_STARS_GPT – универсальная научная модель
+Версия 4.0 – ТОЛЬКО РЕАЛЬНЫЕ ДАННЫЕ, без синтетики.
+Если данных недостаточно – обучение не выполняется.
+"""
+
+from __future__ import annotations
+
+import json
+import math
+import random
+import pickle
+import csv
+import os
+import urllib.request
+from datetime import datetime, timedelta, timezone
+from typing import List, Dict, Any, Optional, Tuple
+from collections import deque
+
+import numpy as np
+
+# ----------------------------------------------------------------------
+# 1. АВТОДИФФЕРЕНЦИРУЕМОЕ ЗНАЧЕНИЕ (Value)
+# ----------------------------------------------------------------------
+class Value:
+    __slots__ = ("data", "grad", "_children", "_local_grads")
+    def __init__(self, data, children=(), local_grads=()):
+        self.data = float(data)
+        self.grad = 0.0
+        self._children = children
+        self._local_grads = local_grads
+    def __add__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data + other.data, (self, other), (1, 1))
+    def __mul__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data * other.data, (self, other), (other.data, self.data))
+    def __pow__(self, other):
+        return Value(self.data**other, (self,), (other * self.data ** (other - 1),))
+    def log(self):
+        safe = self.data if self.data > 1e-15 else 1e-15
+        return Value(math.log(safe), (self,), (1.0 / safe,))
+    def exp(self):
+        e = math.exp(self.data)
+        return Value(e, (self,), (e,))
+    def relu(self):
+        return Value(max(0.0, self.data), (self,), (1.0 if self.data > 0 else 0.0,))
+    def __neg__(self):
+        return self * -1
+    def __radd__(self, other):
+        return self + other
+    def __sub__(self, other):
+        return self + (-other)
+    def __rsub__(self, other):
+        return other + (-self)
+    def __rmul__(self, other):
+        return self * other
+    def __truediv__(self, other):
+        return self * other**-1
+    def backward(self):
+        topo = []
+        visited = set()
+        def build(node):
+            if node in visited:
+                return
+            visited.add(node)
+            for child in node._children:
+                build(child)
+            topo.append(node)
+        build(self)
+        self.grad = 1.0
+        for node in reversed(topo):
+            for child, lg in zip(node._children, node._local_grads):
+                child.grad += lg * node.grad
+
+# ----------------------------------------------------------------------
+# 2. ПАМЯТЬ ЭКСПЕРИМЕНТОВ
+# ----------------------------------------------------------------------
+class ExperimentMemory:
+    def __init__(self, base_dir: str = "experiments"):
+        self.base_dir = base_dir
+        os.makedirs(base_dir, exist_ok=True)
+        self.history = []
+        self.best_configs = {}
+        self.best_models = {}
+        self.best_norm = {}
+        self.sensitivity = {}
+        self.param_ranges = {
+            'gain': (0.3, 2.5),
+            'temperature': (0.3, 2.0),
+            'lr': (1e-4, 1e-2),
+            'n_embd': [8, 12, 16, 24, 32, 48, 64],
+            'n_head': [2, 4, 8],
+            'n_layer': (1, 4),
+            'block_size': (16, 128)
+        }
+        self._load_best()
+        self._load_best_models()
+        self._load_best_norm()
+
+    def _load_best(self):
+        best_path = os.path.join(self.base_dir, "best_configs.json")
+        if os.path.exists(best_path):
+            with open(best_path, 'r') as f:
+                self.best_configs = json.load(f)
+
+    def _save_best(self):
+        best_path = os.path.join(self.base_dir, "best_configs.json")
+        with open(best_path, 'w') as f:
+            json.dump(self.best_configs, f, indent=2)
+
+    def _load_best_models(self):
+        models_path = os.path.join(self.base_dir, "best_models.json")
+        if os.path.exists(models_path):
+            with open(models_path, 'r') as f:
+                self.best_models = json.load(f)
+
+    def _save_best_models(self):
+        models_path = os.path.join(self.base_dir, "best_models.json")
+        with open(models_path, 'w') as f:
+            json.dump(self.best_models, f, indent=2)
+
+    def _load_best_norm(self):
+        norm_path = os.path.join(self.base_dir, "best_norm.json")
+        if os.path.exists(norm_path):
+            with open(norm_path, 'r') as f:
+                self.best_norm = json.load(f)
+
+    def _save_best_norm(self):
+        norm_path = os.path.join(self.base_dir, "best_norm.json")
+        with open(norm_path, 'w') as f:
+            json.dump(self.best_norm, f, indent=2)
+
+    def propose(self, world_id: str) -> Dict[str, Any]:
+        if world_id not in self.best_configs or random.random() < 0.3:
+            conf = {
+                'gain': round(random.uniform(*self.param_ranges['gain']), 3),
+                'temperature': round(random.uniform(*self.param_ranges['temperature']), 3),
+                'lr': round(random.uniform(*self.param_ranges['lr']), 6),
+                'n_embd': random.choice(self.param_ranges['n_embd']),
+                'n_head': random.choice(self.param_ranges['n_head']),
+                'n_layer': random.randint(*self.param_ranges['n_layer']),
+                'block_size': random.randint(*self.param_ranges['block_size'])
+            }
+        else:
+            best = self.best_configs[world_id].copy()
+            if world_id not in self.sensitivity:
+                self.sensitivity[world_id] = {}
+                for p in self.param_ranges:
+                    if isinstance(self.param_ranges[p], tuple):
+                        self.sensitivity[world_id][p] = {'up': [], 'down': []}
+            sens = self.sensitivity[world_id]
+            for param in list(best.keys()):
+                if param not in sens:
+                    continue
+                up, down = sens[param]['up'], sens[param]['down']
+                direction = 1 if (up and down and np.mean(up) > np.mean(down)) else random.choice([-1, 1])
+                if param == 'lr':
+                    best[param] *= (random.uniform(0.5, 1.5) ** direction)
+                else:
+                    low, high = self.param_ranges.get(param, (0, 1))
+                    step = (high - low) * 0.1
+                    best[param] += direction * step
+                low, high = self.param_ranges.get(param, (0, 1))
+                best[param] = max(low, min(high, best[param]))
+                if param in ('n_embd', 'n_head', 'n_layer', 'block_size'):
+                    best[param] = int(round(best[param]))
+                else:
+                    best[param] = round(best[param], 5) if param == 'lr' else round(best[param], 3)
+            if best['n_embd'] % best['n_head'] != 0:
+                best['n_head'] = 2
+            conf = best
+        conf['n_embd'] = int(conf['n_embd'])
+        conf['n_head'] = int(conf['n_head'])
+        conf['n_layer'] = int(conf['n_layer'])
+        conf['block_size'] = int(conf['block_size'])
+        return conf
+
+    def commit(self, world_id: str, config: Dict[str, Any], metrics: Dict[str, float], model_path: Optional[str] = None, norm_params: Optional[Dict] = None, is_mutation: bool = True) -> bool:
+        record = {
+            'world_id': world_id,
+            'timestamp': datetime.now(timezone.utc).isoformat(),
+            **config,
+            **metrics
+        }
+        self.history.append(record)
+        csv_path = os.path.join(self.base_dir, f"{world_id}_history.csv")
+        file_exists = os.path.isfile(csv_path)
+        with open(csv_path, 'a', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=record.keys())
+            if not file_exists:
+                writer.writeheader()
+            writer.writerow(record)
+
+        if is_mutation and world_id in self.best_configs:
+            prev = self.best_configs[world_id]
+            delta = metrics.get('score', -metrics.get('loss', 0)) - prev.get('score', 0)
+            if world_id not in self.sensitivity:
+                self.sensitivity[world_id] = {}
+                for p in self.param_ranges:
+                    if isinstance(self.param_ranges[p], tuple):
+                        self.sensitivity[world_id][p] = {'up': [], 'down': []}
+            for param in config:
+                if param not in self.sensitivity[world_id]:
+                    continue
+                if config[param] > prev[param] + 1e-6:
+                    self.sensitivity[world_id][param]['up'].append(delta)
+                    if len(self.sensitivity[world_id][param]['up']) > 20:
+                        self.sensitivity[world_id][param]['up'].pop(0)
+                elif config[param] < prev[param] - 1e-6:
+                    self.sensitivity[world_id][param]['down'].append(delta)
+                    if len(self.sensitivity[world_id][param]['down']) > 20:
+                        self.sensitivity[world_id][param]['down'].pop(0)
+
+        current_score = metrics.get('score', -metrics.get('loss', 0))
+        if world_id not in self.best_configs or current_score > self.best_configs[world_id].get('score', -1e9):
+            self.best_configs[world_id] = {**config, 'score': current_score}
+            self._save_best()
+            if model_path:
+                self.best_models[world_id] = model_path
+                self._save_best_models()
+            if norm_params:
+                self.best_norm[world_id] = norm_params
+                self._save_best_norm()
+            return True
+        return False
+
+    def get_best_model_path(self, world_id: str) -> Optional[str]:
+        return self.best_models.get(world_id)
+
+    def get_best_norm(self, world_id: str) -> Optional[Dict]:
+        return self.best_norm.get(world_id)
+
+    def save_prediction(self, world_id: str, input_data: Any, prediction: Any, target: Any = None):
+        pred_dir = os.path.join(self.base_dir, "predictions", world_id)
+        os.makedirs(pred_dir, exist_ok=True)
+        filename = f"pred_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+        data = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "input": input_data,
+            "prediction": prediction,
+            "target": target
+        }
+        with open(os.path.join(pred_dir, filename), 'w') as f:
+            json.dump(data, f, indent=2)
+
+# ----------------------------------------------------------------------
+# 3. УНИВЕРСАЛЬНАЯ МОДЕЛЬ AllMiniGPT (только реальные данные)
+# ----------------------------------------------------------------------
+class AllMiniGPT:
+    def __init__(self, config: Dict[str, Any], load_best: bool = True):
+        self.config = config
+        self.n_layer = config.get('n_layer', 2)
+        self.n_embd = config.get('n_embd', 32)
+        self.block_size = config.get('block_size', 24)
+        self.n_head = config.get('n_head', 4)
+        self.head_dim = self.n_embd // self.n_head
+        assert self.n_embd % self.n_head == 0
+
+        self.worlds = {}
+        self.state_dict = {
+            "wpe": self._matrix(self.block_size, self.n_embd),
+        }
+        for i in range(self.n_layer):
+            self.state_dict[f"attn_wq{i}"] = self._matrix(self.n_embd, self.n_embd)
+            self.state_dict[f"attn_wk{i}"] = self._matrix(self.n_embd, self.n_embd)
+            self.state_dict[f"attn_wv{i}"] = self._matrix(self.n_embd, self.n_embd)
+            self.state_dict[f"attn_wo{i}"] = self._matrix(self.n_embd, self.n_embd)
+            self.state_dict[f"mlp_fc1{i}"] = self._matrix(4*self.n_embd, self.n_embd)
+            self.state_dict[f"mlp_fc2{i}"] = self._matrix(self.n_embd, 4*self.n_embd)
+
+        self.params = [p for mat in self.state_dict.values() for row in mat for p in row]
+        self.memory = ExperimentMemory()
+        self.slime_trace = {id(p): 1.0 for p in self.params}
+        self.grad_history = deque(maxlen=512)
+        self.loss_history = deque(maxlen=512)
+
+        self.norm_params = {}
+
+        if load_best:
+            self._load_best_model_and_norm()
+
+    def _matrix(self, rows, cols, std=0.08):
+        return [[Value(random.gauss(0, std)) for _ in range(cols)] for _ in range(rows)]
+
+    def register_world(self, world_id: str, state_dim: int, norm_mean: Optional[List[float]] = None, norm_std: Optional[List[float]] = None):
+        if world_id in self.worlds:
+            return
+        in_proj = self._matrix(self.n_embd, state_dim)
+        out_proj = self._matrix(state_dim, self.n_embd)
+        self.state_dict[f"{world_id}_in_proj"] = in_proj
+        self.state_dict[f"{world_id}_out_proj"] = out_proj
+        self.params.extend([p for row in in_proj for p in row])
+        self.params.extend([p for row in out_proj for p in row])
+        self.worlds[world_id] = {
+            "state_dim": state_dim,
+            "in_proj": in_proj,
+            "out_proj": out_proj,
+            "history": []
+        }
+        for p in self.params:
+            if id(p) not in self.slime_trace:
+                self.slime_trace[id(p)] = 1.0
+        if norm_mean is None:
+            norm_mean = [0.0] * state_dim
+        if norm_std is None:
+            norm_std = [1.0] * state_dim
+        self.norm_params[world_id] = {"mean": np.array(norm_mean), "std": np.array(norm_std)}
+
+    def compute_norm_from_sequences(self, world_id: str, sequences: List[List[List[float]]]):
+        all_vectors = []
+        for seq in sequences:
+            for vec in seq:
+                all_vectors.append(vec)
+        if not all_vectors:
+            print(f"⚠️ Нет данных для нормализации {world_id}, оставляем стандартную")
+            return
+        all_vectors = np.array(all_vectors)
+        mean = np.mean(all_vectors, axis=0)
+        std = np.std(all_vectors, axis=0)
+        std = np.where(std < 1e-6, 1.0, std)
+        self.norm_params[world_id] = {"mean": mean, "std": std}
+        print(f"Вычислена нормализация для {world_id}: mean={mean[:3]}..., std={std[:3]}...")
+
+    def normalize(self, world_id: str, vec: List[float]) -> List[float]:
+        norm = self.norm_params[world_id]
+        return ((np.array(vec) - norm["mean"]) / (norm["std"] + 1e-8)).tolist()
+
+    def denormalize(self, world_id: str, vec: List[float]) -> List[float]:
+        norm = self.norm_params[world_id]
+        return (np.array(vec) * (norm["std"] + 1e-8) + norm["mean"]).tolist()
+
+    def linear(self, x, w):
+        return [sum(wi * xi for wi, xi in zip(row, x)) for row in w]
+
+    def softmax(self, logits):
+        maxv = max(v.data if isinstance(v, Value) else v for v in logits)
+        exps = [(v - maxv).exp() if isinstance(v, Value) else math.exp(v - maxv) for v in logits]
+        total = sum(v.data if isinstance(v, Value) else v for v in exps)
+        return [v / total for v in exps]
+
+    def rmsnorm(self, x):
+        mean_sq = sum((v.data if isinstance(v, Value) else v)**2 for v in x) / len(x)
+        scale = (mean_sq + 1e-5) ** -0.5
+        return [v * scale for v in x]
+
+    def forward(self, world_id: str, state_vec: List[float], pos_id: int, keys: List[List], values: List[List]) -> List[Value]:
+        world = self.worlds[world_id]
+        emb = self.linear(state_vec, world["in_proj"])
+        pos_emb = self.state_dict["wpe"][pos_id % self.block_size]
+        x = self.rmsnorm([e + p for e, p in zip(emb, pos_emb)])
+        for i in range(self.n_layer):
+            residual = x
+            x = self.rmsnorm(x)
+            q = self.linear(x, self.state_dict[f"attn_wq{i}"])
+            k = self.linear(x, self.state_dict[f"attn_wk{i}"])
+            v = self.linear(x, self.state_dict[f"attn_wv{i}"])
+            keys[i].append(k)
+            values[i].append(v)
+            attended = []
+            for h in range(self.n_head):
+                start = h * self.head_dim
+                qh = q[start:start+self.head_dim]
+                kh = [item[start:start+self.head_dim] for item in keys[i]]
+                vh = [item[start:start+self.head_dim] for item in values[i]]
+                logits = [sum(qh[j] * kh[t][j] for j in range(self.head_dim)) / (self.head_dim**0.5) for t in range(len(kh))]
+                w = self.softmax(logits)
+                out_h = [sum(w[t] * vh[t][j] for t in range(len(vh))) for j in range(self.head_dim)]
+                attended.extend(out_h)
+            x = [a + b for a, b in zip(self.linear(attended, self.state_dict[f"attn_wo{i}"]), residual)]
+            residual = x
+            x = self.rmsnorm(x)
+            x = [val.relu() for val in self.linear(x, self.state_dict[f"mlp_fc1{i}"])]
+            x = [a + b for a, b in zip(self.linear(x, self.state_dict[f"mlp_fc2{i}"]), residual)]
+        return self.linear(x, world["out_proj"])
+
+    def train_step(self, world_id: str, sequence: List[List[float]], config: Optional[Dict] = None, lr: float = 0.01) -> Tuple[float, Dict]:
+        if len(sequence) < 2:
+            return 0.0, {}
+        norm_seq = [self.normalize(world_id, vec) for vec in sequence]
+        keys = [[] for _ in range(self.n_layer)]
+        values = [[] for _ in range(self.n_layer)]
+        losses = []
+        seq = norm_seq[:self.block_size]
+        for pos in range(len(seq)-1):
+            current = [Value(v) for v in seq[pos]]
+            target = seq[pos+1]
+            pred = self.forward(world_id, current, pos, keys, values)
+            loss = sum((pred[i] - target[i])**2 for i in range(self.worlds[world_id]["state_dim"]))
+            losses.append(loss)
+        total_loss = (1.0 / len(losses)) * sum(losses, Value(0.0))
+        if math.isnan(total_loss.data):
+            return 0.0, {}
+        total_loss.backward()
+        total_grad_norm = 0.0
+        max_bond = 0.0
+        for p in self.params:
+            p.grad = max(-1.0, min(1.0, p.grad))
+            total_grad_norm += p.grad**2
+            error = abs(p.grad)
+            bond = math.exp(-error)
+            max_bond = max(max_bond, bond)
+            old = self.slime_trace.get(id(p), 1.0)
+            self.slime_trace[id(p)] = 0.9 * old + 0.1 * bond
+            effective_lr = lr * bond
+            p.data -= effective_lr * p.grad
+            p.grad = 0.0
+        total_grad_norm = math.sqrt(total_grad_norm)
+        self.grad_history.append(total_grad_norm)
+        self.loss_history.append(total_loss.data)
+        self.worlds[world_id]["history"].append((sequence, total_loss.data))
+        metrics = {"loss": total_loss.data, "grad_norm": total_grad_norm, "max_bond": max_bond}
+        if config is None:
+            config = {
+                'gain': 1.0, 'temperature': 1.0, 'lr': lr,
+                'n_embd': self.n_embd, 'n_head': self.n_head,
+                'n_layer': self.n_layer, 'block_size': self.block_size
+            }
+        norm_params_for_save = {
+            'mean': self.norm_params[world_id]['mean'].tolist(),
+            'std': self.norm_params[world_id]['std'].tolist()
+        }
+        model_path = None
+        is_best = self.memory.commit(world_id, config, {"loss": total_loss.data, "score": -total_loss.data}, model_path, norm_params_for_save, is_mutation=True)
+        if is_best:
+            model_path = os.path.join(self.memory.base_dir, f"{world_id}_best_model.pkl")
+            self.save(model_path)
+            self.memory.commit(world_id, config, {"loss": total_loss.data, "score": -total_loss.data}, model_path, norm_params_for_save, is_mutation=True)
+        return total_loss.data, metrics
+
+    def predict_next(self, world_id: str, state_vec: List[float]) -> List[float]:
+        norm_vec = self.normalize(world_id, state_vec)
+        keys = [[] for _ in range(self.n_layer)]
+        values = [[] for _ in range(self.n_layer)]
+        pred_norm = self.forward(world_id, [Value(v) for v in norm_vec], 0, keys, values)
+        pred = [p.data for p in pred_norm]
+        return self.denormalize(world_id, pred)
+
+    def _load_best_model_and_norm(self):
+        for world_id in ["solar", "light", "water", "atom", "vacuum", "fractal"]:
+            path = self.memory.get_best_model_path(world_id)
+            if path and os.path.exists(path):
+                try:
+                    self.load(path)
+                    print(f"Загружена лучшая модель для мира {world_id} из {path}")
+                except Exception as e:
+                    print(f"Не удалось загрузить модель для {world_id}: {e}")
+            norm = self.memory.get_best_norm(world_id)
+            if norm:
+                self.norm_params[world_id] = {"mean": np.array(norm['mean']), "std": np.array(norm['std'])}
+                print(f"Загружена нормализация для {world_id}")
+
+    def save(self, path: str):
+        weights = {name: [[p.data for p in row] for row in mat] for name, mat in self.state_dict.items()}
+        with open(path, 'wb') as f:
+            pickle.dump(weights, f)
+
+    def load(self, path: str):
+        with open(path, 'rb') as f:
+            weights = pickle.load(f)
+        for name, mat in weights.items():
+            if name in self.state_dict:
+                for i, row in enumerate(mat):
+                    if i < len(self.state_dict[name]):
+                        for j, val in enumerate(row):
+                            if j < len(self.state_dict[name][i]):
+                                self.state_dict[name][i][j].data = float(val)
+
+# ----------------------------------------------------------------------
+# 4. ЗАГРУЗКА РЕАЛЬНЫХ ДАННЫХ GOES (БЕЗ СИНТЕТИКИ)
+# ----------------------------------------------------------------------
+def load_solar_flare_data_real(days: int = 7) -> Tuple[List[float], List[datetime]]:
+    """
+    Загружает ТОЛЬКО реальные данные GOES за последние days дней.
+    Если данных нет или недостаточно – возвращает пустые списки.
+    """
+    # Используем URL, который даёт данные за последние 7 дней
+    url = "https://services.swpc.noaa.gov/json/goes/primary/xray-flares-7-day.json"
+    try:
+        with urllib.request.urlopen(url, timeout=15) as f:
+            data = json.load(f)
+        print(f"Данные загружены из {url}")
+        if isinstance(data, list) and len(data) > 0:
+            print(f"Пример первого элемента: {json.dumps(data[0], indent=2)[:200]}")
+        else:
+            print("Пустой ответ от сервера")
+            return [], []
+    except Exception as e:
+        print(f"Не удалось загрузить данные: {e}")
+        return [], []
+
+    fluxes = []
+    times = []
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    for item in data:
+        # Берём пиковый поток max_xrlong или текущий current_int_xrlong
+        flux = item.get('max_xrlong') or item.get('current_int_xrlong')
+        if flux is None:
+            continue
+        time_str = item.get('time_tag') or item.get('begin_time')
+        if not time_str:
+            continue
+        try:
+            # Формат времени "2026-04-14T02:03:00Z"
+            dt = datetime.strptime(time_str, "%Y-%m-%dT%H:%M:%SZ")
+        except:
+            continue
+        dt = dt.replace(tzinfo=timezone.utc)
+        if dt < cutoff:
+            continue
+        fluxes.append(float(flux))
+        times.append(dt)
+    if not fluxes:
+        print("Не найдено подходящих измерений.")
+        return [], []
+    # Сортируем по времени
+    paired = sorted(zip(times, fluxes))
+    times = [p[0] for p in paired]
+    fluxes = [p[1] for p in paired]
+    return fluxes, times
+
+def build_solar_sequences(fluxes: List[float], window: int = 12) -> List[List[List[float]]]:
+    """Строит последовательности на основе логарифма потока и производной."""
+    if len(fluxes) < window + 2:
+        return []
+    log_fluxes = [math.log10(max(f, 1e-12)) for f in fluxes]
+    seqs = []
+    for i in range(len(log_fluxes) - window - 1):
+        window_seq = []
+        for j in range(window):
+            val = log_fluxes[i+j]
+            deriv = log_fluxes[i+j+1] - log_fluxes[i+j] if j+1 < len(log_fluxes) else 0.0
+            window_seq.append([val, deriv])
+        seqs.append(window_seq)
+    return seqs
+
+# ----------------------------------------------------------------------
+# 5. ОСНОВНОЙ ЭКСПЕРИМЕНТ (ТОЛЬКО РЕАЛЬНЫЕ ДАННЫЕ)
+# ----------------------------------------------------------------------
+if __name__ == "__main__":
+    print("="*70)
+    print("🌟 ALL_STARS_GPT – Универсальная научная модель (только реальные данные)")
+    print("="*70)
+
+    init_config = {
+        'n_layer': 2,
+        'n_embd': 16,
+        'block_size': 12,
+        'n_head': 4
+    }
+    model = AllMiniGPT(init_config, load_best=True)
+
+    model.register_world("solar", state_dim=2)
+    model.register_world("light", state_dim=4)
+    model.register_world("water", state_dim=5)
+    model.register_world("atom", state_dim=8)
+    model.register_world("vacuum", state_dim=5)
+    model.register_world("fractal", state_dim=5)
+
+    print("\n📡 Загрузка реальных данных GOES (последние 7 дней)...")
+    fluxes, times = load_solar_flare_data_real(days=7)
+    print(f"Загружено реальных точек: {len(fluxes)}")
+    if len(fluxes) < 20:
+        print("❌ Недостаточно реальных данных для обучения (нужно минимум 20 измерений).")
+        print("   Попробуйте позже или используйте другой источник.")
+        exit(1)
+
+    seqs_raw = build_solar_sequences(fluxes, window=12)
+    print(f"Сформировано последовательностей: {len(seqs_raw)} (длина окна 12)")
+    if len(seqs_raw) < 2:
+        print("❌ Недостаточно последовательностей для обучения.")
+        exit(1)
+
+    model.compute_norm_from_sequences("solar", seqs_raw)
+    seqs_norm = [[model.normalize("solar", vec) for vec in seq] for seq in seqs_raw]
+
+    print("\n🚀 Обучение модели на реальных солнечных данных...")
+    for trial in range(30):
+        config = model.memory.propose("solar")
+        lr = config['lr']
+        seq = random.choice(seqs_norm)
+        loss, _ = model.train_step("solar", seq, config=config, lr=lr)
+        if trial % 5 == 0:
+            print(f"Триал {trial:2d}: loss={loss:.4f}, lr={lr:.5f}, n_embd={config['n_embd']}, n_head={config['n_head']}")
+
+    # Прогноз
+    if seqs_raw:
+        last_state_raw = seqs_raw[-1][-1]
+        last_state_norm = model.normalize("solar", last_state_raw)
+        pred_norm = model.predict_next("solar", last_state_norm)
+        pred_raw = model.denormalize("solar", pred_norm)
+        pred_flux = 10 ** pred_raw[0]
+        print("\n🔮 ПРОГНОЗ НА ОСНОВЕ РЕАЛЬНЫХ ДАННЫХ:")
+        print(f"   Последний измеренный поток: {10**last_state_raw[0]:.2e} Вт/м²")
+        print(f"   Предсказанный поток: {pred_flux:.2e} Вт/м²")
+        if pred_flux > 1e-5:
+            print("   ⚠️ ВОЗМОЖНА ВСПЫШКА КЛАССА M ИЛИ ВЫШЕ")
+        else:
+            print("   ✅ Вспышка маловероятна в ближайший час")
+    else:
+        print("\n⚠️ Нет данных для прогноза")
+
+    model.save("all_stars_gpt_best.pkl")
+    print("\n💾 Модель сохранена.")

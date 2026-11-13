@@ -1,0 +1,263 @@
+# -*- coding: utf-8 -*-
+"""
+[PROJECT JANUS: CORE v300.0 - PURE MONOLITH]
+Архитектура: Base Station (Базовая станция).
+Назначение: Хостинг модулей, связь с Google API, БД и Нервная система.
+Логика: "Ядро держит небо, Атланты (модули) двигают горы".
+
+ОСОБЕННОСТИ:
+  - MINIMALISM: Весь лишний жир (Primus, Digest) срезан.
+  - STABILITY: SmartKeyring (Titan) + FastMemory.
+  - MODULARITY: Nexus запускает всё, что лежит в modules/.
+"""
+
+import os
+import sys
+import logging
+import json
+import random
+import asyncio
+import aiosqlite
+import aiohttp
+import time
+import re
+import math
+import base64
+import mimetypes
+import importlib.util
+import heapq
+import functools
+from datetime import datetime, timezone
+import cachetools
+
+# --- SYSTEM SETUP ---
+if sys.version_info < (3, 7):
+    import codecs
+    try: sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+    except: pass
+else:
+    try: sys.stdout.reconfigure(encoding='utf-8')
+    except: pass
+
+ICONS = {
+    "crown": "\U0001F451", "boot": "\U0001F916", "nerve": "\U0001F9E0",
+    "db": "\U0001F4BE", "key": "\U0001F511", "plugin": "\U0001F50C",
+    "error": "\u274C", "warn": "\u26A0", "ok": "\u2705"
+}
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%H:%M:%S')
+logger = logging.getLogger("JANUS")
+FACTORY_KEY_POOL = []
+
+# ==============================================================================
+# 1. INFRASTRUCTURE
+# ==============================================================================
+class Settings:
+    DEFAULT = {
+        "stm_capacity": 30, "model_vision": "gemini-2.0-flash-exp", 
+        "model_embedding": "text-embedding-004", "nerve_config": {"port": 514}
+    }
+    def __init__(self, f="settings.json"):
+        self.f = f; self.data = self.DEFAULT.copy(); self.load()
+    def load(self):
+        if os.path.exists(self.f):
+            try:
+                with open(self.f, 'r', encoding='utf-8') as f: self.data.update(json.load(f))
+            except: pass
+        else: self.save()
+    def save(self):
+        try:
+            with open(self.f, 'w', encoding='utf-8') as f: json.dump(self.data, f, indent=4)
+        except: pass
+    def get(self, k, d=None): return self.data.get(k, d if d is not None else self.DEFAULT.get(k))
+
+class SmartKeyring:
+    """Архитектура Titan: Heap Queue + Lock для ротации ключей."""
+    def __init__(self, raw_keys):
+        self.heap = []; self._lock = asyncio.Lock(); self.reload(raw_keys)
+    def reload(self, raw_keys):
+        unique = set(raw_keys); env = os.environ.get("JANUS_API_KEY")
+        if env: unique.add(env)
+        self.heap = []
+        for k in unique: heapq.heappush(self.heap, [0.0, 0.0, k])
+        if self.heap: logger.info(f"{ICONS['key']} KEYRING: Loaded {len(self.heap)} keys.")
+    
+    async def get_best_key(self):
+        async with self._lock:
+            if not self.heap: return None
+            score, last, key = heapq.heappop(self.heap)
+            if score > 50: await asyncio.sleep(max(0, 1.0 - (time.time() - last)))
+            heapq.heappush(self.heap, [score, time.time(), key])
+            return key
+            
+    async def report_status(self, key, status):
+        async with self._lock:
+            idx = -1
+            for i, x in enumerate(self.heap):
+                if x[2] == key: idx = i; break
+            if idx == -1: return
+            item = self.heap.pop(idx)
+            if status == "OK": item[0] = max(0, item[0]-0.5)
+            elif status == "RATE_LIMIT": item[0] += 20
+            elif status == "DEAD": return 
+            heapq.heappush(self.heap, item)
+
+class JanusHippocampus:
+    def __init__(self, db="janus.db"): self.path = os.path.join(os.getcwd(), db)
+    async def init_db(self):
+        async with aiosqlite.connect(self.path) as db:
+            await db.execute("CREATE TABLE IF NOT EXISTS thoughts (id INTEGER PRIMARY KEY, timestamp TEXT, source TEXT, content TEXT, tags TEXT, vector BLOB)")
+            await db.execute("CREATE TABLE IF NOT EXISTS vault (id INTEGER PRIMARY KEY, key_type TEXT, value TEXT, UNIQUE(value))")
+            await db.execute("CREATE TABLE IF NOT EXISTS graph_state (id INTEGER PRIMARY KEY, data TEXT)")
+            await db.commit()
+            logger.info(f"{ICONS['db']} HIPPOCAMPUS: Online.")
+
+    async def remember(self, src, content, vec=None):
+        if not isinstance(content, str): content = json.dumps(content)
+        v_blob = json.dumps(vec).encode() if vec else None
+        try:
+            async with aiosqlite.connect(self.path) as db:
+                await db.execute("INSERT INTO thoughts (timestamp, source, content, vector) VALUES (?,?,?,?)", 
+                    (datetime.now(timezone.utc).isoformat(), src, content, v_blob))
+                await db.commit()
+        except: pass
+
+    async def get_all_keys(self):
+        try:
+            async with aiosqlite.connect(self.path) as db:
+                return [r[0] for r in await (await db.execute("SELECT value FROM vault")).fetchall()]
+        except: return []
+
+# ==============================================================================
+# 2. CORE SYSTEMS (NERVE, FACE, NEXUS)
+# ==============================================================================
+class JanusNerveUDP(asyncio.DatagramProtocol):
+    def __init__(self, q): self.q = q
+    def datagram_received(self, data, addr): self.q.put_nowait((data.decode(errors='ignore'), "UDP"))
+
+class JanusNerve:
+    def __init__(self, engine):
+        self.engine = engine; self.q = asyncio.Queue()
+    async def start(self):
+        p = self.engine.settings.get('nerve_config', {}).get('port', 514)
+        try:
+            await asyncio.get_running_loop().create_datagram_endpoint(lambda: JanusNerveUDP(self.q), local_addr=('0.0.0.0', p))
+            logger.info(f"{ICONS['nerve']} NERVE: Listening on UDP {p}")
+            asyncio.create_task(self._process())
+        except: pass
+    async def _process(self):
+        while True:
+            d, s = await self.q.get()
+            if "error" in d.lower(): await self.engine.memory.remember(f"LOG_{s}", d)
+            self.q.task_done()
+
+class JanusFace:
+    def __init__(self, k, s): self.k = k; self.s = s; self.sess = None
+    async def _call(self, url, pl, k):
+        if not self.sess: self.sess = aiohttp.ClientSession()
+        async with self.sess.post(f"{url}?key={k}", json=pl, timeout=60) as r:
+            if r.status == 200: await self.k.report_status(k, "OK"); return await r.json()
+            elif r.status == 429: await self.k.report_status(k, "RATE_LIMIT")
+            return "ERR"
+    
+    async def invoke(self, p, sys=None, temp=0.7, explicit_model=None):
+        m = explicit_model or "gemini-2.0-flash-exp"
+        if isinstance(m, list): m = m[0]
+        k = await self.k.get_best_key()
+        if not k: return "NO_KEYS"
+        
+        pl = {"contents": [{"parts": [{"text": p}]}], "generationConfig": {"temperature": temp}}
+        if sys: pl["system_instruction"] = {"parts": [{"text": sys}]}
+        
+        r = await self._call(f"https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent", pl, k)
+        if isinstance(r, dict) and 'candidates' in r: return r['candidates'][0]['content']['parts'][0]['text'].strip()
+        return "SILENCE"
+
+    async def get_embedding(self, txt):
+        k = await self.k.get_best_key()
+        if not k: return None
+        r = await self._call(f"https://generativelanguage.googleapis.com/v1beta/models/{self.s.get('model_embedding')}:embedContent", 
+            {"content": {"parts": [{"text": txt}]}}, k)
+        return r.get('embedding', {}).get('values') if isinstance(r, dict) else None
+
+class Nexus:
+    """Простой и надежный загрузчик модулей."""
+    def __init__(self, engine):
+        self.engine = engine; self.mdir = "modules"
+        if not os.path.exists(self.mdir): os.makedirs(self.mdir)
+
+    async def sync_and_run(self):
+        if random.random() > 0.4: return # Не спамим каждый тик
+        try:
+            for f in os.listdir(self.mdir):
+                if f.endswith(".py") and not f.startswith("_"):
+                    self._run_module(f)
+        except: pass
+
+    def _run_module(self, fname):
+        name = fname[:-3]; path = os.path.join(self.mdir, fname)
+        try:
+            spec = importlib.util.spec_from_file_location(name, path)
+            mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+            if hasattr(mod, "run"):
+                # Запускаем асинхронно, не блокируя ядро
+                asyncio.create_task(self._safe_exec(mod.run, name))
+        except Exception as e:
+            logger.error(f"{ICONS['warn']} NEXUS: Load error {name}: {e}")
+
+    async def _safe_exec(self, func, name):
+        try:
+            if asyncio.iscoroutinefunction(func): await func(self.engine)
+            else: await asyncio.to_thread(func, self.engine)
+        except Exception as e:
+            logger.error(f"{ICONS['error']} NEXUS: Runtime error {name}: {e}")
+
+class ModelNavigator:
+    def __init__(self, f): self.f = f
+    def get_smart(self): return ["gemini-2.0-flash-exp"]
+    def get_fast(self): return ["gemini-1.5-flash"]
+
+# ==============================================================================
+# 3. MAIN ENGINE
+# ==============================================================================
+class AIEngine:
+    def __init__(self):
+        self.settings = Settings()
+        self.memory = JanusHippocampus()
+        self.fast_memory = cachetools.TTLCache(maxsize=30, ttl=600)
+        self.keyring = SmartKeyring(FACTORY_KEY_POOL)
+        self.face = JanusFace(self.keyring, self.settings)
+        self.nerve = JanusNerve(self)
+        self.nexus = Nexus(self)
+        self.navigator = ModelNavigator(self.face)
+        # Psyche Placeholder (for modules to read)
+        self.psyche = {"entropy": 20} 
+
+    async def start(self):
+        logger.info(f"{ICONS['crown']} JANUS CORE v300.0 [PURE MONOLITH] ONLINE")
+        await self.memory.init_db()
+        await self._load_keys()
+        await self.nerve.start()
+        
+        # Основной цикл
+        while True:
+            await asyncio.sleep(10) # 10 секунд такт
+            await self.nexus.sync_and_run()
+            
+            # Энтропия медленно падает (стабилизация)
+            if self.psyche['entropy'] > 10: self.psyche['entropy'] -= 1
+
+    async def _load_keys(self):
+        k = await self.memory.get_all_keys()
+        if os.path.exists('moons.txt'):
+            with open('moons.txt') as f:
+                for l in f: k.append(l.strip().replace('"',''))
+            os.remove('moons.txt')
+        self.keyring.reload(k)
+
+if __name__ == "__main__":
+    ai_engine = AIEngine()
+    try:
+        asyncio.run(ai_engine.start())
+    except KeyboardInterrupt:
+        logger.info("JANUS SHUTDOWN.")

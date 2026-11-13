@@ -1,0 +1,550 @@
+# -*- coding: utf-8 -*-
+"""
+MicroGPT-Slime: Self‑Building Autoregressive Model
+===================================================
+Интеграция принципов SelfBuildingOrganism (Cobblestone Generator,
+Oxytocin Bond, Slime Trace, Piston Push) в чистый Python‑автоградиентный
+трансформер. Модель динамически адаптирует архитектуру, сохраняет
+«следы успеха» и самоочищается от мёртвых весов.
+
+Основа: MicroGPT (Value‑based autograd, RMSNorm, Multi‑Head Attention).
+Добавлено:
+  - Cobblestone Generator: рождение новых нейронов на основе входного сигнала
+  - Oxytocin Bond: регуляция скорости обучения по величине ошибки
+  - Piston Head: кольцевой буфер для хранения истории активаций
+  - Slime Trace: карта «полезности» весов, используемая для обрезки
+  - Структурная эволюция: динамическое расширение/сжатие слоёв
+"""
+
+from __future__ import annotations
+
+import json
+import math
+import random
+import time
+from collections import deque
+from typing import Iterable, List, Dict, Optional, Tuple, Union
+
+import numpy as np
+
+from config import VOCAB_PATH
+
+# ----------------------------------------------------------------------
+# 1. Автоградиентное ядро (Value) — без изменений
+# ----------------------------------------------------------------------
+class Value:
+    __slots__ = ("data", "grad", "_children", "_local_grads")
+
+    def __init__(self, data, children=(), local_grads=()):
+        self.data = float(data)
+        self.grad = 0.0
+        self._children = children
+        self._local_grads = local_grads
+
+    def __add__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data + other.data, (self, other), (1, 1))
+
+    def __mul__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return Value(self.data * other.data, (self, other), (other.data, self.data))
+
+    def __pow__(self, other):
+        return Value(self.data**other, (self,), (other * self.data ** (other - 1),))
+
+    def log(self):
+        safe = self.data if self.data > 1e-15 else 1e-15
+        return Value(math.log(safe), (self,), (1.0 / safe,))
+
+    def exp(self):
+        e = math.exp(self.data)
+        return Value(e, (self,), (e,))
+
+    def relu(self):
+        return Value(max(0.0, self.data), (self,), (1.0 if self.data > 0 else 0.0,))
+
+    def __neg__(self):
+        return self * -1
+
+    def __radd__(self, other):
+        return self + other
+
+    def __sub__(self, other):
+        return self + (-other)
+
+    def __rsub__(self, other):
+        return other + (-self)
+
+    def __rmul__(self, other):
+        return self * other
+
+    def __truediv__(self, other):
+        return self * other**-1
+
+    def backward(self):
+        topo = []
+        visited = set()
+
+        def build(node):
+            if node in visited:
+                return
+            visited.add(node)
+            for child in node._children:
+                build(child)
+            topo.append(node)
+
+        build(self)
+        self.grad = 1.0
+        for node in reversed(topo):
+            for child, local_grad in zip(node._children, node._local_grads):
+                child.grad += local_grad * node.grad
+
+
+# ----------------------------------------------------------------------
+# 2. Основная модель MicroGPT‑Slime
+# ----------------------------------------------------------------------
+class MicroGPTSlime:
+    def __init__(self, vocab_size, n_layer=1, n_embd=16, block_size=16, n_head=4):
+        self.vocab_size = max(int(vocab_size), 2)
+        self.n_layer = int(n_layer)
+        self.n_embd = int(n_embd)
+        self.block_size = int(block_size)
+        self.n_head = int(n_head)
+        self.head_dim = self.n_embd // self.n_head
+        if self.head_dim * self.n_head != self.n_embd:
+            raise ValueError("n_embd must be divisible by n_head")
+
+        self.char_to_id = {}
+        self.id_to_char = {}
+        self._load_vocab()
+
+        # --- Вспомогательная функция создания матриц весов ---
+        def matrix(nout, nin, std=0.08):
+            return [[Value(random.gauss(0, std)) for _ in range(nin)] for _ in range(nout)]
+
+        self.state_dict = {
+            "wte": matrix(self.vocab_size, self.n_embd),
+            "wpe": matrix(self.block_size, self.n_embd),
+            "lm_head": matrix(self.vocab_size, self.n_embd),
+        }
+
+        for i in range(self.n_layer):
+            self.state_dict[f"layer{i}.attn_wq"] = matrix(self.n_embd, self.n_embd)
+            self.state_dict[f"layer{i}.attn_wk"] = matrix(self.n_embd, self.n_embd)
+            self.state_dict[f"layer{i}.attn_wv"] = matrix(self.n_embd, self.n_embd)
+            self.state_dict[f"layer{i}.attn_wo"] = matrix(self.n_embd, self.n_embd)
+            self.state_dict[f"layer{i}.mlp_fc1"] = matrix(4 * self.n_embd, self.n_embd)
+            self.state_dict[f"layer{i}.mlp_fc2"] = matrix(self.n_embd, 4 * self.n_embd)
+
+        self.params = [param for mat in self.state_dict.values() for row in mat for param in row]
+
+        # ----------------- СЛИЗЕВИК‑СТРУКТУРЫ -----------------
+        # Piston Head: кольцевой буфер истории градиентов / ошибок
+        self.grad_history = deque(maxlen=512)
+        self.loss_history = deque(maxlen=512)
+
+        # Slime Trace: словарь {id(param): bond_value} — «полезность» веса
+        self.slime_trace: Dict[int, float] = {}
+        for p in self.params:
+            self.slime_trace[id(p)] = 1.0   # начальная жизнеспособность
+
+        # Порог для сохранения нейрона (bond > threshold)
+        self.slime_threshold = 0.3
+
+        # DNA – структурная формула (количество нейронов в слоях расширения)
+        self.dna = {
+            "mlp_hidden_mult": 4,   # множитель для MLP
+            "n_head": self.n_head,
+        }
+
+    def _load_vocab(self):
+        try:
+            with open(VOCAB_PATH, "r", encoding="utf-8") as handle:
+                vocab_list = json.load(handle)
+            self.char_to_id = {token: i for i, token in enumerate(vocab_list)}
+            self.id_to_char = {i: token for i, token in enumerate(vocab_list)}
+        except Exception:
+            chars = list(
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,!?;:"
+                "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+                "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+            )
+            self.char_to_id = {ch: i for i, ch in enumerate(chars)}
+            self.id_to_char = {i: ch for i, ch in enumerate(chars)}
+
+        for special in ("<UNK>", "<BOS>", "<EOS>"):
+            if special not in self.char_to_id:
+                idx = len(self.char_to_id)
+                self.char_to_id[special] = idx
+                self.id_to_char[idx] = special
+        self.vocab_size = len(self.char_to_id)
+
+    # ------------------------------------------------------------------
+    # 3. Механизмы организма
+    # ------------------------------------------------------------------
+    def cobble_generator(self, input_signal: float, existing_weights: List[Value]) -> Value:
+        """
+        Cobblestone Generator: новый вес = (вход + лава) / 2
+        Лава — среднее значение существующих весов (или градиентов).
+        """
+        lava = sum(w.data for w in existing_weights) / max(1, len(existing_weights))
+        new_value = (input_signal + lava) / 2.0
+        return Value(new_value)
+
+    def oxytocin_bond(self, error: float) -> float:
+        """Oxytocin Bond: exp(-error) — чем меньше ошибка, тем выше связь."""
+        return math.exp(-error)
+
+    def piston_push(self, item: float) -> None:
+        """Piston Head: запись в кольцевой буфер."""
+        self.grad_history.append(item)
+
+    def update_slime_trace(self, param: Value, bond: float) -> None:
+        """Обновление следа слизевика для конкретного параметра."""
+        pid = id(param)
+        old = self.slime_trace.get(pid, 1.0)
+        # экспоненциальное сглаживание
+        self.slime_trace[pid] = 0.9 * old + 0.1 * bond
+
+    def structural_cleanup(self) -> int:
+        """
+        Удаление нейронов (целых строк/столбцов) с низким slime‑следом.
+        Возвращает количество удалённых параметров.
+        """
+        removed = 0
+        # Простейшая реализация: обнуляем веса с bond < threshold
+        for name, matrix in list(self.state_dict.items()):
+            new_matrix = []
+            for row in matrix:
+                new_row = []
+                for p in row:
+                    bond = self.slime_trace.get(id(p), 1.0)
+                    if bond < self.slime_threshold:
+                        p.data = 0.0
+                        removed += 1
+                    new_row.append(p)
+                new_matrix.append(new_row)
+            self.state_dict[name] = new_matrix
+        # Обновляем список параметров
+        self.params = [p for mat in self.state_dict.values() for row in mat for p in row]
+        return removed
+
+    def structural_expand(self, growth_signal: float) -> int:
+        """
+        Добавление новых нейронов в MLP‑слои при высокой «энергии роста».
+        Возвращает количество добавленных параметров.
+        """
+        added = 0
+        # Увеличиваем множитель скрытого слоя MLP
+        if growth_signal > 0.8:
+            self.dna["mlp_hidden_mult"] = min(8, self.dna["mlp_hidden_mult"] + 1)
+            new_hidden = self.dna["mlp_hidden_mult"] * self.n_embd
+            # Перестраиваем MLP матрицы для всех слоёв
+            for i in range(self.n_layer):
+                fc1_name = f"layer{i}.mlp_fc1"
+                fc2_name = f"layer{i}.mlp_fc2"
+                old_fc1 = self.state_dict[fc1_name]
+                old_fc2 = self.state_dict[fc2_name]
+
+                # Новые матрицы
+                new_fc1 = [[self.cobble_generator(0.5, [p for row in old_fc1 for p in row])
+                            for _ in range(self.n_embd)]
+                           for _ in range(new_hidden)]
+                new_fc2 = [[self.cobble_generator(0.5, [p for row in old_fc2 for p in row])
+                            for _ in range(new_hidden)]
+                           for _ in range(self.n_embd)]
+
+                # Копируем старые веса (если возможно)
+                for i_row in range(min(len(old_fc1), new_hidden)):
+                    for j_col in range(self.n_embd):
+                        new_fc1[i_row][j_col] = old_fc1[i_row][j_col]
+                for i_row in range(self.n_embd):
+                    for j_col in range(min(len(old_fc2[0]), new_hidden)):
+                        new_fc2[i_row][j_col] = old_fc2[i_row][j_col]
+
+                self.state_dict[fc1_name] = new_fc1
+                self.state_dict[fc2_name] = new_fc2
+                added += (new_hidden * self.n_embd) + (self.n_embd * new_hidden)
+
+        self.params = [p for mat in self.state_dict.values() for row in mat for p in row]
+        # Инициализируем slime‑след для новых параметров
+        for p in self.params:
+            if id(p) not in self.slime_trace:
+                self.slime_trace[id(p)] = 1.0
+        return added
+
+    # ------------------------------------------------------------------
+    # 4. Прямой проход (forward) — без изменений логики
+    # ------------------------------------------------------------------
+    def linear(self, x, w):
+        return [sum(weight * value for weight, value in zip(row, x)) for row in w]
+
+    def softmax(self, logits):
+        max_val = max(item.data if isinstance(item, Value) else item for item in logits)
+        exps = [(item - max_val).exp() if isinstance(item, Value) else math.exp(item - max_val) for item in logits]
+        total = sum(item.data if isinstance(item, Value) else item for item in exps)
+        return [item / total for item in exps]
+
+    def rmsnorm(self, x):
+        mean_square = sum((item.data if isinstance(item, Value) else item) ** 2 for item in x) / len(x)
+        scale = (mean_square + 1e-5) ** -0.5
+        return [item * scale for item in x]
+
+    def forward(self, token_id, pos_id, keys, values):
+        safe_token = int(token_id) % self.vocab_size
+        safe_pos = int(pos_id) % self.block_size
+        x = self.rmsnorm(
+            [
+                token_emb + pos_emb
+                for token_emb, pos_emb in zip(self.state_dict["wte"][safe_token], self.state_dict["wpe"][safe_pos])
+            ]
+        )
+
+        for layer_idx in range(self.n_layer):
+            residual = x
+            x = self.rmsnorm(x)
+
+            q = self.linear(x, self.state_dict[f"layer{layer_idx}.attn_wq"])
+            k = self.linear(x, self.state_dict[f"layer{layer_idx}.attn_wk"])
+            v = self.linear(x, self.state_dict[f"layer{layer_idx}.attn_wv"])
+
+            keys[layer_idx].append(k)
+            values[layer_idx].append(v)
+
+            attended = []
+            for head in range(self.n_head):
+                head_start = head * self.head_dim
+                q_head = q[head_start : head_start + self.head_dim]
+                k_head = [item[head_start : head_start + self.head_dim] for item in keys[layer_idx]]
+                v_head = [item[head_start : head_start + self.head_dim] for item in values[layer_idx]]
+
+                logits = [
+                    sum(q_head[j] * k_head[t][j] for j in range(self.head_dim)) / (self.head_dim**0.5)
+                    for t in range(len(k_head))
+                ]
+                weights = self.softmax(logits)
+                head_output = [
+                    sum(weights[t] * v_head[t][j] for t in range(len(v_head))) for j in range(self.head_dim)
+                ]
+                attended.extend(head_output)
+
+            x = [
+                out + res
+                for out, res in zip(self.linear(attended, self.state_dict[f"layer{layer_idx}.attn_wo"]), residual)
+            ]
+
+            residual = x
+            x = self.rmsnorm(x)
+            x = [item.relu() for item in self.linear(x, self.state_dict[f"layer{layer_idx}.mlp_fc1"])]
+            x = [
+                out + res
+                for out, res in zip(self.linear(x, self.state_dict[f"layer{layer_idx}.mlp_fc2"]), residual)
+            ]
+
+        return self.linear(x, self.state_dict["lm_head"])
+
+    # ------------------------------------------------------------------
+    # 5. Шаг обучения с интеграцией слизевика
+    # ------------------------------------------------------------------
+    def train_step(self, seq, lr=0.01) -> Tuple[float, Dict[str, float]]:
+        """
+        Возвращает loss и словарь с метриками слизевика.
+        """
+        if len(seq) < 2:
+            return 0.0, {}
+
+        keys = [[] for _ in range(self.n_layer)]
+        values = [[] for _ in range(self.n_layer)]
+        losses = []
+        effective = [int(token) % self.vocab_size for token in seq[: self.block_size]]
+
+        for pos in range(len(effective) - 1):
+            token_id = effective[pos]
+            target_id = effective[pos + 1]
+            logits = self.forward(token_id, pos, keys, values)
+            probs = self.softmax(logits)
+            losses.append(-probs[target_id].log())
+
+        loss = (1.0 / max(1, len(effective) - 1)) * sum(losses, Value(0.0))
+        if math.isnan(loss.data):
+            return 0.0, {}
+
+        loss.backward()
+
+        # --- Обработка градиентов с механизмами организма ---
+        total_grad_norm = 0.0
+        max_bond = 0.0
+        for param in self.params:
+            # Обрезаем градиент
+            param.grad = max(-1.0, min(1.0, param.grad))
+            total_grad_norm += param.grad ** 2
+
+            # Вычисляем «ошибку» как абсолютное значение градиента
+            error = abs(param.grad)
+            bond = self.oxytocin_bond(error)
+            max_bond = max(max_bond, bond)
+
+            # Обновляем след слизевика
+            self.update_slime_trace(param, bond)
+
+            # Адаптивная скорость обучения: lr умножается на bond
+            effective_lr = lr * bond
+            param.data -= effective_lr * param.grad
+            param.grad = 0.0
+
+        total_grad_norm = math.sqrt(total_grad_norm)
+        self.piston_push(total_grad_norm)
+        self.loss_history.append(loss.data)
+
+        # --- Структурная адаптация (раз в несколько шагов) ---
+        growth_signal = 0.0
+        removed = 0
+        added = 0
+        if len(self.loss_history) % 50 == 0:
+            avg_loss = sum(self.loss_history) / len(self.loss_history)
+            # Рост при низком среднем loss и высоком среднем bond
+            avg_bond = sum(self.slime_trace.values()) / len(self.slime_trace)
+            growth_signal = (1.0 - min(1.0, avg_loss / 5.0)) * avg_bond
+            if growth_signal > 0.7:
+                added = self.structural_expand(growth_signal)
+            # Очистка
+            removed = self.structural_cleanup()
+
+        metrics = {
+            "loss": loss.data,
+            "grad_norm": total_grad_norm,
+            "max_bond": max_bond,
+            "growth_signal": growth_signal,
+            "added_neurons": added,
+            "removed_neurons": removed,
+        }
+        return loss.data, metrics
+
+    # ------------------------------------------------------------------
+    # 6. Высокоуровневые методы тренировки и генерации (адаптированы)
+    # ------------------------------------------------------------------
+    def train_on_sequences(self, sequences, steps=100, lr=0.01, verbose=True):
+        if not sequences:
+            return
+        for step in range(steps):
+            seq = random.choice(sequences)
+            loss, metrics = self.train_step(seq, lr)
+            if verbose and step % 50 == 0:
+                print(f"Step {step}: loss={loss:.4f}, bond={metrics['max_bond']:.3f}, "
+                      f"growth={metrics['growth_signal']:.3f}, added={metrics['added_neurons']}, "
+                      f"removed={metrics['removed_neurons']}")
+
+    def evaluate(self, sequences):
+        if not sequences:
+            return 0.0
+        if isinstance(sequences[0], int):
+            sequences = [sequences]
+        losses = []
+        for seq in sequences:
+            if len(seq) < 2:
+                continue
+            keys = [[] for _ in range(self.n_layer)]
+            values = [[] for _ in range(self.n_layer)]
+            token_losses = []
+            effective = [int(token) % self.vocab_size for token in seq[: self.block_size]]
+            for pos in range(len(effective) - 1):
+                token_id = effective[pos]
+                target_id = effective[pos + 1]
+                logits = self.forward(token_id, pos, keys, values)
+                probs = self.softmax(logits)
+                token_losses.append(-probs[target_id].log().data)
+            if token_losses:
+                losses.append(sum(token_losses) / len(token_losses))
+        return float(sum(losses) / len(losses)) if losses else 0.0
+
+    def generate(self, start_token, max_len=32, temperature=0.8):
+        token = int(start_token) % self.vocab_size
+        tokens = [token]
+        keys = [[] for _ in range(self.n_layer)]
+        values = [[] for _ in range(self.n_layer)]
+
+        for pos in range(max(1, min(max_len, self.block_size)) - 1):
+            logits = self.forward(tokens[-1], pos, keys, values)
+            temp = max(float(temperature), 1e-3)
+            scaled = [item.data / temp for item in logits]
+            max_val = max(scaled)
+            exps = [math.exp(value - max_val) for value in scaled]
+            total = sum(exps)
+            probs = [value / total for value in exps]
+            next_token = int(np.random.choice(self.vocab_size, p=probs))
+            tokens.append(next_token)
+        return tokens
+
+    def tokenize_text(self, text):
+        return [self.char_to_id.get(ch, self.char_to_id["<UNK>"]) for ch in text]
+
+    def detokenize_text(self, tokens: Iterable[int]):
+        return "".join(self.id_to_char.get(int(token), "<UNK>") for token in tokens)
+
+    def generate_text(self, prompt, max_len=50, temperature=0.8):
+        prompt_tokens = self.tokenize_text(prompt) or [self.char_to_id["<BOS>"]]
+        start = prompt_tokens[-1]
+        generated = self.generate(start, max_len=max_len, temperature=temperature)
+        return self.detokenize_text(prompt_tokens[:-1] + generated)
+
+    # ------------------------------------------------------------------
+    # 7. Утилиты для сохранения/загрузки с учётом slime‑следа
+    # ------------------------------------------------------------------
+    def get_weights(self):
+        return {name: [[param.data for param in row] for row in matrix] for name, matrix in self.state_dict.items()}
+
+    def set_weights(self, weights):
+        for name, matrix in weights.items():
+            if name not in self.state_dict:
+                continue
+            for i, row in enumerate(matrix):
+                if i >= len(self.state_dict[name]):
+                    break
+                for j, value in enumerate(row):
+                    if j >= len(self.state_dict[name][i]):
+                        break
+                    self.state_dict[name][i][j].data = float(value)
+
+    def save(self, path):
+        import pickle
+        state = {
+            "weights": self.get_weights(),
+            "dna": self.dna,
+            "slime_trace": {str(k): v for k, v in self.slime_trace.items()},  # id не сериализуем напрямую
+        }
+        with open(path, "wb") as handle:
+            pickle.dump(state, handle)
+
+    def load(self, path):
+        import pickle
+        with open(path, "rb") as handle:
+            state = pickle.load(handle)
+        self.set_weights(state["weights"])
+        self.dna = state.get("dna", self.dna)
+        # Восстановить slime_trace приблизительно (id изменятся)
+        loaded_trace = state.get("slime_trace", {})
+        # Просто сбросим, чтобы не морочиться
+        self.slime_trace = {id(p): 1.0 for p in self.params}
+
+
+# ----------------------------------------------------------------------
+# 8. Пример использования
+# ----------------------------------------------------------------------
+if __name__ == "__main__":
+    # Демонстрация работы улучшенной модели
+    model = MicroGPTSlime(vocab_size=100, n_layer=1, n_embd=16, block_size=16, n_head=2)
+
+    # Искусственные данные (токены)
+    train_seqs = [[random.randint(0, 99) for _ in range(20)] for _ in range(50)]
+
+    print("=== Начало тренировки с механизмами слизевика ===")
+    model.train_on_sequences(train_seqs, steps=200, lr=0.02)
+
+    # Генерация текста (на случайном словаре)
+    prompt = "A"
+    generated = model.generate_text(prompt, max_len=30)
+    print(f"Сгенерировано: {generated}")
+
+    # Сохраняем модель
+    model.save("microgpt_slime.pkl")
+    print("Модель сохранена с slime‑следом и DNA.")
