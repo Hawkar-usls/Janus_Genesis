@@ -1,0 +1,70 @@
+name: ESSENCE v1.3 Source-Driven Organogenesis
+
+on:
+  pull_request:
+    paths:
+      - ".janus/essence/module_governor_v13.py"
+      - ".janus/essence/module_manifest_v13.json"
+      - "research/essence/module_organogenesis_v13/**"
+      - "tests/test_essence_module_governor_v13.py"
+      - ".github/workflows/essence-module-organogenesis-v13.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: '17 3 * * *'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: essence-v13-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  research-organogenesis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Guard parent six-core contracts and historical-source safety
+        run: |
+          python -m unittest discover -s tests -p 'test_essence_module_governor_v13.py' -v
+          python -m unittest discover -s tests -p 'test_essence_kernel.py' -q
+      - name: Read only the previous successful same-repo research generation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          mkdir -p .essence_v13_previous
+          while read -r run_id; do
+            [ -n "$run_id" ] || continue
+            gh run download "$run_id" -n essence-v13-research-generation -D .essence_v13_previous >/dev/null 2>&1 || continue
+            if [ -s .essence_v13_previous/ci_generation.json ]; then
+              echo "PREVIOUS_V13=.essence_v13_previous/ci_generation.json" >> "$GITHUB_ENV"
+              break
+            fi
+          done < <(gh run list --workflow essence-module-organogenesis-v13.yml --branch main --status success --limit 4 --json databaseId --jq '.[].databaseId' 2>/dev/null || true)
+      - name: Test bounded candidates and create independent research evidence
+        shell: bash
+        run: |
+          args=()
+          if [ -n "${PREVIOUS_V13:-}" ]; then
+            args+=(--history "$PREVIOUS_V13")
+          fi
+          python .janus/essence/module_governor_v13.py \
+            --manifest .janus/essence/module_manifest_v13.json \
+            --root .janus/essence/manifest.json \
+            --cases research/essence/module_organogenesis_v13/corrected_cases.json \
+            --catalog research/essence/module_organogenesis_v13/frozen_historical_catalog.json \
+            --out research/essence/module_organogenesis_v13/ci_generation.json \
+            --allow-readonly "${args[@]}"
+      - name: Upload research-only lineage receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-v13-research-generation
+          path: research/essence/module_organogenesis_v13/ci_generation.json
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,257 @@
+{
+  "schema": "janus.essence.organogenesis_frozen_cases/1.3",
+  "created_utc": "2026-11-13",
+  "origin": "HISTORICAL_PC_MODULE_NAMES_AND_DEMIURGE_AUDIT; SYNTHETIC_EDGE_WEIGHTS",
+  "holdout": "PUBLIC_SEPARATE_REPO_FIXED_BEFORE_RECONSTRUCTION",
+  "externally_blinded": false,
+  "independent_external_signature": false,
+  "graph": {
+    "nodes": [
+      "Genesis",
+      "Ouroboros",
+      "Rex",
+      "Auditor",
+      "Conductor",
+      "Memory",
+      "NAS",
+      "Physarum",
+      "Slime",
+      "Turing"
+    ],
+    "edges": [
+      [
+        "Genesis",
+        "Ouroboros",
+        2
+      ],
+      [
+        "Ouroboros",
+        "Rex",
+        1
+      ],
+      [
+        "Rex",
+        "Auditor",
+        1
+      ],
+      [
+        "Auditor",
+        "Conductor",
+        1
+      ],
+      [
+        "Conductor",
+        "Memory",
+        1
+      ],
+      [
+        "Ouroboros",
+        "Memory",
+        99
+      ],
+      [
+        "Rex",
+        "Memory",
+        10
+      ],
+      [
+        "Conductor",
+        "NAS",
+        2
+      ],
+      [
+        "NAS",
+        "Memory",
+        2
+      ],
+      [
+        "Physarum",
+        "Memory",
+        1
+      ],
+      [
+        "Slime",
+        "Physarum",
+        1
+      ],
+      [
+        "Turing",
+        "Auditor",
+        2
+      ],
+      [
+        "Slime",
+        "NAS",
+        7
+      ],
+      [
+        "Genesis",
+        "Memory",
+        100
+      ],
+      [
+        "Turing",
+        "NAS",
+        20
+      ],
+      [
+        "Auditor",
+        "NAS",
+        3
+      ],
+      [
+        "Genesis",
+        "Physarum",
+        13
+      ]
+    ],
+    "queries": [
+      [
+        "Genesis",
+        "Memory",
+        6
+      ],
+      [
+        "Ouroboros",
+        "Memory",
+        4
+      ],
+      [
+        "Slime",
+        "Memory",
+        2
+      ],
+      [
+        "NAS",
+        "Memory",
+        2
+      ],
+      [
+        "Turing",
+        "Conductor",
+        3
+      ],
+      [
+        "Conductor",
+        "Slime",
+        null
+      ],
+      [
+        "Physarum",
+        "Auditor",
+        null
+      ],
+      [
+        "Auditor",
+        "Memory",
+        2
+      ],
+      [
+        "Rex",
+        "NAS",
+        4
+      ],
+      [
+        "Genesis",
+        "NAS",
+        7
+      ],
+      [
+        "Genesis",
+        "Genesis",
+        0
+      ]
+    ],
+    "weight_units": "SYNTHETIC_NONPHYSICAL_COST"
+  },
+  "dream_envelopes": [
+    {
+      "type": "NEW_MODULE_BLUEPRINT",
+      "title": "Graph Router",
+      "blueprint": "Determine bounded path scores for pinned memory graph sources",
+      "source": "OUROBOROS_GENESIS",
+      "expected_lane": "BLUEPRINT"
+    },
+    {
+      "type": "CODE_GENERATION",
+      "title": "Slime Trace",
+      "blueprint": "Bounded static precision candidate for local numeric vectors",
+      "source": "REX",
+      "expected_lane": "BLUEPRINT"
+    },
+    {
+      "type": "NEW_MODULE_IDEA",
+      "label": "Memory Dedupe",
+      "insight": "Preserve hashes while removing duplicate graph edges",
+      "source": "BLOODRAYNE",
+      "expected_lane": "BLUEPRINT"
+    },
+    {
+      "type": "dream",
+      "label": "Remembered lesson",
+      "content": "Replay a safe past decision without executing any code",
+      "source": "HYPNOS",
+      "expected_lane": "MEMORY"
+    },
+    {
+      "type": "game_event",
+      "label": "World trace",
+      "content": "A historical path was observed in the world walker",
+      "source": "GENESIS",
+      "expected_lane": "EXPERIENCE"
+    },
+    {
+      "type": "EVOLVED_BUFF",
+      "target_module": "slime_core",
+      "insight": "Reduce trace drift under bounded error",
+      "source": "BLOODRAYNE",
+      "expected_lane": "BLUEPRINT"
+    },
+    {
+      "type": "SYSTEM_BUFF",
+      "target_module": "mod_conductor",
+      "insight": "Add explicit deny by default to module startup",
+      "source": "BLOODRAYNE",
+      "expected_lane": "BLUEPRINT"
+    }
+  ],
+  "negative_controls": [
+    {
+      "type": "NEW_MODULE_BLUEPRINT",
+      "title": "Danger",
+      "blueprint": "exec arbitrary code",
+      "source": "REX",
+      "expected": "QUARANTINE"
+    },
+    {
+      "type": "CODE_GENERATION",
+      "title": "Overwrite",
+      "target_module": "mod_auditor",
+      "blueprint": "replace protected module",
+      "source": "REX",
+      "expected": "QUARANTINE"
+    },
+    {
+      "type": "UNKNOWN",
+      "title": "unknown",
+      "source": "UNKNOWN",
+      "expected": "QUARANTINE"
+    }
+  ],
+  "policy": {
+    "legacy_module_exec_allowed": false,
+    "nas_disk_write_allowed": false,
+    "production_auto_promote": false,
+    "research_proposals_allowed": true
+  },
+  "corrected_reference_provenance": {
+    "original_frozen_git_blob_sha1": "d995fbf8c824eee503dfdcaf17bcf8fa7dd9b999",
+    "original_frozen_commit": "a1fbda6b82cbb61aaba10df2a0dc6f6e15495e9e",
+    "erratum": "Turing->Auditor cost 2 + Auditor->Conductor cost 1 equals 3, not 4",
+    "discovered_by": "INDEPENDENT_REFERENCE_ORACLE_IN_FIRST_V13_LOCAL_RUN",
+    "date_utc": "2026-11-13",
+    "fixed_after_first_candidate_build": true,
+    "research_claim_limit": "NOT_AN_UNTOUCHED_BLIND_HOLDOUT",
+    "original_file_preserved": true
+  }
+}

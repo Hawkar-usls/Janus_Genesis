@@ -1,0 +1,63 @@
+{
+  "active_operators": [
+    "physarum_route",
+    "slime_trace",
+    "graph_dedupe",
+    "trinity_veto",
+    "dream_router",
+    "nas_snapshot"
+  ],
+  "automatic_birth": false,
+  "dream_bus": {
+    "blueprint_ids": [
+      "ab5598d728755c090ba4",
+      "5c375b7b788ae5884efc",
+      "f85a231fab26cd868fe1",
+      "0e8f8f68ece38262918a",
+      "9d14924824b417b4fb2a"
+    ],
+    "legacy_module_code_executed": false,
+    "producer_to_consumer_schema_v13": true,
+    "quarantined_controls": 3,
+    "routed": 7,
+    "unrouted_messages_deleted": false
+  },
+  "evaluated_candidates": [
+    "heap_route_v1"
+  ],
+  "external_blind_verification": false,
+  "frozen_cases_blob_sha1": "5b40e57e65eb53506378f329d76dbc627f8964bd",
+  "frozen_cases_sha256": "11d398971e78b33bf67630bcfe7fdae8ee3a0f9ffdc6bfc4b91ad26d4f8abf99",
+  "graph_fitness": {
+    "bad_child_counterexamples": 6,
+    "baseline": "bellman_ford_full_sweeps",
+    "cases": 11,
+    "child_scan_total": 52,
+    "exact_output_equivalence": true,
+    "first_bad_child_case_index": 0,
+    "gate": "RESEARCH_OFFSPRING_FINITE_CASES_ONLY",
+    "parent_scan_total": 1683,
+    "production_authority": false,
+    "research_candidate": "heap_route_v1",
+    "source_code_training": false
+  },
+  "historic_catalog_sha256": "bdedbcf8339330dc0d326d4a02bd965dbda2e80bbb4f5f6744c9a687b07475a6",
+  "historical_catalog_blob_sha1": "d9aeaf9e28f3d3e522b2153efc506756ac90100d",
+  "historical_pc_sources_inventoried": 125,
+  "legacy_source_imported": false,
+  "lineage_parent_receipt": null,
+  "live_model_weights_modified": false,
+  "module_manifest_sha256": "109e41688be9b422a34609f47ffb473cd9f8bcddb9d8e4b483c0cf502a7c1873",
+  "nas_live_state": "UNVERIFIED_OFFLINE_LOCAL_SNAPSHOT",
+  "nas_written": false,
+  "parent_generation": 0,
+  "production_authority": false,
+  "production_rollback_tested": false,
+  "receipt_sha256": "f3b60e99895da8860decdc21de90e31f1d19c344ba603b816cd4733944e58f10",
+  "remote_communications_enabled": false,
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "research_generation": 1,
+  "research_status": "RESEARCH_CHILD_STAGED_NO_PRODUCTION",
+  "root_manifest_sha256": "69ab2a640b1c39e55516e309321feab361091b9f3cb298f9ecded92bf056a1f1",
+  "schema": "janus.essence.module_governor/1.3"
+}
