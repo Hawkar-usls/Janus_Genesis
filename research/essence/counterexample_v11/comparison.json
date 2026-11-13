@@ -1,0 +1,53 @@
+{
+  "baseline": {
+    "candidate_comparison_capability": false,
+    "offspring_activation": false,
+    "proposal_receipt_sha256": "529e631ba3097f9f7125d0994aed9992a5f2cada9b3c4cb5e3449dafe310a820",
+    "proposed_children": 1,
+    "role_count": 6,
+    "root_receipt_sha256": "ea4766b5ca16401ea6b7d901d5315eed301ad20f5e9dcbbd0d7f2142fe72d629"
+  },
+  "environment": "OFFLINE_DEVELOPMENT_STATIC_FIXTURES",
+  "evidence": {
+    "integrated_matrix_receipt_sha256": "3eabb4a9f44511349a78b883b2d4296487d90d31a97239a8f8acc328c49fd286",
+    "optimized_receipt_sha256": "e056c66af4738994f1137f3cb802a5bc9783762c61ab3c37e2ae088f9577f7c4",
+    "rejected_receipt_sha256": "d9b99c17b73d7c02122a94082cda18e6cee0708ba1caa0a71f16fb065b2f102d"
+  },
+  "limits": {
+    "blind": false,
+    "cross_repo_models_executed": false,
+    "real_software_performance_proven": false,
+    "universal_equivalence_proven": false
+  },
+  "report_sha256": "0323d0f94ac6890980192c2b0759c39410c209facf78ae5a4080950ed8de448f",
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "schema": "janus.essence.counterexample_benchmark/1.1",
+  "upgraded": {
+    "candidate_comparison_capability": true,
+    "defective_child_gate": "HOLD_SEMANTIC_COUNTEREXAMPLE",
+    "finite_inputs_checked": 7,
+    "first_counterexample": {
+      "child": {
+        "output": "0",
+        "status": "ACCEPT",
+        "steps": 1
+      },
+      "failure": "semantic",
+      "input": "",
+      "parent": {
+        "output": "1",
+        "status": "ACCEPT",
+        "steps": 2
+      }
+    },
+    "matrix_math_work_kJ": "10",
+    "no_model_weights_modified": true,
+    "optimized_child_faster_cases": 7,
+    "optimized_child_gate": "RESEARCH_PASS_FINITE_DOMAIN_ONLY",
+    "optimized_child_total_steps": 28,
+    "optimized_parent_total_steps": 35,
+    "production_authority": false,
+    "role_count": 6,
+    "root_unchanged": true
+  }
+}

@@ -109,7 +109,11 @@ def run(spec: dict, symbols: str, *, max_steps: int = 1024,
             status = "ACCEPT"
         elif state in p["reject"]:
             status = "REJECT"
-    if tape and max(tape) - min(tape) <= max_cells:
+    if tape and max(tape) - min(tape) + 1 > max_cells:
+        # A lossy representation must never masquerade as an accepted result.
+        status = "TAPE_LIMIT"
+        final_tape = ""
+    elif tape:
         final_tape = "".join(tape.get(i, p["blank"]) for i in range(min(tape), max(tape) + 1))
     else:
         final_tape = ""

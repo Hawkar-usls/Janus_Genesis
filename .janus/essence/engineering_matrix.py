@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 
 import kernel
+import counterexample_gate
 from engineering_math import calculate
 from turing_machine import run, unary_increment
 
@@ -17,7 +18,9 @@ from turing_machine import run, unary_increment
 def evaluate(manifest: dict, fixture: dict, *, expression: str,
              output_unit: str | None = None, machine: dict | None = None,
              tape: str = "111", max_steps: int = 1024,
-             expected_repo: str | None = None, explicit_readonly: bool = False) -> dict:
+             expected_repo: str | None = None, explicit_readonly: bool = False,
+             parent_machine: dict | None = None, child_machine: dict | None = None,
+             trial_alphabet: tuple[str, ...] = ("1",), trial_max_length: int = 6) -> dict:
     if explicit_readonly is not True:
         raise PermissionError("EXPLICIT_READONLY_REQUIRED")
     base = kernel.evaluate(manifest, fixture, explicit_readonly=True,
@@ -40,6 +43,13 @@ def evaluate(manifest: dict, fixture: dict, *, expression: str,
         "production_promotion": False,
         "network_access": False,
     }
+    if (parent_machine is None) != (child_machine is None):
+        raise ValueError("PAIR_OF_MACHINES_REQUIRED")
+    if parent_machine is not None:
+        result["candidate_trial"] = counterexample_gate.evaluate(
+            manifest, fixture, parent_machine, child_machine,
+            alphabet=trial_alphabet, max_length=trial_max_length,
+            expected_repo=expected_repo, explicit_readonly=True)
     result["receipt_sha256"] = kernel.digest(result)
     return result
 
@@ -55,6 +65,8 @@ def verify(receipt: dict) -> bool:
             raise ValueError("ELEVATED_AUTHORITY")
     if receipt.get("gene_admission") != "PROPOSAL_ONLY":
         raise ValueError("UNREVIEWED_ADMISSION")
+    if "candidate_trial" in receipt:
+        counterexample_gate.verify(receipt["candidate_trial"])
     return True
 
 
@@ -67,6 +79,10 @@ def main() -> None:
     ap.add_argument("--machine", help="JSON transition table; default unary increment")
     ap.add_argument("--tape", default="111")
     ap.add_argument("--max-steps", type=int, default=1024)
+    ap.add_argument("--parent-machine", help="Read-only declarative parent transition table")
+    ap.add_argument("--child-machine", help="Read-only declarative child transition table")
+    ap.add_argument("--trial-alphabet", default="1")
+    ap.add_argument("--trial-max-length", type=int, default=6)
     ap.add_argument("--expected-repo")
     ap.add_argument("--allow-readonly", action="store_true")
     ap.add_argument("--out")
@@ -75,7 +91,11 @@ def main() -> None:
                       expression=args.expr, output_unit=args.unit,
                       machine=kernel.load_json(args.machine) if args.machine else None,
                       tape=args.tape, max_steps=args.max_steps,
-                      expected_repo=args.expected_repo, explicit_readonly=args.allow_readonly)
+                      expected_repo=args.expected_repo, explicit_readonly=args.allow_readonly,
+                      parent_machine=kernel.load_json(args.parent_machine) if args.parent_machine else None,
+                      child_machine=kernel.load_json(args.child_machine) if args.child_machine else None,
+                      trial_alphabet=tuple(args.trial_alphabet),
+                      trial_max_length=args.trial_max_length)
     verify(result)
     data = json.dumps(result, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
     if args.out:
