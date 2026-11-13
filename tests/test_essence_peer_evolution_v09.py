@@ -51,7 +51,7 @@ class PeerEvolutionContracts(unittest.TestCase):
             children=list((out/g.CANONICAL/"microkernels").glob("*.py"))
             self.assertEqual(len(children),2)
             for child in children:
-                self.assertIn("research", child.read_text().lower())
+                self.assertIn("activation_allowed\": False", child.read_text())
             msgs=json.loads((out/"peer_messages.json").read_text())
             self.assertEqual(len(msgs["local_unsent_responses"]),2)
             self.assertFalse(msgs["published_to_other_repositories"])
