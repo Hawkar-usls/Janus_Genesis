@@ -40,7 +40,7 @@ class PublishContracts(unittest.TestCase):
         refs=[x for x in self.calls if x[0]=="POST" and "/git/refs" in x[1]]
         self.assertEqual(len(refs),1)
         writes=[x for x in self.calls if x[0]=="PUT"]
-        self.assertEqual(len(writes),7)
+        self.assertEqual(len(writes),8)
         self.assertTrue(all("/contents/.janus/essence/" in x[1] for x in writes))
         self.assertEqual(self.calls[-1][2]["draft"],True)
         self.assertEqual(self.calls[-1][2]["base"],"main")
