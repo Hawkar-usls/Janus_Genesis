@@ -98,6 +98,10 @@ class CollectiveContracts(unittest.TestCase):
             origin=e.seed_bundle(self.snapshot,"Hawkar-usls/new-lab",out,ROOT,BANK)
             self.assertEqual(origin["root_count"],1)
             self.assertEqual((out/e.CANONICAL/"kernel.py").read_bytes(),ROOT)
+            self.assertEqual((out/e.CANONICAL/"collective_seed.py").read_bytes(),
+                             Path(e.__file__).read_bytes())
+            self.assertEqual(origin["factory_sha256"],
+                             e.file_sha(Path(e.__file__).read_bytes()))
             self.assertEqual((out/e.CANONICAL/"gene_bank.py").read_bytes(),BANK)
             m=e.load(out/e.CANONICAL/"manifest.json")
             self.assertTrue(e.validate_manifest(m,"Hawkar-usls/new-lab"))
