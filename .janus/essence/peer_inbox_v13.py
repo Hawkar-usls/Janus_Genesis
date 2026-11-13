@@ -92,7 +92,11 @@ def review(inbox,ledger,root):
             or offer.get("offer_sha256")!=sha256({
                 k:v for k,v in offer.items() if k!="offer_sha256"})):
         raise ValueError("UNTRUSTED_SOURCE_OFFER")
-    peers={p["repository"]:p for p in ledger["peers"]}
+    roster=ledger.get("peers")
+    if (not isinstance(roster,list) or len(roster)!=6
+            or len({p.get("repository") for p in roster if isinstance(p,dict)})!=6):
+        raise ValueError("UNTRUSTED_PEER_ROSTER")
+    peers={p["repository"]:p for p in roster}
     peer=peers.get(offer.get("source_repo"))
     if peer is None:
         raise ValueError("UNVERIFIED_PEER_ORIGIN")
