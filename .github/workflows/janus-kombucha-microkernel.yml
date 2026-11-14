@@ -1,0 +1,81 @@
+name: JANUS Kombucha Microkernel | bounded asynchronous circulation
+
+on:
+  push:
+    branches: [main, janus/kombucha-microkernel-v1-20261112]
+    paths:
+      - tools/janus_kombucha_kernel.py
+      - tests/test_janus_kombucha_kernel.py
+      - .github/workflows/janus-kombucha-microkernel.yml
+  pull_request:
+    paths:
+      - tools/janus_kombucha_kernel.py
+      - tests/test_janus_kombucha_kernel.py
+      - .github/workflows/janus-kombucha-microkernel.yml
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+concurrency:
+  group: janus-kombucha-sensors-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Offline boundedness, crash isolation and timeout tests
+        run: |
+          python -m py_compile tools/janus_kombucha_kernel.py tests/test_janus_kombucha_kernel.py
+          python -m unittest discover -v -s tests -p 'test_janus_kombucha_kernel.py'
+
+  live-sensors:
+    needs: contracts
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: One bounded two-cycle circulation across six isolated sensor organs
+        run: |
+          python tools/janus_kombucha_kernel.py --cycles 2 --out runtime/kombucha-latest.json
+      - name: Publish provenance without granting module execution authority
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          receipt = json.loads(Path("runtime/kombucha-latest.json").read_text())
+          assert receipt["cycle_count"] == 2
+          assert receipt["untrusted_code_executed"] is False
+          assert receipt["production_writes"] == 0
+          assert receipt["recursive_self_dispatch"] is False
+          assert receipt["claim_of_full_autonomy"] is False
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as out:
+              out.write("# JANUS Kombucha read-only circulation\n")
+              out.write(f"- Gate: **{receipt['gate']}**\n")
+              out.write(f"- Isolated module states: {receipt['module_states']}\n")
+              out.write("- This is not proof of full autonomy or real external code execution.\n")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: janus-kombucha-observation-${{ github.run_id }}
+          path: runtime/kombucha-latest.json
+          retention-days: 30
+          if-no-files-found: warn
