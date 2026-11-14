@@ -1,0 +1,57 @@
+name: ESSENCE v1.8 Block Precision Evolution (research only)
+
+on:
+  pull_request:
+    paths:
+      - '.janus/essence/block_quantization_v18.py'
+      - 'tests/test_essence_block_quantization_v18.py'
+      - '.github/workflows/essence-block-quantization-v18.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-v18-block-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bounded-numerical-research:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify numerical mutation guards
+        run: |
+          python -m py_compile .janus/essence/block_quantization_v18.py
+          python -m unittest -v tests.test_essence_block_quantization_v18
+      - name: Run exact-source-preserving synthetic diagnostic (not release evidence)
+        run: |
+          python .janus/essence/block_quantization_v18.py \
+            --root .janus/essence/manifest.json \
+            --fixture .janus/essence/fixture.json \
+            --allow-readonly \
+            --out runtime/essence_v18/research_receipt.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('runtime/essence_v18/research_receipt.json').read_text())
+          assert r['source_class']=='SYNTHETIC_FIXTURE'
+          assert r['production_authority'] is False
+          assert r['automatic_promotion'] is False
+          assert r['actual_neural_training'] is False
+          assert r['live_service_rollback_proven'] is False
+          assert r['v18_packed_bytes'] <= r['v15_packed_bytes']
+          print('ESSENCE_V18_RESEARCH_ONLY_GUARD=PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: essence-v18-block-precision-research-only
+          path: runtime/essence_v18/research_receipt.json
+          if-no-files-found: error
+          retention-days: 30
