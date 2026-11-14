@@ -45,6 +45,50 @@ jobs:
           python -m py_compile tools/essence_collective_seed.py tools/essence_seed_pr_publisher.py
           python -m unittest -v tests.test_essence_collective_seed tests.test_essence_seed_pr_publisher
 
+  verify-pinned-donor-idea:
+    needs: offline-contracts
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Collect real public default-branch genomes and review-only innovations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m tools.essence_collective_seed collect --out staging/v18-live-donor-snapshot.json
+      - name: Prove Genesis sees Demiurge's SHA-pinned mask-7 idea (not fitness)
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('staging/v18-live-donor-snapshot.json').read_text())
+          matches=[c for c in s.get('innovation_candidates',[])
+                   if c.get('repo')=='Hawkar-usls/Janus-Demiurge'
+                   and c.get('id')=='idea-mask7-int8-gpt']
+          assert len(matches)==1, 'Pinned Demiurge innovation not observed by Genesis'
+          c=matches[0]
+          assert c['evidence_sha256']=='dc6aa3615c96e570aa36bd52af493089b0c16930797825ff2075d937e86a9233'
+          assert c['precommit_sha256']=='fc767adb812ac3bea54c44cbccfa9680941f95e2c8a77120559b41da044d9463'
+          assert c['status']=='IDEA_NOT_PERFORMANCE_PROOF'
+          assert s['automatic_replication_enabled'] is False
+          assert s['source_code_and_weights_transplanted'] is False
+          print('ESSENCE_CROSSREPO_REAL_DONOR_OBSERVED=PASS',
+                'donors=',s['verified_donor_count'],
+                'ideas=',len(s['innovation_candidates']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: essence-v18-pinned-crossrepo-donor-observation
+          path: staging/v18-live-donor-snapshot.json
+          if-no-files-found: error
+          retention-days: 30
+
   stage-new-root:
     needs: offline-contracts
     if: github.event_name == 'workflow_dispatch'
