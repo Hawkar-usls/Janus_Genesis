@@ -85,7 +85,7 @@ jobs:
           GH_MESH_STATE_TOKEN: ${{ secrets.JANUS_MESH_STATE_TOKEN }}
           GH_MESH_DISPATCH_TOKEN: ${{ secrets.JANUS_MESH_DISPATCH_TOKEN }}
         run: |
-          python tools/janus_sentinel_mesh_lease.py \
+          python -m tools.janus_sentinel_mesh_lease \
             --observation runtime/sentinel-mesh/receipt.json \
             --out runtime/sentinel-mesh/lease-receipt.json
       - name: Upload data-only sealed observations
