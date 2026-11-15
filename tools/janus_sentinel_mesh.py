@@ -153,9 +153,9 @@ def run(repo,run_id,read_token,remote_token="",recovery_only=False,
     if target is None:outcome="OBSERVE_ONLY_NO_VERIFIED_STALE_TARGET"
     elif not remote_token:outcome="HOLD_NO_CROSS_REPO_ACTIONS_WRITE_TOKEN"
     else:
-        try:outcome=dispatch(target,repo,run_id,remote_token)
-        except (ValueError,urllib.error.URLError,TimeoutError,OSError) as err:
-            outcome="HOLD_REMOTE_DISPATCH_ERROR_"+type(err).__name__
+        # Direct network dispatch is denied. The separately scoped token must
+        # pass through janus_sentinel_mesh_lease.py (shared non-force Git CAS).
+        outcome="HOLD_UNLEASED_DISPATCH_DENIED"
     return seal({"schema":SCHEMA,"observed_utc":iso(now),
                  "repository":repo,"run_id":run_id,
                  "role":REPO_ROLES[repo],"peers":peers,
