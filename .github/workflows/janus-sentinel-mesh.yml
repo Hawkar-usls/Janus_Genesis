@@ -1,6 +1,11 @@
 name: JANUS Sentinel Cross-Repository Mesh Guardian
 
 on:
+  workflow_run:
+    workflows:
+      - 'JANUS Genesis Spiral v18.7.53'
+      - 'ESSENCE v1.3 GitHub Peer Inbox'
+    types: [completed]
   schedule:
     - cron: '12,27,42,57 * * * *'
   workflow_dispatch:
@@ -46,7 +51,14 @@ concurrency:
 
 jobs:
   observe-and-bounded-wake:
-    if: vars.SENTINEL_PAUSED != 'true' && vars.ESSENCE_EVOLUTION_PAUSED != 'true'
+    if: >-
+      ${{ vars.SENTINEL_PAUSED != 'true' &&
+          vars.ESSENCE_EVOLUTION_PAUSED != 'true' &&
+          (github.event_name != 'workflow_run' ||
+            (github.event.workflow_run.head_branch == 'main' &&
+             github.event.workflow_run.conclusion == 'success' &&
+             (github.event.workflow_run.event == 'schedule' ||
+              github.event.workflow_run.event == 'push'))) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
