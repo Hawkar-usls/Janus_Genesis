@@ -37,7 +37,7 @@ class MeshContract(unittest.TestCase):
         self.assertFalse(called)
         rec2=m.run(m.ROLES["A"],"1234","x"*30,"secret"*10,now=NOW,fetch=fetch,
                    dispatch=lambda *args:"REMOTE_DISPATCH_SUBMITTED_NOT_RECOVERY_PROOF")
-        self.assertEqual(rec2["outcome"],"REMOTE_DISPATCH_SUBMITTED_NOT_RECOVERY_PROOF")
+        self.assertEqual(rec2["outcome"],"HOLD_UNLEASED_DISPATCH_DENIED")
         self.assertFalse(rec2["actual_recovery_verified"])
     def test_unknown_and_loop(self):
         unknown={x:{"status":"UNKNOWN_PEER_API_HOLD"} for x in m.ROLES}
