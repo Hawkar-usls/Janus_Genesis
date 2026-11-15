@@ -1,0 +1,82 @@
+name: JANUS Sentinel Cross-Repository Mesh Guardian
+
+on:
+  schedule:
+    - cron: '12,27,42,57 * * * *'
+  workflow_dispatch:
+    inputs:
+      recovery_only:
+        description: 'One-hop recovery: observe only, do not recursively dispatch'
+        type: boolean
+        default: false
+        required: false
+      source_repo:
+        description: 'Informational, never grants authority'
+        type: string
+        default: ''
+        required: false
+      source_run:
+        description: 'Informational, never grants authority'
+        type: string
+        default: ''
+        required: false
+  push:
+    branches: [main]
+    paths:
+      - 'tools/janus_sentinel_mesh.py'
+      - 'tests/test_janus_sentinel_mesh.py'
+      - '.github/workflows/janus-sentinel-mesh.yml'
+  pull_request:
+    paths:
+      - 'tools/janus_sentinel_mesh.py'
+      - 'tests/test_janus_sentinel_mesh.py'
+      - '.github/workflows/janus-sentinel-mesh.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: janus-crossrepo-mesh-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  observe-and-bounded-wake:
+    if: vars.SENTINEL_PAUSED != 'true' && vars.ESSENCE_EVOLUTION_PAUSED != 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Offline bounded-policy and anti-loop regression
+        run: |
+          python -m py_compile tools/janus_sentinel_mesh.py tests/test_janus_sentinel_mesh.py
+          python -m unittest discover -v -s tests -p test_janus_sentinel_mesh.py
+      - name: Observe peer workflows and optionally submit one bounded remote wake
+        if: github.event_name != 'pull_request'
+        env:
+          GH_READ_TOKEN: ${{ github.token }}
+          GH_MESH_DISPATCH_TOKEN: ${{ secrets.JANUS_MESH_DISPATCH_TOKEN }}
+          RECOVERY_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.recovery_only || false }}
+        run: |
+          mkdir -p runtime/sentinel-mesh
+          if [ "$RECOVERY_ONLY" = "true" ]; then
+            python tools/janus_sentinel_mesh.py --recovery-only --out runtime/sentinel-mesh/receipt.json
+          else
+            python tools/janus_sentinel_mesh.py --out runtime/sentinel-mesh/receipt.json
+          fi
+      - name: Upload data-only sealed observations
+        if: always() && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-sentinel-crossrepo-${{ github.run_id }}
+          path: runtime/sentinel-mesh/receipt.json
+          retention-days: 30
+          if-no-files-found: warn
