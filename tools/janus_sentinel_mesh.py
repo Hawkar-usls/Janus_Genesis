@@ -68,7 +68,7 @@ def health(rows,now):
     for item in rows:
         require(isinstance(item,dict),"BAD_PEER_RUN")
         if item.get("event")=="pull_request":continue
-        require(item.get("event") in ("push","schedule","workflow_dispatch")
+        require(item.get("event") in ("push","schedule","workflow_dispatch","workflow_run")
                 and item.get("head_branch")=="main"
                 and type(item.get("id")) is int and item["id"]>0
                 and item["id"] not in seen
