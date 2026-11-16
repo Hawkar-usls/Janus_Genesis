@@ -131,7 +131,7 @@ class MeshTests(unittest.TestCase):
                       fetch=lambda repo,commit: self.raw[repo])
             with self.assertRaisesRegex(ValueError, "PIN_MISMATCH"):
                 m.process(base/"g",m.G,"b"*40,base/"sg",base/"sd",
-                          fetch=lambda repo,commit: self.raw[m.G])
+                          fetch=lambda repo,commit: self.raw[repo]+b' ')
 
 if __name__ == "__main__":
     unittest.main()
