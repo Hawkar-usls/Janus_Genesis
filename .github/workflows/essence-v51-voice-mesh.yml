@@ -1,0 +1,129 @@
+name: ESSENCE v5.1 peer voice link and bounded two-way assignments (Genesis)
+
+on:
+  pull_request:
+    paths:
+      - '.janus/essence/voice_mesh_v51.py'
+      - '.janus/essence/VOICE_MODEL_LINK.json'
+      - 'tests/test_essence_voice_mesh_v51.py'
+      - '.github/workflows/essence-v51-voice-mesh.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.janus/essence/voice_mesh_v51.py'
+      - '.janus/essence/VOICE_MODEL_LINK.json'
+      - 'tests/test_essence_voice_mesh_v51.py'
+      - '.github/workflows/essence-v51-voice-mesh.yml'
+  schedule:
+    - cron: '16,36,56 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-v51-genesis-voice-state
+  cancel-in-progress: false
+
+jobs:
+  zero-network-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test peer question/response roundtrip, source rejection, and model authority boundary
+        run: |
+          python -m py_compile .janus/essence/voice_mesh_v51.py tests/test_essence_voice_mesh_v51.py
+          python -m unittest discover -s tests -p test_essence_voice_mesh_v51.py -v
+
+  peer-exchange:
+    needs: zero-network-contract
+    if: github.event_name != 'pull_request' && vars.ESSENCE_VOICE_MESH_PAUSED != 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: local-code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: essence-voice-state
+          path: local-state
+          fetch-depth: 1
+          sparse-checkout: |
+            research/essence/voice_v51
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Load peer's public transport branch READ ONLY (no other repository token)
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 --filter=blob:none --sparse --branch essence-voice-state \
+            https://github.com/Hawkar-usls/Janus-Demiurge.git peer-state
+          git -C peer-state sparse-checkout set --no-cone research/essence/voice_v51
+      - name: Verify actual previously frozen Qwen G2 speaker-link provenance
+        run: |
+          python - <<'PY'
+          import importlib.util,urllib.request
+          from pathlib import Path
+          src=Path('local-code/.janus/essence/voice_mesh_v51.py')
+          spec=importlib.util.spec_from_file_location('voice_v51',src)
+          m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+          url=('https://raw.githubusercontent.com/Hawkar-usls/Janus-Demiurge/'
+              'janus-v50-agency-state/research/janus_v50_agent/choices/'
+              +m.MODEL_PACKET+'.json')
+          with urllib.request.urlopen(url,timeout=20) as fh:
+              raw=fh.read(100000)
+          obj=m.verify_original_model_link(raw)
+          print('REAL_QWEN_G2_ORIGIN_VERIFIED='+obj['receipt_sha256'])
+          print('RECORDED_MODEL_OUTPUT='+obj['model_raw_response'])
+          print('MODEL_DID_NOT_GENERATE_NEW_TASK_TEXT=TRUE')
+          PY
+      - name: Create bounded task, verify peer's source independently, send reply and acknowledge previous answer
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p runtime/essence-v51
+          python local-code/.janus/essence/voice_mesh_v51.py \
+            --root local-code \
+            --repo 'Hawkar-usls/Janus_Genesis' \
+            --commit "$(git -C local-code rev-parse HEAD)" \
+            --state local-state \
+            --peer peer-state \
+            --receipt runtime/essence-v51/run_receipt.json
+      - name: Persist only receipt/message/answer JSON to own isolated ESSENCE voice branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd local-state
+          git config user.name 'ESSENCE voice microkernel[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f research/essence/voice_v51
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo 'VOICE_PEER_NO_NEW_MESSAGES'
+            exit 0
+          fi
+          test "$(git diff --cached --name-only | grep -v '^research/essence/voice_v51/.*\.json$' | wc -l)" -eq 0
+          git commit -m "ESSENCE: bounded peer task, target-local source reply and/or acknowledgment"
+          git pull --rebase origin essence-voice-state
+          git push origin HEAD:refs/heads/essence-voice-state
+          echo 'VOICE_LOCAL_REPOSITORY_STATE_PERSISTED'
+      - name: Preserve one-run transport and exact scientific status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-v51-genesis-voice-receipt-${{ github.run_id }}
+          path: runtime/essence-v51/run_receipt.json
+          retention-days: 90
+          if-no-files-found: warn
