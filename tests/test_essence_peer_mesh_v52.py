@@ -169,5 +169,40 @@ class MeshTests(unittest.TestCase):
             self.assertFalse(result["shadow_tuning_only"])
             self.assertEqual(len(calls), 6)
 
+    def test_old_reply_is_immutable_across_new_code_commits(self):
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            save(base / "d" / m.MANIFEST, self.raw[m.D])
+            save(base / "g" / m.MANIFEST, self.raw[m.G])
+            fetch = lambda repo, commit: self.raw[repo]
+            m.process(base / "d", m.D, "a" * 40,
+                      base / "sd", base / "sg", fetch=fetch)
+            first = m.process(base / "g", m.G, "b" * 40,
+                              base / "sg", base / "sd", fetch=fetch)
+            self.assertEqual(first["new"]["responses"], 7)
+            folder = base / "sg" / m.BASE / "responses"
+            before = {p.name: p.read_bytes() for p in folder.glob("*.json")}
+            self.assertEqual(len(before), 7)
+            second = m.process(base / "g", m.G, "c" * 40,
+                               base / "sg", base / "sd", fetch=fetch)
+            self.assertEqual(second["new"]["responses"], 0)
+            self.assertEqual(
+                before,
+                {p.name: p.read_bytes() for p in folder.glob("*.json")}
+            )
+            # Preserve HOLD on actual manifest drift: the old pinned reply
+            # cannot be silently reused for a new target manifest.
+            one_reply = m.load(next(iter(folder.glob("*.json"))))
+            one_request = m.load(
+                base / "sd" / m.BASE / "requests"
+                / (one_reply["request_id"] + ".json")
+            )
+            changed = json.loads(self.raw[m.G])
+            changed["untrusted_audit_marker"] = "new-manifest"
+            with self.assertRaisesRegex(
+                ValueError, "MESH_RESPONSE_ORIGIN_OR_SOURCE"
+            ):
+                m.verify_response(one_request, one_reply, m.canonical(changed))
+
 if __name__ == "__main__":
     unittest.main()
