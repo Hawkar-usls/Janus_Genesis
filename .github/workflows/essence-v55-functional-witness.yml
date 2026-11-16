@@ -210,11 +210,16 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
+          import re
           import sys
           sys.path.insert(0,str(Path("code").resolve()))
           from tools import essence_v55_functional_witness as m
           p=m.check(m.read("runtime/essence/v55_functional/plan.json"))
           r=m.check(m.read("runtime/essence/v55_functional/receipt.json"))
+          m.require(isinstance(p.get("receipt_file"),str) and
+                    re.fullmatch(r"research/essence/v55_functional/receipts/[a-f0-9]{24}\\.json",p["receipt_file"]) is not None and
+                    p["receipt_file"]==m.RECEIPTS+"/"+p["ledger_sha256"][:24]+".json",
+                    "WF55_RECEIPT_PATH_NOT_PINNED")
           m.require(p["schema"]==m.PLAN and
                r.get("schema")==m.SCHEMA and
                r.get("producer_commit")==p.get("producer_commit") and
@@ -228,7 +233,12 @@ jobs:
                r.get("sentinel_dispatch") is False and
                r.get("task_count")==16 and
                r.get("g3_exact") + r.get("newly_correct") -
-               r.get("previously_correct_lost") == r.get("candidate_exact"),
+               r.get("previously_correct_lost") == r.get("candidate_exact") and
+               r.get("status")==(
+                   "PASS_PROSPECTIVE_INTERNAL_FUNCTIONAL_TRANSFER" if
+                   r.get("newly_correct",0)>=1 and r.get("previously_correct_lost")==0
+                   and r.get("candidate_exact",0)>r.get("g3_exact",0) else
+                   "HOLD_FUNCTIONAL_TRANSFER_NOT_PROVEN"),
                "WF55_FORGED_OR_INCONSISTENT_EXAM")
           m.write(Path("receiver")/p["receipt_file"],r)
           PY
