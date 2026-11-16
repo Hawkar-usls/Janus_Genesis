@@ -6,6 +6,8 @@ on:
       - '.janus/essence/voice_mesh_v51.py'
       - '.janus/essence/VOICE_MODEL_LINK.json'
       - 'tests/test_essence_voice_mesh_v51.py'
+      - 'tools/essence_v51_model_voice_receive.py'
+      - 'tests/test_essence_v51_model_voice_receive.py'
       - '.github/workflows/essence-v51-voice-mesh.yml'
   push:
     branches: [main]
@@ -13,6 +15,8 @@ on:
       - '.janus/essence/voice_mesh_v51.py'
       - '.janus/essence/VOICE_MODEL_LINK.json'
       - 'tests/test_essence_voice_mesh_v51.py'
+      - 'tools/essence_v51_model_voice_receive.py'
+      - 'tests/test_essence_v51_model_voice_receive.py'
       - '.github/workflows/essence-v51-voice-mesh.yml'
   schedule:
     - cron: '16,36,56 * * * *'
@@ -40,6 +44,7 @@ jobs:
         run: |
           python -m py_compile .janus/essence/voice_mesh_v51.py tests/test_essence_voice_mesh_v51.py
           python -m unittest discover -s tests -p test_essence_voice_mesh_v51.py -v
+          python -m unittest discover -s tests -p test_essence_v51_model_voice_receive.py -v
 
   peer-exchange:
     needs: zero-network-contract
@@ -101,6 +106,15 @@ jobs:
             --state local-state \
             --peer peer-state \
             --receipt runtime/essence-v51/run_receipt.json
+      - name: Interpret actual Qwen G2 peer speech as untrusted conversational proposal only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python local-code/tools/essence_v51_model_voice_receive.py \
+            --root local-code \
+            --state local-state \
+            --peer peer-state \
+            --receipt runtime/essence-v51/model-speech-review.json
       - name: Persist only receipt/message/answer JSON to own isolated ESSENCE voice branch
         shell: bash
         run: |
@@ -124,6 +138,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: essence-v51-genesis-voice-receipt-${{ github.run_id }}
-          path: runtime/essence-v51/run_receipt.json
+          path: |
+            runtime/essence-v51/run_receipt.json
+            runtime/essence-v51/model-speech-review.json
           retention-days: 90
           if-no-files-found: warn
