@@ -236,7 +236,20 @@ def process(root,local_repo,commit,state_dir,peer_dir,fetch=fetch_public):
     assess_source(local_repo,raw)
     own=make_task(local_repo,commit,raw,link)
     created={"proposed":0,"replied":0,"heard":0}
-    created["proposed"]+=int(put_once(state/"research/essence/voice_v51/messages"/(own["id"]+".json"),own))
+    task_path=state/"research/essence/voice_v51/messages"/(own["id"]+".json")
+    if task_path.exists():
+        # Reuse the exact prior source Git commit/receipt when unrelated main
+        # code moves; never rewrite a stable task-id with new source metadata.
+        previous=load(task_path)
+        verify_seal(previous)
+        if (previous.get("id")!=own["id"] or
+                previous.get("source_sha256")!=own["source_sha256"] or
+                previous.get("source_repo")!=local_repo or
+                previous.get("target_repo")!=PEERS[local_repo]):
+            raise ValueError("VOICE_EXISTING_TASK_NOT_SAME_SOURCE")
+        own=previous
+    else:
+        created["proposed"]+=int(put_once(task_path,own))
     candidates=sorted((peer/"research/essence/voice_v51/messages").glob("*.json")) if (peer/"research/essence/voice_v51/messages").exists() else []
     if len(candidates)>48: raise ValueError("VOICE_BACKLOG_LIMIT")
     for path in candidates:
