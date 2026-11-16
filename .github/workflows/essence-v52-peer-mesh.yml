@@ -1,0 +1,114 @@
+name: ESSENCE v5.2 bounded six-role peer mesh (Janus_Genesis)
+
+on:
+  pull_request:
+    paths:
+      - '.janus/essence/peer_mesh_v52.py'
+      - 'tests/test_essence_peer_mesh_v52.py'
+      - '.github/workflows/essence-v52-peer-mesh.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.janus/essence/peer_mesh_v52.py'
+      - 'tests/test_essence_peer_mesh_v52.py'
+      - '.github/workflows/essence-v52-peer-mesh.yml'
+  schedule:
+    - cron: '13,43 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-v52-Janus_Genesis-isolated-voice-branch
+  cancel-in-progress: false
+
+jobs:
+  source-and-adversarial-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5 pinned SHA
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6 pinned SHA
+        with:
+          python-version: '3.11'
+      - name: Six-cell mutual dialogue, pinned-source proofs, and hostile packet tests
+        run: |
+          python -m py_compile .janus/essence/peer_mesh_v52.py tests/test_essence_peer_mesh_v52.py
+          python -m unittest discover -s tests -p test_essence_peer_mesh_v52.py -v
+
+  isolated-shadow-peer-exchange:
+    needs: source-and-adversarial-tests
+    if: github.event_name != 'pull_request' && vars.ESSENCE_V52_PEER_MESH_PAUSED != 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 11
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: main
+          path: code
+          persist-credentials: false
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: essence-voice-state
+          path: local-state
+          persist-credentials: true
+          sparse-checkout: |
+            research/essence/mesh_v52
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Read public peer data-only branch (never execute peer files)
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 --filter=blob:none --sparse --branch essence-voice-state \
+            https://github.com/Hawkar-usls/Janus-Demiurge.git peer-state
+          git -C peer-state sparse-checkout set --no-cone research/essence/mesh_v52
+      - name: Verify locally, send six cell requests, bounded tuning proposal and replies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p runtime/essence-v52
+          python code/.janus/essence/peer_mesh_v52.py \
+            --root code --repo 'Hawkar-usls/Janus_Genesis' \
+            --commit "$(git -C code rev-parse HEAD)" \
+            --state local-state --peer peer-state \
+            --receipt runtime/essence-v52/receipt.json
+      - name: Commit JSON data ONLY to own isolated branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd local-state
+          git config user.name 'ESSENCE bounded peer mesh[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f research/essence/mesh_v52
+          git diff --cached --check
+          git diff --cached --name-only > /tmp/essence-v52-staged.txt
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          paths=Path('/tmp/essence-v52-staged.txt').read_text().splitlines()
+          allowed=re.compile(r'^research/essence/mesh_v52/(requests|responses|acks|shadow_settings)/[a-f0-9]{24}\.json$')
+          if any(not allowed.fullmatch(path) for path in paths):
+              raise SystemExit('UNAUTHORIZED_BRANCH_CHANGE')
+          PY
+          if git diff --cached --quiet; then
+            echo 'ESSENCE_V52_NO_NEW_PEER_DATA'
+            exit 0
+          fi
+          git commit -m 'ESSENCE: verified six-cell peer messages and shadow-only research receipt'
+          git pull --rebase origin essence-voice-state
+          git push origin HEAD:refs/heads/essence-voice-state
+      - name: Export bounded run receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: essence-v52-Janus_Genesis-receipt-${{ github.run_id }}
+          path: runtime/essence-v52/receipt.json
+          retention-days: 30
+          if-no-files-found: warn

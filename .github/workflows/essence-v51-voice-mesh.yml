@@ -34,10 +34,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 7
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.11'
       - name: Test peer question/response roundtrip, source rejection, and model authority boundary
@@ -54,12 +54,12 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           ref: main
           path: local-code
           persist-credentials: false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           ref: essence-voice-state
           path: local-state
@@ -67,7 +67,7 @@ jobs:
           sparse-checkout: |
             research/essence/voice_v51
           persist-credentials: true
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: '3.11'
       - name: Load peer's public transport branch READ ONLY (no other repository token)
@@ -128,14 +128,37 @@ jobs:
             echo 'VOICE_PEER_NO_NEW_MESSAGES'
             exit 0
           fi
-          test "$(git diff --cached --name-only | grep -v '^research/essence/voice_v51/.*\.json$' | wc -l)" -eq 0
+git diff --cached --name-only > /tmp/essence-v51-staged.txt
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          staged = Path('/tmp/essence-v51-staged.txt').read_text().splitlines()
+          allowed = re.compile(r'^research/essence/voice_v51/[^/]+/[a-f0-9]{24}\\.json
           git commit -m "ESSENCE: bounded peer task, target-local source reply and/or acknowledgment"
           git pull --rebase origin essence-voice-state
           git push origin HEAD:refs/heads/essence-voice-state
           echo 'VOICE_LOCAL_REPOSITORY_STATE_PERSISTED'
       - name: Preserve one-run transport and exact scientific status
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: essence-v51-genesis-voice-receipt-${{ github.run_id }}
+          path: |
+            runtime/essence-v51/run_receipt.json
+            runtime/essence-v51/model-speech-review.json
+          retention-days: 90
+          if-no-files-found: warn
+)
+          if any(not allowed.fullmatch(name) for name in staged):
+              raise SystemExit('VOICE_UNAUTHORIZED_STAGED_FILE')
+          PY
+          git commit -m "ESSENCE: bounded peer task, target-local source reply and/or acknowledgment"
+          git pull --rebase origin essence-voice-state
+          git push origin HEAD:refs/heads/essence-voice-state
+          echo 'VOICE_LOCAL_REPOSITORY_STATE_PERSISTED'
+      - name: Preserve one-run transport and exact scientific status
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: essence-v51-genesis-voice-receipt-${{ github.run_id }}
           path: |
