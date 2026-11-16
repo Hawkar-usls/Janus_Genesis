@@ -1,0 +1,234 @@
+name: ESSENCE v5.4 Genesis verified cross-repo neural consumer
+
+on:
+  pull_request:
+    paths:
+      - 'tools/essence_v54_neural_witness.py'
+      - 'tests/test_essence_v54_neural_witness.py'
+      - '.github/workflows/essence-v54-neural-witness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/essence_v54_neural_witness.py'
+      - 'tests/test_essence_v54_neural_witness.py'
+      - '.github/workflows/essence-v54-neural-witness.yml'
+  schedule:
+    - cron: '2,17,32,47 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-v54-genesis-receiver-single-writer
+  cancel-in-progress: false
+
+env:
+  OMP_NUM_THREADS: '4'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  HF_HUB_DOWNLOAD_TIMEOUT: '120'
+  TOKENIZERS_PARALLELISM: 'false'
+
+jobs:
+  check-receiver-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Check source authority, ancestry, bounded model paths and malicious receipts
+        run: |
+          python -m py_compile tools/essence_v54_neural_witness.py tests/test_essence_v54_neural_witness.py
+          python -m unittest -v tests.test_essence_v54_neural_witness
+
+  inspect-producer-shadow-generation:
+    needs: check-receiver-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && vars.ESSENCE_EVOLUTION_PAUSED != 'true' && vars.ESSENCE_V54_RECEIVER_PAUSED != 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    outputs:
+      ready: ${{ steps.inspect.outputs.ready }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: main
+          path: code
+          persist-credentials: false
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: essence-voice-state
+          path: receiver
+          persist-credentials: false
+          sparse-checkout: |
+            research/essence/v54_witness
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Read source-scoped accepted adapters from Demiurge branch, never execute source files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 --filter=blob:none --sparse --branch essence-peer-shadow-state https://github.com/Hawkar-usls/Janus-Demiurge.git producer
+          git -C producer sparse-checkout set --no-cone research/essence/peer_v54_state/ledger.json models/gen0002 models/v54gen0003 models/v54gen0004 models/v54gen0005 models/v54gen0006 models/v54gen0007 models/v54gen0008
+      - name: Validate parent chain and skip already witnessed generation
+        id: inspect
+        run: |
+          python code/tools/essence_v54_neural_witness.py plan --producer producer --receiver receiver --out runtime/essence/v54/plan.json
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          p=json.load(open("runtime/essence/v54/plan.json"))
+          print("ready="+str(p["action"]=="CONSUME_VERIFIED_MODEL").lower())
+          PY
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          p=json.load(open("runtime/essence/v54/plan.json"))
+          print("### Genesis ESSENCE v5.4")
+          print("Decision:",p["action"])
+          print("Generation:",p.get("generation","not yet accepted"))
+          print("Production model unchanged; receiver is a separate GitHub runner.")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: essence-v54-genesis-plan-${{ github.run_id }}
+          path: runtime/essence/v54/plan.json
+          retention-days: 30
+          if-no-files-found: error
+
+  run-real-receiver-neural-inference:
+    needs: inspect-producer-shadow-generation
+    if: needs.inspect-producer-shadow-generation.outputs.ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: main
+          path: code
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: essence-v54-genesis-plan-${{ github.run_id }}
+          path: runtime/essence/v54
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Checkout exactly producer branch SHA recorded before receiver starts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY' >> "$GITHUB_ENV"
+          import json,re
+          p=json.load(open("runtime/essence/v54/plan.json"))
+          sha=p["producer_commit"]
+          if not re.fullmatch("[0-9a-f]{40}",sha):
+              raise SystemExit("UNTRUSTED_PRODUCER_SHA")
+          print("W54_PRODUCER_SHA="+sha)
+          PY
+          git clone --quiet --depth 1 --filter=blob:none --sparse --branch essence-peer-shadow-state https://github.com/Hawkar-usls/Janus-Demiurge.git producer
+          git -C producer fetch --quiet --depth 1 origin "$W54_PRODUCER_SHA"
+          git -C producer checkout --quiet --detach "$W54_PRODUCER_SHA"
+          git -C producer sparse-checkout set --no-cone research/essence/peer_v54_state/ledger.json models/gen0002 models/v54gen0003 models/v54gen0004 models/v54gen0005 models/v54gen0006 models/v54gen0007 models/v54gen0008
+          test "$(git -C producer rev-parse HEAD)" = "$W54_PRODUCER_SHA"
+      - name: Install pinned CPU-only Qwen receiver dependencies
+        run: |
+          python -m pip install --disable-pip-version-check --no-cache-dir torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --no-cache-dir transformers==4.48.3 peft==0.13.2 safetensors==0.5.3
+      - name: Run real inherited Qwen inference in Genesis without mutation authority
+        run: |
+          python code/tools/essence_v54_neural_witness.py consume \
+            --producer producer --genesis code \
+            --plan runtime/essence/v54/plan.json \
+            --out runtime/essence/v54/receipt.json
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          r=json.load(open("runtime/essence/v54/receipt.json"))
+          print("### Genesis independent-runner neural consumption")
+          print("Generation:",r["generation"])
+          print("Actual CPU Qwen inference:",r["real_qwen_cpu_inference"])
+          print("Matches Genesis source:",r["answer_exact_to_source"])
+          print("Producer accepted adapter:",r["adapter_sha256"])
+          print("No receiver weight training or production promotion.")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: essence-v54-genesis-real-witness-${{ github.run_id }}
+          path: runtime/essence/v54/receipt.json
+          retention-days: 90
+          if-no-files-found: error
+
+  persist-receiver-ack-on-own-data-branch:
+    needs: [inspect-producer-shadow-generation,run-real-receiver-neural-inference]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: main
+          path: code
+          persist-credentials: false
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: essence-voice-state
+          path: receiver
+          persist-credentials: true
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: essence-v54-genesis-plan-${{ github.run_id }}
+          path: runtime/essence/v54
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: essence-v54-genesis-real-witness-${{ github.run_id }}
+          path: runtime/essence/v54
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Verify model receiver receipt against source-pinned plan, copy only JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          from code.tools import essence_v54_neural_witness as m
+          p=m.check(m.read("runtime/essence/v54/plan.json"))
+          r=m.check(m.read("runtime/essence/v54/receipt.json"))
+          m.require(r.get("schema")==m.SCHEMA and
+                    r.get("producer_commit")==p.get("producer_commit") and
+                    r.get("ledger_sha256")==p.get("ledger_sha256") and
+                    r.get("adapter_sha256")==p.get("model_adapter_sha256") and
+                    r.get("generation")==p.get("generation") and
+                    r.get("real_qwen_cpu_inference") is True and
+                    r.get("production_promotion") is False and
+                    r.get("sentinel_dispatch") is False,
+                    "W54_FORGED_RECEIVER_RECEIPT")
+          m.write_once(Path("receiver")/p["receipt_file"],r)
+          PY
+          cd receiver
+          git config user.name 'ESSENCE Genesis neural receiver[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f research/essence/v54_witness/receipts
+          git diff --cached --check
+          git diff --cached --name-only > /tmp/v54-genesis-staged.txt
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          paths=Path("/tmp/v54-genesis-staged.txt").read_text().splitlines()
+          allow=re.compile(r"^research/essence/v54_witness/receipts/[a-f0-9]{24}\.json$")
+          if not paths or any(not allow.fullmatch(p) for p in paths):
+              raise SystemExit("W54_UNAUTHORIZED_BRANCH_WRITE")
+          PY
+          git commit -m 'Genesis ESSENCE: independently consumed SHA-bound Demiurge Qwen generation'
+          git pull --rebase origin essence-voice-state
+          git push origin HEAD:refs/heads/essence-voice-state
+          echo 'GENESIS_V54_CROSS_REPO_NEURAL_RECEIPT_PERSISTED=TRUE' >> "$GITHUB_STEP_SUMMARY"
