@@ -120,7 +120,7 @@ class FunctionalWitnessTests(unittest.TestCase):
                 m.write(path,receipt)
 
     def test_no_models_or_peer_text_grant_control(self):
-        self.assertEqual(m.G3,len(m.G3)*"b" if False else m.G3)
+        self.assertEqual(len(m.G3),64)
         self.assertRegex(m.CURRENT_G3,r"^models/v54gen0003$")
         self.assertFalse(m.PATH.fullmatch("../../production"))
         script=(ROOT/"tools/essence_v55_functional_witness.py").read_text()
