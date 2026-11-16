@@ -312,8 +312,17 @@ def process(root, local_repo, main_commit, state, peer, fetch=fetch_manifest):
         source_raw = witnessed(msg["source_repo"], msg["source_commit"])
         if hashlib.sha256(source_raw).hexdigest() != msg["source_manifest_sha256"]:
             raise ValueError("MESH_REQUEST_PIN_MISMATCH")
-        response = make_response(msg, local_repo, main_commit, raw)
-        made["responses"] += int(put_once(state/"responses"/(msg["id"]+".json"), response))
+        reply_path = state/"responses"/(msg["id"]+".json")
+        if reply_path.exists():
+            # A new code commit does not make a different scientific source:
+            # replay the immutable reply only after verifying its pinned
+            # manifest SHA and complete signed-off JSON contract against the
+            # current bytes. Never rewrite a previously acknowledged reply.
+            previous = load(reply_path)
+            verify_response(msg, previous, raw)
+        else:
+            response = make_response(msg, local_repo, main_commit, raw)
+            made["responses"] += int(put_once(reply_path, response))
     if accepted_tune:
         rec = seal({
             "schema": SHADOW, "local_repo": local_repo,
