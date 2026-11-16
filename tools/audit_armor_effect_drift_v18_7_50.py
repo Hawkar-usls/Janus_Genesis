@@ -36,6 +36,15 @@ DIRECT_EFFECT_CALLS = {
 
 # Ordered most-specific first. Classification != Armor admission.
 SURFACE_CLASSIFICATIONS = (
+    # Explicit inventory only, NOT an Armor admission or execution authority.
+    (".janus/essence/peer_mesh_v52.py",
+     "READ_ONLY_SOURCE_PINNED_PUBLIC_PEER_MANIFEST_FETCH_NOT_ARMOR_ADMITTED"),
+    (".janus/essence/voice_mesh_v51.py",
+     "READ_ONLY_SOURCE_PINNED_PUBLIC_VOICE_FACT_FETCH_NOT_ARMOR_ADMITTED"),
+    ("tools/essence_v54_neural_witness.py",
+     "READ_ONLY_FIXED_ARGUMENT_GIT_REV_PARSE_MODEL_WITNESS_NOT_ARMOR_ADMITTED"),
+    ("tools/janus_sentinel_mesh_lease.py",
+     "EXPLICIT_SCOPED_SENTINEL_CAS_AND_GIT_TRANSPORT_NOT_ARMOR_ADMITTED"),
     ("tools/essence_collective_seed.py",
      "READ_ONLY_PUBLIC_GITHUB_DONOR_INVENTORY_NOT_ARMOR_ADMITTED"),
     ("tools/essence_seed_pr_publisher.py",
