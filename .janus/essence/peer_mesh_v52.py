@@ -72,16 +72,28 @@ def decode(raw):
                       parse_constant=lambda x: (_ for _ in ()).throw(
                           ValueError("MESH_NONFINITE_JSON")))
 
+def reject_symlink_chain(path):
+    """Fail closed if any directory component is a symbolic link.
+
+    State files are derived from peer-controlled Git branches; checking only
+    the terminal JSON file is insufficient when its ancestor is a symlink.
+    """
+    path = Path(path)
+    for component in (path, *path.parents):
+        if component.is_symlink():
+            raise ValueError("MESH_SYMLINK_COMPONENT")
+
+
 def load(path):
     path = Path(path)
-    if path.is_symlink() or not path.is_file():
+    reject_symlink_chain(path)
+    if not path.is_file():
         raise ValueError("MESH_UNSAFE_FILE")
     return decode(path.read_bytes())
 
 def put_once(path, obj):
     path = Path(path)
-    if path.is_symlink():
-        raise ValueError("MESH_SYMLINK_WRITE_DENIED")
+    reject_symlink_chain(path)
     raw = json.dumps(obj, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
     if path.exists():
         if path.read_text(encoding="utf-8") != raw:
@@ -223,10 +235,9 @@ def verify_response(request, response, remote_manifest):
 
 def queue(folder):
     folder = Path(folder)
+    reject_symlink_chain(folder)
     if not folder.exists():
         return []
-    if folder.is_symlink():
-        raise ValueError("MESH_SYMLINK_QUEUE")
     all_files = sorted(folder.iterdir())
     if len(all_files) > MAX_QUEUE:
         raise ValueError("MESH_QUEUE_LIMIT")
@@ -275,21 +286,28 @@ def process(root, local_repo, main_commit, state, peer, fetch=fetch_manifest):
     candidates = [m for m in remote_requests if m["intent"] == "PROPOSE_SHADOW_CACHE"]
     cache = {}
     read_calls = 0
+    accepted_tune = False
     def witnessed(repo, commit):
         nonlocal read_calls
         key = (repo, commit)
-        if key not in cache:
-            raw_remote = fetch(repo, commit)
-            verify_manifest(raw_remote, repo)
+        # No tuning proposal means ordinary uncached verification. Dedup
+        # activates only after a source-pinned, allowlisted peer proposal.
+        if accepted_tune and key in cache:
+            return cache[key]
+        raw_remote = fetch(repo, commit)
+        verify_manifest(raw_remote, repo)
+        read_calls += 1
+        if accepted_tune:
             cache[key] = raw_remote
-            read_calls += 1
-        return cache[key]
-    accepted_tune = False
+        return raw_remote
     for msg in candidates:
         original = witnessed(msg["source_repo"], msg["source_commit"])
         if hashlib.sha256(original).hexdigest() != msg["source_manifest_sha256"]:
             raise ValueError("MESH_SOURCE_PIN_MISMATCH")
+        # The verified first proposal also seeds the memoized source. This
+        # saves subsequent reads without accepting untrusted instructions.
         accepted_tune = True
+        cache[(msg["source_repo"], msg["source_commit"])] = original
     for msg in remote_requests:
         source_raw = witnessed(msg["source_repo"], msg["source_commit"])
         if hashlib.sha256(source_raw).hexdigest() != msg["source_manifest_sha256"]:
