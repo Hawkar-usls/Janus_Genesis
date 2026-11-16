@@ -217,7 +217,7 @@ jobs:
           p=m.check(m.read("runtime/essence/v55_functional/plan.json"))
           r=m.check(m.read("runtime/essence/v55_functional/receipt.json"))
           m.require(isinstance(p.get("receipt_file"),str) and
-                    re.fullmatch(r"research/essence/v55_functional/receipts/[a-f0-9]{24}\\.json",p["receipt_file"]) is not None and
+                    re.fullmatch(r"research/essence/v55_functional/receipts/[a-f0-9]{24}\.json",p["receipt_file"]) is not None and
                     p["receipt_file"]==m.RECEIPTS+"/"+p["ledger_sha256"][:24]+".json",
                     "WF55_RECEIPT_PATH_NOT_PINNED")
           m.require(p["schema"]==m.PLAN and
