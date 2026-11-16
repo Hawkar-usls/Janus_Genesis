@@ -48,11 +48,19 @@ def check(obj):
     return obj
 
 
+def unique(pairs):
+    result={}
+    for k,v in pairs:
+        require(k not in result,"W54_DUPLICATE_JSON_KEY")
+        result[k]=v
+    return result
+
+
 def read(path,limit=100_000):
     path=Path(path)
     require(path.is_file() and not path.is_symlink() and
             2<=path.stat().st_size<=limit,"W54_UNSAFE_READ")
-    return json.loads(path.read_text(encoding="utf-8"),
+    return json.loads(path.read_text(encoding="utf-8"),object_pairs_hook=unique,
              parse_constant=lambda _: (_ for _ in ()).throw(
                  ValueError("W54_NONFINITE_JSON")))
 
