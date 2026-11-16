@@ -133,5 +133,41 @@ class MeshTests(unittest.TestCase):
                 m.process(base/"g",m.G,"b"*40,base/"sg",base/"sd",
                           fetch=lambda repo,commit: self.raw[repo]+b' ')
 
+    def test_parent_symlink_cannot_redirect_peer_state(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            outside = root / "outside"
+            outside.mkdir()
+            (root / "peer-link").symlink_to(outside, target_is_directory=True)
+            save(outside / "existing.json", b'{"value": 1}')
+            with self.assertRaisesRegex(ValueError, "SYMLINK_COMPONENT"):
+                m.load(root / "peer-link" / "existing.json")
+            with self.assertRaisesRegex(ValueError, "SYMLINK_COMPONENT"):
+                m.put_once(root / "peer-link" / "new.json", {"value": 2})
+            with self.assertRaisesRegex(ValueError, "SYMLINK_COMPONENT"):
+                m.queue(root / "peer-link" / "requests")
+            self.assertFalse((outside / "new.json").exists())
+
+    def test_shadow_caching_needs_a_verified_peer_proposal(self):
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            save(base / "d" / m.MANIFEST, self.raw[m.D])
+            save(base / "g" / m.MANIFEST, self.raw[m.G])
+            m.process(base / "d", m.D, "a" * 40, base / "sd", base / "sg",
+                      fetch=lambda repo, commit: self.raw[repo])
+            for path in (base / "sd" / m.BASE / "requests").glob("*.json"):
+                if m.load(path)["intent"] == "PROPOSE_SHADOW_CACHE":
+                    path.unlink()
+            calls = []
+            def fetching(repo, commit):
+                calls.append((repo, commit))
+                return self.raw[repo]
+            result = m.process(base / "g", m.G, "b" * 40,
+                               base / "sg", base / "sd", fetch=fetching)
+            self.assertEqual(result["peer_input_count"], 6)
+            self.assertEqual(result["peer_manifest_read_calls"], 6)
+            self.assertFalse(result["shadow_tuning_only"])
+            self.assertEqual(len(calls), 6)
+
 if __name__ == "__main__":
     unittest.main()
