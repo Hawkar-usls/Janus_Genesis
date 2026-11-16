@@ -200,7 +200,9 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
-          from code.tools import essence_v54_neural_witness as m
+          import sys
+          sys.path.insert(0,str(Path("code").resolve()))
+          from tools import essence_v54_neural_witness as m
           p=m.check(m.read("runtime/essence/v54/plan.json"))
           r=m.check(m.read("runtime/essence/v54/receipt.json"))
           m.require(r.get("schema")==m.SCHEMA and
