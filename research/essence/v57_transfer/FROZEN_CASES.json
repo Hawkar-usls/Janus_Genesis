@@ -1,0 +1,154 @@
+{
+  "schema": "janus.essence.v57.cross_repo_functional_firstlook_suite/5.7",
+  "claim_level": "SAME_OWNER_DIFFERENT_GITHUB_REPOSITORY",
+  "frozen_before_first_real_g3_g4_inference": true,
+  "training_in_receiver": false,
+  "source_training_excluded": true,
+  "production_promotion": false,
+  "items": [
+    {
+      "id": "T01",
+      "category": "addition",
+      "prompt": "Add 217 and 146. Reply with digits only.",
+      "expected": "363"
+    },
+    {
+      "id": "T02",
+      "category": "addition",
+      "prompt": "Add 283 and 176. Reply with digits only.",
+      "expected": "459"
+    },
+    {
+      "id": "T03",
+      "category": "addition",
+      "prompt": "Add 321 and 139. Reply with digits only.",
+      "expected": "460"
+    },
+    {
+      "id": "T04",
+      "category": "addition",
+      "prompt": "Add 205 and 228. Reply with digits only.",
+      "expected": "433"
+    },
+    {
+      "id": "T05",
+      "category": "subtraction",
+      "prompt": "Subtract 173 from 402; supply only the number.",
+      "expected": "229"
+    },
+    {
+      "id": "T06",
+      "category": "subtraction",
+      "prompt": "Subtract 226 from 518; supply only the number.",
+      "expected": "292"
+    },
+    {
+      "id": "T07",
+      "category": "subtraction",
+      "prompt": "Subtract 284 from 671; supply only the number.",
+      "expected": "387"
+    },
+    {
+      "id": "T08",
+      "category": "subtraction",
+      "prompt": "Subtract 157 from 450; supply only the number.",
+      "expected": "293"
+    },
+    {
+      "id": "T09",
+      "category": "multiplication",
+      "prompt": "Find the product of 37 and 23. Answer in numerals only.",
+      "expected": "851"
+    },
+    {
+      "id": "T10",
+      "category": "multiplication",
+      "prompt": "Find the product of 42 and 27. Answer in numerals only.",
+      "expected": "1134"
+    },
+    {
+      "id": "T11",
+      "category": "multiplication",
+      "prompt": "Find the product of 58 and 14. Answer in numerals only.",
+      "expected": "812"
+    },
+    {
+      "id": "T12",
+      "category": "multiplication",
+      "prompt": "Find the product of 71 and 16. Answer in numerals only.",
+      "expected": "1136"
+    },
+    {
+      "id": "T13",
+      "category": "modulus",
+      "prompt": "After dividing 593 by 24, what integer remainder is left? Number only.",
+      "expected": "17"
+    },
+    {
+      "id": "T14",
+      "category": "modulus",
+      "prompt": "After dividing 801 by 37, what integer remainder is left? Number only.",
+      "expected": "24"
+    },
+    {
+      "id": "T15",
+      "category": "modulus",
+      "prompt": "After dividing 467 by 19, what integer remainder is left? Number only.",
+      "expected": "11"
+    },
+    {
+      "id": "T16",
+      "category": "modulus",
+      "prompt": "After dividing 714 by 43, what integer remainder is left? Number only.",
+      "expected": "26"
+    },
+    {
+      "id": "T17",
+      "category": "gcd",
+      "prompt": "Find the greatest common divisor of 216 and 144. Give digits only.",
+      "expected": "72"
+    },
+    {
+      "id": "T18",
+      "category": "gcd",
+      "prompt": "Find the greatest common divisor of 315 and 210. Give digits only.",
+      "expected": "105"
+    },
+    {
+      "id": "T19",
+      "category": "gcd",
+      "prompt": "Find the greatest common divisor of 286 and 154. Give digits only.",
+      "expected": "22"
+    },
+    {
+      "id": "T20",
+      "category": "gcd",
+      "prompt": "Find the greatest common divisor of 462 and 294. Give digits only.",
+      "expected": "42"
+    },
+    {
+      "id": "T21",
+      "category": "shortest_path",
+      "prompt": "Roads are directed: A to C weight 71, A to B weight 21, and B to C weight 27. Compute the minimum A-to-C cost; answer only the number.",
+      "expected": "48"
+    },
+    {
+      "id": "T22",
+      "category": "shortest_path",
+      "prompt": "Roads are directed: A to C weight 65, A to B weight 31, and B to C weight 40. Compute the minimum A-to-C cost; answer only the number.",
+      "expected": "65"
+    },
+    {
+      "id": "T23",
+      "category": "shortest_path",
+      "prompt": "Roads are directed: A to C weight 93, A to B weight 16, and B to C weight 25. Compute the minimum A-to-C cost; answer only the number.",
+      "expected": "41"
+    },
+    {
+      "id": "T24",
+      "category": "shortest_path",
+      "prompt": "Roads are directed: A to C weight 79, A to B weight 38, and B to C weight 33. Compute the minimum A-to-C cost; answer only the number.",
+      "expected": "71"
+    }
+  ]
+}
