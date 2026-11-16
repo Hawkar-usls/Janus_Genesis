@@ -1,0 +1,107 @@
+{
+  "schema": "janus.essence.v55.first_look_functional_cases/5.5",
+  "provenance": "Hawkar-usls/Janus_Genesis",
+  "task_policy": "FROZEN_BEFORE_FIRST_G3_VS_GN_INFERENCE",
+  "scientific_claim_ceiling": "SAME_OWNER_INTERNAL_FUNCTIONAL_TRANSFER",
+  "source_training_excluded": true,
+  "models_unmodified": true,
+  "production_promotion": false,
+  "items": [
+    {
+      "id": "A01",
+      "prompt": "Compute 37 multiplied by 19. Reply with the integer only.",
+      "expected": "703",
+      "category": "integer_arithmetic"
+    },
+    {
+      "id": "A02",
+      "prompt": "Compute 841 minus 357. Reply with the integer only.",
+      "expected": "484",
+      "category": "integer_arithmetic"
+    },
+    {
+      "id": "A03",
+      "prompt": "Compute 8 multiplied by 17. Reply with the integer only.",
+      "expected": "136",
+      "category": "integer_arithmetic"
+    },
+    {
+      "id": "A04",
+      "prompt": "What is the greatest common divisor of 84 and 126? Reply with the integer only.",
+      "expected": "42",
+      "category": "number_theory"
+    },
+    {
+      "id": "A05",
+      "prompt": "What is the least common multiple of 12 and 18? Reply with the integer only.",
+      "expected": "36",
+      "category": "number_theory"
+    },
+    {
+      "id": "A06",
+      "prompt": "What is the remainder when 29 is divided by 6? Reply with the integer only.",
+      "expected": "5",
+      "category": "number_theory"
+    },
+    {
+      "id": "A07",
+      "prompt": "What is the sum of all positive integers from 1 through 17? Reply with the integer only.",
+      "expected": "153",
+      "category": "integer_arithmetic"
+    },
+    {
+      "id": "A08",
+      "prompt": "How many one-bits are present in the binary string 10110101? Reply with the integer only.",
+      "expected": "5",
+      "category": "bit_operations"
+    },
+    {
+      "id": "A09",
+      "prompt": "Compute bitwise XOR of binary 110101 and 001111. Return the six binary digits only.",
+      "expected": "111010",
+      "category": "bit_operations"
+    },
+    {
+      "id": "A10",
+      "prompt": "Directed graph: edges A to B weight 4, A to C weight 12, B to C weight 3. What is the shortest total weight from A to C? Reply with the integer only.",
+      "expected": "7",
+      "category": "graph_reasoning"
+    },
+    {
+      "id": "A11",
+      "prompt": "How many subsets does a set of 6 distinct elements have, including the empty set? Reply with the integer only.",
+      "expected": "64",
+      "category": "combinatorics"
+    },
+    {
+      "id": "A12",
+      "prompt": "Compute 2 raised to the power 10. Reply with the integer only.",
+      "expected": "1024",
+      "category": "integer_arithmetic"
+    },
+    {
+      "id": "A13",
+      "prompt": "Solve the equation 4*x + 7 = 39. Reply with the integer x only.",
+      "expected": "8",
+      "category": "algebra"
+    },
+    {
+      "id": "A14",
+      "prompt": "Compute the square of 13. Reply with the integer only.",
+      "expected": "169",
+      "category": "integer_arithmetic"
+    },
+    {
+      "id": "A15",
+      "prompt": "What is 1001 modulo 17? Reply with the integer only.",
+      "expected": "15",
+      "category": "number_theory"
+    },
+    {
+      "id": "A16",
+      "prompt": "How many prime numbers are strictly greater than 10 and strictly less than 30? Reply with the integer only.",
+      "expected": "6",
+      "category": "number_theory"
+    }
+  ]
+}
