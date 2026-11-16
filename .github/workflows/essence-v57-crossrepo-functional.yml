@@ -1,0 +1,260 @@
+name: ESSENCE v5.7 Genesis first-look cross-repo functional transfer
+
+on:
+  pull_request:
+    paths:
+      - 'tools/essence_v57_crossrepo_functional.py'
+      - 'tests/test_essence_v57_crossrepo_functional.py'
+      - 'research/essence/v57_transfer/FROZEN_CASES.json'
+      - '.github/workflows/essence-v57-crossrepo-functional.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/essence_v57_crossrepo_functional.py'
+      - 'tests/test_essence_v57_crossrepo_functional.py'
+      - 'research/essence/v57_transfer/FROZEN_CASES.json'
+      - '.github/workflows/essence-v57-crossrepo-functional.yml'
+  schedule:
+    - cron: '13 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-v57-genesis-functional-crossrepo
+  cancel-in-progress: false
+
+env:
+  OMP_NUM_THREADS: '4'
+  HF_HUB_DISABLE_TELEMETRY: '1'
+  HF_HUB_DOWNLOAD_TIMEOUT: '120'
+  TOKENIZERS_PARALLELISM: 'false'
+
+jobs:
+  offline-frozen-source-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Verify strict G3/G4 pins, frozen 24 tasks, fail-closed source admission
+        run: |
+          python -m py_compile tools/essence_v57_crossrepo_functional.py tests/test_essence_v57_crossrepo_functional.py
+          python -m unittest -v tests.test_essence_v57_crossrepo_functional
+
+  plan-genuine-second-repository-inference:
+    needs: offline-frozen-source-contract
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && vars.ESSENCE_EVOLUTION_PAUSED != 'true' && vars.ESSENCE_V57_GENESIS_PAUSED != 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    outputs:
+      ready: ${{ steps.plan.outputs.ready }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: main
+          path: code
+          persist-credentials: false
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: essence-voice-state
+          path: receiver
+          persist-credentials: false
+          sparse-checkout: |
+            research/essence/v57_transfer/receipts
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Inspect accepted functional weights from isolated Demiurge branch without code execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 --filter=blob:none --sparse --branch essence-peer-shadow-state https://github.com/Hawkar-usls/Janus-Demiurge.git producer
+          git -C producer sparse-checkout set --no-cone research/essence/functional_v57_state/ledger.json models/v54gen0003 models/v57funcgen0004
+      - name: Freeze model-source Git SHA and immutable Genesis benchmark into signed plan
+        id: plan
+        run: |
+          python code/tools/essence_v57_crossrepo_functional.py plan \
+            --producer producer --genesis code --receiver receiver \
+            --out runtime/essence/v57_transfer/plan.json
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          p=json.load(open("runtime/essence/v57_transfer/plan.json"))
+          print("ready="+str(p["action"]=="COMPARE_ACCEPTED_G3_G4").lower())
+          PY
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          p=json.load(open("runtime/essence/v57_transfer/plan.json"))
+          print("### Genesis v5.7 independent-runner transfer")
+          print("Action:",p["action"])
+          print("Model weights are SHA-bound and must be previously accepted in Demiurge.")
+          print("24 Genesis-only task prompts frozen before any Qwen inference.")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: essence-v57-genesis-plan-${{ github.run_id }}
+          path: runtime/essence/v57_transfer/plan.json
+          retention-days: 30
+          if-no-files-found: error
+
+  real-qwen-g3-vs-g4-firstlook:
+    needs: plan-genuine-second-repository-inference
+    if: needs.plan-genuine-second-repository-inference.outputs.ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: main
+          path: code
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: essence-v57-genesis-plan-${{ github.run_id }}
+          path: runtime/essence/v57_transfer
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Read pinned producer commit and check out exact read-only adapter bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_SHA="$(python - <<'PY'
+          import json,re
+          p=json.load(open("runtime/essence/v57_transfer/plan.json"))
+          sha=p["producer_commit"]
+          if not re.fullmatch("[a-f0-9]{40}",sha):
+              raise SystemExit("UNTRUSTED_V57_SOURCE_SHA")
+          print(sha)
+          PY
+          )"
+          test -n "$SOURCE_SHA"
+          git clone --quiet --depth 1 --filter=blob:none --sparse --branch essence-peer-shadow-state https://github.com/Hawkar-usls/Janus-Demiurge.git producer
+          git -C producer fetch --quiet --depth 1 origin "$SOURCE_SHA"
+          git -C producer checkout --quiet --detach "$SOURCE_SHA"
+          git -C producer sparse-checkout set --no-cone research/essence/functional_v57_state/ledger.json models/v54gen0003 models/v57funcgen0004
+          test "$(git -C producer rev-parse HEAD)" = "$SOURCE_SHA"
+      - name: Install pinned CPU-only inference packages, no peer requirements
+        run: |
+          python -m pip install --disable-pip-version-check --no-cache-dir torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --no-cache-dir transformers==4.48.3 peft==0.13.2 safetensors==0.5.3
+      - name: Real paired first-look Qwen inference on Genesis-only 24-task suite
+        run: |
+          python code/tools/essence_v57_crossrepo_functional.py infer \
+            --producer producer --genesis code --plan runtime/essence/v57_transfer/plan.json \
+            --out runtime/essence/v57_transfer/receipt.json
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          d=json.load(open("runtime/essence/v57_transfer/receipt.json"))
+          print("### ESSENCE v5.7 cross-repository functional result")
+          print("Tasks:",d["task_count"])
+          print("G3 exact:",d["g3_exact"])
+          print("G4 exact:",d["g4_exact"])
+          print("New answers:",d["newly_correct"])
+          print("Lost previously correct answers:",d["previously_correct_lost"])
+          print("First-look transfer verdict:",d["status"])
+          print("Same-owner validation, not outside scientific replication.")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: essence-v57-genesis-real-transfer-${{ github.run_id }}
+          path: runtime/essence/v57_transfer/receipt.json
+          retention-days: 90
+          if-no-files-found: error
+
+  archive-crossrepo-functional-receipt:
+    needs: [plan-genuine-second-repository-inference,real-qwen-g3-vs-g4-firstlook]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: main
+          path: code
+          persist-credentials: false
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: essence-voice-state
+          path: receiver
+          persist-credentials: true
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: essence-v57-genesis-plan-${{ github.run_id }}
+          path: runtime/essence/v57_transfer
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: essence-v57-genesis-real-transfer-${{ github.run_id }}
+          path: runtime/essence/v57_transfer
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.11'
+      - name: Validate one future sealed read-only Qwen receipt before scoped write
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import re,sys
+          from pathlib import Path
+          sys.path.insert(0,str(Path("code").resolve()))
+          from tools import essence_v57_crossrepo_functional as m
+          p=m.checked(m.read("runtime/essence/v57_transfer/plan.json"))
+          r=m.checked(m.read("runtime/essence/v57_transfer/receipt.json"))
+          m.require(p.get("schema")==m.PLAN and
+                 p.get("action")=="COMPARE_ACCEPTED_G3_G4" and
+                 isinstance(p.get("receipt_path"),str) and
+                 re.fullmatch(r"research/essence/v57_transfer/receipts/[a-f0-9]{24}_[a-f0-9]{8}\.json",
+                              p["receipt_path"]) is not None and
+                 r.get("schema")==m.SCHEMA and
+                 r.get("source_commit")==p.get("producer_commit") and
+                 r.get("source_ledger_sha256")==p.get("source_ledger_sha256") and
+                 r.get("suite_git_blob_sha1")==m.SUITE_SHA1 and
+                 r.get("candidate_model_sha256")==m.CHILD_SHA and
+                 r.get("parent_model_sha256")==m.PARENT_SHA and
+                 r.get("g3_exact")+r.get("newly_correct")-
+                        r.get("previously_correct_lost")==r.get("g4_exact") and
+                 r.get("task_count")==24 and len(r.get("per_task",[]))==24 and
+                 r.get("status")==(
+                     "PASS_INTERNAL_CROSS_REPO_FUNCTIONAL_TRANSFER" if
+                     r.get("newly_correct",0)>=2 and
+                     r.get("previously_correct_lost")==0 and
+                     r.get("g4_exact",0)>r.get("g3_exact",0) else
+                     "HOLD_CROSS_REPO_FUNCTIONAL_TRANSFER") and
+                 r.get("real_qwen_cpu_inference") is True and
+                 r.get("model_code_execution") is False and
+                 r.get("receiver_training") is False and
+                 r.get("production_promotion") is False and
+                 r.get("sentinel_dispatch") is False,
+                 "GENESIS_V57_FORGED_OR_ESCALATED_RECEIPT")
+          m.write_once(Path("receiver")/p["receipt_path"],r)
+          PY
+          cd receiver
+          git config user.name 'ESSENCE Genesis v5.7 verifier[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f research/essence/v57_transfer/receipts
+          git diff --cached --check
+          git diff --cached --name-only > /tmp/v57-receipt-paths.txt
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          paths=Path("/tmp/v57-receipt-paths.txt").read_text().splitlines()
+          allow=re.compile(r"^research/essence/v57_transfer/receipts/[a-f0-9]{24}_[a-f0-9]{8}\.json$")
+          if len(paths)!=1 or any(not allow.fullmatch(p) for p in paths):
+              raise SystemExit("GENESIS_V57_UNAUTHORIZED_STATE_WRITE")
+          PY
+          git commit -m 'Genesis: SHA-bound first-look functional comparison G3 versus ESSENCE v5.7 G4'
+          git pull --rebase origin essence-voice-state
+          git push origin HEAD:refs/heads/essence-voice-state
+          echo "GENESIS_V57_CROSS_REPO_FUNCTIONAL_RECEIPT_PERSISTED=true" >> "$GITHUB_STEP_SUMMARY"
