@@ -33,7 +33,7 @@ SHADOW = "janus.essence.peer_mesh.shadow_config/5.2"
 BASE = Path("research/essence/mesh_v52")
 SHA40 = re.compile(r"^[a-f0-9]{40}$")
 SHA64 = re.compile(r"^[a-f0-9]{64}$")
-FILENAME = re.compile(r"^[a-f0-9]{24}\\.json$")
+FILENAME = re.compile(r"^[a-f0-9]{24}\.json$")
 MAX_BYTES = 40_000
 MAX_QUEUE = 64
 DENIED = ("network", "shell", "repo_write", "workflow_dispatch", "secrets", "hardware")
@@ -82,7 +82,7 @@ def put_once(path, obj):
     path = Path(path)
     if path.is_symlink():
         raise ValueError("MESH_SYMLINK_WRITE_DENIED")
-    raw = json.dumps(obj, ensure_ascii=False, sort_keys=True, indent=2) + "\\n"
+    raw = json.dumps(obj, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
     if path.exists():
         if path.read_text(encoding="utf-8") != raw:
             raise ValueError("MESH_IMMUTABLE_PACKET_COLLISION")
@@ -354,7 +354,7 @@ def main():
     result = process(args.root, args.repo, args.commit, args.state, args.peer)
     out = Path(args.receipt)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2, sort_keys=True)+"\\n", encoding="utf-8")
+    out.write_text(json.dumps(result, indent=2, sort_keys=True)+"\n", encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
 
 if __name__ == "__main__":
