@@ -126,14 +126,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY' >> "$GITHUB_ENV"
+          W54_PRODUCER_SHA="$(python - <<'PY'
           import json,re
           p=json.load(open("runtime/essence/v54/plan.json"))
           sha=p["producer_commit"]
           if not re.fullmatch("[0-9a-f]{40}",sha):
               raise SystemExit("UNTRUSTED_PRODUCER_SHA")
-          print("W54_PRODUCER_SHA="+sha)
+          print(sha)
           PY
+          )"
+          test -n "$W54_PRODUCER_SHA"
           git clone --quiet --depth 1 --filter=blob:none --sparse --branch essence-peer-shadow-state https://github.com/Hawkar-usls/Janus-Demiurge.git producer
           git -C producer fetch --quiet --depth 1 origin "$W54_PRODUCER_SHA"
           git -C producer checkout --quiet --detach "$W54_PRODUCER_SHA"

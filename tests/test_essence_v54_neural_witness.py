@@ -52,6 +52,14 @@ class PeerWitnessTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"BROKEN_SEAL"):
             m.validate_ledger(tampered)
 
+    def test_actions_binds_producer_sha_in_current_shell_step(self):
+        workflow=(Path(__file__).resolve().parents[1]/
+                  ".github/workflows/essence-v54-neural-witness.yml").read_text()
+        self.assertIn('W54_PRODUCER_SHA="$(python - <<',workflow)
+        self.assertIn('test -n "$W54_PRODUCER_SHA"',workflow)
+        self.assertNotIn('print("W54_PRODUCER_SHA="+sha)',workflow)
+        self.assertNotIn('python - <<\'PY\' >> "$GITHUB_ENV"',workflow)
+
     def test_accepted_parent_chain_can_be_validated(self):
         obj=first()
         child="c"*64
