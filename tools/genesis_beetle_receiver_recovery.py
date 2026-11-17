@@ -18,6 +18,8 @@ WORKFLOW = ".github/workflows/janus-beetle-memory-receiver.yml"
 ACK_STATUS = "INBOX_DURABLE_UNVERIFIED__NOT_RUNTIME_CONSUMPTION"
 MIN_LAST_ATTEMPT_SECONDS = 75 * 60
 MIN_SUCCESS_SECONDS = 90 * 60
+# Empty queues need occasional liveness checks, not frequent production work.
+MIN_IDLE_RECHECK_SECONDS = 180 * 60
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 ALLOWED_EVENTS = frozenset({"schedule", "workflow_dispatch", "push"})
 ALLOWED_STATUSES = frozenset({"queued", "in_progress", "waiting", "requested", "pending", "completed"})
@@ -69,8 +71,6 @@ def pending_exact(queue, ack):
 
 def decide(queue, ack, runs, now):
     behind = pending_exact(queue, ack)
-    if not behind:
-        return {"action": "CURRENT_ACK", "dispatch": False, "pending": 0}
     if (not isinstance(runs, dict) or not isinstance(runs.get("workflow_runs"), list) or
         not isinstance(now, datetime) or now.tzinfo is None):
         raise Hold("RUN_COLLECTION_UNVERIFIED")
@@ -82,7 +82,9 @@ def decide(queue, ack, runs, now):
             run.get("event") not in ALLOWED_EVENTS):
             continue
         origin = run.get("head_repository")
-        if isinstance(origin, dict) and origin.get("full_name") != REPOSITORY:
+        if not isinstance(origin, dict) or not origin.get("full_name"):
+            raise Hold("RUN_ORIGIN_UNVERIFIED")
+        if origin["full_name"] != REPOSITORY:
             continue
         if (type(run.get("id")) is not int or run["id"] < 1 or
             run.get("status") not in ALLOWED_STATUSES):
@@ -95,9 +97,19 @@ def decide(queue, ack, runs, now):
         raise Hold("NO_TRUSTED_RECEIVER_RUN_HISTORY")
     if any(run["status"] != "completed" for _, run in accepted):
         return {"action": "HOLD_ACTIVE_RECEIVER", "dispatch": False, "pending": behind}
+    # An up-to-date ACK proves delivery, not receiver liveness. Keep the
+    # existing pending-work policy unchanged; idle checks are slower and
+    # require a previously successful trusted run. Dispatch remains limited
+    # to the existing receiver, with no queue/ACK/authority mutation here.
+    successes = [age for age, run in accepted if run.get("conclusion") == "success"]
+    if not behind:
+        if not successes:
+            return {"action": "HOLD_NO_VERIFIED_RECEIVER_SUCCESS", "dispatch": False, "pending": 0}
+        if min(age for age, _ in accepted) < MIN_IDLE_RECHECK_SECONDS or min(successes) < MIN_IDLE_RECHECK_SECONDS:
+            return {"action": "CURRENT_ACK", "dispatch": False, "pending": 0}
+        return {"action": "RECHECK_IDLE_RECEIVER_LIVENESS", "dispatch": True, "pending": 0}
     if min(age for age, _ in accepted) < MIN_LAST_ATTEMPT_SECONDS:
         return {"action": "HOLD_RECENT_RECEIVER_ATTEMPT", "dispatch": False, "pending": behind}
-    successes = [age for age, run in accepted if run.get("conclusion") == "success"]
     if successes and min(successes) < MIN_SUCCESS_SECONDS:
         return {"action": "HOLD_RECENT_RECEIVER_SUCCESS", "dispatch": False, "pending": behind}
     return {"action": "RECOVER_MISSED_RECEIVER", "dispatch": True, "pending": behind}
