@@ -1,0 +1,320 @@
+{
+  "schema": "janus.essence.g9.frozen_functional_cases/1.0",
+  "role": "PRECOMMITTED_HELDOUT_FIRST_LOOK",
+  "created_date_utc": "2026-11-23",
+  "owner": "Hawkar-usls/Janus_Genesis",
+  "frozen_before_any_new_g9_functional_inference": true,
+  "train_on_cases": false,
+  "may_train_parent_or_child_on_cases": false,
+  "task_count": 48,
+  "categories": [
+    "integer_arithmetic",
+    "number_theory",
+    "modular_arithmetic",
+    "bitwise_reasoning",
+    "combinatorics",
+    "graph_shortest_path",
+    "sequence_rule",
+    "string_transforms"
+  ],
+  "claim_ceiling": "SAME_OWNER_FIRST_LOOK_NOT_EXTERNAL_REPLICATION",
+  "prior_suite": "research/essence/v55_functional/FROZEN_CASES.json",
+  "prior_suite_git_blob_sha1": "e76dca95402ccaf9deb5d0d8174757e4417c4c7f",
+  "requires_three_way_comparison": [
+    "G3",
+    "G8",
+    "G9_candidate"
+  ],
+  "candidate_acceptance": "NO_LOSSES_VS_G3_OR_G8_ON_ANY_PREVIOUSLY_SOLVED_CASE__AT_LEAST_2_NEW_SOLVED__STRICTLY_BEATS_BOTH",
+  "production_promotion": false,
+  "items": [
+    {
+      "id": "G9-001",
+      "category": "integer_arithmetic",
+      "prompt": "Compute 47 multiplied by 23. Reply with the integer only.",
+      "expected": "1081"
+    },
+    {
+      "id": "G9-002",
+      "category": "integer_arithmetic",
+      "prompt": "Compute 68 multiplied by 17. Reply with the integer only.",
+      "expected": "1156"
+    },
+    {
+      "id": "G9-003",
+      "category": "integer_arithmetic",
+      "prompt": "Compute 93 multiplied by 14. Reply with the integer only.",
+      "expected": "1302"
+    },
+    {
+      "id": "G9-004",
+      "category": "integer_arithmetic",
+      "prompt": "Compute 76 multiplied by 29. Reply with the integer only.",
+      "expected": "2204"
+    },
+    {
+      "id": "G9-005",
+      "category": "integer_arithmetic",
+      "prompt": "Compute 115 multiplied by 16. Reply with the integer only.",
+      "expected": "1840"
+    },
+    {
+      "id": "G9-006",
+      "category": "integer_arithmetic",
+      "prompt": "Compute 84 multiplied by 37. Reply with the integer only.",
+      "expected": "3108"
+    },
+    {
+      "id": "G9-007",
+      "category": "number_theory",
+      "prompt": "Compute the greatest common divisor of 198 and 84. Reply with the integer only.",
+      "expected": "6"
+    },
+    {
+      "id": "G9-008",
+      "category": "number_theory",
+      "prompt": "Compute the greatest common divisor of 275 and 165. Reply with the integer only.",
+      "expected": "55"
+    },
+    {
+      "id": "G9-009",
+      "category": "number_theory",
+      "prompt": "Compute the greatest common divisor of 462 and 330. Reply with the integer only.",
+      "expected": "66"
+    },
+    {
+      "id": "G9-010",
+      "category": "number_theory",
+      "prompt": "Compute the greatest common divisor of 144 and 96. Reply with the integer only.",
+      "expected": "48"
+    },
+    {
+      "id": "G9-011",
+      "category": "number_theory",
+      "prompt": "Compute the greatest common divisor of 437 and 209. Reply with the integer only.",
+      "expected": "19"
+    },
+    {
+      "id": "G9-012",
+      "category": "number_theory",
+      "prompt": "Compute the greatest common divisor of 391 and 221. Reply with the integer only.",
+      "expected": "17"
+    },
+    {
+      "id": "G9-013",
+      "category": "modular_arithmetic",
+      "prompt": "Compute the remainder when 7 to the power 5 is divided by 23. Reply with the integer only.",
+      "expected": "17"
+    },
+    {
+      "id": "G9-014",
+      "category": "modular_arithmetic",
+      "prompt": "Compute the remainder when 11 to the power 7 is divided by 31. Reply with the integer only.",
+      "expected": "13"
+    },
+    {
+      "id": "G9-015",
+      "category": "modular_arithmetic",
+      "prompt": "Compute the remainder when 13 to the power 5 is divided by 29. Reply with the integer only.",
+      "expected": "6"
+    },
+    {
+      "id": "G9-016",
+      "category": "modular_arithmetic",
+      "prompt": "Compute the remainder when 17 to the power 4 is divided by 43. Reply with the integer only.",
+      "expected": "15"
+    },
+    {
+      "id": "G9-017",
+      "category": "modular_arithmetic",
+      "prompt": "Compute the remainder when 9 to the power 8 is divided by 41. Reply with the integer only.",
+      "expected": "1"
+    },
+    {
+      "id": "G9-018",
+      "category": "modular_arithmetic",
+      "prompt": "Compute the remainder when 5 to the power 9 is divided by 37. Reply with the integer only.",
+      "expected": "6"
+    },
+    {
+      "id": "G9-019",
+      "category": "bitwise_reasoning",
+      "prompt": "What is 175 XOR 94 (bitwise exclusive or on nonnegative integers)? Reply with the integer only.",
+      "expected": "241"
+    },
+    {
+      "id": "G9-020",
+      "category": "bitwise_reasoning",
+      "prompt": "What is 203 XOR 37 (bitwise exclusive or on nonnegative integers)? Reply with the integer only.",
+      "expected": "238"
+    },
+    {
+      "id": "G9-021",
+      "category": "bitwise_reasoning",
+      "prompt": "What is 118 XOR 55 (bitwise exclusive or on nonnegative integers)? Reply with the integer only.",
+      "expected": "65"
+    },
+    {
+      "id": "G9-022",
+      "category": "bitwise_reasoning",
+      "prompt": "What is 247 XOR 105 (bitwise exclusive or on nonnegative integers)? Reply with the integer only.",
+      "expected": "158"
+    },
+    {
+      "id": "G9-023",
+      "category": "bitwise_reasoning",
+      "prompt": "What is 141 XOR 229 (bitwise exclusive or on nonnegative integers)? Reply with the integer only.",
+      "expected": "104"
+    },
+    {
+      "id": "G9-024",
+      "category": "bitwise_reasoning",
+      "prompt": "What is 83 XOR 156 (bitwise exclusive or on nonnegative integers)? Reply with the integer only.",
+      "expected": "207"
+    },
+    {
+      "id": "G9-025",
+      "category": "combinatorics",
+      "prompt": "How many ways can 3 distinct positions be chosen from 9 distinct positions if order does not matter? Reply with the integer only.",
+      "expected": "84"
+    },
+    {
+      "id": "G9-026",
+      "category": "combinatorics",
+      "prompt": "How many ways can 4 distinct positions be chosen from 11 distinct positions if order does not matter? Reply with the integer only.",
+      "expected": "330"
+    },
+    {
+      "id": "G9-027",
+      "category": "combinatorics",
+      "prompt": "How many ways can 5 distinct positions be chosen from 10 distinct positions if order does not matter? Reply with the integer only.",
+      "expected": "252"
+    },
+    {
+      "id": "G9-028",
+      "category": "combinatorics",
+      "prompt": "How many ways can 2 distinct positions be chosen from 12 distinct positions if order does not matter? Reply with the integer only.",
+      "expected": "66"
+    },
+    {
+      "id": "G9-029",
+      "category": "combinatorics",
+      "prompt": "How many ways can 3 distinct positions be chosen from 13 distinct positions if order does not matter? Reply with the integer only.",
+      "expected": "286"
+    },
+    {
+      "id": "G9-030",
+      "category": "combinatorics",
+      "prompt": "How many ways can 4 distinct positions be chosen from 8 distinct positions if order does not matter? Reply with the integer only.",
+      "expected": "70"
+    },
+    {
+      "id": "G9-031",
+      "category": "graph_shortest_path",
+      "prompt": "In an undirected unweighted graph with vertices 0 through 5, edges 0-1, 1-2, 0-3, 3-4, 4-5, what is the minimum number of edges in a path from 0 to 5? Reply with the integer only.",
+      "expected": "3"
+    },
+    {
+      "id": "G9-032",
+      "category": "graph_shortest_path",
+      "prompt": "In an undirected unweighted graph with vertices 0 through 5, edges 0-1, 1-2, 2-5, 0-3, 3-5, 2-4, what is the minimum number of edges in a path from 0 to 5? Reply with the integer only.",
+      "expected": "2"
+    },
+    {
+      "id": "G9-033",
+      "category": "graph_shortest_path",
+      "prompt": "In an undirected unweighted graph with vertices 0 through 6, edges 0-1, 1-3, 3-6, 0-2, 2-4, 4-5, 5-6, what is the minimum number of edges in a path from 0 to 6? Reply with the integer only.",
+      "expected": "3"
+    },
+    {
+      "id": "G9-034",
+      "category": "graph_shortest_path",
+      "prompt": "In an undirected unweighted graph with vertices 0 through 5, edges 0-2, 2-3, 3-5, 0-1, 1-4, 4-5, what is the minimum number of edges in a path from 0 to 5? Reply with the integer only.",
+      "expected": "3"
+    },
+    {
+      "id": "G9-035",
+      "category": "graph_shortest_path",
+      "prompt": "In an undirected unweighted graph with vertices 0 through 6, edges 0-1, 1-2, 2-3, 3-4, 4-5, 5-6, 1-5, what is the minimum number of edges in a path from 0 to 6? Reply with the integer only.",
+      "expected": "3"
+    },
+    {
+      "id": "G9-036",
+      "category": "graph_shortest_path",
+      "prompt": "In an undirected unweighted graph with vertices 0 through 5, edges 0-1, 1-2, 0-3, 3-4, 4-5, 2-5, what is the minimum number of edges in a path from 0 to 5? Reply with the integer only.",
+      "expected": "3"
+    },
+    {
+      "id": "G9-037",
+      "category": "sequence_rule",
+      "prompt": "An arithmetic sequence begins at 6 and increases by 7 each time. What is its 12th term? Reply with the integer only.",
+      "expected": "83"
+    },
+    {
+      "id": "G9-038",
+      "category": "sequence_rule",
+      "prompt": "An arithmetic sequence begins at 8 and increases by 5 each time. What is its 12th term? Reply with the integer only.",
+      "expected": "63"
+    },
+    {
+      "id": "G9-039",
+      "category": "sequence_rule",
+      "prompt": "An arithmetic sequence begins at 9 and increases by 9 each time. What is its 12th term? Reply with the integer only.",
+      "expected": "108"
+    },
+    {
+      "id": "G9-040",
+      "category": "sequence_rule",
+      "prompt": "An arithmetic sequence begins at 11 and increases by 4 each time. What is its 12th term? Reply with the integer only.",
+      "expected": "55"
+    },
+    {
+      "id": "G9-041",
+      "category": "sequence_rule",
+      "prompt": "An arithmetic sequence begins at 12 and increases by 6 each time. What is its 12th term? Reply with the integer only.",
+      "expected": "78"
+    },
+    {
+      "id": "G9-042",
+      "category": "sequence_rule",
+      "prompt": "An arithmetic sequence begins at 7 and increases by 13 each time. What is its 12th term? Reply with the integer only.",
+      "expected": "150"
+    },
+    {
+      "id": "G9-043",
+      "category": "string_transforms",
+      "prompt": "Reverse the letters of \"solstice\" (do not include quotes). Reply with the reversed lowercase string only.",
+      "expected": "ecitslos"
+    },
+    {
+      "id": "G9-044",
+      "category": "string_transforms",
+      "prompt": "Reverse the letters of \"research\" (do not include quotes). Reply with the reversed lowercase string only.",
+      "expected": "hcraeser"
+    },
+    {
+      "id": "G9-045",
+      "category": "string_transforms",
+      "prompt": "Reverse the letters of \"transform\" (do not include quotes). Reply with the reversed lowercase string only.",
+      "expected": "mrofsnart"
+    },
+    {
+      "id": "G9-046",
+      "category": "string_transforms",
+      "prompt": "Reverse the letters of \"generator\" (do not include quotes). Reply with the reversed lowercase string only.",
+      "expected": "rotareneg"
+    },
+    {
+      "id": "G9-047",
+      "category": "string_transforms",
+      "prompt": "Reverse the letters of \"validation\" (do not include quotes). Reply with the reversed lowercase string only.",
+      "expected": "noitadilav"
+    },
+    {
+      "id": "G9-048",
+      "category": "string_transforms",
+      "prompt": "Reverse the letters of \"chronology\" (do not include quotes). Reply with the reversed lowercase string only.",
+      "expected": "ygolonorhc"
+    }
+  ]
+}

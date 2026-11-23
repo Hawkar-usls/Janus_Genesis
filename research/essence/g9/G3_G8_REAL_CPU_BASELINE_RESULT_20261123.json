@@ -1,0 +1,100 @@
+{
+  "schema": "janus.essence.g9.real_cpu_64_case_baseline_result/1.0",
+  "artifact_id": 14822866259,
+  "date_utc": "2026-11-23",
+  "status": "REAL_G3_VS_G8_CPU_FIRSTLOOK_COMPLETE__G8_REGRESSION__G9_UNTESTED__PHYSICAL_OR_GENERAL_AGI_CLAIM_HOLD",
+  "source_repo": "Hawkar-usls/Janus_Genesis",
+  "run": "https://github.com/Hawkar-usls/Janus_Genesis/actions/runs/45182769498",
+  "run_conclusion": "success",
+  "workflow": "ESSENCE G9 Genesis frozen 64-case functional admission contract",
+  "artifact_name": "essence-g9-g3-g8-real-cpu-baselines",
+  "artifact_zip_sha256": "f4e94333bfd2bc8bc0e8d059e608cd026c53291ae2588316b20b087780301189",
+  "original_receipt_json_sha256": "280f379e08733f04270e0cf3cb3a3fd2e65a8a497c4a376c86851842840e4c87",
+  "exact_models": {
+    "base": "Qwen/Qwen2.5-0.5B-Instruct",
+    "base_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "g3_adapter_sha256": "bc05f07916cab24ae4fe814971b1de7e4b60a948bad1e99df19bbad720b2ef8d",
+    "g8_adapter_sha256": "d689455557ff1f12fd0d7e94adb73f987d1ba48c85566b0a41b60a32d18a3a48",
+    "g8_model_lineage_sha256": "6ce0325d322e1d9ece34aaa2dd6a58eceadba8142d35f82b2a698812e3ff3133",
+    "ledger_sha256": "4a2b82979c8ad9cd2f9db6d5c3dd5d3fc1b9a755fd16daa91a3c59a785cf3fe9"
+  },
+  "locked_exams": {
+    "old_16_git_blob_sha1": "e76dca95402ccaf9deb5d0d8174757e4417c4c7f",
+    "new_48_git_blob_sha1": "5098f73ffae7ee1c643322eac639ceaca92c7602",
+    "old_cases": 16,
+    "new_cases": 48,
+    "total_cases": 64,
+    "suite_was_frozen_before_this_inference": true,
+    "suite_was_not_used_in_training": true
+  },
+  "exact_results": {
+    "g3_correct_total": 12,
+    "g8_correct_total": 7,
+    "g3_correct_legacy": 5,
+    "g8_correct_legacy": 4,
+    "g3_correct_new": 7,
+    "g8_correct_new": 3,
+    "g8_newly_correct_beyond_g3": 0,
+    "g8_previous_g3_correct_lost": 5,
+    "identical_prompts_decoding": true,
+    "real_cpu_qwen_inference": true,
+    "elapsed_seconds": 103.501,
+    "per_category": {
+      "integer_arithmetic": {
+        "g3": 3,
+        "g8": 2
+      },
+      "number_theory": {
+        "g3": 5,
+        "g8": 5
+      },
+      "bit_operations": {
+        "g3": 0,
+        "g8": 0
+      },
+      "graph_reasoning": {
+        "g3": 0,
+        "g8": 0
+      },
+      "combinatorics": {
+        "g3": 0,
+        "g8": 0
+      },
+      "algebra": {
+        "g3": 0,
+        "g8": 0
+      },
+      "modular_arithmetic": {
+        "g3": 0,
+        "g8": 0
+      },
+      "bitwise_reasoning": {
+        "g3": 0,
+        "g8": 0
+      },
+      "graph_shortest_path": {
+        "g3": 3,
+        "g8": 0
+      },
+      "sequence_rule": {
+        "g3": 1,
+        "g8": 0
+      },
+      "string_transforms": {
+        "g3": 0,
+        "g8": 0
+      }
+    }
+  },
+  "interpretation": {
+    "internal_g8_shadow_admission_not_sufficient_for_real_functional_gain": true,
+    "G8_outperformed_G3": false,
+    "candidate_G9_created_or_examined": false,
+    "G9_accepted": false,
+    "external_organization_validation": false,
+    "production_model_changed": false,
+    "required_future_G9_gate": "64_CASES__G3_G8_G9__2_NEW_BEYOND_EITHER_BASELINE__ZERO_LOSSES_ON_PARENT_UNION__STRICTLY_BETTER_THAN_BOTH",
+    "false_scientific_promotion": false
+  },
+  "next": "Generate a genuinely new SHA-sealed G9 candidate from independently preregistered train-only sources without accessing the frozen examiner and run the exact same 64-case first-look in a separate Genesis job before any research-shadow or production adoption."
+}

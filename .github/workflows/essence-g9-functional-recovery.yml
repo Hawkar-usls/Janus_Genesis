@@ -1,0 +1,124 @@
+name: ESSENCE G9 Genesis frozen 64-case functional admission contract
+
+on:
+  pull_request:
+    paths:
+      - 'research/essence/g9/FROZEN_FUNCTIONAL_CASES.json'
+      - 'tools/essence_g9_functional_gate.py'
+      - 'tools/essence_g9_functional_baselines.py'
+      - 'tests/test_essence_g9_functional_gate.py'
+      - '.github/workflows/essence-g9-functional-recovery.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/essence/g9/FROZEN_FUNCTIONAL_CASES.json'
+      - 'tools/essence_g9_functional_gate.py'
+      - 'tools/essence_g9_functional_baselines.py'
+      - 'tests/test_essence_g9_functional_gate.py'
+      - '.github/workflows/essence-g9-functional-recovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preregistered-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check 16 legacy plus 48 never trained-on new tasks, G3/G8/G9 gate
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/essence_g9_functional_gate.py tests/test_essence_g9_functional_gate.py
+          python -m unittest -v tests.test_essence_g9_functional_gate
+      - name: Independently inspect source-owned G8 against G3, do not claim G9 yet
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 --branch essence-voice-state \
+            https://github.com/Hawkar-usls/Janus_Genesis.git /tmp/essence-genesis-receipts
+          git clone --quiet --depth 1 --branch essence-peer-shadow-state \
+            https://github.com/Hawkar-usls/Janus-Demiurge.git /tmp/essence-producer-shadow
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          from tools import essence_g9_functional_gate as m
+          receipt=json.loads(Path('/tmp/essence-genesis-receipts/research/essence/v55_functional/receipts/4a2b82979c8ad9cd2f9db6d5.json').read_text())
+          ledger=json.loads(Path('/tmp/essence-producer-shadow/research/essence/peer_v55_state/ledger.json').read_text())
+          assert receipt['schema']=='janus.essence.v55.genesis_functional_transfer_witness/5.5'
+          assert receipt['task_count']==16
+          assert (receipt['g3_exact'],receipt['candidate_exact'])==(5,4)
+          assert receipt['newly_correct']==0 and receipt['previously_correct_lost']==1
+          assert receipt['status']=='HOLD_FUNCTIONAL_TRANSFER_NOT_PROVEN'
+          assert receipt['accepted_adapter_sha256']==m.REFERENCE['G8']
+          assert ledger['current_generation']==8
+          assert ledger['current_adapter_sha256']==m.REFERENCE['G8']
+          assert ledger['production_promotion'] is False
+          assert ledger['external_validation'] is False
+          g9=Path('/tmp/essence-producer-shadow/models/v55gen0009')
+          assert not g9.exists(), 'G9_AWAIT_NEW_FIRST_LOOK_EVIDENCE'
+          suite=m.read_suite(Path('.'))
+          print('G9_FROZEN_FUNCTIONAL_CONTRACT_PASS_NO_NEW_MODEL_ADMITTED')
+          print('FROZEN_NEW_CASES=48 LEGACY_CASES=16')
+          print('REAL_G8_G3_PRIOR_SCORE=4/16_vs_5/16_HOLD')
+          PY
+
+  real-qwen-g3-g8-first-look-baselines:
+    needs: preregistered-contract
+    runs-on: ubuntu-24.04
+    timeout-minutes: 48
+    permissions:
+      contents: read
+    env:
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      HF_HUB_DOWNLOAD_TIMEOUT: '120'
+      TOKENIZERS_PARALLELISM: 'false'
+      OMP_NUM_THREADS: '4'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Obtain exact G3 and G8 weight source without any production authority
+        run: |
+          git clone --quiet --depth 1 --branch essence-peer-shadow-state \
+            https://github.com/Hawkar-usls/Janus-Demiurge.git /tmp/essence-g9-producer
+      - name: Install pinned CPU-only inference dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --no-cache-dir torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --no-cache-dir transformers==4.48.3 peft==0.13.2 safetensors==0.5.3
+      - name: Run true Qwen 0.5B G3 vs G8 inference on 64 frozen Genesis cases
+        run: |
+          set -euo pipefail
+          mkdir -p out/essence/g9
+          python -m tools.essence_g9_functional_baselines \
+            --producer /tmp/essence-g9-producer --genesis . \
+            --out out/essence/g9/g3_g8_first_look.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from tools import essence_g9_functional_gate as m
+          r=json.loads(Path("out/essence/g9/g3_g8_first_look.json").read_text())
+          assert r["sha256"]==m.digest({k:v for k,v in r.items() if k!="sha256"})
+          assert r["case_count"]==64 and len(r["per_task"])==64
+          assert r["real_cpu_qwen_inference"] is True
+          assert r["g9_candidate_exam_performed"] is False and r["g9_candidate_accepted"] is False
+          assert r["training_performed"] is False and r["production_promotion"] is False
+          print("G9_G3_G8_REAL_CPU_BASELINE_RECORDED__CANDIDATE_NOT_YET_TESTED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: essence-g9-g3-g8-real-cpu-baselines
+          path: out/essence/g9/g3_g8_first_look.json
+          if-no-files-found: error
+          retention-days: 90
