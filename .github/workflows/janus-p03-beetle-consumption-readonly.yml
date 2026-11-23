@@ -1,0 +1,174 @@
+name: JANUS P0.3 Real Beetle Context Consumption Receipt (Read-Only)
+
+on:
+  push:
+    branches:
+      - research/p03-context-consumption-receipt-20261123
+    paths:
+      - 'tools/genesis_beetle_consumption_receipt.py'
+      - 'tools/genesis_beetle_cpu_model_consumer.py'
+      - 'tests/test_genesis_beetle_consumption_receipt.py'
+      - 'tests/test_genesis_beetle_cpu_model_consumer.py'
+      - 'tests/run_genesis_p03_fault_matrix.py'
+      - '.github/workflows/janus-p03-beetle-consumption-readonly.yml'
+  pull_request:
+    paths:
+      - 'tools/genesis_beetle_consumption_receipt.py'
+      - 'tools/genesis_beetle_cpu_model_consumer.py'
+      - 'tests/test_genesis_beetle_consumption_receipt.py'
+      - 'tests/test_genesis_beetle_cpu_model_consumer.py'
+      - 'tests/run_genesis_p03_fault_matrix.py'
+      - '.github/workflows/janus-p03-beetle-consumption-readonly.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-p03-consumption-readonly-${{ github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  safety-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit data-dependent computation, HA replay, fail-closed facts
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/genesis_beetle_consumption_receipt.py tests/test_genesis_beetle_consumption_receipt.py
+          python -m unittest -v tests.test_genesis_beetle_consumption_receipt
+          python -m unittest -v tests.test_genesis_beetle_cpu_model_consumer
+          python -m unittest -v tests.test_genesis_beetle_memory_bridge
+          mkdir -p runtime/p03
+          python -m tests.run_genesis_p03_fault_matrix --out runtime/p03/FAULT_MATRIX.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: janus-p03-bounded-fault-matrix
+          path: runtime/p03/FAULT_MATRIX.json
+          if-no-files-found: error
+          retention-days: 60
+
+  consume-current-home-readonly:
+    needs: safety-contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: _code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: janus/habitat-cloud-state
+          path: _state
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Consume actual durable staged context and write an immutable run artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          STATE_SHA="$(git -C _state rev-parse HEAD)"
+          mkdir -p runtime/p03
+          PYTHONPATH=_code python -m tools.genesis_beetle_consumption_receipt \
+            --state-root _state --state-commit "$STATE_SHA" \
+            --out runtime/p03/CONSUMPTION_RECEIPT.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('runtime/p03/CONSUMPTION_RECEIPT.json').read_text())
+          assert r['status']=='READONLY_CONTEXT_QUERY_EXECUTED__NOT_MODEL_CONSUMPTION'
+          assert r['parse_status']=='PARSED_HASH_BOUND_CONTEXT'
+          assert r['load_status']=='LOADED_STRUCTURED_CONTEXT_FOR_READONLY_QUERY'
+          assert r['execute_status']=='DETERMINISTIC_CONTEXT_QUERY_EXECUTED'
+          assert r['query_result']['reproducible_read_only_query_executed'] is True
+          assert r['query_result']['input_item_count']>0
+          assert r['model_call_attested'] is False
+          assert r['p03_admission'] is False
+          assert r['external_effects'] is False
+          assert r['state_mutated'] is False
+          assert r['learned_improvement_attested'] is False
+          print('JANUS_REAL_DURABLE_CONTEXT_READONLY_QUERY_EXECUTED__MODEL_AND_P03_HOLD')
+          PY
+      - name: Preserve proof linked to exact source-state commit
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-p03-genesis-readonly-consumption
+          path: runtime/p03/CONSUMPTION_RECEIPT.json
+          if-no-files-found: error
+          retention-days: 60
+
+
+  cpu-model-consumption:
+    needs: safety-contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    permissions:
+      contents: read
+    env:
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      HF_HUB_DOWNLOAD_TIMEOUT: '120'
+      TOKENIZERS_PARALLELISM: 'false'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: _code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: janus/habitat-cloud-state
+          path: _state
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned public local CPU model runtime without tokens
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --no-cache-dir torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check --no-cache-dir transformers==4.48.3 safetensors==0.5.3
+      - name: Call frozen SmolLM locally on actual SHA-verified Cloud HOME context
+        shell: bash
+        run: |
+          set -euo pipefail
+          STATE_SHA="$(git -C _state rev-parse HEAD)"
+          mkdir -p runtime/p03
+          PYTHONPATH=_code python -m tools.genesis_beetle_cpu_model_consumer \
+            --state-root _state --state-commit "$STATE_SHA" \
+            --out runtime/p03/REAL_CPU_MODEL_CONSUMPTION.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("runtime/p03/REAL_CPU_MODEL_CONSUMPTION.json").read_text())
+          assert x["schema"]=="janus.genesis.p03_beetle_cpu_model_consumption.v1"
+          assert x["status"]=="ACTUAL_CPU_MODEL_CALL_COMPLETED__SEMANTIC_AND_EXTERNAL_HOLD"
+          assert x["model_call_attested"] is True
+          assert 1<=x["generate_measurement"]["generated_tokens"]<=32
+          assert x["load_status"]=="UNTRUSTED_CONTEXT_TEXT_IN_MODEL_PROMPT"
+          assert x["execute_status"]=="LOCAL_CPU_TRANSFORMER_GENERATE_COMPLETED"
+          for k in ("p03_accepted","model_understood_context_proven",
+                    "model_performance_gain_proven","external_custodian_attested",
+                    "model_weights_modified","source_writeback_performed",
+                    "new_repo_or_fork_created","cloud_home_production_model_integrated"):
+              assert x[k] is False
+          print("JANUS_REAL_CPU_CONTEXT_PROMPT_CONSUMPTION_OBSERVED__MODEL_OUTPUT_UNTRUSTED__P03_HOLD")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: janus-p03-genesis-real-cpu-model-consumption
+          path: runtime/p03/REAL_CPU_MODEL_CONSUMPTION.json
+          if-no-files-found: error
+          retention-days: 60
