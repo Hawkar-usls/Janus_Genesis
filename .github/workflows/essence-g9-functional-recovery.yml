@@ -1,0 +1,69 @@
+name: ESSENCE G9 Genesis frozen 64-case functional admission contract
+
+on:
+  pull_request:
+    paths:
+      - 'research/essence/g9/FROZEN_FUNCTIONAL_CASES.json'
+      - 'tools/essence_g9_functional_gate.py'
+      - 'tests/test_essence_g9_functional_gate.py'
+      - '.github/workflows/essence-g9-functional-recovery.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/essence/g9/FROZEN_FUNCTIONAL_CASES.json'
+      - 'tools/essence_g9_functional_gate.py'
+      - 'tests/test_essence_g9_functional_gate.py'
+      - '.github/workflows/essence-g9-functional-recovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preregistered-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check 16 legacy plus 48 never trained-on new tasks, G3/G8/G9 gate
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/essence_g9_functional_gate.py tests/test_essence_g9_functional_gate.py
+          python -m unittest -v tests.test_essence_g9_functional_gate
+      - name: Independently inspect source-owned G8 against G3, do not claim G9 yet
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 --branch essence-voice-state \
+            https://github.com/Hawkar-usls/Janus_Genesis.git /tmp/essence-genesis-receipts
+          git clone --quiet --depth 1 --branch essence-peer-shadow-state \
+            https://github.com/Hawkar-usls/Janus-Demiurge.git /tmp/essence-producer-shadow
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          from tools import essence_g9_functional_gate as m
+          receipt=json.loads(Path('/tmp/essence-genesis-receipts/research/essence/v55_functional/receipts/4a2b82979c8ad9cd2f9db6d5.json').read_text())
+          ledger=json.loads(Path('/tmp/essence-producer-shadow/research/essence/peer_v55_state/ledger.json').read_text())
+          assert receipt['schema']=='janus.essence.v55.genesis_functional_transfer_witness/5.5'
+          assert receipt['task_count']==16
+          assert (receipt['g3_exact'],receipt['candidate_exact'])==(5,4)
+          assert receipt['newly_correct']==0 and receipt['previously_correct_lost']==1
+          assert receipt['status']=='HOLD_FUNCTIONAL_TRANSFER_NOT_PROVEN'
+          assert receipt['accepted_adapter_sha256']==m.REFERENCE['G8']
+          assert ledger['current_generation']==8
+          assert ledger['current_adapter_sha256']==m.REFERENCE['G8']
+          assert ledger['production_promotion'] is False
+          assert ledger['external_validation'] is False
+          g9=Path('/tmp/essence-producer-shadow/models/v55gen0009')
+          assert not g9.exists(), 'G9_AWAIT_NEW_FIRST_LOOK_EVIDENCE'
+          suite=m.read_suite(Path('.'))
+          print('G9_FROZEN_FUNCTIONAL_CONTRACT_PASS_NO_NEW_MODEL_ADMITTED')
+          print('FROZEN_NEW_CASES=48 LEGACY_CASES=16')
+          print('REAL_G8_G3_PRIOR_SCORE=4/16_vs_5/16_HOLD')
+          PY
