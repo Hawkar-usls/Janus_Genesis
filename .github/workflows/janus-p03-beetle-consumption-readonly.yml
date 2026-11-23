@@ -1,0 +1,95 @@
+name: JANUS P0.3 Real Beetle Context Consumption Receipt (Read-Only)
+
+on:
+  push:
+    branches:
+      - research/p03-context-consumption-receipt-20261123
+    paths:
+      - 'tools/genesis_beetle_consumption_receipt.py'
+      - 'tests/test_genesis_beetle_consumption_receipt.py'
+      - '.github/workflows/janus-p03-beetle-consumption-readonly.yml'
+  pull_request:
+    paths:
+      - 'tools/genesis_beetle_consumption_receipt.py'
+      - 'tests/test_genesis_beetle_consumption_receipt.py'
+      - '.github/workflows/janus-p03-beetle-consumption-readonly.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: janus-p03-consumption-readonly
+  cancel-in-progress: false
+
+jobs:
+  safety-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit data-dependent computation, HA replay, fail-closed facts
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/genesis_beetle_consumption_receipt.py tests/test_genesis_beetle_consumption_receipt.py
+          python -m unittest -v tests.test_genesis_beetle_consumption_receipt
+          python -m unittest -v tests.test_genesis_beetle_memory_bridge
+
+  consume-current-home-readonly:
+    needs: safety-contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: _code
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: janus/habitat-cloud-state
+          path: _state
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Consume actual durable staged context and write an immutable run artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          STATE_SHA="$(git -C _state rev-parse HEAD)"
+          mkdir -p runtime/p03
+          PYTHONPATH=_code python -m tools.genesis_beetle_consumption_receipt \
+            --state-root _state --state-commit "$STATE_SHA" \
+            --out runtime/p03/CONSUMPTION_RECEIPT.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('runtime/p03/CONSUMPTION_RECEIPT.json').read_text())
+          assert r['status']=='READONLY_CONTEXT_QUERY_EXECUTED__NOT_MODEL_CONSUMPTION'
+          assert r['parse_status']=='PARSED_HASH_BOUND_CONTEXT'
+          assert r['load_status']=='LOADED_STRUCTURED_CONTEXT_FOR_READONLY_QUERY'
+          assert r['execute_status']=='DETERMINISTIC_CONTEXT_QUERY_EXECUTED'
+          assert r['query_result']['reproducible_read_only_query_executed'] is True
+          assert r['query_result']['input_item_count']>0
+          assert r['model_call_attested'] is False
+          assert r['p03_admission'] is False
+          assert r['external_effects'] is False
+          assert r['state_mutated'] is False
+          assert r['learned_improvement_attested'] is False
+          print('JANUS_REAL_DURABLE_CONTEXT_READONLY_QUERY_EXECUTED__MODEL_AND_P03_HOLD')
+          PY
+      - name: Preserve proof linked to exact source-state commit
+        uses: actions/upload-artifact@v4
+        with:
+          name: janus-p03-genesis-readonly-consumption
+          path: runtime/p03/CONSUMPTION_RECEIPT.json
+          if-no-files-found: error
+          retention-days: 60
