@@ -1,0 +1,76 @@
+{
+  "schema": "janus.essence.g9.prospective_functional_lock/1.0",
+  "artifact_id": "ESSENCE-G9-FUNCTIONAL-RECOVERY-2026-11-23",
+  "status": "FROZEN_BEFORE_FIRST_G9_NEURAL_EXAM__NO_G9_ACCEPTED",
+  "date": "2026-11-23",
+  "authority_repo": "Hawkar-usls/Janus_Genesis",
+  "source_repo": "Hawkar-usls/Janus-Demiurge",
+  "prior_v55_ledger_branch": "essence-peer-shadow-state",
+  "expected_current_generation": 8,
+  "generation_to_examine": 9,
+  "reference_baselines": {
+    "g3_adapter_sha256": "bc05f07916cab24ae4fe814971b1de7e4b60a948bad1e99df19bbad720b2ef8d",
+    "g8_adapter_sha256": "d689455557ff1f12fd0d7e94adb73f987d1ba48c85566b0a41b60a32d18a3a48",
+    "prior_legacy_first_look_receipt": "https://github.com/Hawkar-usls/Janus_Genesis/blob/essence-voice-state/research/essence/v55_functional/receipts/4a2b82979c8ad9cd2f9db6d5.json",
+    "prior_g3_correct": 5,
+    "prior_g8_correct": 4,
+    "prior_g8_newly_correct": 0,
+    "prior_g8_previously_correct_lost": 1,
+    "prior_external_validation": false
+  },
+  "suite": {
+    "legacy_path": "research/essence/v55_functional/FROZEN_CASES.json",
+    "legacy_git_blob_sha1": "e76dca95402ccaf9deb5d0d8174757e4417c4c7f",
+    "legacy_case_count": 16,
+    "new_path": "research/essence/g9/FROZEN_FUNCTIONAL_CASES.json",
+    "new_git_blob_sha1": "5098f73ffae7ee1c643322eac639ceaca92c7602",
+    "new_case_count": 48,
+    "total_case_count": 64,
+    "new_categories": [
+      "integer_arithmetic",
+      "number_theory",
+      "modular_arithmetic",
+      "bitwise_reasoning",
+      "combinatorics",
+      "graph_shortest_path",
+      "sequence_rule",
+      "string_transforms"
+    ],
+    "disallow_training_on_cases": true,
+    "forbid_posthoc_task_edits": true,
+    "candidate_weights_must_be_sha_sealed_before_first_look": true
+  },
+  "eligibility_rule": {
+    "three_way_real_qwen_inference_required": true,
+    "compare_against_G3_and_G8": true,
+    "at_least_new_correct_beyond_union": 2,
+    "allowable_previously_solved_lost": 0,
+    "candidate_total_strictly_greater_than_both": true,
+    "candidate_distinct_weight_sha_required": true,
+    "candidate_lineage_sha_verified": true,
+    "no_unverified_fake_receipts": true,
+    "no_implicit_production_adoption": true,
+    "future_positive_label": "ELIGIBLE_FOR_INDEPENDENT_REVIEW_NOT_PRODUCTION",
+    "failing_label": "HOLD_G9_FUNCTIONAL_RECOVERY_NOT_PROVEN"
+  },
+  "anti_contamination": {
+    "freeze_before_candidate_evaluation": true,
+    "no_retraining_after_review_on_holdout": true,
+    "holdout_content_excluded_from_LO_RA_training": true,
+    "first_look_score_only": true,
+    "independent_run_required": true,
+    "identical_prompt_and_decoding_per_model": true,
+    "no_model_generated_code_execution": true,
+    "no_optional_stopping_and_no_cherry_picked_task_subsets": true
+  },
+  "known_limits": {
+    "same_owner_cross_repo_not_external_replication": true,
+    "no_g9_trained_or_accepted_by_this_protocol": true,
+    "actual_general_intelligence_gain_claim_allowed": false,
+    "lineage_digest_not_benchmark_score": true,
+    "GitHub_Actions_schedule_is_best_effort": true,
+    "production_promotion": false,
+    "external_validation": false
+  },
+  "next": "Run genuine CPU Qwen G3/G8 baseline on all 64 frozen cases. After G9 candidate exists, do genuinely separate first-look comparison and block generation9 acceptance without external review. Do not modify either frozen suite after seeing results."
+}
