@@ -7,11 +7,13 @@ on:
     paths:
       - 'tools/genesis_beetle_consumption_receipt.py'
       - 'tests/test_genesis_beetle_consumption_receipt.py'
+      - 'tests/run_genesis_p03_fault_matrix.py'
       - '.github/workflows/janus-p03-beetle-consumption-readonly.yml'
   pull_request:
     paths:
       - 'tools/genesis_beetle_consumption_receipt.py'
       - 'tests/test_genesis_beetle_consumption_receipt.py'
+      - 'tests/run_genesis_p03_fault_matrix.py'
       - '.github/workflows/janus-p03-beetle-consumption-readonly.yml'
   workflow_dispatch:
 
@@ -39,6 +41,14 @@ jobs:
           python -m py_compile tools/genesis_beetle_consumption_receipt.py tests/test_genesis_beetle_consumption_receipt.py
           python -m unittest -v tests.test_genesis_beetle_consumption_receipt
           python -m unittest -v tests.test_genesis_beetle_memory_bridge
+          mkdir -p runtime/p03
+          python -m tests.run_genesis_p03_fault_matrix --out runtime/p03/FAULT_MATRIX.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: janus-p03-bounded-fault-matrix
+          path: runtime/p03/FAULT_MATRIX.json
+          if-no-files-found: error
+          retention-days: 60
 
   consume-current-home-readonly:
     needs: safety-contracts
