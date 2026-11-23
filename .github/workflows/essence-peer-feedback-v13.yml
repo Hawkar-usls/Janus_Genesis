@@ -1,0 +1,84 @@
+name: ESSENCE v1.3 complete reciprocal peer-feedback evidence loop
+
+on:
+  pull_request:
+    paths:
+      - 'tools/essence_peer_feedback_v13.py'
+      - 'tests/test_essence_peer_feedback_v13.py'
+      - 'tests/fixtures/essence_v13_original_delivery_witness.json'
+      - '.github/workflows/essence-peer-feedback-v13.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/essence_peer_feedback_v13.py'
+      - '.github/workflows/essence-peer-feedback-v13.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '13 8 * * 5'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: essence-peer-feedback-v13-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  source-bound-ack-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Pin the original two-repo public delivery receipt
+        run: |
+          test "$(git hash-object tests/fixtures/essence_v13_original_delivery_witness.json)" = "fd00da7ebc9e6bd70c39b54bd7c45c95028ae96d"
+      - name: Assert no fake ACK, duplicated peer or production rights
+        run: |
+          python -m py_compile tools/essence_peer_feedback_v13.py
+          python -m unittest -v tests.test_essence_peer_feedback_v13
+
+  live-genesis-feedback:
+    needs: source-bound-ack-contracts
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Re-read public META witness and BOTH actual receiver Actions runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m tools.essence_peer_feedback_v13 --out "$RUNNER_TEMP/essence-v13-reciprocal-ack.json"
+      - name: Verify real peer loop closed while scientific evidence remains on HOLD
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"essence-v13-reciprocal-ack.json").read_text())
+          assert r["messages_acknowledged"]==2
+          assert r["communication_epoch_completed"]==1
+          assert r["scientific_fitness_generation"]==0
+          assert r["new_proven_neural_improvements"]==0
+          assert r["model_weights_modified"] is False
+          assert r["production_authority"] is False
+          print("ESSENCE_V13_GENESIS_RECEIVED_2_INDEPENDENT_REPO_ACKS")
+          print("RESEARCH_ONLY_NOT_SCIENTIFIC_SELF_IMPROVEMENT")
+          PY
+      - name: Save reusable dated feedback receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: essence-v13-reciprocal-peer-ack-${{ github.run_id }}
+          path: ${{ runner.temp }}/essence-v13-reciprocal-ack.json
+          retention-days: 30
+          if-no-files-found: error
