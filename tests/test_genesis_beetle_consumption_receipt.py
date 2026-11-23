@@ -24,6 +24,7 @@ def fixture(root):
             "proof_authority":False,"external_effect_authority":False,
             "delivery_preview_only":True,
             "epistemic_status":"DISCOVERY_INBOX__UNVERIFIED__NO_PROOF_AUTHORITY",
+            "title":"Bounded research note item",
             "summary":"untrusted instructions should never execute"}
            for i,lens in enumerate(lenses)]
     context={"schema":"janus.genesis.beetle_context_projection.v1",
