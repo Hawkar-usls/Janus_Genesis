@@ -173,5 +173,30 @@ class RegistrySelectiveUpdateTests(unittest.TestCase):
             self.assertEqual(json.loads((root/"old.json").read_text()),json.loads((root/"new.json").read_text()))
             print("R65_EXISTING_PLANNER_INVARIANT "+repo+" CONTROLLED_TEST_ONLY")
 
+
+class RegistryHomeostasisTests(unittest.TestCase):
+    def test_reviewed_real_engineering_context_at_planner(self):
+        import os
+        from contextlib import redirect_stdout
+        from io import StringIO
+        from unittest.mock import patch
+        from tools import registry_homeostasis_r67 as h
+        source=os.environ.get("R67_PRODUCED_CONTEXT")
+        pin=os.environ.get("R67_PRODUCED_PIN")
+        if not source or not pin:
+            self.skipTest("R67 dedicated producer supplies verified context")
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            (root/"producer").mkdir();(root/"receiver").mkdir()
+            common=["planner","plan","--producer",str(root/"producer"),"--receiver",str(root/"receiver")]
+            with patch("sys.argv",common+["--out",str(root/"old.json")]):
+                m.main()
+            stream=StringIO()
+            with redirect_stdout(stream),patch("sys.argv",common+["--out",str(root/"new.json"),"--registry-homeostasis",source,"--registry-homeostasis-pin",pin]):
+                m.main()
+            self.assertIn("R67_PLANNER_CONTEXT",stream.getvalue())
+            self.assertEqual(json.loads((root/"old.json").read_text()),json.loads((root/"new.json").read_text()))
+            print("R67_EXISTING_PLANNER_INVARIANT Hawkar-usls/Janus_Genesis")
+
 if __name__=="__main__":
     unittest.main()
