@@ -1,0 +1,86 @@
+name: Registry Mind R6.6 persistent context lineage
+on:
+  pull_request:
+    paths:
+      - 'tools/registry_lineage_r66.py'
+      - '.janus/essence/registry_lineage_r66_archive.json'
+      - '.github/workflows/registry-r66-lineage.yml'
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      pin: ${{ steps.snapshot.outputs.pin }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            tools
+            .janus/essence
+      - name: Verify archived generations and recovery controls
+        run: python3 tools/registry_lineage_r66.py test
+      - name: Open exact generations from committed Git archive
+        id: snapshot
+        run: |
+          set -euo pipefail
+          python3 tools/registry_lineage_r66.py snapshot --out "$RUNNER_TEMP/r66/snapshot.json"
+          python3 -c 'import json,os,pathlib;print("pin="+json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"r66/snapshot.json").read_text())["receipt_sha256"])' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: r66-snapshot
+          path: ${{ runner.temp }}/r66/snapshot.json
+          if-no-files-found: error
+  recovery:
+    needs: snapshot
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      pin: ${{ steps.recover.outputs.pin }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            tools
+            .janus/essence
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: r66-snapshot
+          path: ${{ runner.temp }}/prior
+      - name: Recover historical G1 while retaining G2 high-water
+        id: recover
+        env:
+          PRIOR_PIN: ${{ needs.snapshot.outputs.pin }}
+        run: |
+          set -euo pipefail
+          python3 tools/registry_lineage_r66.py recover --prior "$RUNNER_TEMP/prior/snapshot.json" --pin "$PRIOR_PIN" --out "$RUNNER_TEMP/r66/recovered.json"
+          python3 -c 'import json,os,pathlib;print("pin="+json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"r66/recovered.json").read_text())["receipt_sha256"])' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: r66-recovered
+          path: ${{ runner.temp }}/r66/recovered.json
+          if-no-files-found: error
+  reopen:
+    needs: recovery
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            tools
+            .janus/essence
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: r66-recovered
+          path: ${{ runner.temp }}/prior
+      - name: Independently reopen recovered G1 from Git archive, no registry checkout
+        env:
+          RECOVERY_PIN: ${{ needs.recovery.outputs.pin }}
+        run: |
+          set -euo pipefail
+          python3 tools/registry_lineage_r66.py verify-recovery --prior "$RUNNER_TEMP/prior/recovered.json" --pin "$RECOVERY_PIN"
