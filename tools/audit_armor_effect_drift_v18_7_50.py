@@ -43,6 +43,9 @@ SURFACE_CLASSIFICATIONS = (
      "READ_ONLY_SOURCE_PINNED_PUBLIC_VOICE_FACT_FETCH_NOT_ARMOR_ADMITTED"),
     ("tools/essence_v54_neural_witness.py",
      "READ_ONLY_FIXED_ARGUMENT_GIT_REV_PARSE_MODEL_WITNESS_NOT_ARMOR_ADMITTED"),
+    # R6.9: fixed git -C <checkout> rev-parse HEAD; read-only job, no Armor admission.
+    ("tools/registry_living_memory_r69.py",
+     "READ_ONLY_FIXED_ARGUMENT_GIT_REV_PARSE_CONTEXT_WITNESS_NOT_ARMOR_ADMITTED"),
     ("tools/essence_v55_functional_witness.py",
      "READ_ONLY_GIT_SHA_PINNED_FUNCTIONAL_MODEL_EXAM_NOT_ARMOR_ADMITTED"),
     ("tools/janus_sentinel_mesh_lease.py",
