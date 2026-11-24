@@ -68,6 +68,12 @@ def recover(p,live,pointer,records,prior,pin):
     req(prior==capsule(p,live,pointer,records,1),"CURRENT_VIEW")
     # Recovery returns prior knowledge but never lowers the committed current pointer.
     return capsule(p,live,pointer,records,0)
+def consume_current(path,pin,repo,root="."):
+    p,live,_,pointer,records=load(repo,root)
+    x=u.load(path);b.checked(x,pin)
+    req(x==capsule(p,live,pointer,records,1),"CURRENT_REVIEWED_CONTEXT")
+    print("R67_PLANNER_CONTEXT "+json.dumps(report(x),sort_keys=True))
+    return x
 def report(x):
     return {"repository":x["repository"],"view_generation":x["view_generation"],"current_generation":x["current_generation"],"high_water":x["high_water"],"scientific_pin":x["scientific_pin"],"source_blob":x["source_blob"],"recovery_evidence_available":x["engineering_evidence"]["recovery"] is not None,"registry_document_reads_at_consumer":0,"receipt":x["receipt_sha256"],"action_authority":False}
 class Tests(unittest.TestCase):
