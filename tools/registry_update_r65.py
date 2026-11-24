@@ -102,6 +102,8 @@ def accept(p,old,oldpin,new,newpin,mode):
     req(new["dependencies"]!=old["dependencies"],"NO_CHANGE")
     changed=[k for k in old["dependencies"] if old["dependencies"][k]!=new["dependencies"][k]]
     req(all(k in {key(x) for x in IDENTITY} for k in changed),"ROUTE_DRIFT")
+    base=observed_map(b.dependencies(p))
+    req(all(new["dependencies"][k]!=base[k] for k in changed),"RETURN_TO_BASE_REVIEW")
     for k in set(old["overlays"])-set(changed):
         req(new["overlays"].get(k)==old["overlays"][k],"UNCHANGED_OVERLAY")
     # A producer pin authenticates only this trusted CI handoff, not scientific truth.
@@ -114,6 +116,13 @@ def materialize_context(p,release):
         for g in context:context[g]=[r for r in context[g] if r["source_blob"]!=oldblob]
         for r in v["fields"]:
             context[r["group"]].append({k:v for k,v in r.items() if k!="group"})
+    return context
+def load_reviewed_context(repo,root,previous_path,previous_pin,release_path,release_pin):
+    # Explicit pins must come from a reviewed release/CI handoff, not candidate JSON.
+    p=seed(repo,root);old=load(previous_path);new=load(release_path)
+    accept(p,old,previous_pin,new,release_pin,"LIVE_OBSERVATION")
+    context=materialize_context(p,new)
+    print("R65_REVIEWED_PLANNER_CONTEXT "+json.dumps({"repository":repo,"generation":new["generation"],"pin":release_pin,"fields":sum(map(len,context.values())),"action_authority":False,"cortex_citations":"BASE_HISTORICAL_ONLY"},sort_keys=True))
     return context
 def fetch(k,sha):
     req(k in IDENTITY and re.fullmatch("[0-9a-f]{40}",sha),"FETCH_SCOPE")
