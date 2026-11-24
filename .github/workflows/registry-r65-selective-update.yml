@@ -31,6 +31,10 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             registry/TRUMP_CURRENT_STATE.json
+      - name: Existing ESSENCE planner CLI accepts reviewed replacement in controlled test
+        env:
+          R65_ORIGINAL_SOURCE: frozen-source/registry/TRUMP_CURRENT_STATE.json
+        run: python3 -m unittest -v tests.test_essence_v54_neural_witness
       - name: Two controlled changes of an original verified source with no-read reuse
         id: fixture
         run: |
