@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'tools/essence_v54_neural_witness.py'
+      - 'tools/registry_continuity_r68.py'
+      - '.janus/essence/registry_continuity_r68_*.json'
       - 'tools/registry_boot_r64.py'
       - '.janus/essence/registry_boot_r64_seed.json'
       - 'tests/test_essence_v54_neural_witness.py'
@@ -12,6 +14,8 @@ on:
     branches: [main]
     paths:
       - 'tools/essence_v54_neural_witness.py'
+      - 'tools/registry_continuity_r68.py'
+      - '.janus/essence/registry_continuity_r68_*.json'
       - 'tools/registry_boot_r64.py'
       - '.janus/essence/registry_boot_r64_seed.json'
       - 'tests/test_essence_v54_neural_witness.py'
@@ -51,6 +55,10 @@ jobs:
           python -m py_compile tools/essence_v54_neural_witness.py tests/test_essence_v54_neural_witness.py
           python -m unittest -v tests.test_essence_v54_neural_witness
 
+      - name: Verify R6.8 persistent reviewed context and read current Git pointer
+        run: |
+          python tools/registry_continuity_r68.py test
+          python tools/registry_continuity_r68.py wake
       - name: Verify reviewed seed and relevant-change controls
         run: python tools/registry_boot_r64.py test
       - name: Observe live source metadata (no Registry document checkout)
@@ -109,7 +117,7 @@ jobs:
       - name: Validate parent chain and skip already witnessed generation
         id: inspect
         run: |
-          python code/tools/essence_v54_neural_witness.py plan --producer producer --receiver receiver --out runtime/essence/v54/plan.json --registry-boot runtime/essence/v54/registry-boot.json
+          python code/tools/essence_v54_neural_witness.py plan --producer producer --receiver receiver --out runtime/essence/v54/plan.json --registry-boot runtime/essence/v54/registry-boot.json --registry-continuity
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           p=json.load(open("runtime/essence/v54/plan.json"))
