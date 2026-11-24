@@ -252,7 +252,14 @@ def main():
     ap.add_argument("--registry-boot",help="Optional verified historical Registry Mind sidecar; advisory only")
     ap.add_argument("--registry-homeostasis")
     ap.add_argument("--registry-homeostasis-pin")
+    ap.add_argument("--registry-continuity",action="store_true")
     x=ap.parse_args()
+    if x.phase=="plan" and x.registry_continuity:
+        if __package__:
+            from . import registry_continuity_r68 as continuity
+        else:
+            import registry_continuity_r68 as continuity
+        continuity.wake("Hawkar-usls/Janus_Genesis",Path(__file__).resolve().parents[1])
     if x.phase=="plan" and (x.registry_homeostasis or x.registry_homeostasis_pin):
         if not (x.registry_homeostasis and x.registry_homeostasis_pin):
             raise ValueError("R67_CONTEXT_ARGS_REQUIRED")
