@@ -135,5 +135,43 @@ class RegistryBootIntegrationTests(unittest.TestCase):
             self.assertEqual(json.loads((root/"old.json").read_text()),json.loads((root/"new.json").read_text()))
             print("R64_EXISTING_PLANNER_DECISION_INVARIANT "+repo)
 
+
+class RegistrySelectiveUpdateTests(unittest.TestCase):
+    def test_reviewed_update_reaches_existing_planner_without_policy_change(self):
+        import os
+        from contextlib import redirect_stdout
+        from io import StringIO
+        from unittest.mock import patch
+        from tools import registry_update_r65 as u
+        source=os.environ.get("R65_ORIGINAL_SOURCE")
+        if not source:
+            self.skipTest("R65 pinned source is provided by dedicated CI")
+        repo="Hawkar-usls/Janus_Genesis"
+        p=u.seed(repo);mode="LIVE_OBSERVATION"
+        k=u.TS
+        raw=Path(source).read_bytes();dep=u.b.dependencies(p)
+        self.assertEqual(u.blob(raw),dep[k])
+        doc=u.b.read(raw,u.MAX_DOC)
+        doc["current_frontier"]["correct_question"]="R65 LOCAL REVIEWED ENTRYPOINT TEST"
+        modified=u.b.canonical(doc)
+        old=u.initial(p,mode)
+        status,new,n=u.advance(p,old,old["receipt_sha256"],{**dep,k:u.blob(modified)},lambda *_:modified,mode)
+        self.assertEqual((status,n),("CANDIDATE_READY",1))
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            prev=root/"previous.json";release=root/"release.json"
+            u.write(prev,old);u.write(release,new)
+            args=["--registry-previous",str(prev),"--registry-previous-pin",old["receipt_sha256"],"--registry-release",str(release),"--registry-release-pin",new["receipt_sha256"]]
+            (root/"producer").mkdir();(root/"receiver").mkdir()
+            common=["planner","plan","--producer",str(root/"producer"),"--receiver",str(root/"receiver")]
+            with patch("sys.argv",common+["--out",str(root/"old.json")]):
+                m.main()
+            stream=StringIO()
+            with redirect_stdout(stream),patch("sys.argv",common+["--out",str(root/"new.json")]+args):
+                m.main()
+            self.assertIn("R65_REVIEWED_PLANNER_CONTEXT",stream.getvalue())
+            self.assertEqual(json.loads((root/"old.json").read_text()),json.loads((root/"new.json").read_text()))
+            print("R65_EXISTING_PLANNER_INVARIANT "+repo+" CONTROLLED_TEST_ONLY")
+
 if __name__=="__main__":
     unittest.main()
