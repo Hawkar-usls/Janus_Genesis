@@ -1,0 +1,107 @@
+name: Registry Mind R6.7 context homeostasis
+on:
+  pull_request:
+    paths:
+      - 'tools/registry_homeostasis_r67.py'
+      - '.janus/essence/registry_homeostasis_r67_*.json'
+      - '.github/workflows/registry-r67-homeostasis.yml'
+permissions:
+  contents: read
+jobs:
+  produce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    outputs:
+      pin: ${{ steps.produce.outputs.pin }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Verify persistent pointer and historical recovery controls
+        run: python3 tools/registry_homeostasis_r67.py test
+      - name: Check actual scientific source metadata without fetching documents
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/registry_homeostasis_r67.py wake --out "$RUNNER_TEMP/live-observed.json"
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          ref: 8d37b6da64c800dd723097323f16f8c23fe734f3
+          path: evidence-old
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            data/autonomy_map/JANUS-R67-CONTEXT-HEALTH-EVIDENCE.json
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          ref: 1d447ea1e86ecd84c98a22c8597bf0100ac7d1af
+          path: evidence-new
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            data/autonomy_map/JANUS-R67-CONTEXT-HEALTH-EVIDENCE.json
+      - name: Verify original Git evidence and generate current context
+        id: produce
+        run: |
+          set -euo pipefail
+          python3 tools/registry_homeostasis_r67.py produce --old-source "evidence-old/data/autonomy_map/JANUS-R67-CONTEXT-HEALTH-EVIDENCE.json" --new-source "evidence-new/data/autonomy_map/JANUS-R67-CONTEXT-HEALTH-EVIDENCE.json" --out "$RUNNER_TEMP/r67/current.json"
+          python3 -c 'import json,os,pathlib;print("pin="+json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"r67/current.json").read_text())["receipt_sha256"])' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: r67-current
+          path: ${{ runner.temp }}/r67/current.json
+          if-no-files-found: error
+  recover:
+    needs: produce
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      pin: ${{ steps.recover.outputs.pin }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: r67-current
+          path: ${{ runner.temp }}/prior
+      - name: Existing ESSENCE planner consumes reviewed engineering context
+        env:
+          R67_PRODUCED_CONTEXT: ${{ runner.temp }}/prior/current.json
+          R67_PRODUCED_PIN: ${{ needs.produce.outputs.pin }}
+        run: python3 -m unittest -v tests.test_essence_v54_neural_witness.RegistryHomeostasisTests
+      - name: Restore real historical engineering evidence, keep current pointer and science fixed
+        id: recover
+        env:
+          PIN: ${{ needs.produce.outputs.pin }}
+        run: |
+          set -euo pipefail
+          test ! -e evidence-old
+          test ! -e evidence-new
+          python3 tools/registry_homeostasis_r67.py recover --prior "$RUNNER_TEMP/prior/current.json" --pin "$PIN" --out "$RUNNER_TEMP/r67/recovered.json"
+          python3 -c 'import json,os,pathlib;print("pin="+json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"r67/recovered.json").read_text())["receipt_sha256"])' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: r67-recovered
+          path: ${{ runner.temp }}/r67/recovered.json
+          if-no-files-found: error
+  reopen:
+    needs: recover
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            tools
+            .janus/essence
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: r67-recovered
+          path: ${{ runner.temp }}/prior
+      - name: Reopen exact real historical context on fresh runner from committed lineage
+        env:
+          PIN: ${{ needs.recover.outputs.pin }}
+        run: python3 tools/registry_homeostasis_r67.py reopen --prior "$RUNNER_TEMP/prior/recovered.json" --pin "$PIN"

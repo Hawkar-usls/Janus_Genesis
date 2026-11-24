@@ -250,7 +250,17 @@ def main():
     ap.add_argument("--registry-previous")
     ap.add_argument("--registry-previous-pin")
     ap.add_argument("--registry-boot",help="Optional verified historical Registry Mind sidecar; advisory only")
+    ap.add_argument("--registry-homeostasis")
+    ap.add_argument("--registry-homeostasis-pin")
     x=ap.parse_args()
+    if x.phase=="plan" and (x.registry_homeostasis or x.registry_homeostasis_pin):
+        if not (x.registry_homeostasis and x.registry_homeostasis_pin):
+            raise ValueError("R67_CONTEXT_ARGS_REQUIRED")
+        if __package__:
+            from . import registry_homeostasis_r67 as homeostasis
+        else:
+            import registry_homeostasis_r67 as homeostasis
+        homeostasis.consume_current(x.registry_homeostasis,x.registry_homeostasis_pin,"Hawkar-usls/Janus_Genesis",Path(__file__).resolve().parents[1])
     if x.phase=="plan" and any((x.registry_release,x.registry_release_pin,x.registry_previous,x.registry_previous_pin)):
         if not all((x.registry_release,x.registry_release_pin,x.registry_previous,x.registry_previous_pin)):
             raise ValueError("R65_REVIEWED_RELEASE_ARGS_REQUIRED")
