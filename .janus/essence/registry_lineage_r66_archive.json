@@ -1,0 +1,47 @@
+{
+  "schema": "janus.registry.r66.archived_lineage.v1",
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "base_pin": "badb4b57f72efebe805997f3c7307ad8f3ade63da9e2e6856aefc78ee5aafabe",
+  "run": 45392621220,
+  "chain_artifact": 14918544574,
+  "live_artifact": 14919128414,
+  "archive_sha256": "da67a282e44f802fb230ce4c3324227b8aa273589ddd1d49edf7c4a91a4839a7",
+  "live_archive_sha256": "f5563daa4cca3ec36e57de6171e325d8fa87e5c9641aa3a24ce89d0fba938fd0",
+  "live_g0_pin": "3224e3df35df3c61bcdd95070acb1df0a2e08230a8d6b64ce93508d66ea64735",
+  "fixture_g0_pin": "eb205e72777686b0a276a74a3a32ec36f84be4c0dd60c1974ffa2b4464b5f2f4",
+  "generations": [
+    {
+      "generation": 1,
+      "dependency": "Hawkar-usls/Janus-Fundamentum:registry/TRUMP_CURRENT_STATE.json",
+      "blob": "96778cd2431181f172b7f7787ca9a2cefab954ab",
+      "patches": {
+        "/current_frontier": {
+          "json_preview": "{\"correct_question\":\"R65 CONTROLLED FIXTURE 1 — no execution authority\",\"gate\":\"APMA_UNSEEN_LOCAL_INVARIANT_INDUCTION_FALSIFIER_GATE\",\"preregistration_status\":\"NEW_EXPLICIT_PREREGISTRATION_REQUIRED_BEFORE_RUN\",\"status\":\"ELIGIBLE_AFTER_PASS_BUT_NOT_RUN\"}",
+          "value_sha256": "b3a671c72923597b95231cca5e46d5f0f79803c5feff1fcdc4384bd8ad4a85a3"
+        },
+        "/current_frontier/correct_question": {
+          "json_preview": "\"R65 CONTROLLED FIXTURE 1 — no execution authority\"",
+          "value_sha256": "414e8ea84e7f8c740ba079de8319638502c379589ed86a81b5ec3fb495955a7a"
+        }
+      },
+      "pin": "5b5279484ae77bda7aa39bfb1d99c1f91d4c44e44995a5a812187cb25a1655e8"
+    },
+    {
+      "generation": 2,
+      "dependency": "Hawkar-usls/Janus-Fundamentum:registry/TRUMP_CURRENT_STATE.json",
+      "blob": "56dc26f0a3f2eab8e653373b85700902d6f3a882",
+      "patches": {
+        "/current_frontier": {
+          "json_preview": "{\"correct_question\":\"R65 CONTROLLED FIXTURE 2 — no execution authority\",\"gate\":\"APMA_UNSEEN_LOCAL_INVARIANT_INDUCTION_FALSIFIER_GATE\",\"preregistration_status\":\"NEW_EXPLICIT_PREREGISTRATION_REQUIRED_BEFORE_RUN\",\"status\":\"ELIGIBLE_AFTER_PASS_BUT_NOT_RUN\"}",
+          "value_sha256": "7d643f8e7931b7bfb83d972e8346a6f5245f855897f8d06cabfc0c02886cefef"
+        },
+        "/current_frontier/correct_question": {
+          "json_preview": "\"R65 CONTROLLED FIXTURE 2 — no execution authority\"",
+          "value_sha256": "7857bada5f27d23b291582f70992b294ce151d6e2e99f359234882b77f8aad1c"
+        }
+      },
+      "pin": "8911709f89d3da5fb2dc2c7ab8f5932185c58371006bdeced872278fc5128982"
+    }
+  ],
+  "receipt_sha256": "ffbb38186bccd21781e28c4f86d7c22eba5667a1a496cd5b789a5aca7b610c78"
+}
