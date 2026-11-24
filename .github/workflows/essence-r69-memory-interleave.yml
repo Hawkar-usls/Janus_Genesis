@@ -1,0 +1,64 @@
+name: ESSENCE R6.9 memory-only interleave
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/essence-r69-memory-interleave.yml'
+      - 'tools/registry_living_memory_r69.py'
+  schedule:
+    # Existing v5.4 checks at :02/:17/:32/:47. Fill only the gaps.
+    - cron: '7,12,22,27,37,42,52,57 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: essence-r69-memory-interleave
+  cancel-in-progress: false
+
+jobs:
+  r69-memory-canary:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            tools/registry_living_memory_r69.py
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: a4219ffb018849bb212e84b42263125be4973b9c
+          path: verified-r68
+          persist-credentials: false
+          sparse-checkout: |
+            tools/registry_boot_r64.py
+            tools/registry_update_r65.py
+            tools/registry_lineage_r66.py
+            tools/registry_homeostasis_r67.py
+            tools/registry_continuity_r68.py
+            .janus/essence/registry_boot_r64_seed.json
+            .janus/essence/registry_lineage_r66_archive.json
+            .janus/essence/registry_homeostasis_r67_evidence.json
+            .janus/essence/registry_homeostasis_r67_current.json
+            .janus/essence/registry_continuity_r68_evidence.json
+            .janus/essence/registry_continuity_r68_current.json
+            .janus/essence/registry_continuity_r68_previous.json
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          ref: ecf61e5aec2bc7ffb370c28b5a2f8cd7a277dd2c
+          path: evidence-r69
+          persist-credentials: false
+          sparse-checkout: |
+            data/autonomy_map/JANUS-R69-LIVING-MEMORY-EVIDENCE.json
+          sparse-checkout-cone-mode: false
+      - name: Verify reviewed memory, recover disposable cache, report candidate only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/registry_living_memory_r69.py --verified verified-r68 --evidence evidence-r69
