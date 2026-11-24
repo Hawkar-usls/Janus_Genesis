@@ -245,8 +245,20 @@ def main():
     ap.add_argument("--genesis")
     ap.add_argument("--plan")
     ap.add_argument("--out",required=True)
+    ap.add_argument("--registry-release")
+    ap.add_argument("--registry-release-pin")
+    ap.add_argument("--registry-previous")
+    ap.add_argument("--registry-previous-pin")
     ap.add_argument("--registry-boot",help="Optional verified historical Registry Mind sidecar; advisory only")
     x=ap.parse_args()
+    if x.phase=="plan" and any((x.registry_release,x.registry_release_pin,x.registry_previous,x.registry_previous_pin)):
+        if not all((x.registry_release,x.registry_release_pin,x.registry_previous,x.registry_previous_pin)):
+            raise ValueError("R65_REVIEWED_RELEASE_ARGS_REQUIRED")
+        if __package__:
+            from . import registry_update_r65 as registry_update
+        else:
+            import registry_update_r65 as registry_update
+        registry_update.load_reviewed_context("Hawkar-usls/Janus_Genesis",Path(__file__).resolve().parents[1],x.registry_previous,x.registry_previous_pin,x.registry_release,x.registry_release_pin)
     if x.phase=="plan" and x.registry_boot:
         if __package__:
             from . import registry_boot_r64 as registry_boot
