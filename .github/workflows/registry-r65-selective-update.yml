@@ -1,0 +1,73 @@
+name: Registry Mind R6.5 selective knowledge update
+on:
+  pull_request:
+    paths:
+      - 'tools/registry_update_r65.py'
+      - '.github/workflows/registry-r65-selective-update.yml'
+permissions:
+  contents: read
+jobs:
+  produce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    outputs:
+      pins: ${{ steps.fixture.outputs.pins }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Verify selective change and rejection controls
+        run: python3 tools/registry_update_r65.py test
+      - name: Observe actual main source metadata and selectively read only changed reviewed JSONs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/registry_update_r65.py live --out "$RUNNER_TEMP/r65-live.json"
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: Hawkar-usls/Janus-Fundamentum
+          ref: 941148371aac0a503d4f254c839683642fdf2f20
+          path: frozen-source
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            registry/TRUMP_CURRENT_STATE.json
+      - name: Two controlled changes of an original verified source with no-read reuse
+        id: fixture
+        run: |
+          set -euo pipefail
+          python3 tools/registry_update_r65.py fixture --source "frozen-source/registry/TRUMP_CURRENT_STATE.json" --out "$RUNNER_TEMP/r65-chain"
+          echo "pins=$(cat "$RUNNER_TEMP/r65-chain/pins.json")" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: r65-immutable-test-chain
+          path: ${{ runner.temp }}/r65-chain/
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: r65-live-observation-review-only
+          path: ${{ runner.temp }}/r65-live.json
+          if-no-files-found: error
+          retention-days: 30
+  consume:
+    needs: produce
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            tools
+            .janus/essence
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: r65-immutable-test-chain
+          path: ${{ runner.temp }}/r65-chain
+      - name: Verify two generations from separate producer pins without registry checkout
+        env:
+          PINS: ${{ needs.produce.outputs.pins }}
+        run: |
+          set -euo pipefail
+          test ! -e frozen-source
+          python3 tools/registry_update_r65.py consume --out "$RUNNER_TEMP/r65-chain" --pins "$PINS"
