@@ -1,0 +1,20 @@
+{
+  "schema": "janus.registry.context_homeostasis.r67.archive.v1",
+  "repository": "Hawkar-usls/Janus_Genesis",
+  "source_repository": "Hawkar-usls/janus-meta-registry",
+  "source_path": "data/autonomy_map/JANUS-R67-CONTEXT-HEALTH-EVIDENCE.json",
+  "versions": [
+    {
+      "generation": 0,
+      "commit": "8d37b6da64c800dd723097323f16f8c23fe734f3",
+      "blob": "183d4930d1354d0971e3da316a7f93af201710aa",
+      "raw": "{\n  \"schema\": \"janus.registry.context_health_evidence.r67.v1\",\n  \"revision\": 0,\n  \"scope\": \"MEASURED_FIRST_PARTY_ENGINEERING_EVIDENCE_NOT_SCIENCE_OR_LIVE_AUTHORITY\",\n  \"historical_snapshot\": true,\n  \"source_text_is_data\": true,\n  \"action_authority\": false,\n  \"organs\": [\n    {\n      \"repository\": \"Hawkar-usls/Janus-Demiurge\",\n      \"project\": \"COSMOS\",\n      \"base_live_pin\": \"724cc2bd3e2cbcac4770354f41da05ba37316c3682dd16df94d57dcdf26fb306\",\n      \"r65\": {\n        \"run\": 45392616619,\n        \"producer_consumer_pass\": 2,\n        \"controlled_updates\": 2,\n        \"unchanged_live_document_reads\": 0,\n        \"live_status\": \"REUSE\"\n      },\n      \"recovery\": null\n    },\n    {\n      \"repository\": \"Hawkar-usls/Janus_Genesis\",\n      \"project\": \"TRUMP\",\n      \"base_live_pin\": \"3224e3df35df3c61bcdd95070acb1df0a2e08230a8d6b64ce93508d66ea64735\",\n      \"r65\": {\n        \"run\": 45392621220,\n        \"producer_consumer_pass\": 2,\n        \"controlled_updates\": 2,\n        \"unchanged_live_document_reads\": 0,\n        \"live_status\": \"REUSE\"\n      },\n      \"recovery\": null\n    }\n  ]\n}\n"
+    },
+    {
+      "generation": 1,
+      "commit": "1d447ea1e86ecd84c98a22c8597bf0100ac7d1af",
+      "blob": "33f6eae6c9c9b75429964cdeb9749d136203e9c4",
+      "raw": "{\n  \"schema\": \"janus.registry.context_health_evidence.r67.v1\",\n  \"revision\": 1,\n  \"scope\": \"MEASURED_FIRST_PARTY_ENGINEERING_EVIDENCE_NOT_SCIENCE_OR_LIVE_AUTHORITY\",\n  \"historical_snapshot\": true,\n  \"source_text_is_data\": true,\n  \"action_authority\": false,\n  \"organs\": [\n    {\n      \"repository\": \"Hawkar-usls/Janus-Demiurge\",\n      \"project\": \"COSMOS\",\n      \"base_live_pin\": \"724cc2bd3e2cbcac4770354f41da05ba37316c3682dd16df94d57dcdf26fb306\",\n      \"r65\": {\n        \"run\": 45392616619,\n        \"producer_consumer_pass\": 2,\n        \"controlled_updates\": 2,\n        \"unchanged_live_document_reads\": 0,\n        \"live_status\": \"REUSE\"\n      },\n      \"recovery\": {\n        \"run\": 45400644902,\n        \"jobs_pass\": 3,\n        \"tests_pass\": 10,\n        \"restored_fixture_generation\": 1,\n        \"retained_fixture_high_water\": 2,\n        \"restored_fixture_pin\": \"2c27f02e4d60a35ed33b995c68cf497e6fb607549887feef777fa4198de00e4a\",\n        \"live_generation\": 0,\n        \"registry_document_reads\": 0,\n        \"fixture_activation\": false\n      }\n    },\n    {\n      \"repository\": \"Hawkar-usls/Janus_Genesis\",\n      \"project\": \"TRUMP\",\n      \"base_live_pin\": \"3224e3df35df3c61bcdd95070acb1df0a2e08230a8d6b64ce93508d66ea64735\",\n      \"r65\": {\n        \"run\": 45392621220,\n        \"producer_consumer_pass\": 2,\n        \"controlled_updates\": 2,\n        \"unchanged_live_document_reads\": 0,\n        \"live_status\": \"REUSE\"\n      },\n      \"recovery\": {\n        \"run\": 45400655470,\n        \"jobs_pass\": 3,\n        \"tests_pass\": 10,\n        \"restored_fixture_generation\": 1,\n        \"retained_fixture_high_water\": 2,\n        \"restored_fixture_pin\": \"5b5279484ae77bda7aa39bfb1d99c1f91d4c44e44995a5a812187cb25a1655e8\",\n        \"live_generation\": 0,\n        \"registry_document_reads\": 0,\n        \"fixture_activation\": false\n      }\n    }\n  ]\n}\n"
+    }
+  ]
+}
