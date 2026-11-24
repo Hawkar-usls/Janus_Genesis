@@ -245,7 +245,14 @@ def main():
     ap.add_argument("--genesis")
     ap.add_argument("--plan")
     ap.add_argument("--out",required=True)
+    ap.add_argument("--registry-boot",help="Optional verified historical Registry Mind sidecar; advisory only")
     x=ap.parse_args()
+    if x.phase=="plan" and x.registry_boot:
+        if __package__:
+            from . import registry_boot_r64 as registry_boot
+        else:
+            import registry_boot_r64 as registry_boot
+        registry_boot.consume_boot(x.registry_boot,"Hawkar-usls/Janus_Genesis",Path(__file__).resolve().parents[1])
     result=(plan(x.producer,x.receiver) if x.phase=="plan" else
             consume(read(x.plan),x.producer,x.genesis))
     write_once(x.out,result)
