@@ -59,6 +59,7 @@ jobs:
         run: |
           python tools/registry_continuity_r68.py test
           python tools/registry_continuity_r68.py wake
+          python tools/registry_continuity_r68.py transition --previous .janus/essence/registry_continuity_r68_previous.json
       - name: Verify reviewed seed and relevant-change controls
         run: python tools/registry_boot_r64.py test
       - name: Observe live source metadata (no Registry document checkout)
