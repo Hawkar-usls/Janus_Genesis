@@ -1,0 +1,39 @@
+{
+  "schema": "janus.registry.r68.engineering_evidence.v1",
+  "scope": "FIRST_PARTY_REVIEWED_HISTORICAL_ENGINEERING_ONLY",
+  "action_authority": false,
+  "organs": [
+    {
+      "repository": "Hawkar-usls/Janus-Demiurge",
+      "run": 45403619237,
+      "jobs": [
+        138478352765,
+        138478821737,
+        138479371554
+      ],
+      "tests": 9,
+      "current_receipt": "9fed5a9934544a77970d00dc5b752f04f77c61e8e78159820694ca018ea707c0",
+      "recovered_receipt": "5ab5f33ae6d71c9cdf671b215de807d558f32ab2969c5ea59cb067b6959ca06f"
+    },
+    {
+      "repository": "Hawkar-usls/Janus_Genesis",
+      "run": 45403624469,
+      "jobs": [
+        138478370410,
+        138479254522,
+        138479347381
+      ],
+      "tests": 9,
+      "current_receipt": "458901bf74f4eab11a3ae02d37cc420e7974e90d2fc84ee6264155ebaf8cd8ba",
+      "recovered_receipt": "d884e246b8e2f26e608f4a60569abbc9986207b41e62b68531ade8b272430ee8"
+    }
+  ],
+  "result": {
+    "jobs_pass": 6,
+    "tests_pass": 18,
+    "scientific_release_changed": false,
+    "planner_policy_changed": false,
+    "recovery_read_only": true,
+    "registry_document_reads_at_consumer": 0
+  }
+}
