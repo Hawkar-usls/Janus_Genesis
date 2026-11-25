@@ -1,0 +1,43 @@
+name: Genesis R84C read-only federation witness
+on:
+  pull_request:
+    types: [opened]
+    paths:
+      - '.github/workflows/r84c-witness.yml'
+permissions:
+  contents: read
+jobs:
+  witness:
+    if: github.repository == 'Hawkar-usls/Janus_Genesis' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'research/r84c-engine-20261125' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          sparse-checkout: |
+            tools/essence_v54_neural_witness.py
+          sparse-checkout-cone-mode: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: Hawkar-usls/Janus
+          ref: 45ae330c2b78063f4268dd72b01470b5b5f95c9b
+          path: janus
+          persist-credentials: false
+          sparse-checkout: |
+            autonomy/federation/r84c_engine.py
+            autonomy/federation/r84b_intake.py
+            autonomy/federation/r84_loop.py
+            autonomy/federation/r8_learning.py
+            autonomy/federation/jfp_gateway.py
+            autonomy/federation/R84B_FROZEN_EXAM.json
+            autonomy/federation/R8_FROZEN_SKILL_EXAM.json
+          sparse-checkout-cone-mode: false
+      - run: python3 janus/autonomy/federation/r84c_engine.py witness . "$RUNNER_TEMP/witness"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r84c-genesis-witness
+          path: ${{ runner.temp }}/witness
+          if-no-files-found: error
+          retention-days: 60
