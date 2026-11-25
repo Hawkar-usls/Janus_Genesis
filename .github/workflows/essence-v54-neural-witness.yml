@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'tools/essence_v54_neural_witness.py'
+      - 'tools/registry_boot_r64.py'
+      - '.janus/essence/registry_boot_r64_seed.json'
       - 'tests/test_essence_v54_neural_witness.py'
       - 'tools/registry_living_memory_r69.py'
       - '.github/workflows/essence-v54-neural-witness.yml'
@@ -11,6 +13,8 @@ on:
     branches: [main]
     paths:
       - 'tools/essence_v54_neural_witness.py'
+      - 'tools/registry_boot_r64.py'
+      - '.janus/essence/registry_boot_r64_seed.json'
       - 'tests/test_essence_v54_neural_witness.py'
       - 'tools/registry_living_memory_r69.py'
       - '.github/workflows/essence-v54-neural-witness.yml'
@@ -94,6 +98,25 @@ jobs:
           python -m py_compile tools/essence_v54_neural_witness.py tests/test_essence_v54_neural_witness.py
           python -m unittest -v tests.test_essence_v54_neural_witness
 
+      - name: Verify reviewed seed and relevant-change controls
+        run: python tools/registry_boot_r64.py test
+      - name: Observe live source metadata (no Registry document checkout)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/registry_boot_r64.py wake --out "$RUNNER_TEMP/r64-observed.json"
+
+  r64-reopen-reviewed-seed:
+    needs: check-receiver-contract
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Fresh runner reopens the same committed seed without registry access
+        run: python tools/registry_boot_r64.py replay --out "$RUNNER_TEMP/r64-reopened.json"
+
   inspect-producer-shadow-generation:
     needs: check-receiver-contract
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && vars.ESSENCE_EVOLUTION_PAUSED != 'true' && vars.ESSENCE_V54_RECEIVER_PAUSED != 'true'
@@ -125,10 +148,15 @@ jobs:
           set -euo pipefail
           git clone --quiet --depth 1 --filter=blob:none --sparse --branch essence-peer-shadow-state https://github.com/Hawkar-usls/Janus-Demiurge.git producer
           git -C producer sparse-checkout set --no-cone research/essence/peer_v54_state/ledger.json models/gen0002 models/v54gen0003 models/v54gen0004 models/v54gen0005 models/v54gen0006 models/v54gen0007 models/v54gen0008
+      - name: R6.4 compare only relevant Registry Mind source metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python code/tools/registry_boot_r64.py wake --root code --out runtime/essence/v54/registry-boot.json
       - name: Validate parent chain and skip already witnessed generation
         id: inspect
         run: |
-          python code/tools/essence_v54_neural_witness.py plan --producer producer --receiver receiver --out runtime/essence/v54/plan.json
+          python code/tools/essence_v54_neural_witness.py plan --producer producer --receiver receiver --out runtime/essence/v54/plan.json --registry-boot runtime/essence/v54/registry-boot.json
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           p=json.load(open("runtime/essence/v54/plan.json"))

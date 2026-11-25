@@ -111,5 +111,29 @@ class PeerWitnessTests(unittest.TestCase):
                 m.read(f)
 
 
+
+class RegistryBootIntegrationTests(unittest.TestCase):
+    def test_existing_planner_cli_consumes_boot_without_decision_change(self):
+        from contextlib import redirect_stdout
+        from io import StringIO
+        from unittest.mock import patch
+        from tools import registry_boot_r64 as boot
+        repo="Hawkar-usls/Janus_Genesis"
+        p=boot.packet(boot.read(Path(boot.SEED).read_bytes()),repo)
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            context=root/"boot.json"
+            context.write_bytes(boot.canonical(boot.wake(p,boot.dependencies(p))))
+            (root/"producer").mkdir();(root/"receiver").mkdir()
+            common=["planner","plan","--producer",str(root/"producer"),"--receiver",str(root/"receiver")]
+            with patch("sys.argv",common+["--out",str(root/"old.json")]):
+                m.main()
+            stream=StringIO()
+            with redirect_stdout(stream),patch("sys.argv",common+["--out",str(root/"new.json"),"--registry-boot",str(context)]):
+                m.main()
+            self.assertIn("R64_PLANNER_BOOT",stream.getvalue())
+            self.assertEqual(json.loads((root/"old.json").read_text()),json.loads((root/"new.json").read_text()))
+            print("R64_EXISTING_PLANNER_DECISION_INVARIANT "+repo)
+
 if __name__=="__main__":
     unittest.main()
