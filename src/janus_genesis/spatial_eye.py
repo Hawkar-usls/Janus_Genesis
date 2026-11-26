@@ -4,16 +4,18 @@ Run: python -m janus_genesis.spatial_eye scene.npz scene.json output_directory
 Optional: install scipy and plotly for analysis and offline interactive visualization.
 """
 from __future__ import annotations
+
 import argparse
 import hashlib
 import heapq
 import json
 import re
 from pathlib import Path
+
 import numpy as np
+import trimesh
 from scipy.ndimage import gaussian_filter, label
 from scipy.stats import spearmanr
-import trimesh
 
 from janus_genesis.mesh_ops import metrics
 
