@@ -2,7 +2,6 @@
 import hashlib
 import io
 import json
-import re
 import zipfile
 
 import requests
@@ -26,7 +25,7 @@ def digest(raw):
 
 def pull(key, token):
     repo, run, aid, expected, member, member_hash = SOURCES[key]
-    if not re.fullmatch(r"[a-zA-Z0-9_]+", token or ""):
+    if not isinstance(token, str) or not 16 < len(token) < 4096 or not token.isascii() or any(ord(ch) <= 32 or ord(ch) >= 127 for ch in token):
         raise ValueError("missing or invalid read token")
     base = "https://api.github.com/repos/Hawkar-usls/" + repo
     headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json"}
