@@ -34,7 +34,7 @@ def test_scene_and_field_geometry(tmp_path):
     assert r["authority"]=="SIMULATED"
     assert r["nodes"][0]["height_m"]==-10
     assert r["nodes"][0]["scales"][0]["fill_depth_m"]==10
-    assert r["field_associations"]["gravity"]["spearman_rho"]==1
+    assert r["field_associations"]["gravity"]["spearman_rho"]==pytest.approx(1)
     assert r["mesh"]["source_geometry_mutated"] is False
     assert r["mesh"]["pla_genesis_metrics_mm"]["faces"]==128
     assert (tmp_path/"out"/"eye.html").stat().st_size>10000
