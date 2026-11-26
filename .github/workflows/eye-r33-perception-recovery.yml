@@ -1,0 +1,194 @@
+name: EYE R3.3 Perception Recovery
+on:
+  push:
+    branches: [research/janus-eye-spatial-perception]
+    paths: ['.github/workflows/eye-r33-perception-recovery.yml']
+  pull_request:
+    branches: [archive/pla-genesis-before-game-restore]
+    paths: ['.github/workflows/eye-r33-perception-recovery.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Cosmos
+          ref: 0148fe013a1773e3c71af1604ad2dead971796f3
+          path: sit
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Demi_Head
+          ref: 91ef855a6f7119a733990c8f3adeb478e79beb05
+          path: sit/_tachyon
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Cosmos
+          ref: 28d2937f47c4c6f48c8ea2d712145ea0f7c06199
+          path: retina
+          sparse-checkout: research/seti
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          ref: aa046636befaff48ec32ec8a17e43686f9f8b73f
+          path: demiurge
+          sparse-checkout: |
+            janus_model
+            tools/janus_sentinel_mesh.py
+            tools/janus_sentinel_mesh_lease.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          ref: memory-cortex-state
+          path: memory
+          sparse-checkout: |
+            data/memory-cortex/STATE.json
+            data/memory-cortex/CURRENT.json
+            data/memory-cortex/generations
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]' requests h5py hdf5plugin scikit-learn
+      - name: Dynamic discovery, active memory verification and Sentinel diagnostics
+        env:
+          GH_READ_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p r32
+          python - <<'PY'
+          import os,io,json,sys,subprocess
+          from pathlib import Path
+          import numpy as np
+          from janus_genesis.eye_r32_discovery import discover,digest
+          from janus_genesis.spatial_eye import write
+          p=Path('r32')
+          r={'schema':'janus.eye.r33.qualification.v1','run_id':os.environ['GITHUB_RUN_ID'],'routes':{},'production_promotion':False}
+          def save():write(p/'receipt.json',r)
+          token=os.environ['GH_READ_TOKEN']
+          for key in ('terrain','review'):
+              try:
+                  b,source=discover(key,token)
+                  if key=='terrain':
+                      with np.load(io.BytesIO(b),allow_pickle=False) as a:
+                          assert a['elevation_m'].shape==(41,41) and np.isfinite(a['elevation_m']).all()
+                          assert np.isfinite(a['gravity_mgal']).all()
+                  else:
+                      q=json.loads(b)
+                      assert q['schema']=='janus.eye.r3.demihead_delivery.v1'
+                      assert str(q['run_id'])==str(source['run_id'])
+                      assert q['decision']=='DIRECT_EYE_INTAKE_PASS' and q['review']['data_class']=='MODELLED'
+                      assert not q['review']['unique_object_established']
+                  (p/(key+('.npz' if key=='terrain' else '.json'))).write_bytes(b)
+                  r['routes'][key]={'status':'DISCOVERY_PASS','source':source}
+              except Exception as e:r['routes'][key]={'status':'HOLD','error_type':type(e).__name__,'error':str(e)[:250]}
+              save()
+          sys.path.insert(0,str(Path('demiurge').resolve()))
+          from janus_model.memory_cortex_growth import load_state
+          try:
+              root=Path('memory/data/memory-cortex');st=load_state(root)
+              sha='9f7b6b1e48edc9a4cb403fbdac7d1dc90f6b5d1b0142e0f9bf9dbb97018b2064'
+              active=sha in st['active'];pending=sha in st['pending']
+              origin=st['records'].get(sha)
+              # Active manifest and state seals validated by original load_state.
+              # If present, independently read object from the same exact Git snapshot.
+              object_verified=False
+              if origin:
+                  path=f'data/memory-cortex/objects/{sha[:2]}/{sha[2:]}.txt'
+                  raw=subprocess.check_output(['git','-C','memory','show','HEAD:'+path],timeout=30)
+                  assert len(raw)==origin['size'] and digest(raw)==sha
+                  object_verified=True
+              r['routes']['memory']={'status':'ACTIVE_VERIFIED' if active and object_verified else 'PENDING_VERIFIED' if pending and object_verified else 'NOT_ADMITTED','generation':st['generation'],'active_count':len(st['active']),'pending_count':len(st['pending']),'active_bytes':sum(st['records'][x]['size'] for x in st['active']),'target_sha256':sha,'object_verified':object_verified,'source_commit':subprocess.check_output(['git','-C','memory','rev-parse','HEAD'],text=True).strip()}
+          except Exception as e:r['routes']['memory']={'status':'HOLD','error_type':type(e).__name__,'error':str(e)[:250]}
+          save()
+          from tools import janus_sentinel_mesh as mesh
+          from datetime import datetime,timezone
+          now=datetime.now(timezone.utc)
+          observation=mesh.run('Hawkar-usls/Janus-Demiurge',os.environ['GITHUB_RUN_ID'],token,recovery_only=True)
+          import requests
+          peers={}
+          for role,repo in mesh.ROLES.items():
+              try:
+                  rows=mesh.get_runs(repo,token)
+                  details=[]
+                  for row in rows[:5]:
+                      url=f'https://api.github.com/repos/{repo}/actions/runs/{row["id"]}/jobs'
+                      v=requests.get(url,headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'},timeout=15)
+                      v.raise_for_status()
+                      details.append({'id':row['id'],'event':row['event'],'created_at':row['created_at'],'run_conclusion':row['conclusion'],'job_conclusions':[j['conclusion'] for j in v.json()['jobs']]})
+                  peers[role]=details
+              except Exception as e:peers[role]={'error_type':type(e).__name__}
+          r['routes']['essence']={'status':'READ_ONLY_CADENCE_AUDIT','native_observation':observation,'recent_job_evidence':peers,'remote_wake_performed':False}
+          save()
+          PY
+      - name: Decode real GBT ON/OFF-labelled spectra with original SIT1 and RETINA
+        run: |
+          python - <<'PY'
+          import json,sys,os,tempfile
+          from pathlib import Path
+          import numpy as np
+          import plotly.graph_objects as go
+          from janus_genesis.spatial_eye import write
+          from janus_genesis.eye_r32_discovery import digest
+          p=Path('r32').resolve();r=json.loads((p/'receipt.json').read_text())
+          try:
+              workspace=Path.cwd().resolve()
+              sit_root=workspace/'sit'
+              sys.path.insert(0,str(sit_root/'research/seti'))
+              sys.path.insert(0,str(workspace/'retina/research/seti'))
+              os.chdir(sit_root)
+              assert Path('research/seti/r42a5_combined_score_protocol.json').is_file()
+              import janus_sit1_open_3iatlas as sit
+              from retina_5d_mosaic import analyze_spectrogram,_digest
+              proto=json.loads(Path('research/seti/janus_sit2c_protocol.json').read_text())
+              scans=proto['inputs']['heldout_files'][:2];assert [s['role'] for s in scans]==['ON','OFF']
+              outputs=[]
+              with tempfile.TemporaryDirectory() as tmp:
+                  folder=Path(tmp)
+                  for s in scans:
+                      info=sit.retrieve({'number':s['scan'],'role':s['role'],'path':s['filename']},folder)
+                      if not info['ok']:raise ValueError('source unavailable: '+str(info.get('error')))
+                      d=sit.reduce_real_h5(folder/s['filename'],{'scan':s['scan'],'role':s['role'],'first_seen_sha256':info['first_seen_sha256']})
+                      row=d['panels'][0];assert row['measured_panel_sha256']==sit.hash_array(row['panel'],dtype='<f4')
+                      outputs.append((info,d,row))
+              a,b=outputs;on=a[2]['panel'];off=b[2]['panel']
+              frequency=a[2]['native_freq_start_mhz']+np.arange(128)*a[1]['header']['foff']
+              same_grid=bool(np.isclose(a[1]['header']['foff'],b[1]['header']['foff'],rtol=0,atol=1e-12) and np.isclose(a[2]['native_freq_start_mhz'],b[2]['native_freq_start_mhz'],rtol=0,atol=1e-8) and a[1]['dataset_shape'][0]==b[1]['dataset_shape'][0] and np.isclose(a[1]['header']['tsamp'],b[1]['header']['tsamp'],rtol=0,atol=1e-9))
+              def centers(d):
+                  n=d['dataset_shape'][0];ts=d['header']['tsamp']
+                  return np.array([np.mean(z)*ts for z in np.array_split(np.arange(n),16)])
+              t=centers(a[1])
+              # Archive ON/OFF labels are not independent pointing witnesses.
+              v=analyze_spectrogram(on,off_power=off if same_grid else None,source_id=a[0]['filename'],reference_id=b[0]['filename'] if same_grid else None,native_grid_verified=False)
+              assert v['origin_sha256']==_digest(on) and not v['raw_measurement_mutated'] and not v['production_adoption']
+              path=np.asarray(v['evidence']['fixed_path_bins'])
+              fig=go.Figure(go.Heatmap(x=frequency,y=t,z=on,colorscale='Viridis',colorbar={'title':'archive power units'}))
+              fig.add_trace(go.Scatter(x=frequency[path],y=t,mode='lines',name='RETINA advisory path',line={'color':'white'}))
+              fig.update_layout(title='Real GBT archived power | time-aggregated, research advisory only',xaxis_title='Frequency (MHz)',yaxis_title='Time relative to scan start (s)')
+              fig.write_html(p/'retina_real.html',include_plotlyjs=True)
+              np.savez_compressed(p/'retina_real.npz',on=on,off=off,frequency_mhz=frequency,time_s=t,off_time_s=centers(b[1]),off_frequency_mhz=b[2]['native_freq_start_mhz']+np.arange(128)*b[1]['header']['foff'])
+              write(p/'retina_advisory.json',v)
+              r['routes']['retina']={'status':'REAL_ARCHIVE_VISUALIZATION_PASS','scans':[{'source':x[0],'header':x[1]['header'],'dataset_shape':x[1]['dataset_shape'],'panel_sha256':x[2]['measured_panel_sha256']} for x in outputs],'panel_shape':list(on.shape),'same_relative_grid':same_grid,'actual_pointing_independently_verified':False,'synthetic_injection':False,'time_aggregation':True,'frequency_range_mhz':[float(frequency[0]),float(frequency[-1])],'time_range_s':[float(t[0]),float(t[-1])],'advisory_score':v['evidence']['native_research_score'],'baseline_changed':False,'npz_sha256':digest((p/'retina_real.npz').read_bytes()),'science_gate':v['science_gate']}
+          except Exception as e:r['routes']['retina']={'status':'HOLD','error_type':type(e).__name__,'error':str(e)[:400]}
+          r['decision']='PERCEPTION_RECOVERY_READ_WITNESS_ONLY'
+          r['limitations']=['Discovery admits pinned revisions, not arbitrary future code','No autonomous dispatch or production activation','Memory admission depends on existing thresholded collector','Real archived panels not independent sky truth; no detector accuracy claim']
+          write(p/'receipt.json',r);print(json.dumps(r,indent=2,allow_nan=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eye-r33-qualification
+          path: r32/
+          retention-days: 90
