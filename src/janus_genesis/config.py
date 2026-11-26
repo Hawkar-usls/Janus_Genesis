@@ -41,7 +41,7 @@ class JanusConfig:
     transform: TransformPolicy = field(default_factory=TransformPolicy)
 
     @classmethod
-    def from_dict(cls, raw: dict[str, Any]) -> "JanusConfig":
+    def from_dict(cls, raw: dict[str, Any]) -> JanusConfig:
         return cls(
             printer=PrinterProfile(**raw.get("printer", {})),
             material=MaterialProfile(**raw.get("material", {})),
@@ -49,7 +49,7 @@ class JanusConfig:
         )
 
     @classmethod
-    def load(cls, path: Path) -> "JanusConfig":
+    def load(cls, path: Path) -> JanusConfig:
         with path.open("r", encoding="utf-8") as handle:
             return cls.from_dict(json.load(handle))
 

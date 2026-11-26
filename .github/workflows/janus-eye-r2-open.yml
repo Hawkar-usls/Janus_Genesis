@@ -1,0 +1,119 @@
+name: JANUS EYE R2 Open Perception
+on:
+  push:
+    branches: [research/janus-eye-spatial-perception]
+    paths: ['.github/workflows/janus-eye-r2-open.yml']
+  pull_request:
+    branches: [archive/pla-genesis-before-game-restore]
+    paths: ['.github/workflows/janus-eye-r2-open.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  open-perception:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Portal
+          ref: 10425c2927ea6efb70ab951206c4602923973338
+          path: portal-source
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -e . scipy plotly requests pyproj
+      - name: Read public Portal catalog with original provider implementation
+        run: |
+          mkdir -p eye-open
+          test "$(git -C portal-source rev-parse HEAD)" = 10425c2927ea6efb70ab951206c4602923973338
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import {readFileSync,writeFileSync} from 'node:fs';
+          import {probeMerged360} from './portal-source/src/providers.js';
+          const source=readFileSync('portal-source/src/app.js','utf8');
+          const selected=['fes','lyon','rennes'];
+          const records=[];
+          for(const key of selected){
+            const m=source.match(new RegExp('(?:^|\\n)\\s*'+key+':\\s*\\{lat:\\s*(-?[0-9.]+),\\s*lng:\\s*(-?[0-9.]+)\\}'));
+            if(!m)throw Error('Missing Portal anchor '+key);
+            const origin={lat:Number(m[1]),lng:Number(m[2])};
+            try{
+              const r=await probeMerged360(origin,{signal:AbortSignal.timeout(18000)});
+              const candidates=r.candidates.map(c=>({provider:c.provider,id:String(c.id),lat:c.lat,lng:c.lng,collection:c.collection||null,license:c.license||null,attribution:c.attribution||null,source_url:c.sourceUrl||null,authority:'PUBLIC_PHOTO_METADATA_ONLY'}));
+              records.push({key,origin,status:candidates.length?'METADATA_AVAILABLE':'NO_CONFIRMED_METADATA',checked:r.checked,failed:r.failed,candidates});
+            }catch(e){records.push({key,origin,status:'FAILED',error:String(e),candidates:[]});}
+          }
+          writeFileSync('eye-open/portal_catalog.json',JSON.stringify({schema:'janus.eye.portal_metadata.v1',portal_commit:'10425c2927ea6efb70ab951206c4602923973338',records,private_history_read:false,images_downloaded:false,paid_api_called:false},null,2));
+          JS
+      - name: Read registry and public DEM; create scientific scenes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,os,traceback
+          import numpy as np
+          import requests
+          from pyproj import CRS,Transformer
+          from janus_genesis.spatial_eye import analyze,digest,write
+          p=Path('eye-open')
+          catalog=json.loads((p/'portal_catalog.json').read_text())
+          base='https://raw.githubusercontent.com/Hawkar-usls/janus-meta-registry/'
+          capability_ref='716dd0fe2f53dcfc8423243e465d109a6fd6690c'
+          capability_path='data/JANUS-EYE-OPEN-PERCEPTION-CAPABILITY-v1.0.json'
+          r={'schema':'janus.eye.open_receipt.v1','run_id':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'portal_catalog_sha256':digest(p/'portal_catalog.json'),'registry':{},'scenes':{},'production_promotion':False}
+          def get_json(url,path):
+              a=requests.get(url,timeout=(10,30));a.raise_for_status()
+              if len(a.content)>2*1024**2:raise ValueError('metadata exceeds cap')
+              path.write_bytes(a.content)
+              return json.loads(a.content)
+          cap=get_json(base+capability_ref+'/'+capability_path,p/'capability.json')
+          assert cap['schema']=='janus.eye.organ_capability.v1' and cap['organ_id']=='JANUS_EYE'
+          assert cap['policy']['read_only_data'] and not cap['policy']['production_promotion']
+          spec=cap['sources']['registry'];assert spec['repository']=='Hawkar-usls/janus-meta-registry'
+          archived=get_json(base+spec['ref']+'/'+spec['path'],p/'registry_scene.json')
+          scene=archived['receipt']
+          assert scene['schema']=='janus.eye.scene_receipt.v1' and scene['authority']=='MODELLED'
+          assert scene['scene_id']=='KUSTO_ZERO_NODE' and archived['run_id']==45833030382
+          r['registry']={'capability_ref':capability_ref,'capability_sha256':digest(p/'capability.json'),'scene_receipt_sha256':digest(p/'registry_scene.json'),'scene_id':scene['scene_id'],'authority':scene['authority'],'nodes':scene['nodes'],'registered_routes':cap['routes'],'status':'READ_VALIDATED'}
+          write(p/'open_receipt.json',r)
+          for row in catalog['records']:
+              key=row['key'];d=p/key;d.mkdir(exist_ok=True)
+              try:
+                  lat=row['origin']['lat'];lon=row['origin']['lng']
+                  frame=f'WGS84 AEQD center {lat},{lon}'
+                  crs=CRS.from_proj4(f'+proj=aeqd +lat_0={lat} +lon_0={lon} +datum=WGS84 +units=m')
+                  x=np.arange(-400,401,100,dtype=float);X,Y=np.meshgrid(x,x)
+                  lo,la=Transformer.from_crs(crs,4326,always_xy=True).transform(X,Y)
+                  params={'latitude':','.join(f'{v:.6f}' for v in la.ravel()),'longitude':','.join(f'{v:.6f}' for v in lo.ravel())}
+                  response=requests.get('https://api.open-meteo.com/v1/elevation',params=params,timeout=(10,45))
+                  response.raise_for_status()
+                  if len(response.content)>100000:raise ValueError('DEM response cap')
+                  (d/'dem_response.json').write_bytes(response.content)
+                  z=np.asarray(response.json()['elevation'],float)
+                  if z.size!=81 or not np.isfinite(z).all():raise ValueError('incomplete DEM grid')
+                  z=z.reshape(X.shape)
+                  np.savez_compressed(d/'scene.npz',x=x,y=x,height=z)
+                  meta={'schema':'janus.eye.heightfield.v1','scene_id':'PORTAL_'+key,'sha256':digest(d/'scene.npz'),'authority':'MODELLED','frame':frame,'xy_unit':'m','height_unit':'m','provenance':{'source':'Copernicus DEM GLO-90 2021 via Open-Meteo','attribution':'Copernicus programme / Open-Meteo','documentation':'https://open-meteo.com/en/docs/elevation-api','response_sha256':digest(d/'dem_response.json'),'portal_catalog_sha256':r['portal_catalog_sha256'],'panorama_role':'metadata context only; not depth or image reconstruction'},'sigma_m':[0,100,200],'depression_threshold_m':2,'nodes':[{'id':'portal_anchor','xy_m':[0,0]}]}
+                  write(d/'scene.json',meta)
+                  s=analyze(d/'scene.npz',d/'scene.json',d/'view')
+                  assert s['authority']=='MODELLED' and not s['mesh']['source_geometry_mutated']
+                  r['scenes'][key]={'status':'ANALYZED','scene_id':s['scene_id'],'authority':s['authority'],'height':s['height'],'coverage':s['coverage_fraction'],'mesh_faces':s['mesh']['pla_genesis_metrics_mm']['faces'],'receipt_sha256':digest(d/'view'/'scene_receipt.json'),'viewer_sha256':s['interactive_view']['sha256'],'portal_metadata_count':len(row['candidates']),'portal_metadata_status':row['status']}
+              except Exception as e:r['scenes'][key]={'status':'FAILED','error':repr(e),'portal_metadata_count':len(row['candidates']),'portal_metadata_status':row['status']}
+              write(p/'open_receipt.json',r)
+          r['decision']='OPEN_PERCEPTION_DEMO_PASS' if any(v['status']=='ANALYZED' and v['portal_metadata_count']>0 for v in r['scenes'].values()) else 'PARTIAL_OPEN_PERCEPTION'
+          r['limitations']=['Public DEM sampled every 100 m; GLO-90 product, not direct camera geometry','Public photo metadata not image render or depth','No private visit history','No live sensor or automatic organ admission','No new external peers or production promotion']
+          write(p/'open_receipt.json',r)
+          print('EYE_OPEN_RECEIPT_BEGIN')
+          print(json.dumps(r,indent=2,allow_nan=False))
+          print('EYE_OPEN_RECEIPT_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: janus-eye-r2-open
+          path: eye-open/
+          retention-days: 90

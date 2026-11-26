@@ -1,0 +1,50 @@
+name: JANUS EYE R1 Spatial Perception
+on:
+  push:
+    branches: [research/janus-eye-spatial-perception]
+  pull_request:
+    branches: [archive/pla-genesis-before-game-restore]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  spatial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e . scipy plotly pytest
+      - name: Independent analytic gates and original regression suite
+        run: |
+          mkdir -p eye-results
+          set -o pipefail
+          python -m pytest tests/test_spatial_eye.py -v | tee eye-results/eye-tests.txt
+          python -m pytest -q | tee eye-results/regression.txt
+      - name: Build demonstration scene
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import numpy as np
+          from janus_genesis.spatial_eye import analyze,digest,write
+          p=Path('eye-results')
+          x=np.arange(-50,51,2,dtype=float);X,Y=np.meshgrid(x,x)
+          z=6*np.exp(-((X-20)**2+Y**2)/100)-8*np.exp(-((X+15)**2+Y**2)/150)
+          f=np.sin(X/10)*np.cos(Y/10)
+          np.savez_compressed(p/'scene.npz',x=x,y=x,height=z,scalar=f)
+          meta={'schema':'janus.eye.heightfield.v1','scene_id':'analytic_demo','sha256':digest(p/'scene.npz'),'authority':'SIMULATED','frame':'local Cartesian','xy_unit':'m','height_unit':'m','provenance':'analytic synthetic bowl and hill','fields':{'scalar':{'unit':'arbitrary','authority':'SIMULATED','frame':'local Cartesian','provenance':'analytic function'}},'sigma_m':[0,2,4],'nodes':[{'id':'bowl','xy_m':[-14,0]}]}
+          write(p/'scene.json',meta)
+          report=analyze(p/'scene.npz',p/'scene.json',p/'demo')
+          print('EYE_RECEIPT_BEGIN')
+          import json
+          print(json.dumps(report,indent=2,allow_nan=False))
+          print('EYE_RECEIPT_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: janus-eye-r1
+          path: eye-results/
+          retention-days: 90

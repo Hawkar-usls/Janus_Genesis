@@ -19,7 +19,11 @@ dependencies = [
 dev = [
   "pytest>=8.0",
   "ruff>=0.5",
+  "scipy>=1.11",
+  "plotly>=5.20",
 ]
+
+eye = ["scipy>=1.11", "plotly>=5.20"]
 
 [project.scripts]
 janus-genesis = "janus_genesis.cli:main"
