@@ -1,0 +1,152 @@
+name: EYE PLA Canonical Fusion R1
+on:
+  push:
+    branches: [research/janus-eye-spatial-perception]
+    paths: ['.github/workflows/eye-pla-canonical-fusion.yml']
+  pull_request:
+    branches: [archive/pla-genesis-before-game-restore]
+    paths: ['.github/workflows/eye-pla-canonical-fusion.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fusion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          ref: 4411695e1e54b690613fe6db45809a663e0f3b47
+          path: registry
+          sparse-checkout: |
+            EYE/training/train_eye_registry.py
+            EYE/EYE-ROOT-CONSTITUTION-v1.0.json
+            EYE/integration/EYE-HRAIN-INAIHR-INTERHEMISPHERE-CONTRACT-v1.0.json
+            experiments/janus-eye/r1/2026-11-26-run-45833030382.json
+            experiments/janus-eye/r2/2026-11-26-run-45833871367.json
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Hrain
+          ref: 10ba1ac1e8cd6c01d66e499bd2011aae39273834
+          path: hrain
+          sparse-checkout: eye-interhemisphere-bridge.js
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/iNaiHR
+          ref: 9ef156682d80706b0bd6be1c60e94f7a8b038d78
+          path: inaihr
+          sparse-checkout: eye-interhemisphere-bridge.js
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -e '.[dev]'
+      - name: Native spatial regressions and source-bound canonical extraction
+        run: |
+          mkdir -p fusion
+          python -m pytest -q
+          ruff check src/janus_genesis/spatial_eye.py tests/test_spatial_eye.py
+          python - <<'PY'
+          import hashlib, json, sys
+          from pathlib import Path
+          root=Path('registry')
+          sys.path.insert(0,str(root/'EYE/training'))
+          from train_eye_registry import build_record, resolve_edges
+          from janus_genesis.spatial_eye import digest
+          paths=['experiments/janus-eye/r1/2026-11-26-run-45833030382.json','experiments/janus-eye/r2/2026-11-26-run-45833871367.json']
+          constitution=json.loads((root/'EYE/EYE-ROOT-CONSTITUTION-v1.0.json').read_text())
+          assert constitution['schema']=='janus.eye.root.constitution.v1'
+          inter=json.loads((root/'EYE/integration/EYE-HRAIN-INAIHR-INTERHEMISPHERE-CONTRACT-v1.0.json').read_text())
+          assert inter['channels']['EYE_TO_INAIHR_VIA_HRAIN']['direct_bypass']=='FORBIDDEN'
+          records=[]
+          for p in paths:
+              rec,_=build_record(root,root/p,2_000_000)
+              assert rec['sha256']==digest(root/p) and rec['parse_error'] is None
+              assert not rec['slime_promotable_receipt_discovery']['eligible_candidate']
+              records.append(rec)
+          edges,resolved=resolve_edges(records)
+          a=json.loads((root/paths[0]).read_text())
+          b=json.loads((root/paths[1]).read_text())
+          k=a['receipt'];o=b['receipt']
+          assert a['run_id']==45833030382 and b['run_id']==45833871367
+          assert k['scene_id']=='KUSTO_ZERO_NODE' and k['authority']=='MODELLED'
+          assert o['decision']=='OPEN_PERCEPTION_DEMO_PASS'
+          facts=[{'scene_id':k['scene_id'],'source_record':paths[0],'source_sha256':records[0]['sha256'],'data_class':'MODELLED','frame':k['frame'],'nodes':k['nodes']}]
+          for key,v in sorted(o['scenes'].items()):
+              if v['status']=='ANALYZED':
+                  assert v['authority']=='MODELLED'
+                  facts.append({'scene_id':v['scene_id'],'source_record':paths[1],'source_sha256':records[1]['sha256'],'data_class':'MODELLED','height_m':v['height'],'metadata_count':v['portal_metadata_count']})
+          assert len(facts)==4
+          packet={'schema':'janus.eye.spatial_context.v1','representation_contract':{'target_invariant':'source-bound geometry and declared evidence class','must_preserve':['coordinate frame','physical units','source hashes','missing data','MODELLED classification'],'metric_or_bridge_rule':'exact source field identity; canonical token overlap is advisory only','reference_frame':'per-scene coordinate frames; no cross-scene spatial registration','positive_control':'exact replay of named source fields','negative_control_or_falsifier':'mutated value, altered class or direct hemisphere bypass','provenance':paths},'facts':facts,'canonical_index_records':records,'relation_edges':edges,'resolved_edges':resolved,'shared_bridge_tokens':sorted(set(records[0]['bridge_tokens'])&set(records[1]['bridge_tokens'])),'association_role':'derived context only','claim_promotion':False,'source_authority_upgrade':False}
+          Path('fusion/spatial_context.json').write_text(json.dumps(packet,indent=2,allow_nan=False))
+          PY
+      - name: Execute original HRAiN and iNaiHR mediated interfaces
+        run: |
+          node --input-type=module <<'JS'
+          import {readFileSync,writeFileSync} from 'node:fs';
+          import {createRequire} from 'node:module';
+          import assert from 'node:assert/strict';
+          import vm from 'node:vm';
+          const require=createRequire(import.meta.url);
+          const load=(p,key)=>{const ctx={crypto:globalThis.crypto,TextEncoder,module:{exports:{}}};ctx.globalThis=ctx;vm.runInNewContext(readFileSync(p,'utf8'),ctx);return ctx.module.exports};
+          const h=load('hrain/eye-interhemisphere-bridge.js'),i=load('inaihr/eye-interhemisphere-bridge.js');
+          const x=JSON.parse(readFileSync('fusion/spatial_context.json','utf8'));
+          const control={read_only_transfer:true,direct_mutation:false,authority_delta:0,claim_promotion:false,proof_authority:false,external_effect_authority:false};
+          const req=await h.sealPacket({schema:h.REQUEST_SCHEMA,channel:'EYE_TO_HRAIN',source:'EYE',target:'LEFT_HRAIN',representation_contract:x.representation_contract,query:{kind:'SPATIAL_CONTEXT',scene_ids:x.facts.map(v=>v.scene_id)},control});
+          await h.validateEyeRequest(req);
+          const grounded=await h.buildGroundedContext(req,{facts:x.facts,source_records:x.canonical_index_records.map(v=>({path:v.path,sha256:v.sha256})),claim_boundary:'MODELLED_NOT_DIRECT_SENSOR'},'MATCH');
+          const ask=await h.buildInaihrAssociationRequest(grounded,{bridge_tokens:x.shared_bridge_tokens});
+          await i.acceptAssociationRequest(ask);
+          const response=await i.buildAssociationResponse(ask,{candidate_links:x.shared_bridge_tokens,classification:'ADVISORY_TOKEN_OVERLAP',scope:'NO_GEOMETRIC_MATCH_BETWEEN_LOCATIONS'});
+          await i.validateAssociationResponse(response);
+          const mediated=await h.acceptInaihrAssociationResponse(response);
+          const bad=await h.sealPacket({...ask,source:'EYE'});
+          await assert.rejects(()=>i.acceptAssociationRequest(bad));
+          await assert.rejects(()=>h.validateEyeRequest({...req,query:{kind:'MUTATED'}}));
+          await assert.rejects(()=>i.buildAssociationResponse(ask,{truth:true}));
+          const result={request:req,grounded,association_request:ask,association_response:response,mediated_return:mediated,negative_controls:{direct_bypass_rejected:true,tamper_rejected:true,truth_upgrade_rejected:true}};
+          writeFileSync('fusion/mediated.json',JSON.stringify(result,null,2));
+          JS
+      - name: Independent source-field replay gate
+        run: |
+          python - <<'PY'
+          import json,hashlib,os,copy
+          from pathlib import Path
+          p=Path('fusion');x=json.loads((p/'spatial_context.json').read_text());m=json.loads((p/'mediated.json').read_text())
+          def check(facts):
+              for f in facts:
+                  raw=(Path('registry')/f['source_record']).read_bytes()
+                  if hashlib.sha256(raw).hexdigest()!=f['source_sha256'] or f['data_class']!='MODELLED':return False
+                  r=json.loads(raw)['receipt']
+                  if f['scene_id']=='KUSTO_ZERO_NODE':
+                      if f['nodes']!=r['nodes'] or f['frame']!=r['frame']:return False
+                  else:
+                      v=next((v for v in r['scenes'].values() if v.get('scene_id')==f['scene_id']),None)
+                      if not v or f['height_m']!=v['height'] or f['metadata_count']!=v['portal_metadata_count']:return False
+              return True
+          assert check(x['facts'])
+          assert m['grounded']['structural_context']['facts']==x['facts']
+          bad=copy.deepcopy(x['facts']);bad[0]['nodes'][0]['height_m']+=1
+          assert not check(bad)
+          bad=copy.deepcopy(x['facts']);bad[0]['data_class']='MEASURED'
+          assert not check(bad)
+          assert all(m['negative_controls'].values())
+          r={'schema':'janus.eye.pla_fusion.receipt.v1','run_id':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'decision':'CANONICAL_SPATIAL_CONTEXT_TRANSPORT_PASS','scene_count':len(x['facts']),'canonical_records':len(x['canonical_index_records']),'bridge_tokens':x['shared_bridge_tokens'],'negative_controls':{**m['negative_controls'],'mutated_geometry_rejected':True,'authority_upgrade_rejected':True},'path':['PLA_GENESIS_RECEIPT','EYE_CANONICAL_INDEX','HRAIN','INAIHR','HRAIN','SOURCE_REPLAY_VERIFY'],'scope':'Local original interfaces executed in one Actions runner; no independent sensor acquisition or deployed inter-repo messaging','slime_promoted':False,'trump_runtime_admission':False,'production_promotion':False}
+          (p/'receipt.json').write_text(json.dumps(r,indent=2))
+          print(json.dumps(r,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eye-pla-fusion
+          path: fusion/
