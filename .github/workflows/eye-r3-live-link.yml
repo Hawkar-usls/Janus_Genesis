@@ -1,0 +1,136 @@
+name: EYE R3 Live Nervous Link Read Witness
+on:
+  push:
+    branches: [research/janus-eye-spatial-perception]
+    paths: ['.github/workflows/eye-r3-live-link.yml']
+  pull_request:
+    branches: [archive/pla-genesis-before-game-restore]
+    paths: ['.github/workflows/eye-r3-live-link.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  witness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Cosmos
+          ref: 28d2937f47c4c6f48c8ea2d712145ea0f7c06199
+          path: retina
+          sparse-checkout: research/seti
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/janus-meta-registry
+          ref: 89e97100b4bfbc1a5899aff072e2305b5de7b5b0
+          path: registry
+          sparse-checkout: experiments/janus-eye/cosmos-demihead
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus-Demiurge
+          ref: aa046636befaff48ec32ec8a17e43686f9f8b73f
+          path: demiurge
+          sparse-checkout: janus_model
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Hawkar-usls/Janus_Genesis
+          ref: 642ce693678f119b5e1c999cf46b79f20884f9be
+          path: essence
+          sparse-checkout: tools
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]' requests
+      - name: Direct cross-run transport and native organ checks
+        env:
+          GH_READ_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p r3
+          python - <<'PY'
+          import io,json,os,sys,tempfile
+          from pathlib import Path
+          import numpy as np
+          from janus_genesis.eye_r3_transport import pull,digest
+          from janus_genesis.spatial_eye import analyze,write
+          p=Path('r3');r={'schema':'janus.eye.r3.live_read_witness.v1','run_id':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'routes':{},'production_promotion':False}
+          def save():write(p/'receipt.json',r)
+          ref=Path('registry/experiments/janus-eye/cosmos-demihead/2026-11-26-cross-review-result.json')
+          archive=json.loads(ref.read_text());review=archive['runs'][0]['receipt']['review']
+          token=os.environ['GH_READ_TOKEN']
+          try:
+              raw,source=pull('kusto',token)
+              with np.load(io.BytesIO(raw),allow_pickle=False) as a:
+                  x,y,h,g,m=[a[k] for k in ('x_km','y_km','elevation_m','gravity_mgal','magnetic_nT')]
+                  assert np.allclose(x,x[0][None,:]) and np.allclose(y,y[:,0][:,None])
+                  np.savez_compressed(p/'scene.npz',x=x[0],y=y[:,0],height=h,gravity=g,magnetic=m)
+              frame='WGS84 AEQD center -47.3,47.9'
+              meta={'schema':'janus.eye.heightfield.v1','scene_id':'KUSTO_ZERO_NODE','sha256':digest((p/'scene.npz').read_bytes()),'authority':'MODELLED','frame':frame,'xy_unit':'km','height_unit':'m','provenance':source,'fields':{'gravity':{'unit':'mGal','authority':'DERIVED','frame':frame,'provenance':'SWOT06 R2.8'},'magnetic':{'unit':'nT','authority':'DERIVED','frame':frame,'provenance':'EMAG2 R2.8'}},'sigma_m':[0,2000,4000,8000],'depression_threshold_m':20,'nodes':[{'id':'ZERO_NODE','xy_m':[0,0]},{'id':'LOCAL_NODE','xy_m':[-2000,6000]}]}
+              write(p/'scene.json',meta);s=analyze(p/'scene.npz',p/'scene.json',p/'scene')
+              assert s['nodes'][1]==archive['runs'][0]['receipt']['request']['node']
+              r['routes']['COSMOS_TO_EYE']={'status':'PASS','source':source,'scene_sha256':digest((p/'scene'/'scene_receipt.json').read_bytes())}
+          except Exception as e:r['routes']['COSMOS_TO_EYE']={'status':'HOLD','error_type':type(e).__name__,'error':str(e)[:300]}
+          save()
+          try:
+              raw,source=pull('review',token);v=json.loads(raw)
+              assert v['review']==review and v['decision']=='SOURCE_BOUND_REVIEW_PASS'
+              assert v['review']['data_class']=='MODELLED' and not v['review']['unique_object_established']
+              (p/'demihead_review.json').write_bytes(raw)
+              r['routes']['DEMIHEAD_TO_EYE']={'status':'PASS','source':source,'review_sha256':review['review_sha256']}
+          except Exception as e:r['routes']['DEMIHEAD_TO_EYE']={'status':'HOLD','error_type':type(e).__name__,'error':str(e)[:300]}
+          save()
+          # Existing RETINA implementation, synthetic fixture, native axes unchanged.
+          sys.path.insert(0,str(Path('retina/research/seti').resolve()))
+          from benchmark_retina_5d_mosaic import sample
+          from retina_5d_mosaic import analyze_spectrogram,_digest
+          import plotly.graph_objects as go
+          on,off=sample(np.random.default_rng(2026112603),'weak')
+          v=analyze_spectrogram(on,off_power=off,source_id='synthetic-on',reference_id='synthetic-off',native_grid_verified=True)
+          assert v['origin_sha256']==_digest(on) and v['baseline_alert_before']==v['baseline_alert_after']
+          n,f=on.shape;path=v['evidence']['fixed_path_bins']
+          fig=go.Figure(go.Heatmap(x=list(range(f)),y=list(range(n)),z=on,colorscale='Viridis',colorbar={'title':'synthetic power'}))
+          fig.add_trace(go.Scatter(x=path,y=list(range(n)),mode='lines',name='RETINA candidate',line={'color':'white'}))
+          fig.update_layout(title='SYNTHETIC ONLY | RETINA native spectrogram',xaxis_title='Frequency channel index',yaxis_title='Time sample index')
+          fig.write_html(p/'retina.html',include_plotlyjs=True)
+          np.savez_compressed(p/'retina_native.npz',on=on,off=off)
+          write(p/'retina_advisory.json',v)
+          r['routes']['RETINA_TO_EYE']={'status':'SYNTHETIC_INTERFACE_PASS','source_kind':'SIMULATED','source_sha256':v['origin_sha256'],'reference_sha256':v['evidence']['reference_sha256'],'native_shape':[n,f],'advisory_sha256':digest((p/'retina_advisory.json').read_bytes()),'baseline_changed':False,'real_observation_exam':False}
+          save()
+          # Use native Memory Cortex classifier and content-addressed deduplication in isolated state.
+          sys.path.insert(0,str(Path('demiurge').resolve()))
+          from janus_model.memory_512_audit_index_r3 import classify
+          from janus_model.memory_cortex_growth import new_state,add_text,read_object
+          raw=ref.read_bytes();kind=classify({'path':'experiments/janus-eye/cosmos-demihead/2026-11-26-cross-review-result.json','extension':'.json','size_bytes':len(raw),'read_only':True,'scientific_authority_granted':False})
+          assert kind=='CANDIDATE_TEXT' and archive['comparison']['exact_review_match']
+          with tempfile.TemporaryDirectory() as tmp:
+              st=new_state();root=Path(tmp);origin={'repository':'Hawkar-usls/janus-meta-registry','commit':'89e97100b4bfbc1a5899aff072e2305b5de7b5b0','path':str(ref.relative_to('registry')),'kind':'PUBLIC_REGISTRY_TEXT_NOT_SCIENTIFIC_PROOF'}
+              assert add_text(root,st,raw,origin)
+              assert not add_text(root,st,raw,origin)
+              assert read_object(root,digest(raw),len(raw))==raw
+          r['routes']['MEMORY_CORTEX']={'status':'ISOLATED_NATIVE_ADMISSION_PASS','source_sha256':digest(raw),'bytes':len(raw),'duplicate_rejected':True,'active_generation_updated':False}
+          save()
+          # Read-only existing ESSENCE Sentinel; no new token or remote dispatch.
+          sys.path.insert(0,str(Path('essence/tools').resolve()))
+          import janus_sentinel_mesh as mesh
+          heartbeat=mesh.run('Hawkar-usls/Janus_Genesis',os.environ['GITHUB_RUN_ID'],token,recovery_only=True)
+          assert heartbeat['plan']['target'] is None and not heartbeat['actual_recovery_verified']
+          write(p/'essence_observation.json',heartbeat)
+          r['routes']['ESSENCE']={'status':'NATIVE_READONLY_OBSERVATION','peers':heartbeat['peers'],'outcome':heartbeat['outcome'],'remote_wake_performed':False}
+          r['decision']='DIRECT_READ_WITNESS_PASS' if all(r['routes'][k]['status']=='PASS' for k in ('COSMOS_TO_EYE','DEMIHEAD_TO_EYE')) else 'PARTIAL_TRANSPORT_HOLD'
+          r['limitations']=['Fixed completed run IDs, not automatic discovery or remote wake','Cross-repository artifact permissions may block reads','RETINA synthetic only','Memory state isolated; actual active generation unchanged','ESSENCE read-only observation only']
+          save();print(json.dumps(r,indent=2,allow_nan=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eye-r3-live-read
+          path: r3/
+          retention-days: 90
