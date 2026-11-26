@@ -1,6 +1,7 @@
 """R3 fixed public artifact transport: bounded, read-only, no arbitrary locators."""
 import hashlib
 import io
+import json
 import re
 import zipfile
 
@@ -35,7 +36,6 @@ def pull(key, token):
                 if len(buf) > CAP:
                     raise ValueError("response cap")
             return bytes(buf)
-    import json
     run_meta = json.loads(get(base + "/actions/runs/" + str(run)))
     if run_meta["id"] != run or run_meta["status"] != "completed" or run_meta["conclusion"] != "success":
         raise ValueError("upstream run not successful")
