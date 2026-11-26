@@ -5,6 +5,7 @@ import pytest
 
 from janus_genesis.spatial_eye import analyze, depression_depth, derivatives, digest, smooth
 
+
 def scene(tmp_path, z, x=None, field=None):
     if x is None: x=np.arange(z.shape[1],dtype=float)
     y=np.arange(z.shape[0],dtype=float)
