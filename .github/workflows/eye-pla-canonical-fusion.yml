@@ -1,11 +1,11 @@
-name: EYE PLA Canonical Fusion R1
+name: EYE PLA Canonical Fusion R1.1
 on:
   push:
     branches: [research/janus-eye-spatial-perception]
-    paths: ['.github/workflows/eye-pla-canonical-fusion.yml']
+    paths: ['.github/workflows/eye-pla-canonical-fusion.yml', 'src/**', 'tests/**', 'pyproject.toml']
   pull_request:
     branches: [archive/pla-genesis-before-game-restore]
-    paths: ['.github/workflows/eye-pla-canonical-fusion.yml']
+    paths: ['.github/workflows/eye-pla-canonical-fusion.yml', 'src/**', 'tests/**', 'pyproject.toml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -55,7 +55,7 @@ jobs:
         run: |
           mkdir -p fusion
           python -m pytest -q
-          ruff check src/janus_genesis/spatial_eye.py tests/test_spatial_eye.py
+          ruff check src tests
           python - <<'PY'
           import hashlib, json, sys
           from pathlib import Path
@@ -86,7 +86,7 @@ jobs:
               if v['status']=='ANALYZED':
                   assert v['authority']=='MODELLED'
                   facts.append({'scene_id':v['scene_id'],'source_record':paths[1],'source_sha256':records[1]['sha256'],'data_class':'MODELLED','height_m':v['height'],'metadata_count':v['portal_metadata_count']})
-          assert len(facts)==4
+          assert {f['scene_id'] for f in facts}=={'KUSTO_ZERO_NODE','PORTAL_fes','PORTAL_lyon','PORTAL_rennes'}
           packet={'schema':'janus.eye.spatial_context.v1','representation_contract':{'target_invariant':'source-bound geometry and declared evidence class','must_preserve':['coordinate frame','physical units','source hashes','missing data','MODELLED classification'],'metric_or_bridge_rule':'exact source field identity; canonical token overlap is advisory only','reference_frame':'per-scene coordinate frames; no cross-scene spatial registration','positive_control':'exact replay of named source fields','negative_control_or_falsifier':'mutated value, altered class or direct hemisphere bypass','provenance':paths},'facts':facts,'canonical_index_records':records,'relation_edges':edges,'resolved_edges':resolved,'shared_bridge_tokens':sorted(set(records[0]['bridge_tokens'])&set(records[1]['bridge_tokens'])),'association_role':'derived context only','claim_promotion':False,'source_authority_upgrade':False}
           Path('fusion/spatial_context.json').write_text(json.dumps(packet,indent=2,allow_nan=False))
           PY
@@ -94,11 +94,9 @@ jobs:
         run: |
           node --input-type=module <<'JS'
           import {readFileSync,writeFileSync} from 'node:fs';
-          import {createRequire} from 'node:module';
           import assert from 'node:assert/strict';
           import vm from 'node:vm';
-          const require=createRequire(import.meta.url);
-          const load=(p,key)=>{const ctx={crypto:globalThis.crypto,TextEncoder,module:{exports:{}}};ctx.globalThis=ctx;vm.runInNewContext(readFileSync(p,'utf8'),ctx);return ctx.module.exports};
+          const load=(p)=>{const ctx={crypto:globalThis.crypto,TextEncoder,module:{exports:{}}};ctx.globalThis=ctx;vm.runInNewContext(readFileSync(p,'utf8'),ctx);return ctx.module.exports};
           const h=load('hrain/eye-interhemisphere-bridge.js'),i=load('inaihr/eye-interhemisphere-bridge.js');
           const x=JSON.parse(readFileSync('fusion/spatial_context.json','utf8'));
           const control={read_only_transfer:true,direct_mutation:false,authority_delta:0,claim_promotion:false,proof_authority:false,external_effect_authority:false};
@@ -110,6 +108,12 @@ jobs:
           const response=await i.buildAssociationResponse(ask,{candidate_links:x.shared_bridge_tokens,classification:'ADVISORY_TOKEN_OVERLAP',scope:'NO_GEOMETRIC_MATCH_BETWEEN_LOCATIONS'});
           await i.validateAssociationResponse(response);
           const mediated=await h.acceptInaihrAssociationResponse(response);
+          assert.equal(response.request_sha256,ask.packet_sha256);
+          assert.equal(response.grounded_context_sha256,grounded.packet_sha256);
+          assert.equal(mediated.terminal_authority,false);
+          assert.equal(mediated.mediated_by,'LEFT_HRAIN');
+          await h.verifyPacketHash(grounded);
+          await h.verifyPacketHash(ask);
           const bad=await h.sealPacket({...ask,source:'EYE'});
           await assert.rejects(()=>i.acceptAssociationRequest(bad));
           await assert.rejects(()=>h.validateEyeRequest({...req,query:{kind:'MUTATED'}}));
@@ -136,6 +140,9 @@ jobs:
               return True
           assert check(x['facts'])
           assert m['grounded']['structural_context']['facts']==x['facts']
+          assert m['association_request']['grounded_context_sha256']==m['grounded']['packet_sha256']
+          assert m['association_response']['request_sha256']==m['association_request']['packet_sha256']
+          assert m['mediated_return']['terminal_authority'] is False
           bad=copy.deepcopy(x['facts']);bad[0]['nodes'][0]['height_m']+=1
           assert not check(bad)
           bad=copy.deepcopy(x['facts']);bad[0]['data_class']='MEASURED'
