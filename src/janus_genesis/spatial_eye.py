@@ -55,6 +55,8 @@ def smooth(z, sigma_yx):
     if max(sigma_yx)==0:
         return z.copy()
     valid=np.isfinite(z)
+    if valid.all():
+        return gaussian_filter(z,sigma_yx,mode="nearest")
     w=gaussian_filter(valid.astype(float),sigma_yx,mode="constant")
     n=gaussian_filter(np.where(valid,z,0.),sigma_yx,mode="constant")
     # Do not impute source gaps; additionally exclude poorly supported neighborhoods.
@@ -184,7 +186,7 @@ def analyze(npz, manifest, out, render=True):
            "scales":[{"sigma_m":float(s),**{name:val(layers[f"s{k}_{name}"]) for name in ("slope_deg","mean_curvature_per_m","fill_depth_m") if f"s{k}_{name}" in layers}} for k,s in enumerate(sigmas)]})
     np.savez_compressed(out/"scene_layers.npz",**layers)
     report["layers_sha256"]=digest(out/"scene_layers.npz")
-    report["limitations"]=["Heightfield only; not unrestricted volumetric perception","No invented observations across missing cells","Depression closure is a finite-window proxy","Field correlation is descriptive, not a causal or independent test","Source authority is declared, not independently authenticated"]
+    report["limitations"]=["Heightfield only; not unrestricted volumetric perception","No invented observations across missing cells","Depression closure is a finite-window proxy; complete grids use nearest-edge smoothing","Field correlation is descriptive, not a causal or independent test","Source authority is declared, not independently authenticated"]
     if render:
         import plotly.graph_objects as go
         fig=go.Figure()
