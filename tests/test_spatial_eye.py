@@ -1,7 +1,9 @@
 import json
+
 import numpy as np
 import pytest
-from janus_genesis.spatial_eye import analyze, derivatives, depression_depth, digest, smooth
+
+from janus_genesis.spatial_eye import analyze, depression_depth, derivatives, digest, smooth
 
 def scene(tmp_path, z, x=None, field=None):
     if x is None: x=np.arange(z.shape[1],dtype=float)
@@ -15,7 +17,7 @@ def scene(tmp_path, z, x=None, field=None):
 
 def test_plane_and_curvature():
     x,y=np.meshgrid(np.arange(9.),np.arange(9.))
-    slope,lap,mean,gauss=derivatives(.1*x,1,1)
+    slope,lap,_mean,gauss=derivatives(.1*x,1,1)
     assert np.allclose(slope,np.degrees(np.arctan(.1)))
     assert np.max(np.abs(lap))<1e-12
     assert np.max(np.abs(gauss))<1e-12
