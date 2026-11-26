@@ -8,12 +8,13 @@ import argparse
 import hashlib
 import heapq
 import json
-from pathlib import Path
 import re
+from pathlib import Path
 import numpy as np
 from scipy.ndimage import gaussian_filter, label
 from scipy.stats import spearmanr
 import trimesh
+
 from janus_genesis.mesh_ops import metrics
 
 AUTHORITIES = {"MEASURED", "MODELLED", "INTERPOLATED", "SIMULATED", "DERIVED", "UNKNOWN"}
@@ -108,7 +109,7 @@ def region_records(depth,x,y,threshold):
     regions=[]
     for k in range(1,n+1):
         j,i=np.where(labels==k)
-        regions.append({"region_id":f"depression_{k}","cell_count":int(len(i)),
+        regions.append({"region_id":f"depression_{k}","cell_count":len(i),
           "cell_area_m2":float(len(i)*dx*dy),"max_fill_depth_m":float(depth[j,i].max()),
           "centroid_xy_m":[float(np.mean(x[i])),float(np.mean(y[j]))],
           "bbox_xy_m":[float(x[i].min()),float(y[j].min()),float(x[i].max()),float(y[j].max())]})
@@ -156,7 +157,7 @@ def analyze(npz, manifest, out, render=True):
         "surface_only":True,"closed_solid_required":False,"source_geometry_mutated":False},
       "scales":[],"field_associations":{},"regions":[],"nodes":[],
       "claim_ceiling":"DESCRIPTIVE_GEOMETRY_NO_CAUSAL_OR_SENSOR_UPGRADE"}
-    X,Y=np.meshgrid(x,y); layers={"x_m":x,"y_m":y,"height_m":z}
+    layers={"x_m":x,"y_m":y,"height_m":z}
     for name,f in fields.items():
         layers["field_"+name]=f
         q=np.isfinite(z)&np.isfinite(f)
@@ -180,7 +181,7 @@ def analyze(npz, manifest, out, render=True):
         px,py=map(float,node["xy_m"])
         if not (x[0]<=px<=x[-1] and y[0]<=py<=y[-1]):raise ValueError("node outside scene")
         i=int(np.argmin(abs(x-px)));j=int(np.argmin(abs(y-py)))
-        def val(a):return float(a[j,i]) if np.isfinite(a[j,i]) else None
+        def val(a,j=j,i=i):return float(a[j,i]) if np.isfinite(a[j,i]) else None
         report["nodes"].append({"id":node["id"],"requested_xy_m":[px,py],"sample_xy_m":[float(x[i]),float(y[j])],
            "height_m":val(z),"fields":{name:val(a) for name,a in fields.items()},
            "scales":[{"sigma_m":float(s),**{name:val(layers[f"s{k}_{name}"]) for name in ("slope_deg","mean_curvature_per_m","fill_depth_m") if f"s{k}_{name}" in layers}} for k,s in enumerate(sigmas)]})
